@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<configuration>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.ServiceDescriptionInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.RegistrationOperationsInterfaceImp</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.MarkupOperationsInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.PortletManagementOperationsInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.JSR168ContainerProxyImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.PersistentStateManagerImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.TransientStateManagerImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.PortletRegistryImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.PortletDriverRegistryImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.ProducerRegistryImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.UserRegistryImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.URLGeneratorImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.URLRewriterImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.ConsumerEnvironmentImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp.consumer.impl.URLTemplateComposerImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.WSRPConfiguration</type>
+    <init-params>
+      <properties-param>
+       <name>wsrp-conf</name>
+       <property name="wsrp.requires.registration" value="true"/>
+       <property name="wsrp.has.user.specific.state" value="true"/>
+       <property name="wsrp.does.url.template.processing" value="true"/>
+       <property name="wsrp.templates.stored.in.session" value="false"/>
+       <property name="wsrp.user.context.stored.in.session" value="false"/>
+       <property name="wsrp.uses.method.get" value="false "/>
+       <property name="wsrp.perform.blocking.interaction.optimized" value="false"/>
+       <property name="wsrp.save.registration.state.on.consumer" value="false"/>
+       <property name="wsrp.save.portlet.state.on.consumer" value="false"/>
+      </properties-param>
+    </init-params>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp.producer.impl.WSRPStarter</type>
+    <init-params>
+      <value-param>
+        <name>base</name>
+        <value>http://localhost:8080/</value>
+      </value-param>
+      <value-param>
+        <name>path</name>
+        <value>wsrp/services</value>
+      </value-param>
+      <value-param>
+        <name>retries</name>
+        <value>10</value>
+      </value-param>
+      <value-param>
+        <name>retry_after</name>
+        <value>30</value>
+      </value-param>
+    </init-params>
+  </component>
+
+  <external-component-plugins>
+    <target-component>org.exoplatform.services.database.HibernateService</target-component>
+    <component-plugin>
+      <name>add.hibernate.mapping</name>
+      <set-method>addPlugin</set-method>
+      <type>org.exoplatform.services.database.impl.AddHibernateMappingPlugin</type>
+      <init-params>
+        <values-param>
+          <name>hibernate.mapping</name>
+          <value>org/exoplatform/services/wsrp/consumer/impl/ProducerData.hbm.xml</value>
+          <value>org/exoplatform/services/wsrp/producer/impl/StateData.hbm.xml</value>
+        </values-param>
+      </init-params>
+    </component-plugin>
+  </external-component-plugins>
+</configuration>

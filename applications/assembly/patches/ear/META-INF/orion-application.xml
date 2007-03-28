@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+
+<orion-application  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/orion-application-10_0.xsd"  deployment-version="10.1.3.0.0" default-data-source="jdbc/OracleDS"  schema-major-version="10" schema-minor-version="0" >
+  <web-module id="portal" path="portal.war" />
+  <web-module id="portlets" path="portlets.war" />
+  <web-module id="wsrp" path="wsrp.war" />
+  <web-module id="smyfacesportlet" path="smyfacesportlet.war" />
+  <persistence path="persistence" />
+  <library path="./"/>
+  <principals path="principals.xml" />
+  <jazn provider="XML" />
+  <log>
+    <file path="application.log" />
+  </log>
+  <connectors path="./oc4j-connectors.xml" />
+</orion-application>

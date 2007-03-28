@@ -1,0 +1,23 @@
+The Portlet Container
+
+  The eXo Portlet Container product contains two main implementations:
+
+  * The Portlet API one (currently JSR 168)
+
+  * The WSRP layer (Producer and Consumer)
+
+  We provide a standalone edition that does not bundle the eXo Portal product and that is intended to use either for portlet developments or as the first steps to bundle eXo Portlet Container in your own Portal implementation to reach JSR 168 and the incoming JSR 286 compliance.
+
+  It also comes with:
+
+  * a simple portal war (sets of jsp to show the deployed portlets)
+  
+  * a set of portlets like bridges and other to have samples of porlet well deployed
+
+eXo IDE
+
+  Finally we also provide a new IDE integration with Lomboz and eclipse based IDE....hosted by ObjectWeb!
+
+
+
+

@@ -1,0 +1,67 @@
+EXO-PortletContainer configuration
+
+*---*
+Embedded configuration
+*---*
+
+  Generally to configure the portlet container you have to add to your container's <configuration.xml>
+  file <PortletContainerConf> component and give to the component information about where to get
+  actual configuration from.
+
+  Since version 1.5 there's one way to configure the portlet container:
+
+  * set PortletContainerConf's init-param <"conf"> that is object-param and contains
+    configuration data itself:
+
+-----------
+  <component>
+    <type>org.exoplatform.services.portletcontainer.impl.PortletContainerConf</type>
+      <init-params>
+        <object-param>
+          <name>conf</name>
+          <object type="org.exoplatform.services.portletcontainer.impl.config.PortletContainer">
+            <field name="global">
+              <object type="org.exoplatform.services.portletcontainer.impl.config.Global">
+                <field name="name"><string>ExoPortletContainer</string></field>
+                <field name="description"><string>A JSR 168 compliant portlet container</string></field>
+                <field name="majorVersion"><int>1</int></field>
+                <field name="minorVersion"><int>0</int></field>
+              </object>
+            </field>
+            <field name="sharedSession">
+              <object type="org.exoplatform.services.portletcontainer.impl.config.SharedSession">
+                <field name="enable"><string>false</string></field>
+              </object>
+            </field>
+[..]
+-----------
+
+[]
+
+*---*
+WSRP producer exclude list
+*---*
+
+  To configure the WSRP producer you have to add to your container's <configuration.xml> file
+  <WSRPConfiguration> component.
+
+  Since version 1.2 you can freely configure what portlets you don't want to distibute via WSRP producer.
+  There's now exclude-list for that purpose. Portlet names must be listed in form: <<portlet-app-name/portlet-name>>
+  like shown below:
+
+-----------
+  <component>
+		<type>org.exoplatform.services.wsrp.producer.impl.WSRPConfiguration</type>
+		<init-params>
+      <values-param>
+        <name>exclude-list</name>
+        <value>portlets/HelloWorld</value>
+        <value>portlets/BridgePortlet</value>
+      </values-param>
+      <properties-param>
+       <name>wsrp-conf</name>
+[..]
+      </properties-param>
+    </init-params>
+  </component>  
+-----------

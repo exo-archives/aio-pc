@@ -1,0 +1,18 @@
+Testing the EXO-PC WSRP producer
+
+
+  The EXO-PC WSRP producer is tested to work with a number of different customers. This document covers how to
+  reproduce these tests.
+
+  * First of all, it's tested with <<eXoPlatform v1 WSRP consumer>>. {{{producer-exov1.html}Here}} you'll find an step-by-step
+    tutorial how to make the things work.
+
+  * Now upgraded eXo WSRP consumer is available and admin and proxy portlets are included in eXo Portlet Container <<test portal>>
+    with MyFaces support and test portlet. Configuration example is {{{consumer.html}here}}.
+
+  * <<JBoss Portal>> will be tested when released.
+
+  * <<Liferay v4>> is {{{producer-liferayv4.html}here}}.
+
+~~  * <<Bea Portal>> is {{{producer-bea.html}a goal}} of a long time perspective, so don't expect it on the next week.
+  * <<Bea Portal>> is a goal of a long time perspective, so don't expect it on the next week.

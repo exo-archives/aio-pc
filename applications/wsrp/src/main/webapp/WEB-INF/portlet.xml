@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app version="1.0" xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+  
+  
+  <portlet>
+    <description xml:lang="EN">WSRP Portlet</description>
+    <portlet-name>WSRPConsumerPortlet</portlet-name>
+    <display-name xml:lang="en">WSRP Portlet</display-name>
+    <portlet-class>org.exoplatform.portlets.wsrp.WSRPConsumerPortlet</portlet-class>
+    <init-param>
+      <name>consumerAgent</name>
+      <value>exoplatform.1.0</value>
+    </init-param>
+    <init-param>
+      <name>producerURL</name>
+      <value>http://localhost:8080/wsrp/services/</value>
+    </init-param>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>wsrp</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+
+    <portlet-info>
+      <title>WSRP Portlet</title>
+      <short-title>WSRP Portlet</short-title>
+      <keywords>wsrp</keywords>
+    </portlet-info>
+    <portlet-preferences>
+      <preference>
+        <name>wsrp-producerID</name>
+        <value>localhost</value>
+        <read-only>false</read-only>
+      </preference>
+      <preference>
+        <name>wsrp-portletHandle</name>
+        <value>HelloWorld/HelloWorld</value>
+        <read-only>false</read-only>
+      </preference>
+      <preference>
+        <name>wsrp-parentHandle</name>
+        <value>HelloWorld/HelloWorld</value>
+        <read-only>false</read-only>
+      </preference>
+    </portlet-preferences>
+  </portlet>  
+  
+
+   <portlet>
+    <description xml:lang="EN">WSRP Admin Portlet</description>
+    <portlet-name>WSRPAdminPortlet</portlet-name>
+    <display-name xml:lang="EN">WSRPAdminPortlet</display-name>
+    <portlet-class>org.exoplatform.portlets.wsrp.WSRPAdminPortlet</portlet-class>
+
+    <init-param>
+      <name>consumer-name</name>
+      <value>www.exoplatform.org</value>
+    </init-param>
+
+    <init-param>
+      <name>consumer-agent</name>
+      <value>exoplatform.1.0</value>
+    </init-param>
+
+    <expiration-cache>-1</expiration-cache>
+
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+
+    <supported-locale>en</supported-locale>
+
+    <portlet-info>
+      <title>WSRP Admin Portlet</title>
+      <short-title>WSRP Admin</short-title>
+      <keywords>wsrp, admin</keywords>
+    </portlet-info>
+
+  </portlet>
+
+</portlet-app>

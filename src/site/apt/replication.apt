@@ -1,0 +1,41 @@
+Schema of session replication mechanism.
+
+[images/Replication.JPG] 
+
+Configuring JGroups channels 
+
+	Using JGroups is simple and fast way to built local and networked
+	solutions for replicating data between several instances of application 
+	servers. So, key moment of installing cluster is correct configuration.
+
+	eXo Portlet container uses for it's session replication only 1 
+	JGroups -related class called SessionReplicator, so configuration must 
+	be conducted into them.
+
+	Main configuration info stores into string variable like "connection string".
+	String format is:
+ 	"<prop1>(arg1=val1):<prop2>(arg1=val1;arg2=val2):<prop3>".
+
+	The main configuration parameters are:
+
+     Protocol and protocol-level parameters: 
+
+	"UDP(mcast_addr=228.1.2.3;mcast_port=45566;ip_ttl=32)",
+	"TCP(mcast_addr=127.0.0.1;mcast_port=6000;ip_ttl=32)"
+
+	In case You want to broadcast messages into network, You must use UDP 
+	protocol (with default settings), or TCP if  you plan to use
+	a point-to-point connection mode (by the way in this case you need to
+	correct address and port arguments). 
+
+
+   	PING, FD, UNICAST - specifies packet timeout intervals,
+	initial number of members, keep-alive interval etc.
+
+	<For detail explaining configuration options, please refer to JGroups
+	project page  - {{http://www.jgroups.org}}>
+
+	After setting up global settings, you need to correctly configure channel names.  Principe is simply - all message packets come from "our" channel are
+	accepted and conversely,all packets from another channel are rejected and console messages are generated. So you can create several  independent 
+	cluster  groups in the same local network.
+

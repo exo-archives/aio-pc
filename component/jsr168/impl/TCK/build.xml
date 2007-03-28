@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE project [
+  <!ENTITY global-common SYSTEM "file:../../../ExoBuild/global-common-build.xml">
+]>
+
+<project name="TCK" default="compile">
+
+  <!-- ================================================================== -->
+  <!--        GLOBAL PROPERTIES                  -->
+  <!-- ================================================================== -->
+  <property file="../../../ExoBuild/build.properties"/>
+  <!-- ================================================================== -->
+  <!--        INCLUDE GLOBAL XML FRAGMENT             -->
+  <!-- ================================================================== -->
+  &global-common;
+  <!-- CLASSPATH used during compilation -->
+  <path id="build.classpath">
+    <path refid="run.time.classpath"/>
+    <path refid="build.time.classpath"/>
+    <pathelement path="${build.dir}"/>
+  </path>
+
+  <target name="create.pages.configuration">
+		<java classname="org.exoplatform.services.portletcontainer.impl.utils.CreateTCKPagesConfiguration" 
+          taskname="junit" failonerror="true" fork="yes">
+      <jvmarg value="-Dportlet.deploy.dir=d:/java/exo/exo-tomcat/portlet-deploy"/>
+      <classpath refid="build.classpath"/>
+		</java>
+  </target>
+</project>
+

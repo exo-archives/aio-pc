@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC
+"-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.0//EN"
+"http://java.sun.com/dtd/web-facesconfig_1_0.dtd">
+
+<faces-config>
+  <application>
+    <locale-config>
+      <default-locale>en</default-locale>
+      <supported-locale>en</supported-locale>
+    </locale-config>
+  </application>
+
+  <factory> 
+    <faces-context-factory>org.exoplatform.portlet.faces.context.FacesPortletContextFactoryImpl</faces-context-factory>
+    <lifecycle-factory>org.exoplatform.portlet.faces.lifecycle.ExoLifecycleFactory</lifecycle-factory>
+  </factory>
+  
+  <render-kit></render-kit>
+  
+  <managed-bean>
+    <managed-bean-name>HelloBean</managed-bean-name>
+    <managed-bean-class>org.exoplatform.bean.HelloBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+  </managed-bean>  
+
+</faces-config>

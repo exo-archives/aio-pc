@@ -1,0 +1,102 @@
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  xmlns:jxb="http://java.sun.com/xml/ns/jaxb"
+  jxb:version="1.0">
+
+  <xsd:element name="wsrp-conf" type="WSRPConfType">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="requires-registration" type="RequiresRegistration" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="has-user-specific-state" type="HasUserSpecificState" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="does-url-template-processing" type="DoesUrlTemplateProcessing" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="templates-stored-in-session" type="TemplatesStoredInSession" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="user-context-stored-in-session" type="UserContextStoredInSession" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="uses-method-get" type="UsesMethodGet" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="perform-blocking-interaction-optimized" type="PerformBlockingInteractionOptimized" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="save-registration-state-on-consumer" type="SaveRegistrationStateOnConsumer" minOccurs="1" maxOccurs="1"/>
+        <xsd:element name="save-portlet-state-on-consumer" type="SavePortletStateOnConsumer" minOccurs="1" maxOccurs="1"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+  <!-- ============================================================================ -->
+  <!--                           Requires Registration                              -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="RequiresRegistration">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--                           Has User Specific State                            -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="HasUserSpecificState">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--                      Does Url Template Processing                            -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="DoesUrlTemplateProcessing">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--                       Templates Stored In Session                            -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="TemplatesStoredInSession">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--                   User Context Stored In Session                             -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="UserContextStoredInSession">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--                           Uses Method Get                                    -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="UsesMethodGet">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--           Perform Blocking Interaction Optimized                             -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="PerformBlockingInteractionOptimized">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--           Save registration state on consumer                                -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="SaveRegistrationStateOnConsumer">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+  <!-- ============================================================================ -->
+  <!--           Save portlet state on consumer                                     -->
+  <!-- ============================================================================ -->
+  <xsd:complexType name="SavePortletStateOnConsumer">
+    <xsd:sequence>
+      <xsd:element name="enable" minOccurs="1" maxOccurs="1" type="xsd:string"/>
+    </xsd:sequence>
+  </xsd:complexType>
+
+</xsd:schema>

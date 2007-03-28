@@ -1,0 +1,118 @@
+<?xml version="1.0"?>
+<project>
+  <parent>
+    <groupId>exo-portlet-container</groupId>
+    <artifactId>exo-portlet-container</artifactId>
+    <version>1.5</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>portlets</artifactId>
+  <!-- packaging>war</packaging -->
+  <packaging>exo-pc</packaging>
+  <version>1.0</version>
+  <name>eXo portlet-container test portlets</name>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>exo-portlet-container</groupId>
+      <artifactId>exo-portlet-container.services.jsr168.api</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-portlet-container</groupId>
+      <artifactId>exo-portlet-container.services.jsr168.impl</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-portlet-container</groupId>
+      <artifactId>exo-portlet-container.services.wsrp.api</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-portlet-container</groupId>
+      <artifactId>exo-portlet-container.services.wsrp.impl</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>servletapi</groupId>
+      <artifactId>servletapi</artifactId>
+      <version>2.3</version>
+      <scope>compile</scope>
+    </dependency>
+
+  <!--Dependency for the JCRBasicActionsTestPortlet
+    uncomment it if you want to run JCRBasicActionsTestPortlet, you
+    need uncomment <portlet> tag in portlets\src\webapp\WEB-INF\portlets.xml
+    and look on the repository configuration in test-portal\src\java\conf\exo-configuration.xml-->
+  <!--
+  <dependency>
+      <groupId>exo-jcr</groupId>
+      <artifactId>exo-jcr.services.jcr.api</artifactId>
+      <version>${exo.jcr.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-platform</groupId>
+      <artifactId>exo-platform.container</artifactId>
+      <version>${exo.platform.version}</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-jcr</groupId>
+      <artifactId>exo-jcr.services.jcr.impl</artifactId>
+      <version>${exo.jcr.version}</version>
+      <scope>provided</scope>
+    </dependency>
+  -->
+  </dependencies>
+
+  <build>
+    <finalName>portlets</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-exo-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <sharedDir>${basedir}/patches</sharedDir>
+          <excludeProjects>
+            junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework, xerces,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
+            xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
+            commons-logging, saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            carol, commons-fileupload, commons-io, drools-base, drools-core, drools-java,
+            drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
+            exo-platform.services.ldap.impl, exo-platform.services.remote.api,
+            exo-platform.services.remote.impl, exo-platform.services.templates.api,
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
+            jgroups-all, jotm, jotm_jrmp_stubs, jstl, log4j, quartz, soap, velocity, commons-beanutils
+          </excludeProjects>
+          <includeToWarClasspath/>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

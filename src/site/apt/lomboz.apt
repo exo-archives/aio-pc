@@ -1,0 +1,88 @@
+Lomboz IDE to develop, deploy and debugs portlets
+
+  In the first eXo product line we provided our own eclipse plugin to develop and deploy portlets
+
+  After the introduction of the Product line v2, we decided to join force with Eteration to develop and promote Lomboz the JEE web project oriented eclipse based IDE.
+
+  Therefore, the last version of Lomboz natively supports eXo Portal and ECM and we now advise you to download from the ObjectWeb site!
+
+  Lomboz eclipse plugin {{{http://lomboz.objectweb.org/overview.html}overview}}, {{{http://lomboz.objectweb.org/documentation.html} documentation}}, and {{{http://lomboz.objectweb.org/exo_demo.html} demo flash}}.
+
+Installation steps:
+
+  1) Patch Lomboz
+
+   Modify /plugins/org.objectweb.lomboz.exo.serverdefinition_3.1.2/serverdef/eXo.2ECM.serverde to adapt it to the last eXo version you are using
+
+   For ECM 1.0 RC7, it looks like:
+
+------------------------------------------
+  [...]
+  <classpath id="exo.project">
+     <archive path="${eXoHome}/common/lib/exo-portal.portal.api-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.portal.community-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.portal.config-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.portal.jsf-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.portal.log-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.portal.skin-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.portlet-framework.jsf-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.services.portlet-registry.api-1.1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portal.services.portlet-registry.impl-1.1.2.jar" />
+
+
+     <archive path="${eXoHome}/common/lib/exo-portlet-container.services.jsr168.api-1.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-portlet-container.services.jsr168.impl-1.2.jar" />
+
+     <archive path="${eXoHome}/common/lib/exo-platform.commons-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.container-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.backup.api-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.backup.impl-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.common.api-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.common.impl-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.database.api-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.database.impl-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.organization.api-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.organization.impl-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.resources.api-2.0.2.jar" />
+     <archive path="${eXoHome}/common/lib/exo-platform.services.resources.impl-2.0.2.jar" />
+
+      <archive path="${eXoHome}/common/lib/asm-1.5.3.jar" />
+      <archive path="${eXoHome}/common/lib/asm-util-1.3.4.jar" />
+      <archive path="${eXoHome}/common/lib/aspectwerkz-core-0.8.1.jar" />
+      <archive path="${eXoHome}/common/lib/bsh-2.0b1.jar" />
+
+      <archive path="${eXoHome}/common/lib/cglib-2.1.jar" />
+      <archive path="${eXoHome}/common/lib/commons-beanutils-1.6.jar" />
+      <archive path="${eXoHome}/common/lib/commons-collections-3.1.jar" />
+      <archive path="${eXoHome}/common/lib/commons-digester-1.6.jar" />
+      <archive path="${eXoHome}/common/lib/commons-el.jar" />
+      <archive path="${eXoHome}/common/lib/commons-lang-2.1.jar" />
+      <archive path="${eXoHome}/common/lib/commons-pool-1.2.jar" />
+      <archive path="${eXoHome}/common/lib/dom4j-1.4.jar" />
+      <archive path="${eXoHome}/common/lib/groovy-all-1.0-jsr-03.jar" />
+      <archive path="${eXoHome}/common/lib/hibernate-3.1rc2.jar" />
+      <archive path="${eXoHome}/common/lib/jsp-api.jar" />
+      <archive path="${eXoHome}/common/lib/jta-1.0.1B.jar" />
+      <archive path="${eXoHome}/common/lib/jstl-1.1.2.jar" />
+      <archive path="${eXoHome}/common/lib/lucene-1.4.3.jar" />
+      <archive path="${eXoHome}/common/lib/xpp3-1.1.2a.jar" />
+      <archive path="${eXoHome}/common/lib/xstream-1.1.jar" />
+      <archive path="${eXoHome}/common/lib/picocontainer-1.1.jar" />
+      <archive path="${eXoHome}/common/lib/portlet-api-1.0.jar" />
+      <archive path="${eXoHome}/common/lib/servlet-api.jar" />
+  </classpath>
+
+  [...]
+-------------------------------------------
+
+  2) Define a server runtime (Window>Preferences>Servers)
+
+  3) Choose eXo from ObjectWeb category
+
+  4) Define a new Dynamic Web Project or a Portlet Project
+
+  5) Add the portlet facet in the second page of the wizard.
+
+  6) Choose eXo as the container (this adds the specific stuff to web.xml tlds etc.)
+
+  Finish, Run on server deploys the the portlet to eXo.

@@ -1,0 +1,60 @@
+<?xml version="1.0"?>
+<project>
+  <parent>
+    <groupId>exo-portlet-container</groupId>
+    <artifactId>exo-portlet-container</artifactId>
+    <version>1.2</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>swebworkportlet</artifactId>
+  <packaging>war</packaging>
+  <version>1.0</version>
+  <name>eXo Sample WebWork Portlet</name>
+
+  <dependencies>
+
+  <dependency>
+    <groupId>opensymphony</groupId>
+    <artifactId>webwork</artifactId>
+    <version>2.2.2</version>
+    <scope>compile</scope>
+  </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>swebworkportlet</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+<!--
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-exo-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <sharedDir>${basedir}/patches</sharedDir>
+          <excludeProjects>
+            junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework, xerces,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
+            xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
+            commons-beanutils, commons-digester, commons-logging, saaj-api,
+            exo-weblogic-authproviders, exo-weblogic-loginmodule
+          </excludeProjects>
+          <includeToWarClasspath/>
+        </configuration>
+      </plugin>
+-->
+    </plugins>
+  </build>
+</project>

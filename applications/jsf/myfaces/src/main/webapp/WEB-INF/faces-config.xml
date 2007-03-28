@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<!DOCTYPE faces-config PUBLIC "-//Sun Microsystems, Inc.//DTD JavaServer Faces Config 1.1//EN" "http://java.sun.com/dtd/web-facesconfig_1_1.dtd">
+
+<faces-config xmlns="http://java.sun.com/JSF/Configuration">
+
+  <application>
+    <view-handler>org.apache.myfaces.application.jsp.JspViewHandlerImpl</view-handler>
+    <locale-config>
+      <default-locale>en</default-locale>
+      <supported-locale>en</supported-locale>
+    </locale-config>
+  </application>
+
+  <factory>
+    <faces-context-factory>org.exoplatform.jsf.apache.myfaces.context.ExoMyFacesContextFactoryImpl</faces-context-factory>
+    <!-- faces-context-factory>org.apache.myfaces.context.FacesContextFactoryImpl</faces-context-factory -->
+    <lifecycle-factory>org.apache.myfaces.lifecycle.LifecycleFactoryImpl</lifecycle-factory>
+  </factory>
+
+  <render-kit></render-kit>
+
+  <managed-bean>
+    <managed-bean-name>MyFacesUserBean</managed-bean-name>
+    <managed-bean-class>com.sample.samplejsfmyfacesportlet.bean.MyFacesUserBean</managed-bean-class>
+    <managed-bean-scope>session</managed-bean-scope>
+    <!-- session application request -->
+  </managed-bean>
+  <navigation-rule>
+    <from-view-id>/index.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>submit</from-outcome>
+      <to-view-id>/welcome.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+  <navigation-rule>
+    <from-view-id>/welcome.jsp</from-view-id>
+    <navigation-case>
+      <from-outcome>back</from-outcome>
+      <to-view-id>/index.jsp</to-view-id>
+    </navigation-case>
+  </navigation-rule>
+
+</faces-config>

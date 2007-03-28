@@ -1,0 +1,34 @@
+Configuring EXO-PC WSRP consumer
+
+
+  * Enter portal ( URL is <<http://localhost:8080/portal/>>)
+
+  * In portlet <WSRPAdminPortlet> change correct producer URL and click "save".
+
+[images/pr_tp_1.jpg]
+
+  * Below we see the list of remote portlets.
+
+  []
+  
+[images/pr_tp_2.jpg]
+
+  * Select the <WSRP Portlet> - it's our proxy portlet. In wsrp mode chose necessary portlet.
+
+  []
+  
+[images/pr_tp_3.jpg]
+
+  * The chosen portlet will seem in a view mode.
+
+  []
+  
+[images/pr_tp_4.jpg]
+
+  * After submit form we will see it works.
+
+  []
+  
+[images/pr_tp_5.jpg]
+
+

@@ -1,0 +1,30 @@
+Portlet deployment
+
+  There exist two ways to deploy the portlet :
+
+  * use the eXo Platform eclipse plugin
+
+  * deploy the portlet manually
+
+  We advise you to use the eclipse plugin as the portlet deployment is transparent to you.
+
+  If you have to deploy the portlet manually, you will have to only modify the web.xml of your portlet application war so that the platform can deploy the portlet into the portlet container.
+
+  * first you have to set the web.xml display-name tag to the value of the portlet application name. So for example if your application is bundled in yourApp.war the display-name tag must be esual to yourApp. 
+
+  * Then you need to add some listener and servlet tags :
+
+
+----------------------------------------------------------------------
+<listener> 
+  <listener-class>
+    exo.services.portletcontainer.impl.servlet.PortletApplicationListener  </listener-class> 
+</listener>
+<servlet>  <servlet-name>PortletWrapper</servlet-name> 
+  <servlet-class>     exo.services.portletcontainer.impl.servlet.ServletWrapper  </servlet-class> 
+</servlet>
+<servlet-mapping>  <servlet-name>PortletWrapper</servlet-name>  <url-pattern>/PortletWrapper</url-pattern> 
+</servlet-mapping>
+------------------------------------------------------------------------
+
+  Finally just drop your war in the deploy directory of your application server.
