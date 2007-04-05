@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
 	<parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
 	</parent>	
@@ -14,31 +14,31 @@
 
   <dependencies>
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.commons</artifactId>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.commons</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.container</artifactId>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.container</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.common.api</artifactId>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.common</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.database.api</artifactId>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.database</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.wsrp.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <exclusions>
@@ -54,19 +54,13 @@
     </dependency>
     
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.organization.api</artifactId>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.api</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
     
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.backup.api</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-    
-    <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.api</artifactId>
       <version>${exo.portlet-container.version}</version>
     </dependency>
@@ -78,14 +72,8 @@
     </dependency -->
 
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.cache.api</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.cache.impl</artifactId>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.component.cache</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
 
@@ -128,55 +116,26 @@
     <!-- ========================================================= -->
     <!-- UNIT TEST DEPENDECY                                       -->
     <!-- ========================================================= -->
+
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.common.impl</artifactId>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.resources.api</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.database.impl</artifactId>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
       <version>${exo.platform.version}</version>
     </dependency>
 
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.resources.api</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.resources.impl</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.organization.impl</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
     </dependency>
 
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.common.api</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.common.impl</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
+    <!-- dependency>
       <groupId>exo-platform</groupId>
       <artifactId>exo-platform.services.templates.api</artifactId>
       <version>${exo.platform.version}</version>
@@ -192,7 +151,7 @@
       <groupId>exo-platform</groupId>
       <artifactId>exo-platform.test.framework</artifactId>
       <version>${exo.platform.version}</version>
-    </dependency>
+    </dependency -->
   </dependencies>
 
   <properties>

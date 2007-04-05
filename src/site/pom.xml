@@ -1,6 +1,6 @@
 <project>
   <parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
 	</parent> 

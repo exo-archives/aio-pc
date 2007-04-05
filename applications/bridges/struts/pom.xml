@@ -1,7 +1,7 @@
 <?xml version="1.0"?>
 <project>
   <parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
   </parent>
@@ -15,7 +15,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.applications.util-bridge</artifactId>
       <version>1.5</version>
     </dependency>
@@ -57,7 +57,7 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-exo-plugin</artifactId>
+        <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
           <sharedDir>${basedir}/patches</sharedDir>

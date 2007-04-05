@@ -1,6 +1,6 @@
 <project>
   <parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
   </parent>
@@ -11,76 +11,76 @@
 
   <dependencies>
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portal</artifactId>
       <version>1.0</version>
-      <type>exo-pc</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portlets</artifactId>
       <version>1.0</version>
-      <type>exo-pc</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 
     <!-- dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>sexofacesportlet</artifactId>
       <version>1.0</version>
-      <type>exo-pc</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency -->
 
     <!-- dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>smyfacesportlet</artifactId>
       <version>1.0</version>
-      <type>exo-pc</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>stapestryportlet</artifactId>
       <version>1.0</version>
-      <type>exo-pc</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency -->
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>wsrp</artifactId>
       <version>1.0</version>
-      <type>exo-pc</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.wsrp.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.wsrp.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
@@ -110,7 +110,7 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-exo-plugin</artifactId>
+        <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
           <sharedDir>${basedir}/patches</sharedDir>

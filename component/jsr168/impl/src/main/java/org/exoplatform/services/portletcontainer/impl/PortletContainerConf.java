@@ -16,7 +16,7 @@ import javax.portlet.WindowState;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.config.ConfigurationService;
-import org.exoplatform.services.config.impl.ConfigurationServiceImpl;
+import org.exoplatform.services.config.ConfigurationServiceImpl;
 import org.exoplatform.services.log.LogService;
 import org.exoplatform.services.portletcontainer.impl.config.*;
 import org.exoplatform.services.portletcontainer.pci.*;

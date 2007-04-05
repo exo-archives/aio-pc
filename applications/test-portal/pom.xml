@@ -1,42 +1,42 @@
 <?xml version="1.0"?>
 <project>
   <parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>portal</artifactId>
   <!-- packaging>war</packaging -->
-  <packaging>exo-pc</packaging>
+  <packaging>exopc-war</packaging>
   <version>1.0</version>
   <name>eXo portlet-container test portal</name>
 
   <dependencies>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.wsrp.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.wsrp.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
@@ -91,7 +91,7 @@
       </plugin>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-exo-plugin</artifactId>
+        <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
           <sharedDir>${basedir}/patches</sharedDir>

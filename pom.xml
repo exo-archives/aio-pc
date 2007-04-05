@@ -1,6 +1,6 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
-  <groupId>exo-portlet-container</groupId>
+  <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>exo-portlet-container</artifactId>
   <name>eXo portlet container</name>
   <version>1.5</version>

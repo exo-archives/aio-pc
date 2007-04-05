@@ -1,6 +1,6 @@
 <project>
   <parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
   </parent>
@@ -13,7 +13,7 @@
   <dependencies>
 
     <dependency>
-      <groupId>exo-portlet-container</groupId>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo-portlet-container.services.jsr168.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>

@@ -1,6 +1,6 @@
 <project>
 	<parent>
-    <groupId>exo-portlet-container</groupId>
+    <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
 	</parent>	
@@ -11,14 +11,8 @@
   <description>eXo portlet container API</description>
   <dependencies>
     <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.backup.api</artifactId>
-      <version>${exo.platform.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.container</artifactId>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.container</artifactId>
       <version>${exo.platform.version}</version>
       <optional>true</optional>
     </dependency>
