@@ -160,14 +160,24 @@ System.out.println("portlet metadata count: " + allPortletMetaData.size());
 
       String[] hs = StringUtils.split(component, "/");
 
-      PortletMode portletMode = PortletMode.VIEW;
-      WindowState windowState = WindowState.NORMAL;
+      // set MODE and STATE
+      PortletMode portletMode;
+      WindowState windowState;
 
       if (component != null) {
         portletMode = Helper.getPortletMode((String) portalParams.get(Constants.PORTLET_MODE_PARAMETER),
           holder.getPortletModes(hs[0], hs[1], "text/html"));
         windowState = Helper.getWindowState((String) portalParams.get(Constants.WINDOW_STATE_PARAMETER),
           holder.getWindowStates(hs[0]));
+
+        WindowID2 winp = (WindowID2) wins.get(component);
+        if (portletMode == null)
+          portletMode = winp.getPortletMode();
+        if (windowState == null)
+          windowState = winp.getWindowState();
+      } else {
+        portletMode = PortletMode.VIEW;
+        windowState = WindowState.NORMAL;
       }
 
       ArrayList portletinfos = new ArrayList();
@@ -317,7 +327,7 @@ System.out.println("portlet metadata count: " + allPortletMetaData.size());
           portletParams.get("n" + count + "n").equals("on")));
         if (!pltIncl && !portletParams.containsKey("fis"))
           pltIncl = (myatr0 != null) && !myatr0.get(count - 1).equals("");
-        
+
         if (!pltIncl) {
           String sdn;
           try {

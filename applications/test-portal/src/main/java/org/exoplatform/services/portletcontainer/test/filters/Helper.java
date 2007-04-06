@@ -58,7 +58,7 @@ System.out.println(" ---------- parameter: " + n + ": [" + httpRequest.getParame
 
   static public PortletMode getPortletMode(String v, Collection pms) {
     if (v == null)
-      return PortletMode.VIEW;
+      return null;
     if (v.toLowerCase().equals(PortletMode.EDIT.toString()))
       return PortletMode.EDIT;
     if (v.toLowerCase().equals(PortletMode.HELP.toString()))
@@ -74,7 +74,7 @@ System.out.println(" ---------- parameter: " + n + ": [" + httpRequest.getParame
 
   static public WindowState getWindowState(String v, Collection wss) {
     if (v == null)
-      return WindowState.NORMAL;
+      return null;
     if (v.toLowerCase().equals(WindowState.MAXIMIZED.toString()))
       return WindowState.MAXIMIZED;
     if (v.toLowerCase().equals(WindowState.MINIMIZED.toString()))
