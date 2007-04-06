@@ -19,7 +19,11 @@
 
   <action-mappings>
     <action path="/view" include="/view.jsp"/>
+    <action path="/edit" include="/edit.jsp"/>
+    <action path="/gov" include="/gov.jsp"/>
+    <action path="/goe" include="/goe.jsp"/>
     <action path="/error" include="/error.jsp"/>
+
   </action-mappings>
 
   <controller pagePattern="$M$P" inputForward="false" processorClass="org.apache.portals.bridges.struts.PortletRequestProcessor"/>

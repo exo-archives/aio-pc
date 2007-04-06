@@ -12,7 +12,6 @@
   <H3>Error!</H3>
   <B><font color="red">
     <bean:write name="BeanActionException" property="class.name"/></font></B>
-
   <P/>
   <bean:write name="BeanActionException" property="message"/>
 </logic:present>
@@ -28,4 +27,3 @@
 %>
   </pre></i>
 </logic:present>
-

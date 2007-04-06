@@ -18,10 +18,19 @@
       <name>ViewPage</name>
       <value>/view.do</value>
     </init-param>
+    <init-param>
+      <name>EditPage</name>
+      <value>/edit.do</value>
+    </init-param>
+    <init-param>
+      <name>StrutsPortletConfigLocation</name>
+      <value>WEB-INF/struts-portlet-config.xml</value>
+    </init-param>
     <expiration-cache>0</expiration-cache>
     <supports>
       <mime-type>text/html</mime-type>
       <portlet-mode>VIEW</portlet-mode>
+      <portlet-mode>EDIT</portlet-mode>
     </supports>
     <portlet-info>
       <title>StrutsPortlet</title>

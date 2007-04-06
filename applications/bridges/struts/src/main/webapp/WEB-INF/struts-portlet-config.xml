@@ -2,7 +2,10 @@
 
 <config>
   <render-context>
+    <attribute name="errors"/>
+    <attribute name="message"/>
   </render-context>
   <portlet-url-type>
+    <resource path="/images/"/>
   </portlet-url-type>
 </config>
