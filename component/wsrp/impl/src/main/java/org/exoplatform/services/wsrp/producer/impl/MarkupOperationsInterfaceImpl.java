@@ -25,7 +25,6 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
-import org.exoplatform.container.SessionContainer;
 import org.exoplatform.services.log.LogService;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.portletcontainer.pci.*;

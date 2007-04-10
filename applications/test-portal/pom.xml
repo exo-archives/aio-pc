@@ -67,7 +67,7 @@
 
   <build>
     <finalName>portal</finalName>
-    <resources>
+    <!-- resources>
       <resource>
         <directory>src/java</directory>
         <includes>
@@ -76,7 +76,7 @@
           <include>**/*.tld</include>
         </includes>
       </resource>
-    </resources>
+    </resources -->
     <plugins>
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

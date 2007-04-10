@@ -115,7 +115,7 @@
   </component>
   <component>
     <key>org.exoplatform.services.resources.ResourceBundleService</key>
-    <type>org.exoplatform.services.resources.impl.ResourceBundleServiceImpl</type>
+    <type>org.exoplatform.services.portletcontainer.impl.ResourceBundleServiceImpl</type>
     <init-params>
       <values-param>
         <name>classpath.resources</name>
@@ -888,9 +888,9 @@
           <value>org/exoplatform/services/organization/impl/GroupImpl.hbm.xml</value>
           <value>org/exoplatform/services/organization/impl/MembershipTypeImpl.hbm.xml</value>
           <value>org/exoplatform/services/organization/impl/UserProfileData.hbm.xml</value>
-          <value>org/exoplatform/services/config/impl/ConfigurationDataImpl.hbm.xml</value>
-          <value>org/exoplatform/services/resources/impl/ResourceBundleDescriptionImpl.hbm.xml</value>
-          <value>org/exoplatform/services/resources/impl/ResourceBundleDataImpl.hbm.xml</value>
+          <value>hmb/ConfigurationData.hbm.xml</value>
+          <value>hmb/ResourceBundleDescription.hbm.xml</value>
+          <value>hmb/ResourceBundleData.hbm.xml</value>
         </values-param>
       </init-params>
     </component-plugin>

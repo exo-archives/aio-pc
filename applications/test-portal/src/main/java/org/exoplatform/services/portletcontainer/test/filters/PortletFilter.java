@@ -213,6 +213,9 @@ System.out.println("portlet metadata count: " + allPortletMetaData.size());
         ActionInput actionInput = new ActionInput();
         WindowID2 win = (WindowID2) wins.get(component); // added recently from branch // EXOMAN comments
         actionInput.setWindowID(win);
+        ArrayList lo = new ArrayList();
+        lo.add(new Locale("en"));
+        actionInput.setLocales(lo);
         actionInput.setBaseURL("/" + ctx.getServletContextName() + "/?"
             + Constants.COMPONENT_PARAMETER + "=" + win.getUniqueID());
         actionInput.setUserAttributes(new HashMap());
@@ -340,6 +343,9 @@ System.out.println("portlet metadata count: " + allPortletMetaData.size());
 
         RenderInput renderInput = new RenderInput();
         renderInput.setWindowID(win);
+        ArrayList lo = new ArrayList();
+        lo.add(new Locale("en"));
+        renderInput.setLocales(lo);
         renderInput.setBaseURL("/" + ctx.getServletContextName() + "/?"
             + Constants.COMPONENT_PARAMETER + "=" + win.getUniqueID());
         renderInput.setUserAttributes(new HashMap());

@@ -459,6 +459,11 @@ public class PortletRequestImp extends HttpServletRequestWrapper
   }
   
   public Locale getLocale(){
+System.out.println(" +============== 0: " + input_.getLocales());
+System.out.println(" +============== 1: " + input_);
+System.out.println(" +============== 2: " + this);
+System.out.println(" +============== 3: " + getRequest());
+System.out.println(" +============== 4: " + super.getLocale());
     List locales = input_.getLocales();
     if(locales != null && !locales.isEmpty()){
       return (Locale) locales.iterator().next();
