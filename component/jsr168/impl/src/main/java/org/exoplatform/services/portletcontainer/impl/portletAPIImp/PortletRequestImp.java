@@ -50,7 +50,7 @@ public class PortletRequestImp extends HttpServletRequestWrapper
     implements PortletRequest, ExoPortletRequest, Map {
 
   private Collection roles_;
-  private PortletSessionImp session_;  
+  private PortletSessionImp session_;
   private Portlet portletDatas_;
   protected Input input_;
   private PortletWindowInternal portletWindowInternal_;
@@ -81,33 +81,33 @@ public class PortletRequestImp extends HttpServletRequestWrapper
   }
 
   public void fillPortletRequest(HttpServletRequest httpServletRequest,
-																	PortalContext portalContext,
-																	PortletContext portletContext,
-																	PortletSessionImp session,
-																	Portlet portletDatas, Input input,
-																	PortletWindowInternal portletWindowInternal,
-																	List securityContraints, List userAttributes,
-																	List customPortletModes,
-																	List customWindowStates, Collection roles,
-																	Collection supportedContents) {
-		super.setRequest(httpServletRequest);
-		this.portalContext_ = portalContext;
-		this.portletContext_ = portletContext;
-		this.session_ = session;
-		this.portletDatas_ = portletDatas;
-		this.input_ = input;
-		this.portletWindowInternal_ = portletWindowInternal;
-		this.securityContraints_ = securityContraints;
-		this.userAttributes_ = userAttributes;
-		this.customPortletModes_ = customPortletModes;
-		this.customWindowStates_ = customWindowStates;
-		this.roles_ = roles;
-		this.supportedContents_ = supportedContents;
-		init();
-	}
+                                  PortalContext portalContext,
+                                  PortletContext portletContext,
+                                  PortletSessionImp session,
+                                  Portlet portletDatas, Input input,
+                                  PortletWindowInternal portletWindowInternal,
+                                  List securityContraints, List userAttributes,
+                                  List customPortletModes,
+                                  List customWindowStates, Collection roles,
+                                  Collection supportedContents) {
+    super.setRequest(httpServletRequest);
+    this.portalContext_ = portalContext;
+    this.portletContext_ = portletContext;
+    this.session_ = session;
+    this.portletDatas_ = portletDatas;
+    this.input_ = input;
+    this.portletWindowInternal_ = portletWindowInternal;
+    this.securityContraints_ = securityContraints;
+    this.userAttributes_ = userAttributes;
+    this.customPortletModes_ = customPortletModes;
+    this.customWindowStates_ = customWindowStates;
+    this.roles_ = roles;
+    this.supportedContents_ = supportedContents;
+    init();
+  }
 
   public void emptyPortletRequest() {
-    super.setRequest(new EmptyRequest());    
+    super.setRequest(new EmptyRequest());
   }
 
   public void init() {
@@ -133,7 +133,7 @@ public class PortletRequestImp extends HttpServletRequestWrapper
       PortletMode supportedPortletMode = (PortletMode) e.nextElement();
       if (supportedPortletMode.toString().toLowerCase().equals(portletMode.toString().toLowerCase()))
         return true;
-    }             
+    }
 
     return false;
   }
@@ -141,7 +141,7 @@ public class PortletRequestImp extends HttpServletRequestWrapper
   public PortletConfig getPortletConfig(){
     ExoContainer manager = cont;
     String portletAppName = portletWindowInternal_.getWindowID().getPortletApplicationName() ;
-    PortletApplicationProxy proxy = 
+    PortletApplicationProxy proxy =
       (PortletApplicationProxy) manager.getComponentInstance(portletAppName);
     return proxy.getPortletConfig(portletWindowInternal_.getWindowID().getPortletName());
   }
@@ -171,51 +171,51 @@ public class PortletRequestImp extends HttpServletRequestWrapper
         return session_;
       }
       if(isSharedSessionEnable){
-      	((SharedSessionWrapper)session_.getSession()).init();          
-      } else{          
-      	session_.setSession(((HttpServletRequest)super.getRequest()).getSession());          
-      } 
-      return session_;             
+        ((SharedSessionWrapper)session_.getSession()).init();
+      } else{
+        session_.setSession(((HttpServletRequest)super.getRequest()).getSession());
+      }
+      return session_;
     }
     if(isSharedSessionEnable){
-    	if(session_.isSessionValid()){        
-    		return session_;
-    	}           
+      if(session_.isSessionValid()){
+        return session_;
+      }
     } else{
-    	HttpSession tmpSession = ((HttpServletRequest)super.getRequest()).getSession(false);                
-    	if(tmpSession == null)
-    		return null;
-    	//needed for Tomcat 5.0.16 (first stable version)  
-    	try{
-    		tmpSession.getLastAccessedTime();  
-    	} catch (IllegalStateException e){
-    		log_.error("IllegalStateExcetion sent in PortletRequestImp getPortletSession()", e);
-    		return null;
-    	}                            
-    	return session_;            
-    }             
-    return null;           
+      HttpSession tmpSession = ((HttpServletRequest)super.getRequest()).getSession(false);
+      if(tmpSession == null)
+        return null;
+      //needed for Tomcat 5.0.16 (first stable version)
+      try{
+        tmpSession.getLastAccessedTime();
+      } catch (IllegalStateException e){
+        log_.error("IllegalStateExcetion sent in PortletRequestImp getPortletSession()", e);
+        return null;
+      }
+      return session_;
+    }
+    return null;
   }
 
   public boolean isRequestedSessionIdValid() {
-		PortletContainerConf conf = 
+    PortletContainerConf conf =
       (PortletContainerConf) cont.
                              getComponentInstanceOfType(PortletContainerConf.class);
-		boolean isSharedSessionEnable = conf.isSharedSessionEnable();
-		if (isSharedSessionEnable) {
-			return this.session_.isSessionValid();
-		}
-		//needed for Tomcat 5.0.16 (first stable version)
-		if (((HttpServletRequest) super.getRequest()).isRequestedSessionIdValid())
-		try {
-			((HttpServletRequest) super.getRequest()).getSession()
-					.getLastAccessedTime();
-		} catch (IllegalStateException e) {
-			log_.error("IllegalStateExcetion sent in PortletRequestImp isRequestedSessionIdValid()",	e);
-			return false;
-		}
-		return ((HttpServletRequest) super.getRequest()).isRequestedSessionIdValid();
-	}
+    boolean isSharedSessionEnable = conf.isSharedSessionEnable();
+    if (isSharedSessionEnable) {
+      return this.session_.isSessionValid();
+    }
+    //needed for Tomcat 5.0.16 (first stable version)
+    if (((HttpServletRequest) super.getRequest()).isRequestedSessionIdValid())
+    try {
+      ((HttpServletRequest) super.getRequest()).getSession()
+          .getLastAccessedTime();
+    } catch (IllegalStateException e) {
+      log_.error("IllegalStateExcetion sent in PortletRequestImp isRequestedSessionIdValid()",  e);
+      return false;
+    }
+    return ((HttpServletRequest) super.getRequest()).isRequestedSessionIdValid();
+  }
 
   public String getProperty(String s) {
     String header = ((HttpServletRequest)super.getRequest()).getHeader(s);
@@ -257,11 +257,11 @@ public class PortletRequestImp extends HttpServletRequestWrapper
       String mimeType = supportsType.getMimeType();
       if (mimeType.equals(markup)) {
         List portletModes = supportsType.getPortletMode();
-        for (int modeIdx  = 0; modeIdx < portletModes.size(); modeIdx++) {          
+        for (int modeIdx  = 0; modeIdx < portletModes.size(); modeIdx++) {
           String  portletMode = (String) portletModes.get(modeIdx);
           if(portletMode.equals(inputPortletMode))  return mimeType;
-        }        
-      }        
+        }
+      }
     }
     return "text/html";
   }
@@ -285,14 +285,14 @@ public class PortletRequestImp extends HttpServletRequestWrapper
               c.add(mimeType);
               break;
             }
-          }          
-        }        
-      }      
+          }
+        }
+      }
     }
     return Collections.enumeration(c);
   }
 
-  public boolean isUserInRole(String role){    
+  public boolean isUserInRole(String role){
     List l = portletDatas_.getSecurityRoleRef();
     for (Iterator iterator = l.iterator(); iterator.hasNext();) {
       SecurityRoleRef securityRoleRef = (SecurityRoleRef) iterator.next();
@@ -302,16 +302,16 @@ public class PortletRequestImp extends HttpServletRequestWrapper
           if(isRoleDefinedInWebXML(role)) return super.isUserInRole(role);
           return false;
         }
-        if(isRoleDefinedInWebXML(roleLink))	return super.isUserInRole(roleLink);
+        if(isRoleDefinedInWebXML(roleLink)) return super.isUserInRole(roleLink);
         return false;
       }
     }
     return false;
   }
 
-  private boolean isRoleDefinedInWebXML(String role){      
-    for (Iterator iter = roles_.iterator(); iter.hasNext();) {      
-      String roleDefined = (String) iter.next();                 
+  private boolean isRoleDefinedInWebXML(String role){
+    for (Iterator iter = roles_.iterator(); iter.hasNext();) {
+      String roleDefined = (String) iter.next();
       if(roleDefined.equals(role))
         return true;
     }
@@ -340,16 +340,16 @@ public class PortletRequestImp extends HttpServletRequestWrapper
 
   public String getAuthType(){
     String type = super.getAuthType();
-    if(HttpServletRequest.BASIC_AUTH.equals(type)) 
+    if(HttpServletRequest.BASIC_AUTH.equals(type))
       return PortletRequest.BASIC_AUTH;
     else if (HttpServletRequest.DIGEST_AUTH.equals(type))
       return PortletRequest.DIGEST_AUTH;
     else if (HttpServletRequest.CLIENT_CERT_AUTH.equals(type))
-      return PortletRequest.CLIENT_CERT_AUTH;    	
+      return PortletRequest.CLIENT_CERT_AUTH;
     else if (HttpServletRequest.FORM_AUTH.equals(type))
       return PortletRequest.FORM_AUTH;
     else
-      return type;             	
+      return type;
   }
 
   public Object getAttribute(String name) {
@@ -357,7 +357,7 @@ public class PortletRequestImp extends HttpServletRequestWrapper
       throw new IllegalArgumentException("The attribute name cannot be null") ;
     }
     return super.getAttribute(name) ;
-  }  
+  }
 
   public void setAttribute(String name, Object value) {
     if (name == null) {
@@ -457,25 +457,20 @@ public class PortletRequestImp extends HttpServletRequestWrapper
   public Set entrySet() {
     throw new UnsupportedOperationException();
   }
-  
+
   public Locale getLocale(){
-System.out.println(" +============== 0: " + input_.getLocales());
-System.out.println(" +============== 1: " + input_);
-System.out.println(" +============== 2: " + this);
-System.out.println(" +============== 3: " + getRequest());
-System.out.println(" +============== 4: " + super.getLocale());
     List locales = input_.getLocales();
     if(locales != null && !locales.isEmpty()){
       return (Locale) locales.iterator().next();
-    }          
+    }
     return super.getLocale();
   }
-  
+
   public Enumeration getLocales(){
     List locales = input_.getLocales();
     if(locales != null){
       return Collections.enumeration(locales);
-    }          
+    }
     return super.getLocales();
   }
 
