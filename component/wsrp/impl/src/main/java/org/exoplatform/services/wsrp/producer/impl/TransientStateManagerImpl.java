@@ -60,7 +60,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
     try {
       // !!! it's a very dirty hack and it will be removed as soon as possible !!!
       session = (WSRPHttpSession) cache.get(sessionID);
-      WindowInfosContainer.createInstance(portalContainer, sessionID, user);
+      WindowInfosContainer.createInstance(cont, sessionID, user);
       if (sessionID != null) {
         if (session.isInvalidated()) {
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
@@ -83,7 +83,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
   public void releaseSession(String sessionID) {
     try {
       cache.remove(sessionID);
-      WindowInfosContainer.removeInstance(portalContainer, sessionID);
+      WindowInfosContainer.removeInstance(cont, sessionID);
     } catch (Exception e) {
       log.debug("Can not release session : " + sessionID, e);
     }

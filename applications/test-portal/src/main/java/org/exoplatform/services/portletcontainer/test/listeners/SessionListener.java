@@ -19,10 +19,7 @@ import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 
 public class SessionListener implements HttpSessionListener {
   
-  public void sessionCreated(HttpSessionEvent se) {
-    WindowInfosContainer.createInstance(ExoContainerContext.getCurrentContainer(), se.getSession().getId(),
-      se.getSession().getRemoteUser());
-  }
+  public void sessionCreated(HttpSessionEvent se) {}
 
   public void sessionDestroyed(HttpSessionEvent se) {
     WindowInfosContainer.removeInstance(ExoContainerContext.getCurrentContainer(), se.getSession().getId());

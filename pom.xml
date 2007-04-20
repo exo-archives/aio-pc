@@ -47,7 +47,7 @@
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <skip>true</skip>
-          <useFile>false</useFile>
+          <useFile>true</useFile>
           <forkMode>pertest</forkMode>
           <testFailureIgnore>false</testFailureIgnore>
           <includes>

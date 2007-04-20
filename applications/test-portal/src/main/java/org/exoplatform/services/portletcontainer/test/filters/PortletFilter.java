@@ -118,6 +118,7 @@ public class PortletFilter implements Filter {
        * PortalContainer.setInstance(portalContainer); }
        */
       StandaloneContainer portalContainer = StandaloneContainer.getInstance();
+      WindowInfosContainer.createInstance(portalContainer, httpRequest.getSession().getId(), httpRequest.getRemoteUser());
       portal_container_name = portalContainer.getContext().getName();
       System.out.println("Container1 : "+portalContainer);
 
