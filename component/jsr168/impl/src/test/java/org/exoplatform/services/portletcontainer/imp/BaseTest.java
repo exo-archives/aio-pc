@@ -17,12 +17,12 @@ import javax.portlet.WindowState;
 import org.exoplatform.Constants;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
-import org.exoplatform.container.SessionContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.organization.User;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl;
 import org.exoplatform.services.portletcontainer.impl.monitor.PortletContainerMonitorImpl;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletAPIObjectFactory;
@@ -67,8 +67,8 @@ public class BaseTest extends TestCase {
 
   public void setUp() throws Exception {
     portalContainer = PortalContainer.getInstance();
-    SessionContainer scontainer = portalContainer.createSessionContainer("sessioncontainer", "anon") ;
-    SessionContainer.setInstance(scontainer) ;
+    WindowInfosContainer.createInstance(portalContainer, "windowinfoscontainer", "anon");
+    WindowInfosContainer scontainer = WindowInfosContainer.getInstance();
     
     persister =  (PortletPreferencesPersister)	portalContainer.getComponentInstanceOfType(PortletPreferencesPersister.class) ;
     orgService_ = 
@@ -134,6 +134,7 @@ public class BaseTest extends TestCase {
       HibernateService hservice = 
           (HibernateService) manager.getComponentInstanceOfType(HibernateService.class) ;
       hservice.closeSession();
+      WindowInfosContainer.removeInstance(portalContainer, "windowinfoscontainer");
     } catch (Exception e) {
       e.printStackTrace();
     }

@@ -19,7 +19,6 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.container.SessionContainer;
 import org.exoplatform.services.portletcontainer.ExoPortletContext;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletContextImpl;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletSessionImp;

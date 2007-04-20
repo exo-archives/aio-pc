@@ -16,10 +16,10 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
-import org.exoplatform.container.SessionContainer;
 
 import org.exoplatform.services.log.LogService;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.ActionRequestImp;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.RenderRequestImp;
 import org.exoplatform.services.portletcontainer.pci.WindowID;
@@ -413,7 +413,7 @@ public class WSRPConsumerPortlet extends GenericPortlet {
 
   private User getUser(PortletRequest request) {
     User user = null;
-    SessionContainer scontainer = SessionContainer.getInstance();
+    WindowInfosContainer scontainer = WindowInfosContainer.getInstance();
     if (scontainer != null) {
       String userKey = scontainer.getOwner();
       log.debug("getUser method with user key : " + userKey);

@@ -11,10 +11,10 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.container.SessionManagerContainer;
-import org.exoplatform.container.SessionContainer;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.exceptions.Faults;
@@ -60,25 +60,20 @@ public class TransientStateManagerImpl implements TransientStateManager {
     try {
       // !!! it's a very dirty hack and it will be removed as soon as possible !!!
       session = (WSRPHttpSession) cache.get(sessionID);
-      SessionContainer scontainer = null;
+      WindowInfosContainer.createInstance(portalContainer, sessionID, user);
       if (sessionID != null) {
         if (session.isInvalidated()) {
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
-          scontainer = ((SessionManagerContainer)cont).createSessionContainer(sessionID, user);
         } else {
           session.setLastAccessTime(System.currentTimeMillis());
-          scontainer = (SessionContainer)((SessionManagerContainer)cont).
-            getSessionManager().getSessionContainer(sessionID);
         }
         log.debug("Lookup session success");
       } else {
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
-        scontainer = ((SessionManagerContainer)cont).createSessionContainer(sessionID, user);
         log.debug("Create new session with ID : " + sessionID);
       }      
-      SessionContainer.setInstance(scontainer) ;      
       return session;
     } catch (Exception e) {
       throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);
@@ -88,7 +83,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
   public void releaseSession(String sessionID) {
     try {
       cache.remove(sessionID);
-      ((SessionManagerContainer)cont).removeSessionContainer(sessionID) ;
+      WindowInfosContainer.removeInstance(portalContainer, sessionID);
     } catch (Exception e) {
       log.debug("Can not release session : " + sessionID, e);
     }

@@ -31,10 +31,10 @@ import org.exoplatform.commons.Environment;
 import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.SessionContainer;
 import org.exoplatform.services.log.LogService;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletPreferencesImp;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.persistenceImp.PersistenceManager;
 import org.exoplatform.services.portletcontainer.pci.*;
@@ -353,17 +353,17 @@ public class PortletContainerDispatcher {
     PortletWindowInternal windowInfos = null;
     if (!input.isStateSaveOnClient()) {//state save on the server
       log.debug("Extract or create windows info (store in the server)");
-      SessionContainer sessionContainer = SessionContainer.getInstance();
+      WindowInfosContainer infosContainer = WindowInfosContainer.getInstance();
       String key = "SESSION_CONTAINER_KEY_ENCODER" + input.getWindowID().generateKey();
-      if (sessionContainer.getComponentInstance(key) != null) {
-        windowInfos = (PortletWindowInternal) sessionContainer.getComponentInstance(key);
+      if (infosContainer.getInfos(key) != null) {
+        windowInfos = infosContainer.getInfos(key);
       } else {
         WindowID windowID = input.getWindowID();
         Portlet pDatas = 
           portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID.getPortletName());
         ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
         windowInfos = manager.getWindow(input, defaultPrefs);
-        sessionContainer.registerComponentInstance(key, windowInfos);
+        infosContainer.addInfos(key, windowInfos);
       }
     } else { //state change kept on the client (for example consumer in WSRP)
       log.debug("Extract or create windows info (sent by the client)");

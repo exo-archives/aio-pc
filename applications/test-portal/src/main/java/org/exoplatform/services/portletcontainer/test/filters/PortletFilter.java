@@ -25,8 +25,8 @@ import org.exoplatform.Constants;
 // import org.exoplatform.container.PortalContainer;
 // import org.exoplatform.container.RootContainer;
 import org.exoplatform.container.StandaloneContainer;
-import org.exoplatform.container.SessionContainer;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
@@ -126,11 +126,6 @@ public class PortletFilter implements Filter {
         (PortletContainerService) portalContainer.getComponentInstanceOfType(PortletContainerService.class);
       PortletApplicationsHolder holder =
         (PortletApplicationsHolder) portalContainer.getComponentInstanceOfType(PortletApplicationsHolder.class);
-      SessionContainer sessionContainer =
-        (SessionContainer) portalContainer.getComponentInstanceOfType(SessionContainer.class);
-      if (sessionContainer == null) // creating session container if there isn't any
-        sessionContainer = portalContainer.createSessionContainer("sessioncontainer", "user");
-
 
       Map allPortletMetaData = service.getAllPortletMetaData();
 

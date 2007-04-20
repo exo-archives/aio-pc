@@ -125,8 +125,6 @@ public class BaseTest extends TestCase {
     LogUtil.setLevel("org.exoplatform.services.database", org.exoplatform.services.log.LogService.DEBUG , true) ;
     if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
       PortalContainer manager = PortalContainer.getInstance();
-//      SessionContainer scontainer = manager.createSessionContainer("sessioncontainer", "anon") ;
-//      SessionContainer.setInstance(scontainer);
 //      manager.getComponentInstanceOfType(PortalConfigService.class);
       manager.getComponentInstanceOfType(PersistentStateManager.class);
       orgService_ =
