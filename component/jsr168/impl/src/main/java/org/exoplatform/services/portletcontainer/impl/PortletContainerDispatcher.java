@@ -384,6 +384,11 @@ public class PortletContainerDispatcher {
     ServletContext portalContext = 
       (ServletContext)cont.getComponentInstanceOfType(ServletContext.class);
     ServletContext portletContext = portalContext.getContext("/" + portletApplicationName);
+    if (portletContext == null) {
+      log.error("Can't get servlet context for portlet app [" + portletApplicationName + "]. May be it's caused " +
+        "by difference between context name (usually WAR file name) and content of tag <display-name/> in your " +
+        "WEB-INF/web.xml");
+    }
     RequestDispatcher dispatcher = portletContext.getRequestDispatcher(SERVLET_MAPPING);
     try {
       log.debug("Dispatch resuest to the portlet application : " + portletApplicationName);
