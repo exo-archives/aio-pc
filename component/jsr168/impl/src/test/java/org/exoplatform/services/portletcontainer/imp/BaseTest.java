@@ -95,7 +95,7 @@ public class BaseTest extends TestCase {
 
     portletContainer = (PortletContainerServiceImpl) portalContainer.getComponentInstanceOfType(PortletContainerService.class);
     portletApplicationRegister = (PortletApplicationRegister)portalContainer.getComponentInstanceOfType(PortletApplicationRegister.class);
-    portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles);
+    portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
     portletMonitor = (PortletContainerMonitorImpl) RootContainer.getInstance().getComponentInstanceOfType(PortletContainerMonitorImpl.class);
 
     portletContext = PortletAPIObjectFactory.getInstance().createPortletContext(portalContainer, mockServletContext);

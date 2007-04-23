@@ -43,8 +43,34 @@ public class PortletApplicationListener implements ServletContextListener {
     ExoContainer manager = ExoContainerContext.getTopContainer();
 //    LogService lservice = (LogService)manager.getComponentInstanceOfType(LogService.class) ;
     Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+    
+    String webXMLFile = "/WEB-INF/web.xml";
+    String portletAppName = null;
+    
+    try {
+      portletAppName = (String) ServletContext.class.getMethod("getContextPath", new Class[0]).invoke(servletContextEvent.getServletContext(), new Class[0]);
+      portletAppName = portletAppName.substring(portletAppName.lastIndexOf("/") + 1);
+    } catch (Exception e) {
+      log.warn("Servlet api 2.4 or below detected. Unable to find method getContextPath on ServletContext.");
+      //e.printStackTrace();
+    }
+    if (portletAppName == null) {
+      try {
+        java.net.URL webXmlUrl = servletContextEvent.getServletContext().getResource(webXMLFile);
+        portletAppName = webXmlUrl.toExternalForm();
+        portletAppName = portletAppName.substring(0, portletAppName.indexOf(webXMLFile));
+        portletAppName = portletAppName.substring(portletAppName.lastIndexOf("/") + 1);
+        int id = portletAppName.indexOf(".war");
+        if(id > 0) 
+          portletAppName = portletAppName.substring(0, id);
+      } catch (java.net.MalformedURLException e) {
+        log.warn("Erorr getting web.xml from ServletContext.");
+        //e.printStackTrace();
+      }
+    }
+
     ServletContext servletContext = servletContextEvent.getServletContext();
-    log.info("DEPLOY PORTLET APPLICATION: " + servletContext.getServletContextName());
+    log.info("DEPLOY PORTLET APPLICATION: " + portletAppName);
     log.debug("Real path : "+ servletContext.getRealPath(""));   
     InputStream is = null;
     String oldParser = System.getProperty("javax.xml.parsers.DocumentBuilderFactory") ;
@@ -75,7 +101,7 @@ public class PortletApplicationListener implements ServletContextListener {
       log.info("  -- read: " + portletApp.getPortlet().size() + " portlets");
       PortletApplicationRegister service = 
         (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
-      service.registerPortletApplication(servletContext, portletApp, roles); 
+      service.registerPortletApplication(servletContext, portletApp, roles, portletAppName); 
     } catch (Exception e) {
       log.error("Cannot deploy " + servletContext.getServletContextName(), e);
     } finally {

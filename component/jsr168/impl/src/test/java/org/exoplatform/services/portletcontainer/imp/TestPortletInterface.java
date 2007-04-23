@@ -254,7 +254,7 @@ public class TestPortletInterface extends BaseTest {
     assertTrue(portletMonitor.isBroken("hello",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 		portletApplicationRegister.removePortletApplication(mockServletContext);
-		portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles);
+		portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
 		assertFalse(portletMonitor.isBroken("hello",
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 		portletContainer.processAction(request, response, actionInput);

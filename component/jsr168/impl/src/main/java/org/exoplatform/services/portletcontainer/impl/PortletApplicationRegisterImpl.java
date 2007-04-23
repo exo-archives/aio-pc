@@ -60,9 +60,9 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
   public Collection getListeners() {  return listeners_; }
 
   public void registerPortletApplication(ServletContext servletContext,
-      PortletApp portletApp_, Collection roles)
+      PortletApp portletApp_, Collection roles, String portletAppName)
       throws PortletContainerException {
-    String portletAppName = servletContext.getServletContextName();
+//    String portletAppName = servletContext.getServletContextName();
     log.debug("send pre deploy event for portlet app : " + servletContext.getServletContextName());
     for (Iterator iterator = listeners_.iterator(); iterator.hasNext();) {
       PortletLifecycleListener portletLifecycleListener = 

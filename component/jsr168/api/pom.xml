@@ -1,20 +1,35 @@
 <project>
-	<parent>
+  <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>exo-portlet-container</artifactId>
     <version>1.5</version>
-	</parent>	
+  </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo-portlet-container.services.jsr168.api</artifactId>
   <name>eXo portlet container API</name>
-  <packaging>jar</packaging> 
+  <packaging>jar</packaging>
   <description>eXo portlet container API</description>
+
   <dependencies>
+
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.container</artifactId>
       <version>${exo.platform.version}</version>
       <optional>true</optional>
     </dependency>
+
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.3</version>
+    </dependency>
+
   </dependencies>
 </project>

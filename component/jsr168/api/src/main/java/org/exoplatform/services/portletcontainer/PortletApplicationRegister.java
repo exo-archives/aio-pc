@@ -20,7 +20,7 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 public interface PortletApplicationRegister {
     
   public void registerPortletApplication(ServletContext servletContext, PortletApp portletApp_,
-      Collection roles) throws PortletContainerException;
+      Collection roles, String portletAppName) throws PortletContainerException;
 
   public void removePortletApplication(ServletContext servletContext) throws PortletContainerException;  
   
