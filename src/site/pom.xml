@@ -1,11 +1,11 @@
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
-    <artifactId>exo-portlet-container</artifactId>
+    <artifactId>config</artifactId>
     <version>1.5</version>
 	</parent> 
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>exo-portlet-container.site</artifactId>
+  <artifactId>exo.pc.site</artifactId>
   <packaging>pom</packaging>
   <name>eXo Portlet Container site</name>
   <url>http://www.exoplatform.org</url>
@@ -14,7 +14,7 @@
   <dependencies/>   
   
   <build>
-    <finalName>exo-portlet-container.site</finalName>
+    <finalName>exo.pc.site</finalName>
   </build>  
 
   <reporting>

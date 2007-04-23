@@ -2,7 +2,7 @@
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
-    <artifactId>exo-portlet-container</artifactId>
+    <artifactId>config</artifactId>
     <version>1.5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -16,7 +16,7 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo-portlet-container.applications.util-bridge</artifactId>
+      <artifactId>exo.pc.applications.util-bridge</artifactId>
       <version>1.5</version>
     </dependency>
 

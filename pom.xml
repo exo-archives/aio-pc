@@ -1,7 +1,7 @@
 <project>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.exoplatform.portletcontainer</groupId>
-  <artifactId>exo-portlet-container</artifactId>
+  <artifactId>config</artifactId>
   <name>eXo portlet container</name>
   <version>1.5</version>
   <packaging>pom</packaging>

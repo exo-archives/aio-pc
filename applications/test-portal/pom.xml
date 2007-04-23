@@ -2,7 +2,7 @@
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
-    <artifactId>exo-portlet-container</artifactId>
+    <artifactId>config</artifactId>
     <version>1.5</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
@@ -16,28 +16,28 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo-portlet-container.services.jsr168.api</artifactId>
+      <artifactId>exo.pc.component.jsr168.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo-portlet-container.services.jsr168.impl</artifactId>
+      <artifactId>exo.pc.component.jsr168.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo-portlet-container.services.wsrp.api</artifactId>
+      <artifactId>exo.pc.component.wsrp.api</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo-portlet-container.services.wsrp.impl</artifactId>
+      <artifactId>exo.pc.component.wsrp.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>

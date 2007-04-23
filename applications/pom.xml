@@ -1,7 +1,7 @@
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
-    <artifactId>exo-portlet-container</artifactId>
+    <artifactId>config</artifactId>
     <version>1.5</version>
   </parent>
 
