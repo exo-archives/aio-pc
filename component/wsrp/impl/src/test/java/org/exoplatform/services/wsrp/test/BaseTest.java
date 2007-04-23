@@ -157,7 +157,7 @@ public class BaseTest extends TestCase {
       portletApplicationRegister = (PortletApplicationRegister) manager.
         getComponentInstanceOfType(PortletApplicationRegister.class); 
       
-      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles);
+      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
 
       serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
       registrationOperationsInterface = new WSRP_v1_Registration_Binding_SOAPImpl();

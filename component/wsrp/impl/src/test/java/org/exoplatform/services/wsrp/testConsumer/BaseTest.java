@@ -107,7 +107,7 @@ public class BaseTest extends TestCase {
       portletApplicationRegister = (PortletApplicationRegister) manager.
         getComponentInstanceOfType(PortletApplicationRegister.class); 
     
-      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles);
+      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
 
     } catch (Exception ex) {
       ex.printStackTrace();
