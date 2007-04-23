@@ -38,7 +38,7 @@ public class TestPortletInterface extends BaseTest {
 	public void setUp() throws Exception {
 		super.setUp();
     proxy = (PortletApplicationProxy) PortalContainer.getInstance().
-        getComponentInstance("hello");
+        getComponentInstance("war_template");
 	}
 
 	public TestPortletInterface(String s) {
@@ -99,7 +99,7 @@ public class TestPortletInterface extends BaseTest {
 			assertTrue(e instanceof PortletException);
 		}
 		assertNull(p);
-		assertFalse(portletMonitor.isInitialized("hello",
+		assertFalse(portletMonitor.isInitialized("war_template",
 						"PortletWithPortletExceptionWhileInit"));    
 	}
 
@@ -122,7 +122,7 @@ public class TestPortletInterface extends BaseTest {
 			assertEquals("Unavailable portlet", e.getMessage());
 			assertTrue(e instanceof PortletException);
 			PortletRuntimeData rD = (PortletRuntimeData) portletMonitor.getPortletRuntimeDataMap().
-							get("hello" + PortletContainerMonitorImpl.SEPARATOR +
+							get("war_template" + PortletContainerMonitorImpl.SEPARATOR +
 							"PortletWithUnavailableExceptionWhileInit");
 			assertTrue(rD.getLastInitFailureAccessTime() > 0);
 			assertEquals(rD.getUnavailabilityPeriod(), 5000);
@@ -144,7 +144,7 @@ public class TestPortletInterface extends BaseTest {
 			assertTrue(e instanceof PortletException);
 		}
 		assertNull(p);
-		assertFalse(portletMonitor.isInitialized("hello",
+		assertFalse(portletMonitor.isInitialized("war_template",
 						"PortletWithUnavailableExceptionWhileInit"));       
 	}
 
@@ -176,7 +176,7 @@ public class TestPortletInterface extends BaseTest {
 			assertTrue(e instanceof PortletException);
 		}
 		assertNull(p);
-		assertFalse(portletMonitor.isInitialized("hello",
+		assertFalse(portletMonitor.isInitialized("war_template",
 						"PortletWithUnavailableExceptionWhileInit2"));
 	}
 
@@ -194,7 +194,7 @@ public class TestPortletInterface extends BaseTest {
 			assertTrue(e instanceof PortletException);
 		}
 		assertNull(p);
-		assertFalse(portletMonitor.isInitialized("hello",
+		assertFalse(portletMonitor.isInitialized("war_template",
 						"PortletWithRuntimeExceptionWhileInit"));
 	}
 
@@ -213,7 +213,7 @@ public class TestPortletInterface extends BaseTest {
     RenderOutput rO = portletContainer.render(request, response, input);
 		assertEquals("Exception occured", rO.getTitle());
 		assertEquals("javax.portlet.PortletException: Exception in processAction", new String(rO.getContent()));    
-    assertTrue(portletMonitor.isAvailable("hello",
+    assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithExceptionWhileProcessAction"));        
 	}
 
@@ -233,10 +233,10 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		portletContainer.processAction(request, response, actionInput);
-		assertTrue(portletMonitor.isBroken("hello",
+		assertTrue(portletMonitor.isBroken("war_template",
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 	  PortletRuntimeData rD = (PortletRuntimeData) portletMonitor.
-						getPortletRuntimeDataMap().get("hello" + PortletContainerMonitorImpl.SEPARATOR +
+						getPortletRuntimeDataMap().get("war_template" + PortletContainerMonitorImpl.SEPARATOR +
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender");
 		assertNull(rD);
 		((ExoWindowID)input.getWindowID()).setPortletName("PortletWithPermanentUnavailibiltyInProcessActionAndRender");
@@ -244,18 +244,18 @@ public class TestPortletInterface extends BaseTest {
 		assertEquals("Exception occured", portletContainer.render(request, response, input).getTitle());
 		assertEquals("javax.portlet.UnavailableException: Permanent unavailable exception",
         new String(portletContainer.render(request, response, input).getContent()));
-    assertTrue(portletMonitor.isBroken("hello",
+    assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));   
 		ActionOutput o = portletContainer.processAction(request, response, actionInput);
 // changed on request of Erez Harari, now exception.toString() is returned in that property instead of static text
 //		assertEquals("output generated because of an exception",
 //        o.getProperties().get(PortletContainerConstants.EXCEPTION));
 		assertNotNull(o.getProperties().get(PortletContainerConstants.EXCEPTION));
-    assertTrue(portletMonitor.isBroken("hello",
+    assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 		portletApplicationRegister.removePortletApplication(mockServletContext);
 		portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
-		assertFalse(portletMonitor.isBroken("hello",
+		assertFalse(portletMonitor.isBroken("war_template",
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 		portletContainer.processAction(request, response, actionInput);
 		assertNull(rD);
@@ -279,7 +279,7 @@ public class TestPortletInterface extends BaseTest {
 		assertEquals("Exception occured", o.getTitle());
 		assertEquals("javax.portlet.UnavailableException: Permanent unavailable exception",
         new String(portletContainer.render(request, response, input).getContent()));
-		assertTrue(portletMonitor.isBroken("hello",
+		assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 	}
 
@@ -295,20 +295,20 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)actionInput.getWindowID()).setPortletName("PortletWithNonPermanentUnavailibiltyInProcessActionAndRender");
 		portletContainer.processAction(request, response, actionInput);
-		assertFalse(portletMonitor.isAvailable("hello",
+		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		Thread.sleep(5000);
-		assertTrue(portletMonitor.isAvailable("hello",
+		assertTrue(portletMonitor.isAvailable("war_template",
 						"PortletWithNonPermanentUnavailibiltyInProcessActionAndRender", System.currentTimeMillis()));
 		request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		portletContainer.processAction(request, response, actionInput);
-		assertFalse(portletMonitor.isAvailable("hello",
+		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		((ExoWindowID)input.getWindowID()).setPortletName("PortletWithNonPermanentUnavailibiltyInProcessActionAndRender");
 		RenderOutput o = portletContainer.render(request, response, input);
-		assertFalse(portletMonitor.isAvailable("hello",
+		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		assertEquals("Exception occured", o.getTitle());
@@ -328,19 +328,19 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)input.getWindowID()).setPortletName("PortletWithNonPermanentUnavailibiltyInProcessActionAndRender");
 		RenderOutput o = portletContainer.render(request, response, input);
-		assertFalse(portletMonitor.isAvailable("hello",
+		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		assertEquals("Exception occured", o.getTitle());
 		assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
         new String(portletContainer.render(request, response, input).getContent()));
 		Thread.sleep(5000);
-		assertTrue(portletMonitor.isAvailable("hello",
+		assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		o = portletContainer.render(request, response, input);
-		assertFalse(portletMonitor.isAvailable("hello",
+		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		assertEquals("Exception occured", o.getTitle());
@@ -358,10 +358,10 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)actionInput.getWindowID()).setPortletName("PortletWithRuntimeExceptionWhileProcessActionAndRender");
 		portletContainer.processAction(request, response, actionInput);
-		assertTrue(portletMonitor.isAvailable("hello",
+		assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithRuntimeExceptionWhileProcessActionAndRender"));
 		PortletRuntimeData rD = (PortletRuntimeData) portletMonitor.getPortletRuntimeDataMap().
-        get("hello" + PortletContainerMonitorImpl.SEPARATOR +
+        get("war_template" + PortletContainerMonitorImpl.SEPARATOR +
         "PortletWithRuntimeExceptionWhileProcessActionAndRender");
 //		assertNull(rD);
     assertNotNull(rD);
@@ -385,7 +385,7 @@ public class TestPortletInterface extends BaseTest {
 		assertEquals("Exception occured", o.getTitle());
 		assertEquals("java.lang.RuntimeException: runtime exception in render",
         new String(portletContainer.render(request, response, input).getContent()));
-		assertTrue(portletMonitor.isAvailable("hello",
+		assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithRuntimeExceptionWhileProcessActionAndRender"));
 	}
 
@@ -397,14 +397,14 @@ public class TestPortletInterface extends BaseTest {
 	 */
 	public void testNonRoutingProcessActionWhenPortletDestroyed() throws PortletContainerException {
 		proxy.destroy("HelloWorld");
-		assertTrue(portletMonitor.isDestroyed("hello", "HelloWorld"));
+		assertTrue(portletMonitor.isDestroyed("war_template", "HelloWorld"));
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)actionInput.getWindowID()).setPortletName("HelloWorld");
 		ActionOutput aO = portletContainer.processAction(request, response, actionInput);
 		assertEquals("output generated because of a destroyed portlet access",
 						aO.getProperties().get(PortletContainerConstants.DESTROYED));
-		assertTrue(portletMonitor.isDestroyed("hello", "HelloWorld"));
+		assertTrue(portletMonitor.isDestroyed("war_template", "HelloWorld"));
 		((ExoWindowID)input.getWindowID()).setPortletName("HelloWorld");
 		RenderOutput o = portletContainer.render(request, response, input);
 		assertEquals("Portlet destroyed", o.getTitle());
@@ -419,7 +419,7 @@ public class TestPortletInterface extends BaseTest {
 	 */
 	public void testNonRoutingRenderWhenPortletDestroyed() throws PortletContainerException {
 		proxy.destroy("HelloWorld");
-		assertTrue(portletMonitor.isDestroyed("hello", "HelloWorld"));
+		assertTrue(portletMonitor.isDestroyed("war_template", "HelloWorld"));
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)input.getWindowID()).setPortletName("HelloWorld");
@@ -444,7 +444,7 @@ public class TestPortletInterface extends BaseTest {
 	public void testPortletReUsedAfterDestroy() throws PortletException {
 		Portlet p1 = proxy.getPortlet(portletContext, "HelloWorld");
 		proxy.destroy("HelloWorld");
-		assertTrue(portletMonitor.isDestroyed("hello", "HelloWorld"));
+		assertTrue(portletMonitor.isDestroyed("war_template", "HelloWorld"));
 
 		proxy.registerPortletToMonitor("HelloWorld");
 		Portlet p2 = proxy.getPortlet(portletContext, "HelloWorld");
@@ -461,7 +461,7 @@ public class TestPortletInterface extends BaseTest {
 	public void testRuntimeExceptionWhileDestroy() throws PortletException {
 		proxy.getPortlet(portletContext, "PortletWithRuntimeExceptionWhileProcessActionAndRender");
 		proxy.destroy("PortletWithRuntimeExceptionWhileProcessActionAndRender");
-		assertTrue(portletMonitor.isDestroyed("hello",
+		assertTrue(portletMonitor.isDestroyed("war_template",
 						"PortletWithRuntimeExceptionWhileProcessActionAndRender"));
 	}
 

@@ -33,7 +33,7 @@ public class TestWindowState extends BaseTest{
 	}
 
   public void testWindowStateSupport(){
-    Collection states = portletContainer.getWindowStates("hello");
+    Collection states = portletContainer.getWindowStates("war_template");
 
 		assertTrue(contains(states,WindowState.NORMAL));
 		assertTrue(contains(states,WindowState.MINIMIZED));

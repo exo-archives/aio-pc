@@ -32,7 +32,7 @@ public class TestPortletConfig extends BaseTest{
 	public void setUp() throws Exception {
 		super.setUp();
 		PortletDataImp portletDatas = (PortletDataImp) portletContainer.
-                 getAllPortletMetaData().get("hello" + Constants.PORTLET_META_DATA_ENCODER  
+                 getAllPortletMetaData().get("war_template" + Constants.PORTLET_META_DATA_ENCODER  
                  + "HelloWorld");
 
 		config = new PortletConfigImp(portletDatas.getWrappedPortletTyped(), portletContext,
@@ -95,7 +95,7 @@ public class TestPortletConfig extends BaseTest{
 	 */
 	public void testInlineResourceBundleCreation(){            
     PortletDataImp portletDatas = (PortletDataImp) portletContainer.
-                 getAllPortletMetaData().get("hello" + Constants.PORTLET_META_DATA_ENCODER  
+                 getAllPortletMetaData().get("war_template" + Constants.PORTLET_META_DATA_ENCODER  
                  + "HelloWorld2");            
 
 		config = new PortletConfigImp(portletDatas.getWrappedPortletTyped(), portletContext,

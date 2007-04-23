@@ -90,7 +90,7 @@ public class BaseTest extends TestCase {
     roles = new java.util.ArrayList() ;
     roles.add("auth-user");
 
-    mockServletContext = new MockServletContext("hello", System.getProperty("testPath") + "/war_template");
+    mockServletContext = new MockServletContext("war_template", System.getProperty("testPath") + "/war_template");
     mockServletContext.setInitParameter("test-param", "test-parame-value");
 
     portletContainer = (PortletContainerServiceImpl) portalContainer.getComponentInstanceOfType(PortletContainerService.class);
@@ -99,11 +99,11 @@ public class BaseTest extends TestCase {
     portletMonitor = (PortletContainerMonitorImpl) RootContainer.getInstance().getComponentInstanceOfType(PortletContainerMonitorImpl.class);
 
     portletContext = PortletAPIObjectFactory.getInstance().createPortletContext(portalContainer, mockServletContext);
-    ((MockServletContext)portalContainer.getComponentInstanceOfType(MockServletContext.class)).setName("hello");
+    ((MockServletContext)portalContainer.getComponentInstanceOfType(MockServletContext.class)).setName("war_template");
     //can be overidden for specific usages
     ExoWindowID windowID = new ExoWindowID();
     windowID.setOwner(Constants.ANON_USER);
-    windowID.setPortletApplicationName("hello");
+    windowID.setPortletApplicationName("war_template");
     windowID.setUniqueID("windowID");
     windowID.setPersistenceId("persistenceID");
 

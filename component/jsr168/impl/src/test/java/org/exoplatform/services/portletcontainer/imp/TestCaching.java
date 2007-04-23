@@ -37,7 +37,7 @@ public class TestCaching extends BaseTest {
     HttpServletResponse response = new MockServletResponse(new EmptyResponse());
     try {
       portletContainer.render(request, response, input);
-      assertEquals(6, portletMonitor.getCacheExpirationPeriod("hello",
+      assertEquals(6, portletMonitor.getCacheExpirationPeriod("war_template",
                                                               "HelloWorld"));
     } catch (Exception e) {
       e.printStackTrace();

@@ -40,13 +40,13 @@ public class TestPortletMode extends BaseTest{
 	 * PLT.8.6
 	 */
 	public void testImplicitViewMode(){
-		Collection c = portletContainer.getPortletModes("hello", "HelloWorld", "text/html");
+		Collection c = portletContainer.getPortletModes("war_template", "HelloWorld", "text/html");
 
 		assertTrue(contains(c, PortletMode.VIEW));
 	}
 
 	public void testOtherModes(){
-		Collection c = portletContainer.getPortletModes("hello", "HelloWorld", "text/html");
+		Collection c = portletContainer.getPortletModes("war_template", "HelloWorld", "text/html");
 
 		assertTrue(contains(c, PortletMode.EDIT));
 		assertTrue(contains(c, PortletMode.HELP));
@@ -54,26 +54,26 @@ public class TestPortletMode extends BaseTest{
 		assertFalse(contains(c, new PortletMode("about")));
 		assertFalse(contains(c, new PortletMode("not_exist")));
 
-		assertTrue(portletContainer.isModeSuported("hello", "HelloWorld", "text/html", PortletMode.VIEW));
-		assertTrue(portletContainer.isModeSuported("hello", "HelloWorld", "text/html", PortletMode.EDIT));
-		assertTrue(portletContainer.isModeSuported("hello", "HelloWorld", "text/html", new PortletMode("config")));
-		assertFalse(portletContainer.isModeSuported("hello", "HelloWorld", "text/html", new PortletMode("about")));
-		assertFalse(portletContainer.isModeSuported("hello", "HelloWorld", "text/html", new PortletMode("not_exist")));
+		assertTrue(portletContainer.isModeSuported("war_template", "HelloWorld", "text/html", PortletMode.VIEW));
+		assertTrue(portletContainer.isModeSuported("war_template", "HelloWorld", "text/html", PortletMode.EDIT));
+		assertTrue(portletContainer.isModeSuported("war_template", "HelloWorld", "text/html", new PortletMode("config")));
+		assertFalse(portletContainer.isModeSuported("war_template", "HelloWorld", "text/html", new PortletMode("about")));
+		assertFalse(portletContainer.isModeSuported("war_template", "HelloWorld", "text/html", new PortletMode("not_exist")));
 	}
 
 	public void testOtherMarkup(){
-    Collection c = portletContainer.getPortletModes("hello", "HelloWorld", "text/wml");
+    Collection c = portletContainer.getPortletModes("war_template", "HelloWorld", "text/wml");
 
 	  assertTrue(contains(c, PortletMode.EDIT));
 		assertTrue(contains(c, PortletMode.HELP));
 		assertFalse(contains(c, new PortletMode("config")));
 		assertFalse(contains(c, new PortletMode("not_exist")));
 
-		assertTrue(portletContainer.isModeSuported("hello", "HelloWorld", "text/wml", PortletMode.VIEW));
-		assertTrue(portletContainer.isModeSuported("hello", "HelloWorld", "text/wml", PortletMode.EDIT));
-		assertTrue(portletContainer.isModeSuported("hello", "HelloWorld", "text/wml", PortletMode.HELP));
-		assertFalse(portletContainer.isModeSuported("hello", "HelloWorld", "text/wml", new PortletMode("config")));
-		assertFalse(portletContainer.isModeSuported("hello", "HelloWorld", "text/wml", new PortletMode("not_exist")));
+		assertTrue(portletContainer.isModeSuported("war_template", "HelloWorld", "text/wml", PortletMode.VIEW));
+		assertTrue(portletContainer.isModeSuported("war_template", "HelloWorld", "text/wml", PortletMode.EDIT));
+		assertTrue(portletContainer.isModeSuported("war_template", "HelloWorld", "text/wml", PortletMode.HELP));
+		assertFalse(portletContainer.isModeSuported("war_template", "HelloWorld", "text/wml", new PortletMode("config")));
+		assertFalse(portletContainer.isModeSuported("war_template", "HelloWorld", "text/wml", new PortletMode("not_exist")));
 	}
 
 	/**
@@ -111,7 +111,7 @@ public class TestPortletMode extends BaseTest{
 	 * PLT.8.6
 	 */
 	public void testIgnoreCustomModesNotSupportedByPortal(){
-		Collection c = portletContainer.getPortletModes("hello", "HelloWorld2", "text/html");
+		Collection c = portletContainer.getPortletModes("war_template", "HelloWorld2", "text/html");
 
 		assertFalse(contains(c, new PortletMode("not_supported")));
 	}
