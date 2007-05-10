@@ -18,6 +18,7 @@ import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 public class WindowInfosContainer extends HashMap <Object, Object> {
 
   private static ThreadLocal threadLocal_ = new ThreadLocal();
+  private static HashMap map = new HashMap();
   private String id;
   private String owner;
   
@@ -38,19 +39,21 @@ public class WindowInfosContainer extends HashMap <Object, Object> {
   static public void setInstance(WindowInfosContainer scontainer) { threadLocal_.set(scontainer); }
 
   static public void createInstance(ExoContainer cnt, String id, String owner) {
-    String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + id;
-    if (cnt.getComponentInstance(key) != null)
-      threadLocal_.set(cnt.getComponentInstance(key));
+    String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + cnt.getContext().getName() + id;
+    if (map.get(key) != null)
+      threadLocal_.set(map.get(key));
     else {
       threadLocal_.set(new WindowInfosContainer(id, owner));
-      cnt.registerComponentInstance(key, threadLocal_.get());
+      map.put(key, threadLocal_.get());
     }
   }
 
   static public void removeInstance(ExoContainer cnt, String id) {
-    String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + id;
-    if (cnt.getComponentInstance(key) != null)
-      cnt.unregisterComponent(key);
+    String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + cnt.getContext().getName() + id;
+    if (map.get(key) != null)
+      map.remove(key);
+//    if (cnt.getComponentInstance(key) != null)
+//      cnt.unregisterComponent(key);
   }
 
 }
