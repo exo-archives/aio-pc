@@ -123,14 +123,9 @@ java weblogic.Deployer -adminurl t3://localhost:7001 -user weblogic -password xx
 
     * Deploy <portlet-container.ear> to WAS and start it
 
-    *
-
   3. Startup
 
     * EXO-PC sample application will be available at {{http://localhost:9080/portal}} - it's default address.
-
-  4. No include() functions work under WAS. IBM WebSphere's developers said that problem will be solved after fixpack that should be available soon.
-
 
 *---*
 <<Oracle AS 10g Release 3 (10.1.3.1.0) >>
