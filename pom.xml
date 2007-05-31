@@ -7,7 +7,6 @@
   <packaging>pom</packaging>
 
   <modules>
-    <module>maven2</module>
     <module>component/jsr168/api</module>
     <module>component/jsr168/impl</module>
     <module>component/wsrp/api</module>
