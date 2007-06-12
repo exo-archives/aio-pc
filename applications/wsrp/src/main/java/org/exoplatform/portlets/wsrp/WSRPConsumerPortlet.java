@@ -61,7 +61,7 @@ public class WSRPConsumerPortlet extends GenericPortlet {
   private PortletContainerService portletContainerService;
   private Log log;
   private URLTemplateComposer templateComposer;
-  private static boolean _init;
+  private static boolean init;
 
   public WSRPConsumerPortlet() {
 
@@ -135,6 +135,9 @@ public class WSRPConsumerPortlet extends GenericPortlet {
 
       BlockingInteractionResponse response = portletDriver.
           performBlockingInteraction(interactionRequest, userSession, userID);
+      
+      
+      
       if (response != null) {
         log.debug("manage BlockingInteractionResponse object content");
         UpdateResponse updateResponse = response.getUpdateResponse();
@@ -227,7 +230,7 @@ public class WSRPConsumerPortlet extends GenericPortlet {
   public void render(RenderRequest request, RenderResponse response)
       throws PortletException, IOException {
     try {
-      if(!_init){
+      if(!init){
         templateComposer.setHost(request.getServerName());
         templateComposer.setPort(request.getServerPort());
       }
@@ -385,7 +388,7 @@ public class WSRPConsumerPortlet extends GenericPortlet {
     consumerEnvironment.setConsumerAgent(portletConfig.getInitParameter("consumerAgent"));
     consumerEnvironment.setMimeTypes(mimeTypes);
     consumerEnvironment.setPortletStateChange(StateChange.readWrite);
-    consumerEnvironment.setSupportedModes(getModes(portletContainerService.getSupportedPortletModes()));
+    consumerEnvironment.setSupportedModes(getPortletModes(portletContainerService.getSupportedPortletModes()));
     consumerEnvironment.setSupportedWindowStates(getWindowStates(portletContainerService.getSupportedWindowStates()));
     consumerEnvironment.setUserAuthentication(WSRPConstants.NO_USER_AUTHENTIFICATION);
     consumerEnvironment.setSupportedLocales(SUPPORTED_LOCALES);
@@ -401,7 +404,7 @@ public class WSRPConsumerPortlet extends GenericPortlet {
     return array;
   }
 
-  private String[] getModes(Collection supportedPortletModes) {
+  private String[] getPortletModes(Collection supportedPortletModes) {
     String[] array = new String[supportedPortletModes.size()];
     int i = 0;
     for (Iterator iterator = supportedPortletModes.iterator(); iterator.hasNext(); i++) {
