@@ -37,17 +37,6 @@
       </object-param>
     </init-params>	
   </component>
-  <component>
-    <key>org.exoplatform.services.log.LogService</key>
-    <type>org.exoplatform.services.log.impl.LogServiceImpl</type>
-    <!--Valid value: FATAL, ERROR, WARN, INFO, DEBUG, TRACE-->
-      <init-params>
-		   <properties-param>
-		     <name>log.level.config</name>
-		     <property name="org.exoplatform.services.log" value="INFO"/>
-		   </properties-param>
-      </init-params>
-  </component>  
 	<component>
 		<type>org.exoplatform.services.xml.resolving.impl.simple.SimpleDirResolvingServiceImpl</type>
 	</component>

@@ -7,7 +7,7 @@ package org.exoplatform.services.wsrp.consumer.impl;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp.consumer.InteractionRequest;
@@ -76,8 +76,7 @@ public class PortletDriverImpl implements PortletDriver {
   public PortletDriverImpl(ExoContainer cont, WSRPPortlet portlet) throws WSRPException {
     this.consumerEnv = (ConsumerEnvironment) cont.
         getComponentInstanceOfType(ConsumerEnvironment.class);
-    this.log = ((LogService) cont.getComponentInstanceOfType(LogService.class)).
-        getLog("org.exoplatform.services.wsrp.consumer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp.consumer");
     this.portlet = portlet;
     this.producer = consumerEnv.getProducerRegistry().
         getProducer(portlet.getPortletKey().getProducerId());

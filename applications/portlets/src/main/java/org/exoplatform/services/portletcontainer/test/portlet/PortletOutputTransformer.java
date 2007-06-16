@@ -59,21 +59,7 @@ public class PortletOutputTransformer {
     public static final String HTML_URL_REWRITE_STYLE =
             Constants.XSLT_DIR + "/html-url-rewite.xsl";
 
-
-
-
-
-
     private static TRAXTemplates templates;
-
-
-//    public URLRewriter() {
-//        LogService logService = (LogService) PortalContainer.getInstance().
-//                                getComponentInstanceOfType(LogService.class);
-//        log = logService.getLog(this.getClass());
-//        log = LogFactory.getLog(this.getClass());
-//    }
-
 
     protected TRAXTemplates getTemplates() throws
             TransformerException, IOException {
@@ -113,9 +99,6 @@ public class PortletOutputTransformer {
                 (HTMLTransformerService) ExoContainerContext.getTopContainer().
                 getComponentInstanceOfType(HTMLTransformerService.class);
 
-//System.out.println("URLRewriterNew.rewrite htmlService is null? - " +
-//                  (htmlService == null));
-
         HTMLTransformer htmlTransformer = htmlService.getTransformer();
         TRAXTransformer traxTransformer = getTemplates().newTransformer();
 
@@ -125,17 +108,6 @@ public class PortletOutputTransformer {
         traxTransformer.setParameter(PORTAL_CONTEXT_PATH,portalContextPath );
         traxTransformer.setParameter(PORTAL_QUERY_STRING,portalQueryString );
         traxTransformer.setParameter(PARAM_NAMESPACE,paramNamespace );
-
-//        S ystem.out.println("org.exoplatform.portlet.commons.URLRewriter");
-//System.out.println("-\\/------------  xsl params ----------------");
-//System.out.println("portalURI [" +portalURI + "]" );
-//System.out.println("portletURI [" +portletURI + "]" );
-//System.out.println("portalContextPath [" +portalContextPath + "]" );
-//System.out.println("portalQueryString [" +portalQueryString + "]" );
-//System.out.println("paramNamespace [" +paramNamespace + "]" );
-//System.out.println("-/\\------------  xsl params ----------------");
-
-
 
         try {
             htmlTransformer.initResult(traxTransformer.getTransformerAsResult());

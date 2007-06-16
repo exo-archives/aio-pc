@@ -14,7 +14,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.model.*;
 
 
@@ -35,9 +35,9 @@ public class PortletApplicationsHolder {
   private Map portletApps;
   private Log log;
 
-  public PortletApplicationsHolder(LogService logService) {
+  public PortletApplicationsHolder() {
     this.portletApps = new HashMap();
-    this.log = logService.getLog("org.exoplatform.services.portletcontainer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
   public void start() {

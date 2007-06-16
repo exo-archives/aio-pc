@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
@@ -63,10 +63,9 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
   private WSRPPortletPreferencesPersister persister;
 
   public JSR168ContainerProxyImpl(PortletContainerService service,
-                                  WSRPConfiguration conf,
-                                  LogService logService) {
+                                  WSRPConfiguration conf) {
     service_ = service;
-    this.log = logService.getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     this.conf = conf;
     this.persister = WSRPPortletPreferencesPersister.getInstance();
   }

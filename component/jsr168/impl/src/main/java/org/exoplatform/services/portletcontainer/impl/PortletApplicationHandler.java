@@ -26,7 +26,6 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.LogService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
@@ -76,7 +75,6 @@ public class PortletApplicationHandler {
   public PortletApplicationHandler(PortalContext portalContext,
                                    PortletApplicationsHolder holder,
                                    PortletContainerConf conf,
-                                   LogService logService,
                                    PortletContainerMonitorImpl portletMonitor,
                                    ResourceBundleManager manager,
                                    ExoContainerContext context) {
@@ -86,7 +84,6 @@ public class PortletApplicationHandler {
     this.monitor = portletMonitor;
     this.resourceBundleManager= manager;
     this.cont = context.getContainer();
-//    log_ = logService.getLog("org.exoplatform.services.portletcontainer");
   }
 
   public void process(ServletContext servletContext, HttpServletRequest request,

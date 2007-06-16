@@ -25,7 +25,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.portletcontainer.pci.*;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
@@ -70,11 +70,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                        TransientStateManager transientStateManager,
                                        PortletContainerProxy container,
                                        WSRPConfiguration conf,
-                                       OrganizationService orgService,
-                                       LogService logService) {
+                                       OrganizationService orgService) {
     this.portletManagementOperationsInterface = portletManagementOperationsInterface;
     this.container = container;
-    this.log = logService.getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     this.conf = conf;
     this.persitentStateManager = persitentStateManager;
     this.transientStateManager = transientStateManager;

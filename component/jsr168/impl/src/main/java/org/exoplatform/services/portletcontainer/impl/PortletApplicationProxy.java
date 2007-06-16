@@ -15,7 +15,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.impl.monitor.PortletContainerMonitorImpl;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletConfigImp;
 import org.exoplatform.services.portletcontainer.pci.model.*;
@@ -46,12 +46,11 @@ public class PortletApplicationProxy implements Startable{
 
   public PortletApplicationProxy(ExoContainerContext context,
                                  PortletApplicationsHolder holder,
-                                 PortletContainerMonitorImpl monitor,
-                                 LogService logService) {
+                                 PortletContainerMonitorImpl monitor) {
 		this.holder_ = holder;
     this.monitor_ = monitor;
     configs_ = new HashMap();
-    this.log_ = logService.getLog("org.exoplatform.services.portletcontainer");
+    this.log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     pico_ = new DefaultPicoContainer(context.getContainer());
 	}
 

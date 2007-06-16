@@ -18,7 +18,7 @@ import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.impl.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.helpers.CustomRequestWrapper;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.helpers.CustomResponseWrapper;
@@ -44,8 +44,7 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
     this.dispatcher = dispatcher;
     this.path = path;
     this.cont = cont;
-    this.log = ((LogService) cont.getComponentInstanceOfType(LogService.class)).
-        getLog("org.exoplatform.services.portletcontainer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
   public void include(RenderRequest request, RenderResponse response)

@@ -17,7 +17,7 @@ import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
 
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.ActionRequestImp;
@@ -76,20 +76,12 @@ public class WSRPConsumerPortlet extends GenericPortlet {
 
     this.consumerEnvironment =      (ConsumerEnvironment)     container.getComponentInstanceOfType(ConsumerEnvironment.class);
     this.portletContainerService =  (PortletContainerService) container.getComponentInstanceOfType(PortletContainerService.class);
-    this.log =                      ((LogService)             container.getComponentInstanceOfType(LogService.class)).getLog(getClass());
+    this.log =                      ExoLogger.getLogger(getClass());
     this.templateComposer =         (URLTemplateComposer)     container.getComponentInstanceOfType(URLTemplateComposer.class);
   }
 
   public void init(PortletConfig portletConfig) throws PortletException {
     super.init(portletConfig);
-/*    
-    contextPath = portletConfig.getPortletContext().getPortletContextName();
-    defaultPage = portletConfig.getInitParameter("default-page");
-    for (Enumeration e = portletConfig.getInitParameterNames(); e.hasMoreElements();) {
-      String n = (String) e.nextElement();
-    }
-    ownerUri = contextPath;
-*/    
     wsrpConfigModeHandler_  =
       new WSRPConfigModeHandler(portletConfig, consumerEnvironment, log);
     initConsumer(portletConfig);

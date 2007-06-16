@@ -26,8 +26,6 @@ import org.apache.commons.lang.UnhandledException;
 import org.exoplatform.services.wsrp.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp.consumer.Producer;
 import org.exoplatform.services.wsrp.consumer.ProducerRegistry;
-//import org.exoplatform.services.log.LogService;
-//import org.exoplatform.services.wsrp.*;
 import org.exoplatform.services.wsrp.type.CookieProtocol;
 import org.exoplatform.services.wsrp.type.LocalizedString;
 import org.exoplatform.services.wsrp.type.MarkupType;
@@ -41,9 +39,6 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
 //import org.exoplatform.services.portletcontainer.test.filters;
 
 import org.exoplatform.container.*; 
-
-import org.exoplatform.services.log.LogService;
-import org.apache.commons.logging.Log;
 
 public class WSRPAdminPortlet extends GenericPortlet {
 
@@ -62,7 +57,6 @@ public class WSRPAdminPortlet extends GenericPortlet {
 
   private ConsumerEnvironment consumerEnvironment_;   
   protected PortletContext context;
-  //private Log log;
   
   public void init(PortletConfig config) throws PortletException, UnhandledException {
     super.init(config);
@@ -79,7 +73,6 @@ public class WSRPAdminPortlet extends GenericPortlet {
         container = ExoContainerContext.getTopContainer();
       }
       
-      //this.log = ((LogService)PortalContainer.getInstance().getComponentInstanceOfType(LogService.class)).getLog(getClass());
       this.consumerEnvironment_ = (ConsumerEnvironment) container.getComponentInstanceOfType(ConsumerEnvironment.class);
       PortletContainerService portletContainer = (PortletContainerService) container.getComponentInstanceOfType(PortletContainerService.class);
 

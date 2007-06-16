@@ -16,7 +16,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.configuration.ConfigurationException;
 import org.exoplatform.services.database.HibernateService;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.consumer.Producer;
 import org.exoplatform.services.wsrp.consumer.ProducerRegistry;
 import org.hibernate.Session;
@@ -42,10 +42,9 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   private Log log_;
   protected ExoContainer cont;
 
-  public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService,
-                              LogService lservice) throws ConfigurationException {
+  public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService) throws ConfigurationException {
     hservice_ = dbService ;
-    log_ = lservice.getLog("org.exoplatform.services.wsrp");
+    log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     cont = ctx.getContainer();
     producers = loadProducers();
     lastModifiedTime_ = System.currentTimeMillis();

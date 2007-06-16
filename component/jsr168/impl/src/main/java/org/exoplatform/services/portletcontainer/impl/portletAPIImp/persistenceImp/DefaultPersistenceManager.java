@@ -11,7 +11,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.impl.PortletApplicationProxy;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletPreferencesImp;
@@ -33,8 +33,8 @@ public class DefaultPersistenceManager implements PersistenceManager {
   private Log log_;
   protected ExoContainer cont;
 
-  public DefaultPersistenceManager(LogService lservice, ExoContainerContext context) throws Exception {
-    log_ = lservice.getLog("org.exoplatform.services.portletcontainer");
+  public DefaultPersistenceManager(ExoContainerContext context) throws Exception {
+    log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     cont = context.getContainer();
   }
 

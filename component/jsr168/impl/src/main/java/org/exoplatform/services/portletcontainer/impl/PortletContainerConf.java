@@ -17,7 +17,7 @@ import javax.portlet.WindowState;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.config.ConfigurationService;
 import org.exoplatform.services.config.ConfigurationServiceImpl;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.impl.config.*;
 import org.exoplatform.services.portletcontainer.pci.*;
 import org.exoplatform.container.configuration.*;
@@ -57,32 +57,17 @@ public class PortletContainerConf {
   private boolean isBundleLookupDelegated;
   
   
-  public PortletContainerConf(InitParams params, ConfigurationManager cmanager, 
-                              LogService logService) {
+  public PortletContainerConf(InitParams params, ConfigurationManager cmanager) {
     try {
       ObjectParameter param2 = params.getObjectParam("conf");
       containerConfs = (PortletContainer) param2.getObject();
       init();
     } catch (Exception e) {
-      Log log = logService.getLog("org.exoplatform.services.portletcontainer");
+      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error(" -- PortletContainerConf.<init>: " + e);
     }
   }
   
-  /*
-  public PortletContainerConf(InitParams params, LogService logService) {
-    try {
-      ValueParam param = params.getValueParam("conf-path");
-      ConfigurationManagerImpl configImpl = null;
-      InputStream is = configImpl.getInputStream((String)param.getValue());      
-      containerConfs = XMLParser.parse(is) ;
-      init();                        
-    } catch (Exception e) {
-      Log log = logService.getLog("org.exoplatform.services.portletcontainer");
-      log.error(e);
-    }
-  }
-  */
   private void init() {
     String c = containerConfs.getCache().getEnable();
     if ("true".equals(c))

@@ -8,7 +8,7 @@ package org.exoplatform.services.portletcontainer.impl.servlet;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.impl.PortletApplicationHandler;
@@ -49,10 +49,9 @@ public class ServletWrapper extends HttpServlet{
     
     ExoContainer manager = ExoContainerContext.getContainerByName((String) servletRequest.getAttribute(PortletContainerDispatcher.CONTAINER));
     
-    LogService logService = (LogService) manager.getComponentInstanceOfType(LogService.class);
     PortletApplicationHandler handler = (PortletApplicationHandler) manager.
         getComponentInstanceOfType(PortletApplicationHandler.class);
-    Log log = logService.getLog("org.exoplatform.services.portletcontainer");    
+    Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");    
     log.debug("Service method of ServletWrapper entered");
     log.debug("Encoding used : " + servletRequest.getCharacterEncoding());
     if (servletRequest.getAttribute(PortletContainerDispatcher.ATTRS) != null) {

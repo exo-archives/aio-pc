@@ -121,8 +121,6 @@ public class BaseTest extends TestCase {
 
   public void setUp() throws Exception {                    
     RootContainer.getInstance();
-    LogUtil.setLevel("org.exoplatform.services.wsrp", org.exoplatform.services.log.LogService.DEBUG , true) ;
-    LogUtil.setLevel("org.exoplatform.services.database", org.exoplatform.services.log.LogService.DEBUG , true) ;
     if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
       PortalContainer manager = PortalContainer.getInstance();
 //      manager.getComponentInstanceOfType(PortalConfigService.class);

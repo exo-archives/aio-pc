@@ -21,7 +21,6 @@ import javax.xml.xpath.XPathFactory;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-//import org.exoplatform.services.log.LogService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
@@ -41,7 +40,6 @@ import org.w3c.dom.NodeList;
 public class PortletApplicationListener implements ServletContextListener {
   public void contextInitialized(ServletContextEvent servletContextEvent) {
     ExoContainer manager = ExoContainerContext.getTopContainer();
-//    LogService lservice = (LogService)manager.getComponentInstanceOfType(LogService.class) ;
     Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     
     String webXMLFile = "/WEB-INF/web.xml";
@@ -114,7 +112,6 @@ public class PortletApplicationListener implements ServletContextListener {
   public void contextDestroyed(ServletContextEvent servletContextEvent) {
     ServletContext servletContext = servletContextEvent.getServletContext();
     ExoContainer manager = ExoContainerContext.getTopContainer();
-//    LogService lservice = (LogService)manager.getComponentInstanceOfType(LogService.class) ;
     Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     log.info("UNDEPLOY PORTLET APPLICATION: " + servletContext.getServletContextName());    
     try {

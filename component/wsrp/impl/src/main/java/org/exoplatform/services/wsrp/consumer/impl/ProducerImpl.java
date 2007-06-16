@@ -13,7 +13,7 @@ import javax.xml.rpc.ServiceException;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.consumer.Producer;
 import org.exoplatform.services.wsrp.exceptions.Faults;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
@@ -68,8 +68,7 @@ public class ProducerImpl implements Producer , java.io.Serializable {
     service = (WSRPService) cont.
         getComponentInstanceOfType(WSRPService.class);
     ((WSRPServiceLocator)service).setMaintainSession(true);
-    this.log = ((LogService) cont.
-        getComponentInstanceOfType(LogService.class)).getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
   }
 
   public String[] getDesiredLocales() {

@@ -24,7 +24,7 @@ import javax.servlet.http.HttpSession;
 import org.apache.commons.logging.Log;
 import org.exoplatform.commons.map.AbstractMap;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.impl.portletAPIImp.utils.PortletSessionImpUtil;
 
 public class PortletSessionImp extends AbstractMap implements PortletSession {  
@@ -39,8 +39,7 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
 
   public PortletSessionImp(ExoContainer cont) {
     this.cont = cont;
-    this.log = ((LogService)cont.getComponentInstanceOfType(LogService.class)).
-        getLog("org.exoplatform.services.portletcontainer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
 	public void fillPortletSession(HttpSession session,

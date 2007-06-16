@@ -10,7 +10,7 @@ import java.rmi.RemoteException;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp.exceptions.Faults;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
@@ -33,10 +33,9 @@ public class RegistrationOperationsInterfaceImp
 
   private PersistentStateManager stateManager;
 
-  public RegistrationOperationsInterfaceImp(PersistentStateManager stateManager,
-                                            LogService logService) {
+  public RegistrationOperationsInterfaceImp(PersistentStateManager stateManager) {
     this.stateManager = stateManager;
-    this.log = logService.getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
   }
 
   public RegistrationContext register(RegistrationData data)

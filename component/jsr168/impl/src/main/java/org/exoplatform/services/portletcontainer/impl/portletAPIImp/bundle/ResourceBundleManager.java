@@ -15,7 +15,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.bundle.ResourceBundleDelegate;
 import org.exoplatform.services.portletcontainer.impl.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
@@ -35,12 +35,12 @@ public class ResourceBundleManager {
   private Log log_;
   protected ExoContainer cont;
 
-  public ResourceBundleManager(PortletContainerConf conf,  LogService logService,
+  public ResourceBundleManager(PortletContainerConf conf,
                                CacheService cacheService,
                                ExoContainerContext context) throws Exception {
     this.conf = conf;
     this.cache = cacheService.getCacheInstance(getClass().getName());
-    log_ = logService.getLog("org.exoplatform.services.portletcontainer");
+    log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cont = context.getContainer();
   }
 

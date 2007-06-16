@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.consumer.URLGenerator;
 import org.exoplatform.services.wsrp.consumer.URLRewriter;
@@ -35,9 +35,9 @@ public class URLRewriterImpl implements URLRewriter {
   private URLGenerator urlGenerator;
   private Log log;
 
-  public URLRewriterImpl(URLGenerator urlGenerator, LogService logService) {
+  public URLRewriterImpl(URLGenerator urlGenerator) {
     this.urlGenerator = urlGenerator;
-    this.log = logService.getLog("org.exoplatform.services.wsrp.consumer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp.consumer");
   }
 
   public String rewriteURLs(String path, String markup) throws WSRPException {

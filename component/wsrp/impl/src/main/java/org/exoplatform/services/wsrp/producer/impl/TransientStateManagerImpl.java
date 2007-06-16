@@ -13,7 +13,7 @@ import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.container.SessionManagerContainer;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp.WSRPConstants;
@@ -42,9 +42,9 @@ public class TransientStateManagerImpl implements TransientStateManager {
   private WSRPConfiguration conf;
   protected ExoContainer cont;
 
-  public TransientStateManagerImpl(ExoContainerContext ctx, LogService logService, CacheService cacheService,
+  public TransientStateManagerImpl(ExoContainerContext ctx, CacheService cacheService,
                                    WSRPConfiguration conf) {
-    this.log = logService.getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     this.conf = conf;
     try {
       cache = cacheService.getCacheInstance(WSRPConstants.WSRP_CACHE_REGION);

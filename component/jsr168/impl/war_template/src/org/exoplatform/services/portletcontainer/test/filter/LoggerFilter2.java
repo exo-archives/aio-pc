@@ -1,6 +1,6 @@
 package org.exoplatform.services.portletcontainer.test.filter;
 
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.filter.PortletFilter;
 import org.exoplatform.services.portletcontainer.filter.PortletFilterConfig;
 import org.exoplatform.services.portletcontainer.filter.PortletFilterChain;
@@ -26,12 +26,10 @@ import org.apache.commons.logging.Log;
  */
 public class LoggerFilter2 implements PortletFilter{
 
-	private LogService logService;
 	private Log log;
 
-	public LoggerFilter2(LogService logService) {
-		this.logService = logService;
-		log = logService.getLog("org.exoplatform.portal.container");
+	public LoggerFilter2() {
+		log = ExoLogger.getLogger("org.exoplatform.portal.container");
 	}
 
 	public void init(PortletFilterConfig portletFilterConfig) throws PortletException {

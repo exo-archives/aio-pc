@@ -21,9 +21,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 
 
 public class NestedResponseWrapper extends HttpServletResponseWrapper {
@@ -34,7 +33,7 @@ public class NestedResponseWrapper extends HttpServletResponseWrapper {
   private CharArrayWriter charArrayWriter;
   private boolean writerAlreadyCalled;
   private boolean outputStreamAlreadyCalled;
-  private static Log log = LogFactory.getLog(CustomResponseWrapper.class);
+  private static Log log = ExoLogger.getLogger(CustomResponseWrapper.class);
 
   public NestedResponseWrapper(HttpServletResponse httpServletResponse) {
     super(httpServletResponse);

@@ -16,7 +16,7 @@ import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.database.HibernateService;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.exceptions.Faults;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
 import org.exoplatform.services.wsrp.producer.PersistentStateManager;
@@ -45,12 +45,12 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   private ExoCache cache;
   private HibernateService hservice;
 
-  public PersistentStateManagerImpl(CacheService cacheService, LogService logService,
+  public PersistentStateManagerImpl(CacheService cacheService,
                                     HibernateService hservice,
                                     WSRPConfiguration conf) throws Exception {
     this.conf = conf;
     this.hservice = hservice ;
-    this.log = logService.getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
   }

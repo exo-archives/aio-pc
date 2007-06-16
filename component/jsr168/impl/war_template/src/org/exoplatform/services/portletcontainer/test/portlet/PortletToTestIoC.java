@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 
 /**
  * Copyright 2001-2003 The eXo platform SARL All rights reserved.
@@ -22,12 +22,10 @@ import org.exoplatform.services.log.LogService;
  */
 public class PortletToTestIoC extends GenericPortlet{
 
-	private LogService logService;
 	private Log log;
 
-	public PortletToTestIoC(LogService logService) {
-		this.logService = logService;
-		log = logService.getLog("org.exoplatform.portal.container");
+	public PortletToTestIoC() {
+		log = ExoLogger.getLogger("org.exoplatform.portal.container");
 	}
 
 	public void init(PortletConfig portletConfig) throws PortletException {

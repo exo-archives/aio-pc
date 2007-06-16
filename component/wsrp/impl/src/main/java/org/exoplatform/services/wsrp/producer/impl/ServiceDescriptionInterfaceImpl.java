@@ -5,7 +5,7 @@
 package org.exoplatform.services.wsrp.producer.impl;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.*;
 import org.exoplatform.services.wsrp.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp.producer.ServiceDescriptionInterface;
@@ -31,11 +31,10 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
   private Log log;
 
   public ServiceDescriptionInterfaceImpl(PortletContainerProxy container,
-                                         WSRPConfiguration conf,
-                                         LogService logService) {
+                                         WSRPConfiguration conf) {
     this.container = container;
     this.conf = conf;
-    this.log = logService.getLog("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
   }
 
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,

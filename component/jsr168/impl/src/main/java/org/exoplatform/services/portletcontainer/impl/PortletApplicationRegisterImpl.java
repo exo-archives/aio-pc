@@ -17,7 +17,7 @@ import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.component.ComponentPlugin;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.*;
 import org.exoplatform.services.portletcontainer.pci.model.*;
 
@@ -28,19 +28,16 @@ import org.exoplatform.services.portletcontainer.pci.model.*;
 public class PortletApplicationRegisterImpl implements PortletApplicationRegister {
   
   private Collection listeners_;
-  private LogService logService_;
   private Log log;
   private PortletApplicationsHolder holder_;
   protected ExoContainer cont;
   protected ExoContainer appcont;
   
   public PortletApplicationRegisterImpl(ExoContainerContext context,
-                                        PortletApplicationsHolder holder,
-                                        LogService logService) {
-    logService_ = logService ;
+                                        PortletApplicationsHolder holder) {
     listeners_ = new ArrayList();
     holder_ = holder;    
-    this.log = logService_.getLog(getClass());
+    this.log = ExoLogger.getLogger(getClass());
     cont = context.getContainer();
     appcont = ExoContainerContext.getTopContainer();
   }   

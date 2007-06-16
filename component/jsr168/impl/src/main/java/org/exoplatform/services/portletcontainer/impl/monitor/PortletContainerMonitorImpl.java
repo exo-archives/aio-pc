@@ -7,7 +7,7 @@ package org.exoplatform.services.portletcontainer.impl.monitor;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConstants;
 import org.exoplatform.services.portletcontainer.monitor.*;
 
@@ -35,8 +35,8 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
   private ExoCache globalCache_;
   private CacheService cacheService_;
 
-  public PortletContainerMonitorImpl(LogService logService, CacheService cacheService) throws Exception {
-    this.log_ = logService.getLog("org.exoplatform.services.portletcontainer");
+  public PortletContainerMonitorImpl(CacheService cacheService) throws Exception {
+    this.log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cacheService_ = cacheService;
     globalCache_ = cacheService.getCacheInstance(PortletContainerConstants.GLOBAL_SCOPE_CACHE);
     runtimeDatas_ = Collections.synchronizedMap(new HashMap());

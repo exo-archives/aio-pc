@@ -38,16 +38,6 @@
     </init-params>
   </component>
   <component>
-    <key>org.exoplatform.services.log.LogService</key>
-    <type>org.exoplatform.services.log.impl.LogServiceImpl</type>
-      <init-params>
-       <properties-param>
-         <name>log.level.config</name>
-         <property name="org.exoplatform.services.log" value="INFO"/>
-       </properties-param>
-      </init-params>
-  </component>
-  <component>
     <key>org.exoplatform.services.database.HibernateService</key>
     <type>org.exoplatform.services.database.impl.HibernateServiceImpl</type>
     <init-params>

@@ -31,7 +31,7 @@ import org.exoplatform.commons.Environment;
 import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
@@ -73,13 +73,12 @@ public class PortletContainerDispatcher {
   public PortletContainerDispatcher(PortletContainerConf containerConf,
                                     PersistenceManager manager, PortletApplicationsHolder holder,
                                     PortletApplicationHandler standAloneHandler,
-                                    LogService logService,
                                     ExoContainerContext context) {
     portletApplications = holder;
     this.containerConf = containerConf;
     this.manager = manager;
     this.standAloneHandler = standAloneHandler;
-    this.log = logService.getLog("org.exoplatform.services.portletcontainer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cont = context.getContainer();
   }
 

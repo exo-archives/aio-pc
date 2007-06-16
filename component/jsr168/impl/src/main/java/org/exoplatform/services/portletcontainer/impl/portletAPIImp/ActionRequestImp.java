@@ -19,7 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.log.LogService;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.impl.PortletApplicationHandler;
 
 import java.io.InputStream;
@@ -41,9 +41,7 @@ public class ActionRequestImp extends PortletRequestImp
   public ActionRequestImp(ExoContainer cont, HttpServletRequest httpServletRequest) {
     super(cont, httpServletRequest);
     this.enc = httpServletRequest.getCharacterEncoding();
-    LogService logService = (LogService) cont.
-    getComponentInstanceOfType(LogService.class);
-    log_ = logService.getLog("org.exoplatform.services.portletcontainer");        
+    log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");        
   }
 
   public void init() {
