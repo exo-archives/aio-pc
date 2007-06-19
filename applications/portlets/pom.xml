@@ -48,33 +48,6 @@
       <version>2.3</version>
       <scope>compile</scope>
     </dependency>
-
-  <!--Dependency for the JCRBasicActionsTestPortlet
-    uncomment it if you want to run JCRBasicActionsTestPortlet, you
-    need uncomment <portlet> tag in portlets\src\webapp\WEB-INF\portlets.xml
-    and look on the repository configuration in test-portal\src\java\conf\exo-configuration.xml-->
-  <!--
-  <dependency>
-      <groupId>exo-jcr</groupId>
-      <artifactId>exo-jcr.services.jcr.api</artifactId>
-      <version>${exo.jcr.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.container</artifactId>
-      <version>${exo.platform.version}</version>
-      <scope>provided</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-jcr</groupId>
-      <artifactId>exo-jcr.services.jcr.impl</artifactId>
-      <version>${exo.jcr.version}</version>
-      <scope>provided</scope>
-    </dependency>
-  -->
   </dependencies>
 
   <build>

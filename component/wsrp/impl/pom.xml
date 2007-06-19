@@ -65,12 +65,6 @@
       <version>${exo.portlet-container.version}</version>
     </dependency>
 
-    <!-- dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.services.portal.api</artifactId>
-      <version>${exo.portal.version}</version>
-    </dependency -->
-
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.component.cache</artifactId>
@@ -134,24 +128,6 @@
       <artifactId>exo.pc.component.jsr168.impl</artifactId>
       <version>${exo.portlet-container.version}</version>
     </dependency>
-
-    <!-- dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.templates.api</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.templates.impl</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.test.framework</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency -->
   </dependencies>
 
   <properties>
@@ -159,10 +135,6 @@
   </properties>
 
   <build>
-    <!-- sourceDirectory>src/java</sourceDirectory>
-    <outputDirectory>target/classes</outputDirectory -->
-    
-    <!-- testSourceDirectory>src/test</testSourceDirectory -->
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>

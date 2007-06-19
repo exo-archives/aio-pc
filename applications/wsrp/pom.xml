@@ -16,28 +16,6 @@
 
 <!-- ****************************************************************** -->
 
-<!--
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.jsf.core-components</artifactId>
-      <version>${exo.portal.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.jsf.exo-components</artifactId>
-      <version>${exo.portal.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.jsf.jsf-ri.jsf</artifactId>
-      <version>${exo.portlet-container.version}</version>
-    </dependency>
--->
-
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.jsr168.api</artifactId>
@@ -65,72 +43,6 @@
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
-
-
-<!-- ****************************************************************** -->
-
-<!--
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portal.api</artifactId>
-      <version>${exo.portal.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portal.log</artifactId>
-      <version>${exo.portal.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portal.skin</artifactId>
-      <version>${exo.portal.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portal.community</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portal.config</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portal.jsf</artifactId>
-      <version>${exo.portal.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.portlet-framework.commons</artifactId>
-      <version>${exo.portal.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-portal</groupId>
-      <artifactId>exo-portal.webui.core</artifactId>
-      <version>1.3</version>
-    </dependency>
-
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.common.api</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>exo-platform</groupId>
-      <artifactId>exo-platform.services.common.impl</artifactId>
-      <version>${exo.platform.version}</version>
-    </dependency>
-  -->
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>

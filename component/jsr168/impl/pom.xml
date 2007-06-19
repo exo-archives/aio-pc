@@ -106,17 +106,6 @@
   </properties>
 
   <build>
-    <!-- resources>
-      <resource>
-        <directory>src/java</directory>
-        <includes>
-          <include>**/*.properties</include>
-          <include>**/*.xml</include>
-          <include>**/*.tld</include>
-        </includes>
-      </resource>
-    </resources -->
-    <!-- testSourceDirectory>src/test</testSourceDirectory -->
     <plugins>
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
