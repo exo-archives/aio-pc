@@ -1,2 +1,2 @@
-call mvn clean exo:pc -Ddeploy=ear
+call mvn clean exopc:deploy -Ddeploy=ear
 pause null
