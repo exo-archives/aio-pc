@@ -10,7 +10,7 @@ package org.exoplatform.services.wsrp.producer;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.RegistrationState;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 
 /**
  * @author  Mestrallet Benjamin
@@ -24,6 +24,6 @@ public interface RegistrationOperationsInterface {
                                               RegistrationData data) 
     throws java.rmi.RemoteException;
     
-  public ReturnAny deregister(RegistrationContext context) 
+  public Extension[] deregister(RegistrationContext context) 
     throws java.rmi.RemoteException;
 }

@@ -27,7 +27,7 @@ import org.exoplatform.services.wsrp.type.MissingParametersFault;
 import org.exoplatform.services.wsrp.type.OperationFailedFault;
 import org.exoplatform.services.wsrp.type.PortletStateChangeRequiredFault;
 import org.exoplatform.services.wsrp.type.ReleaseSessionsRequest;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 import org.exoplatform.services.wsrp.type.UnsupportedLocaleFault;
 import org.exoplatform.services.wsrp.type.UnsupportedMimeTypeFault;
 import org.exoplatform.services.wsrp.type.UnsupportedModeFault;
@@ -76,14 +76,14 @@ public class WSRP_v1_Markup_Binding_SOAPImpl implements WSRP_v1_Markup_PortType{
                                                                 blockingInteractionRequest.getInteractionParams());
   }
 
-  public ReturnAny releaseSessions(ReleaseSessionsRequest releaseSessionsRequest)
+  public Extension[] releaseSessions(ReleaseSessionsRequest releaseSessionsRequest)
     throws RemoteException, InvalidRegistrationFault, OperationFailedFault, 
            MissingParametersFault, AccessDeniedFault {
     return markupOperationsInterface.releaseSessions(releaseSessionsRequest.getRegistrationContext(),
                                                      releaseSessionsRequest.getSessionIDs());
   }
 
-  public ReturnAny initCookie(InitCookieRequest initCookie) 
+  public Extension[] initCookie(InitCookieRequest initCookie) 
     throws RemoteException, InvalidRegistrationFault, 
            OperationFailedFault, AccessDeniedFault {             
     return markupOperationsInterface.initCookie(initCookie.getRegistrationContext());

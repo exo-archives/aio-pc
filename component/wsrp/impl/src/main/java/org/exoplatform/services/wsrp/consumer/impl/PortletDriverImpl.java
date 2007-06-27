@@ -48,7 +48,7 @@ import org.exoplatform.services.wsrp.type.PortletPropertyDescriptionResponse;
 import org.exoplatform.services.wsrp.type.PropertyList;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.ReleaseSessionsRequest;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 import org.exoplatform.services.wsrp.type.RuntimeContext;
 import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
@@ -368,7 +368,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public ReturnAny releaseSessions(String[] sessionIDs,
+  public Extension[] releaseSessions(String[] sessionIDs,
                                    UserSessionMgr userSession)
       throws WSRPException {
     checkInitCookie(userSession);
@@ -378,7 +378,7 @@ public class PortletDriverImpl implements PortletDriver {
       request.setRegistrationContext(regCtx);
     }
     request.setSessionIDs(sessionIDs);
-    ReturnAny response = null;
+    Extension[] response = null;
     try {
       response = markupPort.releaseSessions(request);
     } catch (java.rmi.RemoteException wsrpFault) {

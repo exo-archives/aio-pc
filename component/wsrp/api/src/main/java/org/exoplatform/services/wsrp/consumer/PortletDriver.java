@@ -59,7 +59,7 @@ public interface PortletDriver {
    * Inform the producer that the sessions specified in the sessionIDs array
    * will no longer be used by the consumer and can therefor be released.
    */
-  public ReturnAny releaseSessions(String[] sessionIDs,
+  public Extension[] releaseSessions(String[] sessionIDs,
                                    UserSessionMgr userSession)
       throws WSRPException;
 

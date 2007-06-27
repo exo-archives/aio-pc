@@ -212,7 +212,7 @@ public interface Producer {
    *
    * @return Can be anything
    */
-  public ReturnAny deregister() throws WSRPException;
+  public Extension[] deregister() throws WSRPException;
 
   /**
    * Check wether the optional registration interface is supported

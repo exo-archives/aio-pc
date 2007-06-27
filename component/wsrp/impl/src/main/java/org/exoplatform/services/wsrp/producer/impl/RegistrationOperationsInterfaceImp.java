@@ -19,7 +19,7 @@ import org.exoplatform.services.wsrp.producer.RegistrationOperationsInterface;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.RegistrationState;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 
 
 /**
@@ -87,8 +87,9 @@ public class RegistrationOperationsInterfaceImp
     return new RegistrationState();//the state is kept in the producer (not send to the consumer)
   }
 
-  public ReturnAny deregister(RegistrationContext registrationContext)
+  public Extension[] deregister(RegistrationContext registrationContext)
       throws RemoteException {
+    Extension[] any = null;
     log.debug("Deregister method entered");
     try {
       if (!stateManager.isRegistered(registrationContext)) {
@@ -103,7 +104,7 @@ public class RegistrationOperationsInterfaceImp
       log.debug("Registration failed", e);
       Exception2Fault.handleException(e);
     }
-    return new ReturnAny();
+    return any;
   }
 
   private void validateRegistrationDatas(RegistrationData data)

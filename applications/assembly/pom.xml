@@ -125,7 +125,7 @@
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
             exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jotm, jotm_jrmp_stubs, log4j, quartz, soap, velocity
+            jotm, jotm_jrmp_stubs, log4j, quartz, soap, velocity, naming-core, naming-java
           </excludeProjects>
         </configuration>
       </plugin>

@@ -399,20 +399,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
   }
 
-  public ReturnAny initCookie(RegistrationContext registrationContext)
+  public Extension[] initCookie(RegistrationContext registrationContext)
       throws RemoteException {
+    Extension[] any = null;
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
       if (registrationContext == null) {
         Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
       }
     }
-    return new ReturnAny();
+    return any;
   }
 
-  public ReturnAny releaseSessions(RegistrationContext registrationContext,
+  public Extension[] releaseSessions(RegistrationContext registrationContext,
                                    String[] sessionIDs)
       throws RemoteException {
+    Extension[] any = null;
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
       if (registrationContext == null) {
@@ -422,7 +424,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     for (int i = 0; i < sessionIDs.length; i++) {
       transientStateManager.releaseSession(sessionIDs[i]);
     }
-    return new ReturnAny();
+    return any;
   }
 
   private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws RemoteException {

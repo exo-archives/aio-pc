@@ -18,7 +18,7 @@ import org.exoplatform.services.wsrp.type.OperationFailedFault;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.RegistrationState;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 
 
 
@@ -39,7 +39,7 @@ public class WSRP_v1_Registration_Binding_SOAPImpl implements WSRP_v1_Registrati
     return registrationOperationsInterface.register(data);
   }
 
-  public ReturnAny deregister(RegistrationContext context) throws RemoteException, InvalidRegistrationFault, OperationFailedFault {
+  public Extension[] deregister(RegistrationContext context) throws RemoteException, InvalidRegistrationFault, OperationFailedFault {
     return registrationOperationsInterface.deregister(context);    
   }
 

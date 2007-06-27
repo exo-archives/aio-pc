@@ -26,7 +26,7 @@ import org.exoplatform.services.wsrp.type.PortletDescription;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.RegistrationState;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
 import org.exoplatform.services.wsrp.wsdl.WSRPService;
@@ -295,7 +295,7 @@ public class ProducerImpl implements Producer , java.io.Serializable {
     }
   }
 
-  public ReturnAny deregister() throws WSRPException {
+  public Extension[] deregister() throws WSRPException {
     if (registrationInterface == null) {
       getRegistrationInterface();
     }

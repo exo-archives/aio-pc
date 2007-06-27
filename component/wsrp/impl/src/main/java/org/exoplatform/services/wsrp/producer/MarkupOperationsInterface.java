@@ -13,7 +13,7 @@ import org.exoplatform.services.wsrp.type.MarkupParams;
 import org.exoplatform.services.wsrp.type.MarkupResponse;
 import org.exoplatform.services.wsrp.type.PortletContext;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ReturnAny;
+import org.exoplatform.services.wsrp.type.Extension;
 import org.exoplatform.services.wsrp.type.RuntimeContext;
 import org.exoplatform.services.wsrp.type.UserContext;
 
@@ -37,10 +37,10 @@ public interface MarkupOperationsInterface {
                                                                 InteractionParams interactionParams) 
     throws java.rmi.RemoteException;
     
-  public ReturnAny initCookie(RegistrationContext registrationContext) 
+  public Extension[] initCookie(RegistrationContext registrationContext) 
     throws java.rmi.RemoteException;
     
-  public ReturnAny releaseSessions(RegistrationContext registrationContext, 
+  public Extension[] releaseSessions(RegistrationContext registrationContext, 
                                    String[] sessionIDs) 
     throws java.rmi.RemoteException;
 }
