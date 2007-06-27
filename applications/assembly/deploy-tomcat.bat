@@ -1,2 +1,2 @@
-call mvn clean exo:pc -Ddeploy=tomcat
+call mvn clean exopc:deploy -Ddeploy=tomcat
 pause null
