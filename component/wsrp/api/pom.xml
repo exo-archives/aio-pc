@@ -12,6 +12,15 @@
   <url>http://www.exoplatform.org</url>
   <description>eXo WSRP Services API</description>
 
+  <repositories>
+    <repository>
+	    <id>maven.org</id>
+	    <name>maven.org repository</name>
+	    <url>http://repo1.maven.org/maven2</url>
+	    <layout>default</layout>
+    </repository>
+  </repositories>
+  
   <dependencies>
     <dependency>
       <groupId>axis</groupId>
