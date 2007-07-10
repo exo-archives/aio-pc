@@ -11,7 +11,6 @@
     <module>component/jsr168/impl</module>
     <module>component/wsrp/api</module>
     <module>component/wsrp/impl</module>
-    <module>applications/util-jsf</module>
     <module>applications</module>
   </modules>
 

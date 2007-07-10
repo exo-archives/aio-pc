@@ -13,10 +13,24 @@
   <packaging>pom</packaging>
 
   <modules>
+
     <module>test-portal</module>
     <module>portlets</module>
     <module>wsrp</module>
     <module>jsf/myfaces</module>
+
+    <!-- module>jsf/sunfaces</module>
+    <module>jsf/tapestry</module>
+    <module>jsf/webwork</module -->
+
+    <module>util-jsf</module>
+    <!-- module>util-bridge</module -->
+
+    <!-- module>bridges/jsf</module>
+    <module>bridges/perl</module>
+    <module>bridges/php</module>
+    <module>bridges/struts</module -->
+
   </modules>
 
   <profiles>
