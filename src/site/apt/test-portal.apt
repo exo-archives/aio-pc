@@ -1,0 +1,34 @@
+The Portlet Container test portal
+
+  There is the test portal web application to test the portlet container capabilities under
+  different application servers
+
+  It is tested to work under <TomCat 5>, <JBoss 4> and <WebLogic 9.1> application servers
+
+  It consists of two .war's:
+
+  * <portal.war> - the test portal itself (a set of filters, listeners, and .jsp's
+
+  * <portlets.war> - two demo portlets
+
+[]
+
+*---*
+Deploying under <<WebLogic 9.1, 9.2>>
+*---*
+
+
+  * Copy all necessary .jar's into <%DOMAIN_HOME%\lib> directory
+
+  * Run domain admin server with command <%DOMAIN_HOME%\startWebLogic.cmd>
+
+  * Place <portal.war> and <portlets.war> into random directory (or directories)
+
+  * Run the following command to deploy .war's into server
+
+---------
+java weblogic.Deployer -adminurl t3://localhost:7001 -user weblogic -password xxx -deploy C:\path\where\lies\portlets.war
+java weblogic.Deployer -adminurl t3://localhost:7001 -user weblogic -password xxx -deploy C:\other\path\where\lies\portal.war
+---------
+
+  After that the test portal application will be available at {{http://localhost:7001/portal}}

@@ -1,0 +1,32 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>1.5</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.applications.util-bridge</artifactId>
+  <name>eXo Portlet Container applications util-bridge</name>
+  <packaging>jar</packaging>
+  <description>eXo Portlet Container applications util-bridge</description>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.jsr168.impl</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.portals.bridges</groupId>
+      <artifactId>portals-bridges-common</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+  </build>
+</project>

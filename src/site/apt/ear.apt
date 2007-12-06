@@ -1,0 +1,177 @@
+EXO-PortletContainer EAR
+
+  EXO-PC EAR bundle <<(portlet-container.ear)>> includes sample application & sample portlets
+
+  EXO-PC was tested under <<WebLogic 9.1, 9.2>>, <<JBoss 4.0.3, 4.0.4>>, <<JOnAS 4.6.2, 4.6.6, 4.7.4, 4.8.4>>, <<WebSphere 6.1.0.2>> and <<Oracle AS 10g Release 3 (10.1.3.1.0)>> application servers
+
+*---*
+<<JBoss 4.0.3, 4.0.4>>
+*---*
+
+  1. Configuration
+
+    * Copy <portlet-container.ear> into <%jboss_home%/server/default/deploy>
+
+    * Replace file <%jboss_home%/lib/endorsed/xalan.jar> with xalan-2.7.0.jar (or higher version)
+
+  2. Start Up
+
+     Execute
+
+       * bin/run.bat <<(Windows)>>
+
+     or
+
+       * bin/run.sh  <<(Unix)>>
+
+  3. After startup, EXO-PC sample application will be available at {{http://localhost:8080/portal}}
+
+  4. To reach EXO-PC WSRP producer use:
+
+    <<http://localhost:8080/portal/services>>
+
+*---*
+<<JOnAS 4.6.2, 4.6.6, 4.7.4, 4.8.4>>
+*---*
+
+  1. Configuration
+
+    * Copy <portlet-container.ear> into <%jonas_home%/apps/autoload>
+
+    * Replace file <%jonas_home%/lib/endorsed/xalan-j2-2.6.0.jar> with xalan-2.7.0.jar (or higher version)
+
+    * Replace <portal.war> in EAR with included <wls-jonas/portal.war>
+
+    * Remove (rename) <%jonas_home%/lib/commons/jonas/axis/axis.jar> or replace it with <axis-1.2-RC1.jar> included in EAR
+
+    * Replace in <%jonas_home%/conf/context.xml> line
+
+-----------
+<Context>
+-----------
+
+ to line
+
+-----------
+<Context crossContext="true">
+-----------
+
+
+  2. Start Up
+
+     Execute
+
+       * bin/nt/jonas.bat start <<(Windows)>>
+
+     or
+
+       * bin/unix/jonas start   <<(Unix)>>
+
+  3. After startup, EXO-PC sample application will be available at {{http://localhost:9000/portal}}
+
+  4. Run <java org.exoplatform.services.wsrp.AdminClient -lhttp://localhost:9000/portal/services deploy.wsdd> to
+     deploy WSRP conponents
+
+  5. To reach EXO-PC WSRP producer use:
+
+    <<http://localhost:9000/portal/services>>
+
+*---*
+<<WebLogic 9.1, 9.2>>
+*---*
+
+  1. Configuration & start up
+
+    * Copy <log4j-1.2.8.jar> and <commons-logging-1.0.3.jar> into <%DOMAIN_HOME%\lib> directory
+
+    * Run domain admin server with command <%DOMAIN_HOME%\startWebLogic.cmd>
+
+    * Replace <portal.war> in EAR with included <wls-jonas/portal.war>
+
+    * Place <portlet-container.ear> into random directory
+
+    * Run the following command to deploy EAR into server
+
+---------
+java weblogic.Deployer -adminurl t3://localhost:7001 -user weblogic -password xxx -deploy C:\path\where\lies\portlet-container.ear
+---------
+
+  2. After startup, EXO-PC sample application will be available at {{http://localhost:7001/portal}}
+
+  3. Run <java org.exoplatform.services.wsrp.AdminClient -lhttp://localhost:7001/portal/services deploy.wsdd> to
+     deploy WSRP conponents
+
+  4. To reach EXO-PC WSRP producer use:
+
+    <<http://localhost:7001/portal/services>>
+
+*---*
+<<WebSphere 6.1.0.2>>
+*---*
+
+  1. Make in <portlet-container.ear> the following changes:
+
+    * Remove portlet-api-1.0.jar
+
+    * Replace <jtidy-4aug2000r7-dev.jar> with included <was/jtidy-4aug2000r7-dev.jar>
+
+    * Replace <portal.war> and <portlets.war> with included <was/portal.war> and <was/portlets.war>
+
+    * Replace <META-INF/MANIFEST.MF> with included <was/MANIFEST.MF>
+
+  2. Configuration
+
+    * Deploy <portlet-container.ear> to WAS and start it
+
+  3. Startup
+
+    * EXO-PC sample application will be available at {{http://localhost:9080/portal}} - it's default address.
+
+*---*
+<<Oracle AS 10g Release 3 (10.1.3.1.0) >>
+*---*
+
+  1. Make in <portlet-container.ear> the following changes:
+
+    * Add to ear META-INF\orion-application.xml
+
+-----------
+      <?xml version="1.0"?>
+      <orion-application xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+                         xsi:noNamespaceSchemaLocation="http://xmlns.oracle.com/oracleas/schema/orion-application-10_0.xsd"
+                         deployment-version="10.1.3.0.0"
+                         default-data-source="jdbc/OracleDS"
+                         schema-major-version="10"
+                         schema-minor-version="0" >
+        <web-module id="portal" path="portal.war" />
+        <web-module id="portlets" path="portlets.war" />
+        <web-module id="wsrp" path="wsrp.war" />
+        <persistence path="persistence" />
+        <library path="./"/>
+        <principals path="principals.xml" />
+        <jazn provider="XML" />
+        <log>
+          <file path="application.log" />
+        </log>
+        <connectors path="./oc4j-connectors.xml" />
+      </orion-application>
+-----------
+
+    * Add jars in MANIFEST.MF and in root of ear:
+
+      commons-logging-1.0.3.jar
+      quartz-1.5.0-RC2.jar
+
+  2. Configuration
+
+    * Deploy <portlet-container.ear> to Oracle AS and start it
+
+      http://localhost:8888/em/
+
+    * On third step of deployment within configure Class Loading deselect the org.jgroups shared library.
+
+  3. Startup
+
+    * EXO-PC sample application will be available at {{http://localhost:8888/portal}} - it's default address.
+
+  4. P.S.: MyFaces sample portlet doesn't work yet in OracleAS.

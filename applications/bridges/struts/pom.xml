@@ -1,0 +1,82 @@
+<?xml version="1.0"?>
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>1.5</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>sbridgestrutsportlet</artifactId>
+  <!--packaging>exo-pc</packaging-->
+  <packaging>war</packaging>
+  <version>1.0</version>
+  <name>eXo Sample Bridge Struts Portlet</name>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.applications.util-bridge</artifactId>
+      <version>1.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.portals.bridges</groupId>
+      <artifactId>portals-bridges-struts</artifactId>
+      <version>1.2.7-1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>struts</groupId>
+      <artifactId>struts</artifactId>
+      <version>1.2.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>struts</groupId>
+      <artifactId>struts-el</artifactId>
+      <version>1.2.7</version>
+    </dependency>
+
+  </dependencies>
+
+
+  <build>
+    <finalName>sbridgestrutsportlet</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-exopc-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <sharedDir>${basedir}/patches</sharedDir>
+          <excludeProjects>
+            junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework, xerces,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
+            xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
+            commons-logging, saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            carol, commons-fileupload, commons-io, drools-base, drools-core, drools-java,
+            drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
+            exo-platform.services.ldap.impl, exo-platform.services.remote.api,
+            exo-platform.services.remote.impl, exo-platform.services.templates.api,
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
+            jgroups-all, jotm, jotm_jrmp_stubs, log4j, quartz, soap, velocity
+          </excludeProjects>
+          <includeToWarClasspath/>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+</project>

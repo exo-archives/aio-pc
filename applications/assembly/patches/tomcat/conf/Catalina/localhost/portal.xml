@@ -1,0 +1,1 @@
+<Context path="/portal" docBase="${catalina.home}/webapps/portal.war" debug="0" crossContext="true"/>

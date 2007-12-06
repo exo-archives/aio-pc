@@ -1,0 +1,51 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>1.5</version>
+  </parent>
+
+  <modelVersion>4.0.0</modelVersion>
+  <groupId>applications</groupId>
+  <artifactId>applications</artifactId>
+  <name>eXo portlet container applications</name>
+  <version>1.0</version>
+  <packaging>pom</packaging>
+
+  <modules>
+
+    <module>test-portal</module>
+    <module>portlets</module>
+    <module>wsrp</module>
+    <module>jsf/myfaces</module>
+
+    <!-- module>jsf/sunfaces</module>
+    <module>jsf/tapestry</module>
+    <module>jsf/webwork</module -->
+
+    <module>util-jsf</module>
+    <!-- module>util-bridge</module -->
+
+    <!-- module>bridges/jsf</module>
+    <module>bridges/perl</module>
+    <module>bridges/php</module>
+    <module>bridges/struts</module -->
+
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property><name>default</name></property>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <!-- properties>
+        <exo.platform.version>2.0.2</exo.platform.version>
+        <exo.portlet-container.version>1.5</exo.portlet-container.version>
+        <exo.jcr.version>1.0</exo.jcr.version>
+        <exo.portal.version>1.1.4</exo.portal.version>
+      </properties -->
+    </profile>
+  </profiles>
+</project>

@@ -1,0 +1,130 @@
+WebWork framework
+
+*---*
+<< Creating WebWork portlets >>
+*---*
+
+ How to create a WebWork Portlet using: 
+ 
+ Documetation from WebWork site {{{http://wiki.opensymphony.com/display/WW/Portlet+Tutorial}here}} 
+
+
+ portlet.xml
+
+---------
+ <portlet>
+  <description xml:lang="EN">shellowebworkportlet</description>
+  <portlet-name>shellowebworkportlet</portlet-name>
+  <display-name xml:lang="EN">sHello shellowebworkportlet Portlet</display-name>
+
+  <portlet-class>com.opensymphony.webwork.portlet.dispatcher.Jsr168Dispatcher</portlet-class>
+
+  <init-param>
+    <!-- The view mode namespace. Maps to a namespace in the xwork config file -->
+    <name>viewNamespace</name>
+    <value>/view</value>
+  </init-param>
+  <init-param>
+    <!-- The default action to invoke in view mode -->
+    <name>defaultViewAction</name>
+    <value>index</value>
+  </init-param> 
+    
+  <expiration-cache>0</expiration-cache>  
+  <supports>
+    <mime-type>text/html</mime-type>
+  </supports>
+  
+  <supported-locale>en</supported-locale>
+  
+  <portlet-info>
+    <title>shellowebworkportlet</title>
+    <short-title>shellowebworkportlet</short-title>
+    <keywords>shellowebworkportlet</keywords>
+  </portlet-info>
+
+  <security-role-ref>
+    <role-name>admin</role-name>
+    <role-link>admin</role-link>
+  </security-role-ref>
+  <security-role-ref>
+    <role-name>user</role-name>
+    <role-link>user</role-link>
+  </security-role-ref>
+ </portlet>
+---------
+
+
+ web.xml
+
+---------
+ <web-app>
+  <display-name>shellowebworkportlet</display-name>
+  <description>shellowebworkportlet</description>
+
+  <filter>
+    <filter-name>webwork</filter-name>
+    <filter-class>com.opensymphony.webwork.dispatcher.FilterDispatcher</filter-class>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>webwork</filter-name>
+    <url-pattern>/*</url-pattern>
+  </filter-mapping>
+
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>com.opensymphony.webwork.portlet.context.ServletContextHolderListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>PortletWrapper</servlet-name>
+    <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>preparator</servlet-name>
+    <servlet-class>com.opensymphony.webwork.portlet.context.PreparatorServlet</servlet-class>
+  </servlet>
+
+  <servlet-mapping>
+    <servlet-name>PortletWrapper</servlet-name>
+    <url-pattern>/PortletWrapper/*</url-pattern>
+  </servlet-mapping>
+
+  <security-role>
+    <role-name>admin</role-name>
+  </security-role>
+
+  <taglib>
+    <taglib-uri>/webwork</taglib-uri>
+    <taglib-location>/WEB-INF/lib/webwork-2.2.2.jar</taglib-location>
+  </taglib>
+
+ </web-app>
+---------
+
+
+ WEB-INF\pages\view\helloWorld.jsp
+
+---------
+ <H2>Hello world! From sHelloWebWorkPortlet</H2>
+---------
+
+
+ WEB-INF\classes\xwork.xml
+
+---------
+ <xwork>
+  <include file="webwork-default.xml" />
+
+  <package name="view" extends="webwork-portlet-default" namespace="/view">
+    <action name="index" class="com.opensymphony.xwork.ActionSupport">
+      <result name="success">/WEB-INF/pages/view/helloWorld.jsp</result>
+    </action>
+  </package>
+ </xwork>
+---------

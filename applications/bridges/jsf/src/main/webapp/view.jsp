@@ -1,0 +1,1 @@
+<h1>Sample Bridge JSF Portlet - VIEW page</h1>
