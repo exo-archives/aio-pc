@@ -6,7 +6,7 @@ function getModule(params) {
   
   module.version = "2.0" ;
   module.relativeMavenRepo = "org/exoplatform/portletcontainer" ;
-  module.relativeSRCRepo = "portlet-container/branches/2.0" ;
+  module.relativeSRCRepo = "portlet-container/trunk" ;
   module.name = "pc" ;
 
   module.services = {} ;
