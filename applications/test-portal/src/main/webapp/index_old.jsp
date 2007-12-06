@@ -1,10 +1,21 @@
 <%@ page import="java.util.*"%>
 
+<%
+String resource = (String) session.getAttribute("resource");
+if (resource != null) {
+	%><%=resource%><%
+	session.removeAttribute("resource");
+  return;
+}
+%>
+
 <html>
 <meta HTTP-EQUIV="Content-Type" CONTENT="text/html; charset=UTF-8">
 <title>Portlet rendering</title>
 <h1>Portlets</h1>
 <body width="100%">
+
+
 
 <%
 ArrayList outsses = (ArrayList) session.getAttribute("outs");
@@ -15,7 +26,6 @@ if (request.getParameter("fis")!=null) {
   try {
     if (outsses != null) {
       for (int i = 1; i <= outsses.size(); i++) {
-       
         if (request.getParameter("n"+i+"n")!=null)  {
           if (request.getParameter("n"+i+"n").equals("on")){
             // is on
@@ -24,11 +34,11 @@ if (request.getParameter("fis")!=null) {
             //isn't on
             myatr.add("");
           }
-         } else {
+        } else {
           //is null
           myatr.add("");
-         }  
-       }
+        }
+      }
     } else {
       //session.setAttribute("myatr", null);
     }
@@ -100,7 +110,6 @@ if (request.getParameter("fis")!=null) {
 <%ArrayList titles = (ArrayList) session.getAttribute("titles");%>
 <%ArrayList outs = (ArrayList) session.getAttribute("outs");%>
 <%ArrayList modes = (ArrayList) session.getAttribute("modes");%>
-<%ArrayList states = (ArrayList) session.getAttribute("states");%>
 <%ArrayList portletapps = (ArrayList) session.getAttribute("portletapps");%>
 <%ArrayList myatr = (ArrayList) session.getAttribute("myatr"); %>
 
@@ -115,7 +124,6 @@ if (request.getParameter("fis")!=null) {
         <%String title = (String) titles.get(i - 1);%>
         <%String hs = (String) outs.get(i - 1);%>
         <%String mymode = (String) modes.get(i - 1);%>
-        <%String mystate = (String) states.get(i - 1);%>
         <%String portletapp = (String) portletapps.get(i - 1);%>
         <table width="100%" border="1">
         <tr><th valign="center" bgcolor="#D0F0D0"><h1><%=title%></h1>
@@ -124,24 +132,14 @@ if (request.getParameter("fis")!=null) {
           resMode += reqContextPath + "componentId=" + portletapp;
           resMode += "&" + reqContextPath + "type=action";
           resMode += "&" + reqContextPath + "isSecure=true";
-          
+          resMode += "&" + reqContextPath + "portletMode=";
           String[] ss2 = mymode.split("[.]");
-          String[] sts = mystate.split("[.]");
-          String current_mode = (String) modes.get(i-1);
-          String current_state = (String) states.get(i-1);
-          
           for (int ii = 0; ii < ss2.length; ii++) {
-          %>
-           <a href="<%=(resMode+"&"+reqContextPath+"portletMode="+ss2[ii])%>"><%=ss2[ii]%></a> 
-		  <%
-		  }%>
-		   <br>
-		  <% 
-
-          for (int k = 0; k < sts.length; k++) {
-		  %>
-              <a href="<%=(resMode+"&"+reqContextPath+"windowState="+sts[k])%>"><%=sts[k]%></a> 
-          <%}%>
+            %>
+            <a href="<%=(resMode + ss2[ii] + "&" + reqContextPath + "windowState=normal")%>"><%=ss2[ii]%></a> 
+            <%
+          }
+          %>  
         </th></tr>
         <tr><td><%=hs%></td></tr>
         </table>

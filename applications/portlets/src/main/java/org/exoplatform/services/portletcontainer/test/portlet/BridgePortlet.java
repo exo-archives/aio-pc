@@ -1,127 +1,141 @@
-/**
- * Copyright 2001-2003 The eXo Platform SARL         All rights reserved.
- * Please look at license.txt in info directory for more license detail.
- **/
+/*
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
 package org.exoplatform.services.portletcontainer.test.portlet;
 
-import java.util.*;
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
 import java.io.PrintWriter;
-import javax.portlet.*;
+import java.io.Reader;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.GenericPortlet;
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletException;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
-import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.portletcontainer.ExoPortletContext;
-import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletContextImpl;
-import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletSessionImp;
-import org.exoplatform.services.portletcontainer.impl.portletAPIImp.helpers.CustomRequestWrapper;
-import org.exoplatform.services.portletcontainer.impl.portletAPIImp.helpers.CustomResponseWrapper;
+
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletContextImpl;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletSessionImp;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomRequestWrapper;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomResponseWrapper;
 
 /**
- * Created by The eXo Platform SARL .
- * 
- * @author <a href="mailto:lautarul@gmail.com">Roman Pedchenko</a>
+ * Created by The eXo Platform SAS  .
+ *
+ * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id$
  */
-
 public class BridgePortlet extends GenericPortlet {
 
+  /**
+   * Context path.
+   */
   private String contextPath;
-  protected String defaultPage;
+
+  /**
+   * Default page to include.
+   */
+  private String defaultPage;
+
+  /**
+   * Owner's URI.
+   */
   private String ownerUri;
 
-  public static String PARAM_PREFIX = "portlet:";
+  /**
+   * Parameter prefix.
+   */
+  public static final String PARAM_PREFIX = "portlet:";
 
+  /**
+   * Overridden method.
+   *
+   * @param config portlet config
+   * @throws PortletException something may go wrong
+   * @see javax.portlet.GenericPortlet#init(javax.portlet.PortletConfig)
+   */
   public void init(PortletConfig config) throws PortletException {
-      super.init(config);
-
-      contextPath = config.getPortletContext().getPortletContextName();
-      defaultPage = config.getInitParameter("default-page");
-//System.out.println(" --- config.getInitParameter('default-page') [" + defaultPage + "]");
-for (Enumeration e = config.getInitParameterNames(); e.hasMoreElements();) {
-String n = (String) e.nextElement();
-//System.out.println(" --- init - " + n + ": " + config.getInitParameter(n));
-}
-      ownerUri = contextPath;
+    super.init(config);
+    contextPath = config.getPortletContext().getPortletContextName();
+    defaultPage = config.getInitParameter("default-page");
+    ownerUri = contextPath;
   }
 
   protected void doView(RenderRequest request, RenderResponse response)
       throws PortletException, IOException {
     //wrap request & response
     CustomRequestWrapper requestWrapper = (CustomRequestWrapper)
-                     ((HttpServletRequestWrapper)request).getRequest();
-    CustomResponseWrapper responseWrapper =
-            (CustomResponseWrapper) ((HttpServletResponseWrapper)response).getResponse();
+    ((HttpServletRequestWrapper)request).getRequest();
+    CustomResponseWrapper responseWrapper = (CustomResponseWrapper)
+    ((HttpServletResponseWrapper)response).getResponse();
 
     boolean isSharedSessionEnable = false;
-
     try {
       //read contexts
       PortletContextImpl portletContext = (PortletContextImpl) getPortletContext();
       ServletContext scontext = portletContext.getWrappedServletContext();
-      ExoPortletContext context = (ExoPortletContext) request.getPortletSession().
-                                  getPortletContext();
-      isSharedSessionEnable = context.isSessionShared();
+
+      //isSharedSessionEnable = context.isSessionShared();
 
       //get real request url
       String requestUrl = getRequestURL(requestWrapper);
-
       //get request dispatcher
       RequestDispatcher dispatcher = null;
       dispatcher = scontext.getRequestDispatcher(requestUrl) ;
-
       //change request settings
       requestWrapper.setRedirected(true);
-      requestWrapper.setRedirectedPath(
-            requestUrl);
+      requestWrapper.setRedirectedPath(requestUrl);
       requestWrapper.servletPath = requestUrl;
       requestWrapper.pathInfo = "";
       requestWrapper.contextPath = "/"+contextPath;
-//      requestWrapper.servletPath = "/";
-//      requestWrapper.pathInfo = requestUrl;
-//            requestUrl);
       if(isSharedSessionEnable){
         PortletSessionImp pS = (PortletSessionImp)request.getPortletSession();
-        requestWrapper.setSharedSession(pS.getSession());
         requestWrapper.setContextPath(request.getContextPath());
       }
-
-
-//System.out.println(" --- before include ---");
       //!!!!!!!!!!Dispatch request !!!!!!!!!!!!!!!!!!!!!!
       dispatcher.include(requestWrapper, responseWrapper);
       //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-//System.out.println(" --- after include ---");
 
       //read output
       InputStream responseAsInputStream;
-      try{
+      boolean isstream = false;
+      try {
         responseWrapper.getWriter();
         responseAsInputStream = new ByteArrayInputStream(
-                      String.valueOf(responseWrapper.getPortletContent()).
-                      getBytes());
-
-      }
-      catch (IllegalStateException ex){
-        //if output writed to outputStream
-
-
+            String.valueOf(responseWrapper.getPortletContent()).getBytes()
+        );
+      } catch (IllegalStateException ex) {
+        //if output was wrote to outputStream
         responseAsInputStream = new ByteArrayInputStream(responseWrapper.toByteArray());
-        //reset response wrapper
-        responseWrapper.fillResponseWrapper(
-            (HttpServletResponse) responseWrapper.getResponse());
+        isstream = true;
       }
 
       ByteArrayOutputStream  byteOutput = new ByteArrayOutputStream();
-
       //set transform params
       PortletOutputTransformer rewriter  = new PortletOutputTransformer();
       rewriter.portalURI = getPortalBaseURI();
@@ -132,93 +146,95 @@ String n = (String) e.nextElement();
 
       //transform output
       rewriter.rewrite(responseAsInputStream,byteOutput);
-
       //reset response
       responseWrapper.reset();
-
       //convert output of transformation to String
       //result of transformation is in "UTF-8"
-      java.io.Reader reader = new java.io.InputStreamReader(
-                  new ByteArrayInputStream(byteOutput.toByteArray()),"UTF-8");
+      Reader reader = new InputStreamReader( new ByteArrayInputStream(byteOutput.toByteArray()),"UTF-8" );
+      ByteArrayInputStream bais = new ByteArrayInputStream(byteOutput.toByteArray());
 
-      char[] buf = new char[1024];
       int readed;
 
-      PrintWriter w = responseWrapper.getWriter();
-      
-      // --- simple navigation bar ---------
-      w.println("<table width=\"100%\"><tr><td>");
+      if (isstream) {
+        // getPortletOutputStream
+        if (response.getContentType() == null) response.setContentType("text/html; charset=UTF-8");
+        OutputStream w = response.getPortletOutputStream();
 
-      PortletURL renderURL = response.createRenderURL();
-      renderURL.setParameter(getPortletBasedParamName("url"), "/test");
-      w.println("<p><a href=\"" + renderURL.toString() + "\">Embed servlet</a> | ");
+        // --- simple navigation bar ---------
+        w.write("<table width=\"100%\"><tr><td>".getBytes());
+        PortletURL renderURL = response.createRenderURL();
+        renderURL.setParameter(getPortletBasedParamName("url"), "/test");
+        w.write(new String("<p><a href=\"" + renderURL.toString() + "\">Embed servlet</a> | ").getBytes());
+        renderURL = response.createRenderURL();
+        renderURL.setParameter(getPortletBasedParamName("url"), "/test.jsp");
+        w.write(new String("<a href=\"" + renderURL.toString() + "\">Embed JSP</a></p>").getBytes());
+        w.write("</td></tr><tr><td>".getBytes());
+        // ------------
+        //write transformed output to response
+        byte[] but = new byte[1024];
+        while ((readed = bais.read(but)) > 0 ){
+          w.write(but,0,readed);
+        }
+        w.write("</td></tr></table>".getBytes());
+      } else {
+        // getWriter
+        if (response.getContentType() == null) response.setContentType("text/html; charset=UTF-8");
+        PrintWriter w = response.getWriter();
 
-      renderURL = response.createRenderURL();
-      renderURL.setParameter(getPortletBasedParamName("url"), "/test.jsp");
-      w.println("<a href=\"" + renderURL.toString() + "\">Embed JSP</a></p>");
+        // --- simple navigation bar ---------
+        w.println("<table width=\"100%\"><tr><td>");
+        PortletURL renderURL = response.createRenderURL();
+        renderURL.setParameter(getPortletBasedParamName("url"), "/test");
+        w.println("<p><a href=\"" + renderURL.toString() + "\">Embed servlet</a> | ");
+        renderURL = response.createRenderURL();
+        renderURL.setParameter(getPortletBasedParamName("url"), "/test.jsp");
+        w.println("<a href=\"" + renderURL.toString() + "\">Embed JSP</a></p>");
 
-      w.println("</td></tr><tr><td>");
-      // ------------
-
-      //write transformed output to response
-      while ((readed = reader.read(buf)) > 0 ){
+        w.println("</td></tr><tr><td>");
+        // ------------
+        //write transformed output to response
+        char[] buf = new char[1024];
+        while ((readed = reader.read(buf)) > 0 ){
           w.write(buf,0,readed);
+        }
+        w.println("</td></tr></table>");
       }
-      w.println("</td></tr></table>");
 
-    }
 
-    catch (Exception e) {
+    } catch (Exception e) {
       throw new PortletException("Problems occur when using PortletDispatcher", e);
     } finally {
-      if(requestWrapper != null)
+      if (requestWrapper != null)
         requestWrapper.setRedirected(false);
-      if(isSharedSessionEnable){
-        requestWrapper.setSharedSession(null);
-      }
-
     }
   }
 
-  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-      throws PortletException, IOException {
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+    IOException { }
+
+  private String getPortletBasedParamName(String shortName) {
+    return PARAM_PREFIX + contextPath + ":" + shortName;
   }
 
-  private String getPortletBasedParamName(String shortName){
-      return PARAM_PREFIX + contextPath + ":" + shortName;
-  }
-
-  private String getRequestURL(HttpServletRequest request){
-      String paramURL = getPortletBasedParamName("url");
-      String result = request.getParameter(paramURL);
-      result = result == null ? defaultPage : result;
-
-//System.out.println(" --- request.getParameter('"+paramURL+"') ["+result+"]");
-      return result;
+  private String getRequestURL(HttpServletRequest request) {
+    String paramURL = getPortletBasedParamName("url");
+    String result = request.getParameter(paramURL);
+    result = result == null ? defaultPage : result;
+    return result;
   }
 
   private String getPorletBaseURI(HttpServletRequest request) {
-      String result = getRequestURL(request);
+    String result = getRequestURL(request);
 
-      if (result.indexOf('/') != -1) {
-          result = result.substring(0,result.lastIndexOf('/'));
-      }
-
-
-//System.out.println("------------ begin request info --------------");
-//System.out.println("ownerUri "+ ownerUri);
-//System.out.println("request.getPathInfo() " + request.getPathInfo());
-//System.out.println("request.getServletPath() "+ request.getServletPath());
-//System.out.println("request.getQueryString() "+ request.getQueryString());
-//System.out.println("request.getContextPath() "+ request.getContextPath());
-//System.out.println("------------ end request info --------------");
-
-      return result;
+    if (result.indexOf('/') != -1) {
+      result = result.substring(0,result.lastIndexOf('/'));
+    }
+    return result;
   }
 
   //URI (path + query string) of current string
-  private String getPortalBaseURI(){
-      String path = ownerUri;
-      return path;
+  private String getPortalBaseURI() {
+    String path = ownerUri;
+    return path;
   }
 }

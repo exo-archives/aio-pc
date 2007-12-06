@@ -2,18 +2,18 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>1.5</version>
+    <version>2.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assembly</artifactId>
   <packaging>ear</packaging>
-  <name>eXo portlet-container demo assembly</name>
+  <name>eXo Portlet Container Demo Assembly</name>
 
   <dependencies>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portal</artifactId>
-      <version>1.0</version>
+      <version>${exo.portlet-container.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -21,77 +21,58 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portlets</artifactId>
-      <version>1.0</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
-
-    <!-- dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>sexofacesportlet</artifactId>
-      <version>1.0</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency -->
-
-    <!-- dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>smyfacesportlet</artifactId>
-      <version>1.0</version>
+      <version>${exo.portlet-container.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>stapestryportlet</artifactId>
-      <version>1.0</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency -->
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>wsrp</artifactId>
-      <version>1.0</version>
+      <artifactId>portlets2</artifactId>
+      <version>${exo.portlet-container.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 
+
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.jsr168.api</artifactId>
+      <artifactId>sbridgejsfportlet</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <type>war</type>
+      <scope>compile</scope>
+    </dependency>
+
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.jsr168.impl</artifactId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.wsrp.api</artifactId>
+      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.wsrp.impl</artifactId>
+      <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
-    <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
-      <version>2.3</version>
-      <scope>compile</scope>
-    </dependency>
+
   </dependencies>
 
   <build>
@@ -116,16 +97,16 @@
           <sharedDir>${basedir}/patches</sharedDir>
           <excludeProjects>
             junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
-            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework, xerces,
+            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework,
             xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
             xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
-            commons-logging, saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
             carol, commons-fileupload, commons-io, drools-base, drools-core, drools-java,
             drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
             exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jotm, jotm_jrmp_stubs, log4j, quartz, soap, velocity, naming-core, naming-java
+            jotm, jotm_jrmp_stubs, log4j, soap, velocity, naming-core, naming-java
           </excludeProjects>
         </configuration>
       </plugin>

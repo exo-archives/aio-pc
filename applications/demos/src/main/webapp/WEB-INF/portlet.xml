@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0">
+
+  <portlet>
+    <description xml:lang="en">A bit more than just a hello world :)</description>
+    <portlet-name>HelloWorld</portlet-name>
+    <display-name xml:lang="en">HelloWorld</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.HelloWorldPortlet</portlet-class>
+    <expiration-cache>4</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>HelloWorld title</title>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="en">Preferences demo</description>
+    <portlet-name>PrefsDemo</portlet-name>
+    <display-name xml:lang="en">Prefs demo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.PrefsPortlet</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>edit</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>PrefsPortlet</title>
+      <short-title>PrefsPortlet</short-title>
+      <keywords>Prefs2</keywords>
+    </portlet-info>
+    <portlet-preferences>
+      <preference>
+        <name>prop1</name>
+        <value>value1</value>
+      </preference>
+      <preference>
+        <name>prop2</name>
+        <value>value2</value>
+      </preference>
+      <preference>
+        <name>prop3</name>
+        <value>value3</value>
+      </preference>
+      <preference>
+        <name>prop4-ro</name>
+        <value>value4</value>
+        <read-only>true</read-only>
+      </preference>
+    </portlet-preferences>
+  </portlet>
+
+	<portlet>
+  	<description xml:lang="en">CachePortlet</description>
+   	<portlet-name>CachePortlet</portlet-name>
+   	<display-name xml:lang="en">CachePortlet</display-name>
+   	<portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.CachePortlet</portlet-class>
+   	<expiration-cache>300</expiration-cache>
+   	<supports>
+   		<mime-type>text/html</mime-type>
+   	</supports>
+   	<supported-locale>en</supported-locale>
+   	<portlet-info>
+   		<title>CachePortlet</title>
+   		<short-title>CachePortlet</short-title>
+   		<keywords>CachePortlet</keywords>
+   	</portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="en">BundlesDemo</description>
+    <portlet-name>BundlesDemo</portlet-name>
+    <display-name xml:lang="en">BundlesDemo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.BundlesDemo</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <supported-locale>ru</supported-locale>
+    <supported-locale>uk</supported-locale>
+    <supported-locale>tr</supported-locale>
+    <supported-locale>fr</supported-locale>
+    <supported-locale>ro</supported-locale>
+    <resource-bundle>TestBundles</resource-bundle>
+  </portlet>  
+       
+  <portlet>
+    <description xml:lang="en">HttpHeaderDemo</description>
+    <portlet-name>HttpHeaderDemo</portlet-name>
+    <display-name xml:lang="en">HttpHeaderDemo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.HttpHeaderDemo</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supports>
+      <mime-type>image/jpeg</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>HttpHeaderDemo</title>
+      <short-title>HttpHeaderDemo</short-title>
+   		<keywords>HttpHeaderDemo</keywords>
+    </portlet-info>
+  </portlet>
+
+	<portlet>
+    <description xml:lang="en">ResourceDemo</description>
+    <portlet-name>ResourceDemo</portlet-name>
+    <display-name xml:lang="en">ResourceDemo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.ResourceDemo</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <cache-scope>PRIVATE</cache-scope>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supports>
+      <mime-type>image/jpeg</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>ResourceDemo</title>
+      <short-title>ResourceDemo</short-title>
+      <keywords>ResourceDemo</keywords>
+    </portlet-info>
+  </portlet>
+
+</portlet-app>

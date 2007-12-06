@@ -1,12 +1,27 @@
-/**
- * Copyright 2001-2003 The eXo Platform SARL         All rights reserved.  *
- * Please look at license.txt in info directory for more license detail.   *
- */
+/*
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
 package org.exoplatform.services.portletcontainer.test.filters;
 
 import java.io.IOException;
-import java.util.*;
+import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -18,407 +33,222 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import javax.portlet.PortletMode;
-import javax.portlet.WindowState;
-import org.apache.commons.lang.StringUtils;
-import org.exoplatform.Constants;
-// import org.exoplatform.container.PortalContainer;
-// import org.exoplatform.container.RootContainer;
-import org.exoplatform.container.StandaloneContainer;
-import org.exoplatform.services.portletcontainer.PortletContainerService;
-import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
-import org.exoplatform.services.portletcontainer.impl.PortletApplicationsHolder;
-import org.exoplatform.services.portletcontainer.pci.ActionInput;
-import org.exoplatform.services.portletcontainer.pci.ActionOutput;
-import org.exoplatform.services.portletcontainer.pci.Output;
-import org.exoplatform.services.portletcontainer.pci.PortletData;
-import org.exoplatform.services.portletcontainer.pci.RenderInput;
-import org.exoplatform.services.portletcontainer.pci.RenderOutput;
-import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
 
+import org.apache.commons.lang.StringUtils;
+import org.exoplatform.container.StandaloneContainer;
+import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
+import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
+import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 
 /**
- * Created by The eXo Platform SARL .
+ * Created by The eXo Platform SAS  .
  *
- * @author <a href="mailto:lautarul@gmail.com">Roman Pedchenko</a>
- * @version $Id: PortletFilter.java 12011 2007-01-17 14:24:21Z sunman $
+ * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
+ * @version $Id: PortletFilter.java 8554 2006-09-04 15:28:35Z sunman $
  */
 
+/**
+ * PortletFilter class does portal's work using portal-framework it processes user http requests
+ * and invokes portlets.
+ */
 public class PortletFilter implements Filter {
 
-  HashMap wins = null;
+  /**
+   * Frameworks. One per http session.
+   */
+  public static final HashMap<String, PortalFramework> frameworks = new HashMap<String, PortalFramework>();
 
-  // Session Replication
-  HashMap session_states = null;
-  HashMap session_info = new HashMap();
-  public static final String session_identifier = "SID";
-  public static final String portal_identifier = "PID";
-  String portal_container_name = "";
+  /**
+   * Current framework.
+   */
+  private PortalFramework framework = null;
 
+  /**
+   * Session replication info.
+   */
+  private HashMap<String, Serializable> sessionInfo = new HashMap<String, Serializable>();
 
-  protected void createWins(Map allPortletMetaData) {
-    wins = new HashMap();
-    Set keys = allPortletMetaData.keySet();
-    Iterator i = keys.iterator();
-    while (i.hasNext()) {
-      String key = (String) i.next();
-      PortletData portlet = (PortletData) allPortletMetaData.get(key);
-      String portletApp = key.replace('.', '/');
-      String[] ss = StringUtils.split(portletApp, "/");
+  /**
+   * Session identifier.
+   */
+  public static final String SESSION_IDENTIFIER = "SID";
 
-      WindowID2 windowID = new WindowID2();
-      windowID.setOwner(Constants.ANON_USER);
-      windowID.setPortletApplicationName(ss[0]);
-      windowID.setPortletName(ss[1]);
-      windowID.setUniqueID(portletApp);
-      windowID.setPersistenceId(ss[0] + "II" + ss[1]);
-      windowID.setPortletMode(PortletMode.VIEW);
-      windowID.setWindowState(WindowState.NORMAL);
-      wins.put(portletApp, windowID);
-      // System.out.println("creating: " + portletApp + ": windowID: " +
-      // windowID);
-    }
-  }
+  /**
+   * Portal identifier.
+   */
+  public static final String PORTAL_IDENTIFIER = "PID";
 
-  public HttpServletResponse createDummyResponse(HttpServletResponse original) {
-    // System.out.println("name: " + original.getClass().getName());
+  /**
+   * Portal container name.
+   */
+  private String portalContainerName = "";
+
+  /**
+   * Some ASs commit ServletResponse's that they get with include() method so we have to
+   * construct dummy responses to be committed :).
+   *
+   * @param original original http servlet response
+   * @return dummy response if it's need, otherwise original one
+   */
+  public final HttpServletResponse createDummyResponse(final HttpServletResponse original) {
     if (original.getClass().getName().equals("weblogic.servlet.internal.ServletResponseImpl")
         || original.getClass().getName().equals("com.ibm.ws.webcontainer.srt.SRTServletResponse")
 //        || original.getClass().getName().equals("com.evermind.server.http.EvermindHttpServletResponse")
         ) {
-      // System.out.println(" yes!!!!!!!!!!!!!!!!!!!!!");
-      // Class responseClass = original.class.
-      return new DummyResponse();
+      return new DummyResponse(original);
     } else
       return original;
   }
 
-  public void init(FilterConfig filterConfig) {
+  /**
+   * Does nothing.
+   *
+   * @param filterConfig filter config
+   */
+  public void init(final FilterConfig filterConfig) {
   }
 
+  /**
+   * Actual request processing.
+   *
+   * @param servletRequest servlet request
+   * @param servletResponse servlet respnse
+   * @param filterChain filter chain
+   * @throws IOException something may go wrong
+   * @throws ServletException something may go wrong
+   */
   public void doFilter(ServletRequest servletRequest,
       ServletResponse servletResponse, FilterChain filterChain)
       throws IOException, ServletException {
 
     HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
+    HttpSession httpSession = httpRequest.getSession();
     ServletContext ctx = httpRequest.getSession().getServletContext();
-    httpResponse.setContentType("text/html");
-
-    httpRequest.getSession().removeAttribute("portletinfos");
-
-    //System.out.println("Session ID : "+httpRequest.getSession().getId());
 
     try {
-      /*
-       * PortalContainer portalContainer = PortalContainer.getInstance(); if
-       * (portalContainer == null) { RootContainer rootContainer =
-       * RootContainer.getInstance(); portalContainer =
-       * rootContainer.getPortalContainer(ctx.getServletContextName());
-       * PortalContainer.setInstance(portalContainer); }
-       */
       StandaloneContainer portalContainer = StandaloneContainer.getInstance();
-      WindowInfosContainer.createInstance(portalContainer, httpRequest.getSession().getId(), httpRequest.getRemoteUser());
-      portal_container_name = portalContainer.getContext().getName();
-      System.out.println("Container1 : "+portalContainer);
+      // create WindowInfosContainer instance if there's no one
+      WindowInfosContainer.createInstance(portalContainer, httpSession.getId(), httpRequest.getRemoteUser());
 
+      // create/get PortalFramework instance
+      framework = frameworks.get(httpSession.getId());
+      if (framework == null) {
+        framework = new PortalFramework(portalContainer);
+        frameworks.put(httpSession.getId(), framework);
+      }
+      framework.init(httpSession);
 
-      PortletContainerService service =
-        (PortletContainerService) portalContainer.getComponentInstanceOfType(PortletContainerService.class);
-      PortletApplicationsHolder holder =
-        (PortletApplicationsHolder) portalContainer.getComponentInstanceOfType(PortletApplicationsHolder.class);
+      portalContainerName = framework.getPortalName();
 
-      Map allPortletMetaData = service.getAllPortletMetaData();
+      ArrayList<String> portlets2render = null;
 
-System.out.println("portlet metadata count: " + allPortletMetaData.size());
-      if (wins == null)
-        createWins(allPortletMetaData);
+      // collecting portlets to render -- especially for TCK tests
+      String[] ps = servletRequest.getParameterValues("portletName");
+      if (ps != null) {
+        portlets2render = new ArrayList<String>();
+        for (String s : ps)
+          portlets2render.add(s);
+        httpSession.setAttribute("portletName", portlets2render);
+      } else
+        portlets2render = (ArrayList<String>) httpSession.getAttribute("portletName");
 
-      HashMap portalParams = new HashMap();
-      HashMap portletParams = new HashMap();
-      Map actionParams = null;
+      // collecting portlets to render
+      if (portlets2render == null) {
+        Map<String, String[]> servletParams = servletRequest.getParameterMap();
 
-      Helper.parseParams(httpRequest, portalParams, portletParams);
+        if (servletParams.containsKey("fis")) {
+          Iterator<String> plts = framework.getPortletNames().iterator();
+          portlets2render = new ArrayList<String>();
 
-      String component = (String) portalParams
-          .get(Constants.COMPONENT_PARAMETER);
+          int count = 0;
+          while (plts.hasNext()) {
+            count++;
+            String portlet = plts.next();
+            if ((servletParams.containsKey("fis") &&
+                (servletParams.containsKey("n" + count + "n") &&
+                    servletParams.get("n" + count + "n")[0].equals("on"))))
+              portlets2render.add(portlet);
+          }
+          httpSession.setAttribute("listCollapsed", new Boolean(servletParams.containsKey("listCollapsed") &&
+              servletParams.get("listCollapsed")[0].equals("true")));
+        }
+      }
 
-      boolean isAction = Helper.getActionType((String) portalParams
-          .get(Constants.TYPE_PARAMETER));
+      if (portlets2render == null)
+        portlets2render = (ArrayList<String>) httpSession.getAttribute("portlets2render");
+      else
+        httpSession.setAttribute("portlets2render", portlets2render);
 
-      httpResponse.setContentType("text/html");
-
-      // -----------------------------------------------------------------------------------------------------
-
+      // --- this dummy http response is intended to avoid premature response commit on some AS-es
       HttpServletResponse dummyHttpResponse = createDummyResponse(httpResponse);
 
-      // -----------------------------------------------------------------------------------------------------
-
-      String[] hs = StringUtils.split(component, "/");
-
-      // set MODE and STATE
-      PortletMode portletMode;
-      WindowState windowState;
-
-      if (component != null) {
-        portletMode = Helper.getPortletMode((String) portalParams.get(Constants.PORTLET_MODE_PARAMETER),
-          holder.getPortletModes(hs[0], hs[1], "text/html"));
-        windowState = Helper.getWindowState((String) portalParams.get(Constants.WINDOW_STATE_PARAMETER),
-          holder.getWindowStates(hs[0]));
-
-        WindowID2 winp = (WindowID2) wins.get(component);
-        if (portletMode == null)
-          portletMode = winp.getPortletMode();
-        if (windowState == null)
-          windowState = winp.getWindowState();
-      } else {
-        portletMode = PortletMode.VIEW;
-        windowState = WindowState.NORMAL;
-      }
-
-      ArrayList portletinfos = new ArrayList();
-
-      if (!portalParams.isEmpty() && portalParams.containsKey(Constants.WINDOW_STATE_PARAMETER)) {
-        if (((String)portalParams.get(Constants.WINDOW_STATE_PARAMETER)).equals("maximized")) {
-          Set set = wins.keySet();
-          Iterator it = set.iterator();
-          while (it.hasNext()) {
-            String key = (String) it.next();
-            WindowID2 window = (WindowID2) wins.get(key);
-            window.setWindowState(WindowState.MINIMIZED);
-          }
-        }
-      }
+      // call PortalFramework to process current request to portlet container
+      ArrayList<PortletInfo> portletInfos = framework.processRequest(ctx, httpRequest, dummyHttpResponse, "text/html",
+          portlets2render);
 
       // Session Replication
-      int count = 0;
-      String count2 = (String)httpRequest.getSession().getAttribute("count");
+      String count2 = (String) httpSession.getAttribute("count");
       count2 += "+";
-      session_info.clear();
+      //session_info.clear();
 
-
-      String redirLocation = null;
-
-
-
-      // processing action
-
-      if (isAction && component != null) {
-//      if (isAction && component != null && component.equals(portletApp)) {
-        System.out.println("processing action: " + component + ": windowID: " + (WindowID2) wins.get(component));
-        ActionInput actionInput = new ActionInput();
-        WindowID2 win = (WindowID2) wins.get(component); // added recently from branch // EXOMAN comments
-        actionInput.setWindowID(win);
-        ArrayList lo = new ArrayList();
-        lo.add(new Locale("en"));
-        actionInput.setLocales(lo);
-        actionInput.setBaseURL("/" + ctx.getServletContextName() + "/?"
-            + Constants.COMPONENT_PARAMETER + "=" + win.getUniqueID());
-        actionInput.setUserAttributes(new HashMap());
-        actionInput.setPortletMode(portletMode);
-        actionInput.setWindowState(windowState);
-        actionInput.setMarkup("text/html");
-        actionInput.setStateChangeAuthorized(true);
-
-        try {
-          ActionOutput o1 = service.processAction(httpRequest, dummyHttpResponse, actionInput);
-          actionParams = o1.getRenderParameters();
-
-          //renderInput.getRenderParameters().putAll(o1.getRenderParameters()); // EXOMAN comments
-          redirLocation = (String) o1.getProperties().get(Output.SEND_REDIRECT);
-
-          if (o1.getNextMode() != null)
-            win.setPortletMode(o1.getNextMode());
-          if (o1.getNextState() != null)
-            win.setWindowState(o1.getNextState());
-
-        } catch (Exception e2) {
-          System.out.println(" !!!!!!!!!!!! error processing action of portlet " + component + ": " + e2);
-          e2.printStackTrace();
-          System.out.println(" !!!!!!!!!!!! trying to continue...");
-        }
-      }
-
-      if (redirLocation != null) {
-        httpResponse.sendRedirect(redirLocation);
+      if (framework.getRedirect() != null) {
+        httpResponse.sendRedirect(framework.getRedirect());
         filterChain.doFilter(servletRequest, servletResponse);
         return;
       }
 
-      // collecting portlets to render
-
-      String[] ps = servletRequest.getParameterValues("portletName");
-      ArrayList portletstoshow = null;
-      if (ps != null) {
-        portletstoshow = new ArrayList();
-        for (String s : ps)
-          portletstoshow.add(s);
-        httpRequest.getSession().setAttribute("portletName", portletstoshow);
+      if (framework.getAction() == PCConstants.resourceInt) {
+        httpSession.setAttribute("resourceType", framework.getResourceContentType());
+        httpSession.setAttribute("resource", framework.getResourceContent());
+        httpSession.setAttribute("resourceHeaders", framework.getResourceHeaders());
       } else {
-        portletstoshow = (ArrayList) httpRequest.getSession().getAttribute("portletName");
-      }
-
-      Iterator i = null;
-      if (portletstoshow == null) {
-        Set keys = allPortletMetaData.keySet();
-        i = keys.iterator();
-      } else {
-        i = portletstoshow.iterator();
-      }
-
-      // render phase
-
-      while (i.hasNext()) {
-        count++;
-        PortletInfo portletinfo = new PortletInfo();
-        String key = ((String) i.next()).replace('/', '.');
-        String portletApp = key.replace('.', '/');
-        portletinfos.add(portletinfo);
-        portletinfo.portletapp = portletApp;          //portletapps.add(portletApp);
-        PortletData portlet = (PortletData) allPortletMetaData.get(key);
-        String[] ss = StringUtils.split(portletApp, "/");
-
-        WindowID2 win = (WindowID2) wins.get(portletApp);
-
-        // Create supported modes for each portlet
-        try {
-          Iterator iterator = service.getPortletModes(ss[0], ss[1], "text/html").iterator();
-          String pmode = null;
-          while (iterator.hasNext()) {
-            PortletMode mode = (PortletMode) iterator.next();
-            if (pmode == null) {
-              pmode = mode.toString();
-            } else {
-              pmode = pmode + "." + mode.toString();
-            }
+        Iterator<PortletInfo> plts = portletInfos.iterator();
+        if (httpSession.getAttribute("portletName") == null) {
+          while (plts.hasNext()) {
+            PortletInfo portletinfo = plts.next();
+            portletinfo.setTitle(portletinfo.getTitle() + " {mode: " + portletinfo.getMode() + "; state: " +
+                portletinfo.getState() + "}");
+            portletinfo.setToRender(portlets2render != null && portlets2render.contains(portletinfo.getPortlet()));
+            //Collecting session info
+            HashMap<String, Object> hm = portletinfo.getSessionMap();
+            sessionInfo.put(StringUtils.split(portletinfo.getPortlet(), "/")[0], hm);
           }
-          portletinfo.mode = pmode;
-        } catch (Exception e) {
-          e.printStackTrace();
-        }
-
-        // Create supported states for each portlet
-        try {
-          Iterator iterator = service.getWindowStates(ss[0]).iterator();
-          String pstate = null;
-          while (iterator.hasNext()) {
-            WindowState state = (WindowState) iterator.next();
-            if (pstate == null) {
-              pstate = state.toString();
-            } else {
-              pstate = pstate + "." + state.toString();
-            }
+        } else {
+          ArrayList<PortletInfo> newPortletInfos = new ArrayList<PortletInfo>();
+          while (plts.hasNext()) {
+            PortletInfo portletinfo = plts.next();
+            if (portletinfo.getOut() != null)
+              newPortletInfos.add(portletinfo);
           }
-          portletinfo.state = pstate;
-        } catch (Exception e) {
-          e.printStackTrace();
+          portletInfos = newPortletInfos;
         }
-
-        if (component != null && component.equals(portletApp)) {
-          win.setPortletMode(portletMode);
-          win.setWindowState(windowState);
-        }
-
-        portletinfo.fqTitle = portletApp;
-
-        ArrayList myatr0 = (ArrayList) httpRequest.getSession().getAttribute("myatr");
-        boolean pltIncl = (portletParams.containsKey("fis") && (portletParams.containsKey("n" + count + "n") &&
-          portletParams.get("n" + count + "n").equals("on")));
-        if (!pltIncl && !portletParams.containsKey("fis"))
-          pltIncl = (myatr0 != null) && !myatr0.get(count - 1).equals("");
-
-        if (!pltIncl) {
-          String sdn;
-          try {
-            sdn = ((DisplayName) portlet.getDisplayName().get(0)).getDisplayName();
-          } catch (Exception e) { sdn = ss[1]; }
-          portletinfo.title = sdn + " {mode: " + win.getPortletMode().toString() + "; state: " +
-            win.getWindowState().toString() + "}";
-          continue;
-        }
-
-        RenderInput renderInput = new RenderInput();
-        renderInput.setWindowID(win);
-        ArrayList lo = new ArrayList();
-        lo.add(new Locale("en"));
-        renderInput.setLocales(lo);
-        renderInput.setBaseURL("/" + ctx.getServletContextName() + "/?"
-            + Constants.COMPONENT_PARAMETER + "=" + win.getUniqueID());
-        renderInput.setUserAttributes(new HashMap());
-        renderInput.setMarkup("text/html");
-        if (component != null && component.equals(portletApp) && !isAction) {
-          renderInput.setRenderParameters(portletParams, true);
-        } else
-          renderInput.setRenderParameters(new HashMap());
-
-        if (actionParams != null)
-          renderInput.getRenderParameters().putAll(actionParams);
-
-        renderInput.setPortletMode(win.getPortletMode());
-        renderInput.setWindowState(win.getWindowState());
-
-        System.out.println("rendering: " + portletApp + ": windowID: "
-            + renderInput.getWindowID());
-        // System.out.println(" -- state: " +
-        // renderInput.getWindowState().toString() + "; mode: " +
-        // renderInput.getPortletMode().toString());
-
-        try {
-          RenderOutput o = service.render(httpRequest, dummyHttpResponse, renderInput);
-          // System.out.println(" render output: " + o);
-          portletinfo.title = o.getTitle() + " {mode: " + renderInput.getPortletMode().toString() + "; state: " +
-            renderInput.getWindowState().toString() + "}";
-          String pout = null;
-
-          try {
-            pout = new String(o.getContent());
-          } catch (Exception oe) {
-            pout = "";
-          }
-          if (pout == null)
-            pout = "";
-          portletinfo.out = pout;
-
-          // System.out.println(" output data added");
-
-          //Collecting session info
-          HashMap  hm = o.getSessionMap();
-          session_info.put(ss[0], hm);
-
-        } catch (Exception e1) {
-          System.out.println(" !!!!!!!!!!!! error rendering portlet " + portletApp + ": " + e1);
-          e1.printStackTrace();
-          System.out.println(" !!!!!!!!!!!! trying to continue...");
-        }
-
+        httpSession.removeAttribute("portletinfos");
+        httpSession.setAttribute("portletinfos", portletInfos);
       }
-
-      httpRequest.getSession().setAttribute("portletinfos", portletinfos);
 
     } catch (Exception e) {
       e.printStackTrace();
-      httpRequest.getSession().setAttribute("portletinfos", null);
+      httpSession.setAttribute("portletinfos", null);
       return;
     }
 
     filterChain.doFilter(servletRequest, servletResponse);
 
     // Session Replication
-    session_info.put(session_identifier, httpRequest.getSession().getId());
-    session_info.put(portal_identifier, portal_container_name);
-    //System.out.println("Container : "+portalContainer);
-    Set set = session_info.keySet();
+    sessionInfo.put(SESSION_IDENTIFIER, httpSession.getId());
+    sessionInfo.put(PORTAL_IDENTIFIER, portalContainerName);
     try {
-      SessionReplicator sr = new SessionReplicator();
-      //session_states = sr.send(session_info);
-      sr.send(session_info);
-      //System.out.println("States :"+ session_states);
+//      SessionReplicator sr = new SessionReplicator();
+//      sr.send(session_info);
     } catch (Exception e){
-      //e.printStackTrace();
     }
-
   }
 
+  /**
+   * Does nothing.
+   */
   public void destroy() {
   }
 

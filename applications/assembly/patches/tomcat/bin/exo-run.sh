@@ -5,11 +5,13 @@
 # $Id: startup.sh,v 1.4 2004/11/17 20:17:46 yoavs Exp $
 # -----------------------------------------------------------------------------
 # Better OS/400 detection: see Bugzilla 31132
-os400=false
+os400=false;
+cygwin=false;
 case "`uname`" in
 CYGWIN*) cygwin=true;;
 OS400*) os400=true;;
 esac
+
 
 # resolve links - $0 may be a softlink
 PRG="$0"
@@ -47,6 +49,8 @@ fi
 #####################################################################################
 LOG_OPTS="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog"
 SECURITY_OPTS="-Djava.security.auth.login.config=$PRGDIR/../conf/jaas.conf"
+CATALINA_OPTS="$CATALINA_OPTS $SECURITY_OPTS" 
+export CATALINA_OPTS
 JAVA_OPTS="$LOG_OPTS $SECURITY_OPTS $JAVA_OPTS"
 ####################################################################################
 #                     END  EXO CONFIGURATION                                        #

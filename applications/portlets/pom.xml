@@ -1,51 +1,26 @@
-<?xml version="1.0"?>
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>1.5</version>
+    <version>2.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>portlets</artifactId>
-  <!-- packaging>war</packaging -->
   <packaging>exopc-war</packaging>
-  <version>1.0</version>
-  <name>eXo portlet-container test portlets</name>
-
+  <name>eXo Portlet Container 2 Test Portlets</name>
 
   <dependencies>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.jsr168.api</artifactId>
+      <artifactId>exo.pc.component.core</artifactId>
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.jsr168.impl</artifactId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>${exo.portlet-container.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.wsrp.api</artifactId>
-      <version>${exo.portlet-container.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.wsrp.impl</artifactId>
-      <version>${exo.portlet-container.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>servletapi</groupId>
-      <artifactId>servletapi</artifactId>
-      <version>2.3</version>
       <scope>compile</scope>
     </dependency>
   </dependencies>
@@ -81,7 +56,7 @@
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
             exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jgroups-all, jotm, jotm_jrmp_stubs, jstl, log4j, quartz, soap, velocity, commons-beanutils
+            jgroups-all, jotm, jotm_jrmp_stubs, jstl, log4j, soap, velocity, commons-beanutils
           </excludeProjects>
           <includeToWarClasspath/>
         </configuration>

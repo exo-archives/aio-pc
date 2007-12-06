@@ -14,9 +14,56 @@
     <filter-class>org.exoplatform.services.portletcontainer.test.filters.PortletFilter</filter-class>
   </filter>
 
+  <!-- AXIS filter for WSRP1 -->
+  <filter>
+    <filter-name>AxisFilter</filter-name>
+    <filter-class>org.exoplatform.services.wsrp.filter.AxisFilter</filter-class>
+    <init-param>
+      <param-name>portal-container-name</param-name>
+      <param-value>portal</param-value>
+    </init-param>
+    <init-param>
+      <param-name>retries-to-register</param-name>
+      <param-value>3</param-value>
+    </init-param>
+  </filter>
+
+  <!-- AXIS filter for WSRP2 -->
+  <filter>
+    <filter-name>AxisFilter2</filter-name>
+    <filter-class>org.exoplatform.services.wsrp2.filter.AxisFilter</filter-class>
+    <init-param>
+      <param-name>portal-container-name</param-name>
+      <param-value>portal</param-value>
+    </init-param>
+    <init-param>
+      <param-name>retries-to-register</param-name>
+      <param-value>3</param-value>
+    </init-param>
+  </filter>
+
+  <!-- PortletFilter -->
   <filter-mapping>
     <filter-name>PortletFilter</filter-name>
-    <url-pattern>/</url-pattern>
+    <!-- url-pattern>/portal/</url-pattern -->
+    <servlet-name>PortalServlet</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>PortletFilter</filter-name>
+    <servlet-name>TckServlet</servlet-name>
+  </filter-mapping>
+
+  <!-- AXIS filter mapping for WSRP1 -->
+  <filter-mapping>
+    <filter-name>AxisFilter</filter-name>
+    <url-pattern>/services/*</url-pattern>
+  </filter-mapping>
+
+  <!-- AXIS filter mapping for WSRP2 -->
+  <filter-mapping>
+    <filter-name>AxisFilter2</filter-name>
+    <url-pattern>/services2/*</url-pattern>
   </filter-mapping>
 
   <listener>
@@ -26,28 +73,251 @@
   <!-- SERVLETS -->
 
   <!-- PortalServlet -->
-
   <servlet>
     <servlet-name>PortalServlet</servlet-name>
     <servlet-class>org.exoplatform.services.portletcontainer.test.filters.PortalServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>TckServlet</servlet-name>
+    <servlet-class>org.exoplatform.services.portletcontainer.test.filters.TckServlet</servlet-class>
+  </servlet>
 
+  <!-- WSRPStarter servlet for WSRP1 -->
+
+  <servlet>
+    <servlet-name>WSRPStarter1</servlet-name>
+    <display-name>WSRPStarter1</display-name>
+    <servlet-class>org.exoplatform.services.wsrp.producer.impl.WSRPStarter</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>base</param-name>
+      <param-value>http://localhost:8080/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>path</param-name>
+      <param-value>portal/services</param-value>
+    </init-param>
+    <init-param>
+      <param-name>deploy-wsdd</param-name>
+      <param-value>org/exoplatform/services/wsrp/wsdl/deploy.wsdd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>delay-before-start-sec</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>retries</param-name>
+      <param-value>5</param-value>
+    </init-param>
+    <init-param>
+      <param-name>delay-retry-sec</param-name>
+      <param-value>10</param-value>
+    </init-param>
+  </servlet>
+
+  <!-- WSRPStarter servlet for WSRP2 -->
+
+  <servlet>
+    <servlet-name>WSRPStarter2</servlet-name>
+    <display-name>WSRPStarter2</display-name>
+    <servlet-class>org.exoplatform.services.wsrp2.producer.impl.WSRPStarter</servlet-class>
+    <load-on-startup>1</load-on-startup>
+    <init-param>
+      <param-name>base</param-name>
+      <param-value>http://localhost:8080/</param-value>
+    </init-param>
+    <init-param>
+      <param-name>path</param-name>
+      <param-value>portal/services2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>deploy-wsdd</param-name>
+      <param-value>org/exoplatform/services/wsrp2/wsdl/deploy.wsdd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>delay-before-start-sec</param-name>
+      <param-value>2</param-value>
+    </init-param>
+    <init-param>
+      <param-name>retries</param-name>
+      <param-value>5</param-value>
+    </init-param>
+    <init-param>
+      <param-name>delay-retry-sec</param-name>
+      <param-value>10</param-value>
+    </init-param>
+  </servlet>
+  
+  <!-- Axis servlet for WSRP1 -->
+
+  <servlet>
+    <servlet-name>AxisServlet</servlet-name>
+    <display-name>Apache-Axis Servlet</display-name>
+    <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AdminServlet</servlet-name>
+    <display-name>Axis Admin Servlet</display-name>
+    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SOAPMonitorService</servlet-name>
+    <display-name>SOAPMonitorService</display-name>
+    <servlet-class>org.apache.axis.monitor.SOAPMonitorService</servlet-class>
+    <init-param>
+      <param-name>SOAPMonitorPort</param-name>
+      <param-value>5001</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <!-- Axis servlet for WSRP2 -->
+
+  <servlet>
+    <servlet-name>AxisServlet2</servlet-name>
+    <display-name>Apache-Axis Servlet</display-name>
+    <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>AdminServlet2</servlet-name>
+    <display-name>Axis Admin Servlet</display-name>
+    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SOAPMonitorService2</servlet-name>
+    <display-name>SOAPMonitorService2</display-name>
+    <servlet-class>org.apache.axis.monitor.SOAPMonitorService</servlet-class>
+    <init-param>
+      <param-name>SOAPMonitorPort</param-name>
+      <param-value>5002</param-value>
+    </init-param>
+    <load-on-startup>1</load-on-startup>
+  </servlet>
+  
   <!-- SERVLETS MAPPING -->
 
   <!-- PortalServlet mapping -->
-
   <servlet-mapping>
     <servlet-name>PortalServlet</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/portal/</url-pattern>
   </servlet-mapping>
 
-  <!-- The Welcome File List for IBM WebSphere -->
+  <servlet-mapping>
+    <servlet-name>TckServlet</servlet-name>
+    <url-pattern>/tck/</url-pattern>
+  </servlet-mapping>
 
+  <!-- WSRPStarter mapping for WSRP1 -->
+  
+  <!-- servlet-mapping>
+    <servlet-name>WSRPStarter1</servlet-name>
+    <url-pattern>/servlet/WSRPStarter1</url-pattern>
+  </servlet-mapping -->
+  
+  <!-- WSRPStarter mapping for WSRP2 -->
+  
+  <!-- servlet-mapping>
+    <servlet-name>WSRPStarter2</servlet-name>
+    <url-pattern>/servlet/WSRPStarter2</url-pattern>
+  </servlet-mapping -->
+  
+  <!-- soap/axis service mapping for WSRP1 -->
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/servlet/AxisServlet</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>*.jws</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet</servlet-name>
+    <url-pattern>/services/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SOAPMonitorService</servlet-name>
+    <url-pattern>/SOAPMonitor</url-pattern>
+  </servlet-mapping>
+
+  <!-- soap/axis service mapping for WSRP2 -->
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet2</servlet-name>
+    <url-pattern>/servlet/AxisServlet2</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet2</servlet-name>
+    <url-pattern>*.jws</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>AxisServlet2</servlet-name>
+    <url-pattern>/services2/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SOAPMonitorService2</servlet-name>
+    <url-pattern>/SOAPMonitor2</url-pattern>
+  </servlet-mapping>
+  
+  <!-- ================================================================== -->
+  <!--           MIME MAPPING                                             -->
+  <!-- ================================================================== -->
+
+  <mime-mapping>
+    <extension>wsdl</extension>
+    <mime-type>text/xml</mime-type>
+  </mime-mapping>
+
+  <mime-mapping>
+    <extension>xsd</extension>
+    <mime-type>text/xml</mime-type>
+  </mime-mapping>
+
+  <!-- The Welcome File List for IBM WebSphere -->
+  
   <welcome-file-list>
-    <welcome-file>/</welcome-file>
+    <welcome-file>/index.jsp</welcome-file>
   </welcome-file-list>
 
-  <security-role>
-    <role-name>auth-user</role-name>
+ <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>authentication</web-resource-name>
+      <url-pattern>/portal/*</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>FORM</auth-method>
+    <realm-name>exo-domain</realm-name>
+    <form-login-config>
+      <form-login-page>/login.jsp</form-login-page>
+      <form-error-page>/login-error.jsp</form-error-page>
+    </form-login-config>
+  </login-config>
+
+  <security-role id="ID_EXO_ADMIN">
+    <description>a simple admin role</description>
+    <role-name>admin</role-name>
   </security-role>
+
 </web-app>

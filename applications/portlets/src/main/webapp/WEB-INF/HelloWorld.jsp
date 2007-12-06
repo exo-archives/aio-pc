@@ -1,8 +1,8 @@
 <html>
   <body>
-    <h1>something</h1>
-    <p>something else - from within servlet</p>
-    <p><a href="z">link</a></p>
-    <br>-----end-of-HelloWorld.html-----<br>
+    <h1>HelloWorld.jsp</h1>
+    <p>Some markup from within servlet can be here</p>
+    <p><a href="#">test link</a></p>
+    <br>-----end-of-HelloWorld.jsp-----<br>
   </body>
 </html>

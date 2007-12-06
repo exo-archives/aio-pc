@@ -1,1 +1,7 @@
-<Context path="/portal" docBase="${catalina.home}/webapps/portal.war" debug="0" crossContext="true"/>
+<Context path="/portal" docBase="${catalina.home}/webapps/portal.war" debug="0" crossContext="true">
+    <Realm className='org.apache.catalina.realm.JAASRealm'
+           appName='exo-domain'
+           userClassNames='org.exoplatform.services.organization.auth.UserPrincipal'
+           roleClassNames='org.exoplatform.services.organization.auth.RolePrincipal'
+           debug='0' cache='false'/>
+</Context>

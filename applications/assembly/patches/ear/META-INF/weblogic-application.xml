@@ -10,11 +10,14 @@
   		<module-uri>portlets.war</module-uri> 
   	</module-ref>
   	<module-ref> 
+  		<module-uri>portlets2.war</module-uri> 
+  	</module-ref>
+  	<!-- module-ref> 
   		<module-uri>wsrp.war</module-uri> 
   	</module-ref>
   	<module-ref> 
   		<module-uri>smyfacesportlet.war</module-uri> 
-  	</module-ref>
+  	</module-ref -->
   </classloader-structure> 
   </classloader-structure> 
 </weblogic-application>

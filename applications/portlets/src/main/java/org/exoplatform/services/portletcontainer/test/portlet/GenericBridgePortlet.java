@@ -1,46 +1,83 @@
-/**
- * Copyright 2001-2003 The eXo Platform SARL         All rights reserved.
- * Please look at license.txt in info directory for more license detail.
- **/
+/*
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
 package org.exoplatform.services.portletcontainer.test.portlet;
 
 import java.io.PrintWriter;
-import java.util.*;
-import javax.portlet.*;
+import java.util.Enumeration;
+
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
+import javax.portlet.GenericPortlet;
+import javax.portlet.PortletConfig;
+import javax.portlet.PortletContext;
+import javax.portlet.PortletException;
+import javax.portlet.PortletRequestDispatcher;
+import javax.portlet.PortletURL;
+import javax.portlet.RenderRequest;
+import javax.portlet.RenderResponse;
 
 /**
- * Created by The eXo Platform SARL .
- * 
- * @author <a href="mailto:lautarul@gmail.com">Roman Pedchenko</a>
+ * Created by The eXo Platform SAS  .
+ *
+ * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id$
  */
-
 public class GenericBridgePortlet extends GenericPortlet {
 
-  protected PortletContext context;
-  protected String defaultPage;
-  protected String requestUrl;
-  public static String PARAM_PREFIX = "portlet:";
+  /**
+   * Portlet context.
+   */
+  private PortletContext context;
 
+  /**
+   * Default page to include.
+   */
+  private String defaultPage;
+
+  /**
+   * URL to include.
+   */
+  private String requestUrl;
+
+  /**
+   * Parameter prefix.
+   */
+  public static final String PARAM_PREFIX = "portlet:";
+
+  /**
+   * Overridden method.
+   *
+   * @param config portlet config
+   * @throws PortletException something may go wrong
+   * @see javax.portlet.GenericPortlet#init(javax.portlet.PortletConfig)
+   */
   public void init(PortletConfig config) throws PortletException {
-      super.init(config);
+    super.init(config);
 
-      context = config.getPortletContext();
-      defaultPage = config.getInitParameter("default-page");
-      requestUrl = defaultPage;
+    context = config.getPortletContext();
+    defaultPage = config.getInitParameter("default-page");
+    requestUrl = defaultPage;
   }
 
-  protected void doView(RenderRequest request, RenderResponse response)
-      throws PortletException {
-
-//System.out.println(" =====> from within portlet: request: " + request);
-//for (Enumeration e = request.getParameterNames(); e.hasMoreElements();)
-//System.out.println(" =====> from within portlet: param: " + e.nextElement());
+  public void doView(RenderRequest request, RenderResponse response) throws PortletException {
     try {
-      response.setContentType("text/html; charset=UTF-8");    
+      response.setContentType("text/html; charset=UTF-8");
       PrintWriter w = response.getWriter();
-      
+
       // --- simple navigation bar ---------
       w.println("<table width=\"100%\"><tr><td>");
 
@@ -55,7 +92,6 @@ public class GenericBridgePortlet extends GenericPortlet {
       w.println("</td></tr><tr><td>");
 
       requestUrl = request.getParameter("url");
-//System.out.println(" =========== param url: " + requestUrl);
       if (requestUrl == null)
         requestUrl = defaultPage;
 
@@ -63,16 +99,16 @@ public class GenericBridgePortlet extends GenericPortlet {
 
       w.println("</td></tr><tr><td>");
 
-    w.println("<table width=\"100%\" border=\"1\">");
-    w.println("<tr><th colspan=\"2\">Request parameters</th></tr>");
-    w.println("<tr><th>parameter</th><th>value</th></tr>");
-    Enumeration e = request.getParameterNames();
-    while (e.hasMoreElements()) {
-      String s = (String) e.nextElement();
-      w.println("<tr><td>" + s + "</td>");
-      w.println("<td>" + request.getParameter(s) + "</td></tr>");
-    }
-    w.println("</table>");
+      w.println("<table width=\"100%\" border=\"1\">");
+      w.println("<tr><th colspan=\"2\">Request parameters</th></tr>");
+      w.println("<tr><th>parameter</th><th>value</th></tr>");
+      Enumeration e = request.getParameterNames();
+      while (e.hasMoreElements()) {
+        String s = (String) e.nextElement();
+        w.println("<tr><td>" + s + "</td>");
+        w.println("<td>" + request.getParameter(s) + "</td></tr>");
+      }
+      w.println("</table>");
 
       w.println("</td></tr><tr><td>");
 
@@ -86,8 +122,6 @@ public class GenericBridgePortlet extends GenericPortlet {
     }
   }
 
-  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-      throws PortletException {
-  }
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException { }
 
 }

@@ -1,23 +1,21 @@
-<?xml version="1.0"?>
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>1.5</version>
+    <version>2.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sbridgestrutsportlet</artifactId>
-  <!--packaging>exo-pc</packaging-->
+  <!--packaging>exopc-war</packaging-->
   <packaging>war</packaging>
-  <version>1.0</version>
-  <name>eXo Sample Bridge Struts Portlet</name>
+  <name>eXo Portlet Container 2 Applications Bridges Struts Portlet</name>
 
   <dependencies>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.util-bridge</artifactId>
-      <version>1.5</version>
+      <artifactId>exo.pc.util-bridge</artifactId>
+      <version>${exo.portlet-container.version}</version>
     </dependency>
 
     <dependency>
@@ -39,7 +37,6 @@
     </dependency>
 
   </dependencies>
-
 
   <build>
     <finalName>sbridgestrutsportlet</finalName>

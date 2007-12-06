@@ -42,11 +42,7 @@
   </servlet-mapping>
 --> 
 
-  <taglib>
-    <taglib-uri>http://java.sun.com/portlet</taglib-uri>
-    <taglib-location>/WEB-INF/tld/portlet.tld</taglib-location>
-  </taglib>
-
+<!--
   <taglib>
     <taglib-uri>http://java.sun.com/jsf/core</taglib-uri>
     <taglib-location>/WEB-INF/tld/myfaces_core.tld</taglib-location>
@@ -56,6 +52,7 @@
     <taglib-uri>http://java.sun.com/jsf/html</taglib-uri>
     <taglib-location>/WEB-INF/tld/myfaces_html.tld</taglib-location>
   </taglib>
+-->
 
   <security-role>
     <role-name>admin</role-name>

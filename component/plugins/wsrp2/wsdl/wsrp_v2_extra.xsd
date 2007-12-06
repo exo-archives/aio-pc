@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema targetNamespace="urn:oasis:names:tc:wsrp:extra"
+        xmlns:wsrp-extra="urn:oasis:names:tc:wsrp:extra"
+        xmlns:wsrpv2="urn:oasis:names:tc:wsrp:v2:types"
+
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+
+        elementFormDefault="qualified">
+
+
+  <import namespace="urn:oasis:names:tc:wsrp:v2:types" schemaLocation="wsrp_v2_types.xsd"/>
+
+<!-- Type definitions in a non-WSRP types namespace for use as extension elements  -->
+
+  <complexType name="QNamedString">
+    <attribute name="qname" type="xsd:QName"  use="required"/>
+    <attribute name="value" type="xsd:string"/>
+   <!-- Axis v1.1 ignores the following declaration! -->
+    <anyAttribute/>
+  </complexType>
+  <element name="QNamedString" type="wsrp-extra:QNamedString"/>
+
+  <complexType name="QNamedStringArray">
+    <sequence>
+      <element name="QNamedString" type="wsrp-extra:QNamedString" minOccurs="0" maxOccurs="unbounded"/>
+    </sequence>
+    <anyAttribute/>
+  </complexType>
+  <element name="QNamedStringArray" type="wsrp-extra:QNamedStringArray"/>
+
+  <!-- Well known extensions -->
+  <element name="doctype"               type="wsrp-extra:QNamedString"/>
+
+  <element name="extendedURLParameters" type="wsrpv2:NamedStringArray"/>
+
+</schema>

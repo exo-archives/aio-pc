@@ -2,15 +2,15 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>config</artifactId>
-  <name>eXo portlet container</name>
-  <version>1.5</version>
+  <name>eXo Portlet Container</name>
+  <version>2.0</version>
   <packaging>pom</packaging>
 
   <modules>
-    <module>component/jsr168/api</module>
-    <module>component/jsr168/impl</module>
-    <module>component/wsrp/api</module>
-    <module>component/wsrp/impl</module>
+    <module>component/core</module>
+    <module>component/plugins/pc</module>
+    <module>component/plugins/wsrp1</module>
+    <module>component/plugins/wsrp2</module>
     <module>applications</module>
   </modules>
 
@@ -22,10 +22,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <exo.platform.version>2.0.3</exo.platform.version>
-        <exo.portlet-container.version>1.5</exo.portlet-container.version>
-        <!--<exo.jcr.version>1.5</exo.jcr.version>-->
-        <exo.portal.version>1.1.4</exo.portal.version>
+        <exo.platform.version>trunk</exo.platform.version>
+        <exo.portlet-container.version>2.0</exo.portlet-container.version>
       </properties>
     </profile>
   </profiles>
@@ -55,4 +53,16 @@
       </plugin>
     </plugins>
   </build>
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-checkstyle-plugin</artifactId>
+        <configuration>
+          <configLocation>${exo.projects.directory.src}/tools/trunk/config/exo-checkstyle-checker.xml</configLocation>
+          <suppressionsLocation>${exo.projects.directory.src}/tools/trunk/config/exo-checkstyle-suppressions.xml</suppressionsLocation>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
 </project>

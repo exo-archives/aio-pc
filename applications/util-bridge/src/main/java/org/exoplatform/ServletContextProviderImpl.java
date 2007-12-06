@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
-import org.exoplatform.services.portletcontainer.impl.portletAPIImp.PortletContextImpl;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletContextImpl;
 
 import org.apache.portals.bridges.common.ServletContextProvider;
 

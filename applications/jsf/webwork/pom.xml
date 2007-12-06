@@ -1,25 +1,21 @@
-<?xml version="1.0"?>
 <project>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>1.5</version>
+    <version>2.0</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>swebworkportlet</artifactId>
   <packaging>war</packaging>
-  <version>1.0</version>
-  <name>eXo Sample WebWork Portlet</name>
+  <name>eXo Portlet Container 2 Applications JSF WebWork Portlet</name>
 
   <dependencies>
-
-  <dependency>
-    <groupId>opensymphony</groupId>
-    <artifactId>webwork</artifactId>
-    <version>2.2.2</version>
-    <scope>compile</scope>
-  </dependency>
-
+    <dependency>
+      <groupId>opensymphony</groupId>
+      <artifactId>webwork</artifactId>
+      <version>2.2.2</version>
+      <scope>compile</scope>
+    </dependency>
   </dependencies>
 
   <build>

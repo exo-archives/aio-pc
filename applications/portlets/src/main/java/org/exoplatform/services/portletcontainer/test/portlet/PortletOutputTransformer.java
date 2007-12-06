@@ -1,11 +1,20 @@
-/***************************************************************************
-* Copyright 2001-2003 The eXo Platform SARL                                *
- * All rights reserved.                                                    *
- * Please look at license.txt in info directory for more license detail.   *
- **************************************************************************/
+/*
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
 
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
 package org.exoplatform.services.portletcontainer.test.portlet;
-
 
 import javax.xml.transform.TransformerConfigurationException;
 import javax.xml.transform.TransformerException;
@@ -26,7 +35,7 @@ import java.io.IOException;
 import org.exoplatform.services.xml.transform.NotSupportedIOTypeException;
 
 /**
- * Created by The eXo Platform SARL        .
+ * Created by The eXo Platform SAS         .
  * <p/>
  * Url rewriter for XHTML script
  * href="original-url" will be rewrited as
@@ -35,7 +44,6 @@ import org.exoplatform.services.xml.transform.NotSupportedIOTypeException;
  * @author <a href="mailto:geaz@users.sourceforge.net">Gennady Azarenkov</a>
  * @version $Id$
  */
-
 public class PortletOutputTransformer {
     public static final String PARAM_NAME_VALUE = "url";
     //xsl param names
@@ -52,10 +60,6 @@ public class PortletOutputTransformer {
     public String portalQueryString = "";// "portal:componentId=news&portal:windowState=minimized"
     public String paramNamespace = "";// "portlet:struts1_1:"
 
-//    public static final String BASE_URI = "baseURI"; //PREFIX_URL = "portlet-url";
-//    public static final String PARAM_NAME = "param-name"; //HREF_PARAM = //"href-param";
-//    public static final String LINK_PREFIX = "link-prefix"; //HREF_CONTEXT = "href-context";
-//
     public static final String HTML_URL_REWRITE_STYLE =
             Constants.XSLT_DIR + "/html-url-rewite.xsl";
 
