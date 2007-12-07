@@ -4,7 +4,7 @@ eXo.require("eXo.projects.Product") ;
 function getModule(params) {
   var module = new Module();
   
-  module.version = "2.0" ;
+  module.version = "trunk" ;
   module.relativeMavenRepo = "org/exoplatform/portletcontainer" ;
   module.relativeSRCRepo = "portlet-container/trunk" ;
   module.name = "pc" ;
