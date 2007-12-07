@@ -50,14 +50,14 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
   private String                 resourceState;     // TODO EXOMAN
 
   public ProducerRewriterResourceURLImp(String type,
-                                        String baseURL,
+                                        String template,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
                                         String sessionID,
                                         boolean defaultEscapeXml,
                                         String cacheLevel) {
-    super(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel);
+    super(type, template, isCurrentlySecured, defaultEscapeXml, cacheLevel);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -69,27 +69,34 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       isSecure = true;
       secureInfo = "true";
     }
+    
     String navigationalState = IdentifierUtil.generateUUID(this);
-    String temp = baseURL;
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
+    try {
+      stateManager.putNavigationalState(navigationalState, parameters);
+    } catch (WSRPException e) {
+      e.printStackTrace();
+    }
+    
+    String template = baseURL;
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
     if (resourceID != null) {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", resourceID);
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", resourceID);
     } else {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     }
     if (resourceState != null) {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", resourceState);
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", resourceState);
     } else {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
     }
     if (cacheLevel != null) {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", cacheLevel);
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", cacheLevel);
     } else {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
     }
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
 
     // WSRP_NAVIGATIONAL_VALUES
     if (navigationalValues != null) {
@@ -105,28 +112,22 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
           }
         }
       }
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString, true));
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString, true));
     } else {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", "");
     }
 
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
 
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_URL + "}", "");
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
-    temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 
-    Utils.fillExtensions(temp, extensions);
-
-    try {
-      stateManager.putNavigationalState(navigationalState, parameters);
-    } catch (WSRPException e) {
-      e.printStackTrace();
-    }
+    Utils.fillExtensions(template, extensions);
 
     Set names = parameters.keySet();
     for (Iterator iterator = names.iterator(); iterator.hasNext();) {
@@ -134,22 +135,22 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        temp += Constants.AMPERSAND;
-        temp += URLEncoder.encode(name);
-        temp += "=";
-        temp += URLEncoder.encode(value);
+        template += Constants.AMPERSAND;
+        template += URLEncoder.encode(name);
+        template += "=";
+        template += URLEncoder.encode(value);
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          temp += Constants.AMPERSAND;
-          temp += URLEncoder.encode(name);
-          temp += "=";
-          temp += URLEncoder.encode(values[i]);
+          template += Constants.AMPERSAND;
+          template += URLEncoder.encode(name);
+          template += "=";
+          template += URLEncoder.encode(values[i]);
         }
       }
     }
 
-    return temp;
+    return template;
   }
 
 }

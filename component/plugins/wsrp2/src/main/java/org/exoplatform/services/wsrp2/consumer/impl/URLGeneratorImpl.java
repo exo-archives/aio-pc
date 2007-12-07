@@ -35,19 +35,19 @@ import org.exoplatform.services.wsrp2.consumer.URLGenerator;
 
 public class URLGeneratorImpl implements URLGenerator{
 
-  public String getBlockingActionURL(String baseURL, Map params) {
+  public String getBlockingActionURL(String baseURL, Map<String, String> params) {
     return getURL(baseURL, params);
   }
 
-  public String getRenderURL(String baseURL, Map params) {
+  public String getRenderURL(String baseURL, Map<String, String> params) {
     return getURL(baseURL, params);
   }
 
-  public String getResourceURL(String baseURL, Map params) {
+  public String getResourceURL(String baseURL, Map<String, String> params) {
     return getURL(baseURL, params);
   }
 
-  private String getURL(String baseURL, Map params){
+  private String getURL(String baseURL, Map<String, String> params){
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
     return computeParameters(sB, params);
@@ -58,8 +58,8 @@ public class URLGeneratorImpl implements URLGenerator{
   }
 
   private String computeParameters(StringBuffer sB, Map parameters){
-    Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    Set<String> names = parameters.keySet();
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next() ;
       // need todo below, because the PORTLET_HANDLE doesn't need for our new plugin.wsrp mechanism
       if (name.equalsIgnoreCase(WSRPConstants.WSRP_PORTLET_HANDLE))

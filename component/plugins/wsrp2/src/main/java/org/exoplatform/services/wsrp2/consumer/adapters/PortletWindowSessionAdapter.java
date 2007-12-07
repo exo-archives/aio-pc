@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.PortletSession;
@@ -30,14 +30,23 @@ import org.exoplatform.services.wsrp2.type.ResourceContext;
  * Time: 15:49:27
  */
 
-public class PortletWindowSessionAdapter implements PortletWindowSession{
+public class PortletWindowSessionAdapter implements PortletWindowSession {
 
-  private String windowID;
-  private PortletSession portletSession;
-  private MarkupContext markupContext;
-  private String navigationalState;
+  private String          windowID;
+
+  private PortletSession  portletSession;
+
+  private MarkupContext   markupContext;
+
+  private String          navigationalState;
+
   private ResourceContext resourceContext;
-  private NamedString[] navigationalValues;
+
+  private NamedString[]   navigationalValues;
+
+  private String          interactionState;
+
+  private String          resourceState;
 
   public String getWindowID() {
     return windowID;
@@ -78,31 +87,47 @@ public class PortletWindowSessionAdapter implements PortletWindowSession{
   public void setNavigationalState(String navigationalState) {
     this.navigationalState = navigationalState;
   }
-  
+
   // WSRP 2
-  
+
   public ResourceContext getCachedResource() {
     return this.resourceContext;
   }
-  
+
   public void updateResourceCache(ResourceContext resourceContext) {
     this.resourceContext = resourceContext;
   }
-  
+
   public ResourceContext getResourceContext() {
     return resourceContext;
   }
-  
+
   public void setResourceContext(ResourceContext resourceContext) {
     this.resourceContext = resourceContext;
   }
-  
+
   public NamedString[] getNavigationalValues() {
     return navigationalValues;
   }
 
   public void setNavigationalValues(NamedString[] navigationalValues) {
     this.navigationalValues = navigationalValues;
+  }
+
+  public String getInteractionState() {
+    return interactionState;
+  }
+
+  public void setInteractionState(String interactionState) {
+    this.interactionState = interactionState;
+  }
+
+  public String getResourceState() {
+    return resourceState;
+  }
+
+  public void setResourceState(String resourceState) {
+    this.resourceState = resourceState;
   }
 
 }

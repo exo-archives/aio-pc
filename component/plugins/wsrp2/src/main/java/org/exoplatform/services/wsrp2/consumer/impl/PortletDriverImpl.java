@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import org.apache.commons.logging.Log;
@@ -212,7 +212,7 @@ public class PortletDriverImpl implements PortletDriver {
     if (doesUrlTemplateProcess != null && templateComposer != null && doesUrlTemplateProcess.booleanValue()) {
       // If path starts with protocol then don't use templateComposer for create
       // templates
-      if (path != null)
+      if (path != null) {
         if (path.startsWith(URLTemplateComposerImpl.NON_SECURE_PROTOCOL) || path.startsWith(URLTemplateComposerImpl.SECURE_PROTOCOL)) {
           Templates templates = new Templates();
           templates.setBlockingActionTemplate(path);
@@ -233,6 +233,7 @@ public class PortletDriverImpl implements PortletDriver {
           runtimeContext.setExtensions(null);
           return runtimeContext;
         }
+      }
       Templates templates = new Templates();
       templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(path));
       templates.setRenderTemplate(templateComposer.createRenderTemplate(path));

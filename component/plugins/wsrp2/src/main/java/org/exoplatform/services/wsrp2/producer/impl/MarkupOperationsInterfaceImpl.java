@@ -355,7 +355,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getRenderTemplate();
+      baseURL = templates.getBlockingActionTemplate();
       portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),
@@ -605,7 +605,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getRenderTemplate();
+      baseURL = templates.getResourceTemplate();
       portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),
@@ -1099,9 +1099,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private Templates manageTemplates(RuntimeContext runtimeContext,
                                     WSRPHttpSession session) {
     Templates templates = runtimeContext.getTemplates();
-    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.manageTemplates() templates.getRenderTemplate() = " + templates.getRenderTemplate());
-    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.manageTemplates() templates.getBlockingActionTemplate() = "
-        + templates.getBlockingActionTemplate());
     if (conf.isTemplatesStoredInSession()) { // default is false
       log.debug("Optimized mode : templates store in session");
       if (templates == null) {

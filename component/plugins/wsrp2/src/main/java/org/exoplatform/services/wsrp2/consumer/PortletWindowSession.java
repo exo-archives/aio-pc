@@ -64,4 +64,12 @@ public interface PortletWindowSession {
 
   public NamedString[] getNavigationalValues();
 
+  public void setInteractionState(String interactionState);
+
+  public String getInteractionState();
+
+  public void setResourceState(String resourceState);
+
+  public String getResourceState();
+
 }

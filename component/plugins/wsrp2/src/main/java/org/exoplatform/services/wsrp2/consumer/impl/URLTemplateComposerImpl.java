@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import org.exoplatform.Constants;
@@ -22,18 +22,19 @@ import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
 /*
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 6 févr. 2004
- * Time: 13:05:01
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
+ * févr. 2004 Time: 13:05:01
  */
 
-public class URLTemplateComposerImpl implements URLTemplateComposer{
+public class URLTemplateComposerImpl implements URLTemplateComposer {
 
-  public static final String SECURE_PROTOCOL = "https://";
+  public static final String SECURE_PROTOCOL     = "https://";
+
   public static final String NON_SECURE_PROTOCOL = "http://";
-  private String host = "localhost";
-  private int port = 8080;
+
+  private String             host                = "localhost";
+
+  private int                port                = 8080;
 
   public void setHost(String host) {
     this.host = host;
@@ -111,35 +112,36 @@ public class URLTemplateComposerImpl implements URLTemplateComposer{
     return "";
   }
 
-  private void manageServerPath(StringBuffer stringBuffer, String path) {
+  private void manageServerPath(StringBuffer stringBuffer,
+                                String path) {
     stringBuffer.append(host);
-    if(port > 0)
+    if (port > 0)
       stringBuffer.append(":").append(port);
     stringBuffer.append(path);
   }
 
-  private void appendParameters(StringBuffer stringBuffer){
+  private void appendParameters(StringBuffer stringBuffer) {
     // JSR-168, 286
-    stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}" );
-    stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE + "}" );
-    stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={" + WSRPConstants.WSRP_WINDOW_STATE + "}" );
-    stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL + "}" );
+    stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}");
+    stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE + "}");
+    stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={" + WSRPConstants.WSRP_WINDOW_STATE + "}");
+    stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL + "}");
 
     // WSRP1,2
-    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "={" + WSRPConstants.WSRP_PORTLET_HANDLE  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "={" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={" + WSRPConstants.WSRP_NAVIGATIONAL_STATE  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "={" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "={" + WSRPConstants.WSRP_USER_CONTEXT_KEY  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={" + WSRPConstants.WSRP_REQUIRES_REWRITE  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_PREFER_OPERATION + "={" + WSRPConstants.WSRP_PREFER_OPERATION  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={" + WSRPConstants.WSRP_INTERACTION_STATE  + "}" );
-    stringBuffer.append("&" + WSRPConstants.WSRP_FRAGMENT_ID + "={" + WSRPConstants.WSRP_FRAGMENT_ID  + "}" );
-    
-    stringBuffer.append("&" + WSRPConstants.WSRP_EXTENSIONS + "={" + WSRPConstants.WSRP_EXTENSIONS  + "}" );
-    
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "={" + WSRPConstants.WSRP_PORTLET_HANDLE + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "={" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "={" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "={" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_PREFER_OPERATION + "={" + WSRPConstants.WSRP_PREFER_OPERATION + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={" + WSRPConstants.WSRP_INTERACTION_STATE + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_FRAGMENT_ID + "={" + WSRPConstants.WSRP_FRAGMENT_ID + "}");
+
+    stringBuffer.append("&" + WSRPConstants.WSRP_EXTENSIONS + "={" + WSRPConstants.WSRP_EXTENSIONS + "}");
+
   }
 
 }
