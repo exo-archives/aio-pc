@@ -34,7 +34,7 @@
       <scope>compile</scope>
     </dependency>
 
-
+<!--
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>sbridgejsfportlet</artifactId>
@@ -42,7 +42,7 @@
       <type>war</type>
       <scope>compile</scope>
     </dependency>
-
+-->
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>

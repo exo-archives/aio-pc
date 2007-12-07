@@ -213,7 +213,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     PortletURLFactory portletURLFactory = null;
 
     // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {
+    if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
       baseURL = templates.getRenderTemplate();
@@ -352,7 +352,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     PortletURLFactory portletURLFactory = null;
 
     // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {
+    if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
       baseURL = templates.getRenderTemplate();
@@ -602,7 +602,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     PortletURLFactory portletURLFactory = null;
 
     // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {
+    if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
       baseURL = templates.getRenderTemplate();
@@ -744,7 +744,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     PortletURLFactory portletURLFactory = null;
 
     // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {
+    if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
       baseURL = templates.getRenderTemplate();
@@ -1099,7 +1099,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private Templates manageTemplates(RuntimeContext runtimeContext,
                                     WSRPHttpSession session) {
     Templates templates = runtimeContext.getTemplates();
-    if (conf.isTemplatesStoredInSession()) {
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.manageTemplates() templates.getRenderTemplate() = " + templates.getRenderTemplate());
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.manageTemplates() templates.getBlockingActionTemplate() = "
+        + templates.getBlockingActionTemplate());
+    if (conf.isTemplatesStoredInSession()) { // default is false
       log.debug("Optimized mode : templates store in session");
       if (templates == null) {
         log.debug("Optimized mode : retrieves the template from session");

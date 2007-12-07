@@ -21,8 +21,8 @@
     
     <!--module>util-jsf</module-->
     <!--module>jsf</module-->    
-    <module>util-bridge</module>
-    <module>bridges</module>
+    <!--module>util-bridge</module-->
+    <!--module>bridges</module-->
   </modules>
 
   <profiles>
