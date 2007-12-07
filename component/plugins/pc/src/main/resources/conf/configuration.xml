@@ -2,11 +2,6 @@
 <configuration>
 
   <component>
-    <key>org.exoplatform.services.organization.OrganizationService</key>
-    <type>org.exoplatform.services.organization.hibernate.OrganizationServiceImpl</type>
-  </component>
-  
-  <component>
     <key>org.exoplatform.services.database.HibernateService</key>
     <type>org.exoplatform.services.database.impl.HibernateServiceImpl</type>
     <init-params>

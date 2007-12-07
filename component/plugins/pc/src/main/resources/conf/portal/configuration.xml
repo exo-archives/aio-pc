@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <configuration>
 
+  <!-- [PN] 08.12.07 to let it be overriden in portal configuration -->
+  <component>
+    <key>org.exoplatform.services.organization.OrganizationService</key>
+    <type>org.exoplatform.services.organization.hibernate.OrganizationServiceImpl</type>
+  </component>
+
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
   </component>
