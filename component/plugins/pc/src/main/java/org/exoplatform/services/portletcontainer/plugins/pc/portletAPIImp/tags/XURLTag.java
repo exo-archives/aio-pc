@@ -72,7 +72,8 @@ public abstract class XURLTag extends BodyTagSupport {
   public void addParameter(String key,
                            String value) {
     if (parameters.get(key) == null) {
-      parameters.put(key, new String[] { value });
+      if (value != null && !value.equals(""))
+        parameters.put(key, new String[] { value });
     } else {
       if (value == null || value.equals(""))
         parameters.remove(key);
