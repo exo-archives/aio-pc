@@ -253,9 +253,9 @@ public class XMLParser {
     xpp.mandatoryNode("mime-type"); supports.setMimeType(xpp.getContent().trim());
     // getting portlet modes
     List<String> portletMode = new ArrayList<String>();
-    while(xpp.node("portlet-mode")) portletMode.add(xpp.getContent().trim());
-    if (!portletMode.contains(PortletMode.VIEW.toString()))
-      supports.addPortletMode(PortletMode.VIEW.toString());
+    while(xpp.node("portlet-mode")) portletMode.add(xpp.getContent().trim().toLowerCase());
+    if (!portletMode.contains(PortletMode.VIEW.toString().toLowerCase()))
+      portletMode.add(PortletMode.VIEW.toString().toLowerCase());
     Iterator iterModes = portletMode.iterator();
     while (iterModes.hasNext()) {
       supports.addPortletMode(((String) iterModes.next()) );
