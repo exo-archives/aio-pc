@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
+import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +28,8 @@ import java.util.Map;
 import javax.portlet.PortletMode;
 import javax.portlet.ResourceURL;
 import javax.portlet.WindowState;
+import javax.xml.namespace.QName;
 
-import org.apache.axis.encoding.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
@@ -65,6 +66,7 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPProducerRewriterPortletURLFactory;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
+import org.exoplatform.services.wsrp2.type.ErrorCodes;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.HandleEventsFailed;
@@ -90,6 +92,7 @@ import org.exoplatform.services.wsrp2.type.UpdateResponse;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
 import org.exoplatform.services.wsrp2.utils.Modes;
+import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
@@ -840,25 +843,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
 
-    ArrayList<HandleEventsFailed> failedEventsArray = new ArrayList<HandleEventsFailed>();
+    List<HandleEventsFailed> failedEventsList = new ArrayList<HandleEventsFailed>();
 
     Event[] events = eventParams.getEvents();
-
     List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
-
-    Map<String, String[]> resultRenderParams = new HashMap<String, String[]>();
     List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
-
-    //    BigInteger[] indexes;
+    Map<String, String[]> renderParameters = new HashMap<String, String[]>();
+    String resultNavigationalState = null;
+    
+    Integer index = 0;
+    int eventsLength = events.length;
 
     // iteration over incoming javax events
     Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
 
     while (nativeEventsListIterator.hasNext()) {
       javax.portlet.Event event = nativeEventsListIterator.next();
-
-      //    for (int i = 0; i < events.length; i++) {
-      //      javax.portlet.Event event = nativeEventsList.get(i);
 
       // prepare the Input object
       EventInput input = new EventInput();
@@ -876,7 +876,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
       input.setEvent(event);
-      // input.setStateChangeAuthorized(isStateChangeAuthorized);
+      input.setRenderParameters(renderParameters);
+      //      input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
@@ -888,76 +889,77 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         if (output.hasError())
           throw new WSRPException("processEvent output hasError");
       } catch (WSRPException e) {
-        log.debug("The call to processEvent method was a failure ", e);
+        log.debug("The call to processEvent with event: '" + event.getName() + "' method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
-        //handleEventsFailed.setErrorCode(ErrorCodes.fromValue());
+        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
         handleEventsFailed.setReason(new LocalizedString(e.getLocalizedMessage(), ""));// TODO
-        // EXOMAN
-        // indexes[0] = new BigInteger(i);
-        // handleEventsFailed.setIndex(indexes);
-        failedEventsArray.add(handleEventsFailed);
+        BigInteger indexBigInteger = new BigInteger(index.toString());
+        handleEventsFailed.setIndex(new BigInteger[] { indexBigInteger });
+        failedEventsList.add(handleEventsFailed);
         Exception2Fault.handleException(e);
+      } finally {
+        index++;
       }
 
       resultNativeEventsList.addAll(output.getEvents());
-      resultRenderParams.putAll(output.getRenderParameters());
+      renderParameters = output.getRenderParameters();
+      if (output.getNextMode() != null)
+        mode = output.getNextMode();
+      if (output.getNextState() != null)
+        windowState = output.getNextState();
 
-      // manage navigational state
-      String ns = IdentifierUtil.generateUUID(output);
-      try {
-        log.debug("set new navigational state : " + ns);
-        persistentStateManager.putNavigationalState(ns, output.getRenderParameters());
-        //persistentStateManager.putNavigationalState(ns, new HashMap());
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
+      // unnecessary manage navigational state for each process event
+      if (eventsLength == 1) {
+        resultNavigationalState = IdentifierUtil.generateUUID(output);
+        try {
+          log.debug("set new navigational state : " + resultNavigationalState);
+          persistentStateManager.putNavigationalState(resultNavigationalState, output.getRenderParameters());
+        } catch (WSRPException e) {
+          Exception2Fault.handleException(e);
+        }
       }
-
     }
 
+
+
+    UpdateResponse updateResponse = new UpdateResponse();
+
+    updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
+    updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + mode.toString());
+    updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + windowState.toString());
+    updateResponse.setSessionContext(sessionContext);
     MarkupContext markupContext = null;
-    //    if (conf.isBlockingInteractionOptimized()) {
+    // call render to optimized // TODO new conf param for
+    //    if (conf.isHandleEventsOptimized()) {
     //      // markupParams.setWindowState(ns);
     //      MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
     //      markupContext = markupResponse.getMarkupContext();
     //    }
-
-    UpdateResponse updateResponse = new UpdateResponse();
-
-    //    if (output.getNextMode() != null) {
-    //      updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
-    //    }
-    //    if (output.getNextState() != null) {
-    //      updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + output.getNextState().toString());
-    //    }
-    updateResponse.setSessionContext(sessionContext);
     updateResponse.setMarkupContext(markupContext);
-
     updateResponse.setPortletContext(portletContext);
 
-    updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
-
     // manage navigational state
-    String ns = IdentifierUtil.generateUUID(resultRenderParams);
-    try {
-      log.debug("set new navigational state : " + ns);
-      persistentStateManager.putNavigationalState(ns, resultRenderParams);
-      //persistentStateManager.putNavigationalState(ns, new HashMap());
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+    if (eventsLength != 1) {
+      resultNavigationalState = IdentifierUtil.generateUUID(renderParameters);
+      try {
+        log.debug("set new navigational state : " + resultNavigationalState);
+        persistentStateManager.putNavigationalState(resultNavigationalState, renderParameters);
+      } catch (WSRPException e) {
+        Exception2Fault.handleException(e);
+      }
     }
 
-    NavigationalContext newNavigationalContext = new NavigationalContext();
-    newNavigationalContext.setOpaqueValue(ns);
-    //    newNavigationalContext.setPublicValues(oldNavigationalContext.getPublicValues());
-    newNavigationalContext.setExtensions(null);
-    updateResponse.setNavigationalContext(newNavigationalContext);
+    NavigationalContext navigationalContext = new NavigationalContext();
+    navigationalContext.setOpaqueValue(resultNavigationalState);
+    navigationalContext.setPublicValues(Utils.getNamedStringArrayParameters(renderParameters, false)); // TODO EXOMAN: select only public
+    navigationalContext.setExtensions(null);
+    updateResponse.setNavigationalContext(navigationalContext);
 
     handleEventsResponse.setUpdateResponse(updateResponse);
     // converting failed events from list to array and set that
-    handleEventsResponse.setFailedEvents((HandleEventsFailed[]) failedEventsArray.toArray(new HandleEventsFailed[failedEventsArray.size()]));
+    handleEventsResponse.setFailedEvents((HandleEventsFailed[]) failedEventsList.toArray(new HandleEventsFailed[failedEventsList.size()]));
 
     return handleEventsResponse;
-
   }
 
   private Map<String, String[]> getFormParameters(NamedString[] array) {

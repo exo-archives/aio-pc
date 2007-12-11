@@ -98,7 +98,7 @@ public class WSRPConstants {
 
   public static final String WSRP_PARENT_HANDLE                 = "wsrp-parentHandle";
 
-  public static final String WSRP_PARAMETER_STARTS              = "wsrp-";
+  public static final String WSRP_PARAMETER_PREFIX              = "wsrp-";
   
   public static final String WSRP_PREFIX                        = "wsrp:";
 

@@ -1016,25 +1016,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   // Store only non wsrp- params
   private NamedString[] getFormParameters(Input input) {
     Map<String, String[]> params = (Map<String, String[]>) input.getRenderParameters();
-    if (params == null)
-      return null;
-    log.debug("Is parameter map empty : " + params.isEmpty());
-    if (params.isEmpty())
-      return null;
-    Set<String> keys = params.keySet();
-    List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
-    Iterator<String> iteratorKeys = keys.iterator();
-    while (iteratorKeys.hasNext()) {
-      String name = (String) iteratorKeys.next();
-      if (!name.startsWith(WSRPConstants.WSRP_PARAMETER_STARTS)) {
-        // if it isn't 'wsrp-' parameter, then store as a form parameter
-        String[] values = (String[]) params.get(name);
-        for (String value : values) {
-          listNamedStringParams.add(Utils.getNamesString(name, value));
-        }
-      }
-    }
-    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+    return Utils.getNamedStringArrayParameters(params, true);
   }
 
   private void fillMarkupRequest(WSRPBaseRequestAdapter baseRequest,

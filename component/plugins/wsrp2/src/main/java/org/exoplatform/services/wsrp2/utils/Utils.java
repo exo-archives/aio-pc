@@ -14,12 +14,15 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 import javax.xml.namespace.QName;
 
@@ -36,7 +39,9 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  */
 public class Utils {
 
-  public static LocalizedString getLocalizedString(String value, String lang, String rn) {
+  public static LocalizedString getLocalizedString(String value,
+                                                   String lang,
+                                                   String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
@@ -44,14 +49,16 @@ public class Utils {
     return tmp;
   }
 
-  public static LocalizedString getLocalizedString(String value, String lang) {
+  public static LocalizedString getLocalizedString(String value,
+                                                   String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
     return tmp;
   }
 
-  public static NamedString getNamesString(String name, String value){
+  public static NamedString getNamesString(String name,
+                                           String value) {
     NamedString tmp = new NamedString();
     tmp.setName(name);
     tmp.setValue(value);
@@ -62,8 +69,8 @@ public class Utils {
     if (list == null)
       return null;
     if (list.isEmpty())
-      return new QName[]{};
-    QName[] result = list.toArray(new QName[]{});
+      return new QName[] {};
+    QName[] result = list.toArray(new QName[] {});
     return result;
   }
 
@@ -75,22 +82,54 @@ public class Utils {
     List<QName> result = Arrays.asList(array);
     return result;
   }
-  
+
   public static String changeUrlTypeFromActionToBlockingaction(String type) {
-    return type.equalsIgnoreCase(PortletURLFactory.ACTION)?WSRPConstants.URL_TYPE_BLOCKINGACTION:type;
+    return type.equalsIgnoreCase(PortletURLFactory.ACTION) ? WSRPConstants.URL_TYPE_BLOCKINGACTION : type;
   }
-  
-  public static void fillExtensions(String temp, Extension[] extensions) {
-    if (extensions != null) if (extensions[0] != null) if (extensions[0].get_any() != null) if (extensions[0].get_any()[0] != null) { 
-      // TODO EXOMAN: need iterate foreach element of array 
-      try {
-        temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
-      } catch (Exception e) {
-        e.printStackTrace();
+
+  public static void fillExtensions(String temp,
+                                    Extension[] extensions) {
+    if (extensions != null)
+      if (extensions[0] != null)
+        if (extensions[0].get_any() != null)
+          if (extensions[0].get_any()[0] != null) {
+            // TODO EXOMAN: need iterate foreach element of array 
+            try {
+              temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
+            } catch (Exception e) {
+              e.printStackTrace();
+            }
+          } else {
+            temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
+          }
+  }
+
+  public static NamedString[] getNamedStringArrayParameters(Map<String, String[]> params,
+                                                             boolean selectOnlyNonWSRP) {
+    if (params == null)
+      return null;
+    if (params.isEmpty())
+      return null;
+    Set<String> keys = params.keySet();
+    List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
+    Iterator<String> iteratorKeys = keys.iterator();
+    while (iteratorKeys.hasNext()) {
+      String name = (String) iteratorKeys.next();
+      if (selectOnlyNonWSRP) {
+        if (!name.startsWith(WSRPConstants.WSRP_PARAMETER_PREFIX)) {
+          String[] values = (String[]) params.get(name);
+          for (String value : values) {
+            listNamedStringParams.add(getNamesString(name, value));
+          }
+        }
+      } else {
+        String[] values = (String[]) params.get(name);
+        for (String value : values) {
+          listNamedStringParams.add(getNamesString(name, value));
+        }
       }
-    } else {
-      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
     }
+    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
   }
-  
+
 }
