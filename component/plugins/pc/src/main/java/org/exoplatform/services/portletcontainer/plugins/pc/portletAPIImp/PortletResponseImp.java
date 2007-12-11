@@ -35,7 +35,6 @@ import org.exoplatform.services.portletcontainer.pci.model.CustomWindowState;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by The eXo Platform SAS
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Jul 28, 2003

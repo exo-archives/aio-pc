@@ -31,6 +31,8 @@ import org.exoplatform.services.wsrp.producer.PersistentStateManager;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
+
+//Do we need this implementation feature of JSR286 for WSRP1?
 public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
   private String                 sessionID;
@@ -56,6 +58,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       isSecure = true;
     }
 
+    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
@@ -101,7 +104,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
       if (obj instanceof String) {

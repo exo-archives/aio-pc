@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
@@ -43,11 +43,9 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues;// TODO EXOMAN
+  private NamedString[]          navigationalValues; // TODO EXOMAN
 
   private Extension[]            extensions;
-
-  private String                 resourceState;     // TODO EXOMAN
 
   public ProducerRewriterResourceURLImp(String type,
                                         String template,
@@ -69,14 +67,23 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       isSecure = true;
       secureInfo = "true";
     }
-    
+
+    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    
+
+    // process resource state
+    String resourceState = IdentifierUtil.generateUUID(this);
+    try {
+      stateManager.putResourceState(resourceState, parameters);
+    } catch (WSRPException e) {
+      e.printStackTrace();
+    }
+
     String template = baseURL;
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
     if (resourceID != null) {
@@ -84,11 +91,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     }
-    if (resourceState != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", resourceState);
-    } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
-    }
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", resourceState);
     if (cacheLevel != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", cacheLevel);
     } else {
@@ -96,6 +99,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
 
     // WSRP_NAVIGATIONAL_VALUES
@@ -108,7 +112,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
             navigationalValuesString = new String();
             navigationalValuesString.concat(namedString.getName()).concat("=").concat(namedString.getValue());
           } else {
-            navigationalValuesString.concat("&").concat(namedString.getName()).concat("=").concat(namedString.getValue());  
+            navigationalValuesString.concat("&").concat(namedString.getName()).concat("=").concat(namedString.getValue());
           }
         }
       }
@@ -130,7 +134,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     Utils.fillExtensions(template, extensions);
 
     Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
       if (obj instanceof String) {

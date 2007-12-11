@@ -39,7 +39,7 @@
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>sbridgejsfportlet</artifactId>
       <version>${exo.portlet-container.version}</version>
-      <type>war</type>
+      <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
 -->
@@ -106,7 +106,7 @@
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
             exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jotm, jotm_jrmp_stubs, log4j, soap, velocity, naming-core, naming-java
+            jotm, jotm_jrmp_stubs, log4j, soap, velocity, naming-core, naming-java, jsf-api
           </excludeProjects>
         </configuration>
       </plugin>

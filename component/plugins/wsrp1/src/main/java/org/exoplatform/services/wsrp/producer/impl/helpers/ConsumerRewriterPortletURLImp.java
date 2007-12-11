@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
+import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp.WSRPConstants;
@@ -61,6 +62,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       isSecure = true;
     }
 
+    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
@@ -107,7 +109,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
       if (obj instanceof String) {

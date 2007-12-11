@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
+import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
@@ -43,7 +44,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues;// TODO EXOMAN
+  private NamedString[]          navigationalValues; // TODO EXOMAN
 
   public ConsumerRewriterPortletURLImp(String type,
                                        String baseURL,
@@ -65,6 +66,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       isSecure = true;
     }
 
+    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
@@ -72,16 +74,30 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       e.printStackTrace();
     }
 
+    // process interaction state
+    String interactionState = "";
+    if (type.equalsIgnoreCase(PortletURLFactory.ACTION)) {
+      interactionState = IdentifierUtil.generateUUID(this);
+      try {
+        stateManager.putInteractionState(interactionState, parameters);
+      } catch (WSRPException e) {
+        e.printStackTrace();
+      }
+    }
+
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
+
     sB.append("&");
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(Utils.changeUrlTypeFromActionToBlockingaction(type));
+
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
+
     sB.append("&");
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
     sB.append("=");
@@ -108,9 +124,15 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     }
 
     sB.append("&");
+    sB.append(WSRPConstants.WSRP_INTERACTION_STATE);
+    sB.append("=");
+    sB.append(interactionState);
+
+    sB.append("&");
     sB.append(WSRPConstants.WSRP_SESSION_ID);
     sB.append("=");
     sB.append(sessionID);
+
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
@@ -136,7 +158,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
       if (obj instanceof String) {

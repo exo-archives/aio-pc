@@ -428,8 +428,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   public boolean isEventPayloadTypeMatches(String portletAppName,
                                            QName eventName,
-                                           Object payload) {
-    return false;
+                                           Object payload) throws PortletContainerException {
+    throw new UnsupportedOperationException("Unsupported operation 'isEventPayloadTypeMatches' for WSRP1 plugin");
+    // throw new PortletContainerException("Unsupported operation 'isEventPayloadTypeMatches'
+    // for WSRP1 plugin");
+    // return null;
   }
 
   public Map<String, PortletData> getAllPortletMetaData() {

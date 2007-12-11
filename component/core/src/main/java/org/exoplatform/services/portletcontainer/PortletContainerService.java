@@ -125,6 +125,6 @@ public interface PortletContainerService {
 
   public boolean isEventPayloadTypeMatches(String portletAppName,
                                            QName eventName,
-                                           Object payload);
+                                           Object payload) throws PortletContainerException;
 
 }

@@ -143,7 +143,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   private static final String       userAgent          = "userAgent";
 
-  private static final String       basePath           = "/portal/";
+  //  private static final String       basePath           = "/portal/";
 
   protected WSRPAdminPortletDataImp adminPortlet       = null;
 
@@ -462,15 +462,15 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       return false;
     EventDescription[] eds = sd.getEventDescriptions();
     for (EventDescription ed : eds) {
-      if (!ed.getName().equals(eventName))
-        continue;
-      if (!Utils.getQNameList(ed.getAliases()).contains(eventName))
+      if (!ed.getName().equals(eventName) && !Utils.getQNameList(ed.getAliases()).contains(eventName))
         continue;
       if (ed.getType() == null)
-        return true;
+        return false;
       try {
         Class clazz = Class.forName(ed.getType().toString());
-        return clazz.isInstance(payload);
+        if (log.isDebugEnabled())
+          log.debug("Event loaded class for eventName: '" + eventName + "' is: " + clazz);
+        return clazz.isInstance(payload); // just here we would return TRUE
       } catch (Exception e) {
         return false;
       }
@@ -688,7 +688,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             output.setNextMode(Modes.getJsrPortletModeFromWsrpMode(updateResponse.getNewMode()));
             output.setNextState(WindowStates.getJsrPortletStateFromWsrpState(updateResponse.getNewWindowState()));
             // set events
-            output.setEvents(JAXBEventTransformer.getEventsFromWSRP(updateResponse.getEvents()));
+            output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
 
           } else if (redirectURL != null) {
             log.debug("Redirect action to URL : " + redirectURL);
@@ -1441,7 +1441,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           log.debug("manage BlockingInteractionResponse object content");
           UpdateResponse updateResponse = iResponse.getUpdateResponse();
           if (updateResponse != null) {
-            output.setEvents(JAXBEventTransformer.getEventsFromWSRP(updateResponse.getEvents()));
+            output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
             if (windowSession != null) {
               updateSessionContext(updateResponse.getSessionContext(), windowSession.getPortletSession());
               windowSession.updateMarkupCache(updateResponse.getMarkupContext());
@@ -1482,7 +1482,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     fillMarkupRequest(eventRequest, portletWindowSession, input);
     eventRequest.setNavigationalState(getNavigationalState(request, portletWindowSession));
     eventRequest.setNavigationalValues(getNavigationalValues(request, portletWindowSession));
-    eventRequest.setEvents(JAXBEventTransformer.getEventsToWSRP(input.getEvent()));
+    eventRequest.setEvents(JAXBEventTransformer.getEventsMarshal(input.getEvent()));
     return eventRequest;
   }
 

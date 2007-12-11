@@ -550,11 +550,12 @@ public class PortalFramework {
   protected final boolean checkEventValueType(final EventInfo event) {
     if (event.getEvent() == null)
       return false;
-    final String[] hs = StringUtils.split(event.getTarget(), "/");
     try {
+      final String[] hs = StringUtils.split(event.getTarget(), "/");
       return service.isEventPayloadTypeMatches(hs[0], event.getEvent().getQName(), event.getEvent().getValue());
-    } catch (final NullPointerException npe) {
-      return true;
+    } catch (final Exception e) {
+      e.printStackTrace();
+      return false;
     }
   }
 
@@ -565,8 +566,8 @@ public class PortalFramework {
    */
   protected final void addEvents(final List<Event> newEvents) {
     if (newEvents != null) {
-      for (final Iterator<Event> i = newEvents.iterator(); i.hasNext();) {
-        final Event event = i.next();
+      for (final Iterator<Event> newEventsIterator = newEvents.iterator(); newEventsIterator.hasNext();) {
+        final Event event = newEventsIterator.next();
         // TODO: PLT.15.2.4.1 Declaration in the deployment descriptor
         // Event parameter names
         // the event-definition element are allowed to end with a �.� character
@@ -574,13 +575,11 @@ public class PortalFramework {
         // 30 portlet is willing to process or publish any event whose name
         // starts with the characters
         // before the �.� character.
-        List<String> pl = eventDelivery.get(event.getQName());
-        if (pl == null) {
-          pl = new ArrayList<String>();
-          eventDelivery.put(event.getQName(), pl);
-        }
-        for (final Iterator<String> j = pl.iterator(); j.hasNext();) {
-          final String pname = j.next();
+        List<String> portletsNames = eventDelivery.get(event.getQName());
+        if (portletsNames == null) 
+          continue;
+        for (final Iterator<String> portletsNamesIterator = portletsNames.iterator(); portletsNamesIterator.hasNext();) {
+          final String pname = portletsNamesIterator.next();
           final EventInfo eventInfo = new EventInfo(event, pname);
           if (checkEventValueType(eventInfo))
             events.add(eventInfo); // here put event for process
@@ -822,6 +821,7 @@ public class PortalFramework {
       try {
         processEvent(httpRequest, httpResponse, eventInput, event);
       } catch (final Exception e) {
+        e.printStackTrace();
       }
     }
     if (hasToDelRenderParams)

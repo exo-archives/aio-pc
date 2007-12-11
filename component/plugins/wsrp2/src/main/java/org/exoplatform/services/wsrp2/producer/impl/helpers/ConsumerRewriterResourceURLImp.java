@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
@@ -40,9 +40,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues;// TODO EXOMAN
-
-  private String                 resourceState;     // TODO EXOMAN
+  private NamedString[]          navigationalValues; // TODO EXOMAN
 
   public ConsumerRewriterResourceURLImp(String type,
                                         String baseURL,
@@ -63,6 +61,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       isSecure = true;
     }
 
+    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
@@ -70,16 +69,27 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       e.printStackTrace();
     }
 
+    // process resource state
+    String resourceState = IdentifierUtil.generateUUID(this);
+    try {
+      stateManager.putResourceState(resourceState, parameters);
+    } catch (WSRPException e) {
+      e.printStackTrace();
+    }
+
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(type);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
     sB.append("=");
@@ -109,6 +119,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     sB.append(WSRPConstants.WSRP_SESSION_ID);
     sB.append("=");
     sB.append(sessionID);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
@@ -137,7 +148,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
       if (obj instanceof String) {

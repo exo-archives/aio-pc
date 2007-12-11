@@ -233,7 +233,7 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
 
   public boolean isEventPayloadTypeMatches(String portletAppName,
                                            QName eventName,
-                                           Object payload) {
+                                           Object payload) throws PortletContainerException {
     return findPluginByPAPPName(portletAppName).isEventPayloadTypeMatches(portletAppName, eventName, payload);
   }
 

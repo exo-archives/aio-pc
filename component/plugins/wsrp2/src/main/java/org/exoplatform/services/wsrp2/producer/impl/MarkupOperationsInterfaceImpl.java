@@ -14,10 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
-import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -29,6 +28,7 @@ import javax.portlet.PortletMode;
 import javax.portlet.ResourceURL;
 import javax.portlet.WindowState;
 
+import org.apache.axis.encoding.Base64;
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
@@ -112,7 +112,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private PortletManagementOperationsInterface portletManagementOperationsInterface;
 
-  private OrganizationService                  orgService;
+  //  private OrganizationService                  orgService;
 
   private WSRPPortletPreferencesPersister      persister;
 
@@ -128,7 +128,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     this.conf = conf;
     this.persistentStateManager = persitentStateManager;
     this.transientStateManager = transientStateManager;
-    this.orgService = orgService;
+    //    this.orgService = orgService;
     this.persister = WSRPPortletPreferencesPersister.getInstance();
   }
 
@@ -186,15 +186,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // get portlet datas
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+
     // manage navigationalState
-    Map renderParameters = null;
+    Map<String, String[]> renderParameters = null;
     try {
-      renderParameters = processNavigationalState(markupParams.getNavigationalContext().getOpaqueValue());
+      renderParameters = processNavigationalState(markupParams.getNavigationalContext());
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
     if (renderParameters == null) {
-      renderParameters = new HashMap();
+      renderParameters = new HashMap<String, String[]>();
       log.debug("No navigational state exists");
     }
 
@@ -209,9 +210,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Exception2Fault.handleException(e);
     }
 
+    // ---------- BEGIN FOR CREATING FACTORY --------------
+    // manage rewriting mechanism
     String baseURL = null;
     PortletURLFactory portletURLFactory = null;
-
     // creating Portlet URL Factory
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
@@ -239,6 +241,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     portletDatas.getEscapeXml(),
                                                                     ResourceURL.PAGE);
     }
+    // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
     PortletMode mode = processMode(markupParams.getMode());
@@ -257,12 +260,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
     input.setBaseURL(baseURL);
+    input.setPortletURLFactory(portletURLFactory);
+    input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
     input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
     input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
     input.setMarkup(mimeType);
     input.setRenderParameters(renderParameters);
-    input.setPortletURLFactory(portletURLFactory);
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
     // createUserProfile(userContext, request, session);
@@ -271,6 +275,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       /* MAIN INVOKE */
       output = proxy.render(request, response, input);
+      if (output.hasError())
+        throw new WSRPException("render output hasError");
     } catch (WSRPException e) {
       log.debug("The call to render method was a failure ", e);
       Exception2Fault.handleException(e);
@@ -335,10 +341,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String owner = userContext.getUserContextKey();
     log.debug("Owner Context : " + owner);
 
-    // ---------- BEGIN FOR CREATING FACTORY --------------
     // get portlet datas
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+
     // manage mime type
     String mimeType = null;
     try {
@@ -346,11 +352,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
-    
+
+    // ---------- BEGIN FOR CREATING FACTORY --------------
     // manage rewriting mechanism
     String baseURL = null;
     PortletURLFactory portletURLFactory = null;
-
     // creating Portlet URL Factory
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
@@ -379,18 +385,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     ResourceURL.PAGE);
     }
     // ---------- END FOR CREATING FACTORY --------------
-
-    // manage rewriting mechanism
-    // String baseURL = null;
-    // if (conf.isDoesUrlTemplateProcessing()) {
-    // log.debug("Producer URL rewriting");
-    // Templates templates = manageTemplates(runtimeContext, session);
-    // baseURL = templates.getRenderTemplate();
-    // } else {
-    // log.debug("Consumer URL rewriting");
-    // baseURL = WSRPConstants.WSRP_REWRITE_PREFIX;
-    // }
-    // String mimeType = markupParams.getMimeTypes(0);
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
@@ -422,19 +416,35 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
     }
 
-    NavigationalContext navigationalContext = markupParams.getNavigationalContext(); // TODO EXOMAN
-    String navigationalState = navigationalContext.getOpaqueValue();
+    // manage navigational context
+    NavigationalContext navigationalContext = markupParams.getNavigationalContext();
+    // process public values
     NamedString[] namedStringArray = navigationalContext.getPublicValues();
-    Map<String, String[]> navigationalParams = new HashMap<String, String[]>();
+    Map<String, String[]> navigationalParams = new HashMap<String, String[]>(); // TODO EXOMAN
     for (NamedString namedString : namedStringArray) {
-      navigationalParams.put(namedString.getName(), new String[]{namedString.getValue()});
+      navigationalParams.put(namedString.getName(), new String[] { namedString.getValue() });
     }
-    
-    
+    // process opaque (navigational) values
+    Map<String, String[]> renderParameters = null; // TODO EXOMAN
+    try {
+      renderParameters = processNavigationalState(navigationalContext);
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
+    }
+    if (renderParameters == null) {
+      renderParameters = new HashMap<String, String[]>();
+      log.debug("No navigational state exists");
+    }
+
+    // manage form parameters
+    renderParameters = getFormParameters(interactionParams.getFormParameters());
+
+    // manage interaction state
+    String interactionState = interactionParams.getInteractionState(); // TODO EXOMAN
+
     // prepare objects for portlet container
     WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
     WSRPHttpServletResponse response = new WSRPHttpServletResponse();
-    Map<String, String[]> renderParameters = getFormParameters(interactionParams);
 
     // prepare the Input object
     ActionInput input = new ActionInput();
@@ -445,6 +455,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
     input.setBaseURL(baseURL);
+    input.setPortletURLFactory(portletURLFactory);
+    input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
     input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
     input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
@@ -460,35 +472,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       /* MAIN INVOKE */
       output = proxy.processAction(request, response, input);
+      if (output.hasError()) {
+        throw new WSRPException("processAction output hasError()");
+      }
     } catch (WSRPException e) {
       log.debug("The call to processAction method was a failure ", e);
       Exception2Fault.handleException(e);
     }
 
-    // manage navigational state, save render parameters
-    String ns = markupParams.getNavigationalContext().getOpaqueValue();//was: IdentifierUtil.generateUUID(output);
-    if (ns == null) {
-      ns = IdentifierUtil.generateUUID(output);
-    }
-    try {
-      log.debug("set new navigational state : " + ns);
-      persistentStateManager.putNavigationalState(ns, output.getRenderParameters());
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-    
-    // TODO EXOMAN
-    // output.getRenderParameters()
-    // portletDatas.getSupportedPublicRenderParameter()
-    // markupParams.getNavigationalContext().getPublicValues()
-    
     BlockingInteractionResponse blockingInteractionResponse = new BlockingInteractionResponse();
 
     if (output.getProperties().get(ActionOutput.SEND_REDIRECT) != null) {
       log.debug("Redirect the response to : " + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
       blockingInteractionResponse.setRedirectURL((String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
       blockingInteractionResponse.setUpdateResponse(null);
-      
     } else {
       MarkupContext markupContext = null;
       if (conf.isBlockingInteractionOptimized()) {
@@ -499,12 +496,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       UpdateResponse updateResponse = new UpdateResponse();
 
-      if (output.getNextMode() != null) {
+      if (output.getNextMode() != null)
         updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
-      }
-      if (output.getNextState() != null) {
+      if (output.getNextState() != null)
         updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + output.getNextState().toString());
-      }
       updateResponse.setSessionContext(sessionContext);
       updateResponse.setMarkupContext(markupContext);
       // fill the state to send it to consumer if allowed
@@ -512,15 +507,31 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         portletContext.setPortletState(output.getPortletState());
       updateResponse.setPortletContext(portletContext);
 
+      // TODO EXOMAN
+      // 
+      // portletDatas.getSupportedPublicRenderParameter()
+      // markupParams.getNavigationalContext().getPublicValues()
+
+      // manage navigational state, save render parameters
+      String navigationalState = null;//markupParams.getNavigationalContext().getOpaqueValue();
+      if (navigationalState == null) {
+        navigationalState = IdentifierUtil.generateUUID(output);
+      }
+      try {
+        log.debug("set new navigational state : " + navigationalState);
+        persistentStateManager.putNavigationalState(navigationalState, output.getRenderParameters());
+      } catch (WSRPException e) {
+        Exception2Fault.handleException(e);
+      }
+
       // copy from old markup params to response
-      NavigationalContext oldNavigationalContext = markupParams.getNavigationalContext();
       NavigationalContext newNavigationalContext = new NavigationalContext();
-      newNavigationalContext.setOpaqueValue(oldNavigationalContext.getOpaqueValue());
-      newNavigationalContext.setPublicValues(oldNavigationalContext.getPublicValues());
+      newNavigationalContext.setOpaqueValue(navigationalState);
+      newNavigationalContext.setPublicValues(null);//oldNavigationalContext.getPublicValues());
       newNavigationalContext.setExtensions(null);
       updateResponse.setNavigationalContext(newNavigationalContext);
 
-      updateResponse.setEvents(JAXBEventTransformer.getEventsToWSRP(output.getEvents()));
+      updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(output.getEvents()));
 
       blockingInteractionResponse.setUpdateResponse(updateResponse);
     }
@@ -560,32 +571,48 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     log.debug("Owner Context : " + owner);
 
     // manage cache
-    /*
-     * if (markupParams.getValidateTag() != null) { try { if
-     * (transientStateManager.validateCache(markupParams.getValidateTag())) {
-     * MarkupContext markupContext = new MarkupContext();
-     * markupContext.setUseCachedMarkup(new Boolean(true)); MarkupResponse
-     * markup = new MarkupResponse(); markup.setMarkupContext(markupContext);
-     * markup.setSessionContext(sessionContext); return markup; } } catch
-     * (WSRPException e) { log.debug("Can not validate Cache for validateTag : " +
-     * markupParams.getValidateTag()); Exception2Fault.handleException(e); } }
-     */
+    //    if (markupParams.getValidateTag() != null) {
+    //      try {
+    //        if (transientStateManager.validateCache(markupParams.getValidateTag())) {
+    //          MarkupContext markupContext = new MarkupContext();
+    //          markupContext.setUseCachedMarkup(new Boolean(true));
+    //          MarkupResponse markup = new MarkupResponse();
+    //          markup.setMarkupContext(markupContext);
+    //          markup.setSessionContext(sessionContext);
+    //          return markup;
+    //        }
+    //      } catch (WSRPException e) {
+    //        log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
+    //        Exception2Fault.handleException(e);
+    //      }
+    //    }
 
-    //---------- BEGIN FOR CREATING FACTORY --------------
+    // get portlet datas
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
-    // manage navigationalState
-    Map renderParameters = null;
+    // manage navigational context
+    NavigationalContext navigationalContext = resourceParams.getNavigationalContext();
+    // process public values
+    NamedString[] namedStringArray = navigationalContext.getPublicValues();
+    Map<String, String[]> navigationalParams = new HashMap<String, String[]>(); // TODO EXOMAN
+    for (NamedString namedString : namedStringArray) {
+      navigationalParams.put(namedString.getName(), new String[] { namedString.getValue() });
+    }
+    // process opaque (navigational) values
+    Map<String, String[]> renderParameters = null; // TODO EXOMAN
     try {
-      renderParameters = processNavigationalState(resourceParams.getNavigationalContext().getOpaqueValue());
+      renderParameters = processNavigationalState(navigationalContext);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
     if (renderParameters == null) {
-      renderParameters = new HashMap();
+      renderParameters = new HashMap<String, String[]>();
       log.debug("No navigational state exists");
     }
+
+    // manage form parameters
+    renderParameters = getFormParameters(resourceParams.getFormParameters());
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
@@ -598,9 +625,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Exception2Fault.handleException(e);
     }
 
+    // ---------- BEGIN CREATING FACTORY --------------
+    // manage rewriting mechanism
     String baseURL = null;
     PortletURLFactory portletURLFactory = null;
-
     // creating Portlet URL Factory
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
@@ -628,6 +656,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     portletDatas.getEscapeXml(),
                                                                     resourceParams.getResourceCacheability());
     }
+    // ---------- END CREATING FACTORY --------------
 
     // manage mode and states
     PortletMode mode = processMode(resourceParams.getMode());
@@ -647,12 +676,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
     input.setBaseURL(baseURL);
+    input.setPortletURLFactory(portletURLFactory);
+    input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
     input.setPortletMode(mode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
     input.setRenderParameters(renderParameters);
-    input.setPortletURLFactory(portletURLFactory);
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
     input.setResourceID(resourceParams.getResourceID());
@@ -663,6 +693,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       /* MAIN INVOKE */
       output = proxy.serveResource(request, response, input);
+      if (output.hasError())
+        throw new WSRPException("serveResource output hasError");
     } catch (WSRPException e) {
       log.debug("The call to render method was a failure ", e);
       Exception2Fault.handleException(e);
@@ -727,10 +759,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String owner = userContext.getUserContextKey();
     log.debug("Owner Context : " + owner);
 
-    // ---------- BEGIN CREATING FACTORY --------------
     // get portlet datas
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+
     // manage mime type
     String mimeType = null;
     try {
@@ -739,10 +771,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Exception2Fault.handleException(e);
     }
 
+    // ---------- BEGIN CREATING FACTORY --------------
     // manage rewriting mechanism
     String baseURL = null;
     PortletURLFactory portletURLFactory = null;
-
     // creating Portlet URL Factory
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
@@ -783,12 +815,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     boolean isStateChangeAuthorized = false;
     String stateChange = eventParams.getPortletStateChange().getValue();
     if (StateChange.readWrite.getValue().equalsIgnoreCase(stateChange)) {
-
       log.debug("readWrite state change");
       // every modification is allowed on the portlet
       isStateChangeAuthorized = true;
     } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
-
       log.debug("cloneBeforWrite state change");
       portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext, portletContext, userContext);
       // any modification will be made on the
@@ -810,18 +840,25 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
 
-    ArrayList<HandleEventsFailed> failed_array = new ArrayList<HandleEventsFailed>();
+    ArrayList<HandleEventsFailed> failedEventsArray = new ArrayList<HandleEventsFailed>();
 
     Event[] events = eventParams.getEvents();
 
-    List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsFromWSRP(events);
+    List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
 
-//    BigInteger[] indexes;
+    Map<String, String[]> resultRenderParams = new HashMap<String, String[]>();
+    List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
+
+    //    BigInteger[] indexes;
 
     // iteration over incoming javax events
-    for (int i = 0; i < events.length; i++) {
+    Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
 
-      javax.portlet.Event event = nativeEventsList.get(i);
+    while (nativeEventsListIterator.hasNext()) {
+      javax.portlet.Event event = nativeEventsListIterator.next();
+
+      //    for (int i = 0; i < events.length; i++) {
+      //      javax.portlet.Event event = nativeEventsList.get(i);
 
       // prepare the Input object
       EventInput input = new EventInput();
@@ -832,6 +869,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       windowID.setUniqueID(uniqueID);
       input.setInternalWindowID(windowID);
       input.setBaseURL(baseURL);
+      input.setPortletURLFactory(portletURLFactory);
+      input.setEscapeXml(true);
       input.setUserAttributes(new HashMap<String, String>());
       input.setPortletMode(mode);
       input.setWindowState(windowState);
@@ -840,13 +879,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
-      input.setPortletURLFactory(portletURLFactory);
       input.setPortletPreferencesPersister(persister);
       // createUserProfile(userContext, request, session);
       EventOutput output = null;
       try {
         /* MAIN INVOKE */
         output = proxy.processEvent(request, response, input);
+        if (output.hasError())
+          throw new WSRPException("processEvent output hasError");
       } catch (WSRPException e) {
         log.debug("The call to processEvent method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
@@ -855,9 +895,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         // EXOMAN
         // indexes[0] = new BigInteger(i);
         // handleEventsFailed.setIndex(indexes);
-        failed_array.add(handleEventsFailed);
+        failedEventsArray.add(handleEventsFailed);
         Exception2Fault.handleException(e);
       }
+
+      resultNativeEventsList.addAll(output.getEvents());
+      resultRenderParams.putAll(output.getRenderParameters());
 
       // manage navigational state
       String ns = IdentifierUtil.generateUUID(output);
@@ -869,68 +912,80 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         Exception2Fault.handleException(e);
       }
 
-      MarkupContext markupContext = null;
-      if (conf.isBlockingInteractionOptimized()) {
-        // markupParams.setWindowState(ns);
-        MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
-        markupContext = markupResponse.getMarkupContext();
-      }
-
-      UpdateResponse updateResponse = new UpdateResponse();
-
-      if (output.getNextMode() != null) {
-        updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
-      }
-      if (output.getNextState() != null) {
-        updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + output.getNextState().toString());
-      }
-      updateResponse.setSessionContext(sessionContext);
-      updateResponse.setMarkupContext(markupContext);
-
-      updateResponse.setPortletContext(portletContext);
-      updateResponse.setEvents(JAXBEventTransformer.getEventsToWSRP(output.getEvents()));
-
-      // copy from old markup params to response
-      NavigationalContext oldNavigationalContext = markupParams.getNavigationalContext();
-      NavigationalContext newNavigationalContext = new NavigationalContext();
-      newNavigationalContext.setOpaqueValue(oldNavigationalContext.getOpaqueValue());
-      newNavigationalContext.setPublicValues(oldNavigationalContext.getPublicValues());
-      newNavigationalContext.setExtensions(null);
-      updateResponse.setNavigationalContext(newNavigationalContext);
-
-      handleEventsResponse.setUpdateResponse(updateResponse);
-      handleEventsResponse.setFailedEvents((HandleEventsFailed[]) failed_array.toArray(new HandleEventsFailed[failed_array.size()]));
-
     }
+
+    MarkupContext markupContext = null;
+    //    if (conf.isBlockingInteractionOptimized()) {
+    //      // markupParams.setWindowState(ns);
+    //      MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
+    //      markupContext = markupResponse.getMarkupContext();
+    //    }
+
+    UpdateResponse updateResponse = new UpdateResponse();
+
+    //    if (output.getNextMode() != null) {
+    //      updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
+    //    }
+    //    if (output.getNextState() != null) {
+    //      updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + output.getNextState().toString());
+    //    }
+    updateResponse.setSessionContext(sessionContext);
+    updateResponse.setMarkupContext(markupContext);
+
+    updateResponse.setPortletContext(portletContext);
+
+    updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
+
+    // manage navigational state
+    String ns = IdentifierUtil.generateUUID(resultRenderParams);
+    try {
+      log.debug("set new navigational state : " + ns);
+      persistentStateManager.putNavigationalState(ns, resultRenderParams);
+      //persistentStateManager.putNavigationalState(ns, new HashMap());
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
+    }
+
+    NavigationalContext newNavigationalContext = new NavigationalContext();
+    newNavigationalContext.setOpaqueValue(ns);
+    //    newNavigationalContext.setPublicValues(oldNavigationalContext.getPublicValues());
+    newNavigationalContext.setExtensions(null);
+    updateResponse.setNavigationalContext(newNavigationalContext);
+
+    handleEventsResponse.setUpdateResponse(updateResponse);
+    // converting failed events from list to array and set that
+    handleEventsResponse.setFailedEvents((HandleEventsFailed[]) failedEventsArray.toArray(new HandleEventsFailed[failedEventsArray.size()]));
+
     return handleEventsResponse;
 
   }
 
-  private Map<String, String[]> getFormParameters(InteractionParams interactionParams) {
+  private Map<String, String[]> getFormParameters(NamedString[] array) {
     Map<String, String[]> result = null;
-    NamedString[] array = interactionParams.getFormParameters();
     if (array == null) {
       log.debug("no form parameters");
       return result;
     }
     result = new HashMap<String, String[]>();
     for (NamedString namedString : array) {
-      log.debug("form parameters; name : " + namedString.getName() + "; value : " + namedString.getValue());
-      String key2 = namedString.getName();
-      String value2 = namedString.getValue();
-      if (result.get(key2) == null) {
-        result.put(key2, new String[] { value2 });
-      } else {
-        if (value2 == null || value2.equals(""))
-          result.remove(key2);
-        else {
-          String[] oldValue = result.get(key2);
-          String[] newValue = new String[oldValue.length + 1];
+      if (log.isDebugEnabled()) {
+        log.debug("InteractionParams: form parameters; name : " + namedString.getName() + "; value : " + namedString.getValue());
+      }
+      String name = namedString.getName();
+      String value = namedString.getValue();
+      if (value != null) {
+        if (result.get(name) == null) {
+          // new added parameter
+          result.put(name, new String[] { value });
+        } else {
+          // next added parameter 
+          String[] oldArray = result.get(name);
+          String[] newArray = new String[oldArray.length + 1];
           int i = 0;
-          for (String v : oldValue)
-            newValue[i++] = v;
-          newValue[i] = value2;
-          result.put(key2, newValue);
+          for (String v : oldArray)
+            newArray[i++] = v;
+          newArray[i] = value;
+          result.put(name, newArray);
         }
       }
     }
@@ -1053,16 +1108,41 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new WindowState(state.substring(WSRPConstants.WSRP_PREFIX.length()));
   }
 
-  private Map processNavigationalState(String navigationalState) throws WSRPException {
+  private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws WSRPException {
+    String navigationalState = navigationalContext.getOpaqueValue();
     log.debug("Lookup navigational state : " + navigationalState);
-    Map map = persistentStateManager.getNavigationalSate(navigationalState);
+    Map<String, String[]> map = persistentStateManager.getNavigationalState(navigationalState);
     // for debug:
-    if (log.isDebugEnabled()) {
-      if (map != null) {
-        for (Iterator iterator = map.keySet().iterator(); iterator.hasNext();) {
-          String s = (String) iterator.next();
-          log.debug("attribute in map referenced by ns : " + s);
-        }
+    if (log.isDebugEnabled() && map != null) {
+      for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+        String key = (String) iterator.next();
+        log.debug("attribute name in map referenced by navigationalState : " + key);
+      }
+    }
+    return map;
+  }
+
+  private Map<String, String[]> processInteractionState(String interactionState) throws WSRPException {
+    log.debug("Lookup interaction state : " + interactionState);
+    Map<String, String[]> map = persistentStateManager.getInteractionSate(interactionState);
+    // for debug:
+    if (log.isDebugEnabled() && map != null) {
+      for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+        String key = (String) iterator.next();
+        log.debug("attribute name in map referenced by interactionState : " + key);
+      }
+    }
+    return map;
+  }
+
+  private Map<String, String[]> processResourceState(String resourceState) throws WSRPException {
+    log.debug("Lookup resource state : " + resourceState);
+    Map<String, String[]> map = persistentStateManager.getResourceState(resourceState);
+    // for debug:
+    if (log.isDebugEnabled() && map != null) {
+      for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+        String key = (String) iterator.next();
+        log.debug("attribute name in map referenced by resourceState : " + key);
       }
     }
     return map;

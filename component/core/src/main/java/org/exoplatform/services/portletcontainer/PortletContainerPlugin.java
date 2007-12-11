@@ -124,6 +124,6 @@ public interface PortletContainerPlugin extends ComponentPlugin {
 
   public boolean isEventPayloadTypeMatches(String portletAppName,
                                            QName eventName,
-                                           Object payload);
+                                           Object payload) throws PortletContainerException;
 
 }

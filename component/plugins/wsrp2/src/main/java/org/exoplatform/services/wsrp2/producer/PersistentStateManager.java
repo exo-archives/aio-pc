@@ -38,8 +38,13 @@ public interface PersistentStateManager {
   public void addConsumerConfiguredPortletHandle(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
   public void removeConsumerConfiguredPortletHandle(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
 
-  public Map getNavigationalSate(String navigationalState) throws WSRPException;
-  public void putNavigationalState(String ns, Map renderParameters) throws WSRPException;
+  public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException;
+  public void putNavigationalState(String navigationalState, Map<String, String[]> renderParameters) throws WSRPException;
 
+  public Map<String, String[]> getInteractionSate(String interactionState) throws WSRPException;
+  public void putInteractionState(String interactionState, Map<String, String[]> interactionParameters) throws WSRPException;
+  
+  public Map<String, String[]> getResourceState(String resourceState) throws WSRPException;
+  public void putResourceState(String resourceState, Map<String, String[]> resourceParameters) throws WSRPException;
 
 }

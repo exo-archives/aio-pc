@@ -256,29 +256,30 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     List<EventDefinition> eds = portletApp.getEventDefinition();
     for (Iterator<EventDefinition> i = eds.iterator(); i.hasNext();) {
       EventDefinition ed = i.next();
-      if (!eventName.equals(ed.getPrefferedName()))
-        if (!ed.getAliases().contains(eventName))
-          continue;
-      if (ed.getJavaClass() != null) {
-        Class jc;
+      if (!ed.getPrefferedName().equals(eventName) && !ed.getAliases().contains(eventName))
+        continue;
+      if (ed.getJavaClass() == null)
+        return false;
+      Class jc;
+      try {
+        jc = Thread.currentThread().getContextClassLoader().loadClass(ed.getJavaClass());
+      } catch (Exception e) {
+        jc = null;
+      }
+      if (jc == null) {
         try {
-          jc = Thread.currentThread().getContextClassLoader().loadClass(ed.getJavaClass());
+          jc = Class.forName(ed.getJavaClass(), true, payload.getClass().getClassLoader());
         } catch (Exception e) {
           jc = null;
         }
-        if (jc == null)
-          try {
-            jc = Class.forName(ed.getJavaClass(), true, payload.getClass().getClassLoader());
-          } catch (Exception e) {
-            jc = null;
-          }
-        if (jc != null)
-          return jc.isInstance(payload);
-        return false;
-      } else
-        return true;
+      }
+      if (log.isDebugEnabled())
+        log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
+      if (jc != null)
+        return jc.isInstance(payload); // just here we would return TRUE
+      return false;
     }
-    return true;
+    return false;
   }
 
   public void setPortletPreference(Input input,

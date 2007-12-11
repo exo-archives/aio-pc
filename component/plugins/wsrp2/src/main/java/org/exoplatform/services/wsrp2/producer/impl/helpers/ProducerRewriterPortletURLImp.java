@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
@@ -25,6 +25,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
+import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -69,14 +70,26 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
       isSecure = true;
       secureInfo = "true";
     }
-    
+
+    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    
+
+    // process interaction state
+    String interactionState = "";
+    if (type.equalsIgnoreCase(PortletURLFactory.ACTION)) {
+      interactionState = IdentifierUtil.generateUUID(this);
+      try {
+        stateManager.putInteractionState(interactionState, parameters);
+      } catch (WSRPException e) {
+        e.printStackTrace();
+      }
+    }
+
     String template = baseURL;
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", Utils.changeUrlTypeFromActionToBlockingaction(type));
     if (requiredPortletMode != null) {
@@ -103,7 +116,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
             navigationalValuesString = new String();
             navigationalValuesString.concat(namedString.getName()).concat("=").concat(namedString.getValue());
           } else {
-            navigationalValuesString.concat("&").concat(namedString.getName()).concat("=").concat(namedString.getValue());  
+            navigationalValuesString.concat("&").concat(namedString.getName()).concat("=").concat(namedString.getValue());
           }
         }
       }
@@ -119,13 +132,15 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
+    
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", interactionState);
+    
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 
     Utils.fillExtensions(template, extensions);
 
     Set names = parameters.keySet();
-    for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
       if (obj instanceof String) {
