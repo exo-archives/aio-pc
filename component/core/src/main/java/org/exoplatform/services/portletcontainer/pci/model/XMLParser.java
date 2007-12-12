@@ -74,7 +74,7 @@ public class XMLParser {
       if(xpp.node("resource-bundle")) portletapp.setResourceBundle(xpp.getContent().trim());
       while(xpp.node("filter")) portletapp.addFilter(readFilter(xpp));
       while(xpp.node("filter-mapping")) portletapp.addFilterMapping(readFilterMapping(xpp));
-      while(xpp.node("default-namespace")) portletapp.setDefaultNamespace(xpp.getContent().trim());
+      if (xpp.node("default-namespace")) portletapp.setDefaultNamespace(xpp.getContent().trim());
       fillPredefinedEvents(portletapp);
       while(xpp.node("event-definition")) portletapp.addEventDefinition(readEventDefinition(xpp));
       while(xpp.node("public-render-parameter")) portletapp.addPublicRenderParameter(readPublicRenderParameter(xpp));
@@ -138,18 +138,18 @@ public class XMLParser {
     xpp.mandatoryNode("supports"); p.setSupports(readSupports(xpp));
     while(xpp.node("supports")) p.addSupports(readSupports(xpp));
     while(xpp.node("supported-locale")) p.addSupportedLocale(new Locale(xpp.getContent().trim()));
-    boolean chosen = false;
+//    boolean chosen = false;
     if(xpp.node("resource-bundle")) {
       p.setResourceBundle(xpp.getContent().trim());
-      chosen = true;
+//      chosen = true;
     }
     if(xpp.node("portlet-info")) {
       p.setPortletInfo(readPortletInfo(xpp));
-      chosen = true;
+//      chosen = true;
     }
-    if ( !chosen ) {
-      throw new Exception("expect tag name 'resource-bundle' or 'portlet-info'");
-    }
+//    if ( !chosen ) {
+//      throw new Exception("expect tag name 'resource-bundle' or 'portlet-info'");
+//    }
     if(xpp.node("portlet-preferences")) p.setPortletPreferences(readPortletPreferences(xpp));
     while(xpp.node("security-role-ref")) p.addSecurityRoleRef(readSecurityRoleRef(xpp));
     // exo tag only for portlet 1.0
