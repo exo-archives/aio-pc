@@ -42,7 +42,7 @@ public class TestProcessEvent extends GenericPortlet {
     //System.out.println("In doView method of TestPortletNEW...");
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();
-    w.println("<center><font size='3'><b><i>Sample portlet that can create and handle events.</i></b></font></center><br>");
+    w.println("<center><font size='3'><b><i>Sample portlet that can create 'MyEventPub' event. The TestPortlet can process this event and change mode to edit.</i></b></font></center><br>");
 
     w.println("Current method: "+((new Exception()).getStackTrace()[0]).getMethodName());
     w.println("<br>");
@@ -98,10 +98,12 @@ public class TestProcessEvent extends GenericPortlet {
 
     //resp.setPortletMode(PortletMode.EDIT);
 
-/*    MyEventPub sampleAddress = new MyEventPub();
+    /*  
+    MyEventPub sampleAddress = new MyEventPub();
     sampleAddress.setStreet("myStreet");
     sampleAddress.setCity("myCity");
-    resp.setEvent("MyEventPub", sampleAddress);*/
+    resp.setEvent("MyEventPub", sampleAddress);
+    */
   }
 
 }

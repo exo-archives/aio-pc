@@ -89,6 +89,9 @@ public class PortalFramework {
 
   /**
    * Map of public parameters for portlets.
+   * 
+   * String is portlet handle
+   * List<String> is SupportedPublicRenderParameter for that portlet handle
    */
   private HashMap<String, List<String>> publicParams        = null;
 
@@ -170,9 +173,9 @@ public class PortalFramework {
   /**
    * Http headers set in serveResource().
    */
-  private Map<String, String> resourceHeaders = null;
+  private Map<String, String>           resourceHeaders     = null;
 
-  private String baseURL = null;
+  private String                        baseURL             = null;
 
   /**
    * Constructor.
@@ -576,7 +579,7 @@ public class PortalFramework {
         // starts with the characters
         // before the �.� character.
         List<String> portletsNames = eventDelivery.get(event.getQName());
-        if (portletsNames == null) 
+        if (portletsNames == null)
           continue;
         for (final Iterator<String> portletsNamesIterator = portletsNames.iterator(); portletsNamesIterator.hasNext();) {
           final String pname = portletsNamesIterator.next();
@@ -657,7 +660,7 @@ public class PortalFramework {
     eventInput.setUserAttributes(new HashMap<String, String>());
     eventInput.setMarkup(cntType);
     eventInput.setRenderParameters(new HashMap<String, String[]>());
-    Helper.appendParams(eventInput.getRenderParameters(), portletParams);
+    //    Helper.appendParams(eventInput.getRenderParameters(), portletParams);
     if (target != null && target.equals(eventTarget) && renderParams != null)
       Helper.appendParams(eventInput.getRenderParameters(), renderParams);
     eventInput.setPortletMode(win.getPortletMode());
@@ -855,6 +858,7 @@ public class PortalFramework {
 
     resourceContent = null;
     resourceContentType = markupType;
+
     if (getAction() == PCConstants.resourceInt) {
 
       // processing resource
@@ -877,10 +881,13 @@ public class PortalFramework {
         e1.printStackTrace();
         System.out.println(" !!!!!!!!!!!! trying to continue...");
       }
-    } else if (getAction() == PCConstants.actionInt) {
+      // if resource is requested we must render nothing
+      return null;
+    }
+
+    if (getAction() == PCConstants.actionInt) {
 
       // processing action
-
 
       final ActionInput actionInput = createActionInput();
       try {
@@ -890,22 +897,17 @@ public class PortalFramework {
         e2.printStackTrace();
         System.out.println(" !!!!!!!!!!!! trying to continue...");
       }
+
+      // if redirect is requested we must render nothing
+      if (getRedirect() != null)
+        return null;
     }
 
     // processing events
 
     dispatchEvents(ctx, httpRequest, httpResponse);
 
-    // if redirect is requested we must render nothing
-
-    if (getRedirect() != null)
-      return null;
-
-    // if resource is requested we must render nothing
-    if (getAction() == PCConstants.resourceInt)
-      return null;
-
-    // render phase
+    // processing render
 
     // recollecting portlets
     initMaps();
@@ -913,7 +915,6 @@ public class PortalFramework {
     // collecting portlets to render
 
     final Iterator<String> totalPlts = getPortletNames().iterator();
-
 
     final ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
     while (totalPlts.hasNext()) {

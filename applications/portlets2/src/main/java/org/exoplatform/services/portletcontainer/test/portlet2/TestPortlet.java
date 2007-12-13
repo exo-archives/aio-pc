@@ -44,7 +44,8 @@ public class TestPortlet extends GenericPortlet {
 
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();
-    w.println("<center><font size='3'><b><i>Simple portlet for test additional window states and events procesing.</i></b></font></center><br>");
+    w.println("<center><font size='3'><b><i>Simple portlet for test additional window states and events procesing. TestPortlet can process 'MyEventPub' and 'MyEventPub2' events. These both events change portlet mode to 'EDIT'.</i></b></font></center><br>");
+    
     w.println("Current method: "+((new Exception()).getStackTrace()[0]).getMethodName());
 
     PortletURL actionURL = renderResponse.createActionURL();
