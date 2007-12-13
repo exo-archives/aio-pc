@@ -145,7 +145,7 @@ public class WSRPAdminPortlet {
       actionURL.setWindowState(WindowState.NORMAL);
       actionURL.setPortletMode(PortletMode.VIEW);
 
-      w.println("<b>Create producer:</b><br>");
+      w.println("<center><b>Register remote producer for " + WSRPConstants.WSRP_ID + " plugin.</b></center><br>");
       w.println("<form name=\"producerForm\" method=\"post\" action=\"" + actionURL.toString() + "\">");
       w.println("  <input type=\"hidden\" name=\"op\" value=\"\"/>");
       w.println("    <table>");

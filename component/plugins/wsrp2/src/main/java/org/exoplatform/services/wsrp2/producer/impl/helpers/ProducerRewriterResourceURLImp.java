@@ -43,7 +43,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues; // TODO EXOMAN
+  private NamedString[]          navigationalValues;
 
   private Extension[]            extensions;
 

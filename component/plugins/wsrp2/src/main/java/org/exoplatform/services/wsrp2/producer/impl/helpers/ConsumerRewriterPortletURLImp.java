@@ -44,7 +44,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues; // TODO EXOMAN
+  private NamedString[]          navigationalValues;
 
   public ConsumerRewriterPortletURLImp(String type,
                                        String baseURL,

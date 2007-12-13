@@ -45,7 +45,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues; // TODO EXOMAN
+  private NamedString[]          navigationalValues;
 
   private Extension[]            extensions;
 

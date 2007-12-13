@@ -40,7 +40,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues; // TODO EXOMAN
+  private NamedString[]          navigationalValues;
 
   public ConsumerRewriterResourceURLImp(String type,
                                         String baseURL,

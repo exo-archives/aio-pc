@@ -37,6 +37,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.MapResourceBundle;
@@ -491,6 +492,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               portlet.addSupports(supports);
             }
           }
+          if (StringUtils.split(portletHandle, "/").length == 1) 
+            portletHandle = "unnamed" + "/" + portletHandle;
           result.put(producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER + portletHandle, new PortletDataImp(this.container,
                                                                                                               portlet,
                                                                                                               null,

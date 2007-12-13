@@ -621,7 +621,7 @@ public class PortletDriverImpl implements PortletDriver {
     NavigationalContext navCont = new NavigationalContext();
     navCont.setOpaqueValue(request.getNavigationalState());
     navCont.setPublicValues(request.getNavigationalValues());
-    navCont.setExtensions(null); // TODO EXOMAN
+    navCont.setExtensions(null);
     return navCont;
   }
 
