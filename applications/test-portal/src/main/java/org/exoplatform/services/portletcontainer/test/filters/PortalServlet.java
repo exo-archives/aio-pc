@@ -172,7 +172,7 @@ public class PortalServlet extends HttpServlet {
               String portlet = pinf.getPortlet();
               w.println("<table width='100%' border='1' STYLE='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
                 w.println("<tr><th valign='center' bgcolor='#A3A7F6'><font size='4' face='Verdana,Arial'><div id=\"p" + pinf.getWid() + "title\">"
-                    + title + "(" + portlet + ")"+ "</div></font>");
+                    + title + " (" + portlet + ")"+ "</div></font>");
               String resMode = reqURL;
               resMode += reqContextPath + "componentId=" + portlet;
               resMode += "&" + reqContextPath + "type=action";
