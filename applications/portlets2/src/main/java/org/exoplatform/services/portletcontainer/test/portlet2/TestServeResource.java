@@ -18,12 +18,16 @@ package org.exoplatform.services.portletcontainer.test.portlet2;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.Collections;
 import java.util.Enumeration;
+import java.util.List;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
+import javax.portlet.PortletRequest;
+import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
@@ -37,48 +41,116 @@ import javax.portlet.ResourceURL;
  */
 public class TestServeResource extends GenericPortlet {
 
-  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse)
-      throws PortletException, IOException {
-    //System.out.println("In doView method of TestServeResource...");
+  protected void doView(RenderRequest renderRequest,
+                        RenderResponse renderResponse) throws PortletException,
+                                                      IOException {
+    System.out.println("In doView method of TestServeResource...");
 
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();
     w.println("<center><font size='3'><b><i>Portlet for test resource serving.</i></b></font></center><br>");
-    w.println("Current method: "+((new Exception()).getStackTrace()[0]).getMethodName());
+    w.println("Current method: " + ((new Exception()).getStackTrace()[0]).getMethodName());
+
+    printParams(renderRequest, w);
+
+    PortletURL renderURL = renderResponse.createRenderURL();
+    renderURL.setParameter("renderURL_param_name_1", "render_value_1");
+    renderURL.setParameter("renderURL_param_name_2", "render_value_2");
+    renderURL.setParameter("same_param_name", "render");
+    w.println("<p><a href=\"" + renderURL.toString() + "\">render URL</a>");
+    
+    PortletURL renderURLnop = renderResponse.createRenderURL();
+    renderURLnop.removePublicRenderParameter("");
+    w.println("<p><a href=\"" + renderURLnop.toString() + "\">render URL no params</a>");
+    
+    PortletURL actionURL = renderResponse.createActionURL();
+    actionURL.setParameter("actionURL_param_name_1", "action_value_1");
+    actionURL.setParameter("actionURL_param_name_2", "action_value_2");
+    actionURL.setParameter("same_param_name", "action");
+    w.println("<p><a href=\"" + actionURL.toString() + "\">action URL</a>");
+    
+    PortletURL actionURLnop = renderResponse.createActionURL();
+    w.println("<p><a href=\"" + actionURLnop.toString() + "\">action URL no params</a>");
 
     ResourceURL resourceURL = renderResponse.createResourceURL();
-    resourceURL.setParameter("render_param_name_1", "render_param_value_1");
-    resourceURL.setParameter("render_param_name_2", "render_param_value_2");
-    w.println("<p><a href=\"" + resourceURL.toString() + "\">resource URL</a>");
+    resourceURL.setParameter("resourceURL_param_name_1", "resource_value_1");
+    resourceURL.setParameter("resourceURL_param_name_2", "resource_value_2");
+    resourceURL.setParameter("same_param_name", "resource_1");
+    resourceURL.setCacheability(ResourceURL.PAGE);
+    w.println("<p><a href=\"" + resourceURL.toString() + "\">resource URL with cache '" + resourceURL.getCacheability() + "'</a>");
+
+    ResourceURL resourceURL2 = renderResponse.createResourceURL();
+    resourceURL2.setParameter("resourceURL_param_name_1", "resource_value_1");
+    resourceURL2.setParameter("resourceURL_param_name_2", "resource_value_2");
+    resourceURL2.setParameter("same_param_name", "resource_2");
+    resourceURL2.setCacheability(ResourceURL.FULL);
+    w.println("<p><a href=\"" + resourceURL2.toString() + "\">resource URL 2 with cache '" + resourceURL2.getCacheability() + "'</a>");
+
+    ResourceURL resourceURLnop = renderResponse.createResourceURL();
+    w.println("<p><a href=\"" + resourceURLnop.toString() + "\">resource URL no params</a>");
+
   }
 
-  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-      throws PortletException, IOException {
-    //System.out.println("In processAction method of TestServeResource...");
+  private void printParams(PortletRequest request,
+                           PrintWriter w) {
+    System.out.println("In printParams method of TestServeResource...");
+    w.println("<br><br>");
+    if (request.getParameterNames() == null)
+      return;
+    List<String> names = Collections.list(request.getParameterNames());
+    for (String string : names) {
+      w.println(" = " + string);
+      String[] values = request.getParameterValues(string);
+      for (String string2 : values) {
+        w.println("<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; - " + string2);
+      }
+      w.println("<br>");
+    }
+    w.println("<br>");
   }
 
-  public void render(RenderRequest renderRequest, RenderResponse renderResponse)
-      throws PortletException, IOException {
-    //System.out.println("In render method of TestServeResource...");
+  public void processAction(ActionRequest actionRequest,
+                            ActionResponse actionResponse) throws PortletException,
+                                                          IOException {
+    System.out.println("In processAction method of TestServeResource...");
+    actionResponse.setRenderParameters(actionRequest.getParameterMap());
+  }
+
+  public void render(RenderRequest renderRequest,
+                     RenderResponse renderResponse) throws PortletException,
+                                                   IOException {
+    System.out.println("In render method of TestServeResource...");
     super.render(renderRequest, renderResponse);
   }
 
-  public void serveResource(ResourceRequest resourceRequest, ResourceResponse resourceResponse)
-      throws PortletException, IOException {
-    System.out.println("In serveResource method of TestPortletNEW... ");
+  public void serveResource(ResourceRequest resourceRequest,
+                            ResourceResponse resourceResponse) throws PortletException,
+                                                              IOException {
+    System.out.println("In serveResource method of TestServeResource... ");
 
     resourceResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = resourceResponse.getWriter();
-    w.println("This is the content from serveResource.");
+    w.println("This is the content from serveResource." + "<br>");
 
     String name = resourceRequest.getAttribute("name").toString();
-    w.println("<br>" + name);
+    w.println(name + "<br>");
 
+    printParams(resourceRequest, w);
+
+    PortletURL renderURL = resourceResponse.createRenderURL();
+    renderURL.setParameter("renderURL_param_name_1", "resource_value_1");
+    renderURL.setParameter("renderURL_param_name_2", "resource_value_2");
+    renderURL.setParameter("same_param_name", "resource");
+    w.println("<p><a href=\"" + renderURL.toString() + "\">render URL</a>");
+    
+    PortletURL renderURLnop = resourceResponse.createRenderURL();
+    w.println("<p><a href=\"" + renderURLnop.toString() + "\">render URL no params</a>");
+    
     //on console
     Enumeration parnames = resourceRequest.getParameterNames();
     while (parnames.hasMoreElements()) {
       String par = (String) parnames.nextElement();
-      //System.out.println(" >>> Parameters in RESOURCE: '" + par + "' = '" + resourceRequest.getParameter(par) + "'");
+      System.out.println(" >>> Parameters in RESOURCE: '" + par + "' = '" + resourceRequest.getParameter(par) + "'");
     }
     /*
     resourceResponse.setContentType("image/jpeg");

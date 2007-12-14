@@ -660,9 +660,15 @@ public class PortalFramework {
     eventInput.setUserAttributes(new HashMap<String, String>());
     eventInput.setMarkup(cntType);
     eventInput.setRenderParameters(new HashMap<String, String[]>());
-    //    Helper.appendParams(eventInput.getRenderParameters(), portletParams);
-    if (target != null && target.equals(eventTarget) && renderParams != null)
-      Helper.appendParams(eventInput.getRenderParameters(), renderParams);
+    if (target != null && target.equals(eventTarget)) {
+      if (renderParams != null) {
+        Helper.appendParams(eventInput.getRenderParameters(), renderParams);
+      }
+    } else {
+      if (win.getRenderParams() != null) {
+        Helper.appendParams(eventInput.getRenderParameters(), win.getRenderParams());
+      }
+    }
     eventInput.setPortletMode(win.getPortletMode());
     eventInput.setWindowState(win.getWindowState());
     eventInput.setEvent(event.getEvent());
