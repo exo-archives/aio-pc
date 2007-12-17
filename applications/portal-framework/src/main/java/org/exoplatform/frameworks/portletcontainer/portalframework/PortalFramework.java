@@ -584,8 +584,9 @@ public class PortalFramework {
         for (final Iterator<String> portletsNamesIterator = portletsNames.iterator(); portletsNamesIterator.hasNext();) {
           final String pname = portletsNamesIterator.next();
           final EventInfo eventInfo = new EventInfo(event, pname);
-          if (checkEventValueType(eventInfo))
+          if (checkEventValueType(eventInfo)) {
             events.add(eventInfo); // here put event for process
+          }
         }
       }
     }

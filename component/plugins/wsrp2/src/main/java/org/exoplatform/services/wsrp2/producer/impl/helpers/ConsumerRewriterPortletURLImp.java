@@ -91,7 +91,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append("&");
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(type);//Utils.changeUrlTypeFromActionToBlockingaction(type));
+    sB.append(Utils.changeUrlTypeFromActionToBlockingaction(type));//type));
 
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);

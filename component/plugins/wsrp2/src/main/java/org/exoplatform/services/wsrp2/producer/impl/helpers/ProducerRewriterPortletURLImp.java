@@ -91,7 +91,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     }
 
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);//Utils.changeUrlTypeFromActionToBlockingaction(type));
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", Utils.changeUrlTypeFromActionToBlockingaction(type));//type)
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
     } else {
