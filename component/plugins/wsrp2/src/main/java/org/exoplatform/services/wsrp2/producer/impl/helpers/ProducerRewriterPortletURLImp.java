@@ -91,7 +91,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     }
 
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", Utils.changeUrlTypeFromActionToBlockingaction(type));
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);//Utils.changeUrlTypeFromActionToBlockingaction(type));
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
     } else {
@@ -132,9 +132,9 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
-    
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", interactionState);
-    
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 
     Utils.fillExtensions(template, extensions);

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.rmi.RemoteException;
@@ -59,20 +59,24 @@ import org.exoplatform.services.wsrp2.utils.Utils;
  * benjmestrallet@users.sourceforge.net Date: 10 Dec. 2003 Time: 09:40:23
  */
 public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterface {
-  
+
   private PortletContainerProxy     proxy;
+
   public static String[]            localesArray = { "en", "fr" };
+
   private WSRPConfiguration         conf;
+
   private Log                       log;
+
   private ExoContainer              container;
+
   private PortletContainerConf      pcConf;
+
   private PortletApplicationsHolder pcHolder;
 
-  
   public ServiceDescriptionInterfaceImpl(PortletContainerProxy cont,
                                          WSRPConfiguration conf,
-                                         ExoContainerContext context
-                                         ) {
+                                         ExoContainerContext context) {
     this.proxy = cont;
     this.conf = conf;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
@@ -82,19 +86,16 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
   }
 
   // Store portlet application within ServiceDescription
-  public ServiceDescription getServiceDescription(RegistrationContext registrationContext, 
-                                                  String[] desiredLocales)
-      throws RemoteException {
-    
+  public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
+                                                  String[] desiredLocales) throws RemoteException {
+
     try {
-      
-  
+
       if (desiredLocales == null) {
         desiredLocales = new String[] { "en", "fr" };
       }
-  
-      log.debug("getServiceDescription entered with registrationContext : "
-          + registrationContext);
+
+      log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
       Map portletMetaDatas = proxy.getAllPortletMetaData();
       Set keys = portletMetaDatas.keySet();
       Set keys2 = new HashSet(keys);
@@ -103,10 +104,10 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
           String handle = (String) iter.next();
           if (handle.endsWith("*")) {
             for (Object object : keys2) {
-              if (((String)object).startsWith(handle.substring(0,handle.length()-1))) {
-                keys.remove((String)object);
+              if (((String) object).startsWith(handle.substring(0, handle.length() - 1))) {
+                keys.remove((String) object);
               }
-            }          
+            }
           } else {
             if (keys.contains(handle))
               keys.remove(handle);
@@ -115,7 +116,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       }
       PortletDescription[] pdescription = new PortletDescription[keys.size()];
       int i = 0;
-      for (Iterator iter = keys.iterator(); iter.hasNext(); i++) {
+      for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
         String producerOfferedPortletHandle = (String) iter.next();
         log.debug("fill service description with portlet description: " + producerOfferedPortletHandle);
         pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
@@ -124,21 +125,17 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       sD.setRequiresRegistration(conf.isRegistrationRequired());
       sD.setRegistrationPropertyDescription(new ModelDescription());// extension of the WSRP specs
       sD.setRequiresInitCookie(CookieProtocol.none);
-      sD.setCustomModeDescriptions(
-          getCustomModeDescriptions(
-              pcConf.getSupportedPortletModesWithDescriptions()));
+      sD.setCustomModeDescriptions(getCustomModeDescriptions(pcConf.getSupportedPortletModesWithDescriptions()));
       //sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);
-      sD.setCustomWindowStateDescriptions(
-          getCustomWindowStateDescriptions(
-              pcConf.getSupportedWindowStatesWithDescriptions()));
+      sD.setCustomWindowStateDescriptions(getCustomWindowStateDescriptions(pcConf.getSupportedWindowStatesWithDescriptions()));
       sD.setLocales(localesArray);
       sD.setOfferedPortlets(pdescription);
       sD.setResourceList(new ResourceList());
-      
+
       // WSRP v2 spec
       sD.setExtensionDescriptions(null);
       sD.setEventDescriptions(getEventDescriptions());
-      sD.setSupportedOptions(new String[]{"wsrp:events","wsrp:leasing","wsrp:copyPortlets","wsrp:import","wsrp:export"});
+      sD.setSupportedOptions(new String[] { "wsrp:events", "wsrp:leasing", "wsrp:copyPortlets", "wsrp:import", "wsrp:export" });
       sD.setExportDescription(null);
       sD.setMayReturnRegistrationState(null);
       return sD;
@@ -151,45 +148,47 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
   private EventDescription[] getEventDescriptions() {
     List<EventDescription> eventDescriptions = new ArrayList<EventDescription>();
     List<PortletApp> portletApps = pcHolder.getPortletAppList();
-    for (PortletApp portletApp : portletApps) {
-      List<EventDefinition> eventDefinitions = portletApp.getEventDefinition();
-      for (EventDefinition eventDefinition : eventDefinitions) {
-        EventDescription ed = new EventDescription();
-        ed.setName(eventDefinition.getPrefferedName());
-        ed.setAliases(Utils.getQNameArray(eventDefinition.getAliases()));
-        if (eventDefinition.getDescription() != null) {
-          if (!eventDefinition.getDescription().isEmpty()) {
-            Description d = eventDefinition.getDescription().get(0);
-            ed.setDescription(Utils.getLocalizedString(d.getDescription(),"en"));
+    try {
+      for (PortletApp portletApp : portletApps) {
+        List<EventDefinition> eventDefinitions = portletApp.getEventDefinition();
+        for (EventDefinition eventDefinition : eventDefinitions) {
+          EventDescription ed = new EventDescription();
+          ed.setName(eventDefinition.getPrefferedName());
+          ed.setAliases(Utils.getQNameArray(eventDefinition.getAliases()));
+          if (eventDefinition.getDescription() != null) {
+            if (!eventDefinition.getDescription().isEmpty()) {
+              Description d = eventDefinition.getDescription().get(0);
+              ed.setDescription(Utils.getLocalizedString(d.getDescription(), "en"));
+            }
           }
+          ed.setSchemaLocation(null);
+          if (eventDefinition.getJavaClass() != null && !"".equals(eventDefinition.getJavaClass())) {
+            ed.setType(new QName(eventDefinition.getJavaClass()));
+          }
+          ed.setSchemaType(null);
+          ed.setLabel(null);
+          ed.setHint(null);
+          ed.setExtensions(null);
+          eventDescriptions.add(ed);
         }
-        ed.setSchemaLocation(null);
-        if (eventDefinition.getJavaClass() != null && !"".equals(eventDefinition.getJavaClass())) {
-          ed.setType(new QName(eventDefinition.getJavaClass()));
-        }
-        ed.setSchemaType(null);
-        ed.setLabel(null);
-        ed.setHint(null);
-        ed.setExtensions(null);
       }
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-    return eventDescriptions.toArray(new EventDescription[]{});
+    return eventDescriptions.toArray(new EventDescription[] {});
   }
 
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
                                                   String[] desiredLocales,
                                                   String[] portletHandles,
-                                                  UserContext userContext) 
-      throws RemoteException {
+                                                  UserContext userContext) throws RemoteException {
 
     if (desiredLocales == null) {
       desiredLocales = new String[] { "en", "fr" };
     }
 
-    log.debug("getServiceDescription entered with registrationContext : "
-        + registrationContext);
+    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
 
-    
     Map portletMetaDatas = proxy.getAllPortletMetaData();
     Set<String> keys = portletMetaDatas.keySet();
 
@@ -208,9 +207,9 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       String keysHandle = (String) iter.next();
       boolean found = false;
       for (int k = 0; k < portletHandles.length; k++) {
-        if (portletHandles[k].equals(keysHandle)){
-        found = true;
-        break;
+        if (portletHandles[k].equals(keysHandle)) {
+          found = true;
+          break;
         }
       }
       if (found == false) {
@@ -227,21 +226,17 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     for (Iterator iter = keys.iterator(); iter.hasNext(); i++) {
       String producerOfferedPortletHandle = (String) iter.next();
       log.debug("fill service description with portlet description ");
-      pdescription[i] = proxy.getPortletDescription(
-          producerOfferedPortletHandle, desiredLocales);
+      pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
     }
     ServiceDescription sD = new ServiceDescription();
     sD.setRequiresRegistration(conf.isRegistrationRequired());
     sD.setRegistrationPropertyDescription(new ModelDescription());// extension
-                                                                  // of the WSRP
-                                                                  // specs
+    // of the WSRP
+    // specs
     sD.setRequiresInitCookie(CookieProtocol.none);
-    sD.setCustomModeDescriptions(getCustomModeDescriptions(pcConf
-        .getSupportedPortletModesWithDescriptions()));
-//    sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);
-    sD
-        .setCustomWindowStateDescriptions(getCustomWindowStateDescriptions(pcConf
-            .getSupportedWindowStatesWithDescriptions()));
+    sD.setCustomModeDescriptions(getCustomModeDescriptions(pcConf.getSupportedPortletModesWithDescriptions()));
+    //    sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);
+    sD.setCustomWindowStateDescriptions(getCustomWindowStateDescriptions(pcConf.getSupportedWindowStatesWithDescriptions()));
     sD.setLocales(localesArray);
     sD.setOfferedPortlets(pdescription);
     sD.setResourceList(new ResourceList());
@@ -249,20 +244,17 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   }
 
-  private ItemDescription[] getCustomWindowStateDescriptions(
-      Collection collection) {
+  private ItemDescription[] getCustomWindowStateDescriptions(Collection collection) {
     Collection c = new ArrayList();
     for (Iterator iter = collection.iterator(); iter.hasNext();) {
-      CustomWindowStateWithDescription element = (CustomWindowStateWithDescription) iter
-          .next();
+      CustomWindowStateWithDescription element = (CustomWindowStateWithDescription) iter.next();
       List l = element.getDescriptions();
       ItemDescription iD = null;
       for (Iterator iterator = l.iterator(); iterator.hasNext();) {
         LocalisedDescription d = (LocalisedDescription) iterator.next();
         iD = new ItemDescription();
         iD.setItemName(element.getWindowState().toString());
-        iD.setDescription(Utils.getLocalizedString(d.getDescription(), d
-            .getLocale().getLanguage()));
+        iD.setDescription(Utils.getLocalizedString(d.getDescription(), d.getLocale().getLanguage()));
         c.add(iD);
       }
     }
@@ -277,16 +269,14 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
   private ItemDescription[] getCustomModeDescriptions(Collection collection) {
     Collection c = new ArrayList();
     for (Iterator iter = collection.iterator(); iter.hasNext();) {
-      CustomModeWithDescription element = (CustomModeWithDescription) iter
-          .next();
+      CustomModeWithDescription element = (CustomModeWithDescription) iter.next();
       List l = element.getDescriptions();
       ItemDescription iD = null;
       for (Iterator iterator = l.iterator(); iterator.hasNext();) {
         LocalisedDescription d = (LocalisedDescription) iterator.next();
         iD = new ItemDescription();
         iD.setItemName(element.getPortletMode().toString());
-        iD.setDescription(Utils.getLocalizedString(d.getDescription(), d
-            .getLocale().getLanguage()));
+        iD.setDescription(Utils.getLocalizedString(d.getDescription(), d.getLocale().getLanguage()));
         c.add(iD);
       }
     }

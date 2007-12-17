@@ -451,6 +451,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                            QName eventName,
                                            Object payload) {
     // consumer.getProducerRegistry().
+
     Producer producer = getProducer(getProducerID(portletAppName));
     ServiceDescription sd;
     try {
@@ -461,19 +462,26 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     }
     if (sd == null)
       return false;
-    EventDescription[] eds = sd.getEventDescriptions();
-    for (EventDescription ed : eds) {
-      if (!ed.getName().equals(eventName) && !Utils.getQNameList(ed.getAliases()).contains(eventName))
-        continue;
-      if (ed.getType() == null)
-        return false;
-      try {
-        Class clazz = Class.forName(ed.getType().toString());
-        if (log.isDebugEnabled())
-          log.debug("Event loaded class for eventName: '" + eventName + "' is: " + clazz);
-        return clazz.isInstance(payload); // just here we would return TRUE
-      } catch (Exception e) {
-        return false;
+    if (sd != null) {
+      EventDescription[] eds = sd.getEventDescriptions();
+      if (eds != null) {
+        for (EventDescription ed : eds) {
+          // if this name doesn't present in getName or getAliases then continue to next iteration
+          if (!(ed.getName() != null && ed.getName().equals(eventName))
+              && !(ed.getAliases() != null && Utils.getQNameList(ed.getAliases()).contains(eventName)))
+            continue;
+          // caught appropriate event
+          if (ed.getType() == null)
+            return false;
+          try {
+            Class clazz = Class.forName(ed.getType().toString());
+            if (log.isDebugEnabled())
+              log.debug("Event loaded class for eventName: '" + eventName + "' is: " + clazz);
+            return clazz.isInstance(payload); // just here we would return TRUE
+          } catch (Exception e) {
+            return false;
+          }
+        }
       }
     }
     return false;
@@ -534,7 +542,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 for (QName parameterName : parameter.getNames())
                   portlet.addSupportedPublicRenderParameter(parameterName.toString());
             // portletDescription.getMayReturnPortletState()
-            if (StringUtils.split(portletHandle, "/").length == 1) 
+            if (StringUtils.split(portletHandle, "/").length == 1)
               portletHandle = "unnamed" + "/" + portletHandle;
             result.put(producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER + portletHandle, new PortletDataImp(this.container,
                                                                                                                 portlet,
@@ -721,7 +729,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public RenderOutput render(HttpServletRequest request,
                              HttpServletResponse response,
                              RenderInput input) throws PortletContainerException {
-
 
     // input.isStateSaveOnClient()
     // input.isUpdateCache()
@@ -1140,7 +1147,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                     RenderOutput output) throws WSRPException {
     log.debug("process markup context for returned markup");
     if (markupContext != null && output != null) {
-      // TODO EXOMAN
       // markupContext.getCacheControl()
       // markupContext.getCcppProfileWarning()
       // markupContext.getExtensions()
