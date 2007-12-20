@@ -203,7 +203,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     sessionID);
     } else {
       log.debug("Consumer URL rewriting");
-      baseURL = WSRPConstants.WSRP_REWRITE_PREFIX;
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),

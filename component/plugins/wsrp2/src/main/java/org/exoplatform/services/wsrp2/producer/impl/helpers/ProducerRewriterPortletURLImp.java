@@ -25,6 +25,7 @@ import java.util.Set;
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.WSRPConstants;
@@ -81,7 +82,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
 
     // process interaction state
     String interactionState = "";
-    if (type.equalsIgnoreCase(PortletURLFactory.ACTION)) {
+    if (type.equalsIgnoreCase(PCConstants.actionString)) {
       interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);
@@ -91,7 +92,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     }
 
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", Utils.changeUrlTypeFromActionToBlockingaction(type));//type)
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
     } else {

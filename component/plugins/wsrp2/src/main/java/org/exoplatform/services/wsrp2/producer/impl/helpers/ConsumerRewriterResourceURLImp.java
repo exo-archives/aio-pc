@@ -78,9 +78,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     }
 
     StringBuffer sB = new StringBuffer();
-    sB.append(baseURL);
+    sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
     
-    sB.append("&");
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(type);

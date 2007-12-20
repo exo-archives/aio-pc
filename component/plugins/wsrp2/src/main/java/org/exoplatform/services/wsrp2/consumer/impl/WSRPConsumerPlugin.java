@@ -650,26 +650,24 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         PortletDriver portletDriver = consumer.getPortletDriverRegistry().getPortletDriver(portlet);
         WSRPInteractionRequest iRequest = getInteractionRequest(windowSession, request, input);
 
-        String path = null;
-        // path = request.getRequestURI();
-        // log.debug("User path info : " + path);
-        // if (path == null) {
-        // path = basePath;
-        // }
-        // path += "?";
-        // String remoteUser = request.getRemoteUser();
-        // if (remoteUser != null) {
-        // path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" +
-        // request.getRemoteUser() + "&";
-        // }
-        // path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" +
-        // appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-        // // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-        // log.debug("use base path : " + path);
-        path = input.getBaseURL();
+        String baseURL = null;
+        //        baseURL = request.getRequestURI();
+        //        log.debug("User path info : " + baseURL);
+        //        if (baseURL == null) {
+        //          //path = basePath;
+        //        }
+        //        baseURL += "?";
+        //        String remoteUser = request.getRemoteUser();
+        //        if (remoteUser != null) {
+        //          baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+        //        }
+        //        baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+        //        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+        //        log.debug("use base path : " + baseURL);
+        baseURL = input.getBaseURL();
 
         /* MAIN INVOKE */
-        BlockingInteractionResponse iResponse = portletDriver.performBlockingInteraction(iRequest, userSession, path);
+        BlockingInteractionResponse iResponse = portletDriver.performBlockingInteraction(iRequest, userSession, baseURL);
         if (iResponse != null) {
           log.debug("manage BlockingInteractionResponse object content");
           UpdateResponse updateResponse = iResponse.getUpdateResponse();
@@ -798,27 +796,25 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             PortletWindowSession portletWindowSession = getWindowSession(portletKey, portlet, userSession, key);
 
             WSRPMarkupRequest markupRequest = getMarkupRequest(request, portletWindowSession, input);
-            String path = null;
-
-            // path = request.getRequestURI();
-            // log.debug("User path info : " + path);
-            // if (path == null) {
-            // path = basePath;
-            // }
-            // path += "?";
-            // String remoteUser = request.getRemoteUser();
-            // if (remoteUser != null) {
-            // path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" +
-            // request.getRemoteUser() + "&";
-            // }
-            // path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" +
-            // appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-            // // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-            // log.debug("use base path : " + path);
-            path = input.getBaseURL();
+            String baseURL = null;
+            //            baseURL = request.getRequestURI();
+            //            log.debug("User path info : " + baseURL);
+            //            if (baseURL == null) {
+            //              //path = basePath;
+            //            }
+            //            baseURL += "?";
+            //            String remoteUser = request.getRemoteUser();
+            //            if (remoteUser != null) {
+            //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+            //            }
+            //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+            //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+            //            log.debug("use base path : " + baseURL);
+            baseURL = input.getBaseURL();
+            System.out.println(">>> EXOMAN WSRPConsumerPlugin.render() path = " + baseURL);
 
             /* MAIN INVOKE */
-            MarkupResponse mResponse = portletDriver.getMarkup(markupRequest, userSession, path);
+            MarkupResponse mResponse = portletDriver.getMarkup(markupRequest, userSession, baseURL);
             if (mResponse != null) {
               if (portletWindowSession != null) {
                 updateSessionContext(mResponse.getSessionContext(), portletWindowSession.getPortletSession());
@@ -1247,26 +1243,24 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
             WSRPResourceRequest resourceRequest = getResourceRequest(request, portletWindowSession, input);
 
-            String path = null;
-            // path = request.getRequestURI();
-            // log.debug("User path info : " + path);
-            // if (path == null) {
-            // path = basePath;
-            // }
-            // path += "?";
-            // String remoteUser = request.getRemoteUser();
-            // if (remoteUser != null) {
-            // path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" +
-            // request.getRemoteUser() + "&";
-            // }
-            // path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" +
-            // appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-            // // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-            // log.debug("use base path : " + path);
-            path = input.getBaseURL();
+            String baseURL = null;
+            //            baseURL = request.getRequestURI();
+            //            log.debug("User path info : " + baseURL);
+            //            if (baseURL == null) {
+            //              //path = basePath;
+            //            }
+            //            baseURL += "?";
+            //            String remoteUser = request.getRemoteUser();
+            //            if (remoteUser != null) {
+            //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+            //            }
+            //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+            //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+            //            log.debug("use base path : " + baseURL);
+            baseURL = input.getBaseURL();
 
             /* MAIN INVOKE */
-            ResourceResponse resResponse = portletDriver.getResource(resourceRequest, userSession, path);
+            ResourceResponse resResponse = portletDriver.getResource(resourceRequest, userSession, baseURL);
 
             if (resResponse != null) {
               if (portletWindowSession != null) {
@@ -1407,26 +1401,24 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         PortletDriver portletDriver = consumer.getPortletDriverRegistry().getPortletDriver(portlet);
         WSRPEventsRequest iRequest = getEventsRequest(windowSession, request, input);
 
-        String path = null;
-        // path = request.getRequestURI();
-        // log.debug("User path info : " + path);
-        // if (path == null) {
-        // path = basePath;
-        // }
-        // path += "?";
-        // String remoteUser = request.getRemoteUser();
-        // if (remoteUser != null) {
-        // path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" +
-        // request.getRemoteUser() + "&";
-        // }
-        // path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" +
-        // appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-        // // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-        // log.debug("use base path : " + path);
-        path = input.getBaseURL();
+        String baseURL = null;
+        //         baseURL = request.getRequestURI();
+        //        log.debug("User path info : " + baseURL);
+        //        if (baseURL == null) {
+        //          //path = basePath;
+        //        }
+        //        baseURL += "?";
+        //        String remoteUser = request.getRemoteUser();
+        //        if (remoteUser != null) {
+        //          baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+        //        }
+        //        baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+        //        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+        //        log.debug("use base path : " + baseURL);
+        baseURL = input.getBaseURL();
 
         /* MAIN INVOKE */
-        HandleEventsResponse iResponse = portletDriver.handleEvents(iRequest, userSession, path);
+        HandleEventsResponse iResponse = portletDriver.handleEvents(iRequest, userSession, baseURL);
 
         if (iResponse != null) {
           log.debug("manage BlockingInteractionResponse object content");

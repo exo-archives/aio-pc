@@ -24,6 +24,7 @@ import java.util.Set;
 
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
@@ -76,7 +77,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
     // process interaction state
     String interactionState = "";
-    if (type.equalsIgnoreCase(PortletURLFactory.ACTION)) {
+    if (type.equalsIgnoreCase(PCConstants.actionString)) {
       interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);
@@ -86,12 +87,11 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     }
 
     StringBuffer sB = new StringBuffer();
-    sB.append(baseURL);
+    sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
 
-    sB.append("&");
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(Utils.changeUrlTypeFromActionToBlockingaction(type));//type));
+    sB.append(type);
 
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
@@ -155,6 +155,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       sB.append("=");
       sB.append(requiredWindowState);
     }
+    
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Set names = parameters.keySet();

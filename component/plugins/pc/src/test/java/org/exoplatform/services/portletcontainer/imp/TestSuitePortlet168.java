@@ -38,7 +38,6 @@ import org.exoplatform.services.portletcontainer.imp.Portlet168.TestPortletURL;
 import org.exoplatform.services.portletcontainer.imp.Portlet168.TestWindowState;
 
 /**
- * Created by The eXo Platform SAS
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  * 24.04.2007
@@ -49,6 +48,10 @@ public class TestSuitePortlet168 extends TestSuite {
 
   public TestSuitePortlet168() {
     log.info("Preparing Portlet168 tests....");
+
+    String newProperty = System.getProperty("basedir") + "/war_template";
+    System.setProperty("mock.portal.dir", newProperty);
+    System.setProperty("maven.exoplatform.dir", newProperty);
 
     addTestSuite(TestCaching.class);
     addTestSuite(TestCharacterEncoding.class);
@@ -66,11 +69,9 @@ public class TestSuitePortlet168 extends TestSuite {
     addTestSuite(TestPortletRequests.class);
     addTestSuite(TestPortletURL.class);
     addTestSuite(TestWindowState.class);
-
   }
 
   public void testVoid() throws Exception {
   }
-
 
 }

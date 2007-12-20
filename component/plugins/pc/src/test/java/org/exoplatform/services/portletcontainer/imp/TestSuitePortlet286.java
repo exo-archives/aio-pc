@@ -31,13 +31,13 @@ import org.exoplatform.services.portletcontainer.imp.Portlet286.TestPortletURL;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestPortletUnavailable;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestPublicRenderParameterNames;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestPublicRenderParameters;
+import org.exoplatform.services.portletcontainer.imp.Portlet286.TestRenderParamsAviability;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestResourceServing;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestResourceURL;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestServeResource;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestUserInfo;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestWindowID;
 import org.exoplatform.services.portletcontainer.imp.Portlet286.TestWindowState2;
-import org.exoplatform.services.portletcontainer.imp.Portlet286.TestRenderParamsAviability;
 
 /**
  * Created by The eXo Platform SAS
@@ -51,6 +51,10 @@ public class TestSuitePortlet286 extends TestSuite {
 
   public TestSuitePortlet286() {
     log.info("Preparing Portlet286 tests....");
+
+    String newProperty = System.getProperty("basedir") + "/war_template2";
+    System.setProperty("mock.portal.dir", newProperty);
+    System.setProperty("maven.exoplatform.dir", newProperty);
 
     addTestSuite(TestPortletModelParser.class);
     addTestSuite(TestFilters.class);
@@ -74,6 +78,5 @@ public class TestSuitePortlet286 extends TestSuite {
 
   public void testVoid() throws Exception {
   }
-
 
 }

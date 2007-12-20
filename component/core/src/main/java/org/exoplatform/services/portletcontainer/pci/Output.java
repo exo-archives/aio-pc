@@ -23,7 +23,7 @@ import java.util.Map;
 
 import javax.portlet.MimeResponse;
 
-import org.exoplatform.services.portletcontainer.PortletContainerConstants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 
 /**
  * Created by The eXo Platform SAS
@@ -67,8 +67,8 @@ public class Output {
       MimeResponse.MARKUP_HEAD_ELEMENT,
       MimeResponse.NAMESPACED_RESPONSE,
       Output.SEND_REDIRECT,
-      PortletContainerConstants.EXCEPTION,
-      PortletContainerConstants.DESTROYED
+      PCConstants.EXCEPTION,
+      PCConstants.DESTROYED
   );
 
   private boolean specialProperty(String s) {
@@ -89,7 +89,7 @@ public class Output {
   }
 
   public boolean hasError() {
-    if (properties.get(PortletContainerConstants.DESTROYED) != null || properties.get(PortletContainerConstants.EXCEPTION) != null)
+    if (properties.get(PCConstants.DESTROYED) != null || properties.get(PCConstants.EXCEPTION) != null)
       return true;
     return false;
   }

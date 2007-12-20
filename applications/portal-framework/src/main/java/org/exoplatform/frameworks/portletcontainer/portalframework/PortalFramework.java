@@ -39,6 +39,7 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
@@ -51,7 +52,6 @@ import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 
 /**
  * Created by The eXo Platform SAS .

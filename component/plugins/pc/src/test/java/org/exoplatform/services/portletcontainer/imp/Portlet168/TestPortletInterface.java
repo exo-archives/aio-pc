@@ -26,7 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.exoplatform.Constants;
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.portletcontainer.PortletContainerConstants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.imp.EmptyResponse;
 import org.exoplatform.services.portletcontainer.monitor.PortletRuntimeData;
@@ -293,8 +293,8 @@ public class TestPortletInterface extends BaseTest {
 		ActionOutput o = portletContainer.processAction(request, response, actionInput);
 // changed on request of Erez Harari, now exception.toString() is returned in that property instead of static text
 //		assertEquals("output generated because of an exception",
-//        o.getProperties().get(PortletContainerConstants.EXCEPTION));
-		assertNotNull(o.getProperties().get(PortletContainerConstants.EXCEPTION));
+//        o.getProperties().get(PCConstants.EXCEPTION));
+		assertNotNull(o.getProperties().get(PCConstants.EXCEPTION));
     assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 		portletApplicationRegister.removePortletApplication(mockServletContext, PORTLET_APP_NAME);
@@ -447,7 +447,7 @@ public class TestPortletInterface extends BaseTest {
 		((ExoWindowID)actionInput.getInternalWindowID()).setPortletName("HelloWorld");
 		ActionOutput aO = portletContainer.processAction(request, response, actionInput);
 		assertEquals("output generated because of a destroyed portlet access",
-						aO.getProperties().get(PortletContainerConstants.DESTROYED));
+						aO.getProperties().get(PCConstants.DESTROYED));
 		assertTrue(portletMonitor.isDestroyed("war_template", "HelloWorld"));
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("HelloWorld");
 		RenderOutput o = portletContainer.render(request, response, renderInput);

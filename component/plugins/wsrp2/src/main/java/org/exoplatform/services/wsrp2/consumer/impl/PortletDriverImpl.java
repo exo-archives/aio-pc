@@ -189,7 +189,7 @@ public class PortletDriverImpl implements PortletDriver {
   }
 
   private RuntimeContext getRuntimeContext(WSRPBaseRequest request,
-                                           String path) {
+                                           String baseURL) {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
@@ -199,55 +199,38 @@ public class PortletDriverImpl implements PortletDriver {
       runtimeContext.setNamespacePrefix(templateComposer.getNamespacePrefix());
     }
     Boolean doesUrlTemplateProcess = null;
+    Boolean getTemplatesStoredInSession = null;
     try {
       PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
       if (desc != null) {
         doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
+        getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
       }
     } catch (WSRPException e) {
+      e.printStackTrace();
       // do nothing since exception has been logged already
       // continue with assumption that portlet does not support template
       // processing
     }
-    if (doesUrlTemplateProcess != null && templateComposer != null && doesUrlTemplateProcess.booleanValue()) {
-      // If path starts with protocol then don't use templateComposer for create
-      // templates
-      if (path != null) {
-        if (path.startsWith(URLTemplateComposerImpl.NON_SECURE_PROTOCOL) || path.startsWith(URLTemplateComposerImpl.SECURE_PROTOCOL)) {
-          Templates templates = new Templates();
-          templates.setBlockingActionTemplate(path);
-          templates.setRenderTemplate(path);
-          templates.setDefaultTemplate(path);
-          templates.setResourceTemplate(path);
-          templates.setSecureBlockingActionTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          templates.setSecureRenderTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          templates.setSecureDefaultTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          templates.setSecureResourceTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          runtimeContext.setTemplates(templates);
-
-          runtimeContext.setSessionParams(new SessionParams(null, request.getSessionID()));
-          runtimeContext.setExtensions(null);
-          return runtimeContext;
-        }
+    Templates templates = null;
+    if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue() && templateComposer != null) {
+      templates = new Templates();
+      if (baseURL != null) {
+        // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
+        templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
+        templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
+        templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
+        templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
+        templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
+        templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
+        templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
+        templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
       }
-      Templates templates = new Templates();
-      templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(path));
-      templates.setRenderTemplate(templateComposer.createRenderTemplate(path));
-      templates.setDefaultTemplate(templateComposer.createDefaultTemplate(path));
-      templates.setResourceTemplate(templateComposer.createResourceTemplate(path));
-      templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(path));
-      templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(path));
-      templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(path));
-      templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(path));
-      runtimeContext.setTemplates(templates);
     }
+    runtimeContext.setTemplates(templates);
     runtimeContext.setSessionParams(new SessionParams(null, request.getSessionID()));
-    // runtimeContext.setPageState(pageState);
-    // runtimeContext.setPortletStates(portletStates);
+    runtimeContext.setPageState(null);//pageState);
+    runtimeContext.setPortletStates(null);//portletStates);
     runtimeContext.setExtensions(null);
     return runtimeContext;
   }
@@ -284,7 +267,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   public MarkupResponse getMarkup(WSRPMarkupRequest markupRequest,
                                   UserSessionMgr userSession,
-                                  String path) throws WSRPException {
+                                  String baseURL) throws WSRPException {
     checkInitCookie(userSession);
     MarkupResponse response = null;
     try {
@@ -294,7 +277,7 @@ public class PortletDriverImpl implements PortletDriver {
         GetMarkup request = new GetMarkup();
         request.setPortletContext(getPortlet().getPortletContext());
         request.setMarkupParams(getMarkupParams(markupRequest));
-        request.setRuntimeContext(getRuntimeContext(markupRequest, path));
+        request.setRuntimeContext(getRuntimeContext(markupRequest, baseURL));
         RegistrationContext regCtx = producer.getRegistrationContext();
         if (regCtx != null) {
           log.debug("Registration context used in getMarkup : " + regCtx.getRegistrationHandle());
@@ -317,7 +300,7 @@ public class PortletDriverImpl implements PortletDriver {
       log.debug("requires URL rewriting : " + requiresRewriting);
       if (Boolean.FALSE.equals(requiresRewriting)) {
         URLRewriter urlRewriter = consumer.getURLRewriter();
-        String rewrittenMarkup = urlRewriter.rewriteURLs(path, markupContext.getItemString());
+        String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, markupContext.getItemString());
         if (rewrittenMarkup != null) {
           markupContext.setItemString(rewrittenMarkup);
         }
@@ -327,7 +310,7 @@ public class PortletDriverImpl implements PortletDriver {
       log.error("Problem with cookies ", cookieFault);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
-      getMarkup(markupRequest, userSession, path);
+      getMarkup(markupRequest, userSession, baseURL);
     } catch (java.rmi.RemoteException wsrpFault) {
       log.error("Remote exception ", wsrpFault);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
@@ -337,7 +320,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
                                                                 UserSessionMgr userSession,
-                                                                String path) throws WSRPException {
+                                                                String baseURL) throws WSRPException {
     checkInitCookie(userSession);
     BlockingInteractionResponse response = null;
     try {
@@ -345,7 +328,7 @@ public class PortletDriverImpl implements PortletDriver {
       request.setPortletContext(getPortlet().getPortletContext());
       request.setInteractionParams(getInteractionParams(actionRequest));
       request.setMarkupParams(getMarkupParams(actionRequest));
-      request.setRuntimeContext(getRuntimeContext(actionRequest, path));
+      request.setRuntimeContext(getRuntimeContext(actionRequest, baseURL));
       RegistrationContext regCtx = producer.getRegistrationContext();
       if (regCtx != null) {
         request.setRegistrationContext(regCtx);
@@ -358,7 +341,7 @@ public class PortletDriverImpl implements PortletDriver {
       response = markupPort.performBlockingInteraction(request);
     } catch (InvalidCookieFault cookieFault) {
       resetInitCookie(userSession);
-      performBlockingInteraction(actionRequest, userSession, path);
+      performBlockingInteraction(actionRequest, userSession, baseURL);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
     }
@@ -529,7 +512,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   public ResourceResponse getResource(WSRPResourceRequest resourceRequest,
                                       UserSessionMgr userSession,
-                                      String path) throws WSRPException {
+                                      String baseURL) throws WSRPException {
     checkInitCookie(userSession);
     ResourceResponse response = null;
     try {
@@ -539,7 +522,7 @@ public class PortletDriverImpl implements PortletDriver {
         GetResource request = new GetResource();
         request.setPortletContext(getPortlet().getPortletContext());
         request.setResourceParams(getResourceParams(resourceRequest));
-        request.setRuntimeContext(getRuntimeContext(resourceRequest, path));
+        request.setRuntimeContext(getRuntimeContext(resourceRequest, baseURL));
         RegistrationContext regCtx = producer.getRegistrationContext();
         if (regCtx != null) {
           request.setRegistrationContext(regCtx);
@@ -562,7 +545,7 @@ public class PortletDriverImpl implements PortletDriver {
       requiresRewriting = requiresRewriting == null ? Boolean.FALSE : requiresRewriting;
       if (requiresRewriting.booleanValue()) {
         URLRewriter urlRewriter = consumer.getURLRewriter();
-        String rewrittenResource = urlRewriter.rewriteURLs(path, resourceContext.getItemString());
+        String rewrittenResource = urlRewriter.rewriteURLs(baseURL, resourceContext.getItemString());
         if (rewrittenResource != null) {
           resourceContext.setItemString(rewrittenResource);
         }
@@ -572,7 +555,7 @@ public class PortletDriverImpl implements PortletDriver {
       log.error("Problem with cookies ", cookieFault);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
-      getResource(resourceRequest, userSession, path);
+      getResource(resourceRequest, userSession, baseURL);
     } catch (java.rmi.RemoteException wsrpFault) {
       log.error("Remote exception ", wsrpFault);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
@@ -627,7 +610,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   public HandleEventsResponse handleEvents(WSRPEventsRequest eventRequest,
                                            UserSessionMgr userSession,
-                                           String path) throws WSRPException {
+                                           String baseURL) throws WSRPException {
     checkInitCookie(userSession);
     HandleEventsResponse response = null;
     try {
@@ -635,7 +618,7 @@ public class PortletDriverImpl implements PortletDriver {
       request.setPortletContext(getPortlet().getPortletContext());
       request.setEventParams(getEventParams(eventRequest));
       request.setMarkupParams(getMarkupParams(eventRequest));
-      request.setRuntimeContext(getRuntimeContext(eventRequest, path));
+      request.setRuntimeContext(getRuntimeContext(eventRequest, baseURL));
       RegistrationContext regCtx = producer.getRegistrationContext();
       if (regCtx != null) {
         request.setRegistrationContext(regCtx);
@@ -648,7 +631,7 @@ public class PortletDriverImpl implements PortletDriver {
       response = markupPort.handleEvents(request);
     } catch (InvalidCookieFault cookieFault) {
       resetInitCookie(userSession);
-      handleEvents(eventRequest, userSession, path);
+      handleEvents(eventRequest, userSession, baseURL);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
     }

@@ -27,7 +27,8 @@ import java.util.Map;
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
+
+import org.exoplatform.services.portletcontainer.PCConstants;
 
 /**
  * Created by The eXo Platform SAS  .

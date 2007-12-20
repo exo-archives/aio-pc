@@ -20,9 +20,9 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PreferencesValidator;
 import javax.portlet.ValidatorException;
 
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletPreferencesImp;
 
 /**

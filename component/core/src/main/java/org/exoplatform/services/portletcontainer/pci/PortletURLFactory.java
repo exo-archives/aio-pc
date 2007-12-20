@@ -25,11 +25,8 @@ import javax.portlet.ResourceURL;
  */
 public interface PortletURLFactory {
 
-  public static final String RENDER = "render";
-  public static final String ACTION = "action";
-  public static final String RESOURCE = "resource";
-
   public PortletURL createPortletURL(String Type);
+
   public ResourceURL createResourceURL(String Type);
 
 }

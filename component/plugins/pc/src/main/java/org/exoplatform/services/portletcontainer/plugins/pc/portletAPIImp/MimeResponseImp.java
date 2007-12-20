@@ -31,12 +31,11 @@ import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
 
 import org.apache.commons.lang.StringUtils;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 
 /**
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
@@ -214,9 +213,9 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     }
 
     if (input_.getPortletURLFactory() != null)
-      return input_.getPortletURLFactory().createPortletURL(PortletURLFactory.ACTION);
+      return input_.getPortletURLFactory().createPortletURL(PCConstants.actionString);
 
-    return new PortletURLImp(PortletURLFactory.ACTION,
+    return new PortletURLImp(PCConstants.actionString,
                              input_.getBaseURL(),
                              input_.getMarkup(),
                              portletDatas_.getSupports(),
@@ -239,10 +238,10 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
       // OK, the originalCacheLevel is a parent cache level, what is new?
     }
     if (input_.getPortletURLFactory() != null) {
-      return input_.getPortletURLFactory().createResourceURL(PortletURLFactory.RESOURCE);
+      return input_.getPortletURLFactory().createResourceURL(PCConstants.resourceString);
     }
     
-      return new ResourceURLImp(PortletURLFactory.RESOURCE,
+      return new ResourceURLImp(PCConstants.resourceString,
           input_.getBaseURL(),
           isCurrentlySecured_,
           input_.getEscapeXml(),

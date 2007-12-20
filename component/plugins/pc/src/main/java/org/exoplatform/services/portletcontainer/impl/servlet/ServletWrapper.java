@@ -26,7 +26,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHa
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.Output;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
+import org.exoplatform.services.portletcontainer.pci.model.Util;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -95,7 +95,7 @@ public class ServletWrapper extends HttpServlet {
     PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest.getAttribute(PortletContainerDispatcher.WINDOW_INFO);
     Input input = (Input) servletRequest.getAttribute(PortletContainerDispatcher.INPUT);
     Output output = (Output) servletRequest.getAttribute(PortletContainerDispatcher.OUTPUT);
-    int isAction = PCConstants.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
+    int isAction = Util.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
     try {
       handler.process(getServletContext(), servletRequest, servletResponse, input, output, windowInfo, isAction);
     } catch (PortletContainerException e) {

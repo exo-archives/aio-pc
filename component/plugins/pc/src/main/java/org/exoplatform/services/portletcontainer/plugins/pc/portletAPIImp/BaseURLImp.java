@@ -23,6 +23,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -37,23 +38,23 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
  */
 public abstract class BaseURLImp implements BaseURL {
 
-  protected String        baseURL;
+  protected String                    baseURL;
 
-  protected Map           parameters       = new HashMap();
+  protected Map<String, String[]>     parameters       = new HashMap<String, String[]>();
 
-  protected Map           properties       = new HashMap();
+  protected Map<String, List<String>> properties       = new HashMap<String, List<String>>();
 
-  protected boolean       isSecure;
+  protected boolean                   isSecure;
 
-  protected boolean       setSecureCalled;
+  protected boolean                   setSecureCalled;
 
-  protected String        type;
+  protected String                    type;
 
-  protected boolean       isCurrentlySecured;
+  protected boolean                   isCurrentlySecured;
 
-  protected boolean       defaultEscapeXml = true;
+  protected boolean                   defaultEscapeXml = true;
 
-  protected final Portlet portletDatas;
+  protected final Portlet             portletDatas;
 
   public BaseURLImp(String type,
                     String baseURL,
@@ -73,7 +74,7 @@ public abstract class BaseURLImp implements BaseURL {
       throw new IllegalArgumentException("the key given is null");
     if (s1 == null)
       throw new IllegalArgumentException("the value given is null");
-    parameters.put(s, s1);
+    parameters.put(s, new String[] { s1 });
   }
 
   public void setParameter(String s,
@@ -85,29 +86,29 @@ public abstract class BaseURLImp implements BaseURL {
     parameters.put(s, strings);
   }
 
-  public void setParameters(Map map) {
+  public void setParameters(Map<String, String[]> map) {
     if (map == null)
       throw new IllegalArgumentException("the map given is null");
     if (map.containsKey(null))
       throw new IllegalArgumentException("the map given contains a null key");
-    Set keys = map.keySet();
-    for (Iterator iter = keys.iterator(); iter.hasNext();) {
+    Set<String> keys = map.keySet();
+    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
       if (!(iter.next() instanceof String))
         throw new IllegalArgumentException("the map contains a non String key");
     }
-    Collection values = map.values();
-    for (Iterator iter = values.iterator(); iter.hasNext();) {
+    Collection<String[]> values = map.values();
+    for (Iterator<String[]> iter = values.iterator(); iter.hasNext();) {
       if (!(iter.next() instanceof String[]))
         throw new IllegalArgumentException("the map contains a non String[] value");
     }
     parameters = map;
   }
 
-  public Object getParameter(String key) {
-    return parameters.get(key);
-  }
+//  public Object getParameter(String key) {
+//    return parameters.get(key);
+//  }
 
-  public Map getParameterMap() {
+  public Map<String, String[]> getParameterMap() {
     return parameters;
   }
 
@@ -142,10 +143,10 @@ public abstract class BaseURLImp implements BaseURL {
   public String getPropertyString(boolean escapeXML) {
     StringBuffer sb = new StringBuffer();
     try {
-      Set names = properties.keySet();
-      for (Iterator iterator = names.iterator(); iterator.hasNext();) {
+      Set<String> names = properties.keySet();
+      for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
         String name = (String) iterator.next();
-        ArrayList propvalues = (ArrayList) properties.get(name);
+        List<String> propvalues = (List<String>) properties.get(name);
         for (int i = 0; i <= propvalues.size(); i++) {
           sb.append(Constants.AMPERSAND);
           sb.append(Constants.PROPERTY_ENCODER);

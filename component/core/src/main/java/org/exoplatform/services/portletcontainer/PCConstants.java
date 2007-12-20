@@ -21,7 +21,7 @@ package org.exoplatform.services.portletcontainer;
  * janv. 2004 Time: 09:11:34
  */
 
-public class PortletContainerConstants {
+public class PCConstants {
 
   public static final String CACHE_REGION       = "jsr286:";
 
@@ -29,11 +29,30 @@ public class PortletContainerConstants {
 
   public static final String GLOBAL_SCOPE_CACHE = CACHE_REGION + "forAll";
 
-  static public String       EXCEPTION          = "org.exoplatform.portal.container.exception";
+  public static final String EXCEPTION          = "org.exoplatform.portal.container.exception";
 
-  static public String       DESTROYED          = "org.exoplatform.portal.container.destroyed";
+  public static final String DESTROYED          = "org.exoplatform.portal.container.destroyed";
 
-  public static String       PORTLET_SCOPE      = "PORTLET_SCOPE";
+  public static final String PORTLET_SCOPE      = "PORTLET_SCOPE";
 
-  public static String       APPLICATION_SCOPE  = "APPLICATION_SCOPE";
+  public static final String APPLICATION_SCOPE  = "APPLICATION_SCOPE";
+
+  public static final String XHTML_MIME_TYPE    = "text/html";
+
+  public static final String renderString       = "render";
+
+  public static final String actionString       = "action";
+
+  public static final String eventString        = "event";
+
+  public static final String resourceString     = "resource";
+
+  public static final int    renderInt          = 0;
+
+  public static final int    actionInt          = 1;
+
+  public static final int    eventInt           = 2;
+
+  public static final int    resourceInt        = 3;
+
 }

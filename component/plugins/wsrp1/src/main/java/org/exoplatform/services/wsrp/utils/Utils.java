@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp.utils;
 
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.type.LocalizedString;
@@ -53,8 +54,24 @@ public class Utils {
     return tmp;
   }
 
-  public static String changeUrlTypeFromActionToBlockingaction(String type) {
-    return type.equalsIgnoreCase(PortletURLFactory.ACTION) ? WSRPConstants.URL_TYPE_BLOCKINGACTION : type;
+  public static String changeUrlTypeFromJSRPortletToWSRP(String type) {
+    if (type.equalsIgnoreCase(PCConstants.actionString)) 
+      return WSRPConstants.URL_TYPE_BLOCKINGACTION;
+    if (type.equalsIgnoreCase(PCConstants.resourceString)) 
+      return WSRPConstants.URL_TYPE_RESOURCE;
+    if (type.equalsIgnoreCase(PCConstants.renderString)) 
+      return WSRPConstants.URL_TYPE_RENDER;
+    return type;
+  }
+
+  public static String changeUrlTypeFromWSRPToJSRPortlet(String type) {
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION)) 
+      return PCConstants.actionString;
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE)) 
+      return PCConstants.resourceString;
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER)) 
+      return PCConstants.renderString;
+    return type;
   }
 
 }

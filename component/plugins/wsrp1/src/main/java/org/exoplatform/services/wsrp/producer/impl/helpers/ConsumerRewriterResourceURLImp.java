@@ -67,23 +67,27 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     }
 
     StringBuffer sB = new StringBuffer();
-    sB.append(baseURL);
-    sB.append("&");
+    sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
+    
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(type);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
     sB.append("=");
     sB.append(navigationalState);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SESSION_ID);
     sB.append("=");
     sB.append(sessionID);
+    
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");

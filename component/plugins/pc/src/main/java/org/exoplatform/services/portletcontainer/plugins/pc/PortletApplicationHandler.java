@@ -44,7 +44,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
-import org.exoplatform.services.portletcontainer.PortletContainerConstants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.pci.Input;
@@ -139,7 +139,7 @@ public class PortletApplicationHandler {
         input.setWindowState(WindowState.NORMAL);
       }
 
-      String exception_key = PortletContainerConstants.EXCEPTION + portletAppName + portletName;
+      String exception_key = PCConstants.EXCEPTION + portletAppName + portletName;
 
       PortletContext portletContext = PortletAPIObjectFactory.getInstance().createPortletContext(cont,
                                                                                                  servletContext,
@@ -330,13 +330,13 @@ public class PortletApplicationHandler {
     String content = "";
     log_.debug("generate the exception message");
     if (key == null) {
-      prop_key = PortletContainerConstants.DESTROYED;
+      prop_key = PCConstants.DESTROYED;
       prop_output = "output generated because of a destroyed portlet access";
       title = "Portlet destroyed";
       content = "Portlet unvailable";
     } else {
       Throwable e = (Throwable) request.getAttribute(key);
-      prop_key = PortletContainerConstants.EXCEPTION;
+      prop_key = PCConstants.EXCEPTION;
       prop_output = "output generated because of an exception";
       title = "Exception occured";
       if (e != null) {

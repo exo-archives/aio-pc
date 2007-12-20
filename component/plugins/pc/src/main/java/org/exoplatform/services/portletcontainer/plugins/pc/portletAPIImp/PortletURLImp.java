@@ -28,7 +28,7 @@ import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
 
 import org.exoplatform.Constants;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 
@@ -167,7 +167,7 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   }
 
   public String toString(boolean escapeXML) {
-    if (type.equals(PortletURLFactory.ACTION))
+    if (type.equals(PCConstants.actionString))
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();

@@ -8,7 +8,9 @@
   <artifactId>exo.pc.component.plugins.pc</artifactId>
   <packaging>jar</packaging>
   <name>eXo Portlet Container 2 Plugins PC (actual impl)</name>
-  <description>eXo Portlet Container 2 plugins.pc (actual impl)</description>
+  <description>
+    eXo Portlet Container 2 plugins.pc (actual impl)
+  </description>
 
   <dependencies>
     <dependency>
@@ -139,35 +141,37 @@
             <configuration>
               <tasks>
                 <!-- JSR 168 portlets -->
-                <mkdir dir="${basedir}/target/test-classes/"/>
+                <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
                   <fileset dir="${basedir}/war_template/src">
-                    <include name="**/*.properties"/>
+                    <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
-                           debug="${maven.compile.debug}"
-                           deprecation="${maven.compile.deprecation}"
-                           optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template/src"
+                  destdir="${basedir}/target/test-classes/"
+                  debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}"
+                  optimize="${maven.compile.optimize}">
                   <classpath>
-                    <path refid="maven.dependency.classpath"/>
-                    <pathelement path="${maven.build.dest}"/>
+                    <path refid="maven.dependency.classpath" />
+                    <pathelement path="${maven.build.dest}" />
                   </classpath>
                 </javac>
                 <!-- JSR 286 portlets -->
-                <mkdir dir="${basedir}/target/test-classes/"/>
+                <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
                   <fileset dir="${basedir}/war_template2/src">
-                    <include name="**/*.properties"/>
+                    <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/"
-                           debug="${maven.compile.debug}"
-                           deprecation="${maven.compile.deprecation}"
-                           optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template2/src"
+                  destdir="${basedir}/target/test-classes/"
+                  debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}"
+                  optimize="${maven.compile.optimize}">
                   <classpath>
-                    <path refid="maven.dependency.classpath"/>
-                    <pathelement path="${maven.build.dest}"/>
+                    <path refid="maven.dependency.classpath" />
+                    <pathelement path="${maven.build.dest}" />
                   </classpath>
                 </javac>
               </tasks>
@@ -190,11 +194,11 @@
             </property>
             <property>
               <name>mock.portal.dir</name>
-              <value>${war.dir}</value>
+              <value></value>
             </property>
             <property>
               <name>maven.exoplatform.dir</name>
-              <value>${war.dir}</value>
+              <value></value>
             </property>
           </systemProperties>
           <includes>
@@ -205,6 +209,7 @@
           <skip>false</skip>
         </configuration>
       </plugin>
+
     </plugins>
   </build>
 

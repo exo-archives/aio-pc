@@ -16,17 +16,12 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
-import java.util.List;
 
 import javax.portlet.PortletMode;
 import javax.portlet.RenderResponse;
 
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
-import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 
 /**
  * Author : Mestrallet Benjamin

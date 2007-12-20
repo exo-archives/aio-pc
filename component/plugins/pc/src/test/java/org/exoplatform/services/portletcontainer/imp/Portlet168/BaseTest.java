@@ -37,6 +37,7 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.organization.User;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl;
@@ -46,13 +47,11 @@ import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.monitor.PortletContainerMonitorImpl;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 
 /**
- * Created by the Exo Development team.
  * Author : Mestrallet Benjamin
  * benjmestrallet@users.sourceforge.net
  * Date: 11 nov. 2003

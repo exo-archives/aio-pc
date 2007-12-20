@@ -17,9 +17,9 @@
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
 import java.util.ArrayList;
-import java.util.Map;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.portlet.PortletURLGenerationListener;
@@ -34,13 +34,13 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
  */
 public class ResourceURLImp extends BaseURLImp implements ResourceURL {
 
-  protected String resourceID;
+  protected String                resourceID;
 
-  protected String originalCacheLevel;
+  protected String                originalCacheLevel;
 
-  protected String cacheLevel;
-  
-  protected Map<String,String[]>  renderParams;
+  protected String                cacheLevel;
+
+  protected Map<String, String[]> renderParams;
 
   public ResourceURLImp(String type,
                         String baseURL,
@@ -58,9 +58,9 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
                         Portlet portletDatas,
                         Map renderParams) {
     super(type, baseURL, isCurrentlySecured, defaultEscapeXml, portletDatas);
-    
+
     this.renderParams = renderParams;
-    
+
     if (cacheLevel == null) {
       this.originalCacheLevel = ResourceURL.PAGE;
     } else {
@@ -141,36 +141,34 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    
+
     if (renderParams != null && (cacheLevel.equals(ResourceURL.PAGE) || cacheLevel.equals(ResourceURL.PORTLET))) {
-    try {
-      Set<String> names = renderParams.keySet();
-      for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-        String name = iterator.next();
-        Object obj = renderParams.get(name);
-        if (obj instanceof String) {
-          String value = (String) obj;
-          sB.append(Constants.AMPERSAND);
-          sB.append(encode(name, escapeXML));
-          sB.append("=");
-          sB.append(encode(value, escapeXML));
-        } else {
-          String[] values = (String[]) obj;
-          for (int i = 0; i < values.length; i++) {
+      try {
+        Set<String> names = renderParams.keySet();
+        for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
+          String name = iterator.next();
+          Object obj = renderParams.get(name);
+          if (obj instanceof String) {
+            String value = (String) obj;
             sB.append(Constants.AMPERSAND);
             sB.append(encode(name, escapeXML));
             sB.append("=");
-            sB.append(encode(values[i], escapeXML));
+            sB.append(encode(value, escapeXML));
+          } else {
+            String[] values = (String[]) obj;
+            for (int i = 0; i < values.length; i++) {
+              sB.append(Constants.AMPERSAND);
+              sB.append(encode(name, escapeXML));
+              sB.append("=");
+              sB.append(encode(values[i], escapeXML));
+            }
           }
         }
+      } catch (Exception e) {
+        e.printStackTrace();
       }
-    } catch (Exception e) {
-      e.printStackTrace();
     }
-    }
-    
-    
-    
+
     String propertyString = getPropertyString(escapeXML);
     if (propertyString != "" && propertyString != null) {
       // sB.append(Constants.AMPERSAND);

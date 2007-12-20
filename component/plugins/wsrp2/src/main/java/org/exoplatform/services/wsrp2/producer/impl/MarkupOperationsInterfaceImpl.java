@@ -233,7 +233,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     ResourceURL.PAGE);
     } else {
       log.debug("Consumer URL rewriting");
-      baseURL = WSRPConstants.WSRP_REWRITE_PREFIX;
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),
@@ -376,7 +375,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     ResourceURL.PAGE);
     } else {
       log.debug("Consumer URL rewriting");
-      baseURL = WSRPConstants.WSRP_REWRITE_PREFIX;
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),
@@ -648,7 +646,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     resourceParams.getResourceCacheability());
     } else {
       log.debug("Consumer URL rewriting");
-      baseURL = WSRPConstants.WSRP_REWRITE_PREFIX;
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),
@@ -794,7 +791,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     ResourceURL.PAGE);
     } else {
       log.debug("Consumer URL rewriting");
-      baseURL = WSRPConstants.WSRP_REWRITE_PREFIX;
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
                                                                     portletDatas.getSupports(),

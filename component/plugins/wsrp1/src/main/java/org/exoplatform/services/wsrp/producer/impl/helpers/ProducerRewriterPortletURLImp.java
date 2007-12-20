@@ -72,7 +72,7 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
     }
     
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", Utils.changeUrlTypeFromActionToBlockingaction(type));
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
     } else {

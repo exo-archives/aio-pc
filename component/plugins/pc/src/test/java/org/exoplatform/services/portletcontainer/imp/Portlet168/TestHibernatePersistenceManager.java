@@ -21,11 +21,11 @@ import javax.portlet.PreferencesValidator;
 import javax.portlet.ValidatorException;
 
 import org.exoplatform.container.PortalContainer;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletPreferencesImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.DefaultPersistenceManager;
 

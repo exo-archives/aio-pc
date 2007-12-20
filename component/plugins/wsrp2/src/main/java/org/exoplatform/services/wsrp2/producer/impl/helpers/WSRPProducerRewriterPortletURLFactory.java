@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.util.List;
@@ -24,6 +24,7 @@ import javax.portlet.ResourceURL;
 
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
+import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 
 /**
@@ -33,19 +34,19 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private String                 sessionID;
 
-  private List<Supports>         supports;          // only for PortletURL
-
   private String                 portletHandle;
 
   private String                 template;
 
   private boolean                isCurrentlySecured;
 
-  private String                 markup;            // only for PortletURL
-
   private PersistentStateManager stateManager;
 
   private boolean                defaultEscapeXml;
+
+  private List<Supports>         supports;          // only for PortletURL
+
+  private String                 markup;            // only for PortletURL
 
   private String                 cacheLevel;        // only for ResourceURL
 
@@ -70,7 +71,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ProducerRewriterPortletURLImp(type,
+    return new ProducerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                              template,
                                              markup,
                                              supports,
@@ -82,7 +83,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public ResourceURL createResourceURL(String type) {
-    return new ProducerRewriterResourceURLImp(type,
+    return new ProducerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                               template,
                                               isCurrentlySecured,
                                               portletHandle,

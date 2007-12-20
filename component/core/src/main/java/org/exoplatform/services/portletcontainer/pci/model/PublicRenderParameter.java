@@ -29,45 +29,76 @@ import org.exoplatform.Constants;
  * @version: $Id$
  */
 public class PublicRenderParameter {
-  private List description;
-	private String name;
-  private List names;
-  private String id;
+  private List<String> description;
 
-	public List getDescription() {
-    if(description == null) return Constants.EMPTY_LIST;
-		return description;
-	}
+  private String       identifier;
 
-	public void setDescription(List description) {
-		this.description = description;
-	}
+  private QName        qname;
 
-  public void addDescription(Description desc) {
-  	if(this.description == null)  description = new ArrayList();
+  private String       name;
+
+  private List<QName>  aliases;
+
+  private String       id;
+
+  public List<String> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
+  }
+
+  public void setDescription(List<String> description) {
+    this.description = description;
+  }
+
+  public void addDescription(String desc) {
+    if (this.description == null)
+      description = new ArrayList<String>();
     this.description.add(desc);
   }
 
-  public String getPrefferedName() { return this.name; }
-
-  public void setPrefferedName(String value) {
-    this.name = value;
-//    addName(value);
+  public String getIdentifier() {
+    return this.identifier;
   }
 
-  public void addName(QName value) {
-    if (names == null)
-      names = new ArrayList();
-    names.add(value);
+  public void setIdentifier(String value) {
+    this.identifier = value;
   }
 
-  public List getNames() {
-    if (names == null)
+  public void addAlias(QName value) {
+    if (aliases == null)
+      aliases = new ArrayList<QName>();
+    aliases.add(value);
+  }
+
+  public List<QName> getAlias() {
+    if (aliases == null)
       return Constants.EMPTY_LIST;
-    return names;
+    return aliases;
+  }
+  
+  public QName getQname() {
+    return qname;
+  }
+  
+  public void setQname(QName qname) {
+    this.qname = qname;
+  }
+  
+  public String getName() {
+    return name;
+  }
+  
+  public void setName(String name) {
+    this.name = name;
+  }
+  
+  public String getId() {
+    return this.id;
   }
 
-  public String getId() { return this.id ; }
+  public void setId(String value) {
+    this.id = value;
+  }
 
-  public void setId(String value) { this.id = value ; }
 }

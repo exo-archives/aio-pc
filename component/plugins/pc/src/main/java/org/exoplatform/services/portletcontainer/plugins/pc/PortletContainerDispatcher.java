@@ -46,6 +46,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
@@ -66,6 +67,7 @@ import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
+import org.exoplatform.services.portletcontainer.pci.model.Util;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletPreferencesImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.PersistenceManager;
 
@@ -452,7 +454,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     request.setAttribute(INPUT, input);
     request.setAttribute(OUTPUT, output);
     request.setAttribute(WINDOW_INFO, windowInfos);
-    request.setAttribute(IS_ACTION, PCConstants.actionToString(isAction));
+    request.setAttribute(IS_ACTION, Util.actionToString(isAction));
 
     if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
       log.debug("Stand alone environement : direct call to handler");

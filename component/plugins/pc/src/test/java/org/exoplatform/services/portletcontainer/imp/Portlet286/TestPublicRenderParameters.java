@@ -62,7 +62,7 @@ public class TestPublicRenderParameters extends BaseTest2{
     Iterator iter = public_params.iterator();
     while (iter.hasNext()) {
       PublicRenderParameter element = (PublicRenderParameter) iter.next();
-      String name = element.getPrefferedName();
+      String name = element.getIdentifier();
       if (name.equalsIgnoreCase("public1")) has_public1 = true;
       if (name.equalsIgnoreCase("public2")) has_public2 = true;
       if (name.equalsIgnoreCase("publicFalse")) has_publicFalse = true;

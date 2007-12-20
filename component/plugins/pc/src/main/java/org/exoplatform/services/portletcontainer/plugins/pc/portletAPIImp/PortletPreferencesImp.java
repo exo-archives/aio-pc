@@ -33,11 +33,11 @@ import javax.portlet.PreferencesValidator;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.ValidatorException;
 
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 import org.exoplatform.services.portletcontainer.pci.model.Preference;
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 
 /**
  * Created by The eXo Platform SAS Author : Mestrallet Benjamin

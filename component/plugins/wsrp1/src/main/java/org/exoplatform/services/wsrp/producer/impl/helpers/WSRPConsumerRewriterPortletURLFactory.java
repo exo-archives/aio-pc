@@ -25,6 +25,7 @@ import javax.portlet.ResourceURL;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp.utils.Utils;
 
 /**
  * Author : Mestrallet Benjamin
@@ -33,14 +34,20 @@ import org.exoplatform.services.wsrp.producer.PersistentStateManager;
  * Time: 18:20:54
  */
 public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory {
-  
-  private String markup;
-  private String sessionID;
-  private boolean isCurrentlySecured;
+
+  private String                 markup;
+
+  private String                 sessionID;
+
+  private boolean                isCurrentlySecured;
+
   private PersistentStateManager stateManager;
-  private String portletHandle;
-  private String template;
-  private List<Supports> supports;
+
+  private String                 portletHandle;
+
+  private String                 template;
+
+  private List<Supports>         supports;
 
   public WSRPConsumerRewriterPortletURLFactory(String markup,
                                                String template,
@@ -59,23 +66,11 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ConsumerRewriterPortletURLImp(type, 
-                                             template,
-                                             markup,
-                                             supports, 
-                                             isCurrentlySecured,
-                                             portletHandle,
-                                             stateManager,
-                                             sessionID);
+    return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type), template, markup, supports, isCurrentlySecured, portletHandle, stateManager, sessionID);
   }
-  
+
   public ResourceURL createResourceURL(String type) {
-    return new ConsumerRewriterResourceURLImp(type,
-                                              template,
-                                              isCurrentlySecured,
-                                              portletHandle,
-                                              stateManager,
-                                              sessionID);
+    return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type), template, isCurrentlySecured, portletHandle, stateManager, sessionID);
   }
-  
+
 }

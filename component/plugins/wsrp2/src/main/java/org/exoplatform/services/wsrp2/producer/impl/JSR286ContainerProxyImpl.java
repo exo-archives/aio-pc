@@ -34,7 +34,7 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.portletcontainer.PortletContainerConstants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
@@ -278,7 +278,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       Set<String> set = propertiesMap.keySet();
       for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
         String key = (String) iterator.next();
-        if (key.startsWith(PortletContainerConstants.EXCEPTION)) {
+        if (key.startsWith(PCConstants.EXCEPTION)) {
           log.error("Error body : " + propertiesMap.get(key));
           throw new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT);
         }

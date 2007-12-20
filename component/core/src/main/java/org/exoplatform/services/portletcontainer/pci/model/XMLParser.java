@@ -377,11 +377,15 @@ public class XMLParser {
     String cnt = xpp.getContent().trim();
     try {
       int cm = cnt.indexOf(':');
+      if (cm == -1)
+        return new QName(cnt);
       String ns = cnt.substring(0, cm);
       cnt = cnt.substring(cm + 1);
       ns = xpp.getNodeAttributeValue("xmlns:" + ns);
       return new QName(ns, cnt);
     } catch (NullPointerException e) {
+      return new QName(cnt);
+    } catch (StringIndexOutOfBoundsException e) {
       return new QName(cnt);
     }
   }
@@ -424,14 +428,15 @@ public class XMLParser {
   static public PublicRenderParameter readPublicRenderParameter(ExoXPPParser xpp) throws Exception {
     PublicRenderParameter srp = new PublicRenderParameter();
     srp.setId(xpp.getNodeAttributeValue("id"));
-    while (xpp.node("description")) srp.addDescription(readDescription(xpp));
-    xpp.mandatoryNode("identifier"); srp.setPrefferedName(xpp.getContent().trim());
+    while (xpp.node("description")) srp.addDescription(xpp.getContent().trim());
+    xpp.mandatoryNode("identifier"); srp.setIdentifier(xpp.getContent().trim());
     if (xpp.node("qname"))
-      srp.addName(parseQName(xpp));
+      srp.setQname(parseQName(xpp));
     else {
-      xpp.mandatoryNode("name"); srp.addName(new QName(xpp.getContent().trim()));
+      xpp.mandatoryNode("name"); 
+      srp.setName(xpp.getContent().trim());
     }
-    while (xpp.node("name")) srp.addName(new QName(xpp.getContent().trim()));
+    while (xpp.node("alias")) srp.addAlias(parseQName(xpp));
     return srp;
   }
 

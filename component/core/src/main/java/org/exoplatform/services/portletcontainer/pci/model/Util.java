@@ -18,6 +18,8 @@ package org.exoplatform.services.portletcontainer.pci.model;
 
 import java.util.List;
 
+import org.exoplatform.services.portletcontainer.PCConstants;
+
 /**
  * Jul 11, 2004
  * @author: Tuan Nguyen
@@ -40,4 +42,33 @@ public class Util {
 		}
 		return null;
 	}
+
+  public static String actionToString(int action) {
+    switch (action) {
+    case PCConstants.actionInt:
+      return PCConstants.actionString;
+    case PCConstants.eventInt:
+      return PCConstants.eventString;
+    case PCConstants.resourceInt:
+      return PCConstants.resourceString;
+    default:
+      return PCConstants.renderString;
+    }
+  }
+
+  public static int actionToInt(String action) {
+    if (action == null)
+      return PCConstants.renderInt;
+    if (action.equals(PCConstants.actionString))
+      return PCConstants.actionInt;
+    if (action.equals(PCConstants.eventString))
+      return PCConstants.eventInt;
+    if (action.equals(PCConstants.resourceString))
+      return PCConstants.resourceInt;
+    return PCConstants.renderInt;
+  }
+	
+	
+	
+	
 }

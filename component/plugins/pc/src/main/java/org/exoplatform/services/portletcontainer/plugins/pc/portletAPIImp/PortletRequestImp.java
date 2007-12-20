@@ -43,6 +43,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
@@ -50,7 +51,6 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.SecurityConstraint;
 import org.exoplatform.services.portletcontainer.pci.model.SecurityRoleRef;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationProxy;
 
 /**

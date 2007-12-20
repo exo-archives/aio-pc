@@ -23,9 +23,11 @@ import java.util.Map;
 import java.util.Set;
 
 import org.exoplatform.Constants;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLGenerator;
+import org.exoplatform.services.wsrp2.utils.Modes;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /*
  * @author  Mestrallet Benjamin
@@ -51,6 +53,11 @@ public class URLGeneratorImpl implements URLGenerator {
     return getURL(baseURL, params);
   }
 
+  public String getExtensionURL(String baseURL,
+                                Map<String, String> params) {
+    return getURL(baseURL, params);
+  }
+
   private String getURL(String baseURL,
                         Map<String, String> params) {
     StringBuffer sB = new StringBuffer();
@@ -63,54 +70,64 @@ public class URLGeneratorImpl implements URLGenerator {
   }
 
   private String computeParameters(StringBuffer sB,
-                                   Map parameters) {
+                                   Map<String, String> parameters) {
     Set<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
-      // need todo below, because the PORTLET_HANDLE doesn't need for our new plugin.wsrp mechanism
-      if (name.equalsIgnoreCase(WSRPConstants.WSRP_PORTLET_HANDLE))
-        continue;
-      Object obj = parameters.get(name);
-      if (obj instanceof String) {
-        String value = (String) obj;
-        sB.append("&");
-        sB.append(URLEncoder.encode(replaceName(name)));
-        sB.append("=");
-        sB.append(URLEncoder.encode(replaceValue(value)));
-      } else {
-        String[] values = (String[]) obj;
-        for (int i = 0; i < values.length; i++) {
-          name = replaceName(name);
-          sB.append("&");
-          sB.append(URLEncoder.encode(name));
-          sB.append("=");
-          sB.append(URLEncoder.encode(values[i]));
-        }
-      }
+      String value = (String) parameters.get(name);
+      sB.append("&");
+      sB.append(encode(replaceName(name), false));
+      sB.append("=");
+      sB.append(encode(replaceValue(name, value), false));
     }
     return sB.toString();
   }
 
   private String replaceName(String name) {
-    if (WSRPConstants.WSRP_MODE.equals(name))
+    if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
+      return Constants.COMPONENT_PARAMETER;
+    else if (WSRPConstants.WSRP_URL_TYPE.equals(name))
+      return Constants.TYPE_PARAMETER;
+    else if (WSRPConstants.WSRP_MODE.equals(name))
       return Constants.PORTLET_MODE_PARAMETER;
     else if (WSRPConstants.WSRP_WINDOW_STATE.equals(name))
       return Constants.WINDOW_STATE_PARAMETER;
-    else if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
-      return Constants.COMPONENT_PARAMETER;
     else if (WSRPConstants.WSRP_SECURE_URL.equals(name))
       return Constants.SECURE_PARAMETER;
-    else if (WSRPConstants.WSRP_URL_TYPE.equals(name))
-      return Constants.TYPE_PARAMETER;
     return name;
   }
 
-  private String replaceValue(String value) {
-    if (value.startsWith(WSRPConstants.WSRP_PREFIX))
-      value = value.substring(WSRPConstants.WSRP_PREFIX.length());
-    if (WSRPConstants.URL_TYPE_BLOCKINGACTION.equals(value))
-      value = PCConstants.actionString;
+  private String replaceValue(String name,
+                              String value) {
+    if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name)) {
+      return value;
+    } else if (WSRPConstants.WSRP_URL_TYPE.equals(name)) {
+      if (WSRPConstants.URL_TYPE_BLOCKINGACTION.equals(value))
+        value = PCConstants.actionString;
+      return value;
+    } else if (WSRPConstants.WSRP_MODE.equals(name)) {
+      return Modes.delAllPrefixWSRP(value);
+    } else if (WSRPConstants.WSRP_WINDOW_STATE.equals(name)) {
+      return WindowStates.delAllPrefixWSRP(value);
+    } else if (WSRPConstants.WSRP_SECURE_URL.equals(name)) {
+      return value;
+    }
     return value;
+  }
+
+  protected String encode(String s,
+                          boolean escapeXML) {
+    if (escapeXML)
+      s = encodeChars(s);
+    try {
+      return URLEncoder.encode(s, "utf-8");
+    } catch (java.io.UnsupportedEncodingException e) {
+      return s;
+    }
+  }
+
+  protected String encodeChars(String s) {
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&#034;").replace("'", "&#039;");
   }
 
 }

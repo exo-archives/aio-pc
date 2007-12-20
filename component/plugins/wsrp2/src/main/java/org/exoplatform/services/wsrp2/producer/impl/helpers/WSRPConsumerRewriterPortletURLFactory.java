@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.util.List;
@@ -25,6 +25,7 @@ import javax.portlet.ResourceURL;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
  * Author : Mestrallet Benjamin
@@ -33,19 +34,27 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
  * Time: 18:20:54
  */
 public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory {
-  
-  private String markup; // only for PortletURL
-  private String sessionID;
-  private boolean isCurrentlySecured;
+
+  private String                 sessionID;
+
+  private boolean                isCurrentlySecured;
+
   private PersistentStateManager stateManager;
-  private String portletHandle;
-  private String template;
-  private List<Supports> supports; // only for PortletURL
-  private boolean defaultEscapeXml;
-  private String cacheLevel; // only for ResourceURL
+
+  private String                 portletHandle;
+
+  private String                 template;
+
+  private boolean                defaultEscapeXml;
+
+  private String                 markup;            // only for PortletURL
+
+  private List<Supports>         supports;          // only for PortletURL
+
+  private String                 cacheLevel;        // only for ResourceURL
 
   public WSRPConsumerRewriterPortletURLFactory(String markup,
-                                               String template, 
+                                               String template,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
                                                String portletHandle,
@@ -65,7 +74,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ConsumerRewriterPortletURLImp(type,
+    return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                              template,
                                              markup,
                                              supports,
@@ -75,9 +84,9 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                              sessionID,
                                              defaultEscapeXml);
   }
-  
+
   public ResourceURL createResourceURL(String type) {
-    return new ConsumerRewriterResourceURLImp(type,
+    return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                               template,
                                               isCurrentlySecured,
                                               portletHandle,
@@ -86,5 +95,5 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                               defaultEscapeXml,
                                               cacheLevel);
   }
-  
+
 }

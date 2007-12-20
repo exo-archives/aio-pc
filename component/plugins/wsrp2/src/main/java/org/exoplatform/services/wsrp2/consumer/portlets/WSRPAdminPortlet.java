@@ -28,6 +28,7 @@ import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
 
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
@@ -137,9 +138,9 @@ public class WSRPAdminPortlet {
       PortletURL actionURL = null;
 
       if (input.getPortletURLFactory() != null) {
-        actionURL = input.getPortletURLFactory().createPortletURL(PortletURLFactory.ACTION);
+        actionURL = input.getPortletURLFactory().createPortletURL(PCConstants.actionString);
       }
-      actionURL = new PortletURLImp(PortletURLFactory.ACTION, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml());
+      actionURL = new PortletURLImp(PCConstants.actionString, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml());
 
       // actionURL.setSecure(true);
       actionURL.setWindowState(WindowState.NORMAL);

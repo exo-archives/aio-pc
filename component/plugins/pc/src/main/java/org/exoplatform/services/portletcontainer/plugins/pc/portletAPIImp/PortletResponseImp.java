@@ -27,6 +27,7 @@ import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.Output;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
@@ -151,10 +152,10 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
     }
 
     if (input_.getPortletURLFactory() != null) {
-      return input_.getPortletURLFactory().createPortletURL(PortletURLFactory.RENDER);
+      return input_.getPortletURLFactory().createPortletURL(PCConstants.renderString);
     }
 
-    return new PortletURLImp(PortletURLFactory.RENDER,
+    return new PortletURLImp(PCConstants.renderString,
                              input_.getBaseURL(),
                              input_.getMarkup(),
                              portletDatas_.getSupports(),

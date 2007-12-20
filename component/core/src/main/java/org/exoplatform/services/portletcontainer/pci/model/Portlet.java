@@ -27,7 +27,7 @@ import javax.portlet.filter.FilterChain;
 import javax.portlet.PortletSession;
 import javax.portlet.PortletURLGenerationListener;
 
-import org.exoplatform.services.portletcontainer.PortletContainerConstants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.Constants;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
@@ -104,11 +104,11 @@ public class Portlet {
   public int getPortletSessionScope() {
     if (getContainerRuntimeOption() != null) {
       String[] valuesPortlet = getContainerRuntimeOption().get("javax.portlet.includedPortletSessionScope");
-      if (valuesPortlet != null && valuesPortlet[0].equals(PortletContainerConstants.PORTLET_SCOPE))
+      if (valuesPortlet != null && valuesPortlet[0].equals(PCConstants.PORTLET_SCOPE))
         return PortletSession.PORTLET_SCOPE;
     }
     String[] valuesApplication = (String[])application.getContainerRuntimeOption().get("javax.portlet.includedPortletSessionScope");
-    if (valuesApplication != null && valuesApplication[0].equals(PortletContainerConstants.PORTLET_SCOPE))
+    if (valuesApplication != null && valuesApplication[0].equals(PCConstants.PORTLET_SCOPE))
         return PortletSession.PORTLET_SCOPE;
 
     return PortletSession.APPLICATION_SCOPE;

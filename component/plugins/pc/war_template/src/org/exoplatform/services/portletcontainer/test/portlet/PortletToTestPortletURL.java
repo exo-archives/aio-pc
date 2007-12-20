@@ -29,34 +29,44 @@ import java.io.PrintWriter;
  * Date: 15 oct. 2003
  * Time: 21:54:09
  */
-public class PortletToTestPortletURL implements Portlet{
-	public void init(PortletConfig portletConfig) throws PortletException {
-		//To change body of implemented methods use Options | File Templates.
-	}
+public class PortletToTestPortletURL implements Portlet {
+  public void init(PortletConfig portletConfig) throws PortletException {
+    //To change body of implemented methods use Options | File Templates.
+  }
 
-	public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException, IOException {
-	}
+  public void processAction(ActionRequest actionRequest,
+                            ActionResponse actionResponse) throws PortletException,
+                                                          IOException {
+  }
 
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
+  public void render(RenderRequest renderRequest,
+                     RenderResponse renderResponse) throws PortletException,
+                                                   IOException {
 
-		/////test (xxviii)
-    renderResponse.setContentType("text/html");
-    PortletURL pURL = renderResponse.createRenderURL();
-		pURL.setParameter("test", "aTest");
-		String param = (String) ((PortletURLImp)pURL).getParameter("test");
-		if(!"aTest".equals(param))
-			throw new PortletException("setParameter does not work");
+    try {
 
-		pURL.setParameter("test2", "aTest2");
-		param = (String) ((PortletURLImp)pURL).getParameter("test2");
-		if(!"aTest2".equals(param))
-			throw new PortletException("setParameter does not work");
+      /////test (xxviii)
+      renderResponse.setContentType("text/html");
+      PortletURL pURL = renderResponse.createRenderURL();
+      pURL.setParameter("test", "aTest");
+      String param = ((PortletURLImp) pURL).getParameterMap().get("test")[0];
+      if (!"aTest".equals(param))
+        throw new PortletException("setParameter 'test' does not work");
 
-    PrintWriter w = renderResponse.getWriter();
-    w.println("Everything is ok");
-	}
+      pURL.setParameter("test2", "aTest2");
+      param = ((PortletURLImp) pURL).getParameterMap().get("test2")[0];
+      if (!"aTest2".equals(param))
+        throw new PortletException("setParameter 'test2' does not work");
 
-	public void destroy() {
-		//To change body of implemented methods use Options | File Templates.
-	}
+      PrintWriter w = renderResponse.getWriter();
+      w.println("Everything is ok");
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+  public void destroy() {
+    //To change body of implemented methods use Options | File Templates.
+  }
 }

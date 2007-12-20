@@ -67,7 +67,6 @@ import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 
 /**
- * Created by the Exo Development team.
  * Author : Tuan Nguyen
  * tuan08@users.sourceforge.net
  * Date: 11 nov. 2003

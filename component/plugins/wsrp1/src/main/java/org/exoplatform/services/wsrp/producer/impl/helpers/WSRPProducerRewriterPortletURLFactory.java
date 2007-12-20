@@ -25,6 +25,7 @@ import javax.portlet.ResourceURL;
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -62,11 +63,11 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ProducerRewriterPortletURLImp(type, template, markup, supports, isCurrentlySecured, portletHandle, persistentStateManager, sessionID);
+    return new ProducerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type), template, markup, supports, isCurrentlySecured, portletHandle, persistentStateManager, sessionID);
   }
 
   public ResourceURL createResourceURL(String type) {
-    return new ProducerRewriterResourceURLImp(type, template, isCurrentlySecured, portletHandle, persistentStateManager, sessionID);
+    return new ProducerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type), template, isCurrentlySecured, portletHandle, persistentStateManager, sessionID);
   }
 
 }
