@@ -104,10 +104,6 @@ public abstract class BaseURLImp implements BaseURL {
     parameters = map;
   }
 
-//  public Object getParameter(String key) {
-//    return parameters.get(key);
-//  }
-
   public Map<String, String[]> getParameterMap() {
     return parameters;
   }

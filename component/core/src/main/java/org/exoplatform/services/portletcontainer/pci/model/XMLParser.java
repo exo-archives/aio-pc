@@ -440,7 +440,7 @@ public class XMLParser {
     return srp;
   }
 
-  static public Map readContainerRuntimeOption(ExoXPPParser xpp) throws Exception {
+  static public Map<String,String[]> readContainerRuntimeOption(ExoXPPParser xpp) throws Exception {
     HashMap<String,String[]> options = new HashMap<String,String[]>();
     xpp.mandatoryNode("name"); String name = xpp.getContent().trim();
     ArrayList<String> values = new ArrayList<String>();
