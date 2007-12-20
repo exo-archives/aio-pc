@@ -38,8 +38,8 @@ import org.apache.commons.lang.StringUtils;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
-import org.exoplatform.services.portletcontainer.plugins.pc.PCConstants;
 
 /**
  * Created by The eXo Platform SAS  .
