@@ -203,6 +203,7 @@ public class PortletFilter implements Filter {
         httpSession.setAttribute("resourceType", framework.getResourceContentType());
         httpSession.setAttribute("resource", framework.getResourceContent());
         httpSession.setAttribute("resourceHeaders", framework.getResourceHeaders());
+        httpSession.setAttribute("resourceStatus", new Integer(framework.getResourceStatus()));
       } else {
         Iterator<PortletInfo> plts = portletInfos.iterator();
         if (httpSession.getAttribute("portletName") == null) {

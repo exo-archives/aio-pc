@@ -16,8 +16,6 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.util.Map;
 
 import javax.portlet.RenderRequest;
@@ -34,11 +32,6 @@ public class ResourceRequestImp extends ClientDataRequestImp implements Resource
 
   public ResourceRequestImp(RequestContext reqCtx) {
     super(reqCtx);
-  }
-
-  public InputStream getPortletInputStream() throws IOException {
-    // TODO Auto-generated method stub
-    return null;
   }
 
   public String getResourceID() {
@@ -65,6 +58,10 @@ public class ResourceRequestImp extends ClientDataRequestImp implements Resource
 
   public String getETag() {
     return getProperty(RenderRequest.ETAG);
+  }
+
+  public String getCacheability() {
+    return ((ResourceInput) getInput()).getCacheability();
   }
 
 }

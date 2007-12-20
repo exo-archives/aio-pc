@@ -54,6 +54,7 @@ public class TckServlet extends HttpServlet {
           response.setHeader(name, headers.get(name));
         }
       }
+      response.setStatus((Integer) session.getAttribute("resourceStatus"));
       OutputStream w = response.getOutputStream();
       w.write(resource);
       w.close();

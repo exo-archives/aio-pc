@@ -22,15 +22,14 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 
-import javax.xml.namespace.QName;
-import javax.portlet.filter.FilterChain;
 import javax.portlet.PortletSession;
-import javax.portlet.PortletURLGenerationListener;
+import javax.portlet.filter.FilterChain;
+import javax.xml.namespace.QName;
 
-import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.Constants;
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.PCConstants;
 
 /**
  * Jul 11, 2004
@@ -56,7 +55,6 @@ public class Portlet {
   private List<QName>           supportedProcessingEvent;
   private List<QName>           supportedPublishingEvent;
   private List<String>          supportedPublicRenderParameter;
-  private List<String>          urlGenerationListener;
   private Map<String,String[]>  containerRuntimeOption;
   private List<SharedSessionAttribute> sharedSessionAttribute;
   private FilterChain           filterChain = null;
@@ -64,7 +62,6 @@ public class Portlet {
 	//exo extension
 	private String                globalCache;
 	private Boolean               escapeXml;// = true;
-  private List<PortletURLGenerationListener> urlListeners;
 
   public PortletApp getApplication() {
     return application;
@@ -93,7 +90,7 @@ public class Portlet {
     String[] valuesApplication = null;
     if (application != null) {
       if (application.getContainerRuntimeOption() != null ) {
-        valuesApplication = (String[])application.getContainerRuntimeOption().get("javax.portlet.escapeXml");
+        valuesApplication = application.getContainerRuntimeOption().get("javax.portlet.escapeXml");
       }
     }
     if (valuesApplication != null)
@@ -107,7 +104,7 @@ public class Portlet {
       if (valuesPortlet != null && valuesPortlet[0].equals(PCConstants.PORTLET_SCOPE))
         return PortletSession.PORTLET_SCOPE;
     }
-    String[] valuesApplication = (String[])application.getContainerRuntimeOption().get("javax.portlet.includedPortletSessionScope");
+    String[] valuesApplication = application.getContainerRuntimeOption().get("javax.portlet.includedPortletSessionScope");
     if (valuesApplication != null && valuesApplication[0].equals(PCConstants.PORTLET_SCOPE))
         return PortletSession.PORTLET_SCOPE;
 
@@ -120,14 +117,6 @@ public class Portlet {
 
   public void setFilterChain(FilterChain filterChain) {
     this.filterChain = filterChain;
-  }
-
-  public List<PortletURLGenerationListener> getUrlListeners() {
-    return urlListeners;
-  }
-
-  public void setUrlListeners(List<PortletURLGenerationListener> urlListeners) {
-    this.urlListeners = urlListeners;
   }
 
 	public List<Description> getDescription() {
@@ -347,20 +336,6 @@ public class Portlet {
       log.error("Duplicate field \"supported-public-render-parameter\" in portlet description");
     } else {
       supportedPublicRenderParameter.add(srp);
-    }
-  }
-
-  public List<String> getUrlGenerationListener() { return urlGenerationListener; }
-
-  public void addUrlGenerationListener(String listener) {
-    if (urlGenerationListener == null)
-      urlGenerationListener = new ArrayList<String>();
-
-    if (urlGenerationListener.contains(listener)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
-      log.error("Duplicate field \"url-generation-listener\" in portlet description");
-    } else {
-      urlGenerationListener.add(listener);
     }
   }
 

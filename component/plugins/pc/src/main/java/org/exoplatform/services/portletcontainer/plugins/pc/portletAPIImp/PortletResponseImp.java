@@ -34,6 +34,8 @@ import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.model.CustomWindowState;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
+import org.w3c.dom.DOMException;
+import org.w3c.dom.Element;
 
 /**
  * Author : Mestrallet Benjamin
@@ -162,6 +164,11 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
                              isCurrentlySecured_,
                              input_.getEscapeXml(),
                              portletDatas_);
+  }
+
+  public Element createElement(String arg0) throws DOMException {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

@@ -21,13 +21,15 @@ import java.util.List;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.portlet.PortletURLGenerationListener;
+
 import org.exoplatform.Constants;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 
 /**
  * Jul 11, 2004
- * 
+ *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: PortletApp.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
@@ -66,6 +68,10 @@ public class PortletApp {
 
   private String                       defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
 
+  private List<String>          urlGenerationListener;
+
+  private List<PortletURLGenerationListener> urlListeners;
+
   public PortletApp() {
     portlet = new ArrayList<Portlet>();
     customWindowState = new ArrayList<CustomWindowState>();
@@ -78,6 +84,28 @@ public class PortletApp {
     containerRuntimeOption = new HashMap<String, String[]>();
     filter = new ArrayList<Filter>();
     filterMapping = new ArrayList<FilterMapping>();
+  }
+
+  public List<PortletURLGenerationListener> getUrlListeners() {
+    return urlListeners;
+  }
+
+  public void setUrlListeners(List<PortletURLGenerationListener> urlListeners) {
+    this.urlListeners = urlListeners;
+  }
+
+  public List<String> getUrlGenerationListener() { return urlGenerationListener; }
+
+  public void addUrlGenerationListener(String listener) {
+    if (urlGenerationListener == null)
+      urlGenerationListener = new ArrayList<String>();
+
+    if (urlGenerationListener.contains(listener)) {
+      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+      log.error("Duplicate field \"listener\" in portlet app description");
+    } else {
+      urlGenerationListener.add(listener);
+    }
   }
 
   public void setDefaultNamespace(String namespace) {
@@ -239,7 +267,7 @@ public class PortletApp {
     this.containerRuntimeOption = containerRuntimeOption;
   }
 
-  public Map getContainerRuntimeOption() {
+  public Map<String, String[]> getContainerRuntimeOption() {
     return containerRuntimeOption;
   }
 
@@ -248,8 +276,8 @@ public class PortletApp {
     this.containerRuntimeOption.put(name, value);
   }
 
-  public void addContainerRuntimeOption(Map<String, String[]> containerRuntimeOption) {
-    this.containerRuntimeOption.putAll(containerRuntimeOption);
+  public void addContainerRuntimeOption(Map<String, String[]> containerRuntimeOption1) {
+    this.containerRuntimeOption.putAll(containerRuntimeOption1);
   }
 
   public String getId() {

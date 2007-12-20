@@ -71,14 +71,16 @@ public class XMLParser {
     while(xpp.node("security-constraint")) portletapp.addSecurityConstraint(readSecurityConstraint(xpp));
     // portlet api 2.0
     if (newSpec) {
-      if(xpp.node("resource-bundle")) portletapp.setResourceBundle(xpp.getContent().trim());
-      while(xpp.node("filter")) portletapp.addFilter(readFilter(xpp));
-      while(xpp.node("filter-mapping")) portletapp.addFilterMapping(readFilterMapping(xpp));
+      if (xpp.node("resource-bundle")) portletapp.setResourceBundle(xpp.getContent().trim());
+      while (xpp.node("filter")) portletapp.addFilter(readFilter(xpp));
+      while (xpp.node("filter-mapping")) portletapp.addFilterMapping(readFilterMapping(xpp));
       if (xpp.node("default-namespace")) portletapp.setDefaultNamespace(xpp.getContent().trim());
       fillPredefinedEvents(portletapp);
-      while(xpp.node("event-definition")) portletapp.addEventDefinition(readEventDefinition(xpp));
-      while(xpp.node("public-render-parameter")) portletapp.addPublicRenderParameter(readPublicRenderParameter(xpp));
-      while(xpp.node("container-runtime-option")) portletapp.addContainerRuntimeOption(readContainerRuntimeOption(xpp));
+      while (xpp.node("event-definition")) portletapp.addEventDefinition(readEventDefinition(xpp));
+      while (xpp.node("public-render-parameter")) portletapp.addPublicRenderParameter(readPublicRenderParameter(xpp));
+      while (xpp.node("listener"))
+        portletapp.addUrlGenerationListener(readUrlListener(xpp));
+      while (xpp.node("container-runtime-option")) portletapp.addContainerRuntimeOption(readContainerRuntimeOption(xpp));
     }
     // setting up default namespace for names without one
     if (!portletapp.getDefaultNamespace().equals(javax.xml.XMLConstants.NULL_NS_URI)) {
@@ -161,7 +163,6 @@ public class XMLParser {
       while(xpp.node("supported-processing-event")) p.addSupportedProcessingEvent(readEventReference(xpp));
       while(xpp.node("supported-publishing-event")) p.addSupportedPublishingEvent(readEventReference(xpp));
       while(xpp.node("supported-public-render-parameter")) p.addSupportedPublicRenderParameter(xpp.getContent().trim());
-      while(xpp.node("url-generation-listener")) p.addUrlGenerationListener(xpp.getContent().trim());
       while(xpp.node("container-runtime-option")) p.addContainerRuntimeOption(readContainerRuntimeOption(xpp));
 
     }
@@ -177,11 +178,6 @@ public class XMLParser {
        mode.setPortalManaged(xpp.getContent().trim());
      } else {
        mode.setPortalManaged(Boolean.TRUE.toString());
-     }
-     if (mode.getPortalManaged() == Boolean.FALSE.toString()) {
-       xpp.mandatoryNode("decoration-name"); mode.setResourceID(xpp.getContent().trim());
-     } else {
-       if (xpp.node("decoration-name")) mode.setResourceID(xpp.getContent().trim());
      }
     return mode;
   }
@@ -319,6 +315,8 @@ public class XMLParser {
 
   static public Filter readFilter(ExoXPPParser xpp) throws Exception {
     Filter filter = new Filter();
+    while(xpp.node("description")) filter.addDescription(readDescription(xpp));
+    while(xpp.node("display-name")) filter.addDisplayName(readDisplayName(xpp));
     xpp.mandatoryNode("filter-name"); filter.setFilterName(xpp.getContent().trim());
     xpp.mandatoryNode("filter-class"); filter.setFilterClass(xpp.getContent().trim());
     xpp.mandatoryNode("lifecycle"); filter.addLifecycle(parseLifecycle(xpp.getContent().trim(), filter.getFilterName()));
@@ -416,6 +414,14 @@ public class XMLParser {
     return name;
   }
 
+  static public String readUrlListener(ExoXPPParser xpp) throws Exception {
+    // TODO store descriptions and display names
+    while (xpp.node("description")) readDescription(xpp);
+    while (xpp.node("display-name")) readDisplayName(xpp);
+    xpp.mandatoryNode("listener-class");
+    return xpp.getContent().trim();
+  }
+
   static public void fillPredefinedEvents(PortletApp app) throws Exception {
     EventDefinition ed = new EventDefinition();
     ed.setPrefferedName(new QName("urn:oasis:names:tc:wsrp:v2:types", "wsrp:eventHandlingFailed"));
@@ -432,10 +438,9 @@ public class XMLParser {
     xpp.mandatoryNode("identifier"); srp.setIdentifier(xpp.getContent().trim());
     if (xpp.node("qname"))
       srp.setQname(parseQName(xpp));
-    else {
-      xpp.mandatoryNode("name"); 
+    else
+      xpp.mandatoryNode("name");
       srp.setName(xpp.getContent().trim());
-    }
     while (xpp.node("alias")) srp.addAlias(parseQName(xpp));
     return srp;
   }

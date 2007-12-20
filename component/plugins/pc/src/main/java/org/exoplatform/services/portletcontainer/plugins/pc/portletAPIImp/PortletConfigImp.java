@@ -116,10 +116,10 @@ public class PortletConfigImp implements PortletConfig {
 
   public boolean needsSecurityContraints(String portletName) {
     for (Iterator<SecurityConstraint> iterator = securityContraints.iterator(); iterator.hasNext();) {
-      SecurityConstraint securityConstraint = (SecurityConstraint) iterator.next();
+      SecurityConstraint securityConstraint = iterator.next();
       List<String> l = securityConstraint.getPortletCollection().getPortletName();
       for (Iterator<String> iterator2 = l.iterator(); iterator2.hasNext();) {
-        String portlet = (String) iterator2.next();
+        String portlet = iterator2.next();
         if (portlet.equals(portletName))
           return true;
       }
@@ -153,6 +153,13 @@ public class PortletConfigImp implements PortletConfig {
     if (list == null)
       list = new ArrayList<String>();
     return Collections.enumeration(list);
+  }
+
+  public Map<String, String[]> getContainerRuntimeOptions() {
+    Map<String, String[]> a = portletDatas_.getContainerRuntimeOption();
+    Map<String, String[]> b = portletDatas_.getApplication().getContainerRuntimeOption();
+    b.putAll(a);
+    return b;
   }
 
 }

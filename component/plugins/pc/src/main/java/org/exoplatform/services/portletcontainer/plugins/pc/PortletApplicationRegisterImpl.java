@@ -162,8 +162,8 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
         }
       }
       portlet.setFilterChain(new PortletFilterChainImpl(chain, portlet));
-      portlet.setUrlListeners(createUrlListeners(portlet.getUrlGenerationListener()));
     }
+    portletApp.setUrlListeners(createUrlListeners(portletApp.getUrlGenerationListener()));
   }
 
   private List<PortletURLGenerationListener> createUrlListeners(List<String> urlGenerationListener) throws PortletContainerException {

@@ -37,8 +37,22 @@ public class Filter {
 
 	private String	filterName;
 	private String	filterClass;
-	private List		initParam;
-  private List    lifecycle;
+	private List<InitParam>		initParam;
+  private List<Integer>    lifecycle;
+  private List<Description> description;
+  private List<DisplayName>  displayName;
+
+  public void addDescription(Description desc) {
+    if (description == null)
+      description = new ArrayList<Description>();
+    this.description.add(desc);
+  }
+
+  public void addDisplayName(DisplayName name) {
+    if (this.displayName == null)
+      displayName = new ArrayList<DisplayName>();
+    this.displayName.add(name);
+  }
 
 	public String getFilterClass() {
 		return filterClass;
@@ -56,31 +70,35 @@ public class Filter {
 		this.filterName = filterName;
 	}
 
-	public List getInitParam() {
-    if(initParam == null) return Constants.EMPTY_LIST;
+	public List<InitParam> getInitParam() {
+    if (initParam == null)
+      return Constants.EMPTY_LIST;
 		return initParam;
 	}
 
-	public void setInitParam(List initParam) {
+	public void setInitParam(List<InitParam> initParam) {
 		this.initParam = initParam;
 	}
 
   public void addInitParam(InitParam param) {
-    if(initParam == null) initParam = new ArrayList();
-  	this.initParam.add(param) ;
+    if (initParam == null)
+      initParam = new ArrayList<InitParam>();
+  	this.initParam.add(param);
   }
 
   public List getLifecycle() {
-    if(lifecycle == null) return Constants.EMPTY_LIST;
+    if (lifecycle == null)
+      return Constants.EMPTY_LIST;
     return lifecycle;
   }
 
-  public void setLifecycle(List lifecycle) {
+  public void setLifecycle(List<Integer> lifecycle) {
     this.lifecycle = lifecycle;
   }
 
   public void addLifecycle(Integer num) {
-    if(lifecycle == null) lifecycle = new ArrayList();
+    if (lifecycle == null)
+      lifecycle = new ArrayList<Integer>();
     this.lifecycle.add(num);
   }
 

@@ -72,7 +72,7 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
   protected void invokeFilterResourceURL() {
     if (portletDatas == null)
       return;
-    List<PortletURLGenerationListener> list = portletDatas.getUrlListeners();
+    List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
     if (list == null)
       return;
     for (Iterator<PortletURLGenerationListener> i = list.iterator(); i.hasNext();) {

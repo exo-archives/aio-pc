@@ -89,7 +89,7 @@ public class PortalFramework {
 
   /**
    * Map of public parameters for portlets.
-   * 
+   *
    * String is portlet handle
    * List<String> is SupportedPublicRenderParameter for that portlet handle
    */
@@ -119,6 +119,11 @@ public class PortalFramework {
    * Render parameters set by processEvent().
    */
   private Map<String, String[]>         eventRenderParams   = null;
+
+  /**
+   * Property parameters extracted from http request.
+   */
+  private HashMap<String, String[]>     publicRenderParams  = null;
 
   /**
    * List of changed portlets requiring to be rerendered.
@@ -174,6 +179,11 @@ public class PortalFramework {
    * Http headers set in serveResource().
    */
   private Map<String, String>           resourceHeaders     = null;
+
+  /**
+   * Http status set in serveResource().
+   */
+  private int resourceStatus = 0;
 
   private String                        baseURL             = null;
 
@@ -271,6 +281,15 @@ public class PortalFramework {
   }
 
   /**
+   * Returns http status set by serveResource().
+   *
+   * @return status
+   */
+  public int getResourceStatus() {
+    return resourceStatus;
+  }
+
+  /**
    * Makes framework initialization for every http request.
    *
    * @param actualHttpSession actual http session
@@ -365,6 +384,8 @@ public class PortalFramework {
     portletParams = new HashMap<String, String[]>();
     renderParams = null;
     propertyParams = null;
+    if (publicRenderParams == null)
+      publicRenderParams = new HashMap<String, String[]>();
     events = new ArrayList<EventInfo>();
     redirect = null;
     changes = new HashSet<String>();
@@ -372,12 +393,16 @@ public class PortalFramework {
     resourceContent = null;
     resourceContentType = null;
     resourceHeaders = null;
+    resourceStatus = 0;
 
     for (final Enumeration<Locale> e = httpRequest.getLocales(); e.hasMoreElements();)
       locales.add(e.nextElement());
 
     Helper.parseParams(httpRequest, portalParams, portletParams, propertyParams);
     target = Helper.string0(portalParams.get(org.exoplatform.Constants.COMPONENT_PARAMETER));
+    if (target != null)
+      Helper.separatePublicParams(portletParams, publicRenderParams, publicParams.get(target));
+    fixPublicRenderParams(portalParams.get(PCConstants.removePublicString));
     action = Helper.getActionType(Helper.string0(portalParams.get(org.exoplatform.Constants.TYPE_PARAMETER)));
 
     if (portalParams.get(org.exoplatform.Constants.CACHELEVEL_PARAMETER) == null)
@@ -524,6 +549,32 @@ public class PortalFramework {
       }
     }
     return result;
+  }
+
+  /**
+   * Does actual removal of public render parameters that a portlet ordered.
+   *
+   * @param o target output
+   */
+  private void fixPublicRenderParams(Output o) {
+    if (o.getRemovedPublicRenderParameters() == null)
+      return;
+    for (Iterator<String> i = o.getRemovedPublicRenderParameters().iterator(); i.hasNext();) {
+      String name = i.next();
+      publicRenderParams.remove(name);
+    }
+  }
+
+  /**
+   * Does actual removal of public render parameters that a portlet ordered.
+   *
+   * @param nl list of names
+   */
+  private void fixPublicRenderParams(String[] nl) {
+    if (nl == null)
+      return;
+    for (String name : nl)
+      publicRenderParams.remove(name);
   }
 
   /**
@@ -706,7 +757,7 @@ public class PortalFramework {
         Helper.appendParams(renderInput.getRenderParameters(), renderParams);
       win.setRenderParams(renderInput.getRenderParameters());
     } else {
-      Helper.appendParams(renderInput.getRenderParameters(), fillPublicParams(plt, portletParams));
+      Helper.appendParams(renderInput.getRenderParameters(), fillPublicParams(plt, publicRenderParams));
       if (win.getRenderParams() != null)
         Helper.appendParams(renderInput.getRenderParameters(), win.getRenderParams());
     }
@@ -751,6 +802,7 @@ public class PortalFramework {
       renderParams = new HashMap<String, String[]>();
       return o;
     }
+    fixPublicRenderParams(o);
     renderParams = o.getRenderParameters();
     if (renderParams == null)
       renderParams = new HashMap<String, String[]>();
@@ -784,6 +836,7 @@ public class PortalFramework {
       eventRenderParams = new HashMap<String, String[]>();
       return o;
     }
+    fixPublicRenderParams(o);
     if (eventRenderParams == null)
       eventRenderParams = new HashMap<String, String[]>();
     addEvents(o.getEvents());
@@ -880,6 +933,7 @@ public class PortalFramework {
           Map<String, String> headers = o.getHeaderProperties();
           if (headers.size() > 0)
             resourceHeaders = headers;
+          resourceStatus = o.getStatus();
           httpResponse.setCharacterEncoding(o.getCharacterEncoding());
         } catch (final Exception oe) {
         }

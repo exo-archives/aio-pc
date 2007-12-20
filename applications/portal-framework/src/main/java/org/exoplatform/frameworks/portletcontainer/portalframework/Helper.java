@@ -22,6 +22,7 @@ import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletMode;
@@ -230,6 +231,21 @@ public final class Helper {
     if (strings == null)
       return null;
     return strings[0];
+  }
+
+
+  public static void separatePublicParams(HashMap<String, String[]> portletParams,
+      HashMap<String, String[]> publicRenderParams,
+      List<String> list) {
+    if (list == null)
+      return;
+    for (Iterator<String> i = portletParams.keySet().iterator(); i.hasNext();) {
+      String name = i.next();
+      if (list.contains(name)) {
+        publicRenderParams.put(name, portletParams.get(name));
+        i.remove();
+      }
+    }
   }
 
 }

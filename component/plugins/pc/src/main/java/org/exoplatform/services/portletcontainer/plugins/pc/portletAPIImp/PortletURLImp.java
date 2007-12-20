@@ -139,22 +139,21 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   protected void invokeFilterRenderURL() {
     if (portletDatas == null)
       return;
-    List<PortletURLGenerationListener> list = portletDatas.getUrlListeners();
+    List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
     if (list == null)
       return;
     for (Iterator<PortletURLGenerationListener> i = list.iterator(); i.hasNext();) {
       PortletURLGenerationListener listener = i.next();
       try {
         listener.filterRenderURL(this);
-      } catch (Exception e) {
-      }
+      } catch (Exception e) { }
     }
   }
 
   protected void invokeFilterActionURL() {
     if (portletDatas == null)
       return;
-    List<PortletURLGenerationListener> list = portletDatas.getUrlListeners();
+    List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
     if (list == null)
       return;
     for (Iterator<PortletURLGenerationListener> i = list.iterator(); i.hasNext();) {
@@ -229,8 +228,8 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     return sB.toString();
   }
 
-  public void removePublicRenderParameter(String arg0) {
-    // TODO Auto-generated method stub
+  public void removePublicRenderParameter(String name) {
+    setParameter(PCConstants.removePublicString, name);
   }
 
 }

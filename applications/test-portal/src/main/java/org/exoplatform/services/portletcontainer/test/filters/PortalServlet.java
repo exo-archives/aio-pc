@@ -70,6 +70,7 @@ public class PortalServlet extends HttpServlet {
             response.setHeader(name, headers.get(name));
           }
         }
+        response.setStatus((Integer) session.getAttribute("resourceStatus"));
         OutputStream w = response.getOutputStream();
         w.write(resource);
         w.close();
@@ -175,7 +176,7 @@ public class PortalServlet extends HttpServlet {
                     + title + " (" + portlet + ")"+ "</div></font>");
               String resMode = reqURL;
               resMode += reqContextPath + "componentId=" + portlet;
-              resMode += "&" + reqContextPath + "type=action";
+//              resMode += "&" + reqContextPath + "type=action";
               resMode += "&" + reqContextPath + "isSecure=true";
               if (mymodes!= null)
               for (int j = 0; j < mymodes.size(); j++) {

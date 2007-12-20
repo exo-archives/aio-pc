@@ -17,11 +17,14 @@
 package org.exoplatform.services.portletcontainer.pci;
 
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import javax.portlet.MimeResponse;
+import javax.portlet.ResourceResponse;
 
 import org.exoplatform.services.portletcontainer.PCConstants;
 
@@ -46,6 +49,8 @@ public class Output {
 
   private HashMap<String, Object> sessionMap    = new HashMap<String, Object>();
 
+  private Set<String>     publicRenderParamsToRemove = new HashSet<String>();
+
   public Map<String, Object> getProperties() {
     return properties;
   }
@@ -66,6 +71,7 @@ public class Output {
       MimeResponse.USE_CACHED_CONTENT,
       MimeResponse.MARKUP_HEAD_ELEMENT,
       MimeResponse.NAMESPACED_RESPONSE,
+      ResourceResponse.HTTP_STATUS_CODE,
       Output.SEND_REDIRECT,
       PCConstants.EXCEPTION,
       PCConstants.DESTROYED
@@ -88,6 +94,14 @@ public class Output {
     return newMap;
   }
 
+  public int getStatus() {
+    try {
+      return Integer.parseInt((String) properties.get(ResourceResponse.HTTP_STATUS_CODE));
+    } catch (Exception e) {
+      return 200;
+    }
+  }
+
   public boolean hasError() {
     if (properties.get(PCConstants.DESTROYED) != null || properties.get(PCConstants.EXCEPTION) != null)
       return true;
@@ -100,6 +114,14 @@ public class Output {
 
   public void setSessionMap(HashMap<String, Object> map) {
     this.sessionMap = map;
+  }
+
+  public void removePublicRenderParameter(String name) {
+    publicRenderParamsToRemove.add(name);
+  }
+
+  public Set<String> getRemovedPublicRenderParameters() {
+    return publicRenderParamsToRemove;
   }
 
 }

@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.portletcontainer;
 
+import org.exoplatform.Constants;
+
 /*
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 26
  * janv. 2004 Time: 09:11:34
@@ -54,5 +56,7 @@ public class PCConstants {
   public static final int    eventInt           = 2;
 
   public static final int    resourceInt        = 3;
+
+  public static final String removePublicString = Constants.PARAMETER_ENCODER + "removePublicParam";
 
 }

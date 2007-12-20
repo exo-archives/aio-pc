@@ -1,18 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<portlet-app
-  xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
-  version="1.0">
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0">
 
   <portlet>
     <description xml:lang="EN">TestPortlet</description>
     <portlet-name>TestPortlet</portlet-name>
     <display-name xml:lang="EN">Test Portlet</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestPortlet
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestPortlet</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -28,22 +24,18 @@
       <short-title>TestPortlet</short-title>
     </portlet-info>
     <portlet-preferences>
-      <preference>
-        <name>qwe</name>
-        <value>123</value>
-      </preference>
-      <preference>
-        <name>asd</name>
-        <value>456</value>
-        <read-only>true</read-only>
-      </preference>
+    	<preference>
+    		<name>qwe</name>
+    		<value>123</value>
+    	</preference>
+    	<preference>
+    		<name>asd</name>
+    		<value>456</value>
+    		<read-only>true</read-only>
+    	</preference>
     </portlet-preferences>
-    <supported-processing-event>
-      <name>MyEventPub</name>
-    </supported-processing-event>
-    <supported-processing-event>
-      <name>MyEventPub2</name>
-    </supported-processing-event>
+    <supported-processing-event><name>MyEventPub</name></supported-processing-event>
+    <supported-processing-event><name>MyEventPub2</name></supported-processing-event>
     <!-- supported-publishing-event><name>MyEventPub</name></supported-publishing-event -->
   </portlet>
 
@@ -51,9 +43,7 @@
     <description xml:lang="EN">TestProcessEvent</description>
     <portlet-name>TestProcessEvent</portlet-name>
     <display-name xml:lang="EN">Test ProcessEvent</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestProcessEvent
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestProcessEvent</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -68,18 +58,14 @@
       <short-title>TestProcessEvent</short-title>
     </portlet-info>
     <!-- supported-processing-event><name>MyEventPub</name></supported-processing-event -->
-    <supported-publishing-event>
-      <name>MyEventPub</name>
-    </supported-publishing-event>
+    <supported-publishing-event><name>MyEventPub</name></supported-publishing-event>
   </portlet>
 
   <portlet>
     <description xml:lang="EN">TestServeResource</description>
     <portlet-name>TestServeResource</portlet-name>
     <display-name xml:lang="EN">Test ServeResource</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestServeResource
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestServeResource</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -100,12 +86,8 @@
   <portlet>
     <description xml:lang="EN">TestPublicParamPortlet1</description>
     <portlet-name>TestPublicParamPortlet1</portlet-name>
-    <display-name xml:lang="EN">
-      Test PublicParam Portlet 1
-    </display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestPublicParamPortlet1
-    </portlet-class>
+    <display-name xml:lang="EN">Test PublicParam Portlet 1</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestPublicParamPortlet1</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -117,23 +99,15 @@
       <title>TestPublicParamPortlet1</title>
       <short-title>TestPublicParamPortlet1</short-title>
     </portlet-info>
-    <supported-public-render-parameter>
-      public1
-    </supported-public-render-parameter>
-    <supported-public-render-parameter>
-      public2
-    </supported-public-render-parameter>
+    <supported-public-render-parameter>public1</supported-public-render-parameter>
+    <supported-public-render-parameter>public2</supported-public-render-parameter>
   </portlet>
 
   <portlet>
     <description xml:lang="EN">TestPublicParamPortlet2</description>
     <portlet-name>TestPublicParamPortlet2</portlet-name>
-    <display-name xml:lang="EN">
-      Test PublicParam Portlet 2
-    </display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestPublicParamPortlet2
-    </portlet-class>
+    <display-name xml:lang="EN">Test PublicParam Portlet 2</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestPublicParamPortlet2</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -145,23 +119,15 @@
       <title>TestPublicParamPortlet2</title>
       <short-title>TestPublicParamPortlet2</short-title>
     </portlet-info>
-    <supported-public-render-parameter>
-      public1
-    </supported-public-render-parameter>
-    <supported-public-render-parameter>
-      public2
-    </supported-public-render-parameter>
+    <supported-public-render-parameter>public1</supported-public-render-parameter>
+    <supported-public-render-parameter>public2</supported-public-render-parameter>
   </portlet>
-
+  
   <portlet>
     <description xml:lang="EN">TestPublicParamPortlet3</description>
     <portlet-name>TestPublicParamPortlet3</portlet-name>
-    <display-name xml:lang="EN">
-      Test PublicParam Portlet 3
-    </display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestPublicParamPortlet3
-    </portlet-class>
+    <display-name xml:lang="EN">Test PublicParam Portlet 3</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestPublicParamPortlet3</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -173,21 +139,15 @@
       <title>TestPublicParamPortlet3</title>
       <short-title>TestPublicParamPortlet3</short-title>
     </portlet-info>
-    <supported-public-render-parameter>
-      public1
-    </supported-public-render-parameter>
-    <supported-public-render-parameter>
-      public2
-    </supported-public-render-parameter>
+    <supported-public-render-parameter>public1</supported-public-render-parameter>
+    <supported-public-render-parameter>public2</supported-public-render-parameter>
   </portlet>
-
+  
   <portlet>
     <description xml:lang="EN">TestResourceIDInclude</description>
     <portlet-name>TestResourceIDInclude</portlet-name>
     <display-name xml:lang="EN">Test ResourceID Include</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestResourceIDInclude
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestResourceIDInclude</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -207,9 +167,7 @@
     <description xml:lang="en">TestCache2</description>
     <portlet-name>TestCache2</portlet-name>
     <display-name xml:lang="en">TestCache2</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestCache2
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestCache2</portlet-class>
     <expiration-cache>30</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -222,14 +180,12 @@
       <keywords>TestCache2</keywords>
     </portlet-info>
   </portlet>
-
+  
   <portlet>
     <description xml:lang="en">TestServeResource2</description>
     <portlet-name>TestServeResource2</portlet-name>
     <display-name xml:lang="en">Test ServeResource2</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestServeResource2
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestServeResource2</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -248,18 +204,14 @@
       <short-title>TestServeResource2</short-title>
       <keywords>TestServeResource2</keywords>
     </portlet-info>
-    <supported-publishing-event>
-      <name>MyEventPub2</name>
-    </supported-publishing-event>
+    <supported-publishing-event><name>MyEventPub2</name></supported-publishing-event>
   </portlet>
 
   <portlet>
     <description xml:lang="en">TestForm</description>
     <portlet-name>TestForm</portlet-name>
     <display-name xml:lang="en">Test Form</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestForm
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestForm</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -278,9 +230,7 @@
     <description xml:lang="en">TestUrlListenersPortlet1</description>
     <portlet-name>TestUrlListenersPortlet1</portlet-name>
     <display-name xml:lang="en">TestUrlListenersPortlet1</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestUrlListenersPortlet1
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestUrlListenersPortlet1</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -293,18 +243,13 @@
       <short-title>TestUrlListenersPortlet1</short-title>
       <keywords>TestUrlListenersPortlet1</keywords>
     </portlet-info>
-    <url-generation-listener>
-      org.exoplatform.services.portletcontainer.test.portlet2.UrlListener1
-    </url-generation-listener>
   </portlet>
 
   <portlet>
     <description xml:lang="en">TestUrlListenersPortlet2</description>
     <portlet-name>TestUrlListenersPortlet2</portlet-name>
     <display-name xml:lang="en">TestUrlListenersPortlet2</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestUrlListenersPortlet2
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestUrlListenersPortlet2</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -317,21 +262,13 @@
       <short-title>TestUrlListenersPortlet2</short-title>
       <keywords>TestUrlListenersPortlet2</keywords>
     </portlet-info>
-    <url-generation-listener>
-      org.exoplatform.services.portletcontainer.test.portlet2.UrlListener1
-    </url-generation-listener>
-    <url-generation-listener>
-      org.exoplatform.services.portletcontainer.test.portlet2.UrlListener2
-    </url-generation-listener>
   </portlet>
 
   <portlet>
     <description xml:lang="EN">TestTaglib</description>
     <portlet-name>TestTaglib</portlet-name>
     <display-name xml:lang="EN">Test taglib</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestTaglib
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestTaglib</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -349,9 +286,7 @@
     <description xml:lang="EN">TestResourceHeaders</description>
     <portlet-name>TestResourceHeaders</portlet-name>
     <display-name xml:lang="EN">Test ResourceHeaders</display-name>
-    <portlet-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.TestResourceHeaders
-    </portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestResourceHeaders</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -371,17 +306,14 @@
 
   <user-attribute>
     <description xml:lang="EN">
-      Pre-defined attribute for the telephone number of the user at
-      work.
+      Pre-defined attribute for the telephone number of the user at work.
     </description>
     <name>workInfo/telephone</name>
   </user-attribute>
 
   <filter>
     <filter-name>MyFilter</filter-name>
-    <filter-class>
-      org.exoplatform.services.portletcontainer.test.portlet2.MyFilter
-    </filter-class>
+    <filter-class>org.exoplatform.services.portletcontainer.test.portlet2.MyFilter</filter-class>
     <lifecycle>RESOURCE_PHASE</lifecycle>
     <init-param>
       <name>name</name>
@@ -393,7 +325,7 @@
     <filter-name>MyFilter</filter-name>
     <portlet-name>TestServeResource</portlet-name>
   </filter-mapping>
-
+	
   <event-definition>
     <name>MyEventProc</name>
     <value-type>java.lang.String</value-type>
@@ -401,16 +333,12 @@
 
   <event-definition>
     <name>MyEventPub</name>
-    <value-type>
-      org.exoplatform.services.portletcontainer.test.portlet2.MyEventPub
-    </value-type>
+    <value-type>org.exoplatform.services.portletcontainer.test.portlet2.MyEventPub</value-type>
   </event-definition>
-
+  
   <event-definition>
     <name>MyEventPub2</name>
-    <value-type>
-      org.exoplatform.services.portletcontainer.test.portlet2.MyEventPub
-    </value-type>
+    <value-type>org.exoplatform.services.portletcontainer.test.portlet2.MyEventPub</value-type>
   </event-definition>
 
   <public-render-parameter>
@@ -425,8 +353,12 @@
     <alias>public-2</alias>
   </public-render-parameter>
 
-  <container-runtime-option>
-    <name>option</name>
-  </container-runtime-option>
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.test.portlet2.UrlListener1</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.test.portlet2.UrlListener2</listener-class>
+  </listener>
 
 </portlet-app>

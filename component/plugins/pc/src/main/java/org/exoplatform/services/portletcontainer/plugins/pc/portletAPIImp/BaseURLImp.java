@@ -68,22 +68,22 @@ public abstract class BaseURLImp implements BaseURL {
     this.portletDatas = portletDatas;
   }
 
-  public void setParameter(String s,
-                           String s1) {
-    if (s == null)
+  public void setParameter(String name,
+                           String value) {
+    if (name == null)
       throw new IllegalArgumentException("the key given is null");
-    if (s1 == null)
+    if (value == null)
       throw new IllegalArgumentException("the value given is null");
-    parameters.put(s, new String[] { s1 });
+    parameters.put(name, new String[] { value });
   }
 
-  public void setParameter(String s,
-                           String[] strings) {
-    if (s == null)
+  public void setParameter(String name,
+                           String[] values) {
+    if (name == null)
       throw new IllegalArgumentException("the key given is null");
-    if (strings == null)
+    if (values == null)
       throw new IllegalArgumentException("the value given is null");
-    parameters.put(s, strings);
+    parameters.put(name, values);
   }
 
   public void setParameters(Map<String, String[]> map) {
@@ -115,7 +115,7 @@ public abstract class BaseURLImp implements BaseURL {
     if (key == null)
       throw new IllegalArgumentException("the property key given is null");
 
-    ArrayList<String> propvalues = ((ArrayList) properties.get(key) != null) ? (ArrayList) properties.get(key) : new ArrayList<String>();
+    List<String> propvalues = (properties.get(key) != null ? properties.get(key) : new ArrayList<String>());
     propvalues.add(value);
     properties.put(key, propvalues);
 
@@ -141,14 +141,14 @@ public abstract class BaseURLImp implements BaseURL {
     try {
       Set<String> names = properties.keySet();
       for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-        String name = (String) iterator.next();
-        List<String> propvalues = (List<String>) properties.get(name);
+        String name = iterator.next();
+        List<String> propvalues = properties.get(name);
         for (int i = 0; i <= propvalues.size(); i++) {
           sb.append(Constants.AMPERSAND);
           sb.append(Constants.PROPERTY_ENCODER);
           sb.append(encode(name, escapeXML));
           sb.append("=");
-          sb.append(encode((String) propvalues.get(i), escapeXML));
+          sb.append(encode(propvalues.get(i), escapeXML));
         }
       }
     } catch (Exception e) {

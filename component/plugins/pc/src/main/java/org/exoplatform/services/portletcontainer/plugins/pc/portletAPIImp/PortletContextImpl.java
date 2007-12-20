@@ -189,9 +189,9 @@ public class PortletContextImpl implements PortletContext, ExoPortletContext {
   // return portlet.getApplication().getContainerRuntimeOption();
   // }
 
-  public Map getContainerRuntimeOptions() {
-    Map a = portlet.getContainerRuntimeOption();
-    Map b = portlet.getApplication().getContainerRuntimeOption();
+  public Enumeration<String> getContainerRuntimeOptions() {
+    Map<String, String[]> a = portlet.getContainerRuntimeOption();
+    Map<String, String[]> b = portlet.getApplication().getContainerRuntimeOption();
 
     // // If a container
     // runtime option is set on the portlet application level and on the portlet
@@ -200,7 +200,7 @@ public class PortletContextImpl implements PortletContext, ExoPortletContext {
     // and overwrites the one set on the portal application level.
 
     b.putAll(a);
-    return b;
+    return java.util.Collections.enumeration(b.keySet());
   }
 
   public Portlet getPortlet() {
