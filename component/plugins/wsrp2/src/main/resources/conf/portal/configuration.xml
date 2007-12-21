@@ -72,7 +72,7 @@
        <name>wsrp-conf</name>
        <property name="wsrp.requires.registration" value="true"/>
        <property name="wsrp.has.user.specific.state" value="true"/>
-       <property name="wsrp.does.url.template.processing" value="true"/>
+       <property name="wsrp.does.url.template.processing" value="false"/><!-- was: true -->
        <property name="wsrp.templates.stored.in.session" value="false"/>
        <property name="wsrp.user.context.stored.in.session" value="false"/>
        <property name="wsrp.uses.method.get" value="false "/>

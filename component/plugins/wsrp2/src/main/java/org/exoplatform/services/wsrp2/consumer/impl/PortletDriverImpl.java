@@ -296,15 +296,21 @@ public class PortletDriverImpl implements PortletDriver {
       }
       markupContext = response.getMarkupContext();
       Boolean requiresRewriting = markupContext.getRequiresRewriting();
-      log.debug("markupContext.getItemString() = " + markupContext.getItemString());
       log.debug("requires URL rewriting : " + requiresRewriting);
-      if (Boolean.FALSE.equals(requiresRewriting)) {
+      String content = getMarkupContent(markupContext);
+
+      if (requiresRewriting) {
         URLRewriter urlRewriter = consumer.getURLRewriter();
-        String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, markupContext.getItemString());
+        String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
+        log.debug("rewrittenMarkup = " + rewrittenMarkup);
         if (rewrittenMarkup != null) {
           markupContext.setItemString(rewrittenMarkup);
+          try {
+            markupContext.setItemBinary(markupContext.getItemString().getBytes("utf-8"));
+          } catch (java.io.UnsupportedEncodingException e) {
+            markupContext.setItemBinary(markupContext.getItemString().getBytes());
+          }
         }
-        log.debug("rewrittenMarkup = " + rewrittenMarkup);
       }
     } catch (InvalidCookieFault cookieFault) {
       log.error("Problem with cookies ", cookieFault);
@@ -316,6 +322,18 @@ public class PortletDriverImpl implements PortletDriver {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
     }
     return response;
+  }
+
+  private String getMarkupContent(MarkupContext markupContext) {
+    log.debug("markupContext.getItemString() = " + markupContext.getItemString());
+    log.debug("markupContext.getItemBinary() = " + markupContext.getItemBinary());
+    String content = null;
+    if (markupContext.getItemBinary() != null) {
+      content = new String(markupContext.getItemBinary());
+    } else {
+      content = markupContext.getItemString();
+    }
+    return content;
   }
 
   public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
@@ -538,19 +556,26 @@ public class PortletDriverImpl implements PortletDriver {
         response = new ResourceResponse();
         response.setResourceContext(resourceContext);
       }
+
       resourceContext = response.getResourceContext();
       Boolean requiresRewriting = resourceContext.getRequiresRewriting();
-      log.debug("resourceContext.getItemString() = " + resourceContext.getItemString());
       log.debug("requires URL rewriting : " + requiresRewriting);
-      requiresRewriting = requiresRewriting == null ? Boolean.FALSE : requiresRewriting;
-      if (requiresRewriting.booleanValue()) {
+      String content = getResourceContent(resourceContext);
+
+      if (requiresRewriting) {
         URLRewriter urlRewriter = consumer.getURLRewriter();
-        String rewrittenResource = urlRewriter.rewriteURLs(baseURL, resourceContext.getItemString());
-        if (rewrittenResource != null) {
-          resourceContext.setItemString(rewrittenResource);
+        String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
+        log.debug("rewrittenMarkup = " + rewrittenMarkup);
+        if (rewrittenMarkup != null) {
+          resourceContext.setItemString(rewrittenMarkup);
+          try {
+            resourceContext.setItemBinary(resourceContext.getItemString().getBytes("utf-8"));
+          } catch (java.io.UnsupportedEncodingException e) {
+            resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
+          }
         }
-        log.debug("rewrittenResource = " + rewrittenResource);
       }
+
     } catch (InvalidCookieFault cookieFault) {
       log.error("Problem with cookies ", cookieFault);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
@@ -561,6 +586,18 @@ public class PortletDriverImpl implements PortletDriver {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
     }
     return response;
+  }
+
+  private String getResourceContent(ResourceContext resourceContext) {
+    log.debug("markupContext.getItemString() = " + resourceContext.getItemString());
+    log.debug("markupContext.getItemBinary() = " + resourceContext.getItemBinary());
+    String content = null;
+    if (resourceContext.getItemBinary() != null) {
+      content = new String(resourceContext.getItemBinary());
+    } else {
+      content = resourceContext.getItemString();
+    }
+    return content;
   }
 
   private ResourceParams getResourceParams(WSRPResourceRequest resourceRequest) {

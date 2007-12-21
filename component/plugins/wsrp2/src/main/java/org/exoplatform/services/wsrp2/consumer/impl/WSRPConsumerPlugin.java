@@ -27,7 +27,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
-import java.util.Set;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletMode;
@@ -811,7 +810,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
             //            log.debug("use base path : " + baseURL);
             baseURL = input.getBaseURL();
-            System.out.println(">>> EXOMAN WSRPConsumerPlugin.render() path = " + baseURL);
 
             /* MAIN INVOKE */
             MarkupResponse mResponse = portletDriver.getMarkup(markupRequest, userSession, baseURL);
@@ -1155,21 +1153,22 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         log.debug("user title : " + title);
         output.setTitle(title);
       }
+      
       output.setContentType(markupContext.getMimeType());
-      String stringMarkup = markupContext.getItemString();
+
+      // process content
       byte[] binaryMarkup = markupContext.getItemBinary();
-      if (stringMarkup != null) {
+      if (binaryMarkup == null && markupContext.getItemString() != null) {
         log.debug("string markup not null");
         try {
-          output.setContent(stringMarkup.getBytes("utf-8"));
+          binaryMarkup = markupContext.getItemString().getBytes("utf-8");
         } catch (java.io.UnsupportedEncodingException e) {
-          output.setContent(stringMarkup.getBytes());
+          binaryMarkup = markupContext.getItemString().getBytes();
         }
-      }
-      if (binaryMarkup != null) {
+      } else {
         log.debug("binary markup not null");
-        output.setContent(binaryMarkup);
       }
+      
     }
   }
 
@@ -1323,27 +1322,31 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   private void processResourceContext(ResourceContext resourceContext,
                                       ResourceOutput output) throws WSRPException {
-    log.debug("process markup context for returned markup");
-    String stringMarkup = null;
-    byte[] binaryMarkup = null;
+    log.debug("process resource context for returned markup");
     if (resourceContext != null && output != null) {
-      stringMarkup = resourceContext.getItemString();
-      binaryMarkup = resourceContext.getItemBinary();
+      // resourceContext.getCacheControl()
+      // resourceContext.getCcppProfileWarning()
+      // resourceContext.getExtensions()
+      // resourceContext.getLocale()
+      // resourceContext.getRequiresRewriting()
+      // resourceContext.getUseCachedItem()
       if (resourceContext.getMimeType() != null) {
         output.setContentType(resourceContext.getMimeType());
       }
-      if (stringMarkup != null) {
+
+      // process content
+      byte[] binaryMarkup = resourceContext.getItemBinary();
+      if (binaryMarkup == null && resourceContext.getItemString() != null) {
         log.debug("string markup not null");
         try {
-          output.setContent(stringMarkup.getBytes("utf-8"));
+          binaryMarkup = resourceContext.getItemString().getBytes("utf-8");
         } catch (java.io.UnsupportedEncodingException e) {
-          output.setContent(stringMarkup.getBytes());
+          binaryMarkup = resourceContext.getItemString().getBytes();
         }
-      }
-      if (binaryMarkup != null) {
+      } else {
         log.debug("binary markup not null");
-        output.setContent(binaryMarkup);
       }
+      output.setContent(binaryMarkup);
     }
   }
 

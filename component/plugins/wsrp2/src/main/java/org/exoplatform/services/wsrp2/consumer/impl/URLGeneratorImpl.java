@@ -75,10 +75,12 @@ public class URLGeneratorImpl implements URLGenerator {
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       String value = (String) parameters.get(name);
+      if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
+        continue;
       sB.append("&");
-      sB.append(encode(replaceName(name), false));
+      sB.append(replaceName(name));//encode(replaceName(name), false));
       sB.append("=");
-      sB.append(encode(replaceValue(name, value), false));
+      sB.append(replaceValue(name, value));//encode(replaceValue(name, value), false));
     }
     return sB.toString();
   }

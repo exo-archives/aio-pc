@@ -54,7 +54,6 @@ public class URLRewriterImpl implements URLRewriter {
   public String rewriteURLs(String baseURL,
                             String markup) throws WSRPException {
     log.debug("Rewrite URL : " + markup);
-    System.out.println(">>> EXOMAN URLRewriterImpl.rewriteURLs() markup = " + markup);
     StringBuffer resultMarkup = new StringBuffer();
     int processIndex = 0;
     int rewriteStartPos = -1;
@@ -63,17 +62,16 @@ public class URLRewriterImpl implements URLRewriter {
       rewriteStartPos = -1;
       rewriteEndPos = -1;
       rewriteStartPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_PREFIX, processIndex);
-      System.out.println(">>> EXOMAN URLRewriterImpl.rewriteURLs() rewriteStartPos = " + rewriteStartPos);
       if (rewriteStartPos == -1)
         break; // no index to start rewrite -> exits the loop
       rewriteEndPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_SUFFFIX, rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length());
-      System.out.println(">>> EXOMAN URLRewriterImpl.rewriteURLs() rewriteEndPos = " + rewriteEndPos);
       if (rewriteEndPos == -1)
         break; // no index to stop rewrite -> exits the loop
       rewriteEndPos += WSRPConstants.WSRP_REWRITE_SUFFFIX.length();
       resultMarkup.append(markup.substring(processIndex, rewriteStartPos));
       String toRewriteURL = markup.substring(rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length(), rewriteEndPos
           - WSRPConstants.WSRP_REWRITE_SUFFFIX.length());
+
       resultMarkup.append(getRewrittenURL(baseURL, toRewriteURL));
       processIndex = rewriteEndPos;
     }
@@ -92,25 +90,25 @@ public class URLRewriterImpl implements URLRewriter {
     if (toRewriteURL.startsWith(WSRPConstants.URL_TYPE_BLOCKINGACTION)) {
       // action
       params.put(Constants.TYPE_PARAMETER, PCConstants.actionString);
-      toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_BLOCKINGACTION.length());
+      toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_BLOCKINGACTION.length() + 1);
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getBlockingActionURL(baseURL, params);
     } else if (toRewriteURL.startsWith(WSRPConstants.URL_TYPE_RENDER)) {
       // render
       params.put(Constants.TYPE_PARAMETER, PCConstants.renderString);
-      toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_RENDER.length());
+      toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_RENDER.length() + 1);
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getRenderURL(baseURL, params);
     } else if (toRewriteURL.startsWith(WSRPConstants.URL_TYPE_RESOURCE)) {
       // resource
       params.put(Constants.TYPE_PARAMETER, PCConstants.resourceString);
-      toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_RESOURCE.length());
+      toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_RESOURCE.length() + 1);
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getResourceURL(baseURL, params);
     } else {
       // extension
       params.put(Constants.TYPE_PARAMETER, toRewriteURL.substring(0, toRewriteURL.indexOf("&") - 1));
-      toRewriteURL = toRewriteURL.substring(toRewriteURL.indexOf("&") - 1);
+      toRewriteURL = toRewriteURL.substring(toRewriteURL.indexOf("&") );
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getExtensionURL(baseURL, params);
     }
@@ -123,31 +121,10 @@ public class URLRewriterImpl implements URLRewriter {
       String[] nameAndValue = string.split("=");
       if (nameAndValue[0].startsWith(WSRPConstants.NEXT_PARAM_AMP.substring(1)))
         nameAndValue[0] = nameAndValue[0].substring(WSRPConstants.NEXT_PARAM_AMP.substring(1).length());
-      params.put(nameAndValue[0], nameAndValue[1]);
+      if (nameAndValue.length == 1)
+        params.put(nameAndValue[0], "");
+      else
+        params.put(nameAndValue[0], nameAndValue[1]);
     }
-    //    int equals = 0;
-    //    int next = 0;
-    //    int end = toRewriteURL.length();
-    //    int index = toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM);
-    //    int lengthNext = 0;
-    //    String subNext = null;
-    //    while (index != -1) {
-    //      subNext = toRewriteURL.substring(index, index + WSRPConstants.NEXT_PARAM_AMP.length());
-    //      if (subNext.equals(WSRPConstants.NEXT_PARAM_AMP)) {
-    //        lengthNext = WSRPConstants.NEXT_PARAM_AMP.length();
-    //      } else {
-    //        lengthNext = WSRPConstants.NEXT_PARAM.length();
-    //      }
-    //      equals = toRewriteURL.indexOf("=", index + lengthNext);
-    //      next = toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM, equals);
-    //      if (equals != -1) {
-    //        if (next != -1) {
-    //          params.put(toRewriteURL.substring(index + lengthNext, equals), toRewriteURL.substring(equals + 1, next));
-    //        } else {
-    //          params.put(toRewriteURL.substring(index + lengthNext, equals), toRewriteURL.substring(equals + 1, end));
-    //        }
-    //      }
-    //      index = next;
-    //    }
   }
 }

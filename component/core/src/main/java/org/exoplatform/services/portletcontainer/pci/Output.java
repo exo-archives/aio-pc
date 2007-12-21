@@ -37,19 +37,19 @@ import org.exoplatform.services.portletcontainer.PCConstants;
  */
 public class Output {
 
-  final static public String      SEND_REDIRECT = "_send_redirect_";
+  final static public String      SEND_REDIRECT              = "_send_redirect_";
 
-  final static public String      LOGIN         = "_login_";
+  final static public String      LOGIN                      = "_login_";
 
-  final static public String      PASSWORD      = "_password_";
+  final static public String      PASSWORD                   = "_password_";
 
-  final static public String      LOGOUT        = "_logout_";
+  final static public String      LOGOUT                     = "_logout_";
 
-  private Map<String, Object>     properties    = new HashMap<String, Object>();
+  private Map<String, Object>     properties                 = new HashMap<String, Object>();
 
-  private HashMap<String, Object> sessionMap    = new HashMap<String, Object>();
+  private HashMap<String, Object> sessionMap                 = new HashMap<String, Object>();
 
-  private Set<String>     publicRenderParamsToRemove = new HashSet<String>();
+  private Set<String>             publicRenderParamsToRemove = new HashSet<String>();
 
   public Map<String, Object> getProperties() {
     return properties;
@@ -64,18 +64,16 @@ public class Output {
     this.properties = properties;
   }
 
-  private List<String> specialProperties = java.util.Arrays.asList(
-      MimeResponse.CACHE_SCOPE,
-      MimeResponse.EXPIRATION_CACHE,
-      MimeResponse.ETAG,
-      MimeResponse.USE_CACHED_CONTENT,
-      MimeResponse.MARKUP_HEAD_ELEMENT,
-      MimeResponse.NAMESPACED_RESPONSE,
-      ResourceResponse.HTTP_STATUS_CODE,
-      Output.SEND_REDIRECT,
-      PCConstants.EXCEPTION,
-      PCConstants.DESTROYED
-  );
+  private List<String> specialProperties = java.util.Arrays.asList(MimeResponse.CACHE_SCOPE,
+                                                                   MimeResponse.EXPIRATION_CACHE,
+                                                                   MimeResponse.ETAG,
+                                                                   MimeResponse.USE_CACHED_CONTENT,
+                                                                   MimeResponse.MARKUP_HEAD_ELEMENT,
+                                                                   MimeResponse.NAMESPACED_RESPONSE,
+                                                                   ResourceResponse.HTTP_STATUS_CODE,
+                                                                   Output.SEND_REDIRECT,
+                                                                   PCConstants.EXCEPTION,
+                                                                   PCConstants.DESTROYED);
 
   private boolean specialProperty(String s) {
     return specialProperties.contains(s);
