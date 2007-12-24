@@ -732,7 +732,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // input.getUserAttributes()
     // input.getPortletState()
     // input.getPortletPreferencesPersister()
-    // input.getLocales()
     // input.getEscapeXml()
     // input.getCacheability()
     // input.getRenderParameters()
@@ -818,6 +817,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 updateSessionContext(mResponse.getSessionContext(), portletWindowSession.getPortletSession());
               }
               processMarkupContext(mResponse.getMarkupContext(), output);
+              if (input.getTitle()!=null) {
+          		output.setTitle(input.getTitle());
+          	  }
             }
             if (portletWindowSession != null) {
               log.debug("Update cache");
@@ -831,7 +833,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         }
       } else {
         // if WindowState equals MINIMIZED
-        output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+    	if (input.getTitle()!=null) {
+    		output.setTitle(input.getTitle());
+    	} else {
+    		output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+    	}
       }
     } catch (Exception e) {
       e.printStackTrace();
@@ -1168,7 +1174,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       } else {
         log.debug("binary markup not null");
       }
-      
+      output.setContent(binaryMarkup);
     }
   }
 
@@ -1266,6 +1272,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 updateSessionContext(resResponse.getSessionContext(), portletWindowSession.getPortletSession());
               }
               processResourceContext(resResponse.getResourceContext(), output);
+              if (input.getTitle()!=null) {
+            	output.setTitle(input.getTitle());
+              }
             }
             if (portletWindowSession != null) {
               log.debug("Update cache");
@@ -1279,7 +1288,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         }
       } else {
         // if WindowState equals MINIMIZED
-        output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+      	if (input.getTitle()!=null) {
+    		output.setTitle(input.getTitle());
+    	} else {
+    		output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+    	}
       }
     } catch (Exception e) {
       e.printStackTrace();

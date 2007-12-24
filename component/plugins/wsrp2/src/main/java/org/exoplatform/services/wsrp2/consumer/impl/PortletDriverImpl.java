@@ -99,7 +99,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   private Log                                log;
 
-  public PortletDriverImpl(ExoContainer cont,
+  public PortletDriverImpl(ExoContainer cont, 
                            WSRPPortlet portlet) throws WSRPException {
     this.consumer = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer");
