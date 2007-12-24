@@ -37,8 +37,7 @@ import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 
 /**
- * Created by The eXo Platform SAS Author : Alexey Zavizionov
- * alexey.zavizionov@exoplatform.com.ua 25.05.2007
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 25.05.2007
  */
 public class StateAwareResponseImp extends PortletResponseImp implements StateAwareResponse {
 

@@ -82,6 +82,8 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
  * The implementation of this class is based on the WSRP4J project
+ * Author : Alexey Zavizionov
+ *          alexey.zavizionov@exoplatform.com.ua
  */
 public class PortletDriverImpl implements PortletDriver {
 
@@ -99,7 +101,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   private Log                                log;
 
-  public PortletDriverImpl(ExoContainer cont, 
+  public PortletDriverImpl(ExoContainer cont,
                            WSRPPortlet portlet) throws WSRPException {
     this.consumer = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer");
@@ -197,37 +199,43 @@ public class PortletDriverImpl implements PortletDriver {
 
     if (templateComposer != null) {
       runtimeContext.setNamespacePrefix(templateComposer.getNamespacePrefix());
-    }
-    Boolean doesUrlTemplateProcess = null;
-    Boolean getTemplatesStoredInSession = null;
-    try {
-      PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
-      if (desc != null) {
-        doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
-        getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
+
+      Boolean doesUrlTemplateProcess = null;
+      Boolean getTemplatesStoredInSession = null;
+      try {
+        PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
+        if (desc != null) {
+          doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
+          getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
+          if (getTemplatesStoredInSession) {
+            
+          }
+
+          Templates templates = null;
+          if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue()) {
+            templates = new Templates();
+            if (baseURL != null) {
+              // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
+              templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
+              templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
+              templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
+              templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
+              templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
+              templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
+              templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
+              templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
+            }
+          }
+          runtimeContext.setTemplates(templates);
+        }
+      } catch (WSRPException e) {
+        e.printStackTrace();
+        // do nothing since exception has been logged already
+        // continue with assumption that portlet does not support template
+        // processing
       }
-    } catch (WSRPException e) {
-      e.printStackTrace();
-      // do nothing since exception has been logged already
-      // continue with assumption that portlet does not support template
-      // processing
     }
-    Templates templates = null;
-    if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue() && templateComposer != null) {
-      templates = new Templates();
-      if (baseURL != null) {
-        // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
-        templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
-        templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
-        templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
-        templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
-        templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
-        templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
-        templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
-        templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
-      }
-    }
-    runtimeContext.setTemplates(templates);
+
     runtimeContext.setSessionParams(new SessionParams(null, request.getSessionID()));
     runtimeContext.setPageState(null);//pageState);
     runtimeContext.setPortletStates(null);//portletStates);
@@ -299,16 +307,18 @@ public class PortletDriverImpl implements PortletDriver {
       log.debug("requires URL rewriting : " + requiresRewriting);
       String content = getMarkupContent(markupContext);
 
-      if (requiresRewriting) {
-        URLRewriter urlRewriter = consumer.getURLRewriter();
-        String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
-        log.debug("rewrittenMarkup = " + rewrittenMarkup);
-        if (rewrittenMarkup != null) {
-          markupContext.setItemString(rewrittenMarkup);
-          try {
-            markupContext.setItemBinary(markupContext.getItemString().getBytes("utf-8"));
-          } catch (java.io.UnsupportedEncodingException e) {
-            markupContext.setItemBinary(markupContext.getItemString().getBytes());
+      if (markupContext.getMimeType().startsWith("text/")) {
+        if (requiresRewriting) {
+          URLRewriter urlRewriter = consumer.getURLRewriter();
+          String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
+          log.debug("rewrittenMarkup = " + rewrittenMarkup);
+          if (rewrittenMarkup != null) {
+            markupContext.setItemString(rewrittenMarkup);
+            try {
+              markupContext.setItemBinary(markupContext.getItemString().getBytes("utf-8"));
+            } catch (java.io.UnsupportedEncodingException e) {
+              markupContext.setItemBinary(markupContext.getItemString().getBytes());
+            }
           }
         }
       }
@@ -562,16 +572,18 @@ public class PortletDriverImpl implements PortletDriver {
       log.debug("requires URL rewriting : " + requiresRewriting);
       String content = getResourceContent(resourceContext);
 
-      if (requiresRewriting) {
-        URLRewriter urlRewriter = consumer.getURLRewriter();
-        String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
-        log.debug("rewrittenMarkup = " + rewrittenMarkup);
-        if (rewrittenMarkup != null) {
-          resourceContext.setItemString(rewrittenMarkup);
-          try {
-            resourceContext.setItemBinary(resourceContext.getItemString().getBytes("utf-8"));
-          } catch (java.io.UnsupportedEncodingException e) {
-            resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
+      if (resourceContext.getMimeType().startsWith("text/")) {
+        if (requiresRewriting) {
+          URLRewriter urlRewriter = consumer.getURLRewriter();
+          String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
+          log.debug("rewrittenMarkup = " + rewrittenMarkup);
+          if (rewrittenMarkup != null) {
+            resourceContext.setItemString(rewrittenMarkup);
+            try {
+              resourceContext.setItemBinary(resourceContext.getItemString().getBytes("utf-8"));
+            } catch (java.io.UnsupportedEncodingException e) {
+              resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
+            }
           }
         }
       }

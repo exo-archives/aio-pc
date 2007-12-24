@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.WSRPResourceRequest;
@@ -30,16 +30,20 @@ import org.exoplatform.services.wsrp2.type.UploadContext;
  */
 public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implements WSRPResourceRequest {
 
+  private NamedString[]   formParameters;
 
-  private NamedString[] formParameters;
-  private UploadContext[] uploadContexts; //WSRP2
-  private String resourceID;
-  private StateChange portletStateChange; //WSRP2
-  private String resourceState;
-  private String resourceCacheability; //WSRP2
-  
+  private UploadContext[] uploadContexts;      //WSRP2
+
+  private String          resourceID;
+
+  private StateChange     portletStateChange;  //WSRP2
+
+  private String          resourceState;
+
+  private String          resourceCacheability; //WSRP2
+
   private ResourceContext cachedResource;
-  
+
   public ResourceContext getCachedResource() {
     return cachedResource;
   }
@@ -63,21 +67,21 @@ public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implement
   public void setFormParameters(NamedString[] formParameters) {
     this.formParameters = formParameters;
   }
-  
+
   public String getResourceID() {
     return resourceID;
   }
-  
+
   public void setResourceID(String resourceID) {
     this.resourceID = resourceID;
   }
-  
+
   // WSRP2
-  
+
   public UploadContext[] getUploadContexts() {
     return uploadContexts;
   }
-  
+
   public void setUploadContexts(UploadContext[] uploadContexts) {
     this.uploadContexts = uploadContexts;
   }
@@ -89,13 +93,13 @@ public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implement
   public void setPortletStateChange(StateChange portletStateChange) {
     this.portletStateChange = portletStateChange;
   }
-  
+
   public String getResourceCacheability() {
     return resourceCacheability;
   }
-  
+
   public void setResourceCacheability(String resourceCacheability) {
     this.resourceCacheability = resourceCacheability;
   }
-  
+
 }

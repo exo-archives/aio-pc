@@ -114,9 +114,10 @@ import org.exoplatform.services.wsrp.utils.Utils;
 import org.exoplatform.services.wsrp.utils.WindowStates;
 
 /**
- * Based on WSRPConsumerPortlet written by
- * Benjamin Mestrallet Author: Roman Pedchenko
- * roman.pedchenko@exoplatform.com.ua
+ * Based on WSRPConsumerPortlet written by Benjamin Mestrallet 
+ * Author: Roman Pedchenko roman.pedchenko@exoplatform.com.ua
+ * Author: Alexey Zavizionov
+ *          alexey.zavizionov@exoplatform.com.ua
  */
 
 public class WSRPConsumerPlugin implements PortletContainerPlugin {
