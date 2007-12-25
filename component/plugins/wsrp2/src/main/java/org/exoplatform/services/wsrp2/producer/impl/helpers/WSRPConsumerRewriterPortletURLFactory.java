@@ -61,7 +61,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                PersistentStateManager stateManager,
                                                String sessionID,
                                                boolean defaultEscapeXml,
-                                               String cacheLevel) {
+                                               String cacheLevel,
+                                               List<String> supportedPublicRenderParameter) {
     this.markup = markup;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;

@@ -18,15 +18,16 @@
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -72,6 +73,9 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
       secureInfo = "true";
     }
 
+    Map<String, String[]> publicParams = new HashMap<String, String[]>();
+    Map<String, String[]> privateParams = new HashMap<String, String[]>();
+    
     // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {

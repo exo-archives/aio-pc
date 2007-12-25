@@ -708,7 +708,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               output.setNextState(WindowStates.getJsrPortletStateFromWsrpState(updateResponse.getNewWindowState()));
               // set events
               output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
-
+//              output.setPortletState(portletState);
+//              output.setSessionMap(map);
             }
           }
 
@@ -879,11 +880,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   private PortletKey getPortletKey(String producerID,
                                    String portletHandle) throws PortletException {
     PortletKey portletKey = null;
-    Iterator<WSRPPortlet> iter = consumer.getPortletRegistry().getAllPortlets();
-    while (iter.hasNext()) {
-      WSRPPortlet element = (WSRPPortlet) iter.next();
+    Iterator<WSRPPortlet> portlets = consumer.getPortletRegistry().getAllPortlets();
+    while (portlets.hasNext()) {
+      WSRPPortlet element = (WSRPPortlet) portlets.next();
       if (producerID.equals(element.getPortletKey().getProducerId()) && portletHandle.equals(element.getPortletKey().getPortletHandle())) {
-        portletKey = (PortletKeyAdapter) element.getPortletKey();
+        portletKey = element.getPortletKey();
       }
     }
     if (portletKey == null) {
@@ -955,6 +956,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     WSRPPortlet portlet = new WSRPPortletAdapter(portletKey);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletKey.getPortletHandle());
+//    portletContext.setPortletState(portletState);
+//    portletContext.setScheduledDestruction(scheduledDestruction);
     portlet.setPortletContext(portletContext);
     if (parentHandle != null) {
       portlet.setParent(parentHandle);
@@ -1206,7 +1209,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public ResourceOutput serveResource(HttpServletRequest request,
                                       HttpServletResponse response,
                                       ResourceInput input) throws PortletContainerException {
-	  
+
     log.debug("serveResource method in WSRPConsumerPlugin entered");
     if (!init)
       return null;

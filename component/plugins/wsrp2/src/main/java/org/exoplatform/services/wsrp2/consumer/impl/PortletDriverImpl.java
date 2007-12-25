@@ -436,7 +436,7 @@ public class PortletDriverImpl implements PortletDriver {
     InitCookie request = new InitCookie();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {
-      log.debug("Registration context use d in initCookie : " + regCtx.getRegistrationHandle());
+      log.debug("Registration context used in initCookie : " + regCtx.getRegistrationHandle());
       request.setRegistrationContext(regCtx);
     }
     try {

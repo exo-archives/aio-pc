@@ -63,11 +63,23 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ProducerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type), template, markup, supports, isCurrentlySecured, portletHandle, persistentStateManager, sessionID);
+    return new ProducerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+                                             template,
+                                             markup,
+                                             supports,
+                                             isCurrentlySecured,
+                                             portletHandle,
+                                             persistentStateManager,
+                                             sessionID);
   }
 
   public ResourceURL createResourceURL(String type) {
-    return new ProducerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type), template, isCurrentlySecured, portletHandle, persistentStateManager, sessionID);
+    return new ProducerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+                                              template,
+                                              isCurrentlySecured,
+                                              portletHandle,
+                                              persistentStateManager,
+                                              sessionID);
   }
 
 }

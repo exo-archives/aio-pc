@@ -188,9 +188,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       }
     }
 
-    // get portlet datas
-    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-    PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    // get portlet data
+    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
     // manage navigationalState
     Map<String, String[]> renderParameters = null;
@@ -210,7 +209,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // manage mime type
     String mimeType = null;
     try {
-      mimeType = getMimeType(markupParams.getMimeTypes(), portletDatas);
+      mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
@@ -226,24 +225,26 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       baseURL = templates.getRenderTemplate();
       portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
-                                                                    portletDatas.getSupports(),
+                                                                    portletData.getSupports(),
                                                                     markupParams.isSecureClientCommunication(),
                                                                     portletHandle,
                                                                     persistentStateManager,
                                                                     sessionID,
-                                                                    portletDatas.getEscapeXml(),
-                                                                    ResourceURL.PAGE);
+                                                                    portletData.getEscapeXml(),
+                                                                    ResourceURL.PAGE,
+                                                                    portletData.getSupportedPublicRenderParameter());
     } else {
       log.debug("Consumer URL rewriting");
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
-                                                                    portletDatas.getSupports(),
+                                                                    portletData.getSupports(),
                                                                     markupParams.isSecureClientCommunication(),
                                                                     portletHandle,
                                                                     persistentStateManager,
                                                                     sessionID,
-                                                                    portletDatas.getEscapeXml(),
-                                                                    ResourceURL.PAGE);
+                                                                    portletData.getEscapeXml(),
+                                                                    ResourceURL.PAGE,
+                                                                    portletData.getSupportedPublicRenderParameter());
     }
     // ---------- END FOR CREATING FACTORY --------------
 
@@ -289,7 +290,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // preparing cache control object
     CacheControl cacheControl = null;
     try {
-      cacheControl = transientStateManager.getCacheControl(portletDatas);
+      cacheControl = transientStateManager.getCacheControl(portletData);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
@@ -314,6 +315,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     markupResponse.setSessionContext(sessionContext);
 
     return markupResponse;
+  }
+
+  private PortletData getPortletMetaData(String portletHandle) {
+    if (proxy != null) {
+      return proxy.getAllPortletMetaData().get(portletHandle);
+    }
+    return null;
   }
 
   public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext,
@@ -347,14 +355,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       String owner = userContext.getUserContextKey();
       log.debug("Owner Context : " + owner);
 
-      // get portlet datas
-      Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-      PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+      // get portlet data
+      PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
       // manage mime type
       String mimeType = null;
       try {
-        mimeType = getMimeType(markupParams.getMimeTypes(), portletDatas);
+        mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
       } catch (WSRPException e) {
         e.printStackTrace();
         Exception2Fault.handleException(e);
@@ -371,24 +378,26 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         baseURL = templates.getBlockingActionTemplate();
         portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
                                                                       baseURL,
-                                                                      portletDatas.getSupports(),
+                                                                      portletData.getSupports(),
                                                                       markupParams.isSecureClientCommunication(),
                                                                       portletHandle,
                                                                       persistentStateManager,
                                                                       sessionID,
-                                                                      portletDatas.getEscapeXml(),
-                                                                      ResourceURL.PAGE);
+                                                                      portletData.getEscapeXml(),
+                                                                      ResourceURL.PAGE,
+                                                                      portletData.getSupportedPublicRenderParameter());
       } else {
         log.debug("Consumer URL rewriting");
         portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                       baseURL,
-                                                                      portletDatas.getSupports(),
+                                                                      portletData.getSupports(),
                                                                       markupParams.isSecureClientCommunication(),
                                                                       portletHandle,
                                                                       persistentStateManager,
                                                                       sessionID,
-                                                                      portletDatas.getEscapeXml(),
-                                                                      ResourceURL.PAGE);
+                                                                      portletData.getEscapeXml(),
+                                                                      ResourceURL.PAGE,
+                                                                      portletData.getSupportedPublicRenderParameter());
       }
       // ---------- END FOR CREATING FACTORY --------------
 
@@ -605,9 +614,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       //      }
       //    }
 
-      // get portlet datas
-      Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-      PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+      // get portlet data
+      PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
       // manage navigational context
       NavigationalContext navigationalContext = resourceParams.getNavigationalContext();
@@ -640,7 +648,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // manage mime type
       String mimeType = null;
       try {
-        mimeType = getMimeType(resourceParams.getMimeTypes(), portletDatas);
+        mimeType = getMimeType(resourceParams.getMimeTypes(), portletData);
       } catch (WSRPException e) {
         Exception2Fault.handleException(e);
       }
@@ -656,24 +664,26 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         baseURL = templates.getResourceTemplate();
         portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
                                                                       baseURL,
-                                                                      portletDatas.getSupports(),
+                                                                      portletData.getSupports(),
                                                                       resourceParams.isSecureClientCommunication(),
                                                                       portletHandle,
                                                                       persistentStateManager,
                                                                       sessionID,
-                                                                      portletDatas.getEscapeXml(),
-                                                                      resourceParams.getResourceCacheability());
+                                                                      portletData.getEscapeXml(),
+                                                                      resourceParams.getResourceCacheability(),
+                                                                      portletData.getSupportedPublicRenderParameter());
       } else {
         log.debug("Consumer URL rewriting");
         portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                       baseURL,
-                                                                      portletDatas.getSupports(),
+                                                                      portletData.getSupports(),
                                                                       resourceParams.isSecureClientCommunication(),
                                                                       portletHandle,
                                                                       persistentStateManager,
                                                                       sessionID,
-                                                                      portletDatas.getEscapeXml(),
-                                                                      resourceParams.getResourceCacheability());
+                                                                      portletData.getEscapeXml(),
+                                                                      resourceParams.getResourceCacheability(),
+                                                                      portletData.getSupportedPublicRenderParameter());
       }
       // ---------- END CREATING FACTORY --------------
 
@@ -722,7 +732,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // preparing cache control object
       CacheControl cacheControl = null;
       try {
-        cacheControl = transientStateManager.getCacheControl(portletDatas);
+        cacheControl = transientStateManager.getCacheControl(portletData);
       } catch (WSRPException e) {
         Exception2Fault.handleException(e);
       }
@@ -781,14 +791,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String owner = userContext.getUserContextKey();
     log.debug("Owner Context : " + owner);
 
-    // get portlet datas
-    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-    PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    // get portlet data
+    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
     // manage mime type
     String mimeType = null;
     try {
-      mimeType = getMimeType(markupParams.getMimeTypes(), portletDatas);
+      mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
@@ -804,24 +813,26 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       baseURL = templates.getRenderTemplate();
       portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
-                                                                    portletDatas.getSupports(),
+                                                                    portletData.getSupports(),
                                                                     markupParams.isSecureClientCommunication(),
                                                                     portletHandle,
                                                                     persistentStateManager,
                                                                     sessionID,
-                                                                    portletDatas.getEscapeXml(),
-                                                                    ResourceURL.PAGE);
+                                                                    portletData.getEscapeXml(),
+                                                                    ResourceURL.PAGE,
+                                                                    portletData.getSupportedPublicRenderParameter());
     } else {
       log.debug("Consumer URL rewriting");
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
                                                                     baseURL,
-                                                                    portletDatas.getSupports(),
+                                                                    portletData.getSupports(),
                                                                     markupParams.isSecureClientCommunication(),
                                                                     portletHandle,
                                                                     persistentStateManager,
                                                                     sessionID,
-                                                                    portletDatas.getEscapeXml(),
-                                                                    ResourceURL.PAGE);
+                                                                    portletData.getEscapeXml(),
+                                                                    ResourceURL.PAGE,
+                                                                    portletData.getSupportedPublicRenderParameter());
     }
     // ---------- END CREATING FACTORY --------------
 
@@ -1177,10 +1188,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       log.debug("the given array of MimeTypes is empty or null");
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
     }
-    List l = portletData.getSupports();
+    List<Supports> l = portletData.getSupports();
     for (int i = 0; i < mimeTypes.length; i++) {
       String mimeType = mimeTypes[i];
-      for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+      for (Iterator<Supports> iterator = l.iterator(); iterator.hasNext();) {
         String supports = ((Supports) iterator.next()).getMimeType();
         if (supports.equalsIgnoreCase(mimeType))
           return mimeType;
