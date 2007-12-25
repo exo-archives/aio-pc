@@ -1206,7 +1206,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public ResourceOutput serveResource(HttpServletRequest request,
                                       HttpServletResponse response,
                                       ResourceInput input) throws PortletContainerException {
-
+	  
     log.debug("serveResource method in WSRPConsumerPlugin entered");
     if (!init)
       return null;

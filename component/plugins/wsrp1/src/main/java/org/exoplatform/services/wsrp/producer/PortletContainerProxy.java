@@ -20,8 +20,11 @@ package org.exoplatform.services.wsrp.producer;
 import java.util.Collection;
 import java.util.Map;
 
+import javax.portlet.WindowState;
+
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
+import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
@@ -40,28 +43,24 @@ public interface PortletContainerProxy {
 
   public ResourceList getResourceList(String[] desiredLocales);
 
-  public PortletDescription getPortletDescription(String portletHandle,
-                                                  String[] desiredLocales);
+  public PortletDescription getPortletDescription(String portletHandle, String[] desiredLocales);
 
-  public void setPortletProperties(String portletHandle,
-                                   String userID,
-                                   PropertyList propertyList) throws WSRPException;
+  public void setPortletProperties(String portletHandle, String userID, PropertyList propertyList)
+      throws WSRPException;
 
-  public Map getPortletProperties(String portletHandle,
-                                  String userID) throws WSRPException;
+  public Map<String, String[]> getPortletProperties(String portletHandle, String userID)
+      throws WSRPException;
 
-  public Map getAllPortletMetaData();
+  public Map<String, PortletData> getAllPortletMetaData();
 
   // public Collection getWindowStates(String s);
-  public Collection getSupportedWindowStates();
+  public Collection<WindowState> getSupportedWindowStates();
 
-  public RenderOutput render(WSRPHttpServletRequest request,
-                             WSRPHttpServletResponse response,
-                             RenderInput input) throws WSRPException;
+  public RenderOutput render(WSRPHttpServletRequest request, WSRPHttpServletResponse response,
+      RenderInput input) throws WSRPException;
 
   public ActionOutput processAction(WSRPHttpServletRequest request,
-                                    WSRPHttpServletResponse response,
-                                    ActionInput input) throws WSRPException;
+      WSRPHttpServletResponse response, ActionInput input) throws WSRPException;
 
   // public Collection getSupportedPortletModesWithDescriptions();
   // public Collection getSupportedWindowStatesWithDescriptions();

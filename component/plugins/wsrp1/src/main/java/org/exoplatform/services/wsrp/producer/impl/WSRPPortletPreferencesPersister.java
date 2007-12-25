@@ -34,12 +34,14 @@ import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesP
 public class WSRPPortletPreferencesPersister implements PortletPreferencesPersister, Serializable {
 
   private static WSRPPortletPreferencesPersister ourInstance = new WSRPPortletPreferencesPersister();
-  private Map prefs = new HashMap();
-  private transient Log log;
-  
+
+  private Map<String, ExoPortletPreferences>     prefs       = new HashMap<String, ExoPortletPreferences>();
+
+  private transient Log                          log;
+
   private WSRPPortletPreferencesPersister() {
-    this.log = ExoLogger.getLogger(getClass()); 
-  }  
+    this.log = ExoLogger.getLogger(getClass());
+  }
 
   public static WSRPPortletPreferencesPersister getInstance() {
     return ourInstance;
@@ -49,9 +51,9 @@ public class WSRPPortletPreferencesPersister implements PortletPreferencesPersis
     return (ExoPortletPreferences) prefs.get(windowID.generateKey());
   }
 
-  public void savePortletPreferences(WindowID windowID, 
-                                     ExoPortletPreferences preferences) throws Exception {
+  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences)
+      throws Exception {
     prefs.put(windowID.generateKey(), preferences);
   }
-  
+
 }

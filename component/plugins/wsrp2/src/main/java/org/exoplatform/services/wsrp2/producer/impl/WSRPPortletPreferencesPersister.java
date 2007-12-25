@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.HashMap;
@@ -23,7 +23,6 @@ import java.util.Map;
 import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
-
 
 /**
  * User: Benjamin Mestrallet
@@ -40,16 +39,17 @@ public class WSRPPortletPreferencesPersister implements PortletPreferencesPersis
   private WSRPPortletPreferencesPersister() {
   }
 
-  private Map localMap = new HashMap();
+  private Map<String, ExoPortletPreferences> localMap = new HashMap<String, ExoPortletPreferences>();
 
   public ExoPortletPreferences getPortletPreferences(WindowID windowID) throws Exception {
     ExoPortletPreferences map = (ExoPortletPreferences) localMap.get(windowID.generateKey());
-    if(map == null)
+    if (map == null)
       return null;
     return map;
   }
 
-  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences) throws Exception {
+  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences)
+      throws Exception {
     localMap.put(windowID.generateKey(), preferences);
   }
 

@@ -47,8 +47,7 @@ public class WSRPHttpSession implements HttpSession {
 
   private boolean             invalidated         = false;
 
-  public WSRPHttpSession(String sessionID,
-                         int maxInactiveInterval) {
+  public WSRPHttpSession(String sessionID, int maxInactiveInterval) {
     creationTime = System.currentTimeMillis();
     this.sessionID = sessionID;
     this.maxInactiveInterval = maxInactiveInterval;
@@ -107,8 +106,7 @@ public class WSRPHttpSession implements HttpSession {
     return Collections.enumeration(attributsMap.keySet());
   }
 
-  public void setAttribute(String arg0,
-                           Object arg1) {
+  public void setAttribute(String arg0, Object arg1) {
     if (invalidated)
       throw new IllegalStateException();
     attributsMap.put(arg0, arg1);
@@ -121,8 +119,8 @@ public class WSRPHttpSession implements HttpSession {
   }
 
   public void invalidate() {
-    Set keys = attributsMap.entrySet();
-    for (Iterator iter = keys.iterator(); iter.hasNext();) {
+    Set<String> keys = attributsMap.keySet();//was: entrySet();
+    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
       String key = (String) iter.next();
       attributsMap.remove(key);
     }
@@ -147,8 +145,7 @@ public class WSRPHttpSession implements HttpSession {
   public void removeValue(String arg0) {
   }
 
-  public void putValue(String arg0,
-                       Object arg1) {
+  public void putValue(String arg0, Object arg1) {
   }
 
   public String[] getValueNames() {

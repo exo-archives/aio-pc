@@ -19,8 +19,8 @@ package org.exoplatform.services.wsrp2.consumer.portlets;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
@@ -40,8 +40,7 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
 
   protected WSRPAdminPortlet portletObj = null;
 
-  public WSRPAdminPortletDataImp(ExoContainer cont,
-                                 HashMap<String, String> adminPortletParams) {
+  public WSRPAdminPortletDataImp(ExoContainer cont, Map<String, String> adminPortletParams) {
     super(cont, null, null, new ArrayList<UserAttribute>());
     portlet_ = new Portlet();
     portlet_.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
@@ -77,9 +76,10 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
     return null;
   }
 
-  public boolean isModeSuported(String markup,
-                                PortletMode mode) {
-    return markup.equals("text/html") && (mode.equals(PortletMode.VIEW) || mode.equals(PortletMode.EDIT) || mode.equals(PortletMode.HELP));
+  public boolean isModeSuported(String markup, PortletMode mode) {
+    return markup.equals("text/html")
+        && (mode.equals(PortletMode.VIEW) || mode.equals(PortletMode.EDIT) || mode
+            .equals(PortletMode.HELP));
   }
 
   public Collection<WindowState> getWindowStates(String markup) {
@@ -93,10 +93,10 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
     return null;
   }
 
-  public boolean isStateSupported(String markup,
-                                  WindowState state) {
+  public boolean isStateSupported(String markup, WindowState state) {
     return markup.equals("text/html")
-        && (state.equals(WindowState.NORMAL) || state.equals(WindowState.MINIMIZED) || state.equals(WindowState.MAXIMIZED));
+        && (state.equals(WindowState.NORMAL) || state.equals(WindowState.MINIMIZED) || state
+            .equals(WindowState.MAXIMIZED));
   }
 
   public boolean getEscapeXml() {

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.utils;
 
 import javax.portlet.WindowState;
@@ -22,8 +22,9 @@ import javax.portlet.WindowState;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 
 public class WindowStates implements java.io.Serializable {
-  private java.lang.String _value_;
-  private static java.util.HashMap _table_ = new java.util.HashMap();
+  private java.lang.String                               _value_;
+
+  private static java.util.HashMap<String, WindowStates> _table_ = new java.util.HashMap<String, WindowStates>();
 
   // Constructor
   public WindowStates(java.lang.String value) {
@@ -32,20 +33,31 @@ public class WindowStates implements java.io.Serializable {
   }
 
   // define the window states we can currently handle
-  private static final java.lang.String normalString = WindowState.NORMAL.toString();
+  private static final java.lang.String normalString    = WindowState.NORMAL.toString();
+
   private static final java.lang.String minimizedString = WindowState.MINIMIZED.toString();
+
   private static final java.lang.String maximizedString = WindowState.MAXIMIZED.toString();
-  private static final java.lang.String soloString = "solo";
-  
-  public static final java.lang.String _normal = WSRPConstants.WSRP_PREFIX + normalString;
-  public static final java.lang.String _minimized = WSRPConstants.WSRP_PREFIX + minimizedString;
-  public static final java.lang.String _maximized = WSRPConstants.WSRP_PREFIX + maximizedString;
-  public static final java.lang.String _solo = WSRPConstants.WSRP_PREFIX + soloString;
-  
-  public static final WindowStates normal = new WindowStates(_normal);
-  public static final WindowStates minimized = new WindowStates(_minimized);
-  public static final WindowStates maximized = new WindowStates(_maximized);
-  public static final WindowStates solo = new WindowStates(_solo);
+
+  private static final java.lang.String soloString      = "solo";
+
+  public static final java.lang.String  _normal         = WSRPConstants.WSRP_PREFIX + normalString;
+
+  public static final java.lang.String  _minimized      = WSRPConstants.WSRP_PREFIX
+                                                            + minimizedString;
+
+  public static final java.lang.String  _maximized      = WSRPConstants.WSRP_PREFIX
+                                                            + maximizedString;
+
+  public static final java.lang.String  _solo           = WSRPConstants.WSRP_PREFIX + soloString;
+
+  public static final WindowStates      normal          = new WindowStates(_normal);
+
+  public static final WindowStates      minimized       = new WindowStates(_minimized);
+
+  public static final WindowStates      maximized       = new WindowStates(_maximized);
+
+  public static final WindowStates      solo            = new WindowStates(_solo);
 
   public java.lang.String getValue() {
     return _value_;
@@ -97,14 +109,14 @@ public class WindowStates implements java.io.Serializable {
    *
    * @return The <code>javax.portlet.WindowState</code> which corresponds to the given wsrp state.
    */
-  
+
   public static WindowState getJsrPortletStateFromWsrpState(WindowStates wsrpState) {
     if (wsrpState == null) {
       throw new IllegalArgumentException("WSRP window state must not be null.");
     }
     return getJsrPortletStateFromWsrpState(wsrpState.toString());
   }
-  
+
   public static WindowState getJsrPortletStateFromWsrpState(String wsrpState) {
     if (wsrpState == null)
       return null;
@@ -118,7 +130,8 @@ public class WindowStates implements java.io.Serializable {
     } else if (windowState.equalsIgnoreCase(soloString)) {
       return new WindowState(soloString);
     }
-    System.out.println("WindowStates.getJsrPortletStateFromWsrpState " + wsrpState + " changed with '" + normalString + "' state");
+    System.out.println("WindowStates.getJsrPortletStateFromWsrpState " + wsrpState
+        + " changed with '" + normalString + "' state");
     //return new WindowState(jsrState.toLowerCase());
     return WindowState.NORMAL;
   }
@@ -132,14 +145,14 @@ public class WindowStates implements java.io.Serializable {
    *                    as portlet window state defined in wsrp.
    * @return
    */
-  
+
   public static WindowStates getWsrpStateFromJsrPortletState(WindowState windowState) {
     if (windowState == null) {
       throw new IllegalArgumentException("Window state must not be null.");
     }
     return getWsrpStateFromJsrPortletState(windowState.toString());
   }
-  
+
   public static WindowStates getWsrpStateFromJsrPortletState(String windowState) {
     if (windowState == null)
       return null;
@@ -153,18 +166,19 @@ public class WindowStates implements java.io.Serializable {
     } else if (wsrpState.equalsIgnoreCase(_solo)) {
       return WindowStates.solo;
     }
-    System.out.println("WindowStates.getWsrpStateFromJsrPortletState " + windowState + " changed with '" + _normal + "' state");
+    System.out.println("WindowStates.getWsrpStateFromJsrPortletState " + windowState
+        + " changed with '" + _normal + "' state");
     return WindowStates.normal;
   }
 
   public static String[] getWindowStatesAsStringArray() {
     return (String[]) _table_.keySet().toArray();
   }
-  
+
   public static String addPrefixWSRP(String forAddWSRPPrefix) {
     return WSRPConstants.WSRP_PREFIX + forAddWSRPPrefix;
   }
-  
+
   public static String delAllPrefixWSRP(String forDelWSRPPrefix) {
     if (forDelWSRPPrefix == null)
       return null;
@@ -172,5 +186,5 @@ public class WindowStates implements java.io.Serializable {
       forDelWSRPPrefix = forDelWSRPPrefix.substring(WSRPConstants.WSRP_PREFIX.length());
     return forDelWSRPPrefix;
   }
-  
+
 }

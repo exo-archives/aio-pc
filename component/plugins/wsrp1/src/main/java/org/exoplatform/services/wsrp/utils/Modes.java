@@ -22,9 +22,9 @@ import javax.portlet.PortletMode;
 import org.exoplatform.services.wsrp.WSRPConstants;
 
 public class Modes implements java.io.Serializable {
-  private java.lang.String         _value_;
+  private java.lang.String                    _value_;
 
-  private static java.util.HashMap _table_ = new java.util.HashMap();
+  private static java.util.Map<String, Modes> _table_ = new java.util.HashMap<String, Modes>();
 
   // Constructor
   public Modes(java.lang.String value) {
@@ -133,7 +133,8 @@ public class Modes implements java.io.Serializable {
     } else if (wsrpMode.getValue().equalsIgnoreCase(_preview)) {
       return new PortletMode(previewString);
     }
-    System.out.println("Modes.getJsrPortletModeFromWsrpMode " + wsrpMode.getValue() + " changed with '" + viewString + "' mode");
+    System.out.println("Modes.getJsrPortletModeFromWsrpMode " + wsrpMode.getValue()
+        + " changed with '" + viewString + "' mode");
     return PortletMode.VIEW;
   }
 
@@ -171,7 +172,8 @@ public class Modes implements java.io.Serializable {
     } else if (portletMode.toString().equalsIgnoreCase(previewString)) {
       return Modes.preview;
     }
-    System.out.println("Modes.getWsrpModeFromJsrPortletMode " + portletMode.toString() + " changed with '" + _view + "' mode");
+    System.out.println("Modes.getWsrpModeFromJsrPortletMode " + portletMode.toString()
+        + " changed with '" + _view + "' mode");
     return Modes.view;
   }
 

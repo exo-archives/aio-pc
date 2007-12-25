@@ -45,38 +45,39 @@ import org.exoplatform.container.ExoContainerContext;
  */
 public class WSRPHttpServletRequest implements HttpServletRequest {
 
-  private HttpSession  session;
+  private HttpSession           session;
 
-  private Map          parameters;
+  private Map<String, String[]> parameters;
 
-  private Map          attributes;
+  private Map<String, Object>   attributes;
 
-  private String       scheme;
+  private String                scheme;
 
-  private String       serverName;
+  private String                serverName;
 
-  private int          serverPort;
+  private int                   serverPort;
 
-  private String       characterEncoding;
+  private String                characterEncoding;
 
-  private Locale       locale;
+  private Locale                locale;
 
-  private Enumeration  locales;
+  private Enumeration<Locale>   locales;
 
-  private String       protocol;
+  private String                protocol;
 
-  public static String WSRP_CONTAINER = "portal";
+  public static String          WSRP_CONTAINER = "portal";
 
-  private ExoContainer container;
+  private ExoContainer          container;
 
   public WSRPHttpServletRequest(HttpSession session) {
     this.session = session;
-    this.parameters = new HashMap();
-    this.attributes = new HashMap();
+    this.parameters = new HashMap<String, String[]>();
+    this.attributes = new HashMap<String, Object>();
 
     try {
       container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
+      WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest) container
+          .getComponentInstanceOfType(WSRPHttpServletRequest.class);
       this.scheme = wsrpHttpServletRequest.getScheme();
       this.serverName = wsrpHttpServletRequest.getServerName();
       this.serverPort = wsrpHttpServletRequest.getServerPort();
@@ -87,38 +88,6 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     } catch (Exception e) {
       System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());
     }
-
-    // try {
-    // if ( ExoContainerContext.getTopContainer() instanceof RootContainer) {
-    // //PORTALCONTAINER
-    // PortalContainer container =
-    // RootContainer.getInstance().getPortalContainer(WSRP_CONTAINER);
-    // WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest)
-    // container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-    // this.scheme = wsrpHttpServletRequest.getScheme();
-    // this.serverName = wsrpHttpServletRequest.getServerName();
-    // this.serverPort = wsrpHttpServletRequest.getServerPort();
-    // this.locale = wsrpHttpServletRequest.getLocale();
-    // this.locales = wsrpHttpServletRequest.getLocales();
-    // this.characterEncoding = wsrpHttpServletRequest.getCharacterEncoding();
-    // this.protocol = wsrpHttpServletRequest.getProtocol();
-    // } else {
-    // //STANDALONECONTAINER
-    // ExoContainer container = ExoContainerContext.getTopContainer();
-    // WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest)
-    // container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-    // this.scheme = wsrpHttpServletRequest.getScheme();
-    // this.serverName = wsrpHttpServletRequest.getServerName();
-    // this.serverPort = wsrpHttpServletRequest.getServerPort();
-    // this.locale = wsrpHttpServletRequest.getLocale();
-    // this.locales = wsrpHttpServletRequest.getLocales();
-    // this.characterEncoding = wsrpHttpServletRequest.getCharacterEncoding();
-    // this.protocol = wsrpHttpServletRequest.getProtocol();
-    // }
-    // } catch (Exception e) {
-    // System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " +
-    // e.getCause());
-    // }
 
   }
 
@@ -232,7 +201,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return attributes.get(arg0);
   }
 
-  public Enumeration getAttributeNames() {
+  public Enumeration<String> getAttributeNames() {
     return Collections.enumeration(attributes.keySet());
   }
 
@@ -266,15 +235,15 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return ((String[]) parameters.get(arg0))[0];
   }
 
-  public Enumeration getParameterNames() {
+  public Enumeration<String> getParameterNames() {
     return Collections.enumeration(parameters.keySet());
   }
 
   public String[] getParameterValues(String arg0) {
-    Set keys = parameters.keySet();
-    Set<String> values = new HashSet();
+    Set<String> keys = parameters.keySet();
+    Set<String> values = new HashSet<String>();
     int i = 0;
-    for (Iterator iterator = keys.iterator(); iterator.hasNext(); i++) {
+    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext(); i++) {
       String key = (String) iterator.next();
       if (key.equals(arg0)) {
         String[] valuesArray = (String[]) parameters.get(key);
@@ -288,7 +257,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return (String[]) values.toArray();
   }
 
-  public Map getParameterMap() {
+  public Map<String, String[]> getParameterMap() {
     return Collections.unmodifiableMap(parameters);
   }
 
@@ -336,8 +305,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return null;
   }
 
-  public void setAttribute(String arg0,
-                           Object arg1) {
+  public void setAttribute(String arg0, Object arg1) {
     attributes.put(arg0, arg1);
   }
 
@@ -359,22 +327,22 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return new Locale("en");
   }
 
-  public void setLocales(Enumeration locs) {
+  public void setLocales(Enumeration<Locale> locs) {
     if (locs != null) {
       this.locales = locs;
     } else {
       if (this.locales == null) {
-        Vector mygetLocales = new Vector();
+        Vector<Locale> mygetLocales = new Vector<Locale>();
         mygetLocales.add(new Locale("en"));
         this.locales = Collections.enumeration(mygetLocales);
       }
     }
   }
 
-  public Enumeration getLocales() {
+  public Enumeration<Locale> getLocales() {
     if (this.locales != null)
       return locales;
-    Vector mygetLocales = new Vector();
+    Vector<Locale> mygetLocales = new Vector<Locale>();
     mygetLocales.add(this.getLocale());
     return Collections.enumeration(mygetLocales);
   }
@@ -404,8 +372,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return 0;
   }
 
-  public void setParameter(String key,
-                           String value) {
+  public void setParameter(String key, String value) {
     String[] valueArray = new String[1];
     valueArray[0] = value;
     parameters.put(key, valueArray);

@@ -535,7 +535,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for debug:
     if (log.isDebugEnabled()) {
       if (map != null) {
-        for (Iterator iterator = map.keySet().iterator(); iterator.hasNext();) {
+        for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
           String s = (String) iterator.next();
           log.debug("attribute in map referenced by ns : " + s);
         }
@@ -550,10 +550,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       log.debug("the given array of MimeTypes is empty or null");
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
     }
-    List l = portletData.getSupports();
+    List<Supports> l = portletData.getSupports();
     for (int i = 0; i < mimeTypes.length; i++) {
       String mimeType = mimeTypes[i];
-      for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+      for (Iterator<Supports> iterator = l.iterator(); iterator.hasNext();) {
         String supports = ((Supports) iterator.next()).getMimeType();
         if (supports.equalsIgnoreCase(mimeType))
           return mimeType;

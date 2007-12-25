@@ -22,9 +22,9 @@ import javax.portlet.WindowState;
 import org.exoplatform.services.wsrp.WSRPConstants;
 
 public class WindowStates implements java.io.Serializable {
-  private java.lang.String         _value_;
+  private java.lang.String                           _value_;
 
-  private static java.util.HashMap _table_ = new java.util.HashMap();
+  private static java.util.Map<String, WindowStates> _table_ = new java.util.HashMap<String, WindowStates>();
 
   // Constructor
   public WindowStates(java.lang.String value) {
@@ -43,9 +43,11 @@ public class WindowStates implements java.io.Serializable {
 
   public static final java.lang.String  _normal         = WSRPConstants.WSRP_PREFIX + normalString;
 
-  public static final java.lang.String  _minimized      = WSRPConstants.WSRP_PREFIX + minimizedString;
+  public static final java.lang.String  _minimized      = WSRPConstants.WSRP_PREFIX
+                                                            + minimizedString;
 
-  public static final java.lang.String  _maximized      = WSRPConstants.WSRP_PREFIX + maximizedString;
+  public static final java.lang.String  _maximized      = WSRPConstants.WSRP_PREFIX
+                                                            + maximizedString;
 
   public static final java.lang.String  _solo           = WSRPConstants.WSRP_PREFIX + soloString;
 
@@ -134,7 +136,8 @@ public class WindowStates implements java.io.Serializable {
     } else if (wsrpState.getValue().equalsIgnoreCase(_solo)) {
       return new WindowState(soloString);
     }
-    System.out.println("WindowStates.getJsrPortletStateFromWsrpState " + wsrpState.getValue() + " changed with '" + normalString + "' state");
+    System.out.println("WindowStates.getJsrPortletStateFromWsrpState " + wsrpState.getValue()
+        + " changed with '" + normalString + "' state");
     return WindowState.NORMAL;
   }
 
@@ -172,7 +175,8 @@ public class WindowStates implements java.io.Serializable {
     } else if (windowState.toString().equalsIgnoreCase(soloString)) {
       return WindowStates.solo;
     }
-    System.out.println("WindowStates.getWsrpStateFromJsrPortletState " + windowState.toString() + " changed with '" + _normal + "' mode");
+    System.out.println("WindowStates.getWsrpStateFromJsrPortletState " + windowState.toString()
+        + " changed with '" + _normal + "' mode");
     return WindowStates.normal;
   }
 

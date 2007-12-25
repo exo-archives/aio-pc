@@ -245,11 +245,11 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
   // return this.service.getSupportedWindowStatesWithDescriptions();
   // }
 
-  private LocalizedString getDescription(List list,
+  private LocalizedString getDescription(List<Description> list,
                                          String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      for (Iterator iter = list.iterator(); iter.hasNext();) {
+      for (Iterator<Description> iter = list.iterator(); iter.hasNext();) {
         Description desc = (Description) iter.next();
         if (desc!=null && desc.getLang()!=null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(desc.getDescription(), desiredLocale);
@@ -259,11 +259,11 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private LocalizedString getDisplayName(List list,
+  private LocalizedString getDisplayName(List<DisplayName> list,
                                          String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      for (Iterator iter = list.iterator(); iter.hasNext();) {
+      for (Iterator<DisplayName> iter = list.iterator(); iter.hasNext();) {
         DisplayName displayName = (DisplayName) iter.next();
         if (displayName!=null && displayName.getLang()!=null && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(displayName.getDisplayName(), desiredLocale);
@@ -301,28 +301,28 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private MarkupType[] setMarkupTypes(List supports,
+  private MarkupType[] setMarkupTypes(List<Supports> supports,
                                       // Collection windowStates,
                                       String[] locales) {
     MarkupType[] array = new MarkupType[supports.size()];
     int i = 0;
     MarkupType mT = null;
-    for (Iterator iter = supports.iterator(); iter.hasNext(); i++) {
+    for (Iterator<Supports> iter = supports.iterator(); iter.hasNext(); i++) {
       Supports support = (Supports) iter.next();
       mT = new MarkupType();
       mT.setMimeType(support.getMimeType());
-      List portletModes = support.getPortletMode();
+      List<String> portletModes = support.getPortletMode();
       String[] modesInArray = new String[portletModes.size()];
       int j = 0;
-      for (Iterator iterator = portletModes.iterator(); iterator.hasNext(); j++) {
+      for (Iterator<String> iterator = portletModes.iterator(); iterator.hasNext(); j++) {
         String pM = (String) iterator.next();
         modesInArray[j] = WSRPConstants.WSRP_PREFIX + pM.toString();
       }
       mT.setModes(modesInArray);
       j = 0;
-      List windowStates = support.getWindowState();
+      List<String> windowStates = support.getWindowState();
       String[] windowStatesInArray = new String[windowStates.size()];
-      for (Iterator iterator = windowStates.iterator(); iterator.hasNext(); j++) {
+      for (Iterator<String> iterator = windowStates.iterator(); iterator.hasNext(); j++) {
         String wS = (String) iterator.next();
         windowStatesInArray[j] = WSRPConstants.WSRP_PREFIX + wS.toString();
       }
@@ -364,10 +364,10 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private String[] getUserProfileItems(List userAttributes) {
+  private String[] getUserProfileItems(List<UserAttribute> userAttributes) {
     String[] toReturnArray = new String[userAttributes.size()];
     int i = 0;
-    for (Iterator iter = userAttributes.iterator(); iter.hasNext(); i++) {
+    for (Iterator<UserAttribute> iter = userAttributes.iterator(); iter.hasNext(); i++) {
       UserAttribute userAttr = (UserAttribute) iter.next();
       toReturnArray[i] = userAttr.getName();
     }

@@ -83,7 +83,7 @@ public class URLRewriterImpl implements URLRewriter {
   }
 
   private void rewrite(String baseURL, StringBuffer markup, String rewriteURL) throws WSRPException {
-    Map params = createParameterMap(rewriteURL);
+    Map<String, String> params = createParameterMap(rewriteURL);
     if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_BLOCKINGACTION) != -1) {
       markup.append(urlGenerator.getBlockingActionURL(baseURL, params));
     } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RENDER) != -1) {
@@ -93,8 +93,8 @@ public class URLRewriterImpl implements URLRewriter {
     }
   }
 
-  private Map createParameterMap(String rewriteURL) throws WSRPException {
-    Map params = (Map) new HashMap();
+  private Map<String, String> createParameterMap(String rewriteURL) throws WSRPException {
+    Map<String, String> params = new HashMap<String, String>();
     if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_BLOCKINGACTION) != -1) {
       params.put(WSRPConstants.WSRP_URL_TYPE, WSRPConstants.URL_TYPE_BLOCKINGACTION);
     } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RENDER) != -1) {

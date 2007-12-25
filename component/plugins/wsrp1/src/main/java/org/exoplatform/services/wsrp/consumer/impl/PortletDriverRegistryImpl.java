@@ -37,7 +37,7 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
 
 public class PortletDriverRegistryImpl implements PortletDriverRegistry {
 
-  private Map portletDrivers = new HashMap();  
+  private Map<String, PortletDriver> portletDrivers = new HashMap<String, PortletDriver>();  
   protected ExoContainer cont;
 
   public PortletDriverRegistryImpl(ExoContainerContext ctx) {
@@ -53,7 +53,7 @@ public class PortletDriverRegistryImpl implements PortletDriverRegistry {
     return driver;
   }
 
-  public Iterator getAllPortletDrivers() {
+  public Iterator<PortletDriver> getAllPortletDrivers() {
     return portletDrivers.values().iterator();
   }
 

@@ -109,7 +109,7 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
     log.debug("Destroy portlet for registration handle " + registrationHandle);
     org.exoplatform.services.wsrp.producer.impl.utils.Utils.testRegistration(registrationContext, stateManager);
 
-    Collection fails = new ArrayList();
+    Collection<DestroyFailed> fails = new ArrayList<DestroyFailed>();
     for (int i = 0; i < portletHandles.length; i++) {
       String portletHandle = portletHandles[i];
       try {
@@ -211,15 +211,15 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
       Exception2Fault.handleException(e);
     }
     String userID = userContext.getUserContextKey();
-    Map properties = null;
+    Map<String, String[]> properties = null;
     try {
       properties = container.getPortletProperties(portletHandle, userID);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
-    Collection properties2return = new ArrayList();
-    Set keys = properties.keySet();
-    for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+    Collection<Property> properties2return = new ArrayList<Property>();
+    Set<String> keys = properties.keySet();
+    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
       String key = (String) iterator.next();
       if (names == null || arrayContainsKey(names, key)) {
         String[] values = (String[]) properties.get(key);

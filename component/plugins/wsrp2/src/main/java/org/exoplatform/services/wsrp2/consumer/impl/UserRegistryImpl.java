@@ -33,7 +33,7 @@ import org.exoplatform.services.wsrp2.consumer.UserRegistry;
 
 public class UserRegistryImpl implements UserRegistry{
 
-  private Map users = new HashMap();
+  private Map<String, User> users = new HashMap<String, User>();
 
   public User addUser(User user) {
     return (User) users.put(user.getUserID(), user);
@@ -51,7 +51,7 @@ public class UserRegistryImpl implements UserRegistry{
     users.clear();
   }
 
-  public Iterator getAllUsers() {
+  public Iterator<User> getAllUsers() {
     return users.values().iterator();
   }
 }

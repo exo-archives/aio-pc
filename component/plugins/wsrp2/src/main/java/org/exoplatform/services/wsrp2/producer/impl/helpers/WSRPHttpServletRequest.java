@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.io.BufferedReader;
@@ -45,32 +45,40 @@ import org.exoplatform.container.ExoContainerContext;
  *          benjmestrallet@users.sourceforge.net
  */
 public class WSRPHttpServletRequest implements HttpServletRequest {
-  
-  private HttpSession session;
-  private Map parameters;
-  private Map attributes;
-  
-  private String scheme;
-  private String serverName;
-  private int serverPort;
-  private String characterEncoding;
-  private Locale locale; 
-  private Enumeration locales; 
-  private String protocol;
-  
-  public static String WSRP_CONTAINER = "portal";
-  
-  private ExoContainer container;
-  
-  public WSRPHttpServletRequest(HttpSession session){
+
+  private HttpSession           session;
+
+  private Map<String, String[]> parameters;
+
+  private Map<String, Object>   attributes;
+
+  private String                scheme;
+
+  private String                serverName;
+
+  private int                   serverPort;
+
+  private String                characterEncoding;
+
+  private Locale                locale;
+
+  private Enumeration<Locale>   locales;
+
+  private String                protocol;
+
+  public static String          WSRP_CONTAINER = "portal";
+
+  private ExoContainer          container;
+
+  public WSRPHttpServletRequest(HttpSession session) {
     this.session = session;
-    this.parameters = new HashMap();
-    this.attributes = new HashMap();
-    
+    this.parameters = new HashMap<String, String[]>();
+    this.attributes = new HashMap<String, Object>();
+
     try {
       container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpServletRequest wsrpHttpServletRequest = 
-        (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
+      WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest) container
+          .getComponentInstanceOfType(WSRPHttpServletRequest.class);
       this.scheme = wsrpHttpServletRequest.getScheme();
       this.serverName = wsrpHttpServletRequest.getServerName();
       this.serverPort = wsrpHttpServletRequest.getServerPort();
@@ -81,10 +89,10 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     } catch (Exception e) {
       System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());
     }
-        
+
   }
 
-  public WSRPHttpServletRequest(HttpServletRequest request){
+  public WSRPHttpServletRequest(HttpServletRequest request) {
     this.scheme = request.getScheme();
     this.serverName = request.getServerName();
     this.serverPort = request.getServerPort();
@@ -93,7 +101,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     this.characterEncoding = request.getCharacterEncoding();
     this.protocol = request.getProtocol();
   }
-  
+
   public String getAuthType() {
     return null;
   }
@@ -194,7 +202,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return attributes.get(arg0);
   }
 
-  public Enumeration getAttributeNames() {
+  public Enumeration<String> getAttributeNames() {
     return Collections.enumeration(attributes.keySet());
   }
 
@@ -203,8 +211,8 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
   }
 
   public void setCharacterEncoding(String charenc) throws UnsupportedEncodingException {
-    if (charenc!= null) {
-      this.characterEncoding = charenc;      
+    if (charenc != null) {
+      this.characterEncoding = charenc;
     } else {
       this.characterEncoding = null;
     }
@@ -225,21 +233,21 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
   public String getParameter(String arg0) {
     if (parameters.get(arg0) == null)
       return null;
-    return ((String[])parameters.get(arg0))[0];
+    return ((String[]) parameters.get(arg0))[0];
   }
 
-  public Enumeration getParameterNames() {
+  public Enumeration<String> getParameterNames() {
     return Collections.enumeration(parameters.keySet());
   }
 
   public String[] getParameterValues(String arg0) {
-    Set keys = parameters.keySet();
-    Set<String> values = new HashSet();
+    Set<String> keys = parameters.keySet();
+    Set<String> values = new HashSet<String>();
     int i = 0;
-    for (Iterator iterator = keys.iterator(); iterator.hasNext(); i++) {
+    for (Iterator<String> iterator = keys.iterator(); iterator.hasNext(); i++) {
       String key = (String) iterator.next();
       if (key.equals(arg0)) {
-        String[] valuesArray = (String[])parameters.get(key);
+        String[] valuesArray = (String[]) parameters.get(key);
         if (valuesArray != null) {
           for (int j = 0; j < valuesArray.length; j++) {
             values.add(valuesArray[j]);
@@ -247,21 +255,21 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
         }
       }
     }
-    return (String[])values.toArray();
+    return (String[]) values.toArray();
   }
 
-  public Map getParameterMap() {
+  public Map<String, String[]> getParameterMap() {
     return Collections.unmodifiableMap(parameters);
   }
 
   public String getProtocol() {
     return protocol;
   }
-  
+
   public void setProtocol(String protocol) {
     this.protocol = protocol;
   }
-  
+
   public void setScheme(String scheme) {
     this.scheme = scheme;
   }
@@ -269,7 +277,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
   public String getScheme() {
     return scheme;
   }
-  
+
   public void setServerName(String string) {
     this.serverName = string;
   }
@@ -285,7 +293,7 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
   public int getServerPort() {
     return serverPort;
   }
-  
+
   public BufferedReader getReader() throws IOException {
     return null;
   }
@@ -313,69 +321,69 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
       this.locale = new Locale("en");
     }
   }
-  
+
   public Locale getLocale() {
-    if (locale != null) 
+    if (locale != null)
       return locale;
     return new Locale("en");
   }
 
-  public void setLocales(Enumeration locs) {
+  public void setLocales(Enumeration<Locale> locs) {
     if (locs != null) {
-      this.locales = locs;      
+      this.locales = locs;
     } else {
       if (this.locales == null) {
-        Vector mygetLocales = new Vector();
+        Vector<Locale> mygetLocales = new Vector<Locale>();
         mygetLocales.add(new Locale("en"));
         this.locales = Collections.enumeration(mygetLocales);
       }
     }
-  }  
-  
-  public Enumeration getLocales() {
+  }
+
+  public Enumeration<Locale> getLocales() {
     if (this.locales != null)
       return locales;
-    Vector mygetLocales = new Vector();
+    Vector<Locale> mygetLocales = new Vector<Locale>();
     mygetLocales.add(this.getLocale());
     return Collections.enumeration(mygetLocales);
-  }  
-  
-  public boolean isSecure() {    
+  }
+
+  public boolean isSecure() {
     return false;
   }
 
-  public RequestDispatcher getRequestDispatcher(String arg0) {   
+  public RequestDispatcher getRequestDispatcher(String arg0) {
     return null;
   }
-  
+
   //servlet 2.4 method
-  public int getLocalPort(){
+  public int getLocalPort() {
     return 0;
   }
 
-  public String getLocalAddr(){
+  public String getLocalAddr() {
     return "local adress";
   }
 
-  public String getLocalName(){
+  public String getLocalName() {
     return "Local name";
   }
 
-  public int getRemotePort(){
-   return 0;
+  public int getRemotePort() {
+    return 0;
   }
-  
+
   public void setParameter(String key, String value) {
     String[] valueArray = new String[1];
     valueArray[0] = value;
-    parameters.put(key, valueArray); 
-  }    
+    parameters.put(key, valueArray);
+  }
 
   //depracated methods
-  public String getRealPath(String arg0) {    
+  public String getRealPath(String arg0) {
     return null;
   }
-  
+
   public boolean isRequestedSessionIdFromUrl() {
     return false;
   }

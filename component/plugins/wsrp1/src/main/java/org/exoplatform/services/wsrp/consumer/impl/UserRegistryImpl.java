@@ -25,15 +25,13 @@ import org.exoplatform.services.wsrp.consumer.User;
 import org.exoplatform.services.wsrp.consumer.UserRegistry;
 
 /*
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 5 févr. 2004
- * Time: 13:47:56
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 5
+ * févr. 2004 Time: 13:47:56
  */
 
-public class UserRegistryImpl implements UserRegistry{
+public class UserRegistryImpl implements UserRegistry {
 
-  private Map users = new HashMap();
+  private Map<String, User> users = new HashMap<String, User>();
 
   public User addUser(User user) {
     return (User) users.put(user.getUserID(), user);
@@ -51,7 +49,7 @@ public class UserRegistryImpl implements UserRegistry{
     users.clear();
   }
 
-  public Iterator getAllUsers() {
+  public Iterator<User> getAllUsers() {
     return users.values().iterator();
   }
 }

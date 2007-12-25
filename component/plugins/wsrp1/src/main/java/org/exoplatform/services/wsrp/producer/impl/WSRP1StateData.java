@@ -28,36 +28,54 @@ import org.exoplatform.commons.utils.IOUtil;
  * @hibernate.class  table="WSRP_STATE"
  */
 public class WSRP1StateData {
-  private String id_ ;
-  private String type_ ;
-  transient private Object object_ ;
-  
+  private String           id_;
+
+  private String           type_;
+
+  transient private Object object_;
+
   public WSRP1StateData() {
-  }    
+  }
 
   /**
    * @hibernate.id  generator-class="assigned" unsaved-value="null"
    ***/
-  public String   getId() { return id_ ; }
-  public void     setId(String s) { id_ = s ; }
+  public String getId() {
+    return id_;
+  }
+
+  public void setId(String s) {
+    id_ = s;
+  }
 
   /**
    * @hibernate.property
    **/
-  public String   getDataType() { return type_ ; }
-  public void     setDataType(String s) { type_ = s ; }
+  public String getDataType() {
+    return type_;
+  }
+
+  public void setDataType(String s) {
+    type_ = s;
+  }
 
   /**
    * @hibernate.property type="binary"
    **/
-  public byte[] getData() throws Exception { 
-    return IOUtil.serialize(object_) ; 
-  }   
-  public void setData(byte[] data) throws Exception { 
-    object_ = IOUtil.deserialize(data) ; 
+  public byte[] getData() throws Exception {
+    return IOUtil.serialize(object_);
   }
 
-  public Object getDataObject() { return object_  ; }
-  public void setDataObject(Object o) { object_ = o ; }
+  public void setData(byte[] data) throws Exception {
+    object_ = IOUtil.deserialize(data);
+  }
+
+  public Object getDataObject() {
+    return object_;
+  }
+
+  public void setDataObject(Object o) {
+    object_ = o;
+  }
 
 }

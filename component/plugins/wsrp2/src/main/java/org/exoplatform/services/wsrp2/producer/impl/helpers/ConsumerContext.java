@@ -31,12 +31,12 @@ public class ConsumerContext implements Serializable{
 
   private String registrationHandle;
   private RegistrationData datas;
-  private Collection clonedPortletHandles;
+  private Collection<String> clonedPortletHandles;
 
   public ConsumerContext(String registrationHandle, RegistrationData datas){
     this.registrationHandle = registrationHandle;
     this.datas = datas;    
-    clonedPortletHandles = new ArrayList();    
+    clonedPortletHandles = new ArrayList<String>();    
   }
   
   public void addPortletHandle(String portletHandle){

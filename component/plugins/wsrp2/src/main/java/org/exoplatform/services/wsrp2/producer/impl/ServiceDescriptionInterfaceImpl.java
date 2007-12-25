@@ -36,6 +36,7 @@ import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.pci.CustomModeWithDescription;
 import org.exoplatform.services.portletcontainer.pci.CustomWindowStateWithDescription;
 import org.exoplatform.services.portletcontainer.pci.LocalisedDescription;
+import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
@@ -96,11 +97,11 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       }
 
       log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
-      Map portletMetaDatas = proxy.getAllPortletMetaData();
-      Set keys = portletMetaDatas.keySet();
-      Set keys2 = new HashSet(keys);
+      Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
+      Set<String> keys = portletMetaDatas.keySet();
+      Set<String> keys2 = new HashSet<String>(keys);
       if (conf.getExcludeList() != null) {
-        for (Iterator iter = conf.getExcludeList().iterator(); iter.hasNext();) {
+        for (Iterator<String> iter = conf.getExcludeList().iterator(); iter.hasNext();) {
           String handle = (String) iter.next();
           if (handle.endsWith("*")) {
             for (Object object : keys2) {
@@ -189,7 +190,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
     log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
 
-    Map portletMetaDatas = proxy.getAllPortletMetaData();
+    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     Set<String> keys = portletMetaDatas.keySet();
 
     if (conf.getExcludeList() != null) {
@@ -223,7 +224,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
     PortletDescription[] pdescription = new PortletDescription[keys.size()];
     int i = 0;
-    for (Iterator iter = keys.iterator(); iter.hasNext(); i++) {
+    for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
       String producerOfferedPortletHandle = (String) iter.next();
       log.debug("fill service description with portlet description ");
       pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
@@ -244,13 +245,13 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   }
 
-  private ItemDescription[] getCustomWindowStateDescriptions(Collection collection) {
-    Collection c = new ArrayList();
-    for (Iterator iter = collection.iterator(); iter.hasNext();) {
+  private ItemDescription[] getCustomWindowStateDescriptions(Collection<CustomWindowStateWithDescription> collection) {
+    Collection<ItemDescription> c = new ArrayList<ItemDescription>();
+    for (Iterator<CustomWindowStateWithDescription> iter = collection.iterator(); iter.hasNext();) {
       CustomWindowStateWithDescription element = (CustomWindowStateWithDescription) iter.next();
-      List l = element.getDescriptions();
+      List<LocalisedDescription> l = element.getDescriptions();
       ItemDescription iD = null;
-      for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+      for (Iterator<LocalisedDescription> iterator = l.iterator(); iterator.hasNext();) {
         LocalisedDescription d = (LocalisedDescription) iterator.next();
         iD = new ItemDescription();
         iD.setItemName(element.getWindowState().toString());
@@ -260,19 +261,19 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     }
     ItemDescription[] iDTab = new ItemDescription[c.size()];
     int i = 0;
-    for (Iterator iter = c.iterator(); iter.hasNext(); i++) {
+    for (Iterator<ItemDescription> iter = c.iterator(); iter.hasNext(); i++) {
       iDTab[i] = (ItemDescription) iter.next();
     }
     return iDTab;
   }
 
-  private ItemDescription[] getCustomModeDescriptions(Collection collection) {
-    Collection c = new ArrayList();
-    for (Iterator iter = collection.iterator(); iter.hasNext();) {
+  private ItemDescription[] getCustomModeDescriptions(Collection<CustomModeWithDescription> collection) {
+    Collection<ItemDescription> c = new ArrayList<ItemDescription>();
+    for (Iterator<CustomModeWithDescription> iter = collection.iterator(); iter.hasNext();) {
       CustomModeWithDescription element = (CustomModeWithDescription) iter.next();
-      List l = element.getDescriptions();
+      List<LocalisedDescription> l = element.getDescriptions();
       ItemDescription iD = null;
-      for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+      for (Iterator<LocalisedDescription> iterator = l.iterator(); iterator.hasNext();) {
         LocalisedDescription d = (LocalisedDescription) iterator.next();
         iD = new ItemDescription();
         iD.setItemName(element.getPortletMode().toString());
@@ -282,7 +283,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     }
     ItemDescription[] iDTab = new ItemDescription[c.size()];
     int i = 0;
-    for (Iterator iter = c.iterator(); iter.hasNext(); i++) {
+    for (Iterator<ItemDescription> iter = c.iterator(); iter.hasNext(); i++) {
       iDTab[i] = (ItemDescription) iter.next();
     }
     return iDTab;

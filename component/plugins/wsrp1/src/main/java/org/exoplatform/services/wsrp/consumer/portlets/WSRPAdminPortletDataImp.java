@@ -19,8 +19,8 @@ package org.exoplatform.services.wsrp.consumer.portlets;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
@@ -34,15 +34,16 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
 import org.exoplatform.services.wsrp.WSRPConstants;
 
 /**
- * Created by The eXo Platform SAS Author : Alexey Zavizionov
- * alexey.zavizionov@exoplatform.com.ua 07.06.2007
+ * Created by The eXo Platform SAS 
+ * Author : Alexey Zavizionov
+ *          alexey.zavizionov@exoplatform.com.ua 07.06.2007
  */
 public class WSRPAdminPortletDataImp extends PortletDataImp {
 
   protected WSRPAdminPortlet portletObj = null;
 
   public WSRPAdminPortletDataImp(ExoContainer cont,
-                                 HashMap<String, String> adminPortletParams) {
+                                 Map<String, String> adminPortletParams) {
     super(cont, null, null, new ArrayList<UserAttribute>());
     portlet_ = new Portlet();
     portlet_.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);

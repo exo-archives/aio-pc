@@ -27,23 +27,25 @@ import org.exoplatform.services.wsrp.type.RegistrationData;
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  */
-public class ConsumerContext implements Serializable{
+public class ConsumerContext implements Serializable {
 
-  private String registrationHandle;
-  private RegistrationData datas;
-  private Collection clonedPortletHandles;
+  private String             registrationHandle;
 
-  public ConsumerContext(String registrationHandle, RegistrationData datas){
+  private RegistrationData   datas;
+
+  private Collection<String> clonedPortletHandles;
+
+  public ConsumerContext(String registrationHandle, RegistrationData datas) {
     this.registrationHandle = registrationHandle;
-    this.datas = datas;    
-    clonedPortletHandles = new ArrayList();    
+    this.datas = datas;
+    clonedPortletHandles = new ArrayList<String>();
   }
-  
-  public void addPortletHandle(String portletHandle){
+
+  public void addPortletHandle(String portletHandle) {
     clonedPortletHandles.add(portletHandle);
   }
-  
-  public void removePortletHandle(String portletHandle){
+
+  public void removePortletHandle(String portletHandle) {
     clonedPortletHandles.remove(portletHandle);
   }
 
@@ -54,8 +56,8 @@ public class ConsumerContext implements Serializable{
   public RegistrationData getRegistationData() {
     return datas;
   }
-  
-  public boolean isPortletHandleRegistered(String portletHandle){
+
+  public boolean isPortletHandleRegistered(String portletHandle) {
     return clonedPortletHandles.contains(portletHandle);
   }
 

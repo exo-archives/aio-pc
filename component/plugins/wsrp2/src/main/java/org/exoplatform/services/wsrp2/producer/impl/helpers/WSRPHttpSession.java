@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.util.Collections;
@@ -33,123 +33,129 @@ import javax.servlet.http.HttpSessionContext;
  *          benjmestrallet@users.sourceforge.net
  */
 public class WSRPHttpSession implements HttpSession {
-  
-  private String sessionID;
-  private Map attributsMap = new HashMap();
-  private long creationTime;
-  private long lastAccessTime;
-  private int maxInactiveInterval = 900;
-  private boolean isNew = false;
-  private boolean invalidated = false;
-  
+
+  private String              sessionID;
+
+  private Map<String, Object> attributsMap        = new HashMap<String, Object>();
+
+  private long                creationTime;
+
+  private long                lastAccessTime;
+
+  private int                 maxInactiveInterval = 900;
+
+  private boolean             isNew               = false;
+
+  private boolean             invalidated         = false;
+
   public WSRPHttpSession(String sessionID, int maxInactiveInterval) {
     creationTime = System.currentTimeMillis();
-    this.sessionID = sessionID;    
+    this.sessionID = sessionID;
     this.maxInactiveInterval = maxInactiveInterval;
     isNew = true;
-  }  
+  }
 
   public long getCreationTime() {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     return creationTime;
   }
 
   public String getId() {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     return sessionID;
   }
 
   public long getLastAccessedTime() {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     return lastAccessTime;
   }
-  
-  public void setLastAccessTime(long lastAccessTime){
+
+  public void setLastAccessTime(long lastAccessTime) {
     this.lastAccessTime = lastAccessTime;
   }
 
   public ServletContext getServletContext() {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     return null;
   }
 
   public void setMaxInactiveInterval(int arg0) {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     maxInactiveInterval = arg0;
   }
 
   public int getMaxInactiveInterval() {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     return maxInactiveInterval;
   }
 
   public Object getAttribute(String arg0) {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     return attributsMap.get(arg0);
   }
 
-  public Enumeration getAttributeNames() {
-    if(invalidated)
-      throw new IllegalStateException();    
+  public Enumeration<String> getAttributeNames() {
+    if (invalidated)
+      throw new IllegalStateException();
     return Collections.enumeration(attributsMap.keySet());
   }
 
   public void setAttribute(String arg0, Object arg1) {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     attributsMap.put(arg0, arg1);
   }
 
   public void removeAttribute(String arg0) {
-    if(invalidated)
-      throw new IllegalStateException();    
+    if (invalidated)
+      throw new IllegalStateException();
     attributsMap.remove(arg0);
   }
 
   public void invalidate() {
-    Set keys = attributsMap.entrySet();
-    for (Iterator iter = keys.iterator(); iter.hasNext();) {
+    Set<String> keys = attributsMap.keySet();//was:entrySet();
+    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
       String key = (String) iter.next();
       attributsMap.remove(key);
-    }     
-    invalidated = true;    
+    }
+    invalidated = true;
   }
-  
-  public boolean isInvalidated(){
+
+  public boolean isInvalidated() {
     return invalidated;
   }
 
   public boolean isNew() {
-    if(invalidated)
+    if (invalidated)
       throw new IllegalStateException();
     return false;
   }
-  
-  public void setNew(boolean isNew){
+
+  public void setNew(boolean isNew) {
     this.isNew = isNew;
   }
-  
+
   //deprecated methods
   public void removeValue(String arg0) {
-  }  
-  
+  }
+
   public void putValue(String arg0, Object arg1) {
   }
-  
+
   public String[] getValueNames() {
     return null;
   }
-  
+
   public Object getValue(String arg0) {
     return null;
-  }      
+  }
 
   public HttpSessionContext getSessionContext() {
     return null;

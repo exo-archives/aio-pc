@@ -35,7 +35,7 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
 
 public class PortletRegistryImpl implements PortletRegistry{
 
-  private Map portlets = new HashMap();
+  private Map<PortletKey, WSRPPortlet> portlets = new HashMap<PortletKey, WSRPPortlet>();
 
   public void addPortlet(WSRPPortlet portlet) throws WSRPException {
     portlets.put(portlet.getPortletKey(), portlet);
@@ -55,7 +55,7 @@ public class PortletRegistryImpl implements PortletRegistry{
     return portlets.containsKey(portletKey);
   }
 
-  public Iterator getAllPortlets() {
+  public Iterator<WSRPPortlet> getAllPortlets() {
     return portlets.values().iterator();
   }
 

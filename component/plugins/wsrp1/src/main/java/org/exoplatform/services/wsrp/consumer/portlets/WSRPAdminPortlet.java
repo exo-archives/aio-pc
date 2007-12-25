@@ -182,7 +182,7 @@ public class WSRPAdminPortlet {
 
       w.println("<table>");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
-      Iterator i = pregistry.getAllProducers();
+      Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription desc = null;
       while (i.hasNext()) {
         Producer producer = (Producer) i.next();

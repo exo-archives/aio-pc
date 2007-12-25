@@ -25,16 +25,16 @@ import org.exoplatform.services.wsrp.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp.consumer.PortletSession;
 
 /*
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 9 févr. 2004
- * Time: 22:34:33
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 9
+ * févr. 2004 Time: 22:34:33
  */
 
-public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr, java.io.Serializable {
+public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
+    java.io.Serializable {
 
-  protected String groupID;
-  protected Map portletSessions = new HashMap();
+  protected String                      groupID;
+
+  protected Map<String, PortletSession> portletSessions = new HashMap<String, PortletSession>();
 
   public GroupSessionImpl(String groupID, String markupURL) {
     super(markupURL);
@@ -61,7 +61,7 @@ public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
     this.groupID = groupID;
   }
 
-  public Iterator getAllPortletSessions() {
+  public Iterator<PortletSession> getAllPortletSessions() {
     return portletSessions.values().iterator();
   }
 
@@ -80,7 +80,5 @@ public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
   public void removeAllPortletSessions() {
     portletSessions.clear();
   }
-
-
 
 }

@@ -34,7 +34,7 @@ import org.exoplatform.services.wsrp2.consumer.PortletSession;
 public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr, java.io.Serializable {
 
   protected String groupID;
-  protected Map portletSessions = new HashMap();
+  protected Map<String, PortletSession> portletSessions = new HashMap<String, PortletSession>();
 
   public GroupSessionImpl(String groupID, String markupURL) {
     super(markupURL);
@@ -61,7 +61,7 @@ public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
     this.groupID = groupID;
   }
 
-  public Iterator getAllPortletSessions() {
+  public Iterator<PortletSession> getAllPortletSessions() {
     return portletSessions.values().iterator();
   }
 

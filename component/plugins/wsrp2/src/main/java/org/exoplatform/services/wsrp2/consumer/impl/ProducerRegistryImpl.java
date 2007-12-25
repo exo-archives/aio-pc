@@ -90,7 +90,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return (Producer) producers.get(id);
   }
 
-  public Iterator getAllProducers() {
+  public Iterator<Producer> getAllProducers() {
     return producers.values().iterator();
   }
 
@@ -154,7 +154,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   final public WSRP2ProducerData load(String id,
                                   Session session) throws Exception {
     WSRP2ProducerData data = null;
-    List l = session.createQuery(queryProducer).setString(0, id).list();
+    List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
     if (l.size() > 1) {
       throw new Exception("Expect only one configuration but found" + l.size());
     } else if (l.size() == 1) {
@@ -172,8 +172,8 @@ public class ProducerRegistryImpl implements ProducerRegistry {
 
   final public void removeAll() throws Exception {
     Session session = hservice_.openSession();
-    Collection c = session.createQuery(queryAllProducer).list();
-    for (Iterator iterator = c.iterator(); iterator.hasNext();) {
+    Collection<Object> c = session.createQuery(queryAllProducer).list();
+    for (Iterator<Object> iterator = c.iterator(); iterator.hasNext();) {
       session.delete(iterator.next());
     }
     session.flush();

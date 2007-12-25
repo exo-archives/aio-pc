@@ -24,11 +24,11 @@ import java.util.List;
  */
 public class CustomWindowStateWithDescription {
 
-  private javax.portlet.WindowState windowState;
-  private List descriptions;
+  private javax.portlet.WindowState  windowState;
 
-  public CustomWindowStateWithDescription(javax.portlet.WindowState windowState,
-                                          List descriptions){
+  private List<LocalisedDescription> descriptions;
+
+  public CustomWindowStateWithDescription(javax.portlet.WindowState windowState, List descriptions) {
     this.windowState = windowState;
     this.descriptions = descriptions;
   }
@@ -36,7 +36,7 @@ public class CustomWindowStateWithDescription {
   /**
    * @return a List of LocalisedDescription objects
    */
-  public List getDescriptions() {
+  public List<LocalisedDescription> getDescriptions() {
     return descriptions;
   }
 
@@ -46,11 +46,12 @@ public class CustomWindowStateWithDescription {
 
   public class Description {
     private String lang;
+
     private String description;
 
-    public Description(String lang, String description){
-       this.lang = lang;
-       this.description = description;
+    public Description(String lang, String description) {
+      this.lang = lang;
+      this.description = description;
     }
 
     public String getDescription() {

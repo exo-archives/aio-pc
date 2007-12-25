@@ -14,12 +14,13 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.templates;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
 import org.exoplatform.services.wsrp2.consumer.PortletSession;
 import org.exoplatform.services.wsrp2.consumer.PortletWindowSession;
 import org.exoplatform.services.wsrp2.type.SessionContext;
@@ -31,11 +32,13 @@ import org.exoplatform.services.wsrp2.type.SessionContext;
  * Time: 15:50:57
  */
 
-public abstract class PortletSessionTemplate implements PortletSession{
+public abstract class PortletSessionTemplate implements PortletSession {
 
-  protected String portletHandle;
+  protected String       portletHandle;
+
   private SessionContext sessionContext;
-  protected Map portletWindowSessions = new HashMap();
+
+  protected Map<String, PortletWindowSession>          portletWindowSessions = new HashMap<String, PortletWindowSession>();
 
   public String getPortletHandle() {
     return portletHandle;
@@ -67,6 +70,5 @@ public abstract class PortletSessionTemplate implements PortletSession{
   public void removeAllPortletWindowSessions() {
     portletWindowSessions.clear();
   }
-
 
 }

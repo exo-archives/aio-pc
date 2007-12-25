@@ -149,7 +149,7 @@ public class BaseTest extends TestCase {
       InputStream is = url.openStream();
       portletApp_ = XMLParser.parse(is, false) ;
 
-      Collection roles = new ArrayList();
+      Collection<String> roles = new ArrayList<String>();
       roles.add("auth-user");
 
 

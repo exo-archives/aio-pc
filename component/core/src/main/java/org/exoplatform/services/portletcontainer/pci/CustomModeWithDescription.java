@@ -24,11 +24,12 @@ import java.util.List;
  */
 public class CustomModeWithDescription {
 
-  private javax.portlet.PortletMode portletMode;
-  private List descriptions;
+  private javax.portlet.PortletMode  portletMode;
+
+  private List<LocalisedDescription> descriptions;
 
   public CustomModeWithDescription(javax.portlet.PortletMode portletMode,
-                                   List descriptions){
+      List<LocalisedDescription> descriptions) {
     this.portletMode = portletMode;
     this.descriptions = descriptions;
   }
@@ -36,14 +37,12 @@ public class CustomModeWithDescription {
   /**
    * @return a List of LocalisedDescription objects
    */
-  public List getDescriptions() {
+  public List<LocalisedDescription> getDescriptions() {
     return descriptions;
   }
 
   public javax.portlet.PortletMode getPortletMode() {
     return portletMode;
   }
-
-
 
 }

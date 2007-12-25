@@ -34,8 +34,6 @@ import org.exoplatform.services.wsrp.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp.producer.impl.helpers.ConsumerContext;
 import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
-
-
 import org.hibernate.Session;
 
 /**
@@ -43,45 +41,44 @@ import org.hibernate.Session;
  *         benjmestrallet@users.sourceforge.net
  */
 public class PersistentStateManagerImpl implements PersistentStateManager {
-	private static final String queryStateData =
-		"from sd in class org.exoplatform.services.wsrp.producer.impl.WSRP1StateData " +
-		"where sd.id = ?";
-
+  private static final String queryStateData = "from sd in class org.exoplatform.services.wsrp.producer.impl.WSRP1StateData "
+                                                 + "where sd.id = ?";
 
   //private Map mapToStoreRenderParameters;
-  private WSRPConfiguration conf;
-  private Log log;
-  private ExoCache cache;
-  private HibernateService hservice;
+  private WSRPConfiguration   conf;
 
-  public PersistentStateManagerImpl(CacheService cacheService,
-                                    HibernateService hservice,
-                                    WSRPConfiguration conf) throws Exception {
+  private Log                 log;
+
+  private ExoCache            cache;
+
+  private HibernateService    hservice;
+
+  public PersistentStateManagerImpl(CacheService cacheService, HibernateService hservice,
+      WSRPConfiguration conf) throws Exception {
     this.conf = conf;
-    this.hservice = hservice ;
+    this.hservice = hservice;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
   }
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext)
-  throws WSRPException {
-  	if (conf.isSaveRegistrationStateOnConsumer()) {
-  		log.debug("Lookup registration stored on the consumer");
-  		return resolveConsumerContext(registrationContext);
-  	}   	
-  	log.debug("Lookup registration data stored on the producer");
-  	try {
-  		WSRP1StateData sD = load(registrationContext.getRegistrationHandle());
-  		if (sD == null) {
-  			return null;
-  		}
-  		return ((ConsumerContext) sD.getDataObject()).
-			getRegistationData();
-  	} catch (Exception e) {
-  		log.error("Can not extract Registration data from persistent store");
-  		throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
-  	}
+      throws WSRPException {
+    if (conf.isSaveRegistrationStateOnConsumer()) {
+      log.debug("Lookup registration stored on the consumer");
+      return resolveConsumerContext(registrationContext);
+    }
+    log.debug("Lookup registration data stored on the producer");
+    try {
+      WSRP1StateData sD = load(registrationContext.getRegistrationHandle());
+      if (sD == null) {
+        return null;
+      }
+      return ((ConsumerContext) sD.getDataObject()).getRegistationData();
+    } catch (Exception e) {
+      log.error("Can not extract Registration data from persistent store");
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
   }
 
   public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException {
@@ -104,10 +101,11 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
     log.debug("Register and save the registration state in the producer");
     try {
-    	save(registrationHandle, "org.exoplatform.services.wsrp.producer.impl.helpers.ConsumerContext", cC);
+      save(registrationHandle,
+          "org.exoplatform.services.wsrp.producer.impl.helpers.ConsumerContext", cC);
     } catch (Exception e) {
-    	log.error("Persistence error");
-    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+      log.error("Persistence error");
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     return null;
   }
@@ -145,8 +143,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   public boolean isConsumerConfiguredPortlet(String portletHandle,
-                                             RegistrationContext registrationContext)
-      throws WSRPException {
+      RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       Collection c = null;
       try {
@@ -163,25 +160,24 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         return true;
       }
       return false;
-    } 
-    
+    }
+
     ConsumerContext consumerContext = null;
     try {
-    	WSRP1StateData sD = load(registrationContext.getRegistrationHandle());
-    	if (sD == null) {
-    		return false;
-    	}
-    	consumerContext = (ConsumerContext) sD.getDataObject();
+      WSRP1StateData sD = load(registrationContext.getRegistrationHandle());
+      if (sD == null) {
+        return false;
+      }
+      consumerContext = (ConsumerContext) sD.getDataObject();
     } catch (Exception e) {
-    	log.error("Can not extract Registration data from persistent store");
-    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+      log.error("Can not extract Registration data from persistent store");
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     return consumerContext.isPortletHandleRegistered(portletHandle);
   }
 
   public void addConsumerConfiguredPortletHandle(String portletHandle,
-                                                 RegistrationContext registrationContext)
-      throws WSRPException {
+      RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       Collection c = null;
       try {
@@ -212,7 +208,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   public void removeConsumerConfiguredPortletHandle(String portletHandle,
-                                                    RegistrationContext registrationContext) throws WSRPException {
+      RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       Collection c = null;
       try {
@@ -243,21 +239,22 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
 
   }
 
-  public Map getNavigationalSate(String navigationalState) throws WSRPException {
+  public Map<String, String[]> getNavigationalSate(String navigationalState) throws WSRPException {
     try {
       WSRP1StateData sD = load(navigationalState);
       if (sD == null) {
         return null;
       }
-      return (Map) sD.getDataObject();
+      return (Map<String, String[]>) sD.getDataObject();
     } catch (Exception e) {
       log.error("Can not extract Render Parameters Map from persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
 
-  public void putNavigationalState(String ns, Map renderParameters) throws WSRPException {
-    try {      
+  public void putNavigationalState(String ns, Map<String, String[]> renderParameters)
+      throws WSRPException {
+    try {
       save(ns, "java.util.Map", renderParameters);
     } catch (Exception e) {
       log.error("Can not save Render Parameters Map from persistent store", e);
@@ -287,51 +284,51 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   final public void save(String key, String type, Object o) throws Exception {
-  	Session session = this.hservice.openSession();
-  	WSRP1StateData data = load(key);
-  	if (data == null) {
-  		data = new WSRP1StateData();
-  		data.setId(key);
-  		data.setDataType(type);
-  		this.cache.put(key, data);
-  	}
-  	data.setDataObject(o);
-  	session.save(data);
-  	session.flush();
-  } 
+    Session session = this.hservice.openSession();
+    WSRP1StateData data = load(key);
+    if (data == null) {
+      data = new WSRP1StateData();
+      data.setId(key);
+      data.setDataType(type);
+      this.cache.put(key, data);
+    }
+    data.setDataObject(o);
+    session.save(data);
+    session.flush();
+  }
 
   final public WSRP1StateData load(String key) throws Exception {
-  	WSRP1StateData data = (WSRP1StateData) this.cache.get(key);
-  	if (data == null) {
-  		Session session = this.hservice.openSession();
-  		List l = session.createQuery(queryStateData).setString(0,key).list();
-  		if (l.size() > 1) {
-  			throw new Exception("Expect only one configuration but found" + l.size());
-  		} else if (l.size() == 1) {
-  			data = (WSRP1StateData) l.get(0);
-  			this.cache.put(key, data);
-  		}
-  	}
-  	return data;
+    WSRP1StateData data = (WSRP1StateData) this.cache.get(key);
+    if (data == null) {
+      Session session = this.hservice.openSession();
+      List l = session.createQuery(queryStateData).setString(0, key).list();
+      if (l.size() > 1) {
+        throw new Exception("Expect only one configuration but found" + l.size());
+      } else if (l.size() == 1) {
+        data = (WSRP1StateData) l.get(0);
+        this.cache.put(key, data);
+      }
+    }
+    return data;
   }
 
   final public void remove(String key) throws Exception {
-  	Session session = this.hservice.openSession();
-  	WSRP1StateData data = (WSRP1StateData) this.cache.remove(key);
-  	if (data == null) {
-//  		List l = session.find(queryStateData, key, Hibernate.STRING);
-  		List l = session.createQuery(queryStateData).setString(0,key).list();
+    Session session = this.hservice.openSession();
+    WSRP1StateData data = (WSRP1StateData) this.cache.remove(key);
+    if (data == null) {
+      //  		List l = session.find(queryStateData, key, Hibernate.STRING);
+      List<WSRP1StateData> l = session.createQuery(queryStateData).setString(0, key).list();
 
-  		if (l.size() > 1) {
-  			throw new Exception("Expect only one configuration but found" + l.size());
-  		} else if (l.size() == 1) {
-  			data = (WSRP1StateData) l.get(0);
-  			this.cache.put(key, data);
-  		}
-  	}
-  	if (data != null) {
-  		session.delete(data);
-  		session.flush();
-  	}
+      if (l.size() > 1) {
+        throw new Exception("Expect only one configuration but found" + l.size());
+      } else if (l.size() == 1) {
+        data = (WSRP1StateData) l.get(0);
+        this.cache.put(key, data);
+      }
+    }
+    if (data != null) {
+      session.delete(data);
+      session.flush();
+    }
   }
 }

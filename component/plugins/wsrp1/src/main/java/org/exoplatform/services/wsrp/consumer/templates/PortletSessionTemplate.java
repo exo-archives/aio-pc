@@ -17,9 +17,10 @@
 
 package org.exoplatform.services.wsrp.consumer.templates;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+
 import org.exoplatform.services.wsrp.consumer.PortletSession;
 import org.exoplatform.services.wsrp.consumer.PortletWindowSession;
 import org.exoplatform.services.wsrp.type.SessionContext;
@@ -31,11 +32,13 @@ import org.exoplatform.services.wsrp.type.SessionContext;
  * Time: 15:50:57
  */
 
-public abstract class PortletSessionTemplate implements PortletSession{
+public abstract class PortletSessionTemplate implements PortletSession {
 
-  protected String portletHandle;
-  private SessionContext sessionContext;
-  protected Map portletWindowSessions = new HashMap();
+  protected String                            portletHandle;
+
+  private SessionContext                      sessionContext;
+
+  protected Map<String, PortletWindowSession> portletWindowSessions = new HashMap<String, PortletWindowSession>();
 
   public String getPortletHandle() {
     return portletHandle;
@@ -67,6 +70,5 @@ public abstract class PortletSessionTemplate implements PortletSession{
   public void removeAllPortletWindowSessions() {
     portletWindowSessions.clear();
   }
-
 
 }
