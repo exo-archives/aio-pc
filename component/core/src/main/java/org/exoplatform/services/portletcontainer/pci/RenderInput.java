@@ -16,14 +16,11 @@
  */
 package org.exoplatform.services.portletcontainer.pci;
 
-import java.util.Set;
 
 /**
  * Created by The eXo Platform SAS Author : Mestrallet Benjamin
  */
 public class RenderInput extends Input {
-
-  private Set<String>       pubNames;
 
   private String            title;
 
@@ -44,14 +41,6 @@ public class RenderInput extends Input {
 
   public void setUpdateCache(boolean updateCache) {
     this.updateCache = updateCache;
-  }
-
-  public void setPublicParamNames(Set<String> pubNames) {
-    this.pubNames = pubNames;
-  }
-
-  public Set<String> getPublicParamNames() {
-    return pubNames;
   }
 
 }

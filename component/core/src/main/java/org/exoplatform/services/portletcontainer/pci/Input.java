@@ -20,6 +20,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
+import java.util.Set;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
@@ -28,10 +29,10 @@ import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesP
 
 /**
  * This objects must be created by the Portal that access this portlet
- * container. 
+ * container.
  * The windowID is a unique id that references a portlet window
  * in the user scope.
- * 
+ *
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Jul 27, 2003
@@ -68,6 +69,8 @@ public class Input {
 
   // for creating URL
   private boolean                     escapeXml;
+
+  private Set<String>       pubNames;
 
   public boolean isStateSaveOnClient() {
     return stateSaveOnClient;
@@ -177,6 +180,14 @@ public class Input {
 
   public void setEscapeXml(boolean escapeXml) {
     this.escapeXml = escapeXml;
+  }
+
+  public void setPublicParamNames(Set<String> pubNames) {
+    this.pubNames = pubNames;
+  }
+
+  public Set<String> getPublicParamNames() {
+    return pubNames;
   }
 
 }

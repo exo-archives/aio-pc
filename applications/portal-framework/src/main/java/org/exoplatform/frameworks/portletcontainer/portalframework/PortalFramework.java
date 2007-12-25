@@ -646,6 +646,22 @@ public class PortalFramework {
   // --- input objects creators ---
 
   /**
+   * Generates set of public parameters names for a specified portlet.
+   *
+   * @param plt portlet name
+   * @return set of public portlet names
+   */
+  private HashSet<String> getPublicNamesSet(final String plt) {
+    final List<String> pubs = publicParams.get(plt);
+    final HashSet<String> pubNames;
+    if (pubs == null)
+      pubNames = new HashSet<String>();
+    else
+      pubNames = new HashSet<String>(pubs);
+    return pubNames;
+  }
+
+  /**
    * Creates ResourceInput instance and fills it with appropriate values.
    *
    * @param ctx servlet context
@@ -660,6 +676,7 @@ public class PortalFramework {
     resourceInput.setBaseURL(baseURL + target);
     resourceInput.setUserAttributes(new HashMap<String, String>());
     resourceInput.setMarkup(cntType);
+    resourceInput.setPublicParamNames(getPublicNamesSet(target));
     resourceInput.setRenderParameters(portletParams);
     if (win.getRenderParams() != null)
       Helper.appendParams(resourceInput.getRenderParameters(), win.getRenderParams());
@@ -685,6 +702,7 @@ public class PortalFramework {
     actionInput.setBaseURL(baseURL + target);
     actionInput.setUserAttributes(new HashMap<String, String>());
     actionInput.setMarkup(cntType);
+    actionInput.setPublicParamNames(getPublicNamesSet(target));
     actionInput.setRenderParameters(portletParams);
     portletParams = new HashMap<String, String[]>();
     actionInput.setPortletMode(win.getPortletMode());
@@ -711,6 +729,7 @@ public class PortalFramework {
     eventInput.setBaseURL(baseURL + eventTarget);
     eventInput.setUserAttributes(new HashMap<String, String>());
     eventInput.setMarkup(cntType);
+    eventInput.setPublicParamNames(getPublicNamesSet(eventTarget));
     eventInput.setRenderParameters(new HashMap<String, String[]>());
     if (target != null && target.equals(eventTarget)) {
       if (renderParams != null) {
@@ -743,13 +762,7 @@ public class PortalFramework {
     renderInput.setBaseURL(baseURL + plt);
     renderInput.setUserAttributes(new HashMap<String, String>());
     renderInput.setMarkup(cntType);
-    final List<String> pubs = publicParams.get(plt);
-    final HashSet<String> pubNames;
-    if (pubs == null)
-      pubNames = new HashSet<String>();
-    else
-      pubNames = new HashSet<String>(pubs);
-    renderInput.setPublicParamNames(pubNames);
+    renderInput.setPublicParamNames(getPublicNamesSet(plt));
     renderInput.setRenderParameters(new HashMap<String, String[]>());
     if (target != null && target.equals(plt)) {
       Helper.appendParams(renderInput.getRenderParameters(), portletParams);
