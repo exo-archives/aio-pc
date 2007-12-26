@@ -134,7 +134,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     this.conf = conf;
     this.persistentStateManager = persitentStateManager;
     this.transientStateManager = transientStateManager;
-    //    this.orgService = orgService;
+    // this.orgService = orgService;
     this.persister = WSRPPortletPreferencesPersister.getInstance();
   }
 
