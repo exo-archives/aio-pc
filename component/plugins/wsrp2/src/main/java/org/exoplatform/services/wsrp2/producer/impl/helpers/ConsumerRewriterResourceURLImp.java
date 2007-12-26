@@ -124,7 +124,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     // process resource state
     String resourceState = IdentifierUtil.generateUUID(this);
     try {
-      stateManager.putResourceState(resourceState, privateParams);
+      stateManager.putResourceState(resourceState, parameters);//was: privateParams
     } catch (WSRPException e) {
       e.printStackTrace();
     }

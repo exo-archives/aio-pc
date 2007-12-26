@@ -194,17 +194,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // get portlet data
     PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
-    // manage navigationalState
-    Map<String, String[]> renderParameters = null;
-    try {
-      renderParameters = processNavigationalState(markupParams.getNavigationalContext());
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-    if (renderParameters == null) {
-      renderParameters = new HashMap<String, String[]>();
-      log.debug("No navigational state exists");
-    }
+    
+    // manage navigational context
+    NavigationalContext navigationalContext = markupParams.getNavigationalContext();
+
+    // process opaque (navigational) values
+    Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
+    
+    // get navigational (public) values
+    Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
+    
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
@@ -274,7 +273,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
     input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
     input.setMarkup(mimeType);
-    input.setRenderParameters(renderParameters);
+    input.setRenderParameters(persistentRenderParameters);
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
     input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
@@ -436,35 +435,24 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
         Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
       }
-
+      
+      
       // manage navigational context
       NavigationalContext navigationalContext = markupParams.getNavigationalContext();
-      // process public values
-      NamedString[] namedStringArray = navigationalContext.getPublicValues();
-      Map<String, String[]> navigationalParams = new HashMap<String, String[]>(); // TODO EXOMAN
-      if (namedStringArray != null) {
-        for (NamedString namedString : namedStringArray) {
-          navigationalParams.put(namedString.getName(), new String[] { namedString.getValue() });
-        }
-      }
+
       // process opaque (navigational) values
-      Map<String, String[]> renderParameters = null; // TODO EXOMAN
-      try {
-        renderParameters = processNavigationalState(navigationalContext);
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
-      }
-      if (renderParameters == null) {
-        renderParameters = new HashMap<String, String[]>();
-        log.debug("No navigational state exists");
-      }
-
+      Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
+      
+      // get navigational (public) values
+      Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
+      
       // manage form parameters
-      renderParameters = getFormParameters(interactionParams.getFormParameters());
-
+      Map<String, String[]> formParameters = getFormParameters(interactionParams.getFormParameters());
+      
       // manage interaction state
-      String interactionState = interactionParams.getInteractionState(); // TODO EXOMAN
+      Map<String, String[]> persistentInteractionParameters = processInteractionState(interactionParams.getInteractionState());
 
+      
       // prepare objects for portlet container
       WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
       WSRPHttpServletResponse response = new WSRPHttpServletResponse();
@@ -488,7 +476,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
-      input.setRenderParameters(renderParameters);
+      input.setRenderParameters(formParameters);
       input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
       ActionOutput output = null;
@@ -572,6 +560,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return null;
   }
 
+  private Map<String, String[]> getNavigationalParameters(NamedString[] publicValues) {
+    Map<String, String[]> navigationalParameters = new HashMap<String, String[]>();
+    if (publicValues != null) {
+      for (NamedString namedString : publicValues) {
+        navigationalParameters.put(namedString.getName(), new String[] { namedString.getValue() });
+      }
+    }
+    return navigationalParameters;
+  }
+
   public ResourceResponse getResource(RegistrationContext registrationContext,
                                       PortletContext portletContext,
                                       RuntimeContext runtimeContext,
@@ -626,31 +624,23 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // get portlet data
       PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
+      
       // manage navigational context
       NavigationalContext navigationalContext = resourceParams.getNavigationalContext();
-      // process public values
-      NamedString[] namedStringArray = navigationalContext.getPublicValues();
-      Map<String, String[]> navigationalParams = new HashMap<String, String[]>(); // TODO EXOMAN
-      if (namedStringArray != null) {
-        for (NamedString namedString : namedStringArray) {
-          navigationalParams.put(namedString.getName(), new String[] { namedString.getValue() });
-        }
-      }
+
       // process opaque (navigational) values
-      Map<String, String[]> renderParameters = null; // TODO EXOMAN
-      try {
-        renderParameters = processNavigationalState(navigationalContext);
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
-      }
-      if (renderParameters == null) {
-        renderParameters = new HashMap<String, String[]>();
-        log.debug("No navigational state exists");
-      }
-
+      Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
+      
+      // get navigational (public) values
+      Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
+      
       // manage form parameters
-      renderParameters = getFormParameters(resourceParams.getFormParameters());
+      Map<String, String[]> formParameters = getFormParameters(resourceParams.getFormParameters());
+      
+      // process resource parameters
+      Map<String, String[]> persistentResourceParameters = processResourceState(resourceParams.getResourceState());
 
+      
       // manage portlet state
       byte[] portletState = managePortletState(portletContext);
 
@@ -720,7 +710,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletMode(mode);
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
-      input.setRenderParameters(renderParameters);
+      input.setRenderParameters(formParameters);
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
       input.setResourceID(resourceParams.getResourceID());
@@ -889,8 +879,17 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Event[] events = eventParams.getEvents();
     List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
     List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
-    Map<String, String[]> renderParameters = new HashMap<String, String[]>();
-    String resultNavigationalState = null;
+
+
+    // manage navigational context
+    NavigationalContext navigationalContext = markupParams.getNavigationalContext();
+
+    // process opaque (navigational) values
+    Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
+    
+    // get navigational (public) values
+    Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
+    
 
     Integer index = 0;
     int eventsLength = events.length;
@@ -917,7 +916,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
       input.setEvent(event);
-      input.setRenderParameters(renderParameters);
+      input.setRenderParameters(persistentRenderParameters);
       //      input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
@@ -944,7 +943,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       }
 
       resultNativeEventsList.addAll(output.getEvents());
-      renderParameters = output.getRenderParameters();
+      persistentRenderParameters = output.getRenderParameters();
       if (output.getNextMode() != null)
         mode = output.getNextMode();
       if (output.getNextState() != null)
@@ -952,7 +951,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       // unnecessary manage navigational state for each process event
       if (eventsLength == 1) {
-        resultNavigationalState = IdentifierUtil.generateUUID(output);
+        String resultNavigationalState = IdentifierUtil.generateUUID(output);
         try {
           log.debug("set new navigational state : " + resultNavigationalState);
           persistentStateManager.putNavigationalState(resultNavigationalState, output.getRenderParameters());
@@ -978,20 +977,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     updateResponse.setMarkupContext(markupContext);
     updateResponse.setPortletContext(portletContext);
 
+    String resultNavigationalState = null;
     // manage navigational state
     if (eventsLength != 1) {
-      resultNavigationalState = IdentifierUtil.generateUUID(renderParameters);
+      resultNavigationalState = IdentifierUtil.generateUUID(persistentRenderParameters);
       try {
         log.debug("set new navigational state : " + resultNavigationalState);
-        persistentStateManager.putNavigationalState(resultNavigationalState, renderParameters);
+        persistentStateManager.putNavigationalState(resultNavigationalState, persistentRenderParameters);
       } catch (WSRPException e) {
         Exception2Fault.handleException(e);
       }
     }
 
-    NavigationalContext navigationalContext = new NavigationalContext();
+    navigationalContext = new NavigationalContext();
     navigationalContext.setOpaqueValue(resultNavigationalState);
-    navigationalContext.setPublicValues(Utils.getNamedStringArrayParameters(renderParameters, false)); // TODO EXOMAN: select only public
+    navigationalContext.setPublicValues(Utils.getNamedStringArrayParameters(persistentRenderParameters, false)); // TODO EXOMAN: select only public
     navigationalContext.setExtensions(null);
     updateResponse.setNavigationalContext(navigationalContext);
 
@@ -1155,43 +1155,64 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new WindowState(state.substring(WSRPConstants.WSRP_PREFIX.length()));
   }
 
-  private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws WSRPException {
-    String navigationalState = navigationalContext.getOpaqueValue();
-    log.debug("Lookup navigational state : " + navigationalState);
-    Map<String, String[]> map = persistentStateManager.getNavigationalState(navigationalState);
-    // for debug:
-    if (log.isDebugEnabled() && map != null) {
-      for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-        String key = iterator.next();
-        log.debug("attribute name in map referenced by navigationalState : " + key);
+  private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws java.rmi.RemoteException {
+    Map<String, String[]> map = null;
+    try {
+      String navigationalState = navigationalContext.getOpaqueValue();
+      log.debug("Lookup navigational state : " + navigationalState);
+      map = persistentStateManager.getNavigationalState(navigationalState);
+      // for debug:
+      if (log.isDebugEnabled() && map != null) {
+        for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+          String key = iterator.next();
+          log.debug("attribute name in map referenced by navigationalState : " + key);
+        }
       }
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
     }
+    if (map == null)
+      map = new HashMap<String, String[]>();
     return map;
   }
 
-  private Map<String, String[]> processInteractionState(String interactionState) throws WSRPException {
-    log.debug("Lookup interaction state : " + interactionState);
-    Map<String, String[]> map = persistentStateManager.getInteractionSate(interactionState);
-    // for debug:
-    if (log.isDebugEnabled() && map != null) {
-      for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-        String key = iterator.next();
-        log.debug("attribute name in map referenced by interactionState : " + key);
+  private Map<String, String[]> processInteractionState(String interactionState) throws java.rmi.RemoteException {
+    Map<String, String[]> map = null;
+    try {
+      log.debug("Lookup interaction state : " + interactionState);
+      map = persistentStateManager.getInteractionSate(interactionState);
+      // for debug:
+      if (log.isDebugEnabled() && map != null) {
+        for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+          String key = iterator.next();
+          log.debug("attribute name in map referenced by interactionState : " + key);
+        }
       }
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
     }
+    if (map == null)
+      map = new HashMap<String, String[]>();
     return map;
   }
 
-  private Map<String, String[]> processResourceState(String resourceState) throws WSRPException {
-    log.debug("Lookup resource state : " + resourceState);
-    Map<String, String[]> map = persistentStateManager.getResourceState(resourceState);
-    // for debug:
-    if (log.isDebugEnabled() && map != null) {
-      for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-        String key = iterator.next();
-        log.debug("attribute name in map referenced by resourceState : " + key);
+  private Map<String, String[]> processResourceState(String resourceState) throws java.rmi.RemoteException {
+    Map<String, String[]> map = null;
+    try {
+      log.debug("Lookup resource state : " + resourceState);
+      map = persistentStateManager.getResourceState(resourceState);
+      // for debug:
+      if (log.isDebugEnabled() && map != null) {
+        for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+          String key = iterator.next();
+          log.debug("attribute name in map referenced by resourceState : " + key);
+        }
       }
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
     }
+    if (map == null)
+      map = new HashMap<String, String[]>();
     return map;
   }
 

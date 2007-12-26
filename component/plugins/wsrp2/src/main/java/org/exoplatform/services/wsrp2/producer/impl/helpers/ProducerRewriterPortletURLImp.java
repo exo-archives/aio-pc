@@ -114,7 +114,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
-      stateManager.putNavigationalState(navigationalState, privateParams);
+      stateManager.putNavigationalState(navigationalState, parameters);//was: privateParams
     } catch (WSRPException e) {
       e.printStackTrace();
     }
@@ -126,7 +126,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     if (type.equalsIgnoreCase(PCConstants.actionString)) {
       String interactionState = IdentifierUtil.generateUUID(this);
       try {
-        stateManager.putInteractionState(interactionState, privateParams);
+        stateManager.putInteractionState(interactionState, parameters);//was: privateParams
       } catch (WSRPException e) {
         e.printStackTrace();
       }
