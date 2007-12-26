@@ -20,7 +20,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
-import java.util.Set;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
@@ -70,7 +69,7 @@ public class Input {
   // for creating URL
   private boolean                     escapeXml;
 
-  private Set<String>                 pubNames;
+  private List<String>                 pubNames;
 
   public boolean isStateSaveOnClient() {
     return stateSaveOnClient;
@@ -182,11 +181,11 @@ public class Input {
     this.escapeXml = escapeXml;
   }
 
-  public void setPublicParamNames(Set<String> pubNames) {
+  public void setPublicParamNames(List<String> pubNames) {
     this.pubNames = pubNames;
   }
 
-  public Set<String> getPublicParamNames() {
+  public List<String> getPublicParamNames() {
     return pubNames;
   }
 

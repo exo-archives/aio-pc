@@ -503,7 +503,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     // only RenderInput has public params
     if (!(getInput() instanceof RenderInput))
       return getParameterMap();
-    Set<String> pubNames = ((RenderInput) getInput()).getPublicParamNames();
+    List<String> pubNames = ((RenderInput) getInput()).getPublicParamNames();
     if (pubNames == null)
       return getParameterMap();
     HashMap<String, String[]> privateMap = new HashMap<String, String[]>();
@@ -522,7 +522,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     // only RenderInput has public params
     if (!(getInput() instanceof RenderInput))
       return Collections.unmodifiableMap(new HashMap<String, String[]>());
-    Set<String> pubNames = ((RenderInput) getInput()).getPublicParamNames();
+    List<String> pubNames = ((RenderInput) getInput()).getPublicParamNames();
     if (pubNames == null)
       return Collections.unmodifiableMap(new HashMap<String, String[]>());
     HashMap<String, String[]> publicMap = new HashMap<String, String[]>();

@@ -21,7 +21,6 @@ import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -60,6 +59,7 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.TransientStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPConsumerRewriterPortletURLFactory;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
@@ -144,6 +144,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   UserContext userContext,
                                   MarkupParams markupParams) throws RemoteException {
 
+    if (!Helper.checkLifetime(registrationContext, userContext))
+      return null;
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
     // markupParams.getNavigationalContext().getPublicValues()
@@ -275,7 +277,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setRenderParameters(renderParameters);
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
-    input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
+    input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
     // createUserProfile(userContext, request, session);
 
     RenderOutput output = null;
@@ -332,6 +334,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                 UserContext userContext,
                                                                 MarkupParams markupParams,
                                                                 InteractionParams interactionParams) throws RemoteException {
+    if (!Helper.checkLifetime(registrationContext, userContext))
+      return null;
     try {
       // manage the portlet handle
       String portletHandle = portletContext.getPortletHandle();
@@ -485,7 +489,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
       input.setRenderParameters(renderParameters);
-      input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
+      input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
       ActionOutput output = null;
       try {
@@ -529,7 +533,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         updateResponse.setPortletContext(portletContext);
 
         // TODO EXOMAN
-        // 
+        //
         // portletDatas.getSupportedPublicRenderParameter()
         // markupParams.getNavigationalContext().getPublicValues()
 
@@ -573,6 +577,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                       RuntimeContext runtimeContext,
                                       UserContext userContext,
                                       ResourceParams resourceParams) throws java.rmi.RemoteException {
+    if (!Helper.checkLifetime(registrationContext, userContext))
+      return null;
     try {
 
       // manage the portlet handle
@@ -719,7 +725,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletPreferencesPersister(persister);
       input.setResourceID(resourceParams.getResourceID());
       input.setCacheability(resourceParams.getResourceCacheability());
-      input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
+      input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
 
       ResourceOutput output = null;
@@ -771,6 +777,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                            MarkupParams markupParams,
                                            EventParams eventParams) throws java.rmi.RemoteException {
 
+    if (!Helper.checkLifetime(registrationContext, userContext))
+      return null;
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -914,7 +922,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
-      input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
+      input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
       EventOutput output = null;
       try {
@@ -989,7 +997,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     handleEventsResponse.setUpdateResponse(updateResponse);
     // converting failed events from list to array and set that
-    handleEventsResponse.setFailedEvents((HandleEventsFailed[]) failedEventsList.toArray(new HandleEventsFailed[failedEventsList.size()]));
+    handleEventsResponse.setFailedEvents(failedEventsList.toArray(new HandleEventsFailed[failedEventsList.size()]));
 
     return handleEventsResponse;
   }
@@ -1013,7 +1021,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
             // new added parameter
             result.put(name, new String[] { value });
           } else {
-            // next added parameter 
+            // next added parameter
             String[] oldArray = result.get(name);
             String[] newArray = new String[oldArray.length + 1];
             int i = 0;
@@ -1154,7 +1162,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for debug:
     if (log.isDebugEnabled() && map != null) {
       for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-        String key = (String) iterator.next();
+        String key = iterator.next();
         log.debug("attribute name in map referenced by navigationalState : " + key);
       }
     }
@@ -1167,7 +1175,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for debug:
     if (log.isDebugEnabled() && map != null) {
       for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-        String key = (String) iterator.next();
+        String key = iterator.next();
         log.debug("attribute name in map referenced by interactionState : " + key);
       }
     }
@@ -1180,7 +1188,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for debug:
     if (log.isDebugEnabled() && map != null) {
       for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-        String key = (String) iterator.next();
+        String key = iterator.next();
         log.debug("attribute name in map referenced by resourceState : " + key);
       }
     }
@@ -1197,7 +1205,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     for (int i = 0; i < mimeTypes.length; i++) {
       String mimeType = mimeTypes[i];
       for (Iterator<Supports> iterator = l.iterator(); iterator.hasNext();) {
-        String supports = ((Supports) iterator.next()).getMimeType();
+        String supports = (iterator.next()).getMimeType();
         if (supports.equalsIgnoreCase(mimeType))
           return mimeType;
       }
@@ -1211,7 +1219,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     if (conf.isSavePortletStateOnConsumer()) {
       log.debug("Save state on consumer");
       return portletContext.getPortletState();
-    } 
+    }
     log.debug("Save state on producer");
     return null;
   }

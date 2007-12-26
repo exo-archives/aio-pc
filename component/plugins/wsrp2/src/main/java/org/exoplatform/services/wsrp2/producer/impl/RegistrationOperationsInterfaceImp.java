@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.rmi.RemoteException;
@@ -39,7 +39,7 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  *         benjmestrallet@users.sourceforge.net
  */
 public class RegistrationOperationsInterfaceImp
-    implements RegistrationOperationsInterface {
+implements RegistrationOperationsInterface {
 
   private Log log;
 
@@ -51,11 +51,11 @@ public class RegistrationOperationsInterfaceImp
   }
 
   public RegistrationContext register(RegistrationData data)
-      throws RemoteException {
-    
-	  //necessaire pour la verification de l'agent, pourquoi ?
-	  data.setConsumerAgent("exoplatform.1.0");
-  	log.debug("Register method entered");
+  throws RemoteException {
+
+    //necessaire pour la verification de l'agent, pourquoi ?
+    data.setConsumerAgent("exoplatform.1.0");
+    log.debug("Register method entered");
     String registrationHandle = null;
     byte[] registrationState = null;
     try {
@@ -73,9 +73,9 @@ public class RegistrationOperationsInterfaceImp
     return rC;
   }
 
-  
+
   public RegistrationContext register(RegistrationData data, Lifetime lifetime, UserContext userContext)
-                                      throws RemoteException {
+  throws RemoteException {
 
     // necessaire pour la verification de l'agent, pourquoi ?
     data.setConsumerAgent("exoplatform.1.0");
@@ -97,13 +97,13 @@ public class RegistrationOperationsInterfaceImp
     rC.setScheduledDestruction(lifetime);
     log.debug("Registration done with handle : " + registrationHandle +" for owner : " + owner);
     return rC;
-}
+  }
 
-  
-  
+
+
   public RegistrationState modifyRegistration(RegistrationContext registrationContext,
-                                              RegistrationData data)
-      throws RemoteException {
+      RegistrationData data)
+  throws RemoteException {
     log.debug("Modify registrion method entered");
     try {
       if (!stateManager.isRegistered(registrationContext)) {
@@ -125,8 +125,8 @@ public class RegistrationOperationsInterfaceImp
   }
 
   public RegistrationState modifyRegistration(RegistrationContext registrationContext,
-                                              RegistrationData data,
-                                              UserContext userContext)
+      RegistrationData data,
+      UserContext userContext)
   throws RemoteException {
     String owner = userContext.getUserContextKey();
     log.debug("Modify registrion method entered for owner " + owner);
@@ -149,10 +149,10 @@ public class RegistrationOperationsInterfaceImp
     return new RegistrationState();//the state is kept in the producer (not send to the consumer)
   }
 
-  
-  
+
+
   public ReturnAny deregister(RegistrationContext registrationContext)
-      throws RemoteException {
+  throws RemoteException {
     log.debug("Deregister method entered");
     try {
       if (!stateManager.isRegistered(registrationContext)) {
@@ -171,71 +171,71 @@ public class RegistrationOperationsInterfaceImp
   }
 
   public ReturnAny deregister(RegistrationContext registrationContext, UserContext userContext)
-                    throws RemoteException {
+  throws RemoteException {
     String owner = userContext.getUserContextKey();
     log.debug("Deregister method entered for owner:" + owner);
     try {
       if (!stateManager.isRegistered(registrationContext)) {
-      Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
       }
     } catch (WSRPException e) {
-    Exception2Fault.handleException(e);
+      Exception2Fault.handleException(e);
     }
     try {
       stateManager.deregister(registrationContext);
     } catch (WSRPException e) {
       log.debug("Registration failed", e);
-    Exception2Fault.handleException(e);
+      Exception2Fault.handleException(e);
     }
     return new ReturnAny();
   }
-  
-  
+
+
   public Lifetime getRegistrationLifetime (RegistrationContext registrationContext,
-                                           UserContext userContext)  
+      UserContext userContext)
   throws RemoteException {
 
     try {
       if (!stateManager.isRegistered(registrationContext)) {
-      Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
       }
     } catch (WSRPException e) {
-    Exception2Fault.handleException(e);
+      Exception2Fault.handleException(e);
     }
     String owner = userContext.getUserContextKey();
     log.debug("getRegistrationLifetime method entered for owner:" + owner);
     Lifetime lifetime =  registrationContext.getScheduledDestruction();
     return lifetime;
   }
-  
-    public Lifetime setRegistrationLifetime (RegistrationContext registrationContext,
-                                           UserContext userContext, Lifetime lifetime)  
-        throws RemoteException {
-      try {
-           if (!stateManager.isRegistered(registrationContext)) {
-           Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
-           }
-       } catch (WSRPException e) {
-         Exception2Fault.handleException(e);
-       }
-    
-      String owner = userContext.getUserContextKey();
-      log.debug("setRegistrationLifetime method entered for owner:" + owner);
-      
-//      if (lifetime == null)
-//      {
-//       log.debug("getRegistrationLifetime method failed entered for owner:" + owner + ", now deregistering");
-//       deregister(registrationContext, userContext);
-//      } else {
-      registrationContext.setScheduledDestruction(lifetime);  
-//      }
-      return lifetime;
+
+  public Lifetime setRegistrationLifetime (RegistrationContext registrationContext,
+      UserContext userContext, Lifetime lifetime)
+  throws RemoteException {
+    try {
+      if (!stateManager.isRegistered(registrationContext)) {
+        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+      }
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
+    }
+
+    String owner = userContext.getUserContextKey();
+    log.debug("setRegistrationLifetime method entered for owner:" + owner);
+
+//  if (lifetime == null)
+//  {
+//  log.debug("getRegistrationLifetime method failed entered for owner:" + owner + ", now deregistering");
+//  deregister(registrationContext, userContext);
+//  } else {
+    registrationContext.setScheduledDestruction(lifetime);
+//  }
+    return lifetime;
 
   }
 
-  
+
   private void validateRegistrationDatas(RegistrationData data)
-      throws WSRPException {
+  throws WSRPException {
     String consumerAgent = data.getConsumerAgent();
     String[] members = StringUtils.split(consumerAgent, ".");
     if (!StringUtils.isNumeric(members[1])) {

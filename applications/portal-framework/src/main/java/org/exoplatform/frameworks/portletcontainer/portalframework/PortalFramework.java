@@ -651,13 +651,13 @@ public class PortalFramework {
    * @param plt portlet name
    * @return set of public portlet names
    */
-  private HashSet<String> getPublicNamesSet(final String plt) {
+  private ArrayList<String> getPublicNamesSet(final String plt) {
     final List<String> pubs = publicParams.get(plt);
-    final HashSet<String> pubNames;
+    final ArrayList<String> pubNames;
     if (pubs == null)
-      pubNames = new HashSet<String>();
+      pubNames = new ArrayList<String>();
     else
-      pubNames = new HashSet<String>(pubs);
+      pubNames = new ArrayList<String>(pubs);
     return pubNames;
   }
 
