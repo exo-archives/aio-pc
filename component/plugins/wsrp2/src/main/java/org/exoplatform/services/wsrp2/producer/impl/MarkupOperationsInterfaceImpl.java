@@ -21,6 +21,7 @@ import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -274,6 +275,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setRenderParameters(renderParameters);
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
+    input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
     // createUserProfile(userContext, request, session);
 
     RenderOutput output = null;
@@ -483,6 +485,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
       input.setRenderParameters(renderParameters);
+      input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
       ActionOutput output = null;
       try {
@@ -716,6 +719,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletPreferencesPersister(persister);
       input.setResourceID(resourceParams.getResourceID());
       input.setCacheability(resourceParams.getResourceCacheability());
+      input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
 
       ResourceOutput output = null;
@@ -910,6 +914,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
+      input.setPublicParamNames(new HashSet<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
       EventOutput output = null;
       try {
@@ -1202,10 +1207,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private byte[] managePortletState(PortletContext portletContext) {
+    // default is "wsrp.save.portlet.state.on.consumer"="false"
     if (conf.isSavePortletStateOnConsumer()) {
       log.debug("Save state on consumer");
       return portletContext.getPortletState();
-    }
+    } 
     log.debug("Save state on producer");
     return null;
   }

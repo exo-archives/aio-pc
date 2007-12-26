@@ -52,6 +52,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
   private List<Supports>         supports;          // only for PortletURL
 
   private String                 cacheLevel;        // only for ResourceURL
+  
+  private List<String>           supportedPublicRenderParameter;
 
   public WSRPConsumerRewriterPortletURLFactory(String markup,
                                                String template,
@@ -72,6 +74,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
     this.sessionID = sessionID;
     this.defaultEscapeXml = defaultEscapeXml;
     this.cacheLevel = cacheLevel;
+    this.supportedPublicRenderParameter = supportedPublicRenderParameter;
   }
 
   public PortletURL createPortletURL(String type) {
@@ -83,7 +86,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                              portletHandle,
                                              stateManager,
                                              sessionID,
-                                             defaultEscapeXml);
+                                             defaultEscapeXml,
+                                             supportedPublicRenderParameter);
   }
 
   public ResourceURL createResourceURL(String type) {
@@ -94,7 +98,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                               stateManager,
                                               sessionID,
                                               defaultEscapeXml,
-                                              cacheLevel);
+                                              cacheLevel,
+                                              supportedPublicRenderParameter);
   }
 
 }

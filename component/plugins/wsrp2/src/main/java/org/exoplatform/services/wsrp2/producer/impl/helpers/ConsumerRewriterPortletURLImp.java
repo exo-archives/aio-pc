@@ -18,8 +18,10 @@
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import org.exoplatform.Constants;
@@ -46,6 +48,8 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
   private PersistentStateManager stateManager;
 
   private NamedString[]          navigationalValues;
+  
+  private List<String>           supportedPublicRenderParameter;
 
   public ConsumerRewriterPortletURLImp(String type,
                                        String baseURL,
@@ -55,17 +59,22 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
                                        String portletHandle,
                                        PersistentStateManager stateManager,
                                        String sessionID,
-                                       boolean defaultEscapeXml) {
+                                       boolean defaultEscapeXml,
+                                       List<String> supportedPublicRenderParameter) {
     super(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
+    this.supportedPublicRenderParameter = supportedPublicRenderParameter;
   }
 
   public String toString() {
     if (!setSecureCalled && isCurrentlySecured) {
       isSecure = true;
     }
+    
+    Map<String, String[]> publicParams = new HashMap<String, String[]>();
+    Map<String, String[]> privateParams = new HashMap<String, String[]>();
 
     // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);

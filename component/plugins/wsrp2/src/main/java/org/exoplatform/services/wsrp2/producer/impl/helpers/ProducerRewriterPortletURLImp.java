@@ -50,6 +50,8 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
   private NamedString[]          navigationalValues;
 
   private Extension[]            extensions;
+  
+  private List<String>           supportedPublicRenderParameter;
 
   public ProducerRewriterPortletURLImp(String type,
                                        String template,
@@ -59,11 +61,13 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
                                        String portletHandle,
                                        PersistentStateManager stateManager,
                                        String sessionID,
-                                       boolean defaultEscapeXml) {
+                                       boolean defaultEscapeXml,
+                                       List<String> supportedPublicRenderParameter) {
     super(type, template, markup, supports, isCurrentlySecured, defaultEscapeXml);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
+    this.supportedPublicRenderParameter = supportedPublicRenderParameter;
   }
 
   public String toString() {

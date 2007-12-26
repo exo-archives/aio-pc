@@ -697,11 +697,16 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 }
                 NamedString[] namedStrings = navigationalContext.getPublicValues();
                 if (namedStrings != null) {
+                  String navigationalValues = null;
                   for (NamedString namedString : namedStrings) {
                     log.debug("set new navigational values : " + namedStrings);
-                    //output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, namedString.getValue());
-                    output.setRenderParameter(namedString.getName(), namedString.getValue());
+                    if (navigationalValues == null)
+                      navigationalValues = new String();
+                    else 
+                      navigationalValues += WSRPConstants.NEXT_PARAM;
+                    navigationalValues += namedString.getName() + "=" + namedString.getValue();
                   }
+                  output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
                 }
               }
               output.setNextMode(Modes.getJsrPortletModeFromWsrpMode(updateResponse.getNewMode()));
@@ -1099,7 +1104,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   private NamedString[] getNavigationalValues(HttpServletRequest request,
                                               PortletWindowSession portletWindowSession) {
     NamedString[] resultArray = null;
-    String[] navigationalValues = request.getParameterValues(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
+    String[] navigationalValues = request.getParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES).split(WSRPConstants.NEXT_PARAM);
     // from String[] to NamedString[] converting navigational values
     if (navigationalValues != null) {
       List<NamedString> navigationalValuesList = new ArrayList<NamedString>(navigationalValues.length);
@@ -1474,10 +1479,16 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               }
               NamedString[] namedStrings = navigationalContext.getPublicValues();
               if (namedStrings != null) {
+                String navigationalValues = null;
                 for (NamedString namedString : namedStrings) {
                   log.debug("set new navigational values : " + namedStrings);
-                  output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, namedString.getValue());
+                  if (navigationalValues == null)
+                    navigationalValues = new String();
+                  else 
+                    navigationalValues += WSRPConstants.NEXT_PARAM;
+                  navigationalValues += namedString.getName() + "=" + namedString.getValue();
                 }
+                output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
               }
             }
             output.setNextMode(Modes.getJsrPortletModeFromWsrpMode(updateResponse.getNewMode()));

@@ -35,40 +35,40 @@ import org.exoplatform.services.log.ExoLogger;
  * @version: $Id: PortletApp.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class PortletApp {
-  private List<Portlet>                portlet;
+  private List<Portlet>                      portlet;
 
-  private String                       version;
+  private String                             version;
 
-  private List<CustomWindowState>      customWindowState;
+  private List<CustomWindowState>            customWindowState;
 
-  private List<CustomPortletMode>      customPortletMode;
+  private List<CustomPortletMode>            customPortletMode;
 
-  private List<SecurityConstraint>     securityConstraint;
+  private List<SecurityConstraint>           securityConstraint;
 
-  private List<UserAttribute>          userAttribute;
+  private List<UserAttribute>                userAttribute;
 
-  private List<EventDefinition>        eventDefinition;
+  private List<EventDefinition>              eventDefinition;
 
-  private List<SharedSessionAttribute> sharedSessionAttribute;
+  private List<SharedSessionAttribute>       sharedSessionAttribute;
 
-  private List<PublicRenderParameter>  publicRenderParameter;
+  private List<PublicRenderParameter>        publicRenderParameter;
 
-  private List<Filter>                 filter;
+  private List<Filter>                       filter;
 
-  private List<FilterMapping>          filterMapping;
+  private List<FilterMapping>                filterMapping;
 
-  private String                       id;
+  private String                             id;
 
   // Portlet spec 2 add:
-  private String                       resourceBundle;
+  private String                             resourceBundle;
 
-  private Map<String, String[]>        containerRuntimeOption;
+  private Map<String, String[]>              containerRuntimeOption;
 
-  private boolean                      ver2;
+  private boolean                            ver2;
 
-  private String                       defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
+  private String                             defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
 
-  private List<String>          urlGenerationListener;
+  private List<String>                       urlGenerationListener;
 
   private List<PortletURLGenerationListener> urlListeners;
 
@@ -94,7 +94,9 @@ public class PortletApp {
     this.urlListeners = urlListeners;
   }
 
-  public List<String> getUrlGenerationListener() { return urlGenerationListener; }
+  public List<String> getUrlGenerationListener() {
+    return urlGenerationListener;
+  }
 
   public void addUrlGenerationListener(String listener) {
     if (urlGenerationListener == null)
@@ -271,8 +273,7 @@ public class PortletApp {
     return containerRuntimeOption;
   }
 
-  public void addContainerRuntimeOption(String name,
-                                        String[] value) {
+  public void addContainerRuntimeOption(String name, String[] value) {
     this.containerRuntimeOption.put(name, value);
   }
 

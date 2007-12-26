@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
@@ -46,6 +47,8 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
   private NamedString[]          navigationalValues;
 
   private Extension[]            extensions;
+  
+  private List<String>           supportedPublicRenderParameter;
 
   public ProducerRewriterResourceURLImp(String type,
                                         String template,
@@ -54,11 +57,13 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
                                         PersistentStateManager stateManager,
                                         String sessionID,
                                         boolean defaultEscapeXml,
-                                        String cacheLevel) {
+                                        String cacheLevel,
+                                        List<String> supportedPublicRenderParameter) {
     super(type, template, isCurrentlySecured, defaultEscapeXml, cacheLevel);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
+    this.supportedPublicRenderParameter = supportedPublicRenderParameter;
   }
 
   public String toString() {

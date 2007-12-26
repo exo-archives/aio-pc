@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Set;
 
 import org.exoplatform.Constants;
@@ -41,6 +42,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
   private PersistentStateManager stateManager;
 
   private NamedString[]          navigationalValues;
+  
+  private List<String>           supportedPublicRenderParameter;
 
   public ConsumerRewriterResourceURLImp(String type,
                                         String baseURL,
@@ -49,11 +52,13 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
                                         PersistentStateManager stateManager,
                                         String sessionID,
                                         boolean defaultEscapeXml,
-                                        String cacheLevel) {
+                                        String cacheLevel,
+                                        List<String> supportedPublicRenderParameter) {
     super(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
+    this.supportedPublicRenderParameter = supportedPublicRenderParameter;
   }
 
   public String toString() {

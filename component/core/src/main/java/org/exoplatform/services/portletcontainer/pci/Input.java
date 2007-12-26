@@ -70,7 +70,7 @@ public class Input {
   // for creating URL
   private boolean                     escapeXml;
 
-  private Set<String>       pubNames;
+  private Set<String>                 pubNames;
 
   public boolean isStateSaveOnClient() {
     return stateSaveOnClient;
