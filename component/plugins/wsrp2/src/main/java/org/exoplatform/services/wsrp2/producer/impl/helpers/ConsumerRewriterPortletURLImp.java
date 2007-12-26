@@ -18,23 +18,20 @@
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.type.NamedString;
-import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -47,8 +44,6 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues;
-  
   private List<String>           supportedPublicRenderParameter;
 
   public ConsumerRewriterPortletURLImp(String type,
@@ -69,33 +64,32 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
   }
 
   public String toString() {
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
-    }
-    
+
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
     Map<String, String[]> privateParams = new HashMap<String, String[]>();
-
-    // process navigational state
-    String navigationalState = IdentifierUtil.generateUUID(this);
-    try {
-      stateManager.putNavigationalState(navigationalState, parameters);
-    } catch (WSRPException e) {
-      e.printStackTrace();
-    }
-
-    // process interaction state
-    String interactionState = "";
-    if (type.equalsIgnoreCase(PCConstants.actionString)) {
-      interactionState = IdentifierUtil.generateUUID(this);
-      try {
-        stateManager.putInteractionState(interactionState, parameters);
-      } catch (WSRPException e) {
-        e.printStackTrace();
+    String navigationalValuesString = new String();
+    if (parameters != null) {
+      Collection<String> keys = parameters.keySet();
+      for (String key : keys) {
+        String[] value = parameters.get(key);
+        if (supportedPublicRenderParameter != null && supportedPublicRenderParameter.contains(key)) {
+          //PUBLIC
+          publicParams.put(key, value);
+          // process navigationalValuesString
+          for (String param : value) {
+            if (navigationalValuesString != "")
+              navigationalValuesString += "&";
+            navigationalValuesString += key + "=" + param;
+          }
+        } else {
+          //PRIVATE
+          privateParams.put(key, value);
+        }
       }
     }
 
     StringBuffer sB = new StringBuffer();
+
     sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
 
     sB.append(WSRPConstants.WSRP_URL_TYPE);
@@ -103,71 +97,71 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(type);
 
     sB.append("&");
-    sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
+    sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
     sB.append("=");
-    sB.append(portletHandle);
+    sB.append("");
 
     sB.append("&");
-    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+    sB.append(WSRPConstants.WSRP_EXTENSIONS);
     sB.append("=");
-    sB.append(navigationalState);
+    sB.append("");
 
-    // WSRP_NAVIGATIONAL_VALUES
-    if (navigationalValues != null) {
-      String navigationalValuesString = null;
-      for (NamedString namedString : navigationalValues) {
-        if (namedString != null) {
-          if (navigationalValuesString == null) {
-            // for set param first time
-            navigationalValuesString = new String();
-            navigationalValuesString.concat(namedString.getName()).concat("=").concat(namedString.getValue());
-          } else {
-            navigationalValuesString.concat("&").concat(namedString.getName()).concat("=").concat(namedString.getValue());
-          }
-        }
-      }
-      sB.append("&");
-      sB.append(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
-      sB.append("=");
-      sB.append(encode(navigationalValuesString, true));
+    if (!setSecureCalled && isCurrentlySecured) {
+      isSecure = true;
     }
-
-    sB.append("&");
-    sB.append(WSRPConstants.WSRP_INTERACTION_STATE);
-    sB.append("=");
-    sB.append(interactionState);
-
-    sB.append("&");
-    sB.append(WSRPConstants.WSRP_SESSION_ID);
-    sB.append("=");
-    sB.append(sessionID);
-
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
     sB.append(isSecure);
 
+    //if (requiredPortletMode != null) {
     sB.append("&");
-    sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
+    sB.append(WSRPConstants.WSRP_MODE);
     sB.append("=");
-    sB.append("");
+    sB.append(requiredPortletMode != null ? requiredPortletMode : "");
+    //}
 
-    if (requiredPortletMode != null) {
-      sB.append("&");
-      sB.append(WSRPConstants.WSRP_MODE);
-      sB.append("=");
-      sB.append(requiredPortletMode);
+    //if (requiredWindowState != null) {
+    sB.append("&");
+    sB.append(WSRPConstants.WSRP_WINDOW_STATE);
+    sB.append("=");
+    sB.append(requiredWindowState != null ? requiredWindowState : "");
+    //}
+
+    // process navigational state
+    String navigationalState = IdentifierUtil.generateUUID(this);
+    try {
+      stateManager.putNavigationalState(navigationalState, privateParams);
+    } catch (WSRPException e) {
+      e.printStackTrace();
     }
-    if (requiredWindowState != null) {
+    sB.append("&");
+    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+    sB.append("=");
+    sB.append(navigationalState);
+
+    sB.append("&");
+    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
+    sB.append("=");
+    sB.append(encode(navigationalValuesString, false));
+
+    // process interaction state
+    if (type.equalsIgnoreCase(PCConstants.actionString)) {
+      String interactionState = IdentifierUtil.generateUUID(this);
+      try {
+        stateManager.putInteractionState(interactionState, privateParams);
+      } catch (WSRPException e) {
+        e.printStackTrace();
+      }
       sB.append("&");
-      sB.append(WSRPConstants.WSRP_WINDOW_STATE);
+      sB.append(WSRPConstants.WSRP_INTERACTION_STATE);
       sB.append("=");
-      sB.append(requiredWindowState);
+      sB.append(interactionState);
     }
-    
+
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
-    Set names = parameters.keySet();
+    Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);

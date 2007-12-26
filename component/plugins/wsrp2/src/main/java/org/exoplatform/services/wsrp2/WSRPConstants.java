@@ -56,7 +56,7 @@ public class WSRPConstants {
   // opaque
   public static final String WSRP_NAVIGATIONAL_STATE            = "wsrp-navigationalState";
 
-  // public values
+  // it is parameter which defines updates to the public values
   public static final String WSRP_NAVIGATIONAL_VALUES           = "wsrp-navigationalValues";
 
   // ActionTextName (+RenderTextName above)

@@ -18,9 +18,11 @@
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.net.URLEncoder;
+import java.util.Collection;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.Constants;
@@ -29,9 +31,6 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.type.Extension;
-import org.exoplatform.services.wsrp2.type.NamedString;
-import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -44,10 +43,6 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
-  private NamedString[]          navigationalValues;
-
-  private Extension[]            extensions;
-  
   private List<String>           supportedPublicRenderParameter;
 
   public ProducerRewriterResourceURLImp(String type,
@@ -67,78 +62,84 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
   }
 
   public String toString() {
+
+    Map<String, String[]> publicParams = new HashMap<String, String[]>();
+    Map<String, String[]> privateParams = new HashMap<String, String[]>();
+    String navigationalValuesString = new String();
+    if (parameters != null) {
+      Collection<String> keys = parameters.keySet();
+      for (String key : keys) {
+        String[] value = parameters.get(key);
+        if (supportedPublicRenderParameter != null && supportedPublicRenderParameter.contains(key)) {
+          //PUBLIC
+          publicParams.put(key, value);
+          // process navigationalValuesString
+          for (String param : value) {
+            if (navigationalValuesString != "")
+              navigationalValuesString += "&";
+            navigationalValuesString += key + "=" + param;
+          }
+        } else {
+          //PRIVATE
+          privateParams.put(key, value);
+        }
+      }
+    }
+
+    String template = baseURL;
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
+
     String secureInfo = "false";
     if (!setSecureCalled && isCurrentlySecured) {
       isSecure = true;
       secureInfo = "true";
     }
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
 
-    // process navigational state
-    String navigationalState = IdentifierUtil.generateUUID(this);
-    try {
-      stateManager.putNavigationalState(navigationalState, parameters);
-    } catch (WSRPException e) {
-      e.printStackTrace();
-    }
+    //clear action and render params 
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
 
-    // process resource state
-    String resourceState = IdentifierUtil.generateUUID(this);
-    try {
-      stateManager.putResourceState(resourceState, parameters);
-    } catch (WSRPException e) {
-      e.printStackTrace();
-    }
-
-    String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
+    //process resource params 
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     if (resourceID != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", resourceID);
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     }
+
+    // process resource state
+    String resourceState = IdentifierUtil.generateUUID(this);
+    try {
+      stateManager.putInteractionState(resourceState, privateParams);
+    } catch (WSRPException e) {
+      e.printStackTrace();
+    }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", resourceState);
+
     if (cacheLevel != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", cacheLevel);
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
     }
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
-
-    // WSRP_NAVIGATIONAL_VALUES
-    if (navigationalValues != null) {
-      String navigationalValuesString = null;
-      for (NamedString namedString : navigationalValues) {
-        if (namedString != null) {
-          if (navigationalValuesString == null) {
-            //for set param first time
-            navigationalValuesString = new String();
-            navigationalValuesString.concat(namedString.getName()).concat("=").concat(namedString.getValue());
-          } else {
-            navigationalValuesString.concat("&").concat(namedString.getName()).concat("=").concat(namedString.getValue());
-          }
-        }
-      }
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString, true));
-    } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", "");
-    }
-
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
-
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 
-    Utils.fillExtensions(template, extensions);
+    // other parameters
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");
 
-    Set names = parameters.keySet();
+    Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);

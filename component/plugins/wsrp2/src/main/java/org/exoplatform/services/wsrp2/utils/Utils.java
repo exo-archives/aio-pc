@@ -28,7 +28,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
@@ -85,25 +84,26 @@ public class Utils {
   }
 
   public static String changeUrlTypeFromJSRPortletToWSRP(String type) {
-    if (type.equalsIgnoreCase(PCConstants.actionString)) 
+    if (type.equalsIgnoreCase(PCConstants.actionString))
       return WSRPConstants.URL_TYPE_BLOCKINGACTION;
-    if (type.equalsIgnoreCase(PCConstants.resourceString)) 
+    if (type.equalsIgnoreCase(PCConstants.resourceString))
       return WSRPConstants.URL_TYPE_RESOURCE;
-    if (type.equalsIgnoreCase(PCConstants.renderString)) 
+    if (type.equalsIgnoreCase(PCConstants.renderString))
       return WSRPConstants.URL_TYPE_RENDER;
     return type;
   }
 
   public static String changeUrlTypeFromWSRPToJSRPortlet(String type) {
-    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION)) 
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       return PCConstants.actionString;
-    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE)) 
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE))
       return PCConstants.resourceString;
-    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER)) 
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER))
       return PCConstants.renderString;
     return type;
   }
-  
+
+  // replace extensions for template
   public static void fillExtensions(String temp,
                                     Extension[] extensions) {
     if (extensions != null)
@@ -122,7 +122,7 @@ public class Utils {
   }
 
   public static NamedString[] getNamedStringArrayParameters(Map<String, String[]> params,
-                                                             boolean selectOnlyNonWSRP) {
+                                                            boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
     if (params.isEmpty())

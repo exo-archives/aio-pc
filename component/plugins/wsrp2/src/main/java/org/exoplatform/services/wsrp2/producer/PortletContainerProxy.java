@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer;
 
 import java.util.Collection;
@@ -45,31 +45,39 @@ import org.exoplatform.services.wsrp2.type.ResourceList;
 public interface PortletContainerProxy {
 
   public boolean isPortletOffered(String portletHandle);
-  
+
   public ResourceList getResourceList(String[] desiredLocales);
-  public PortletDescription getPortletDescription(String portletHandle, 
-                                                 String[] desiredLocales);
 
-  public void setPortletProperties(String portletHandle, 
-                                   String userID, 
-                                   PropertyList propertyList)
-    throws WSRPException;
+  public PortletDescription getPortletDescription(String portletHandle,
+                                                  String[] desiredLocales);
 
-  public Map<String, String[]> getPortletProperties(String portletHandle, String userID) throws WSRPException;
+  public void setPortletProperties(String portletHandle,
+                                   String userID,
+                                   PropertyList propertyList) throws WSRPException;
+
+  public Map<String, String[]> getPortletProperties(String portletHandle,
+                                                    String userID) throws WSRPException;
+
   public Map<String, PortletData> getAllPortletMetaData();
+
   //public Collection getWindowStates(String s);
+
   public Collection<WindowState> getSupportedWindowStates();
 
-  public RenderOutput render(WSRPHttpServletRequest request, WSRPHttpServletResponse response, RenderInput input)
-    throws WSRPException;
-  
-  public ActionOutput processAction(WSRPHttpServletRequest request, WSRPHttpServletResponse response, ActionInput input)
-    throws WSRPException;
-  
-  public ResourceOutput serveResource(WSRPHttpServletRequest request, WSRPHttpServletResponse response, ResourceInput input)
-    throws WSRPException;
+  public RenderOutput render(WSRPHttpServletRequest request,
+                             WSRPHttpServletResponse response,
+                             RenderInput input) throws WSRPException;
 
-  public EventOutput processEvent(WSRPHttpServletRequest request, WSRPHttpServletResponse response, EventInput input)
-    throws WSRPException;
-  
+  public ActionOutput processAction(WSRPHttpServletRequest request,
+                                    WSRPHttpServletResponse response,
+                                    ActionInput input) throws WSRPException;
+
+  public ResourceOutput serveResource(WSRPHttpServletRequest request,
+                                      WSRPHttpServletResponse response,
+                                      ResourceInput input) throws WSRPException;
+
+  public EventOutput processEvent(WSRPHttpServletRequest request,
+                                  WSRPHttpServletResponse response,
+                                  EventInput input) throws WSRPException;
+
 }

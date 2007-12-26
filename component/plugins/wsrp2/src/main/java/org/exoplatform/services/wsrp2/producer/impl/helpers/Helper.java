@@ -31,16 +31,20 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public class Helper {
 
-  public static boolean checkLifetime(RegistrationContext registrationContext, UserContext userContext) {
+  public static boolean checkLifetime(RegistrationContext registrationContext,
+                                      UserContext userContext) {
     ExoContainer cont = ExoContainerContext.getCurrentContainer();
     RegistrationOperationsInterface roi = (RegistrationOperationsInterface) cont.getComponentInstanceOfType(RegistrationOperationsInterface.class);
     try {
       Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
-      if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
-        roi.deregister(registrationContext, userContext);
-        return false;
+      if (lf != null) {
+        if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
+          roi.deregister(registrationContext, userContext);
+          return false;
+        }
       }
-    } catch (RemoteException e) { }
+    } catch (RemoteException e) {
+    }
     return true;
   }
 

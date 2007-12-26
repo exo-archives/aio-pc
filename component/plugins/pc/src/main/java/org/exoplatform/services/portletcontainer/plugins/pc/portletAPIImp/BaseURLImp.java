@@ -170,6 +170,8 @@ public abstract class BaseURLImp implements BaseURL {
 
   protected String encode(String s,
                           boolean escapeXML) {
+    if (s == null || s == "")
+      return "";
     if (escapeXML)
       s = encodeChars(s);
     try {
