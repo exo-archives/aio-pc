@@ -17,6 +17,7 @@
 package org.exoplatform.services.portletcontainer.pci;
 
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -188,5 +189,19 @@ public class Input {
   public List<String> getPublicParamNames() {
     return pubNames;
   }
+
+  public Map<String, String[]> getPublicParameterMap() {
+    if (pubNames == null)
+      return null;
+    HashMap<String, String[]> publicMap = new HashMap<String, String[]>();
+    Iterator<String> names = renderParameters.keySet().iterator();
+    while (names.hasNext()) {
+      String name = names.next();
+      if (pubNames.contains(name))
+        publicMap.put(name, renderParameters.get(name));
+    }
+    return publicMap;
+  }
+
 
 }
