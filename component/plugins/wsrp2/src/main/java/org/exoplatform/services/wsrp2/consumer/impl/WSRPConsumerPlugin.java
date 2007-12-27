@@ -1074,6 +1074,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // For NavigationalContext
     baseRequest.setNavigationalState(getNavigationalState(request, portletWindowSession));
     baseRequest.setNavigationalValues(getNavigationalValues(request, portletWindowSession));
+//    if (input.getPublicParameters()!= null)
+//      baseRequest.setNavigationalValues(Utils.getNamedStringArrayParameters(input.getPublicParameters());
 
     // For RuntimeContext
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();

@@ -39,9 +39,7 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  */
 public class Utils {
 
-  public static LocalizedString getLocalizedString(String value,
-                                                   String lang,
-                                                   String rn) {
+  public static LocalizedString getLocalizedString(String value, String lang, String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
@@ -49,16 +47,14 @@ public class Utils {
     return tmp;
   }
 
-  public static LocalizedString getLocalizedString(String value,
-                                                   String lang) {
+  public static LocalizedString getLocalizedString(String value, String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
     return tmp;
   }
 
-  public static NamedString getNamesString(String name,
-                                           String value) {
+  public static NamedString getNamesString(String name, String value) {
     NamedString tmp = new NamedString();
     tmp.setName(name);
     tmp.setValue(value);
@@ -104,15 +100,15 @@ public class Utils {
   }
 
   // replace extensions for template
-  public static void fillExtensions(String temp,
-                                    Extension[] extensions) {
+  public static void fillExtensions(String temp, Extension[] extensions) {
     if (extensions != null)
       if (extensions[0] != null)
         if (extensions[0].get_any() != null)
           if (extensions[0].get_any()[0] != null) {
             // TODO EXOMAN: need iterate foreach element of array 
             try {
-              temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
+              temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
+                  extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -121,8 +117,12 @@ public class Utils {
           }
   }
 
+  public static NamedString[] getNamedStringArrayParameters(Map<String, String[]> params) {
+    return getNamedStringArrayParameters(params, false);
+  }
+
   public static NamedString[] getNamedStringArrayParameters(Map<String, String[]> params,
-                                                            boolean selectOnlyNonWSRP) {
+      boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
     if (params.isEmpty())
@@ -146,7 +146,8 @@ public class Utils {
         }
       }
     }
-    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams
+        .size()]);
   }
 
 }
