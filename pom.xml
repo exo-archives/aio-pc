@@ -13,20 +13,16 @@
     <module>component/plugins/wsrp2</module>
     <module>applications</module>
   </modules>
+  
+  <dependencies>
+    <dependency>
+      <groupId>emma</groupId>
+      <artifactId>emma</artifactId>
+      <version>2.0.5312</version>
+      <scope>test</scope>
+    </dependency>
+  </dependencies>
 
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <property><name>default</name></property>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <exo.platform.version>trunk</exo.platform.version>
-        <exo.portlet-container.version>trunk</exo.portlet-container.version>
-      </properties>
-    </profile>
-  </profiles>
   <build>
     <plugins>
       <plugin>
@@ -46,11 +42,19 @@
           <useFile>true</useFile>
           <forkMode>pertest</forkMode>
           <testFailureIgnore>false</testFailureIgnore>
+          <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
           <includes>
             <include implementation="java.lang.String">**/Test*.java</include>
           </includes>
-        </configuration>
+          <systemProperties>
+            <property>
+              <name>emma.coverage.out.file</name>
+              <value>target/emma/coverage.ec</value>
+            </property>
+          </systemProperties>
+        </configuration>        
       </plugin>
+      
     </plugins>
   </build>
   <reporting>
@@ -65,4 +69,17 @@
       </plugin>
     </plugins>
   </reporting>
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property><name>default</name></property>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <exo.platform.version>trunk</exo.platform.version>
+        <exo.portlet-container.version>trunk</exo.portlet-container.version>
+      </properties>
+    </profile>
+  </profiles>
 </project>
