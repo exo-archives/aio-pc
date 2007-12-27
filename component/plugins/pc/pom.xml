@@ -200,6 +200,10 @@
               <name>maven.exoplatform.dir</name>
               <value></value>
             </property>
+            <property>
+              <name>emma.coverage.out.file</name>
+              <value>target/emma/coverage.ec</value>
+            </property>
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
