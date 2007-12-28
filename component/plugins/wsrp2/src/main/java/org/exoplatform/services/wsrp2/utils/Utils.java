@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -39,7 +40,9 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  */
 public class Utils {
 
-  public static LocalizedString getLocalizedString(String value, String lang, String rn) {
+  public static LocalizedString getLocalizedString(String value,
+                                                   String lang,
+                                                   String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
@@ -47,14 +50,16 @@ public class Utils {
     return tmp;
   }
 
-  public static LocalizedString getLocalizedString(String value, String lang) {
+  public static LocalizedString getLocalizedString(String value,
+                                                   String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
     return tmp;
   }
 
-  public static NamedString getNamesString(String name, String value) {
+  public static NamedString getNamesString(String name,
+                                           String value) {
     NamedString tmp = new NamedString();
     tmp.setName(name);
     tmp.setValue(value);
@@ -100,15 +105,15 @@ public class Utils {
   }
 
   // replace extensions for template
-  public static void fillExtensions(String temp, Extension[] extensions) {
+  public static void fillExtensions(String temp,
+                                    Extension[] extensions) {
     if (extensions != null)
       if (extensions[0] != null)
         if (extensions[0].get_any() != null)
           if (extensions[0].get_any()[0] != null) {
             // TODO EXOMAN: need iterate foreach element of array 
             try {
-              temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
-                  extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
+              temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -117,37 +122,61 @@ public class Utils {
           }
   }
 
-  public static NamedString[] getNamedStringArrayParameters(Map<String, String[]> params) {
-    return getNamedStringArrayParameters(params, false);
+  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params) {
+    return getNamedStringArrayParametersFromMap(params, false);
   }
 
-  public static NamedString[] getNamedStringArrayParameters(Map<String, String[]> params,
-      boolean selectOnlyNonWSRP) {
+  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
+                                                                   boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
     if (params.isEmpty())
-      return null;
+      return new NamedString[]{};
     Set<String> keys = params.keySet();
     List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
     Iterator<String> iteratorKeys = keys.iterator();
     while (iteratorKeys.hasNext()) {
-      String name = (String) iteratorKeys.next();
-      if (selectOnlyNonWSRP) {
-        if (!name.startsWith(WSRPConstants.WSRP_PARAMETER_PREFIX)) {
-          String[] values = (String[]) params.get(name);
-          for (String value : values) {
-            listNamedStringParams.add(getNamesString(name, value));
-          }
-        }
-      } else {
-        String[] values = (String[]) params.get(name);
+      String name = iteratorKeys.next();
+      if ((selectOnlyNonWSRP && !name.startsWith(WSRPConstants.WSRP_PARAMETER_PREFIX)) || !selectOnlyNonWSRP) {
+        String[] values = params.get(name);
         for (String value : values) {
           listNamedStringParams.add(getNamesString(name, value));
         }
       }
     }
-    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams
-        .size()]);
+    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+  }
+
+  public static Map<String, String[]> getMapParametersFromNamedStringArray(NamedString[] array) {
+    if (array == null)
+      return null;
+    Map<String, String[]> result = new HashMap<String, String[]>();
+    if (array != null) {
+      for (NamedString namedString : array) {
+        String name = namedString.getName();
+        String value = namedString.getValue();
+        if (value != null) {
+          if (result.get(name) == null) {
+            // new added parameter
+            result.put(name, new String[] { value });
+          } else {
+            // next added parameter
+            Arrays.asList(result.get(name)).add(value);
+//            String[] oldArray = result.get(name);
+//            String[] newArray = new String[oldArray.length + 1];
+//            int i = 0;
+//            if (oldArray != null) {
+//              for (String v : oldArray) {
+//                newArray[i++] = v;
+//              }
+//            }
+//            newArray[i] = value;
+//            result.put(name, newArray);
+          }
+        }
+      }
+    }
+    return result;
   }
 
 }

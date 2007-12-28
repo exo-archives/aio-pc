@@ -194,16 +194,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // get portlet data
     PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
-    
+    // PROCESS PARAMETERS    
+
+    // get public param names from config
+    List<String> publicParamNames = portletData.getSupportedPublicRenderParameter();
     // manage navigational context
     NavigationalContext navigationalContext = markupParams.getNavigationalContext();
-
     // process opaque (navigational) values
-    Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
-    
+    Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
-    
+    Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
+
+    // create render params map for input
+    Map<String, String[]> renderParameters = null;
+    renderParameters = persistentNavigationalParameters;
+
+    replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
@@ -273,10 +279,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
     input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
     input.setMarkup(mimeType);
-    input.setRenderParameters(persistentRenderParameters);
+    input.setRenderParameters(renderParameters);
+    input.setPublicParamNames(publicParamNames);
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
-    input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
     // createUserProfile(userContext, request, session);
 
     RenderOutput output = null;
@@ -435,24 +441,34 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
         Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
       }
-      
-      
+
+      // PROCESS PARAMETERS
+
+      // get public param names from config
+      List<String> publicParamNames = portletData.getSupportedPublicRenderParameter();
       // manage navigational context
       NavigationalContext navigationalContext = markupParams.getNavigationalContext();
-
       // process opaque (navigational) values
-      Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
-      
+      Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
       // get navigational (public) values
-      Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
-      
+      Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
       // manage form parameters
-      Map<String, String[]> formParameters = getFormParameters(interactionParams.getFormParameters());
-      
+      Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
       // manage interaction state
       Map<String, String[]> persistentInteractionParameters = processInteractionState(interactionParams.getInteractionState());
 
-      
+      // create render params map for input
+      Map<String, String[]> renderParameters = null;
+      if (formParameters != null && !formParameters.isEmpty()) { // default
+        renderParameters = formParameters;
+      } else if (persistentInteractionParameters != null && !persistentInteractionParameters.isEmpty()) {
+        renderParameters = persistentInteractionParameters;
+      } else if (persistentNavigationalParameters != null && !persistentNavigationalParameters.isEmpty()) {
+        renderParameters = persistentNavigationalParameters;
+      }
+
+      replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
+
       // prepare objects for portlet container
       WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
       WSRPHttpServletResponse response = new WSRPHttpServletResponse();
@@ -476,8 +492,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
-      input.setRenderParameters(formParameters);
-      input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
+      input.setRenderParameters(renderParameters);
+      input.setPublicParamNames(publicParamNames);
       // createUserProfile(userContext, request, session);
       ActionOutput output = null;
       try {
@@ -520,28 +536,35 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
           portletContext.setPortletState(output.getPortletState());
         updateResponse.setPortletContext(portletContext);
 
-        // TODO EXOMAN
-        //
-        // portletDatas.getSupportedPublicRenderParameter()
-        // markupParams.getNavigationalContext().getPublicValues()
+        // get render parameters
+        renderParameters = output.getRenderParameters();
 
         // manage navigational state, save render parameters
-        String navigationalState = null;//markupParams.getNavigationalContext().getOpaqueValue();
-        if (navigationalState == null) {
-          navigationalState = IdentifierUtil.generateUUID(output);
-        }
+        String navigationalState = IdentifierUtil.generateUUID(output);//markupParams.getNavigationalContext().getOpaqueValue();
         try {
           log.debug("set new navigational state : " + navigationalState);
-          persistentStateManager.putNavigationalState(navigationalState, output.getRenderParameters());
+          persistentStateManager.putNavigationalState(navigationalState, renderParameters);
         } catch (WSRPException e) {
           e.printStackTrace();
           Exception2Fault.handleException(e);
         }
 
-        // copy from old markup params to response
+        // get public parameters
+        Map<String, String[]> publicParameters = null;
+        // put all public params from output
+        if (publicParamNames != null) {
+          publicParameters = new HashMap<String, String[]>();
+          for (String name : publicParamNames) {
+            if (renderParameters.containsKey(name)) {
+              publicParameters.put(name, renderParameters.get(name));
+            }
+          }
+        }
+
+        // create navigational context
         NavigationalContext newNavigationalContext = new NavigationalContext();
         newNavigationalContext.setOpaqueValue(navigationalState);
-        newNavigationalContext.setPublicValues(null);//oldNavigationalContext.getPublicValues());
+        newNavigationalContext.setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
         newNavigationalContext.setExtensions(null);
         updateResponse.setNavigationalContext(newNavigationalContext);
 
@@ -560,14 +583,35 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return null;
   }
 
-  private Map<String, String[]> getNavigationalParameters(NamedString[] publicValues) {
-    Map<String, String[]> navigationalParameters = new HashMap<String, String[]>();
-    if (publicValues != null) {
-      for (NamedString namedString : publicValues) {
-        navigationalParameters.put(namedString.getName(), new String[] { namedString.getValue() });
+  private void replacePublicParams(Map<String, String[]> renderParameters,
+                                   List<String> publicParamNames,
+                                   Map<String, String[]> navigationalParameters) {
+    // delete all public and put new public from input
+    if (publicParamNames != null) {
+      for (String param : publicParamNames) {
+        if (renderParameters.containsKey(param)) {
+          renderParameters.remove(param);
+        }
       }
     }
-    return navigationalParameters;
+    // add public params
+    if (navigationalParameters != null) {
+      if (renderParameters == null) {
+        renderParameters = new HashMap<String, String[]>();
+      }
+      renderParameters.putAll(navigationalParameters);
+    }
+  }
+
+  private Map<String, String[]> getPublicValues(NamedString[] publicValues) {
+    Map<String, String[]> result = null;
+    if (publicValues != null) {
+      result = new HashMap<String, String[]>();
+      for (NamedString namedString : publicValues) {
+        result.put(namedString.getName(), new String[] { namedString.getValue() });
+      }
+    }
+    return result;
   }
 
   public ResourceResponse getResource(RegistrationContext registrationContext,
@@ -624,23 +668,33 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // get portlet data
       PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
-      
+      // PROCESS PARAMETERS
+
+      // get public param names from config
+      List<String> publicParamNames = portletData.getSupportedPublicRenderParameter();
       // manage navigational context
       NavigationalContext navigationalContext = resourceParams.getNavigationalContext();
-
       // process opaque (navigational) values
-      Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
-      
+      Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
       // get navigational (public) values
-      Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
-      
+      Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
       // manage form parameters
-      Map<String, String[]> formParameters = getFormParameters(resourceParams.getFormParameters());
-      
+      Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(resourceParams.getFormParameters());
       // process resource parameters
       Map<String, String[]> persistentResourceParameters = processResourceState(resourceParams.getResourceState());
 
-      
+      // create render params map for input
+      Map<String, String[]> renderParameters = null;
+      if (formParameters != null && !formParameters.isEmpty()) { // default
+        renderParameters = formParameters;
+      } else if (persistentResourceParameters != null && !persistentResourceParameters.isEmpty()) {
+        renderParameters = persistentResourceParameters;
+      } else if (persistentNavigationalParameters != null && !persistentNavigationalParameters.isEmpty()) {
+        renderParameters = persistentNavigationalParameters;
+      }
+
+      replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
+
       // manage portlet state
       byte[] portletState = managePortletState(portletContext);
 
@@ -710,12 +764,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletMode(mode);
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
-      input.setRenderParameters(formParameters);
+      input.setRenderParameters(renderParameters);
+      input.setPublicParamNames(publicParamNames);
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
       input.setResourceID(resourceParams.getResourceID());
       input.setCacheability(resourceParams.getResourceCacheability());
-      input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
 
       ResourceOutput output = null;
@@ -880,16 +934,24 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
     List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
 
+    // PROCESS PARAMETERS
 
+    // get public param names from config
+    List<String> publicParamNames = portletData.getSupportedPublicRenderParameter();
     // manage navigational context
     NavigationalContext navigationalContext = markupParams.getNavigationalContext();
-
     // process opaque (navigational) values
-    Map<String, String[]> persistentRenderParameters = processNavigationalState(navigationalContext);
-    
+    Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = getNavigationalParameters(navigationalContext.getPublicValues());
-    
+    Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
+
+    // create render params map for input
+    Map<String, String[]> renderParameters = null;
+    renderParameters = persistentNavigationalParameters;
+
+    replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
+
+    String navigationalState = null;
 
     Integer index = 0;
     int eventsLength = events.length;
@@ -916,12 +978,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
       input.setEvent(event);
-      input.setRenderParameters(persistentRenderParameters);
+      input.setRenderParameters(renderParameters);
+      input.setPublicParamNames(publicParamNames);
       //      input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
-      input.setPublicParamNames(new ArrayList<String>(portletData.getSupportedPublicRenderParameter()));
       // createUserProfile(userContext, request, session);
       EventOutput output = null;
       try {
@@ -943,22 +1005,25 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       }
 
       resultNativeEventsList.addAll(output.getEvents());
-      persistentRenderParameters = output.getRenderParameters();
+
       if (output.getNextMode() != null)
         mode = output.getNextMode();
       if (output.getNextState() != null)
         windowState = output.getNextState();
 
+      // get render parameters for next iteration of processEvent or to client
+      renderParameters = output.getRenderParameters();
+
       // unnecessary manage navigational state for each process event
-      if (eventsLength == 1) {
-        String resultNavigationalState = IdentifierUtil.generateUUID(output);
-        try {
-          log.debug("set new navigational state : " + resultNavigationalState);
-          persistentStateManager.putNavigationalState(resultNavigationalState, output.getRenderParameters());
-        } catch (WSRPException e) {
-          Exception2Fault.handleException(e);
-        }
+      //      if (eventsLength == 1) {
+      navigationalState = IdentifierUtil.generateUUID(output);
+      try {
+        log.debug("set new navigational state : " + navigationalState);
+        persistentStateManager.putNavigationalState(navigationalState, renderParameters);
+      } catch (WSRPException e) {
+        Exception2Fault.handleException(e);
       }
+      //      }
     }
 
     UpdateResponse updateResponse = new UpdateResponse();
@@ -977,22 +1042,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     updateResponse.setMarkupContext(markupContext);
     updateResponse.setPortletContext(portletContext);
 
-    String resultNavigationalState = null;
-    // manage navigational state
-    if (eventsLength != 1) {
-      resultNavigationalState = IdentifierUtil.generateUUID(persistentRenderParameters);
-      try {
-        log.debug("set new navigational state : " + resultNavigationalState);
-        persistentStateManager.putNavigationalState(resultNavigationalState, persistentRenderParameters);
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
+    // get public parameters
+    Map<String, String[]> publicParameters = new HashMap<String, String[]>();
+    // put all public params from output
+    if (publicParamNames != null) {
+      for (String name : publicParamNames) {
+        if (renderParameters.containsKey(name)) {
+          publicParameters.put(name, renderParameters.get(name));
+        }
       }
     }
 
-    navigationalContext = new NavigationalContext();
-    navigationalContext.setOpaqueValue(resultNavigationalState);
-    navigationalContext.setPublicValues(Utils.getNamedStringArrayParameters(persistentRenderParameters, false)); // TODO EXOMAN: select only public
-    navigationalContext.setExtensions(null);
+    // create navigational context
+    NavigationalContext newNavigationalContext = new NavigationalContext();
+    newNavigationalContext.setOpaqueValue(navigationalState);
+    newNavigationalContext.setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
     updateResponse.setNavigationalContext(navigationalContext);
 
     handleEventsResponse.setUpdateResponse(updateResponse);
@@ -1002,42 +1066,42 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return handleEventsResponse;
   }
 
-  private Map<String, String[]> getFormParameters(NamedString[] array) {
-    Map<String, String[]> result = null;
-    if (array == null) {
-      log.debug("no form parameters");
-      return result;
-    }
-    result = new HashMap<String, String[]>();
-    if (array != null) {
-      for (NamedString namedString : array) {
-        if (log.isDebugEnabled()) {
-          log.debug("InteractionParams: form parameters; name : " + namedString.getName() + "; value : " + namedString.getValue());
-        }
-        String name = namedString.getName();
-        String value = namedString.getValue();
-        if (value != null) {
-          if (result.get(name) == null) {
-            // new added parameter
-            result.put(name, new String[] { value });
-          } else {
-            // next added parameter
-            String[] oldArray = result.get(name);
-            String[] newArray = new String[oldArray.length + 1];
-            int i = 0;
-            if (oldArray != null) {
-              for (String v : oldArray) {
-                newArray[i++] = v;
-              }
-            }
-            newArray[i] = value;
-            result.put(name, newArray);
-          }
-        }
-      }
-    }
-    return result;
-  }
+  //  private Map<String, String[]> getFormParameters(NamedString[] array) {
+  //    Map<String, String[]> result = null;
+  //    if (array == null) {
+  //      log.debug("no form parameters");
+  //      return result;
+  //    }
+  //    result = new HashMap<String, String[]>();
+  //    if (array != null) {
+  //      for (NamedString namedString : array) {
+  //        if (log.isDebugEnabled()) {
+  //          log.debug("InteractionParams: form parameters; name : " + namedString.getName() + "; value : " + namedString.getValue());
+  //        }
+  //        String name = namedString.getName();
+  //        String value = namedString.getValue();
+  //        if (value != null) {
+  //          if (result.get(name) == null) {
+  //            // new added parameter
+  //            result.put(name, new String[] { value });
+  //          } else {
+  //            // next added parameter
+  //            String[] oldArray = result.get(name);
+  //            String[] newArray = new String[oldArray.length + 1];
+  //            int i = 0;
+  //            if (oldArray != null) {
+  //              for (String v : oldArray) {
+  //                newArray[i++] = v;
+  //              }
+  //            }
+  //            newArray[i] = value;
+  //            result.put(name, newArray);
+  //          }
+  //        }
+  //      }
+  //    }
+  //    return result;
+  //  }
 
   public ReturnAny initCookie(RegistrationContext registrationContext) throws RemoteException {
     if (conf.isRegistrationRequired()) {

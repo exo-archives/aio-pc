@@ -18,8 +18,11 @@
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp2.consumer.PortletDriver;
@@ -208,7 +211,7 @@ public class PortletDriverImpl implements PortletDriver {
           doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
           getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
           if (getTemplatesStoredInSession) {
-            
+
           }
 
           Templates templates = null;
@@ -308,9 +311,10 @@ public class PortletDriverImpl implements PortletDriver {
       String content = getMarkupContent(markupContext);
 
       if (markupContext.getMimeType().startsWith("text/")) {
+        String rewrittenMarkup = null;
         if (requiresRewriting) {
           URLRewriter urlRewriter = consumer.getURLRewriter();
-          String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
+          rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
           log.debug("rewrittenMarkup = " + rewrittenMarkup);
           if (rewrittenMarkup != null) {
             markupContext.setItemString(rewrittenMarkup);
@@ -319,6 +323,16 @@ public class PortletDriverImpl implements PortletDriver {
             } catch (java.io.UnsupportedEncodingException e) {
               markupContext.setItemBinary(markupContext.getItemString().getBytes());
             }
+          }
+        } else {
+          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + WSRPConstants.URL_TYPE_BLOCKINGACTION;
+          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.actionString;
+          rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
+          markupContext.setItemString(rewrittenMarkup);
+          try {
+            markupContext.setItemBinary(markupContext.getItemString().getBytes("utf-8"));
+          } catch (java.io.UnsupportedEncodingException e) {
+            markupContext.setItemBinary(markupContext.getItemString().getBytes());
           }
         }
       }
@@ -573,9 +587,10 @@ public class PortletDriverImpl implements PortletDriver {
       String content = getResourceContent(resourceContext);
 
       if (resourceContext.getMimeType().startsWith("text/")) {
+        String rewrittenMarkup = null;
         if (requiresRewriting) {
           URLRewriter urlRewriter = consumer.getURLRewriter();
-          String rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
+          rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
           log.debug("rewrittenMarkup = " + rewrittenMarkup);
           if (rewrittenMarkup != null) {
             resourceContext.setItemString(rewrittenMarkup);
@@ -584,6 +599,16 @@ public class PortletDriverImpl implements PortletDriver {
             } catch (java.io.UnsupportedEncodingException e) {
               resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
             }
+          }
+        } else {
+          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + WSRPConstants.URL_TYPE_BLOCKINGACTION;
+          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.actionString;
+          rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
+          resourceContext.setItemString(rewrittenMarkup);
+          try {
+            resourceContext.setItemBinary(resourceContext.getItemString().getBytes("utf-8"));
+          } catch (java.io.UnsupportedEncodingException e) {
+            resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
           }
         }
       }

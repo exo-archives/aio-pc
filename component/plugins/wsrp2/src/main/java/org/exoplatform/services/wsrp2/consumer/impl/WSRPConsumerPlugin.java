@@ -648,7 +648,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         UserSessionMgr userSession = getUserSession(request.getSession(), portletKey.getProducerId());
         PortletWindowSession windowSession = getWindowSession(portletKey, portlet, userSession, key);
 
-        WSRPInteractionRequest iRequest = getInteractionRequest(request, input, windowSession);
+        WSRPInteractionRequest iRequest = getInteractionRequest(input, windowSession);
 
         String baseURL = null;
         //        baseURL = request.getRequestURI();
@@ -688,27 +688,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               }
               updatePortletContext(updateResponse.getPortletContext(), portlet);
 
-              NavigationalContext navigationalContext = updateResponse.getNavigationalContext();
-              if (navigationalContext != null) {
-                String navState = navigationalContext.getOpaqueValue();
-                if (navState != null) {
-                  log.debug("set new navigational state : " + navState);
-                  output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE, navState);
-                }
-                NamedString[] namedStrings = navigationalContext.getPublicValues();
-                if (namedStrings != null) {
-                  String navigationalValues = null;
-                  for (NamedString namedString : namedStrings) {
-                    log.debug("set new navigational values : " + namedStrings);
-                    if (navigationalValues == null)
-                      navigationalValues = new String();
-                    else
-                      navigationalValues += WSRPConstants.NEXT_PARAM;
-                    navigationalValues += namedString.getName() + "=" + namedString.getValue();
-                  }
-                  output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
-                }
-              }
+              processNavigationalContext(output, updateResponse.getNavigationalContext());
+
               output.setNextMode(Modes.getJsrPortletModeFromWsrpMode(updateResponse.getNewMode()));
               output.setNextState(WindowStates.getJsrPortletStateFromWsrpState(updateResponse.getNewWindowState()));
               // set events
@@ -725,6 +706,30 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
     }
     return output;
+  }
+
+  private void processNavigationalContext(EventOutput output,
+                                          NavigationalContext navigationalContext) {
+    if (navigationalContext != null) {
+      String navState = navigationalContext.getOpaqueValue();
+      if (navState != null) {
+        log.debug("set new navigational state : " + navState);
+        output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE, navState);
+      }
+      // process public params from array of NamedString to plain string
+      NamedString[] namedStrings = navigationalContext.getPublicValues();
+      if (namedStrings != null) {
+        String navigationalValues = new String();
+        for (NamedString namedString : namedStrings) {
+          if (navigationalValues != null) {
+            navigationalValues += WSRPConstants.NEXT_PARAM;
+          }
+          navigationalValues += namedString.getName() + "=" + namedString.getValue();
+        }
+        output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
+        output.setRenderParameters(Utils.getMapParametersFromNamedStringArray(namedStrings));
+      }
+    }
   }
 
   private PortletDriver getPortletDriver(WSRPPortlet portlet) throws WSRPException {
@@ -808,7 +813,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             portlet.getPortletContext().setPortletHandle(portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID);
             PortletWindowSession portletWindowSession = getWindowSession(portletKey, portlet, userSession, key);
 
-            WSRPMarkupRequest markupRequest = getMarkupRequest(request, input, portletWindowSession);
+            WSRPMarkupRequest markupRequest = getMarkupRequest(input, portletWindowSession);
             String baseURL = null;
             //            baseURL = request.getRequestURI();
             //            log.debug("User path info : " + baseURL);
@@ -1015,37 +1020,39 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return portletDesc;
   }
 
-  private WSRPInteractionRequest getInteractionRequest(HttpServletRequest request,
-                                                       ActionInput input,
+  private WSRPInteractionRequest getInteractionRequest(ActionInput input,
                                                        PortletWindowSession portletWindowSession) {
     log.debug("getInteractionRequest entered");
     WSRPInteractionRequestAdapter interactionRequest = new WSRPInteractionRequestAdapter();
-    fillMimeRequest(interactionRequest, request, input, portletWindowSession);
-    interactionRequest.setFormParameters(getFormParameters(input));
-    interactionRequest.setInteractionState(getInteractionState(request, portletWindowSession));
+    fillMimeRequest(interactionRequest, input, portletWindowSession);
+    interactionRequest.setFormParameters(getRenderParametersAsNamedString(input));
+    interactionRequest.setInteractionState(getInteractionState(input, portletWindowSession));
     return interactionRequest;
   }
 
-  private String getInteractionState(HttpServletRequest request,
+  private String getInteractionState(Input input,
                                      PortletWindowSession portletWindowSession) {
-    String interactionState = request.getParameter(WSRPConstants.WSRP_INTERACTION_STATE);
-    if (interactionState != null) {
-      log.debug("user interaction state : " + interactionState);
-      portletWindowSession.setInteractionState(interactionState);
+    if (input != null && input.getRenderParameters() != null) {
+      String[] interactionState = input.getRenderParameters().get(WSRPConstants.WSRP_INTERACTION_STATE);
+      if (interactionState != null && interactionState.length != 0) {
+        log.debug("user interaction state : " + interactionState[0]);
+        portletWindowSession.setInteractionState(interactionState[0]);
+      } else {
+        log.debug("Interaction state is null");
+      }
     } else {
-      log.debug("Interaction state is null");
+      log.debug("Input input is null or input.getRenderParameters() is null");
     }
     return portletWindowSession.getInteractionState();
   }
 
-  // Store only non wsrp- params
-  private NamedString[] getFormParameters(Input input) {
-    Map<String, String[]> params = (Map<String, String[]>) input.getRenderParameters();
-    return Utils.getNamedStringArrayParameters(params, true);
+  // Store only params without the "wsrp-" prefix 
+  private NamedString[] getRenderParametersAsNamedString(Input input) {
+    Map<String, String[]> params = input.getRenderParameters();
+    return Utils.getNamedStringArrayParametersFromMap(params, true);
   }
 
   private void fillMimeRequest(WSRPBaseRequestAdapter baseRequest,
-                               HttpServletRequest request,
                                Input input,
                                PortletWindowSession portletWindowSession) {
     baseRequest.setMarkupCharacterSets(characterEncodings);
@@ -1063,19 +1070,21 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     baseRequest.setMimeTypes(mimeTypes);
 
     baseRequest.setMode(Modes.addPrefixWSRP(input.getPortletMode().toString()));
-    baseRequest.setValidNewModes(null); // TODO
+    baseRequest.setValidNewModes(null);
     baseRequest.setWindowState(WindowStates.addPrefixWSRP(input.getWindowState().toString()));
-    baseRequest.setValidNewWindowStates(null); // TODO
+    baseRequest.setValidNewWindowStates(null);
 
-    baseRequest.setSecureClientCommunication(false);// TODO
+    baseRequest.setSecureClientCommunication(false);
     baseRequest.setUserAuthentication("none");
     baseRequest.setExtensions(null);
 
-    // For NavigationalContext
-    baseRequest.setNavigationalState(getNavigationalState(request, portletWindowSession));
-    baseRequest.setNavigationalValues(getNavigationalValues(request, portletWindowSession));
-//    if (input.getPublicParameters()!= null)
-//      baseRequest.setNavigationalValues(Utils.getNamedStringArrayParameters(input.getPublicParameters());
+    // Set fields for NavigationalContext from specified url params
+    baseRequest.setNavigationalState(getNavigationalState(input, portletWindowSession));
+    baseRequest.setNavigationalValues(getNavigationalValues(input, portletWindowSession));
+
+    // Rewrite public params when they are present in input
+    if (input.getPublicParameterMap() != null)
+      baseRequest.setNavigationalValues(Utils.getNamedStringArrayParametersFromMap(input.getPublicParameterMap()));
 
     // For RuntimeContext
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();
@@ -1094,33 +1103,37 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return clientData;
   }
 
-  private String getNavigationalState(HttpServletRequest request,
+  private String getNavigationalState(Input input,
                                       PortletWindowSession portletWindowSession) {
-    String navigationalState = request.getParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
-    if (navigationalState != null && navigationalState != "") {
-      log.debug("user navigational state : " + navigationalState);
-      portletWindowSession.setNavigationalState(navigationalState);
+    if (input != null && input.getRenderParameters() != null) {
+      String[] navigationalState = input.getRenderParameters().get(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+      if (navigationalState != null && navigationalState.length != 0) {
+        log.debug("user navigational state : " + navigationalState[0]);
+        portletWindowSession.setNavigationalState(navigationalState[0]);
+      } else {
+        log.debug("Navigational state is null or empty");
+      }
     } else {
-      log.debug("Navigational state is null or empty");
+      log.debug("Input input is null or input.getRenderParameters() is null");
     }
     return portletWindowSession.getNavigationalState();
   }
 
-  private NamedString[] getNavigationalValues(HttpServletRequest request,
+  private NamedString[] getNavigationalValues(Input input,
                                               PortletWindowSession portletWindowSession) {
     NamedString[] resultArray = null;
-    String parameterNavigationalValues = request.getParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
-    if (parameterNavigationalValues != null && parameterNavigationalValues != "") {
-      System.out.println(">>> EXOMAN WSRPConsumerPlugin.getNavigationalValues() parameterNavigationalValues = " + parameterNavigationalValues);
-      String[] navigationalValues = parameterNavigationalValues.split(WSRPConstants.NEXT_PARAM);
-      // from String[] to NamedString[] converting navigational values
-      if (navigationalValues != null) {
-        List<NamedString> navigationalValuesList = new ArrayList<NamedString>(navigationalValues.length);
-        for (String navigationalValue : navigationalValues) {
-          System.out.println(">>> EXOMAN WSRPConsumerPlugin.getNavigationalValues() navigationalValue = " + navigationalValue);
-          navigationalValuesList.add(new NamedString(navigationalValue, null));
+    if (input.getRenderParameters() != null && input.getRenderParameters().get(WSRPConstants.WSRP_NAVIGATIONAL_VALUES) != null) {
+      String parameterNavigationalValues = input.getRenderParameters().get(WSRPConstants.WSRP_NAVIGATIONAL_VALUES)[0];
+      if (parameterNavigationalValues != null && parameterNavigationalValues != "") {
+        String[] navigationalValues = parameterNavigationalValues.split(WSRPConstants.NEXT_PARAM);
+        // from String[] to NamedString[] converting navigational values
+        if (navigationalValues != null) {
+          List<NamedString> navigationalValuesList = new ArrayList<NamedString>(navigationalValues.length);
+          for (String navigationalValue : navigationalValues) {
+            navigationalValuesList.add(new NamedString(navigationalValue, null));
+          }
+          resultArray = navigationalValuesList.toArray(new NamedString[navigationalValues.length]);
         }
-        resultArray = navigationalValuesList.toArray(new NamedString[navigationalValues.length]);
       }
     }
     if (resultArray != null) {
@@ -1161,11 +1174,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     }
   }
 
-  private WSRPMarkupRequest getMarkupRequest(HttpServletRequest request,
-                                             RenderInput input,
+  private WSRPMarkupRequest getMarkupRequest(RenderInput input,
                                              PortletWindowSession portletWindowSession) {
     WSRPMarkupRequestAdapter markupRequest = new WSRPMarkupRequestAdapter();
-    fillMimeRequest(markupRequest, request, input, portletWindowSession);
+    fillMimeRequest(markupRequest, input, portletWindowSession);
     markupRequest.setCachedMarkup(portletWindowSession.getCachedMarkup());
     return markupRequest;
   }
@@ -1269,7 +1281,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             portlet.getPortletContext().setPortletHandle(portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID);
             PortletWindowSession portletWindowSession = getWindowSession(portletKey, portlet, userSession, key);
 
-            WSRPResourceRequest resourceRequest = getResourceRequest(request, input, portletWindowSession);
+            WSRPResourceRequest resourceRequest = getResourceRequest(input, portletWindowSession);
 
             String baseURL = null;
             //            baseURL = request.getRequestURI();
@@ -1329,33 +1341,36 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     templateComposer.setPort(request.getServerPort());
   }
 
-  private WSRPResourceRequest getResourceRequest(HttpServletRequest request,
-                                                 ResourceInput input,
+  private WSRPResourceRequest getResourceRequest(ResourceInput input,
                                                  PortletWindowSession portletWindowSession) {
     WSRPResourceRequestAdapter resourceRequest = new WSRPResourceRequestAdapter();
-    fillMimeRequest(resourceRequest, request, input, portletWindowSession);
+    fillMimeRequest(resourceRequest, input, portletWindowSession);
     // fill resource params
-    resourceRequest.setFormParameters(getFormParameters(input));
-    // resourceRequest.setUploadContexts(uploadContexts);
+    resourceRequest.setFormParameters(getRenderParametersAsNamedString(input));
     resourceRequest.setResourceID(input.getResourceID());
-    // resourceRequest.setPortletStateChange(portletStateChange);
-    resourceRequest.setResourceState(getResourceState(request, portletWindowSession));
+    resourceRequest.setResourceState(getResourceState(input, portletWindowSession));
     resourceRequest.setResourceCacheability(input.getCacheability());
 
     // if cached is set we don't call producer for this method
     resourceRequest.setCachedResource(portletWindowSession.getCachedResource());
 
+    // resourceRequest.setUploadContexts(uploadContexts);
+    // resourceRequest.setPortletStateChange(portletStateChange);
     return resourceRequest;
   }
 
-  private String getResourceState(HttpServletRequest request,
+  private String getResourceState(Input input,
                                   PortletWindowSession portletWindowSession) {
-    String resourceState = request.getParameter(WSRPConstants.WSRP_RESOURCE_STATE);
-    if (resourceState != null) {
-      log.debug("user resource state : " + resourceState);
-      portletWindowSession.setResourceState(resourceState);
+    if (input != null && input.getRenderParameters() != null) {
+      String[] resourceState = input.getRenderParameters().get(WSRPConstants.WSRP_RESOURCE_STATE);
+      if (resourceState != null && resourceState.length != 0) {
+        log.debug("user resource state : " + resourceState[0]);
+        portletWindowSession.setResourceState(resourceState[0]);
+      } else {
+        log.debug("Resource state is null");
+      }
     } else {
-      log.debug("Resource state is null");
+      log.debug("Input input is null or input.getRenderParameters() is null");
     }
     return portletWindowSession.getResourceState();
   }
@@ -1441,7 +1456,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         UserSessionMgr userSession = getUserSession(request.getSession(), portletKey.getProducerId());
         PortletWindowSession windowSession = getWindowSession(portletKey, portlet, userSession, key);
 
-        WSRPEventsRequest iRequest = getEventsRequest(request, input, windowSession);
+        WSRPEventsRequest iRequest = getEventsRequest(input, windowSession);
 
         String baseURL = null;
         //         baseURL = request.getRequestURI();
@@ -1480,18 +1495,17 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE, navState);
               }
               NamedString[] namedStrings = navigationalContext.getPublicValues();
+              String navigationalValues = new String();
               if (namedStrings != null) {
-                String navigationalValues = null;
                 for (NamedString namedString : namedStrings) {
                   log.debug("set new navigational values : " + namedStrings);
-                  if (navigationalValues == null)
-                    navigationalValues = new String();
-                  else
+                  if (navigationalValues != "") {
                     navigationalValues += WSRPConstants.NEXT_PARAM;
+                  }
                   navigationalValues += namedString.getName() + "=" + namedString.getValue();
                 }
-                output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
               }
+              output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
             }
             output.setNextMode(Modes.getJsrPortletModeFromWsrpMode(updateResponse.getNewMode()));
             output.setNextState(WindowStates.getJsrPortletStateFromWsrpState(updateResponse.getNewWindowState()));
@@ -1506,11 +1520,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   }
 
-  private WSRPEventsRequest getEventsRequest(HttpServletRequest request,
-                                             EventInput input,
+  private WSRPEventsRequest getEventsRequest(EventInput input,
                                              PortletWindowSession portletWindowSession) {
     WSRPEventsRequestAdapter eventRequest = new WSRPEventsRequestAdapter();
-    fillMimeRequest(eventRequest, request, input, portletWindowSession);
+    fillMimeRequest(eventRequest, input, portletWindowSession);
     eventRequest.setEvents(JAXBEventTransformer.getEventsMarshal(input.getEvent()));
     return eventRequest;
   }

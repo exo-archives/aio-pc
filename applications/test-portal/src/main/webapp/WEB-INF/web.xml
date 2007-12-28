@@ -111,7 +111,7 @@
     </init-param>
     <init-param>
       <param-name>delay-retry-sec</param-name>
-      <param-value>10</param-value>
+      <param-value>2</param-value>
     </init-param>
   </servlet>
 
@@ -144,7 +144,7 @@
     </init-param>
     <init-param>
       <param-name>delay-retry-sec</param-name>
-      <param-value>10</param-value>
+      <param-value>2</param-value>
     </init-param>
   </servlet>
   
