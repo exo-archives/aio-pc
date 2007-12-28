@@ -678,8 +678,6 @@ public class PortalFramework {
     resourceInput.setMarkup(cntType);
     resourceInput.setPublicParamNames(getPublicNamesSet(target));
     resourceInput.setRenderParameters(portletParams);
-    if (win.getRenderParams() != null)
-      Helper.appendParams(resourceInput.getRenderParameters(), win.getRenderParams());
     resourceInput.setPortletMode(win.getPortletMode());
     resourceInput.setWindowState(win.getWindowState());
     resourceInput.setResourceID(Helper.string0(portalParams.get(org.exoplatform.Constants.RESOURCE_ID_PARAMETER)));
@@ -765,6 +763,7 @@ public class PortalFramework {
     renderInput.setPublicParamNames(getPublicNamesSet(plt));
     renderInput.setRenderParameters(new HashMap<String, String[]>());
     if (target != null && target.equals(plt)) {
+      Helper.appendParams(renderInput.getRenderParameters(), publicRenderParams);
       Helper.appendParams(renderInput.getRenderParameters(), portletParams);
       if (renderParams != null)
         Helper.appendParams(renderInput.getRenderParameters(), renderParams);

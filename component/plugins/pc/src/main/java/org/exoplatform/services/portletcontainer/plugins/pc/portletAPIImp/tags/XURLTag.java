@@ -57,6 +57,8 @@ public abstract class XURLTag extends BodyTagSupport {
 
   private HashMap<String, String[]> parameters                  = null;
 
+  private Map<String, String[]> renderParameters                  = null;
+
   private HashMap<String, String[]> properties                  = new HashMap<String, String[]>();
 
   protected boolean                 copyCurrentRenderParameters = false;
@@ -69,8 +71,9 @@ public abstract class XURLTag extends BodyTagSupport {
 
   protected String                  resourceCacheability;
 
-  public void addParameter(String key,
-                           String value) {
+  public void addParameter(String key, String value) {
+    if ((value == null || value.equals("")) && renderParameters.get(key) != null)
+      renderParameters.remove(key);
     if (parameters.get(key) == null) {
       if (value != null && !value.equals(""))
         parameters.put(key, new String[] { value });
@@ -89,8 +92,23 @@ public abstract class XURLTag extends BodyTagSupport {
     }
   }
 
-  public void addProperty(String key,
-                          String value) {
+  protected void addParameters(String key, String[] values) {
+    if (parameters.get(key) == null) {
+      if (values != null)
+        parameters.put(key, values);
+    } else {
+      String[] oldValue = parameters.get(key);
+      String[] newValue = new String[oldValue.length + values.length];
+      int i = 0;
+      for (String v : oldValue)
+        newValue[i++] = v;
+      for (String v : values)
+        newValue[i++] = v;
+      parameters.put(key, newValue);
+    }
+  }
+
+  public void addProperty(String key, String value) {
     properties.put(key, new String[] { value });
   }
 
@@ -149,13 +167,6 @@ public abstract class XURLTag extends BodyTagSupport {
 
   public void setCopyCurrentRenderParameters(boolean copyCurrentRenderParameters) {
     this.copyCurrentRenderParameters = copyCurrentRenderParameters;
-    if (copyCurrentRenderParameters) {
-      ServletRequest request = pageContext.getRequest();
-      PortletRequest portletRequest = (PortletRequest) request.getAttribute("javax.portlet.request");
-      if (parameters == null)
-        parameters = new HashMap<String, String[]>();
-      parameters.putAll(portletRequest.getParameterMap());
-    }
   }
 
   public void setEscapeXml(boolean escapeXml) {
@@ -180,11 +191,24 @@ public abstract class XURLTag extends BodyTagSupport {
   public int doStartTag() throws JspException {
     if (parameters == null)
       parameters = new HashMap<String, String[]>();
+    ServletRequest request = pageContext.getRequest();
+    PortletRequest portletRequest = (PortletRequest) request.getAttribute("javax.portlet.request");
+    renderParameters = new HashMap<String, String[]>(portletRequest.getParameterMap());
     return EVAL_BODY_BUFFERED;
   }
 
   public int doEndTag() throws JspException {
     BaseURL baseURL = getPortletURL();
+
+    if (copyCurrentRenderParameters) {
+      if (parameters == null)
+        parameters = new HashMap<String, String[]>();
+      for (Iterator<String> i = renderParameters.keySet().iterator(); i.hasNext();) {
+        String name = i.next();
+        addParameters(name, renderParameters.get(name));
+      }
+    }
+
     baseURL.setParameters(parameters);
     setProperties(baseURL, properties);
     try {
@@ -202,6 +226,15 @@ public abstract class XURLTag extends BodyTagSupport {
           resourceURL.setCacheability(resourceCacheability);
         }
       }
+      if (var == null || "".equals(var)) {
+        try {
+          pageContext.getOut().print(URLToString(baseURL));
+        } catch (IOException e1) {
+          throw new JspException(e1);
+        }
+      } else {
+        pageContext.setAttribute(var, URLToString(baseURL));
+      }
     } catch (PortletModeException e) {
       throw new JspException(e);
     } catch (WindowStateException e) {
@@ -212,15 +245,6 @@ public abstract class XURLTag extends BodyTagSupport {
       cleanUp();
     }
 
-    if (var == null || "".equals(var)) {
-      try {
-        pageContext.getOut().print(URLToString(baseURL));
-      } catch (IOException e1) {
-        throw new JspException(e1);
-      }
-    } else {
-      pageContext.setAttribute(var, URLToString(baseURL));
-    }
     return EVAL_PAGE;
   }
 
