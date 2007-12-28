@@ -51,35 +51,51 @@ import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
  * Time: 23:10:08
  */
 
-public class ProducerImpl implements Producer , java.io.Serializable {
+public class ProducerImpl implements Producer, java.io.Serializable {
 
-  private String name;
-  private String ID;
-  private String description;
-  private String serviceDescriptionInterfaceEndpoint;
+  private String                                        name;
+
+  private String                                        ID;
+
+  private String                                        description;
+
+  private String                                        serviceDescriptionInterfaceEndpoint;
+
   private transient WSRP_v1_ServiceDescription_PortType serviceDescriptionInterface;
-  private String markupInterfaceEndpoint;
-  private transient WSRP_v1_Markup_PortType markupInterface;
-  private String portletManagementInterfaceEndpoint;
-  private transient WSRP_v1_PortletManagement_PortType portletManagementInterface;
-  private String registrationInterfaceEndpoint;
-  private ServiceDescription serviceDescription;
-  private transient WSRP_v1_Registration_PortType registrationInterface;
-  private boolean registrationRequired;
-  private RegistrationData registrationData;
-  private RegistrationContext registrationContext;
-  private transient WSRPService service;
-  private String[] desiredLocales;
-  private transient Log log;
+
+  private String                                        markupInterfaceEndpoint;
+
+  private transient WSRP_v1_Markup_PortType             markupInterface;
+
+  private String                                        portletManagementInterfaceEndpoint;
+
+  private transient WSRP_v1_PortletManagement_PortType  portletManagementInterface;
+
+  private String                                        registrationInterfaceEndpoint;
+
+  private ServiceDescription                            serviceDescription;
+
+  private transient WSRP_v1_Registration_PortType       registrationInterface;
+
+  private boolean                                       registrationRequired;
+
+  private RegistrationData                              registrationData;
+
+  private RegistrationContext                           registrationContext;
+
+  private transient WSRPService                         service;
+
+  private String[]                                      desiredLocales;
+
+  private transient Log                                 log;
 
   public ProducerImpl(ExoContainer cont) {
     init(cont);
   }
 
   public void init(ExoContainer cont) {
-    service = (WSRPService) cont.
-        getComponentInstanceOfType(WSRPService.class);
-    ((WSRPServiceLocator)service).setMaintainSession(true);
+    service = (WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
+    ((WSRPServiceLocator) service).setMaintainSession(true);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
   }
 
@@ -129,8 +145,7 @@ public class ProducerImpl implements Producer , java.io.Serializable {
     if (serviceDescriptionInterface == null) {
       try {
         try {
-          serviceDescriptionInterface = service.
-              getWSRPServiceDescriptionService(new URL(serviceDescriptionInterfaceEndpoint));
+          serviceDescriptionInterface = service.getWSRPServiceDescriptionService(new URL(serviceDescriptionInterfaceEndpoint));
 
         } catch (MalformedURLException e) {
           log.debug("Malformed URL : " + serviceDescriptionInterfaceEndpoint);
@@ -165,7 +180,7 @@ public class ProducerImpl implements Producer , java.io.Serializable {
     if (serviceDescription == null) {
       updateServiceDescription();
     }
-    PortletDescription[] array = serviceDescription.getOfferedPortlets();    
+    PortletDescription[] array = serviceDescription.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
@@ -215,8 +230,7 @@ public class ProducerImpl implements Producer , java.io.Serializable {
     if (portletManagementInterface == null) {
       try {
         try {
-          portletManagementInterface = service.
-              getWSRPPortletManagementService(new URL(portletManagementInterfaceEndpoint));
+          portletManagementInterface = service.getWSRPPortletManagementService(new URL(portletManagementInterfaceEndpoint));
         } catch (MalformedURLException e) {
           portletManagementInterface = service.getWSRPPortletManagementService();
         }
@@ -252,8 +266,7 @@ public class ProducerImpl implements Producer , java.io.Serializable {
     if (registrationInterface == null) {
       try {
         try {
-          registrationInterface = service.
-              getWSRPRegistrationService(new URL(registrationInterfaceEndpoint));
+          registrationInterface = service.getWSRPRegistrationService(new URL(registrationInterfaceEndpoint));
         } catch (MalformedURLException e) {
           registrationInterface = service.getWSRPRegistrationService();
         }
@@ -331,6 +344,5 @@ public class ProducerImpl implements Producer , java.io.Serializable {
       return true;
     }
   }
-
 
 }

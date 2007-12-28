@@ -114,18 +114,14 @@ public class PortletDriverImpl implements PortletDriver {
       userSession.setInitCookieDone(false);
     } else if (initCookie.getValue().equalsIgnoreCase(CookieProtocol._perGroup)) {
       PortletDescription portletDescription = null;
-      try {
-        portletDescription = producer.getPortletDescription(getPortlet().getParent());
-      } catch (WSRPException e) {
-        e.printStackTrace();
-      }
+      portletDescription = producer.getPortletDescription(getPortlet().getParent());
       String groupID = null;
       if (portletDescription != null) {
         groupID = portletDescription.getGroupID();
-      }
-      if (groupID != null) {
-        GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
-        groupSession.setInitCookieDone(false);
+        if (groupID != null) {
+          GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
+          groupSession.setInitCookieDone(false);
+        }
       }
     }
   }
@@ -195,7 +191,7 @@ public class PortletDriverImpl implements PortletDriver {
   }
 
   private RuntimeContext getRuntimeContext(WSRPBaseRequest request,
-                                           String path) {
+                                           String path) throws WSRPException {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumerEnv.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
@@ -205,15 +201,9 @@ public class PortletDriverImpl implements PortletDriver {
       runtimeContext.setNamespacePrefix(templateComposer.getNamespacePrefix());
     }
     Boolean doesUrlTemplateProcess = null;
-    try {
-      PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
-      if (desc != null) {
-        doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
-      }
-    } catch (WSRPException e) {
-      // do nothing since exception has been logged already
-      // continue with assumption that portlet does not support template
-      // processing
+    PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
+    if (desc != null) {
+      doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
     }
     if (doesUrlTemplateProcess != null && templateComposer != null && doesUrlTemplateProcess.booleanValue()) {
       // If path starts with protocol then don't use templateComposer for create

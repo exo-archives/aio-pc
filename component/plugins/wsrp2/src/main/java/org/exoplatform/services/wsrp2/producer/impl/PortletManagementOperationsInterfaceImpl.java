@@ -203,7 +203,7 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
         reason.setValue("Cannot copy portlet");
         failedPortlet.setReason(reason);
         failedPortlets.add(failedPortlet);
-        // Exception2Fault.handleException(e);
+        //         Exception2Fault.handleException(e);
         e.printStackTrace();
       }
 
@@ -231,10 +231,10 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
     org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext, stateManager);
     Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
-    
+
     if (exportByValueRequired == true) {
       Exception2Fault.handleException(new WSRPException(Faults.EXPORT_BY_VALUE_NOT_SUPPORTED_FAULT));
-    } 
+    }
 
     for (int i = 0; i < portletContexts.length; i++) {
 

@@ -43,19 +43,15 @@ public class WSRPConfiguration {
   private HashMap<String, String> adminPortletParams = null;
 
   public WSRPConfiguration(InitParams params) {
-    try {
-      PropertiesParam param = params.getPropertiesParam("wsrp-conf");
-      init(param.getProperties());
-      PropertiesParam paramAdminPortlet = params.getPropertiesParam("wsrp-admin-portlet-conf");
-      initParamsAdminPortlet(paramAdminPortlet.getProperties());
-      if (params.getValuesParam("exclude-list") != null)
-        excludeList = (List<String>) params.getValuesParam("exclude-list").getValues();
-      else
-        excludeList = new ArrayList<String>();
-      excludeList.add(WSRPConstants.WSRP_ADMIN_PORTLET_KEY.substring(0, 5) + "*");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    PropertiesParam param = params.getPropertiesParam("wsrp-conf");
+    init(param.getProperties());
+    PropertiesParam paramAdminPortlet = params.getPropertiesParam("wsrp-admin-portlet-conf");
+    initParamsAdminPortlet(paramAdminPortlet.getProperties());
+    if (params.getValuesParam("exclude-list") != null)
+      excludeList = (List<String>) params.getValuesParam("exclude-list").getValues();
+    else
+      excludeList = new ArrayList<String>();
+    excludeList.add(WSRPConstants.WSRP_ADMIN_PORTLET_KEY.substring(0, 5) + "*");
   }
 
   private void init(ExoProperties props) {

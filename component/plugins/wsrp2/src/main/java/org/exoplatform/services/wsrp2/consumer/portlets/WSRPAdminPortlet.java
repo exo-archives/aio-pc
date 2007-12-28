@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.portlets;
 
 import java.io.CharArrayWriter;
@@ -53,6 +53,7 @@ import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupType;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.Register;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
@@ -188,98 +189,113 @@ public class WSRPAdminPortlet {
       w.println("<table>");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
       Iterator<Producer> i = pregistry.getAllProducers();
-      ServiceDescription desc = null;
+      ServiceDescription serviceDescr = null;
       while (i.hasNext()) {
         Producer producer = (Producer) i.next();
         try {
-          desc = producer.getServiceDescription();
+          serviceDescr = producer.getServiceDescription();
         } catch (WSRPException e) {
-          e.printStackTrace();
+          e.printStackTrace(w);
         }
         w.println("<tr>");
-        w.println("<td colspan='2'><b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b></td>");
+        w.println("<td colspan='2'>");
+        w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br>");
+        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint());
+        w.println("Description - " + producer.getDescription());
+        RegistrationContext regCtx = producer.getRegistrationContext();
+        if (regCtx != null) {
+          w.println("RegistrationHandle - " + regCtx.getRegistrationHandle());
+          if (regCtx.getScheduledDestruction() != null) {
+            w.println("CurrentTime - " + regCtx.getScheduledDestruction().getCurrentTime());
+            w.println("TerminationTime - " + regCtx.getScheduledDestruction().getTerminationTime());
+          }
+        }
+        w.println("</td>");
         w.println("</tr>");
-        w.println("<td>&nbsp;&nbsp;&nbsp;</td>");
+        w.println("<tr>");
+        w.println("<td>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</td>");
         w.println("<td>");
         w.println("<table>");
         w.println("<tr>");
         w.println("<td>Requires Registration </td>");
         String answer = "N/A";
-        if (desc != null)
-          answer = Boolean.toString(desc.isRequiresRegistration());
+        if (serviceDescr != null)
+          answer = Boolean.toString(serviceDescr.isRequiresRegistration());
         w.println("<td>" + answer + "</td>");
         w.println("</tr>");
         w.println("<tr>");
         w.println("<td>Requires Init Cookie </td>");
         answer = "none";
-        if (desc != null) {
-          CookieProtocol cookie = desc.getRequiresInitCookie();
+        if (serviceDescr != null) {
+          CookieProtocol cookie = serviceDescr.getRequiresInitCookie();
           if (cookie != null)
             answer = cookie.getValue();
         }
         w.println("<td>" + answer + "</td>");
         w.println("</tr>");
-        PortletDescription[] portletDescriptions = desc.getOfferedPortlets();
-        if (portletDescriptions != null) {
-          for (int k = 0; k < portletDescriptions.length; k++) {
-            PortletDescription portletDescription = portletDescriptions[k];
-            w.println("<tr><td colspan='2'><b><br>" + getValue(portletDescription.getDisplayName()) + "</b></td></tr>");
-            w.println("<tr><td>" + "portletHandle" + "</td><td>" + portletDescription.getPortletHandle().toString() + "</td></tr>");
-            w.println("<tr><td>" + "groupId" + "</td><td>" + portletDescription.getGroupID().toString() + "</td></tr>");
-            w.println("<tr><td>" + "title" + "</td><td>" + getValue(portletDescription.getTitle()) + "</td></tr>");
-            w.println("<tr><td>" + "shortTitle" + "</td><td>" + getValue(portletDescription.getShortTitle()) + "</td></tr>");
-            w.println("<tr><td>" + "displayName" + "</td><td>" + getValue(portletDescription.getDisplayName()) + "</td></tr>");
-            StringBuffer value = new StringBuffer();
-            LocalizedString[] keywords = portletDescription.getKeywords();
-            if (keywords != null) {
-              for (int j = 0; j < keywords.length; j++) {
-                value.append(getValue(keywords[j])).append(" ");
+        if (serviceDescr != null) {
+          PortletDescription[] portletDescriptions = serviceDescr.getOfferedPortlets();
+          if (portletDescriptions != null) {
+            for (int k = 0; k < portletDescriptions.length; k++) {
+              PortletDescription portletDescription = portletDescriptions[k];
+              w.println("<tr><td colspan='2'><b><br>" + getValue(portletDescription.getDisplayName()) + "</b></td></tr>");
+              w.println("<tr><td>" + "portletHandle" + "</td><td>" + portletDescription.getPortletHandle().toString() + "</td></tr>");
+              w.println("<tr><td>" + "groupId" + "</td><td>" + portletDescription.getGroupID().toString() + "</td></tr>");
+              w.println("<tr><td>" + "title" + "</td><td>" + getValue(portletDescription.getTitle()) + "</td></tr>");
+              w.println("<tr><td>" + "shortTitle" + "</td><td>" + getValue(portletDescription.getShortTitle()) + "</td></tr>");
+              w.println("<tr><td>" + "displayName" + "</td><td>" + getValue(portletDescription.getDisplayName()) + "</td></tr>");
+              StringBuffer value = new StringBuffer();
+              LocalizedString[] keywords = portletDescription.getKeywords();
+              if (keywords != null) {
+                for (int j = 0; j < keywords.length; j++) {
+                  value.append(getValue(keywords[j])).append(" ");
+                }
               }
-            }
-            w.println("<tr><td>" + "keywords" + "</td><td>" + value.toString() + "</td></tr>");
-            MarkupType[] types = portletDescription.getMarkupTypes();
-            value.setLength(0);
-            for (int j = 0; j < types.length; j++) {
-              value.append(types[j].getMimeType()).append(" ");
-            }
-            w.println("<tr><td>" + "markupType" + "</td><td>" + value.toString() + "</td></tr>");
-            String[] userCategories = portletDescription.getUserCategories();
-            String valueCategories = "";
-            if (userCategories != null) {
+              w.println("<tr><td>" + "keywords" + "</td><td>" + value.toString() + "</td></tr>");
+              MarkupType[] types = portletDescription.getMarkupTypes();
               value.setLength(0);
-              for (int j = 0; j < userCategories.length; j++) {
-                value.append(userCategories[j]).append(" ");
+              for (int j = 0; j < types.length; j++) {
+                value.append(types[j].getMimeType()).append(" ");
               }
-              valueCategories = value.toString();
-            }
-            w.println("<tr><td>" + "userCategory" + "</td><td>" + valueCategories + "</td></tr>");
-            String[] userProfileItems = portletDescription.getUserProfileItems();
-            String valueProfileItem = "";
-            if (userProfileItems != null) {
-              value.setLength(0);
-              for (int j = 0; j < userProfileItems.length; j++) {
-                value.append(userProfileItems[j]).append(" ");
+              w.println("<tr><td>" + "markupType" + "</td><td>" + value.toString() + "</td></tr>");
+              String[] userCategories = portletDescription.getUserCategories();
+              String valueCategories = "";
+              if (userCategories != null) {
+                value.setLength(0);
+                for (int j = 0; j < userCategories.length; j++) {
+                  value.append(userCategories[j]).append(" ");
+                }
+                valueCategories = value.toString();
               }
-              valueProfileItem = value.toString();
+              w.println("<tr><td>" + "userCategory" + "</td><td>" + valueCategories + "</td></tr>");
+              String[] userProfileItems = portletDescription.getUserProfileItems();
+              String valueProfileItem = "";
+              if (userProfileItems != null) {
+                value.setLength(0);
+                for (int j = 0; j < userProfileItems.length; j++) {
+                  value.append(userProfileItems[j]).append(" ");
+                }
+                valueProfileItem = value.toString();
+              }
+              w.println("<tr><td>" + "userProfileItem" + "</td><td>" + valueProfileItem + "</td></tr>");
+              w.println("<tr><td>" + "usesMethodGet" + "</td><td>" + portletDescription.getUsesMethodGet().toString() + "</td></tr>");
+              if (portletDescription.getDefaultMarkupSecure() != null)
+                w.println("<tr><td>" + "defaultMarkupSecure" + "</td><td>" + portletDescription.getDefaultMarkupSecure().toString() + "</td></tr>");
+              if (portletDescription.getOnlySecure() != null)
+                w.println("<tr><td>" + "onlySecure" + "</td><td>" + portletDescription.getOnlySecure().toString() + "</td></tr>");
+              if (portletDescription.getUserContextStoredInSession() != null)
+                w.println("<tr><td>" + "userContextStoredInSession" + "</td><td>" + portletDescription.getUserContextStoredInSession().toString()
+                    + "</td></tr>");
+              if (portletDescription.getTemplatesStoredInSession() != null)
+                w.println("<tr><td>" + "templatesStoredInSession" + "</td><td>" + portletDescription.getTemplatesStoredInSession().toString()
+                    + "</td></tr>");
+              if (portletDescription.getHasUserSpecificState() != null)
+                w.println("<tr><td>" + "hasUserSpecificState" + "</td><td>" + portletDescription.getHasUserSpecificState().toString() + "</td></tr>");
+              if (portletDescription.getDoesUrlTemplateProcessing() != null)
+                w.println("<tr><td>" + "doesUrlTemplateProcessing" + "</td><td>" + portletDescription.getDoesUrlTemplateProcessing().toString()
+                    + "</td></tr>");
+              w.println("<tr><td>" + "extensions" + "</td><td>" + "N/A" + "</td></tr>");
             }
-            w.println("<tr><td>" + "userProfileItem" + "</td><td>" + valueProfileItem + "</td></tr>");
-            w.println("<tr><td>" + "usesMethodGet" + "</td><td>" + portletDescription.getUsesMethodGet().toString() + "</td></tr>");
-            if (portletDescription.getDefaultMarkupSecure() != null)
-              w.println("<tr><td>" + "defaultMarkupSecure" + "</td><td>" + portletDescription.getDefaultMarkupSecure().toString() + "</td></tr>");
-            if (portletDescription.getOnlySecure() != null)
-              w.println("<tr><td>" + "onlySecure" + "</td><td>" + portletDescription.getOnlySecure().toString() + "</td></tr>");
-            if (portletDescription.getUserContextStoredInSession() != null)
-              w.println("<tr><td>" + "userContextStoredInSession" + "</td><td>" + portletDescription.getUserContextStoredInSession().toString()
-                  + "</td></tr>");
-            if (portletDescription.getTemplatesStoredInSession() != null)
-              w.println("<tr><td>" + "templatesStoredInSession" + "</td><td>" + portletDescription.getTemplatesStoredInSession().toString()
-                  + "</td></tr>");
-            if (portletDescription.getHasUserSpecificState() != null)
-              w.println("<tr><td>" + "hasUserSpecificState" + "</td><td>" + portletDescription.getHasUserSpecificState().toString() + "</td></tr>");
-            if (portletDescription.getDoesUrlTemplateProcessing() != null)
-              w.println("<tr><td>" + "doesUrlTemplateProcessing" + "</td><td>" + portletDescription.getDoesUrlTemplateProcessing().toString()
-                  + "</td></tr>");
-            w.println("<tr><td>" + "extensions" + "</td><td>" + "N/A" + "</td></tr>");
           }
         }
         w.println("</table>");

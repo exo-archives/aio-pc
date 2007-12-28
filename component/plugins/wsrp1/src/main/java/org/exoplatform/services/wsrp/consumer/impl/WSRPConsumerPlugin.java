@@ -493,7 +493,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               portlet.addSupports(supports);
             }
           }
-          if (StringUtils.split(portletHandle, "/").length == 1) 
+          if (StringUtils.split(portletHandle, "/").length == 1)
             portletHandle = "unnamed" + "/" + portletHandle;
           result.put(producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER + portletHandle, new PortletDataImp(this.container,
                                                                                                               portlet,
@@ -762,6 +762,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
     } catch (Exception e) {
       e.printStackTrace();
+      try {
+        output.setContent(e.toString().getBytes("utf-8"));
+      } catch (java.io.UnsupportedEncodingException unExc) {
+        output.setContent(unExc.toString().getBytes());
+      }
     } finally {
       return output;
     }

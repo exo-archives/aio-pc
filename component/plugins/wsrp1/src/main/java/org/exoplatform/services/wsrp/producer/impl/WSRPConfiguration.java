@@ -46,61 +46,42 @@ public class WSRPConfiguration {
   private Map<String, String> adminPortletParams = null;
 
   public WSRPConfiguration(InitParams params) {
-    try {
-      PropertiesParam param = params.getPropertiesParam("wsrp-conf");
-      init(param.getProperties());
-      PropertiesParam paramAdminPortlet = params.getPropertiesParam("wsrp-admin-portlet-conf");
-      initParamsAdminPortlet(paramAdminPortlet.getProperties());
-      if (params.getValuesParam("exclude-list") != null)
-        excludeList = (List<String>) params.getValuesParam("exclude-list").getValues();
-      else
-        excludeList = new ArrayList<String>();
-      excludeList.add(WSRPConstants.WSRP_ADMIN_PORTLET_KEY.substring(0, 5) + "*");
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    PropertiesParam param = params.getPropertiesParam("wsrp-conf");
+    init(param.getProperties());
+    PropertiesParam paramAdminPortlet = params.getPropertiesParam("wsrp-admin-portlet-conf");
+    initParamsAdminPortlet(paramAdminPortlet.getProperties());
+    if (params.getValuesParam("exclude-list") != null)
+      excludeList = (List<String>) params.getValuesParam("exclude-list").getValues();
+    else
+      excludeList = new ArrayList<String>();
+    excludeList.add(WSRPConstants.WSRP_ADMIN_PORTLET_KEY.substring(0, 5) + "*");
   }
 
   private void init(ExoProperties props) {
     hasUserSpecificState = props.getProperty("wsrp.has.user.specific.state").equals("true");
-    doesUrlTemplateProcessing = props.getProperty("wsrp.does.url.template.processing").equals(
-        "true");
+    doesUrlTemplateProcessing = props.getProperty("wsrp.does.url.template.processing").equals("true");
     templatesStoredInSession = props.getProperty("wsrp.templates.stored.in.session").equals("true");
-    userContextStoredInSession = props.getProperty("wsrp.user.context.stored.in.session").equals(
-        "true");
+    userContextStoredInSession = props.getProperty("wsrp.user.context.stored.in.session").equals("true");
     usesMethodGet = props.getProperty("wsrp.uses.method.get").equals("true");
     requiresRegistration = props.getProperty("wsrp.requires.registration").equals("true");
-    blockingInteractionOptimized = props.getProperty("wsrp.perform.blocking.interaction.optimized")
-        .equals("true");
-    saveRegistrationStateOnConsumer = props.getProperty("wsrp.save.registration.state.on.consumer")
-        .equals("true");
-    savePortletStateOnConsumer = props.getProperty("wsrp.save.portlet.state.on.consumer").equals(
-        "true");
+    blockingInteractionOptimized = props.getProperty("wsrp.perform.blocking.interaction.optimized").equals("true");
+    saveRegistrationStateOnConsumer = props.getProperty("wsrp.save.registration.state.on.consumer").equals("true");
+    savePortletStateOnConsumer = props.getProperty("wsrp.save.portlet.state.on.consumer").equals("true");
   }
 
   private void initParamsAdminPortlet(ExoProperties props) {
     if (adminPortletParams == null)
       adminPortletParams = new HashMap<String, String>();
-    adminPortletParams.put(WSRPConstants.WAP_portletTitle, props
-        .getProperty(WSRPConstants.WAP_portletTitle));
-    adminPortletParams.put(WSRPConstants.WAP_consumerName, props
-        .getProperty(WSRPConstants.WAP_consumerName));
-    adminPortletParams.put(WSRPConstants.WAP_consumerAgent, props
-        .getProperty(WSRPConstants.WAP_consumerAgent));
-    adminPortletParams.put(WSRPConstants.WAP_producerName, props
-        .getProperty(WSRPConstants.WAP_producerName));
-    adminPortletParams.put(WSRPConstants.WAP_producerURL, props
-        .getProperty(WSRPConstants.WAP_producerURL));
-    adminPortletParams.put(WSRPConstants.WAP_markupIntfEndpoint, props
-        .getProperty(WSRPConstants.WAP_markupIntfEndpoint));
-    adminPortletParams.put(WSRPConstants.WAP_portletManagementIntfEndpoint, props
-        .getProperty(WSRPConstants.WAP_portletManagementIntfEndpoint));
-    adminPortletParams.put(WSRPConstants.WAP_registrationIntfEndpoint, props
-        .getProperty(WSRPConstants.WAP_registrationIntfEndpoint));
-    adminPortletParams.put(WSRPConstants.WAP_serviceDescriptionIntfEndpoint, props
-        .getProperty(WSRPConstants.WAP_serviceDescriptionIntfEndpoint));
-    adminPortletParams.put(WSRPConstants.WAP_description, props
-        .getProperty(WSRPConstants.WAP_description));
+    adminPortletParams.put(WSRPConstants.WAP_portletTitle, props.getProperty(WSRPConstants.WAP_portletTitle));
+    adminPortletParams.put(WSRPConstants.WAP_consumerName, props.getProperty(WSRPConstants.WAP_consumerName));
+    adminPortletParams.put(WSRPConstants.WAP_consumerAgent, props.getProperty(WSRPConstants.WAP_consumerAgent));
+    adminPortletParams.put(WSRPConstants.WAP_producerName, props.getProperty(WSRPConstants.WAP_producerName));
+    adminPortletParams.put(WSRPConstants.WAP_producerURL, props.getProperty(WSRPConstants.WAP_producerURL));
+    adminPortletParams.put(WSRPConstants.WAP_markupIntfEndpoint, props.getProperty(WSRPConstants.WAP_markupIntfEndpoint));
+    adminPortletParams.put(WSRPConstants.WAP_portletManagementIntfEndpoint, props.getProperty(WSRPConstants.WAP_portletManagementIntfEndpoint));
+    adminPortletParams.put(WSRPConstants.WAP_registrationIntfEndpoint, props.getProperty(WSRPConstants.WAP_registrationIntfEndpoint));
+    adminPortletParams.put(WSRPConstants.WAP_serviceDescriptionIntfEndpoint, props.getProperty(WSRPConstants.WAP_serviceDescriptionIntfEndpoint));
+    adminPortletParams.put(WSRPConstants.WAP_description, props.getProperty(WSRPConstants.WAP_description));
   }
 
   public boolean isHasUserSpecificState() {

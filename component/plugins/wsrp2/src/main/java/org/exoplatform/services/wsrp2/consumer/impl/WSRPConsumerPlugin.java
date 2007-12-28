@@ -861,6 +861,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
     } catch (Exception e) {
       e.printStackTrace();
+      try {
+        output.setContent(e.toString().getBytes("utf-8"));
+      } catch (java.io.UnsupportedEncodingException unExc) {
+        output.setContent(unExc.toString().getBytes());
+      }
     } finally {
       return output;
     }
@@ -1331,6 +1336,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
     } catch (Exception e) {
       e.printStackTrace();
+      try {
+        output.setContent(e.toString().getBytes("utf-8"));
+      } catch (java.io.UnsupportedEncodingException unExc) {
+        output.setContent(unExc.toString().getBytes());
+      }
     } finally {
       return output;
     }

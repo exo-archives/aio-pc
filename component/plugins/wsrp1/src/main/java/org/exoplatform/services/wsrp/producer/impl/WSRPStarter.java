@@ -46,54 +46,59 @@ import org.exoplatform.services.wsrp.WSRPConstants;
  */
 public class WSRPStarter extends HttpServlet {
 
-  private AxisThread axis;
+  private AxisThread   axis;
+
   private ExoContainer container;
-  
-  private String base = "http://localhost:8080/";
-  private String path = "portal/services";
-  protected int delayBeforeStartSec = 0;
-  protected int retries = 1;
-  protected int delayRetrySec = 3;
-  private String deployWSDD = "org/exoplatform/services/wsrp/wsdl/deploy.wsdd";
-  private Log log;
-  
+
+  private String       base                = "http://localhost:8080/";
+
+  private String       path                = "portal/services";
+
+  protected int        delayBeforeStartSec = 0;
+
+  protected int        retries             = 1;
+
+  protected int        delayRetrySec       = 3;
+
+  private String       deployWSDD          = "org/exoplatform/services/wsrp/wsdl/deploy.wsdd";
+
+  private Log          log;
 
   public WSRPStarter() {
     this.log = ExoLogger.getLogger(getClass());
     logDebug("org.exoplatform.services.wsrp2.producer.impl.WSRPStarter.WSRPStarter() entered");
   }
-  
+
   @Override
   public void init(ServletConfig config) throws ServletException {
     logDebug("org.exoplatform.services.wsrp2.producer.impl.WSRPStarter.init() entered");
     container = ExoContainerContext.getCurrentContainer();
+    if (config.getInitParameter("base") != null) {
+      base = config.getInitParameter("base");
+      logDebug("WSRPStarter.init() base = " + base);
+    }
+    if (config.getInitParameter("path") != null) {
+      path = config.getInitParameter("path");
+      logDebug("WSRPStarter.init() path = " + path);
+    }
+    if (config.getInitParameter("deploy-wsdd") != null) {
+      deployWSDD = config.getInitParameter("deploy-wsdd");
+      logDebug("WSRPStarter.init() deployWSDD = " + deployWSDD);
+    }
     try {
-      if (config.getInitParameter("base") != null) {
-        base = config.getInitParameter("base");
-        logDebug("WSRPStarter.init() base = " + base);
-      }
-      if (config.getInitParameter("path") != null) {
-        path = config.getInitParameter("path");
-        logDebug("WSRPStarter.init() path = " + path);
-      }
-      if (config.getInitParameter("deploy-wsdd") != null) {
-        deployWSDD = config.getInitParameter("deploy-wsdd");
-        logDebug("WSRPStarter.init() deployWSDD = " + deployWSDD);
-      }
-      try {
-        delayBeforeStartSec = Integer.parseInt(config.getInitParameter("delay-before-start-sec"));
-        logDebug("WSRPStarter.init() delayBeforeStartSec = " + delayBeforeStartSec);
-      } catch (Exception e) { }
-      try {
-        retries = Integer.parseInt(config.getInitParameter("retries"));
-        logDebug("WSRPStarter.init() retries = " + retries);
-      } catch (Exception e) { }
-      try {
-        delayRetrySec = Integer.parseInt(config.getInitParameter("delay-retry-sec"));
-        logDebug("WSRPStarter.init() delayRetrySec = " + delayRetrySec);
-      } catch (Exception e) { }
+      delayBeforeStartSec = Integer.parseInt(config.getInitParameter("delay-before-start-sec"));
+      logDebug("WSRPStarter.init() delayBeforeStartSec = " + delayBeforeStartSec);
     } catch (Exception e) {
-      e.printStackTrace();
+    }
+    try {
+      retries = Integer.parseInt(config.getInitParameter("retries"));
+      logDebug("WSRPStarter.init() retries = " + retries);
+    } catch (Exception e) {
+    }
+    try {
+      delayRetrySec = Integer.parseInt(config.getInitParameter("delay-retry-sec"));
+      logDebug("WSRPStarter.init() delayRetrySec = " + delayRetrySec);
+    } catch (Exception e) {
     }
     run();
   }
@@ -102,7 +107,7 @@ public class WSRPStarter extends HttpServlet {
     logDebug("org.exoplatform.services.wsrp2.producer.impl.WSRPStarter.run() entered");
     try {
       String wurl = base + path;
-      String[] args = {"-l" + wurl};
+      String[] args = { "-l" + wurl };
       System.out.println(" --- " + WSRPConstants.WSRP_ID + ": url opt: " + wurl);
       Options opts = new Options(args);
       URL wsdd = Thread.currentThread().getContextClassLoader().getResource(deployWSDD);
@@ -114,19 +119,20 @@ public class WSRPStarter extends HttpServlet {
       e.printStackTrace();
     }
   }
-  
+
   private void logDebug(Object message) {
     if (log.isDebugEnabled()) {
       log.debug(message);
     }
   }
 
-  
   class AxisThread extends Thread {
     Options opts;
-    URL wsdd;
 
-    AxisThread(Options opts, URL wsdd) {
+    URL     wsdd;
+
+    AxisThread(Options opts,
+               URL wsdd) {
       this.opts = opts;
       this.wsdd = wsdd;
     }
@@ -134,15 +140,18 @@ public class WSRPStarter extends HttpServlet {
     public void run() {
       try {
         System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread started");
-        try { Thread.currentThread().sleep(delayBeforeStartSec * 1000, 0); } catch (InterruptedException ie) {}
+        try {
+          Thread.currentThread().sleep(delayBeforeStartSec * 1000, 0);
+        } catch (InterruptedException ie) {
+        }
         for (int i = 1; i <= retries; i++) {
           InputStream is = wsdd.openStream();
           System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i);
-          logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i + " at: " + new Date(System.currentTimeMillis()) );
+          logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i + " at: " + new Date(System.currentTimeMillis()));
           try {
             AdminClient admin = new AdminClient();
             String result = admin.process(opts, is);
-            if(result != null) {
+            if (result != null) {
               System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis: " + result);
               break;
             }
@@ -153,7 +162,10 @@ public class WSRPStarter extends HttpServlet {
             if (e.getCause() != null)
               e.getCause().printStackTrace();
             if (i < retries) {
-              try { Thread.sleep(delayRetrySec * 1000, 0); } catch (InterruptedException ie) {}
+              try {
+                Thread.sleep(delayRetrySec * 1000, 0);
+              } catch (InterruptedException ie) {
+              }
             }
           }
         }
@@ -162,7 +174,7 @@ public class WSRPStarter extends HttpServlet {
         e.printStackTrace();
       }
     }
-    
+
   }
-  
+
 }

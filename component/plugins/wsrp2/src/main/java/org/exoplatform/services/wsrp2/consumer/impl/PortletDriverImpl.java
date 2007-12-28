@@ -131,18 +131,14 @@ public class PortletDriverImpl implements PortletDriver {
       userSession.setInitCookieDone(false);
     } else if (initCookie.getValue().equalsIgnoreCase(CookieProtocol._perGroup)) {
       PortletDescription portletDescription = null;
-      try {
-        portletDescription = producer.getPortletDescription(getPortlet().getParent());
-      } catch (WSRPException e) {
-        e.printStackTrace();
-      }
+      portletDescription = producer.getPortletDescription(getPortlet().getParent());
       String groupID = null;
       if (portletDescription != null) {
         groupID = portletDescription.getGroupID();
-      }
-      if (groupID != null) {
-        GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
-        groupSession.setInitCookieDone(false);
+        if (groupID != null) {
+          GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
+          groupSession.setInitCookieDone(false);
+        }
       }
     }
   }
@@ -194,7 +190,7 @@ public class PortletDriverImpl implements PortletDriver {
   }
 
   private RuntimeContext getRuntimeContext(WSRPBaseRequest request,
-                                           String baseURL) {
+                                           String baseURL) throws WSRPException {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
@@ -205,37 +201,29 @@ public class PortletDriverImpl implements PortletDriver {
 
       Boolean doesUrlTemplateProcess = null;
       Boolean getTemplatesStoredInSession = null;
-      try {
-        PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
-        if (desc != null) {
-          doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
-          getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
-          if (getTemplatesStoredInSession) {
-
-          }
-
-          Templates templates = null;
-          if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue()) {
-            templates = new Templates();
-            if (baseURL != null) {
-              // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
-              templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
-              templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
-              templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
-              templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
-              templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
-              templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
-              templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
-              templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
-            }
-          }
-          runtimeContext.setTemplates(templates);
+      PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
+      if (desc != null) {
+        doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
+        getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
+        if (getTemplatesStoredInSession) {
+          //TODO
         }
-      } catch (WSRPException e) {
-        e.printStackTrace();
-        // do nothing since exception has been logged already
-        // continue with assumption that portlet does not support template
-        // processing
+        Templates templates = null;
+        if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue()) {
+          templates = new Templates();
+          if (baseURL != null) {
+            // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
+            templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
+            templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
+            templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
+            templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
+            templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
+            templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
+            templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
+            templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
+          }
+        }
+        runtimeContext.setTemplates(templates);
       }
     }
 
