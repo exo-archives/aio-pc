@@ -144,7 +144,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   UserContext userContext,
                                   MarkupParams markupParams) throws RemoteException {
 
-    if (!Helper.checkLifetime(registrationContext, userContext))
+    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
       return null;
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
@@ -339,7 +339,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                 UserContext userContext,
                                                                 MarkupParams markupParams,
                                                                 InteractionParams interactionParams) throws RemoteException {
-    if (!Helper.checkLifetime(registrationContext, userContext))
+    //if (!Helper.checkLifetime(registrationContext, userContext))
+    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
       return null;
     try {
       // manage the portlet handle
@@ -619,7 +620,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                       RuntimeContext runtimeContext,
                                       UserContext userContext,
                                       ResourceParams resourceParams) throws java.rmi.RemoteException {
-    if (!Helper.checkLifetime(registrationContext, userContext))
+    //if (!Helper.checkLifetime(registrationContext, userContext))
+    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
       return null;
     try {
 
@@ -821,7 +823,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                            MarkupParams markupParams,
                                            EventParams eventParams) throws java.rmi.RemoteException {
 
-    if (!Helper.checkLifetime(registrationContext, userContext))
+    //if (!Helper.checkLifetime(registrationContext, userContext))
+    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
       return null;
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
