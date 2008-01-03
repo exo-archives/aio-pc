@@ -757,6 +757,7 @@ public class PortalFramework {
     renderInput.setLocales(locales);
     renderInput.setEscapeXml(getPortletEscapeXml(plt));
     renderInput.setInternalWindowID(win);
+    System.out.println(">>> EXOMAN PortalFramework.createRenderInput() baseURL + plt = " + baseURL + plt);
     renderInput.setBaseURL(baseURL + plt);
     renderInput.setUserAttributes(new HashMap<String, String>());
     renderInput.setMarkup(cntType);

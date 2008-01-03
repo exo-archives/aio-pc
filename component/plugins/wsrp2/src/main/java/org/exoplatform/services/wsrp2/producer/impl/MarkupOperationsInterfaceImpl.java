@@ -272,6 +272,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl 2 .getMarkup() baseURL = " + baseURL);
     input.setBaseURL(baseURL);
     input.setPortletURLFactory(portletURLFactory);
     input.setEscapeXml(true);

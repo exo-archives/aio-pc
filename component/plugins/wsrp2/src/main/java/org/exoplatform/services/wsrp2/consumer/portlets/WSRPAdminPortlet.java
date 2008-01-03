@@ -199,17 +199,17 @@ public class WSRPAdminPortlet {
         }
         w.println("<tr>");
         w.println("<td colspan='2'>");
-        w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br>");
-        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint());
-        w.println("Description - " + producer.getDescription());
-        RegistrationContext regCtx = producer.getRegistrationContext();
-        if (regCtx != null) {
-          w.println("RegistrationHandle - " + regCtx.getRegistrationHandle());
-          if (regCtx.getScheduledDestruction() != null) {
-            w.println("CurrentTime - " + regCtx.getScheduledDestruction().getCurrentTime());
-            w.println("TerminationTime - " + regCtx.getScheduledDestruction().getTerminationTime());
-          }
-        }
+        w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
+        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint() + "<br>");
+//        w.println("Description - " + producer.getDescription() + "<br>");
+//        RegistrationContext regCtx = producer.getRegistrationContext();
+//        if (regCtx != null) {
+//          w.println("RegistrationHandle - " + regCtx.getRegistrationHandle() + "<br>");
+//          if (regCtx.getScheduledDestruction() != null) {
+//            w.println("CurrentTime - " + regCtx.getScheduledDestruction().getCurrentTime() + "<br>");
+//            w.println("TerminationTime - " + regCtx.getScheduledDestruction().getTerminationTime() + "<br>");
+//          }
+//        }
         w.println("</td>");
         w.println("</tr>");
         w.println("<tr>");

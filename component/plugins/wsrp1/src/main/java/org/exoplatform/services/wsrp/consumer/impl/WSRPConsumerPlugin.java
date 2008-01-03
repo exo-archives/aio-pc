@@ -737,7 +737,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
             log.debug("use base path : " + path);
             path = input.getBaseURL();
-
+            System.out.println(">>> EXOMAN WSRPConsumerPlugin 1 .render() path = " + path);
+            
             /* MAIN INVOKE */
             mResponse = portletDriver.getMarkup(markupRequest, userSession, path);
             if (mResponse != null) {
@@ -973,11 +974,14 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     List<Locale> locales = input.getLocales();
     List<String> localesStrings = new ArrayList<String>();
-    for (Locale locale : locales) {
-      localesStrings.add(locale.toString());
+    if (locales != null) {
+      for (Locale locale : locales) {
+        localesStrings.add(locale.toString());
+      }
+      markupRequest.setLocales(localesStrings.toArray(new String[input.getLocales().size()]));// manageEnumeration(request.getLocales()));
+    } else {
+      markupRequest.setLocales(SUPPORTED_LOCALES);//new String[]{Locale.getDefault().getDisplayLanguage()});
     }
-    markupRequest.setLocales(localesStrings.toArray(new String[input.getLocales().size()]));// manageEnumeration(request.getLocales()));
-
     Collection<String> supportedContent = pcConf.getSupportedContent();
     String[] mimeTypes = (String[]) supportedContent.toArray(new String[supportedContent.size()]);
     markupRequest.setMimeTypes(mimeTypes);

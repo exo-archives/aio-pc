@@ -34,7 +34,6 @@ import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
@@ -48,6 +47,7 @@ import org.exoplatform.services.wsrp.type.CookieProtocol;
 import org.exoplatform.services.wsrp.type.LocalizedString;
 import org.exoplatform.services.wsrp.type.MarkupType;
 import org.exoplatform.services.wsrp.type.PortletDescription;
+import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.ServiceDescription;
 
@@ -193,10 +193,13 @@ public class WSRPAdminPortlet {
         }
         w.println("<tr>");
         w.println("<td colspan='2'>");
-        w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br>");
-        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint());
-        w.println("Description - " + producer.getDescription());
-        w.println("RegistrationHandle - " + producer.getRegistrationContext().getRegistrationHandle());
+        w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
+        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint() + "<br>");
+//        w.println("Description - " + producer.getDescription() + "<br>");
+//        RegistrationContext regCtx = producer.getRegistrationContext();
+//        if (regCtx != null) {
+//          w.println("RegistrationHandle - " + regCtx.getRegistrationHandle() + "<br>");
+//        }
         w.println("</td>");
         w.println("</tr>");
         w.println("<tr>");
