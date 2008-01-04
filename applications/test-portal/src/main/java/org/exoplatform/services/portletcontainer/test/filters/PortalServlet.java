@@ -87,7 +87,7 @@ public class PortalServlet extends HttpServlet {
           w.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\">");
           w.println("<title>Portlet rendering</title>");
         w.println("</head>");
-      w.println("<body width='100%' style='font-family: Arial'>");
+      w.println("<body width='100%' style='font-family: Arial' bgcolor='#FFFFFF'>");
       w.println("<img src=\"../img/logotestportal.png\">");
 
       ArrayList<PortletInfo> portletinfos = (ArrayList<PortletInfo>) session.getAttribute("portletinfos");
