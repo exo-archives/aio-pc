@@ -17,6 +17,9 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import org.exoplatform.Constants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
@@ -114,10 +117,19 @@ public class URLTemplateComposerImpl implements URLTemplateComposer {
 
   private void manageServerPath(StringBuffer stringBuffer,
                                 String path) {
+    String newPath = null;
+    try {
+      URL url = new URL(path);
+      host = url.getHost();
+      port = url.getPort();
+      newPath = url.getFile();
+    } catch (MalformedURLException e) {
+      newPath = path;
+    }
     stringBuffer.append(host);
     if (port > 0)
       stringBuffer.append(":").append(port);
-    stringBuffer.append(path);
+    stringBuffer.append(newPath);
   }
 
   private void appendParameters(StringBuffer stringBuffer,

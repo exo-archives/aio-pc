@@ -191,7 +191,7 @@ public class PortletDriverImpl implements PortletDriver {
   }
 
   private RuntimeContext getRuntimeContext(WSRPBaseRequest request,
-                                           String path) throws WSRPException {
+                                           String baseURL) throws WSRPException {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumerEnv.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
@@ -199,48 +199,35 @@ public class PortletDriverImpl implements PortletDriver {
 
     if (templateComposer != null) {
       runtimeContext.setNamespacePrefix(templateComposer.getNamespacePrefix());
-    }
-    Boolean doesUrlTemplateProcess = null;
-    PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
-    if (desc != null) {
-      doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
-    }
-    if (doesUrlTemplateProcess != null && templateComposer != null && doesUrlTemplateProcess.booleanValue()) {
-      // If path starts with protocol then don't use templateComposer for create
-      // templates
-      if (path != null)
-        if (path.startsWith(URLTemplateComposerImpl.NON_SECURE_PROTOCOL) || path.startsWith(URLTemplateComposerImpl.SECURE_PROTOCOL)) {
-          Templates templates = new Templates();
-          templates.setBlockingActionTemplate(path);
-          templates.setRenderTemplate(path);
-          templates.setDefaultTemplate(path);
-          templates.setResourceTemplate(path);
-          templates.setSecureBlockingActionTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          templates.setSecureRenderTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          templates.setSecureDefaultTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
-          templates.setSecureResourceTemplate(URLTemplateComposerImpl.SECURE_PROTOCOL
-              + path.substring(URLTemplateComposerImpl.NON_SECURE_PROTOCOL.length()));
 
-          runtimeContext.setTemplates(templates);
-
-          runtimeContext.setSessionID(request.getSessionID());
-          runtimeContext.setExtensions(null);
-          return runtimeContext;
+      Boolean doesUrlTemplateProcess = null;
+      Boolean getTemplatesStoredInSession = null;
+      PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
+      if (desc != null) {
+        doesUrlTemplateProcess = desc.getDoesUrlTemplateProcessing();
+        getTemplatesStoredInSession = desc.getTemplatesStoredInSession();
+        if (getTemplatesStoredInSession) {
+          //TODO
         }
-      Templates templates = new Templates();
-      templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(path));
-      templates.setRenderTemplate(templateComposer.createRenderTemplate(path));
-      templates.setDefaultTemplate(templateComposer.createDefaultTemplate(path));
-      templates.setResourceTemplate(templateComposer.createResourceTemplate(path));
-      templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(path));
-      templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(path));
-      templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(path));
-      templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(path));
-      runtimeContext.setTemplates(templates);
+        Templates templates = null;
+        if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue()) {
+          templates = new Templates();
+          if (baseURL != null) {
+            // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
+            templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
+            templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
+            templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
+            templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
+            templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
+            templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
+            templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
+            templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
+          }
+        }
+        runtimeContext.setTemplates(templates);
+      }
     }
+
     runtimeContext.setSessionID(request.getSessionID());
     runtimeContext.setExtensions(null);
     return runtimeContext;

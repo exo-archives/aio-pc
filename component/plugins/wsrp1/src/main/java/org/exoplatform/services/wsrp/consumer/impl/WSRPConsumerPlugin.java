@@ -737,7 +737,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
             log.debug("use base path : " + path);
             path = input.getBaseURL();
-            System.out.println(">>> EXOMAN WSRPConsumerPlugin 1 .render() path = " + path);
             
             /* MAIN INVOKE */
             mResponse = portletDriver.getMarkup(markupRequest, userSession, path);

@@ -69,29 +69,29 @@
     <type>org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration</type>
     <init-params>
       <properties-param>
-       <name>wsrp-conf</name>
-       <property name="wsrp.requires.registration" value="true"/>
-       <property name="wsrp.has.user.specific.state" value="true"/>
-       <property name="wsrp.does.url.template.processing" value="true"/>
-       <property name="wsrp.templates.stored.in.session" value="false"/>
-       <property name="wsrp.user.context.stored.in.session" value="false"/>
-       <property name="wsrp.uses.method.get" value="false "/>
-       <property name="wsrp.perform.blocking.interaction.optimized" value="false"/>
-       <property name="wsrp.save.registration.state.on.consumer" value="false"/>
-       <property name="wsrp.save.portlet.state.on.consumer" value="false"/>
+        <name>wsrp-conf</name>
+        <property name="wsrp.requires.registration" value="true" />
+        <property name="wsrp.has.user.specific.state" value="true" />
+        <property name="wsrp.does.url.template.processing" value="true" />
+        <property name="wsrp.templates.stored.in.session" value="false" />
+        <property name="wsrp.user.context.stored.in.session" value="false" />
+        <property name="wsrp.uses.method.get" value="false" />
+        <property name="wsrp.perform.blocking.interaction.optimized" value="false" />
+        <property name="wsrp.save.registration.state.on.consumer" value="false" />
+        <property name="wsrp.save.portlet.state.on.consumer" value="false" />
       </properties-param>
       <properties-param>
         <name>wsrp-admin-portlet-conf</name>
-        <property name="portletTitle" value="WSRPAdminPortlet"/>
-        <property name="consumerName" value="www.exoplatform.org"/>
-        <property name="consumerAgent" value="exoplatform.2.0"/>
-        <property name="producerName" value="exo producer"/>
-        <property name="producerURL" value="http://localhost:8080/portal/services2/"/>
-        <property name="markupIntfEndpoint" value="WSRPBaseService"/>
-        <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService"/>
-        <property name="registrationIntfEndpoint" value="WSRPRegistrationService"/>
-        <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService"/>
-        <property name="description" value=""/>
+        <property name="portletTitle" value="WSRPAdminPortlet" />
+        <property name="consumerName" value="www.exoplatform.org" />
+        <property name="consumerAgent" value="exoplatform.2.0" />
+        <property name="producerName" value="exo producer" />
+        <property name="producerURL" value="http://localhost:8080/portal/services2/" />
+        <property name="markupIntfEndpoint" value="WSRPBaseService" />
+        <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService" />
+        <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />
+        <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService" />
+        <property name="description" value="" />
       </properties-param>
     </init-params>
   </component>
@@ -113,8 +113,8 @@
   </external-component-plugins>
 
   <external-component-plugins>
-    <target-component>org.exoplatform.services.portletcontainer.PortletContainerService</target-component>      
-    <component-plugin> 
+    <target-component>org.exoplatform.services.portletcontainer.PortletContainerService</target-component>
+    <component-plugin>
       <name>wsrp2.plugin</name>
       <set-method>addPlugin</set-method>
       <type>org.exoplatform.services.wsrp2.consumer.impl.WSRPConsumerPlugin</type>
