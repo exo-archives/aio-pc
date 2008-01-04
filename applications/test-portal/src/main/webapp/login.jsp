@@ -4,7 +4,7 @@
   <title>eXo Platform Test Portal - Authorisation required </title>
 	<link rel="stylesheet" href="../exopcstyle.css">
 </head>
-<body>
+<body bgcolor='#FFFFFF'>
     <!--  h1>eXo Platform Test Portal - Authorisation required </h1  -->
     <table>
     <tr>
