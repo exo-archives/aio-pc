@@ -50,14 +50,13 @@ public class DefaultPersistenceManager implements PersistenceManager {
   public PortletWindowInternal getWindow(Input input,
                                          ExoPortletPreferences defaultPrefs) {
     WindowID windowID = input.getInternalWindowID();
-    ExoContainer manager = cont;
-    PortletApplicationProxy proxy = (PortletApplicationProxy) manager.getComponentInstance(windowID.getPortletApplicationName());
+    PortletApplicationProxy proxy = (PortletApplicationProxy) cont.getComponentInstance(windowID.getPortletApplicationName());
     String validatorClassName = null;
     PreferencesValidator validator = null;
     if (defaultPrefs != null) {
       validatorClassName = defaultPrefs.getPreferencesValidator();
       if (validatorClassName != null) {
-        validator = validator = proxy.getValidator(validatorClassName, windowID.getPortletName());
+        validator = proxy.getValidator(validatorClassName, windowID.getPortletName());
       }
     }
     PortletPreferencesPersister currentPersister = null;

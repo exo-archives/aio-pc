@@ -47,7 +47,6 @@ import org.exoplatform.services.wsrp.type.CookieProtocol;
 import org.exoplatform.services.wsrp.type.LocalizedString;
 import org.exoplatform.services.wsrp.type.MarkupType;
 import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.ServiceDescription;
 
@@ -135,7 +134,7 @@ public class WSRPAdminPortlet {
       if (input.getPortletURLFactory() != null) {
         actionURL = input.getPortletURLFactory().createPortletURL(PCConstants.actionString);
       }
-      actionURL = new PortletURLImp(PCConstants.actionString, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml());
+      actionURL = new PortletURLImp(PCConstants.actionString, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml(), null);
 
       // actionURL.setSecure(true);
       actionURL.setWindowState(WindowState.NORMAL);

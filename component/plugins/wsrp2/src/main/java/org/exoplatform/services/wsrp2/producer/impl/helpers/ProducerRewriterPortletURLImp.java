@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
-import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -28,6 +27,7 @@ import org.apache.commons.lang.StringUtils;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -55,8 +55,8 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
                                        PersistentStateManager stateManager,
                                        String sessionID,
                                        boolean defaultEscapeXml,
-                                       List<String> supportedPublicRenderParameter) {
-    super(type, template, markup, supports, isCurrentlySecured, defaultEscapeXml);
+                                       List<String> supportedPublicRenderParameter, Portlet portlet) {
+    super(type, template, markup, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -65,6 +65,11 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
 
   public String toString() {
 
+    if (type.equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
+      invokeFilterActionURL();
+    else
+      invokeFilterRenderURL();
+    
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
     Map<String, String[]> privateParams = new HashMap<String, String[]>();
     String navigationalValuesString = new String();
@@ -120,7 +125,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString, true));
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString));
 
     // process interaction state
     if (type.equalsIgnoreCase(PCConstants.actionString)) {
@@ -158,16 +163,16 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
       if (obj instanceof String) {
         String value = (String) obj;
         template += Constants.AMPERSAND;
-        template += URLEncoder.encode(name);
+        template += encode(name);
         template += "=";
-        template += URLEncoder.encode(value);
+        template += encode(value);
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
           template += Constants.AMPERSAND;
-          template += URLEncoder.encode(name);
+          template += encode(name);
           template += "=";
-          template += URLEncoder.encode(values[i]);
+          template += encode(values[i]);
         }
       }
     }

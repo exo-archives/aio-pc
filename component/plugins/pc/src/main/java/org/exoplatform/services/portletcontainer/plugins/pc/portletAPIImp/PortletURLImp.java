@@ -45,14 +45,14 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
 
   protected String         markup;
 
-  public PortletURLImp(String type,
-                       String baseURL,
-                       String markup,
-                       List<Supports> supports,
-                       boolean isCurrentlySecured,
-                       boolean defaultEscapeXml) {
-    this(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml, null);
-  }
+//  public PortletURLImp(String type,
+//                       String baseURL,
+//                       String markup,
+//                       List<Supports> supports,
+//                       boolean isCurrentlySecured,
+//                       boolean defaultEscapeXml) {
+//    this(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml, null);
+//  }
 
   public PortletURLImp(String type,
                        String baseURL,

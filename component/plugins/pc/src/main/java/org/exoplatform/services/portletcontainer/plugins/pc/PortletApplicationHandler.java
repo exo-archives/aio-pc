@@ -162,17 +162,17 @@ public class PortletApplicationHandler {
       responseWrapper = new CustomResponseWrapper(response);
 
       RequestContext reqCtx = new RequestContext(requestWrapper,
-          portalContext,
-          portletContext,
-          session,
-          input,
-          windowInfos,
-          holder.getPortletApplication(portletAppName).getSecurityConstraint(),
-          holder.getPortletApplication(portletAppName).getUserAttribute(),
-          holder.getPortletApplication(portletAppName).getCustomPortletMode(),
-          holder.getPortletApplication(portletAppName).getCustomWindowState(),
-          holder.getRoles(portletAppName),
-          conf.getSupportedContent());
+                                                 portalContext,
+                                                 portletContext,
+                                                 session,
+                                                 input,
+                                                 windowInfos,
+                                                 holder.getPortletApplication(portletAppName).getSecurityConstraint(),
+                                                 holder.getPortletApplication(portletAppName).getUserAttribute(),
+                                                 holder.getPortletApplication(portletAppName).getCustomPortletMode(),
+                                                 holder.getPortletApplication(portletAppName).getCustomWindowState(),
+                                                 holder.getRoles(portletAppName),
+                                                 conf.getSupportedContent());
 
       // @todo sort the attributes
 
@@ -187,17 +187,17 @@ public class PortletApplicationHandler {
       }
 
       ResponseContext resCtx = new ResponseContext(responseWrapper,
-          cont,
-          windowInfos.getWindowID().getUniqueID(),
-          input,
-          holder.getPortletMetaData(portletAppName, portletName),
-          request.isSecure(),
-          conf.getSupportedContent(),
-          Collections.enumeration(holder.getWindowStates(portletAppName, portletName, input.getMarkup())),
-          holder.getPortletApplication(portletAppName).getCustomWindowState(),
-          output,
-          portalContext,
-          portletRequest);
+                                                   cont,
+                                                   windowInfos.getWindowID().getUniqueID(),
+                                                   input,
+                                                   holder.getPortletMetaData(portletAppName, portletName),
+                                                   request.isSecure(),
+                                                   conf.getSupportedContent(),
+                                                   Collections.enumeration(holder.getWindowStates(portletAppName, portletName, input.getMarkup())),
+                                                   holder.getPortletApplication(portletAppName).getCustomWindowState(),
+                                                   output,
+                                                   portalContext,
+                                                   portletRequest);
 
       if (isAction == PCConstants.actionInt) {
         portletResponse = new ActionResponseImp(resCtx);

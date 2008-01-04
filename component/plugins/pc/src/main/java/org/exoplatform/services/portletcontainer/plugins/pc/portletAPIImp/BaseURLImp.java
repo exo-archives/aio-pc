@@ -181,6 +181,10 @@ public abstract class BaseURLImp implements BaseURL {
     }
   }
 
+  protected String encode(String s) {
+    return encode(s, false);
+  }
+                          
   protected String encodeChars(String s) {
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&#034;").replace("'", "&#039;");
   }

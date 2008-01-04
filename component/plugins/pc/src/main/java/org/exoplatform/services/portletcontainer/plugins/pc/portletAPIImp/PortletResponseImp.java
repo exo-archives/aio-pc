@@ -30,7 +30,6 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.Output;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.model.CustomWindowState;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;

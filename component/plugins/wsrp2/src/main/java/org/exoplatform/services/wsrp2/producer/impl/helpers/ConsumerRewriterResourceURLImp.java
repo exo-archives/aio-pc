@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
-import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -26,6 +25,7 @@ import java.util.Map;
 
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
+import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -52,8 +52,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
                                         String sessionID,
                                         boolean defaultEscapeXml,
                                         String cacheLevel,
-                                        List<String> supportedPublicRenderParameter) {
-    super(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel);
+                                        List<String> supportedPublicRenderParameter, Portlet portlet) {
+    super(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -61,6 +61,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
   }
 
   public String toString() {
+    
+    invokeFilterResourceURL();
 
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
     Map<String, String[]> privateParams = new HashMap<String, String[]>();
@@ -157,16 +159,16 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       if (obj instanceof String) {
         String value = (String) obj;
         sB.append(Constants.AMPERSAND);
-        sB.append(URLEncoder.encode(name));
+        sB.append(encode(name));
         sB.append("=");
-        sB.append(URLEncoder.encode(value));
+        sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
           sB.append(Constants.AMPERSAND);
-          sB.append(URLEncoder.encode(name));
+          sB.append(encode(name));
           sB.append("=");
-          sB.append(URLEncoder.encode(values[i]));
+          sB.append(encode(values[i]));
         }
       }
     }

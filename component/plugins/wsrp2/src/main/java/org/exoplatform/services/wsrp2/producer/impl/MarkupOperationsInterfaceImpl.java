@@ -50,6 +50,7 @@ import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
@@ -144,7 +145,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   UserContext userContext,
                                   MarkupParams markupParams) throws RemoteException {
 
-    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
+    if (!Helper.checkLifetime(registrationContext, userContext)
+        || !Helper.checkPortletLifetime(registrationContext,
+                                        new PortletContext[] { portletContext },
+                                        userContext,
+                                        portletManagementOperationsInterface))
       return null;
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
@@ -240,7 +245,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     sessionID,
                                                                     portletData.getEscapeXml(),
                                                                     ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter());
+                                                                    portletData.getSupportedPublicRenderParameter(),
+                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
+
     } else {
       log.debug("Consumer URL rewriting");
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
@@ -252,7 +259,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     sessionID,
                                                                     portletData.getEscapeXml(),
                                                                     ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter());
+                                                                    portletData.getSupportedPublicRenderParameter(),
+                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
     }
     // ---------- END FOR CREATING FACTORY --------------
 
@@ -340,7 +348,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                 MarkupParams markupParams,
                                                                 InteractionParams interactionParams) throws RemoteException {
     //if (!Helper.checkLifetime(registrationContext, userContext))
-    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
+    if (!Helper.checkLifetime(registrationContext, userContext)
+        || !Helper.checkPortletLifetime(registrationContext,
+                                        new PortletContext[] { portletContext },
+                                        userContext,
+                                        portletManagementOperationsInterface))
       return null;
     try {
       // manage the portlet handle
@@ -397,7 +409,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                       sessionID,
                                                                       portletData.getEscapeXml(),
                                                                       ResourceURL.PAGE,
-                                                                      portletData.getSupportedPublicRenderParameter());
+                                                                      portletData.getSupportedPublicRenderParameter(),
+                                                                      ((PortletDataImp) portletData).getWrappedPortletTyped());
       } else {
         log.debug("Consumer URL rewriting");
         portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
@@ -409,7 +422,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                       sessionID,
                                                                       portletData.getEscapeXml(),
                                                                       ResourceURL.PAGE,
-                                                                      portletData.getSupportedPublicRenderParameter());
+                                                                      portletData.getSupportedPublicRenderParameter(),
+                                                                      ((PortletDataImp) portletData).getWrappedPortletTyped());
       }
       // ---------- END FOR CREATING FACTORY --------------
 
@@ -621,7 +635,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                       UserContext userContext,
                                       ResourceParams resourceParams) throws java.rmi.RemoteException {
     //if (!Helper.checkLifetime(registrationContext, userContext))
-    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
+    if (!Helper.checkLifetime(registrationContext, userContext)
+        || !Helper.checkPortletLifetime(registrationContext,
+                                        new PortletContext[] { portletContext },
+                                        userContext,
+                                        portletManagementOperationsInterface))
       return null;
     try {
 
@@ -726,7 +744,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                       sessionID,
                                                                       portletData.getEscapeXml(),
                                                                       resourceParams.getResourceCacheability(),
-                                                                      portletData.getSupportedPublicRenderParameter());
+                                                                      portletData.getSupportedPublicRenderParameter(),
+                                                                      ((PortletDataImp) portletData).getWrappedPortletTyped());
       } else {
         log.debug("Consumer URL rewriting");
         portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
@@ -738,7 +757,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                       sessionID,
                                                                       portletData.getEscapeXml(),
                                                                       resourceParams.getResourceCacheability(),
-                                                                      portletData.getSupportedPublicRenderParameter());
+                                                                      portletData.getSupportedPublicRenderParameter(),
+                                                                      ((PortletDataImp) portletData).getWrappedPortletTyped());
       }
       // ---------- END CREATING FACTORY --------------
 
@@ -792,7 +812,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       } catch (WSRPException e) {
         Exception2Fault.handleException(e);
       }
-
+      //output.getProperties() // TODO EXOMAN EXTREMELY need
       // preparing resource context
       ResourceContext resourceContext = new ResourceContext();
       resourceContext.setCacheControl(cacheControl);
@@ -824,7 +844,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                            EventParams eventParams) throws java.rmi.RemoteException {
 
     //if (!Helper.checkLifetime(registrationContext, userContext))
-    if (!Helper.checkLifetime(registrationContext, userContext) || !Helper.checkPortletLifetime(registrationContext, new PortletContext[]{portletContext}, userContext,portletManagementOperationsInterface ))
+    if (!Helper.checkLifetime(registrationContext, userContext)
+        || !Helper.checkPortletLifetime(registrationContext,
+                                        new PortletContext[] { portletContext },
+                                        userContext,
+                                        portletManagementOperationsInterface))
       return null;
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
@@ -879,7 +903,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     sessionID,
                                                                     portletData.getEscapeXml(),
                                                                     ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter());
+                                                                    portletData.getSupportedPublicRenderParameter(),
+                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
     } else {
       log.debug("Consumer URL rewriting");
       portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
@@ -891,7 +916,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     sessionID,
                                                                     portletData.getEscapeXml(),
                                                                     ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter());
+                                                                    portletData.getSupportedPublicRenderParameter(),
+                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
     }
     // ---------- END CREATING FACTORY --------------
 

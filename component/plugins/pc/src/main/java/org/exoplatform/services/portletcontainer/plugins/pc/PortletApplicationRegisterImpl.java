@@ -185,8 +185,8 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
 
   private void removeFilters(String portletAppName, PortletApp portletApp) {
     log.debug("remove filters entered");
-    List portlets = portletApp.getPortlet();
-    for (Iterator iterator = portlets.iterator(); iterator.hasNext();) {
+    List<Portlet> portlets = portletApp.getPortlet();
+    for (Iterator<Portlet> iterator = portlets.iterator(); iterator.hasNext();) {
       Portlet portlet = (Portlet) iterator.next();
       PortletFilterChainImpl chain = (PortletFilterChainImpl) portlet.getFilterChain();
       for (Iterator iter = chain.getFiltersIterator(); iter.hasNext();) {

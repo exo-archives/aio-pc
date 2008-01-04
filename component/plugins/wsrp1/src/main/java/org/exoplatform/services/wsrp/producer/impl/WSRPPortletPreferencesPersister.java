@@ -51,8 +51,8 @@ public class WSRPPortletPreferencesPersister implements PortletPreferencesPersis
     return (ExoPortletPreferences) prefs.get(windowID.generateKey());
   }
 
-  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences)
-      throws Exception {
+  public void savePortletPreferences(WindowID windowID,
+                                     ExoPortletPreferences preferences) throws Exception {
     prefs.put(windowID.generateKey(), preferences);
   }
 

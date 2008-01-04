@@ -437,7 +437,6 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return super.getLocales();
   }
 
-
   // adds for jsr-286
   public String getWindowID() {
     return reqCtx.getInput().getInternalWindowID().getUniqueID();

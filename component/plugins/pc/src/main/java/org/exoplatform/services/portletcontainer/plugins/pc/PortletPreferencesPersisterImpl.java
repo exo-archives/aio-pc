@@ -29,7 +29,7 @@ import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesP
 public class PortletPreferencesPersisterImpl implements
 		PortletPreferencesPersister, Serializable {
 
-  private Map prefs = new HashMap();
+  private Map<String, ExoPortletPreferences> prefs = new HashMap<String, ExoPortletPreferences>();
   private transient Log log_;
 
   public PortletPreferencesPersisterImpl() {

@@ -17,9 +17,12 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
@@ -28,29 +31,29 @@ import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesP
  * User: Benjamin Mestrallet
  * Date: 8 juin 2004
  */
-public class WSRPPortletPreferencesPersister implements PortletPreferencesPersister {
+public class WSRPPortletPreferencesPersister implements PortletPreferencesPersister, Serializable {
 
   private static WSRPPortletPreferencesPersister ourInstance = new WSRPPortletPreferencesPersister();
+
+  private Map<String, ExoPortletPreferences>     prefs       = new HashMap<String, ExoPortletPreferences>();
+
+  private transient Log                          log;
+
+  private WSRPPortletPreferencesPersister() {
+    this.log = ExoLogger.getLogger(getClass());
+  }
 
   public static WSRPPortletPreferencesPersister getInstance() {
     return ourInstance;
   }
 
-  private WSRPPortletPreferencesPersister() {
-  }
-
-  private Map<String, ExoPortletPreferences> localMap = new HashMap<String, ExoPortletPreferences>();
-
   public ExoPortletPreferences getPortletPreferences(WindowID windowID) throws Exception {
-    ExoPortletPreferences map = (ExoPortletPreferences) localMap.get(windowID.generateKey());
-    if (map == null)
-      return null;
-    return map;
+    return (ExoPortletPreferences) prefs.get(windowID.generateKey());
   }
 
-  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences)
-      throws Exception {
-    localMap.put(windowID.generateKey(), preferences);
+  public void savePortletPreferences(WindowID windowID,
+                                     ExoPortletPreferences preferences) throws Exception {
+    prefs.put(windowID.generateKey(), preferences);
   }
 
 }

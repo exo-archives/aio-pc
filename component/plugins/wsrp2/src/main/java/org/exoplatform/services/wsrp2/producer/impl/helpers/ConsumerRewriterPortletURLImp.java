@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
-import java.net.URLEncoder;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +26,7 @@ import java.util.Map;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
@@ -55,8 +55,9 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
                                        PersistentStateManager stateManager,
                                        String sessionID,
                                        boolean defaultEscapeXml,
-                                       List<String> supportedPublicRenderParameter) {
-    super(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml);
+                                       List<String> supportedPublicRenderParameter,
+                                       Portlet portlet) {
+    super(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -64,6 +65,11 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
   }
 
   public String toString() {
+
+    if (type.equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
+      invokeFilterActionURL();
+    else
+      invokeFilterRenderURL();
 
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
     Map<String, String[]> privateParams = new HashMap<String, String[]>();
@@ -143,7 +149,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append("&");
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
     sB.append("=");
-    sB.append(encode(navigationalValuesString, false));
+    sB.append(encode(navigationalValuesString));
 
     // process interaction state
     if (type.equalsIgnoreCase(PCConstants.actionString)) {
@@ -168,16 +174,16 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       if (obj instanceof String) {
         String value = (String) obj;
         sB.append(Constants.AMPERSAND);
-        sB.append(URLEncoder.encode(name));
+        sB.append(encode(name));
         sB.append("=");
-        sB.append(URLEncoder.encode(value));
+        sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
           sB.append(Constants.AMPERSAND);
-          sB.append(URLEncoder.encode(name));
+          sB.append(encode(name));
           sB.append("=");
-          sB.append(URLEncoder.encode(values[i]));
+          sB.append(encode(values[i]));
         }
       }
     }

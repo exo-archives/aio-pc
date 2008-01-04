@@ -42,13 +42,13 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
 
   protected Map<String, String[]> renderParams;
 
-  public ResourceURLImp(String type,
-                        String baseURL,
-                        boolean isCurrentlySecured,
-                        boolean defaultEscapeXml,
-                        String cacheLevel) {
-    this(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel, null, null);
-  }
+//  public ResourceURLImp(String type,
+//                        String baseURL,
+//                        boolean isCurrentlySecured,
+//                        boolean defaultEscapeXml,
+//                        String cacheLevel) {
+//    this(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel, null, null);
+//  }
 
   public ResourceURLImp(String type,
                         String baseURL,

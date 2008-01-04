@@ -47,7 +47,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
                                         String portletHandle,
                                         PersistentStateManager stateManager,
                                         String sessionID) {
-    super(type, baseURL, isCurrentlySecured, true, null);
+    super(type, baseURL, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -114,16 +114,16 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       if (obj instanceof String) {
         String value = (String) obj;
         sB.append(Constants.AMPERSAND);
-        sB.append(URLEncoder.encode(name));
+        sB.append(encode(name));
         sB.append("=");
-        sB.append(URLEncoder.encode(value));
+        sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
           sB.append(Constants.AMPERSAND);
-          sB.append(URLEncoder.encode(name));
+          sB.append(encode(name));
           sB.append("=");
-          sB.append(URLEncoder.encode(values[i]));
+          sB.append(encode(values[i]));
         }
       }
     }

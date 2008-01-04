@@ -51,7 +51,7 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
                                        String portletHandle,
                                        PersistentStateManager persistentStateManager,
                                        String sessionID) {
-    super(type, template, markup, supports, isCurrentlySecured, true);
+    super(type, template, markup, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = persistentStateManager;
     this.sessionID = sessionID;
@@ -102,16 +102,16 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
       if (obj instanceof String) {
         String value = (String) obj;
         template += Constants.AMPERSAND;
-        template += URLEncoder.encode(name);
+        template += encode(name);
         template += "=";
-        template += URLEncoder.encode(value);
+        template += encode(value);
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
           template += Constants.AMPERSAND;
-          template += URLEncoder.encode(name);
+          template += encode(name);
           template += "=";
-          template += URLEncoder.encode(values[i]);
+          template += encode(values[i]);
         }
       }
     }

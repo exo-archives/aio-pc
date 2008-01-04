@@ -23,9 +23,10 @@ import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
 
 import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
+import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -44,14 +45,16 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private boolean                defaultEscapeXml;
 
-  private List<Supports>         supports;          // only for PortletURL
+  private List<Supports>         supports;                      // only for PortletURL
 
-  private String                 markup;            // only for PortletURL
+  private String                 markup;                        // only for PortletURL
 
-  private String                 cacheLevel;        // only for ResourceURL
+  private String                 cacheLevel;                    // only for ResourceURL
 
   private List<String>           supportedPublicRenderParameter;
-  
+
+  private Portlet                portlet;
+
   public WSRPProducerRewriterPortletURLFactory(String markup,
                                                String template,
                                                List<Supports> supports,
@@ -61,7 +64,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                String sessionID,
                                                boolean defaultEscapeXml,
                                                String cacheLevel,
-                                               List<String> supportedPublicRenderParameter) {
+                                               List<String> supportedPublicRenderParameter,
+                                               Portlet portlet) {
     this.markup = markup;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
@@ -72,6 +76,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
     this.defaultEscapeXml = defaultEscapeXml;
     this.cacheLevel = cacheLevel;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
+    this.portlet = portlet;
   }
 
   public PortletURL createPortletURL(String type) {
@@ -84,7 +89,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                              stateManager,
                                              sessionID,
                                              defaultEscapeXml,
-                                             supportedPublicRenderParameter);
+                                             supportedPublicRenderParameter,
+                                             portlet);
   }
 
   public ResourceURL createResourceURL(String type) {
@@ -96,7 +102,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                               sessionID,
                                               defaultEscapeXml,
                                               cacheLevel,
-                                              supportedPublicRenderParameter);
+                                              supportedPublicRenderParameter,
+                                              portlet);
   }
 
 }
