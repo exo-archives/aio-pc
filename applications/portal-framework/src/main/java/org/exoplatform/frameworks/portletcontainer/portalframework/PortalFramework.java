@@ -635,9 +635,8 @@ public class PortalFramework {
         for (final Iterator<String> portletsNamesIterator = portletsNames.iterator(); portletsNamesIterator.hasNext();) {
           final String pname = portletsNamesIterator.next();
           final EventInfo eventInfo = new EventInfo(event, pname);
-          if (checkEventValueType(eventInfo)) {
+          if (eventInfo.getEvent().getValue()== null || checkEventValueType(eventInfo))
             events.add(eventInfo); // here put event for process
-          }
         }
       }
     }
@@ -701,7 +700,8 @@ public class PortalFramework {
     actionInput.setUserAttributes(new HashMap<String, String>());
     actionInput.setMarkup(cntType);
     actionInput.setPublicParamNames(getPublicNamesSet(target));
-    actionInput.setRenderParameters(portletParams);
+    actionInput.setRenderParameters(publicRenderParams);
+    Helper.appendParams(actionInput.getRenderParameters(), portletParams);
     portletParams = new HashMap<String, String[]>();
     actionInput.setPortletMode(win.getPortletMode());
     actionInput.setWindowState(win.getWindowState());
