@@ -53,7 +53,7 @@
   <body>
         
     	<div id="clock">
-      	<div id="greeting" ></div>
+      	<div id="greeting"></div>
         <div id="timer">
           <span id="time"></span>
           <span id="ampm"></span>
@@ -69,8 +69,8 @@
   } catch(e) {}
 
 function startClock() {
-	output("Loading...", "greeting");
-	window.setTimeout("updateClock()", 500);
+	/*output("Loading...", "greeting");*/
+	window.setTimeout("updateClock()", 0);
 	window.setInterval("updateClock()", 1000);
 }
 

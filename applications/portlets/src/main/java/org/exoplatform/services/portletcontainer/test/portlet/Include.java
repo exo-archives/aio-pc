@@ -47,16 +47,12 @@ public class Include extends GenericPortlet {
       response.setTitle("Include TITLE");
 
       PortletMode mode = request.getPortletMode();
-      System.out.println(">>> EXOMAN Include.doDispatch() mode.toString() = " + mode.toString());
       
       String forInclude = getInitParameter(mode.toString());
-      System.out.println(">>> EXOMAN Include.doDispatch() forInclude = " + forInclude);
       if (forInclude == null)
         forInclude = getInitParameter(mode.toString().toLowerCase());
-      System.out.println(">>> EXOMAN Include.doDispatch() forInclude = " + forInclude);
       if (forInclude == null)
         forInclude = getInitParameter(mode.toString().toUpperCase());
-      System.out.println(">>> EXOMAN Include.doDispatch() forInclude = " + forInclude);
       
       PortletContext context = getPortletContext();
       PortletRequestDispatcher rd = context.getRequestDispatcher(forInclude);
