@@ -1,12 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!-- 
- <myportlet>
- </myportlet>
-  -->
-<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" version="1.0">
- 
+  <myportlet>
+  </myportlet>
+-->
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" version="1.0">
+
 
   <portlet>
     <description xml:lang="EN">Portlet for environment checking</description>
@@ -58,24 +57,24 @@
       <role-link>auth-user</role-link>
     </security-role-ref>
   </portlet>
- 
+
   <!--
-  <portlet>
+    <portlet>
     <description xml:lang="EN">Portlet 2 : just test</description>
     <portlet-name>TestPortlet</portlet-name>
     <display-name xml:lang="en">Test Portlet</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.TestPortlet</portlet-class>
     <expiration-cache>-1</expiration-cache>
     <supports>
-      <mime-type>text/html</mime-type>
-      <portlet-mode>edit</portlet-mode>
+    <mime-type>text/html</mime-type>
+    <portlet-mode>edit</portlet-mode>
     </supports>
     <supported-locale>EN</supported-locale>
     <portlet-info>
-      <title>TestPortlet</title>
-      <short-title>Test</short-title>
+    <title>TestPortlet</title>
+    <short-title>Test</short-title>
     </portlet-info>
-  </portlet>
+    </portlet>
   -->
 
   <portlet>
@@ -88,9 +87,9 @@
       <value>/test.jsp</value>
     </init-param>
     <expiration-cache>0</expiration-cache>
-    	<supports>
-      		<mime-type>text/html</mime-type>
-     	</supports>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
     <supported-locale>EN</supported-locale>
     <portlet-info>
       <title>BridgePortlet</title>
@@ -98,7 +97,7 @@
     </portlet-info>
   </portlet>
 
- <portlet>
+  <portlet>
     <description xml:lang="EN">Test Sessions</description>
     <portlet-name>TestSessions</portlet-name>
     <display-name xml:lang="en">TestSessions</display-name>
@@ -108,9 +107,9 @@
       <value>/test.jsp</value>
     </init-param>
     <expiration-cache>0</expiration-cache>
-    	<supports>
-      		<mime-type>text/html</mime-type>
-     	</supports>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
     <supported-locale>EN</supported-locale>
     <portlet-info>
       <title>Test Sessions</title>
@@ -129,9 +128,9 @@
       <value>/test.jsp</value>
     </init-param>
     <expiration-cache>0</expiration-cache>
-    	<supports>
-      		<mime-type>text/html</mime-type>
-     	</supports>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
     <supported-locale>EN</supported-locale>
     <portlet-info>
       <title>GenericBridgePortlet</title>
@@ -139,78 +138,78 @@
     </portlet-info>
   </portlet>
 
- 	<portlet>
-   	<description xml:lang="en">Test Includes</description>
-   	<portlet-name>TestIncludes</portlet-name>
-   	<display-name xml:lang="en">TestIncludes</display-name>
-   	<portlet-class>org.exoplatform.services.portletcontainer.test.portlet.TestIncludes</portlet-class>
-		<init-param>
-			<description>htmltimes</description>
-			<name>htmltimes</name>			
-			<value>4</value>
-		</init-param>
-		<init-param>
-			<description>jsptimes</description>
-			<name>jsptimes</name>			
-			<value>2</value>
-		</init-param>
-		<init-param>
-			<description>servlettimes</description>
-			<name>servlettimes</name>			
-			<value>2</value>
-		</init-param>
-   	<expiration-cache>0</expiration-cache>
-   	<supports>
-     		<mime-type>text/html</mime-type>
-    	</supports>
-   	<supported-locale>en</supported-locale>
-   	<portlet-info>
-     		<title>TestIncludes</title>
-     		<short-title>TestIncludes</short-title>
-     		<keywords>Includes</keywords>
-   	</portlet-info>
- 	</portlet>
-
-	<portlet>
-    	<description xml:lang="en">TestCache</description>
-    	<portlet-name>TestCache</portlet-name>
-    	<display-name xml:lang="en">TestCache</display-name>
-    	<portlet-class>org.exoplatform.services.portletcontainer.test.portlet.TestCache</portlet-class>
-    	<expiration-cache>300</expiration-cache>
-    	<supports>
-      		<mime-type>text/html</mime-type>
-     	</supports>
-    	<supported-locale>en</supported-locale>
-    	<portlet-info>
-      		<title>TestCache</title>
-      		<short-title>TestCache</short-title>
-      		<keywords>TestCache</keywords>
-    	</portlet-info>
+  <portlet>
+    <description xml:lang="en">Test Includes</description>
+    <portlet-name>TestIncludes</portlet-name>
+    <display-name xml:lang="en">TestIncludes</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.TestIncludes</portlet-class>
+    <init-param>
+      <description>htmltimes</description>
+      <name>htmltimes</name>
+      <value>4</value>
+    </init-param>
+    <init-param>
+      <description>jsptimes</description>
+      <name>jsptimes</name>
+      <value>2</value>
+    </init-param>
+    <init-param>
+      <description>servlettimes</description>
+      <name>servlettimes</name>
+      <value>2</value>
+    </init-param>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>TestIncludes</title>
+      <short-title>TestIncludes</short-title>
+      <keywords>Includes</keywords>
+    </portlet-info>
   </portlet>
-   
+
+  <portlet>
+    <description xml:lang="en">TestCache</description>
+    <portlet-name>TestCache</portlet-name>
+    <display-name xml:lang="en">TestCache</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.TestCache</portlet-class>
+    <expiration-cache>300</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>TestCache</title>
+      <short-title>TestCache</short-title>
+      <keywords>TestCache</keywords>
+    </portlet-info>
+  </portlet>
+
   <!--This portlet checking the basic JCR actions-->
   <!--		
-  <portlet>
+    <portlet>
     <description xml:lang="EN">This portlet checking the basic JCR actions</description>
     <portlet-name>JCRBasicActionsTestPortlet</portlet-name>
     <display-name xml:lang="en">JCRBasicActionsTestPortlet</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.JCRBasicActionsTestPortlet</portlet-class>
     <expiration-cache>-1</expiration-cache>
     <supports>
-      <mime-type>text/html</mime-type>
-      <portlet-mode>edit</portlet-mode>
+    <mime-type>text/html</mime-type>
+    <portlet-mode>edit</portlet-mode>
     </supports>
-    	<supports>
-      		<mime-type>text/html</mime-type>
-     	</supports>
+    <supports>
+    <mime-type>text/html</mime-type>
+    </supports>
     <supported-locale>EN</supported-locale>
     <portlet-info>
-      <title>JCRBasicActionsTestPortlet</title>
-      <short-title>TestPortlets</short-title>
+    <title>JCRBasicActionsTestPortlet</title>
+    <short-title>TestPortlets</short-title>
     </portlet-info>
-  </portlet>
+    </portlet>
   -->
-  
+
   <portlet>
     <description xml:lang="en">Prefs tester 1</description>
     <portlet-name>PrefsPortlet1</portlet-name>
@@ -235,7 +234,7 @@
       <preferences-validator>org.exoplatform.services.portletcontainer.test.portlet.SimplePreferencesValidator</preferences-validator>
     </portlet-preferences>
   </portlet>
-    
+
   <portlet>
     <description xml:lang="en">Prefs tester 2</description>
     <portlet-name>PrefsPortlet2</portlet-name>
@@ -272,7 +271,7 @@
       </preference>
     </portlet-preferences>
   </portlet>
-    
+
   <portlet>
     <description xml:lang="en">TestResources</description>
     <description xml:lang="ru">ТестРесурсы</description>
@@ -286,34 +285,10 @@
     <supported-locale>EN</supported-locale>
     <supported-locale>ru</supported-locale>
     <resource-bundle>GetResourceBundleTestResources</resource-bundle>
-  </portlet>  
-       
-  <portlet>
-    <description xml:lang="en">Clock</description>
-    <portlet-name>Clock</portlet-name>
-    <display-name xml:lang="en">Clock</display-name>
-    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.Include</portlet-class>
-    <init-param>
-      <description>view</description>
-      <name>view</name>     
-      <value>/WEB-INF/clock.html</value>
-    </init-param>
-    <expiration-cache>0</expiration-cache>
-    <supports>
-      <mime-type>text/html</mime-type>
-    </supports>
-    <supported-locale>en</supported-locale>
-    <portlet-info>
-      <title>Clock</title>
-      <short-title>Clock</short-title>
-      <keywords>Clock</keywords>
-    </portlet-info>
   </portlet>
-       
+
   <user-attribute>
-    <description xml:lang="EN">
-            Pre-defined attribute for the telephone number of the user at work.
-    </description>
+    <description xml:lang="EN">Pre-defined attribute for the telephone number of the user at work.</description>
     <name>workInfo/telephone</name>
   </user-attribute>
 </portlet-app>
