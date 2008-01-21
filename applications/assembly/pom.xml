@@ -34,6 +34,14 @@
       <scope>compile</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>demos</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <type>exopc-war</type>
+      <scope>compile</scope>
+    </dependency>
+
 <!--
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>

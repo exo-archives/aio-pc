@@ -63,7 +63,7 @@ public class PrefsPortlet2 extends GenericPortlet {
     PortletURL url = null;
     w.println("<center><font size='3'><b><i>More complex portlet for testing storing/retrieving params from PortletPreferences</i></b></font></center><br>");
 
-    w.println("<table width=\"50%\" border=\"1\">");
+    w.println("<table width=\"100%\" border=\"1\">");
     w.println("<tr bgcolor=\"#666666\"><th>name</th><th>value</th><th>is read only</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
     for (Enumeration e = prefs.getNames(); e.hasMoreElements(); ) {
       String name = (String) e.nextElement();

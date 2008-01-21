@@ -50,26 +50,29 @@ public class HelloWorld extends GenericPortlet {
     PrintWriter w = renderResponse.getWriter();
     w.println("<center><font size='3'><b><i>Simple portlet shows environment variables and three standard portlet modes.</i></b></font></center><br>");
     w.println("<h2 align=\"center\">Hello World</h2>");
+    //ATTRIBUTES
     w.println("<table width=\"100%\" border=\"2\" style=\"border-collapse:collapse;border-style:solid;\">");
     w.println("<tr><th colspan=\"2\">Request attributes</th></tr>");
-    w.println("<tr><th>attibute</th><th>value</th></tr>");
+    w.println("<tr><th width=\"50%\">attibute</th><th width=\"50%\">value</th></tr>");
     Enumeration e = renderRequest.getAttributeNames();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
-      w.println("<tr><td>" + s + "</td>");
-      w.println("<td>" + renderRequest.getAttribute(s) + "</td></tr>");
+      w.println("<tr><td colspan=\"2\" style=\"padding-left: 5px; font-size: small;\">" + s + "</td></tr>");
+      w.println("<tr><td colspan=\"2\" style=\"padding-left: 20px; font-size: small;\">" + renderRequest.getAttribute(s) + "</td></tr>");
     }
     w.println("</table><br>");
+    //PARAMETERS
     w.println("<table width=\"100%\" border=\"2\" style=\"border-collapse:collapse;border-style:solid;\">");
     w.println("<tr><th colspan=\"2\">Request parameters</th></tr>");
-    w.println("<tr><th>parameter</th><th>value</th></tr>");
+    w.println("<tr><th width=\"50%\">parameter</th><th width=\"50%\">value</th></tr>");
     e = renderRequest.getParameterNames();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
-      w.println("<tr><td>" + s + "</td>");
-      w.println("<td>" + renderRequest.getParameter(s) + "</td></tr>");
+      w.println("<tr><td colspan=\"2\" style=\"padding-left: 5px; font-size: small;\">" + s + "</td></tr>");
+      w.println("<tr><td colspan=\"2\" style=\"padding-left: 20px; font-size: small;\">" + renderRequest.getParameter(s) + "</td></tr>");
     }
     w.println("</table>");
+    //URLS
     PortletURL actionURL = renderResponse.createActionURL();
     actionURL.setParameter("action_param_1", "action param test");
     actionURL.setParameter("action_param_2", "action param test 2");
