@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
-             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0">
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0">
 
   <portlet>
     <description xml:lang="en">A bit more than just a hello world :)</description>
     <portlet-name>HelloWorld</portlet-name>
     <display-name xml:lang="en">HelloWorld</display-name>
-    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.HelloWorldPortlet</portlet-class>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.HelloWorld</portlet-class>
     <expiration-cache>4</expiration-cache>
     <supports>
       <mime-type>text/html</mime-type>
@@ -22,9 +21,9 @@
   </portlet>
 
   <portlet>
-    <description xml:lang="en">Preferences demo</description>
-    <portlet-name>PrefsDemo</portlet-name>
-    <display-name xml:lang="en">Prefs demo</display-name>
+    <description xml:lang="en">Preferences portlet</description>
+    <portlet-name>PrefsPortlet</portlet-name>
+    <display-name xml:lang="en">Prefs portlet</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.PrefsPortlet</portlet-class>
     <expiration-cache>0</expiration-cache>
     <supports>
@@ -58,21 +57,21 @@
     </portlet-preferences>
   </portlet>
 
-	<portlet>
-  	<description xml:lang="en">CachePortlet</description>
-   	<portlet-name>CachePortlet</portlet-name>
-   	<display-name xml:lang="en">CachePortlet</display-name>
-   	<portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.CachePortlet</portlet-class>
-   	<expiration-cache>300</expiration-cache>
-   	<supports>
-   		<mime-type>text/html</mime-type>
-   	</supports>
-   	<supported-locale>en</supported-locale>
-   	<portlet-info>
-   		<title>CachePortlet</title>
-   		<short-title>CachePortlet</short-title>
-   		<keywords>CachePortlet</keywords>
-   	</portlet-info>
+  <portlet>
+    <description xml:lang="en">CachePortlet</description>
+    <portlet-name>CachePortlet</portlet-name>
+    <display-name xml:lang="en">CachePortlet</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.CachePortlet</portlet-class>
+    <expiration-cache>300</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>CachePortlet</title>
+      <short-title>CachePortlet</short-title>
+      <keywords>CachePortlet</keywords>
+    </portlet-info>
   </portlet>
 
   <portlet>
@@ -90,8 +89,8 @@
     <supported-locale>fr</supported-locale>
     <supported-locale>ro</supported-locale>
     <resource-bundle>TestBundles</resource-bundle>
-  </portlet>  
-       
+  </portlet>
+
   <portlet>
     <description xml:lang="en">HttpHeaderDemo</description>
     <portlet-name>HttpHeaderDemo</portlet-name>
@@ -109,11 +108,11 @@
     <portlet-info>
       <title>HttpHeaderDemo</title>
       <short-title>HttpHeaderDemo</short-title>
-   		<keywords>HttpHeaderDemo</keywords>
+      <keywords>HttpHeaderDemo</keywords>
     </portlet-info>
   </portlet>
 
-	<portlet>
+  <portlet>
     <description xml:lang="en">ResourceDemo</description>
     <portlet-name>ResourceDemo</portlet-name>
     <display-name xml:lang="en">ResourceDemo</display-name>
@@ -133,6 +132,55 @@
       <title>ResourceDemo</title>
       <short-title>ResourceDemo</short-title>
       <keywords>ResourceDemo</keywords>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="en">Clock</description>
+    <portlet-name>Clock</portlet-name>
+    <display-name xml:lang="en">Clock</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.Clock</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>Clock</title>
+      <short-title>Clock</short-title>
+      <keywords>Clock</keywords>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="en">Include</description>
+    <portlet-name>Include</portlet-name>
+    <display-name xml:lang="en">Include</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.Include</portlet-class>
+    <init-param>
+      <name>view</name>
+      <value>/inView.jsp</value>
+    </init-param>
+    <init-param>
+      <name>edit</name>
+      <value>/inEdit.jsp</value>
+    </init-param>
+    <init-param>
+      <name>help</name>
+      <value>/inHelp.jsp</value>
+    </init-param>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>Include</title>
+      <short-title>Include</short-title>
+      <keywords>Include</keywords>
     </portlet-info>
   </portlet>
 

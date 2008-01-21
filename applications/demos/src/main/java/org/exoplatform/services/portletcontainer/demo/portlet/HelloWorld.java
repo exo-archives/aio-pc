@@ -33,7 +33,7 @@ import javax.portlet.WindowState;
 /**
  * Test portlet.
  */
-public class HelloWorldPortlet extends GenericPortlet {
+public class HelloWorld extends GenericPortlet {
 
   /**
    * Overridden method.
