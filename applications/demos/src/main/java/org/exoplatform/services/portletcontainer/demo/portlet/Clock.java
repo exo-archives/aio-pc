@@ -39,18 +39,14 @@ public class Clock extends GenericPortlet {
   private String clockURL = "/clock.html";
 
   @Override
-  public void render(RenderRequest request,
-                     RenderResponse response) throws PortletException,
-                                             IOException {
-    if (request.getPortletMode().equals(PortletMode.VIEW)) {
-      response.setContentType("text/html;charset=UTF-8");
-      response.setTitle("Clock");
-      PortletContext context = getPortletContext();
-      PortletRequestDispatcher rd = context.getRequestDispatcher(clockURL);
-      rd.include(request, response);
-    } else {
-      super.render(request, response);
-    }
+  protected void doView(RenderRequest request,
+                        RenderResponse response) throws PortletException,
+                                                IOException {
+    response.setContentType("text/html;charset=UTF-8");
+    response.setTitle("Clock");
+    PortletContext context = getPortletContext();
+    PortletRequestDispatcher rd = context.getRequestDispatcher(clockURL);
+    rd.include(request, response);
   }
 
   @Override
