@@ -92,9 +92,6 @@
     <supported-locale>fr</supported-locale>
     <supported-locale>ro</supported-locale>
     <resource-bundle>TestBundles</resource-bundle>
-    <portlet-info>
-      <title>testTitle</title>
-    </portlet-info>
   </portlet>
 
   <portlet>
