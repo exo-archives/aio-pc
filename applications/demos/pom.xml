@@ -45,6 +45,13 @@
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
+    
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.portlets2events</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
 
   </dependencies>
 

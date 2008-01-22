@@ -18,6 +18,9 @@
     <portlet-info>
       <title>HelloWorld title</title>
     </portlet-info>
+    <supported-processing-event>
+      <name>MyEventPub</name>
+    </supported-processing-event>
   </portlet>
 
   <portlet>
@@ -89,6 +92,9 @@
     <supported-locale>fr</supported-locale>
     <supported-locale>ro</supported-locale>
     <resource-bundle>TestBundles</resource-bundle>
+    <portlet-info>
+      <title>testTitle</title>
+    </portlet-info>
   </portlet>
 
   <portlet>
@@ -183,5 +189,36 @@
       <keywords>Include</keywords>
     </portlet-info>
   </portlet>
+
+  <portlet>
+    <description xml:lang="EN">EventDemo</description>
+    <portlet-name>EventDemo</portlet-name>
+    <display-name xml:lang="EN">EventDemo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.EventDemo</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <cache-scope>PRIVATE</cache-scope>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>EventDemo</title>
+      <short-title>EventDemo</short-title>
+    </portlet-info>
+    <supported-processing-event>
+      <name>MyEventPub</name>
+    </supported-processing-event>
+    <supported-publishing-event>
+      <name>MyEventPub</name>
+    </supported-publishing-event>
+  </portlet>
+
+  <event-definition>
+    <name>MyEventPub</name>
+    <value-type>org.exoplatform.services.portletcontainer.test.portlet2.MyEventPub</value-type>
+  </event-definition>
 
 </portlet-app>

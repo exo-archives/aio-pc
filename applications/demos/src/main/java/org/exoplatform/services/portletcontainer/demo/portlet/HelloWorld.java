@@ -22,10 +22,14 @@ import java.util.Enumeration;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
+import javax.portlet.Event;
+import javax.portlet.EventRequest;
+import javax.portlet.EventResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletMode;
 import javax.portlet.PortletURL;
+import javax.portlet.ProcessEvent;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
@@ -48,7 +52,7 @@ public class HelloWorld extends GenericPortlet {
       throws PortletException, IOException {
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();
-    w.println("<center><font size='3'><b><i>Simple portlet shows environment variables and three standard portlet modes.</i></b></font></center><br>");
+    w.println("<center><font size='3'><b><i>Simple portlet shows environment variables and three standard portlet modes. HelloWorld can process 'MyEventPub' event and change portlet mode to 'EDIT'.</i></b></font></center><br>");
     w.println("<h2 align=\"center\">Hello World</h2>");
     //ATTRIBUTES
     w.println("<table width=\"100%\" border=\"2\" style=\"border-collapse:collapse;border-style:solid;\">");
@@ -126,4 +130,12 @@ public class HelloWorld extends GenericPortlet {
     actionResponse.setRenderParameter("test_render_param", "test 2");
   }
 
+  @ProcessEvent(name="MyEventPub")
+  public void processMyEventPub(EventRequest req, EventResponse resp) throws PortletException, IOException {
+    System.out.println("In processMyEventPub method of HelloWorld... !!!!!!!!!!!!!");
+    Event event = req.getEvent();
+    System.out.println("  -- value: " + event.getValue());
+    resp.setPortletMode(PortletMode.EDIT);
+  }
+  
 }
