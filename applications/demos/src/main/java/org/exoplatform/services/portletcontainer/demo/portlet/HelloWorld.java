@@ -57,7 +57,7 @@ public class HelloWorld extends GenericPortlet {
     //ATTRIBUTES
     w.println("<table width=\"100%\" border=\"2\" style=\"border-collapse:collapse;border-style:solid;\">");
     w.println("<tr><th colspan=\"2\">Request attributes</th></tr>");
-    w.println("<tr><th width=\"50%\">attibute</th><th width=\"50%\">value</th></tr>");
+    w.println("<tr><th colspan=\"2\">attibute &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp; value</th></tr>");
     Enumeration e = renderRequest.getAttributeNames();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
@@ -68,7 +68,7 @@ public class HelloWorld extends GenericPortlet {
     //PARAMETERS
     w.println("<table width=\"100%\" border=\"2\" style=\"border-collapse:collapse;border-style:solid;\">");
     w.println("<tr><th colspan=\"2\">Request parameters</th></tr>");
-    w.println("<tr><th width=\"50%\">parameter</th><th width=\"50%\">value</th></tr>");
+    w.println("<tr><th colspan=\"2\">parameter &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp; value</th></tr>");
     e = renderRequest.getParameterNames();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
@@ -87,8 +87,9 @@ public class HelloWorld extends GenericPortlet {
     PortletURL renderURL = renderResponse.createRenderURL();
     renderURL.setParameter("render_param", "render param");
 
-    w.println("<p>Create Portlet URL...</p>");
+    w.println("<p><b>Portlet URLs</b></p>");
     w.println("<p><a href=\"" + actionURL.toString() + "\">action URL</a>");
+    w.println("&nbsp;&nbsp; and &nbsp;&nbsp;");
     w.println("<a href=\"" + renderURL.toString() + "\">render URL</a></p>");
 
     renderResponse.setTitle("test title");

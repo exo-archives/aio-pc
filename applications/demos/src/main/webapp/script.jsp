@@ -1,7 +1,22 @@
 <%@ taglib uri="http://java.sun.com/portlet" prefix="portlet" %>
 <portlet:defineObjects/>
 
+
+<style type="text/css">
+	#resource_inactive {
+		color:#999999;
+		font-style:italic;
+		text-indent:0.3em;
+		font-size:12px;
+	}  
+</style>
+
+
 <script LANGUAGE=JavaScript>
+
+var resource_inactive;
+resource_inactive = "<p id='resource_inactive'>Resource inactive<p>";
+
 var portletReq;
 
 function getHttpRequest() {
@@ -55,7 +70,8 @@ function displayInvoice() {
 
 function clearContent() {
   var div = document.getElementById("portletcontent");
-  div.innerHTML = "";
+  //div.innerHTML = "none";
+  div.innerHTML = resource_inactive;
   var but = document.getElementById("mainbut");
   but.value = "Get markup";
   but.onclick = asynchGetXMLHttpRequest;
@@ -67,4 +83,4 @@ function clearContent() {
 <input type="button" id="mainbut" value="Get markup" onclick="asynchGetXMLHttpRequest()">
 <input type="hidden" id="resourceURL" value="<portlet:resourceURL />">
 <br>
-<div id="portletcontent"></div>
+<div id="portletcontent"><p id='resource_inactive'>Resource inactive<p></div>

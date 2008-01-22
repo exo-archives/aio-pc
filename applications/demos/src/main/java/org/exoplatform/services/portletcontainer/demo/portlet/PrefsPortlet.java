@@ -63,8 +63,8 @@ public class PrefsPortlet extends GenericPortlet {
     PortletURL url = null;
     w.println("<center><font size='3'><b><i>Portlet that shows storing/retrieving to/from PortletPreferences</i></b></font></center><br>");
 
-    w.println("<table width=\"100%\" border=\"1\">");
-    w.println("<tr bgcolor=\"#666666\"><th>name</th><th>value</th><th>is read only</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
+    w.println("<table width='100%' border='1' style='border-collapse:collapse; border-style:solid; border-color:#A7A7AC; font-size: small; '>");
+    w.println("<tr bgcolor=\"#A3A7F6\"><th>name</th><th>value</th><th>is read only</th><th>&nbsp;</th><th>&nbsp;</th></tr>");
     for (Enumeration e = prefs.getNames(); e.hasMoreElements(); ) {
       String name = (String) e.nextElement();
       String value = prefs.getValue(name, "[no value]");
@@ -90,7 +90,7 @@ public class PrefsPortlet extends GenericPortlet {
     url = response.createRenderURL();
     url.setPortletMode(PortletMode.EDIT);
     String createUrl = "<a href=\"" + url.toString() + "\">[create new]</a>";
-    w.println("<tr><td>" + createUrl + "</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td><td>&nbsp;</td></tr>");
+    w.println("<tr bgcolor='#FFF0C0'><td colspan=\"5\" align='center'>" + createUrl + "</td></tr>");
     w.println("</table>");
   }
 

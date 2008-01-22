@@ -48,14 +48,14 @@ public class BundlesDemo extends GenericPortlet {
     PortletConfig portletConfig = getPortletConfig();
     Locale defaultLocale = Locale.getDefault();
     w.println("<br/>Default system locale: <b><font color='green'>" + defaultLocale + "</font></b><br/>");
-    w.println("<br/><table width='50%' border='1' style='border-collapse:collapse; border-style:solid; border-color:#A7A7AC'>");
+    w.println("<br/><table width='100%' border='1' style='border-collapse:collapse; border-style:solid; border-color:#A7A7AC; font-size: small; '>");
     w.println("<tr bgcolor='#A3A7F6'><th>locale</th><th>key</th><th>value</th><th>country</th><th>language</th><th>default</th></tr>");
     for(Enumeration<Locale> e = portletConfig.getSupportedLocales(); e.hasMoreElements(); ) {
       Locale l = e.nextElement();
       renderLocale(w, portletConfig, l, defaultLocale.getLanguage().equals(l.getLanguage()));
     }
     w.println("</table>");
-    w.println("~~~~~~~~~~~~~~~~~~~~~~~~~<br/>");
+    w.println("<br/>");
   }
 
   private void renderLocale(PrintWriter w, PortletConfig portletConfig, Locale locale, boolean hilight) {
