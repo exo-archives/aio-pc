@@ -1023,7 +1023,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       } catch (WSRPException e) {
         log.debug("The call to processEvent with event: '" + event.getName() + "' method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
-        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
+//        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
         handleEventsFailed.setReason(new LocalizedString(e.getLocalizedMessage(), ""));// TODO
         BigInteger indexBigInteger = new BigInteger(index.toString());
         handleEventsFailed.setIndex(new BigInteger[] { indexBigInteger });

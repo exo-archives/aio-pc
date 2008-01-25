@@ -83,8 +83,8 @@
     <sequence>
       <element name="value" type="xsd:string"/>
     </sequence>
-    <attribute ref="xml:lang"      use="optional"/>
-    <attribute name="resourceName" type="xsd:string"/>
+    <attribute ref="xml:lang"      use="required"/>
+    <attribute name="resourceName" type="xsd:string" use="optional"/>
   </complexType>
 
   <complexType name="ResourceList">
@@ -112,7 +112,7 @@
 
   <complexType name="NamedString">
     <sequence>
-      <element name="value" type="xsd:string"/>
+      <element name="value" type="xsd:string" minOccurs="0"/>
     </sequence>
     <attribute name="name" type="xsd:string" use="required"/>
   </complexType>
@@ -133,12 +133,13 @@
       <element name="consumerName"           type="xsd:string"/>
       <element name="consumerAgent"          type="xsd:string"/>
       <element name="methodGetSupported"     type="xsd:boolean"/>
-      <element name="consumerModes"          type="xsd:string"        minOccurs="0" maxOccurs="unbounded"/>
-      <element name="consumerWindowStates"   type="xsd:string"        minOccurs="0" maxOccurs="unbounded"/>
-      <element name="consumerUserScopes"     type="xsd:string"        minOccurs="0" maxOccurs="unbounded"/>
-      <element name="extensionDescriptions"  type="types:ExtensionDescription"      minOccurs="0" maxOccurs="unbounded"/>
-      <element name="registrationProperties" type="types:Property"    minOccurs="0" maxOccurs="unbounded"/>
-      <element name="extensions"             type="types:Extension"   minOccurs="0" maxOccurs="unbounded"/>
+      <element name="consumerModes"          type="xsd:string"         minOccurs="0" maxOccurs="unbounded"/>
+      <element name="consumerWindowStates"   type="xsd:string"         minOccurs="0" maxOccurs="unbounded"/>
+      <element name="consumerUserScopes"     type="xsd:string"         minOccurs="0" maxOccurs="unbounded"/>
+      <element name="extensionDescriptions"  type="types:ExtensionDescription"       minOccurs="0" maxOccurs="unbounded"/>
+      <element name="registrationProperties" type="types:Property"     minOccurs="0" maxOccurs="unbounded"/>
+      <element name="resourceList"           type="types:ResourceList" minOccurs="0"/>
+      <element name="extensions"             type="types:Extension"    minOccurs="0" maxOccurs="unbounded"/>
     </sequence>
   </complexType>
   <element name="RegistrationData" type="types:RegistrationData"/>
@@ -340,20 +341,27 @@
 
   <complexType name="BaseFailed">
     <sequence>
-      <element name="reason"     type="types:LocalizedString" minOccurs="0"/>
-      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
+      <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
+      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
     </sequence>
     <attribute name="errorCode"  type="types:ErrorCodes" use="required"/>
   </complexType>
   <element name="BaseFailed"     type="types:BaseFailed"/>
 
   <complexType name="FailedPortlets">
-    <sequence>
-      <element name="reason"     type="types:LocalizedString" minOccurs="0"/>
-      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="portletHandles" type="xsd:string" maxOccurs="unbounded"/>
-    </sequence>
-    <attribute name="errorCode"  type="types:ErrorCodes" use="required"/>
+    <!-- complexContent -->
+      <!-- extension base="types:BaseFailed" -->
+        <sequence>
+          <!-- begin super -->
+	      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
+    	  <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
+	      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
+          <!-- end super -->
+          <element name="portletHandles" type="xsd:string" maxOccurs="unbounded"/>
+        </sequence>
+      <!-- /extension -->
+    <!-- /complexContent -->
   </complexType>
   <element name="FailedPortlets" type="types:FailedPortlets"/>
 
@@ -361,7 +369,7 @@
     <sequence>
       <element name="portletContext"       type="types:PortletContext" maxOccurs="unbounded"/>
       <element name="scheduledDestruction" type="types:Lifetime"       minOccurs="0"/>
-      <element name="extensions"           type="types:Extension"    minOccurs="0" maxOccurs="unbounded"/>
+      <element name="extensions"           type="types:Extension"      minOccurs="0" maxOccurs="unbounded"/>
     </sequence>
   </complexType>
   <element name="setPortletLifetime" type="types:SetPortletLifetime"/>
@@ -422,12 +430,18 @@
   <element name="EventParams" type="types:EventParams"/>
 
   <complexType name="HandleEventsFailed">
-    <sequence>
-      <element name="reason"     type="types:LocalizedString" minOccurs="0"/>
-      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="index" type="xsd:integer" maxOccurs="unbounded"/>
-    </sequence>
-	<attribute name="errorCode"  type="types:ErrorCodes" use="required"/>
+    <!-- complexContent -->
+      <!-- extension base="types:BaseFailed" -->
+        <sequence>
+          <!-- begin super -->
+	      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
+    	  <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
+	      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
+          <!-- end super -->
+          <element name="index" type="xsd:integer" maxOccurs="unbounded"/>
+        </sequence>
+      <!-- /extension -->
+    <!-- /complexContent -->
   </complexType>
   <element name="HandleEventsFailed" type="types:HandleEventsFailed"/>
 
@@ -480,8 +494,8 @@
         </sequence>
         <attribute name="resourceID"     type="xsd:string"  use="required"/>
         <attribute name="portletStateChange"   type="types:StateChange" use="required"/>
-        <attribute name="resourceState"  type="xsd:string"/>
-        <attribute name="resourceCacheability" type="xsd:string"/>
+        <attribute name="resourceState"  type="xsd:string"       use="optional"/>
+        <attribute name="resourceCacheability" type="xsd:string" use="optional"/>
       </extension>
     </complexContent>
   </complexType>
@@ -496,28 +510,33 @@
       <element name="locale"             type="xsd:string"         minOccurs="0"/>
       <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
       <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
-      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"/>
+      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"   maxOccurs="unbounded"/>
       <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
     </sequence>
-    <attribute name="ccppProfileWarning" type="xsd:string"         use="optional"/>
+    <attribute name="ccppProfileWarning" type="xsd:string"         use="optional"/>    
   </complexType>
   <element name="MimeResponse" type="types:MimeResponse"/>
 
   <complexType name="MarkupContext">
-    <sequence>
-      <element name="useCachedItem"      type="xsd:boolean"        default="false" minOccurs="0"/>
-      <element name="mimeType"           type="xsd:string"         minOccurs="0"/>
-      <element name="itemString"         type="xsd:string"         minOccurs="0"/>
-      <element name="itemBinary"         type="xsd:base64Binary"   minOccurs="0"/>
-      <element name="locale"             type="xsd:string"         minOccurs="0"/>
-      <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
-      <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
-      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"/>
-      <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
-      <element name="preferredTitle"       type="xsd:string"         minOccurs="0"/>
-      <element name="validNewModes"       type="xsd:string"           minOccurs="0" maxOccurs="unbounded"/>
-    </sequence>
-	<attribute name="ccppProfileWarning" type="xsd:string"         use="optional"/>
+    <!-- complexContent -->
+      <!-- extension base="types:MimeResponse" -->
+        <sequence>
+          <!-- begin super -->
+	      <element name="useCachedItem"      type="xsd:boolean"        default="false" minOccurs="0"/>
+	      <element name="mimeType"           type="xsd:string"         minOccurs="0"/>
+	      <element name="itemString"         type="xsd:string"         minOccurs="0"/>
+	      <element name="itemBinary"         type="xsd:base64Binary"   minOccurs="0"/>
+	      <element name="locale"             type="xsd:string"         minOccurs="0"/>
+	      <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
+	      <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
+	      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"   maxOccurs="unbounded"/>
+	      <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
+          <!-- end super -->
+          <element name="preferredTitle"      type="xsd:string"         minOccurs="0"/>
+          <element name="validNewModes"       type="xsd:string"           minOccurs="0" maxOccurs="unbounded"/>
+        </sequence>
+      <!-- /extension -->
+    <!-- /complexContent -->
   </complexType>
   <element name="MarkupContext" type="types:MarkupContext"/>
 
@@ -530,18 +549,23 @@
   </complexType>
 
   <complexType name="ResourceContext">
-    <sequence>
-      <element name="useCachedItem"      type="xsd:boolean"        default="false" minOccurs="0"/>
-      <element name="mimeType"           type="xsd:string"         minOccurs="0"/>
-      <element name="itemString"         type="xsd:string"         minOccurs="0"/>
-      <element name="itemBinary"         type="xsd:base64Binary"   minOccurs="0"/>
-      <element name="locale"             type="xsd:string"         minOccurs="0"/>
-      <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
-      <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
-      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"/>
-      <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
-    </sequence>
-    <attribute name="ccppProfileWarning" type="xsd:string"         use="optional"/>
+    <!-- complexContent -->
+      <!-- extension base="types:MimeResponse" -->
+        <sequence>
+          <!-- begin super -->
+	      <element name="useCachedItem"      type="xsd:boolean"        default="false" minOccurs="0"/>
+	      <element name="mimeType"           type="xsd:string"         minOccurs="0"/>
+	      <element name="itemString"         type="xsd:string"         minOccurs="0"/>
+	      <element name="itemBinary"         type="xsd:base64Binary"   minOccurs="0"/>
+	      <element name="locale"             type="xsd:string"         minOccurs="0"/>
+	      <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
+	      <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
+	      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"   maxOccurs="unbounded"/>
+	      <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
+          <!-- end super -->
+        </sequence>
+      <!-- /extension -->
+    <!-- /complexContent -->
   </complexType>
   <element name="ResourceContext" type="types:ResourceContext"/>
 
@@ -576,8 +600,8 @@
     <sequence>
       <element name="userAgent"   type="xsd:string"        minOccurs="0"/>
       <element name="ccppHeaders" type="types:CCPPHeaders" minOccurs="0"/>
-      <element name="clientAttributes" type="types:NamedString" minOccurs="0"/>
-      <element name="extensions"  type="types:Extension"   minOccurs="0" maxOccurs="unbounded"/>
+      <element name="clientAttributes" type="types:NamedString" minOccurs="0" maxOccurs="unbounded"/>
+      <element name="extensions"  type="types:Extension"   minOccurs="0"      maxOccurs="unbounded"/>
     </sequence>
     <attribute name="requestVerb" type="xsd:string"        use="optional"/>
   </complexType>
@@ -703,12 +727,18 @@
   <element name="ImportedPortlet" type="types:ImportedPortlet"/>
 
   <complexType name="ImportPortletsFailed">
-    <sequence>
-      <element name="reason"     type="types:LocalizedString" minOccurs="0"/>
-      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded"/>
-      <element name="importID" type="xsd:string" maxOccurs="unbounded"/>
-    </sequence>
-    <attribute name="errorCode"  type="types:ErrorCodes" use="required"/>
+    <!-- complexContent -->
+      <!-- extension base="types:BaseFailed" -->
+        <sequence>
+          <!-- begin super -->
+	      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
+    	  <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
+	      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
+          <!-- end super -->
+          <element name="importID" type="xsd:string" maxOccurs="unbounded"/>
+        </sequence>
+      <!-- /extension -->
+    <!-- /complexContent -->
   </complexType>
   <element name="ImportPortletsFailed" type="types:ImportPortletsFailed"/>
 

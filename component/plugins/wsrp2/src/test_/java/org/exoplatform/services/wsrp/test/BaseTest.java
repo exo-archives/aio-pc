@@ -168,7 +168,7 @@ public class BaseTest extends TestCase {
       registrationOperationsInterface = serviceLocator.
           getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
       markupOperationsInterface = serviceLocator.
-          getWSRPBaseService(new URL(SERVICE_URL + "WSRPBaseService"));
+          getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
       portletManagementOperationsInterface = serviceLocator.
           getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
     }

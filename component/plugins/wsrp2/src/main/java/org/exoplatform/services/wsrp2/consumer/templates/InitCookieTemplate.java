@@ -47,7 +47,7 @@ public abstract class InitCookieTemplate
   }
 
   public abstract String getMarkupInterfaceURL();
-  public abstract WSRP_v2_Markup_PortType getWSRPBaseService();
-  public abstract void setWSRPBaseService(WSRP_v2_Markup_PortType markupPortType);
+  public abstract WSRP_v2_Markup_PortType getWSRPMarkupService();
+  public abstract void setWSRPMarkupService(WSRP_v2_Markup_PortType markupPortType);
 
 }

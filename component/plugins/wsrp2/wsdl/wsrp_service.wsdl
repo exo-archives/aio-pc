@@ -13,7 +13,7 @@
 
   <!-- A service definition encapsulating the WSRP v2 support of this Producer -->
   <wsdl:service name="WSRPService">
-    <wsdl:port binding="v2bind:WSRP_v2_Markup_Binding_SOAP" name="WSRPBaseService">
+    <wsdl:port binding="v2bind:WSRP_v2_Markup_Binding_SOAP" name="WSRPMarkupService">
       <soap:address location="http://localhost:8080/WSRPService"/>
     </wsdl:port>
     <wsdl:port binding="v2bind:WSRP_v2_ServiceDescription_Binding_SOAP" name="WSRPServiceDescriptionService">
