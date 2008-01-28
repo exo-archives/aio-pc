@@ -72,6 +72,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Respon
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle.ResourceBundleManager;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomRequestWrapper;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomResponseWrapper;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.DummyCcppProfile;
 
 /**
  * Created by the Exo Development team. Author : Mestrallet Benjamin
@@ -294,6 +295,11 @@ public class PortletApplicationHandler {
     } finally {
       long endTime = System.currentTimeMillis();
       PortletRuntimeDatasImpl rtd = monitor.getPortletRuntimeData(portletAppName, portletName);
+      if (portletRequest != null)
+        if (portletRequest.getPortletSession(false) == null)
+          output.addProperty(Output.INVALIDATE_SESSION, "0");
+        else
+          output.addProperty(Output.INVALIDATE_SESSION, "" + portletRequest.getPortletSession(false).getMaxInactiveInterval());
       if (rtd != null) { // should fix this later , this can happen if the
         // portlet is broken
         if (isAction == PCConstants.actionInt) {
@@ -317,7 +323,7 @@ public class PortletApplicationHandler {
     // Profile profile =
     // pf.newProfile(request,ValidationMode.VALIDATIONMODE_NONE);
     // return profile;
-    return null;
+    return new DummyCcppProfile();
   }
 
   private void generateOutputForException(PortletRequestImp request,

@@ -27,6 +27,13 @@
       <scope>compile</scope>
     </dependency>
 
+    <dependency>                          
+      <groupId>javax.ccpp</groupId>    
+      <artifactId>ccpp</artifactId>
+      <version>1.0</version>              
+      <scope>compile</scope>              
+    </dependency>                         
+
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>

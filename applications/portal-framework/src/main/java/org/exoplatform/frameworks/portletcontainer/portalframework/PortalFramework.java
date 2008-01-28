@@ -400,8 +400,6 @@ public class PortalFramework {
 
     Helper.parseParams(httpRequest, portalParams, portletParams, propertyParams);
     target = Helper.string0(portalParams.get(org.exoplatform.Constants.COMPONENT_PARAMETER));
-    if (target != null)
-      Helper.separatePublicParams(portletParams, publicRenderParams, publicParams.get(target));
     fixPublicRenderParams(portalParams.get(PCConstants.removePublicString));
     action = Helper.getActionType(Helper.string0(portalParams.get(org.exoplatform.Constants.TYPE_PARAMETER)));
 
@@ -415,6 +413,8 @@ public class PortalFramework {
 
     if (target == null)
       action = PCConstants.renderInt;
+    if (target != null && action == PCConstants.renderInt)
+      Helper.separatePublicParams(portletParams, publicRenderParams, publicParams.get(target));
 
     if (!portalParams.isEmpty() && portalParams.containsKey(org.exoplatform.Constants.WINDOW_STATE_PARAMETER)) {
       if (portalParams.get(org.exoplatform.Constants.WINDOW_STATE_PARAMETER).equals(WindowState.MINIMIZED)) {
@@ -700,7 +700,8 @@ public class PortalFramework {
     actionInput.setUserAttributes(new HashMap<String, String>());
     actionInput.setMarkup(cntType);
     actionInput.setPublicParamNames(getPublicNamesSet(target));
-    actionInput.setRenderParameters(publicRenderParams);
+    actionInput.setRenderParameters(new HashMap<String, String[]>());
+    Helper.appendParams(actionInput.getRenderParameters(), publicRenderParams);
     Helper.appendParams(actionInput.getRenderParameters(), portletParams);
     portletParams = new HashMap<String, String[]>();
     actionInput.setPortletMode(win.getPortletMode());
@@ -794,6 +795,7 @@ public class PortalFramework {
                                                final HttpServletResponse httpResponse,
                                                final ResourceInput resourceInput) throws PortletContainerException {
     final ResourceOutput o = service.serveResource(httpRequest, httpResponse, resourceInput);
+    checkSessionInvalidation(httpRequest, o);
     return o;
   }
 
@@ -820,6 +822,7 @@ public class PortalFramework {
       renderParams = new HashMap<String, String[]>();
     addEvents(o.getEvents());
     redirect = (String) o.getProperties().get(Output.SEND_REDIRECT);
+    checkSessionInvalidation(httpRequest, o);
     final WindowID2 win = wins.get(target);
     if (o.getNextMode() != null)
       win.setPortletMode(o.getNextMode());
@@ -852,6 +855,7 @@ public class PortalFramework {
     if (eventRenderParams == null)
       eventRenderParams = new HashMap<String, String[]>();
     addEvents(o.getEvents());
+    checkSessionInvalidation(httpRequest, o);
     final WindowID2 win = wins.get(event.getTarget());
     if (o.getNextMode() != null)
       win.setPortletMode(o.getNextMode());
@@ -873,7 +877,20 @@ public class PortalFramework {
                                       final HttpServletResponse httpResponse,
                                       final RenderInput renderInput) throws PortletContainerException {
     final RenderOutput o = service.render(httpRequest, httpResponse, renderInput);
+    checkSessionInvalidation(httpRequest, o);
     return o;
+  }
+
+  private void checkSessionInvalidation(final HttpServletRequest httpRequest, final Output o) {
+//    String interval = (String) o.getProperties().get(Output.INVALIDATE_SESSION);
+//    if (interval != null) {
+//      int i = -1;
+//      try { i = Integer.parseInt(interval); } catch (Exception e) { i = -1; }
+//      if (i > 0)
+//        httpRequest.getSession().setMaxInactiveInterval(i);
+//      else
+//        httpRequest.getSession().invalidate();
+//    }
   }
 
   // --- ---

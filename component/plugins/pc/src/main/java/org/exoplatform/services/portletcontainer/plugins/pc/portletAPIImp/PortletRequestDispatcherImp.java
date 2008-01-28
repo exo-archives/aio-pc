@@ -32,7 +32,6 @@ import javax.portlet.ResourceResponse;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
-import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponseWrapper;
 
@@ -83,16 +82,20 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
       portletRequest.setAttribute("javax.portlet.response", portletResponse);
       if (portletRequest instanceof ActionRequest) {
         portletRequest.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.ACTION_PHASE);
-        responseWrapper.setNoOutput(true);
+        responseWrapper.setCommitted();
+        responseWrapper.setNoValues(true);
       } else if (portletRequest instanceof EventRequest) {
         portletRequest.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.EVENT_PHASE);
         requestWrapper.setNoInput(true);
-        responseWrapper.setNoOutput(true);
+        requestWrapper.setNoValues(true);
+        responseWrapper.setCommitted();
+        responseWrapper.setNoValues(true);
       } else if (portletRequest instanceof ResourceRequest) {
         portletRequest.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.RESOURCE_PHASE);
         responseWrapper.setContentType(((ResourceResponse) portletResponse).getContentType());
       } else {
         requestWrapper.setNoInput(true);
+        requestWrapper.setNoValues(true);
         portletRequest.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.RENDER_PHASE);
         responseWrapper.setContentType(((RenderResponse) portletResponse).getContentType());
       }
@@ -126,10 +129,10 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
   }
 
   public void forward(PortletRequest portletRequest, PortletResponse portletResponse) throws PortletException, IOException, IllegalStateException {
-//    ServletRequest servRequest = ((CustomRequestWrapper) ((PortletRequestImp) (portletRequest)).getRequest()).getRequest();
     CustomRequestWrapper requestWrapper =
       ((CustomRequestWrapper) ((HttpServletRequestWrapper) portletRequest).getRequest());
-    ServletResponse servResponse = ((CustomResponseWrapper) ((PortletResponseImp) (portletResponse)).getResponse()).getResponse();
+    CustomResponseWrapper servResponse = (CustomResponseWrapper) ((PortletResponseImp) (portletResponse)).getResponse();
+    NestedResponseWrapper responseWrapper = new NestedResponseWrapper(servResponse);
     if ((portletResponse instanceof MimeResponse) && ((MimeResponse) portletResponse).isCommitted())
       throw new IllegalStateException("Can't forward on committed response");
     try {
@@ -137,42 +140,32 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
       ServletContext portletContext = portalContext.getContext(portletRequest.getContextPath());
       RequestDispatcher dispatcher = portletContext.getRequestDispatcher(path);
       requestWrapper.setRedirected(true);
+      requestWrapper.setRedirectedPath(path);
+      requestWrapper.setContextPath(portletRequest.getContextPath());
+      if (portletRequest instanceof ActionRequest) {
+        responseWrapper.setNoValues(true);
+      } else if (portletRequest instanceof EventRequest) {
+        requestWrapper.setNoInput(true);
+        requestWrapper.setNoValues(true);
+        responseWrapper.setNoValues(true);
+      } else if (portletRequest instanceof ResourceRequest) {
+        responseWrapper.setContentType(((ResourceResponse) portletResponse).getContentType());
+      } else {
+        responseWrapper.setContentType(null);
+        requestWrapper.setNoInput(true);
+        requestWrapper.setNoValues(true);
+      }
 
       if (dispatcher != null) {
-//        servRequest.removeAttribute("javax.servlet.forward.request_uri");
-//        servRequest.removeAttribute("javax.servlet.forward.context_path");
-//        servRequest.removeAttribute("javax.servlet.forward.servlet_path");
-//        servRequest.removeAttribute("javax.servlet.forward.path_info");
-//        servRequest.removeAttribute("javax.servlet.forward.query_string");
-//        if (portletRequest instanceof ActionRequest || portletRequest instanceof EventRequest) {
-          String contextPath = portletRequest.getContextPath();
-          String servletName = path;
-          String queryString = "";
-          int qi = servletName.indexOf('?');
-          if (qi >= 0) {
-            queryString = servletName.substring(qi + 1);
-            servletName = servletName.substring(0, qi);
-          }
-          String requestUri = contextPath;
-          qi = servletName.indexOf('/', 1);
-          String pathInfo = "";
-          if (qi >= 0) {
-            pathInfo = servletName.substring(qi);
-            servletName = servletName.substring(0, qi);
-          }
-          requestWrapper.setAttribute("javax.servlet.forward.request_uri", requestUri);
-          requestWrapper.setAttribute("javax.servlet.forward.context_path", contextPath);
-          requestWrapper.setAttribute("javax.servlet.forward.servlet_path", null);
-          requestWrapper.setAttribute("javax.servlet.forward.path_info", pathInfo);
-          requestWrapper.setAttribute("javax.servlet.forward.query_string", queryString);
-//        } else {
-//          servRequest.removeAttribute("javax.servlet.forward.request_uri");
-//          servRequest.removeAttribute("javax.servlet.forward.context_path");
-//          servRequest.removeAttribute("javax.servlet.forward.servlet_path");
-//          servRequest.removeAttribute("javax.servlet.forward.path_info");
-//          servRequest.removeAttribute("javax.servlet.forward.query_string");
-//        }
-        dispatcher.forward(requestWrapper/*servRequest*/, servResponse);
+        dispatcher.forward(requestWrapper/*servRequest*/, responseWrapper);
+        byte[] ca = responseWrapper.getPortletContent();
+        if (ca == null)
+          ca = new byte[0];
+        if (servResponse.isStreamUsed()) {
+          servResponse.getOutputStream().write(ca);
+        } else
+          servResponse.getWriter().write(new String(ca, "utf-8"));
+        ((PortletResponseImp) portletResponse).setAlreadyForwarded();
       }
 
     } catch (ServletException e) {
@@ -180,12 +173,6 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
         log.error("Root cause of the exception", e.getRootCause());
       log.error("Problems occur when using PortletDispatcher", e);
       throw new PortletException("Problems occur when using PortletDispatcher", e);
-    } finally {
-      requestWrapper.removeAttribute("javax.servlet.forward.request_uri");
-      requestWrapper.removeAttribute("javax.servlet.forward.context_path");
-      requestWrapper.removeAttribute("javax.servlet.forward.servlet_path");
-      requestWrapper.removeAttribute("javax.servlet.forward.path_info");
-      requestWrapper.removeAttribute("javax.servlet.forward.query_string");
     }
   }
 

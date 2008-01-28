@@ -202,6 +202,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
   }
 
   public void removePublicRenderParameter(String param) {
+    redirectionPossible_ = false;
     this.getOutput().removePublicRenderParameter(param);
   }
 

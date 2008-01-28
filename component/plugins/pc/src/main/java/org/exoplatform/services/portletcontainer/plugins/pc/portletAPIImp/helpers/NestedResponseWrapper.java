@@ -40,11 +40,13 @@ public class NestedResponseWrapper extends HttpServletResponseWrapper {
   private PrintWriter tmpWriter;
   private ProxyServletOutputStream output;
   private boolean noOutput;
+  private boolean noValues;
   private URLEncoder urlEncoder_ ;
   private CharArrayWriter charArrayWriter;
   private boolean writerAlreadyCalled;
   private boolean outputStreamAlreadyCalled;
   private static Log log = LogFactory.getLog(CustomResponseWrapper.class);
+  private boolean committed;
 
   public NestedResponseWrapper(HttpServletResponse httpServletResponse) {
     super(httpServletResponse);
@@ -61,10 +63,11 @@ public class NestedResponseWrapper extends HttpServletResponseWrapper {
     writerAlreadyCalled = false;
     outputStreamAlreadyCalled = false;
     contentType = "";
+    committed = false;
   }
 
   public String getContentType() {
-    if (noOutput)
+    if (noValues)
       return null;
     return this.contentType;
   }
@@ -186,9 +189,11 @@ public class NestedResponseWrapper extends HttpServletResponseWrapper {
   }
 
   public boolean isCommitted() {
-    if (noOutput)
-      return true;
-    return false;
+    return committed;
+  }
+
+  public void setCommitted() {
+    committed = true;
   }
 
   public boolean isNoOutput() {
@@ -200,15 +205,19 @@ public class NestedResponseWrapper extends HttpServletResponseWrapper {
   }
 
   public String getCharacterEncoding() {
-    if (noOutput)
+    if (noValues)
       return null;
     return super.getCharacterEncoding();
   }
 
   public Locale getLocale() {
-    if (noOutput)
+    if (noValues)
       return null;
     return super.getLocale();
+  }
+
+  public void setNoValues(boolean noValues) {
+    this.noValues = noValues;
   }
 
 }

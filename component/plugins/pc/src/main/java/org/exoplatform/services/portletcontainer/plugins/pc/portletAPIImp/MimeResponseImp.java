@@ -87,6 +87,8 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
   }
 
   public OutputStream getPortletOutputStream() throws IOException {
+    if (alreadyForwarded)
+      throw new IllegalStateException("response has already been forwarded");
     if (writerAlreadyCalled_)
       throw new IllegalStateException("getWriter() has already been called");
     if (contentType_ == null || "".equals(contentType_))
@@ -96,6 +98,8 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
   }
 
   public PrintWriter getWriter() throws IOException {
+    if (alreadyForwarded)
+      throw new IllegalStateException("response has already been forwarded");
     if (outputStreamAlreadyCalled_)
       throw new IllegalStateException("the getPortletOutputStream object has already been called");
     if (contentType_ == null || "".equals(contentType_))
@@ -239,7 +243,7 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     if (input_.getPortletURLFactory() != null) {
       return input_.getPortletURLFactory().createResourceURL(PCConstants.resourceString);
     }
-    
+
       return new ResourceURLImp(PCConstants.resourceString,
           input_.getBaseURL(),
           isCurrentlySecured_,

@@ -66,6 +66,8 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
 
   protected String                   windowId_;
 
+  protected boolean                  alreadyForwarded;
+
   public PortletResponseImp(ResponseContext resCtx) {
     super(resCtx.getHttpServletResponse());
     this.cont_ = resCtx.getCont();
@@ -168,6 +170,11 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
   public Element createElement(String arg0) throws DOMException {
     // TODO Auto-generated method stub
     return null;
+  }
+
+  public void setAlreadyForwarded() {
+    alreadyForwarded = true;
+    sendRedirectAlreadyOccured_ = true;
   }
 
 }

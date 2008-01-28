@@ -59,6 +59,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   private Map parameterMap ;
   private boolean ver2 = false;
   private boolean noInput;
+  private boolean noValues;
 
   public CustomRequestWrapper(HttpServletRequest httpServletRequest, String windowId) {
     super(httpServletRequest);
@@ -121,7 +122,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   }
 
   public int getContentLength() {
-    if (noInput)
+    if (noValues)
       return 0;
     if (redirected)
       return -1;
@@ -135,7 +136,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   }
 
   public String getCharacterEncoding() {
-    if (noInput)
+    if (noValues)
       return null;
     return super.getCharacterEncoding();
   }
@@ -290,6 +291,10 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   public void setNoInput(boolean noInput) {
     this.noInput = noInput;
+  }
+
+  public void setNoValues(boolean noValues) {
+    this.noValues = noValues;
   }
 
 }

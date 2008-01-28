@@ -37,6 +37,8 @@ import org.exoplatform.services.portletcontainer.PCConstants;
  */
 public class Output {
 
+  final static public String      INVALIDATE_SESSION = "_invalidate_session_";
+
   final static public String      SEND_REDIRECT              = "_send_redirect_";
 
   final static public String      LOGIN                      = "_login_";
@@ -72,6 +74,7 @@ public class Output {
                                                                    MimeResponse.NAMESPACED_RESPONSE,
                                                                    ResourceResponse.HTTP_STATUS_CODE,
                                                                    Output.SEND_REDIRECT,
+                                                                   Output.INVALIDATE_SESSION,
                                                                    PCConstants.EXCEPTION,
                                                                    PCConstants.DESTROYED);
 
