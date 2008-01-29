@@ -68,6 +68,10 @@
   <component>
     <type>org.exoplatform.services.wsrp.producer.impl.WSRPConfiguration</type>
     <init-params>
+      <values-param>
+        <name>exclude-list</name>
+        <value>portlets/BridgePortlet</value>
+      </values-param>
       <properties-param>
         <name>wsrp-conf</name>
         <property name="wsrp.requires.registration" value="true" />
