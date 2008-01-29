@@ -133,8 +133,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setKeywords(getKeyWords(portletApplicationName, portletName, desiredLocales));
     pD.setMarkupTypes(setMarkupTypes(portlet.getSupports(), desiredLocales));
 
-    pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
     pD.setTitle(getTitle(portletApplicationName, portletName, desiredLocales));
+    pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
+    
     pD.setUserProfileItems(getUserProfileItems(portlet.getUserAttributes()));
     pD.setUserCategories(null);
 

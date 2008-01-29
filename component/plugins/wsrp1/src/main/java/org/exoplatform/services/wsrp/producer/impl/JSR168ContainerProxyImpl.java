@@ -127,8 +127,8 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     // this.service.getWindowStates(portletApplicationName, portletName , ),
                                      desiredLocales));
 
-    pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
     pD.setTitle(getTitle(portletApplicationName, portletName, desiredLocales));
+    pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
     pD.setUserProfileItems(getUserProfileItems(portlet.getUserAttributes()));
 
     // WSRP specific issues

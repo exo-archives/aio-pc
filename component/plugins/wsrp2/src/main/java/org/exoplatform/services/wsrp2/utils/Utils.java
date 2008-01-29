@@ -40,6 +40,12 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  */
 public class Utils {
 
+  public static String getStringFromLocalizedString(LocalizedString ls) {
+    if (ls != null)
+      return ls.getValue();
+    return null;
+  }
+  
   public static LocalizedString getLocalizedString(String value,
                                                    String lang,
                                                    String rn) {

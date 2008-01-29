@@ -18,7 +18,6 @@
 package org.exoplatform.services.wsrp.utils;
 
 import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.type.LocalizedString;
 import org.exoplatform.services.wsrp.type.NamedString;
@@ -27,6 +26,12 @@ import org.exoplatform.services.wsrp.type.NamedString;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class Utils {
+
+  public static String getStringFromLocalizedString(LocalizedString ls) {
+    if (ls != null)
+      return ls.getValue();
+    return null;
+  }
 
   public static LocalizedString getLocalizedString(String value,
                                                    String lang,
@@ -55,21 +60,21 @@ public class Utils {
   }
 
   public static String changeUrlTypeFromJSRPortletToWSRP(String type) {
-    if (type.equalsIgnoreCase(PCConstants.actionString)) 
+    if (type.equalsIgnoreCase(PCConstants.actionString))
       return WSRPConstants.URL_TYPE_BLOCKINGACTION;
-    if (type.equalsIgnoreCase(PCConstants.resourceString)) 
+    if (type.equalsIgnoreCase(PCConstants.resourceString))
       return WSRPConstants.URL_TYPE_RESOURCE;
-    if (type.equalsIgnoreCase(PCConstants.renderString)) 
+    if (type.equalsIgnoreCase(PCConstants.renderString))
       return WSRPConstants.URL_TYPE_RENDER;
     return type;
   }
 
   public static String changeUrlTypeFromWSRPToJSRPortlet(String type) {
-    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION)) 
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       return PCConstants.actionString;
-    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE)) 
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE))
       return PCConstants.resourceString;
-    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER)) 
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER))
       return PCConstants.renderString;
     return type;
   }

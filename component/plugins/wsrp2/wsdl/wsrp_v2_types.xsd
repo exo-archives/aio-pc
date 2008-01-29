@@ -350,18 +350,13 @@
   <element name="BaseFailed"     type="types:BaseFailed"/>
 
   <complexType name="FailedPortlets">
-    <!-- complexContent -->
-      <!-- extension base="types:BaseFailed" -->
+    <complexContent>
+      <extension base="types:BaseFailed">
         <sequence>
-          <!-- begin super -->
-	      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
-    	  <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
-	      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
-          <!-- end super -->
           <element name="portletHandles" type="xsd:string" maxOccurs="unbounded"/>
         </sequence>
-      <!-- /extension -->
-    <!-- /complexContent -->
+      </extension>
+    </complexContent>
   </complexType>
   <element name="FailedPortlets" type="types:FailedPortlets"/>
 
@@ -430,18 +425,13 @@
   <element name="EventParams" type="types:EventParams"/>
 
   <complexType name="HandleEventsFailed">
-    <!-- complexContent -->
-      <!-- extension base="types:BaseFailed" -->
+    <complexContent>
+      <extension base="types:BaseFailed">
         <sequence>
-          <!-- begin super -->
-	      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
-    	  <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
-	      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
-          <!-- end super -->
           <element name="index" type="xsd:integer" maxOccurs="unbounded"/>
         </sequence>
-      <!-- /extension -->
-    <!-- /complexContent -->
+      </extension>
+    </complexContent>
   </complexType>
   <element name="HandleEventsFailed" type="types:HandleEventsFailed"/>
 
@@ -513,30 +503,19 @@
       <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"   maxOccurs="unbounded"/>
       <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
     </sequence>
-    <attribute name="ccppProfileWarning" type="xsd:string"         use="optional"/>    
+    <attribute name="ccppProfileWarning" type="xsd:string"         use="optional"/>
   </complexType>
   <element name="MimeResponse" type="types:MimeResponse"/>
 
   <complexType name="MarkupContext">
-    <!-- complexContent -->
-      <!-- extension base="types:MimeResponse" -->
+    <complexContent>
+      <extension base="types:MimeResponse">
         <sequence>
-          <!-- begin super -->
-	      <element name="useCachedItem"      type="xsd:boolean"        default="false" minOccurs="0"/>
-	      <element name="mimeType"           type="xsd:string"         minOccurs="0"/>
-	      <element name="itemString"         type="xsd:string"         minOccurs="0"/>
-	      <element name="itemBinary"         type="xsd:base64Binary"   minOccurs="0"/>
-	      <element name="locale"             type="xsd:string"         minOccurs="0"/>
-	      <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
-	      <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
-	      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"   maxOccurs="unbounded"/>
-	      <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
-          <!-- end super -->
           <element name="preferredTitle"      type="xsd:string"         minOccurs="0"/>
           <element name="validNewModes"       type="xsd:string"           minOccurs="0" maxOccurs="unbounded"/>
         </sequence>
-      <!-- /extension -->
-    <!-- /complexContent -->
+      </extension>
+    </complexContent>
   </complexType>
   <element name="MarkupContext" type="types:MarkupContext"/>
 
@@ -549,23 +528,11 @@
   </complexType>
 
   <complexType name="ResourceContext">
-    <!-- complexContent -->
-      <!-- extension base="types:MimeResponse" -->
-        <sequence>
-          <!-- begin super -->
-	      <element name="useCachedItem"      type="xsd:boolean"        default="false" minOccurs="0"/>
-	      <element name="mimeType"           type="xsd:string"         minOccurs="0"/>
-	      <element name="itemString"         type="xsd:string"         minOccurs="0"/>
-	      <element name="itemBinary"         type="xsd:base64Binary"   minOccurs="0"/>
-	      <element name="locale"             type="xsd:string"         minOccurs="0"/>
-	      <element name="requiresRewriting"  type="xsd:boolean"        default="false" minOccurs="0"/>
-	      <element name="cacheControl"       type="types:CacheControl" minOccurs="0"/>
-	      <element name="clientAttributes"   type="types:NamedString"  minOccurs="0"   maxOccurs="unbounded"/>
-	      <element name="extensions"         type="types:Extension"    minOccurs="0"   maxOccurs="unbounded"/>
-          <!-- end super -->
-        </sequence>
-      <!-- /extension -->
-    <!-- /complexContent -->
+    <complexContent>
+      <extension base="types:MimeResponse">
+        <sequence />
+      </extension>
+    </complexContent>
   </complexType>
   <element name="ResourceContext" type="types:ResourceContext"/>
 
@@ -727,18 +694,13 @@
   <element name="ImportedPortlet" type="types:ImportedPortlet"/>
 
   <complexType name="ImportPortletsFailed">
-    <!-- complexContent -->
-      <!-- extension base="types:BaseFailed" -->
+    <complexContent>
+      <extension base="types:BaseFailed">
         <sequence>
-          <!-- begin super -->
-	      <element name="reason"       type="types:LocalizedString" minOccurs="0"/>
-    	  <element name="resourceList" type="types:ResourceList"    minOccurs="0"/>
-	      <element name="extensions"   type="types:Extension"       minOccurs="0" maxOccurs="unbounded"/>
-          <!-- end super -->
           <element name="importID" type="xsd:string" maxOccurs="unbounded"/>
         </sequence>
-      <!-- /extension -->
-    <!-- /complexContent -->
+      </extension>
+    </complexContent>
   </complexType>
   <element name="ImportPortletsFailed" type="types:ImportPortletsFailed"/>
 

@@ -96,6 +96,7 @@ import org.exoplatform.services.wsrp.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp.type.ClientData;
 import org.exoplatform.services.wsrp.type.ItemDescription;
+import org.exoplatform.services.wsrp.type.LocalizedString;
 import org.exoplatform.services.wsrp.type.MarkupContext;
 import org.exoplatform.services.wsrp.type.MarkupResponse;
 import org.exoplatform.services.wsrp.type.MarkupType;
@@ -524,10 +525,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         + Constants.PORTLET_HANDLE_ENCODER + portletName;
     try {
       PortletDescription pd = getProducer(producerID).getPortletDescription(portletHandle);
-      bundle.add(ResourceBundleManager.PORTLET_TITLE, pd.getTitle().getValue());
-      bundle.add(ResourceBundleManager.PORTLET_SHORT_TITLE, pd.getShortTitle().getValue());
+      bundle.add(ResourceBundleManager.PORTLET_TITLE, Utils.getStringFromLocalizedString(pd.getTitle()));
+      bundle.add(ResourceBundleManager.PORTLET_SHORT_TITLE, Utils.getStringFromLocalizedString(pd.getShortTitle()));
       if (pd.getKeywords() != null) {
-        bundle.add(ResourceBundleManager.KEYWORDS, pd.getKeywords()[0].getValue());
+        bundle.add(ResourceBundleManager.KEYWORDS, Utils.getStringFromLocalizedString(pd.getKeywords()[0]));
       } else {
         bundle.add(ResourceBundleManager.KEYWORDS, null);
       }
@@ -737,7 +738,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
             log.debug("use base path : " + path);
             path = input.getBaseURL();
-            
+
             /* MAIN INVOKE */
             mResponse = portletDriver.getMarkup(markupRequest, userSession, path);
             if (mResponse != null) {
@@ -758,7 +759,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         }
       } else {
         // if WindowState equals MINIMIZED
-        output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+        if (input.getTitle() != null) {
+          output.setTitle(input.getTitle());
+        } else {
+          LocalizedString locStr = consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle();
+          output.setTitle(Utils.getStringFromLocalizedString(locStr));
+        }
       }
     } catch (Exception e) {
       e.printStackTrace();

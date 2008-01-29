@@ -104,6 +104,7 @@ import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.EventDescription;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
+import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MarkupType;
@@ -578,10 +579,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     String portletHandle = getPortletHandle(portletAppName, portletName);
     try {
       PortletDescription pd = getProducer(producerID).getPortletDescription(portletHandle);
-      bundle.add(ResourceBundleManager.PORTLET_TITLE, pd.getTitle().getValue());
-      bundle.add(ResourceBundleManager.PORTLET_SHORT_TITLE, pd.getShortTitle().getValue());
+      bundle.add(ResourceBundleManager.PORTLET_TITLE, Utils.getStringFromLocalizedString(pd.getTitle()));
+      bundle.add(ResourceBundleManager.PORTLET_SHORT_TITLE, Utils.getStringFromLocalizedString(pd.getShortTitle()));
       if (pd.getKeywords() != null) {
-        bundle.add(ResourceBundleManager.KEYWORDS, pd.getKeywords()[0].getValue());
+        bundle.add(ResourceBundleManager.KEYWORDS, Utils.getStringFromLocalizedString(pd.getKeywords()[0]));
       } else {
         bundle.add(ResourceBundleManager.KEYWORDS, null);
       }
@@ -856,7 +857,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         if (input.getTitle() != null) {
           output.setTitle(input.getTitle());
         } else {
-          output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+          LocalizedString locStr = consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle();
+          output.setTitle(Utils.getStringFromLocalizedString(locStr));
         }
       }
     } catch (Exception e) {
@@ -1335,7 +1337,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         if (input.getTitle() != null) {
           output.setTitle(input.getTitle());
         } else {
-          output.setTitle(consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle().getValue());
+          LocalizedString locStr = consumer.getProducerRegistry().getProducer(producerID).getPortletDescription(portletHandle).getTitle();
+          output.setTitle(Utils.getStringFromLocalizedString(locStr));
         }
       }
     } catch (Exception e) {
