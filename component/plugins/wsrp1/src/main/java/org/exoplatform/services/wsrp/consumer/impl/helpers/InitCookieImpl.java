@@ -41,7 +41,7 @@ public class InitCookieImpl extends InitCookieTemplate{
     ((WSRPServiceLocator)service).setMaintainSession(true);
     this.markupInterfaceURL = markupInterfaceURL;
     try {
-      this.markupInterface = service.getWSRPBaseService(new URL(markupInterfaceURL));
+      this.markupInterface = service.getWSRPMarkupService(new URL(markupInterfaceURL));
     } catch (ServiceException e) {
       e.printStackTrace();
     } catch (MalformedURLException e) {
@@ -53,11 +53,11 @@ public class InitCookieImpl extends InitCookieTemplate{
     return markupInterfaceURL;
   }
 
-  public WSRP_v1_Markup_PortType getWSRPBaseService() {
+  public WSRP_v1_Markup_PortType getWSRPMarkupService() {
     return markupInterface;
   }
 
-  public void setWSRPBaseService(WSRP_v1_Markup_PortType markupPortType) {
+  public void setWSRPMarkupService(WSRP_v1_Markup_PortType markupPortType) {
     this.markupInterface = markupPortType;
   }
 }

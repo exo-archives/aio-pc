@@ -132,7 +132,7 @@ public class PortletDriverImpl implements PortletDriver {
       log.debug("cookies management per user");
       if (!userSession.isInitCookieDone()) {
         log.debug("Init cookies : " + userSession);
-        this.markupPort = userSession.getWSRPBaseService();
+        this.markupPort = userSession.getWSRPMarkupService();
         userSession.setInitCookieRequired(true);
         initCookie();
         userSession.setInitCookieDone(true);
@@ -147,7 +147,7 @@ public class PortletDriverImpl implements PortletDriver {
       }
       if (groupID != null) {
         GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
-        this.markupPort = groupSession.getWSRPBaseService();
+        this.markupPort = groupSession.getWSRPMarkupService();
         if (!groupSession.isInitCookieDone()) {
           log.debug("Group session in init cookies : " + groupSession);
           groupSession.setInitCookieRequired(true);
@@ -162,7 +162,7 @@ public class PortletDriverImpl implements PortletDriver {
         // a groupID in the portlet description
       }
     } else {
-      this.markupPort = userSession.getWSRPBaseService();
+      this.markupPort = userSession.getWSRPMarkupService();
     }
   }
 

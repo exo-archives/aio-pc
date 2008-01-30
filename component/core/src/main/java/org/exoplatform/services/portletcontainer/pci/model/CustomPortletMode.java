@@ -28,18 +28,18 @@ import org.exoplatform.Constants;
  * @version: $Id: CustomPortletMode.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class CustomPortletMode {
-	private List description ;
+	private List<Description> description ;
   private String portletMode ;
   // portlet api 2.0
   private String id;
   private String portalManaged ;
   private String resourceID ;
 
-	public List getDescription() {
+	public List<Description> getDescription() {
     if(description == null) return Constants.EMPTY_LIST ;
 		return description;
 	}
-	public void setDescription(List description) {
+	public void setDescription(List<Description> description) {
 		this.description = description;
 	}
 

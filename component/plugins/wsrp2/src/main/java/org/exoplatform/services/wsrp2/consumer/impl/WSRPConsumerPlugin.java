@@ -560,6 +560,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return result;
   }
 
+  public PortletApp getPortletApp(String portletAppName) {
+    return null;
+  }
+  
   public ResourceBundle getBundle(HttpServletRequest request,
                                   HttpServletResponse response,
                                   String portletAppName,

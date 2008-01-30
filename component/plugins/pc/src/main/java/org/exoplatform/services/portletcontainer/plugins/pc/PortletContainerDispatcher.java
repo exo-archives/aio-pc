@@ -250,6 +250,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public Map<String, PortletData> getAllPortletMetaData() {
     return portletApplications.getAllPortletMetaData(container);
   }
+  
+  public PortletApp getPortletApp(String portletAppName) {
+    return portletApplications.getPortletApplication(portletAppName);
+  }
 
   public boolean isEventPayloadTypeMatches(String portletAppName,
                                            QName eventName,

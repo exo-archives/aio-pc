@@ -141,7 +141,7 @@ public class WSRPAdminPortlet {
       actionURL.setPortletMode(PortletMode.VIEW);
 
       w.println("<center><b>Register remote producer for " + WSRPConstants.WSRP_ID + " plugin.</b></center><br>");
-      w.println("<form name=\"producerForm\" method=\"post\" action=\"" + actionURL.toString() + "\">");
+      w.println("<form name=\"producer_wsrp1_form\" method=\"post\" action=\"" + actionURL.toString() + "\">");
       w.println("  <input type=\"hidden\" name=\"op\" value=\"\"/>");
       w.println("    <table>");
       w.println("    <tr><td><label>Producer Name</label></td>");
@@ -165,14 +165,14 @@ public class WSRPAdminPortlet {
       w.println("      <td><textarea id=\"" + WSRPConstants.WAP_description + "\" name=\"" + WSRPConstants.WAP_description
           + "\" cols=\"35\" rows=\"5\">" + description + "</textarea></td></tr>");
       w.println("    <tr><td colspan='2' align='center'>");
-      w.println("      <a href=\"javascript:submit_producerForm('save');\">Save</a>");
-      w.println("      <a href=\"javascript:submit_producerForm('reset');\">Reset</a>");
+      w.println("      <a href=\"javascript:submit_producer_wsrp1_form('save');\">Save</a>");
+      w.println("      <a href=\"javascript:submit_producer_wsrp1_form('reset');\">Reset</a>");
       w.println("    </td></tr>");
       w.println("  </table>");
       w.println("<script type=\"text/javascript\">");
-      w.println("  function submit_producerForm(action) {");
-      w.println("    document.producerForm.elements['op'].value = action;");
-      w.println("    document.producerForm.submit();");
+      w.println("  function submit_producer_wsrp1_form(action) {");
+      w.println("    document.producer_wsrp1_form.elements['op'].value = action;");
+      w.println("    document.producer_wsrp1_form.submit();");
       w.println("  }");
       w.println("</script>");
       w.println("</form>");
@@ -376,7 +376,7 @@ public class WSRPAdminPortlet {
     consumerAgent = "exoplatform.1.0";
     producerName = "exo producer";
     producerURL = "http://localhost:8080/portal/services/";
-    markupIntfEndpoint = "WSRPBaseService";
+    markupIntfEndpoint = "WSRPMarkupService";
     portletManagementIntfEndpoint = "WSRPPortletManagementService";
     registrationIntfEndpoint = "WSRPRegistrationService";
     serviceDescriptionIntfEndpoint = "WSRPServiceDescriptionService";

@@ -91,7 +91,7 @@
         <property name="consumerAgent" value="exoplatform.1.0" />
         <property name="producerName" value="exo producer" />
         <property name="producerURL" value="http://localhost:8080/portal/services/" />
-        <property name="markupIntfEndpoint" value="WSRPBaseService" />
+        <property name="markupIntfEndpoint" value="WSRPMarkupService" />
         <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService" />
         <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />
         <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService" />

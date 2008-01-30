@@ -137,6 +137,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     sD.setSupportedOptions(new String[] { "wsrp:events", "wsrp:leasing", "wsrp:copyPortlets", "wsrp:import", "wsrp:export" });
     sD.setExportDescription(null);
     sD.setMayReturnRegistrationState(null);
+    sD.setSchemaType(null);
     return sD;
   }
 
@@ -231,6 +232,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     sD.setLocales(localesArray);
     sD.setOfferedPortlets(pdescription);
     sD.setResourceList(new ResourceList());
+    sD.setSchemaType(null);
     return sD;
 
   }

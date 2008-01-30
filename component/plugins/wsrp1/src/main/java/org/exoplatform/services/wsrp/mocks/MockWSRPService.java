@@ -82,15 +82,15 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
     return registrationOperationsInterface;
   }
 
-  public String getWSRPBaseServiceAddress() {
+  public String getWSRPMarkupServiceAddress() {
     return "Mock";
   }
 
-  public WSRP_v1_Markup_PortType getWSRPBaseService() throws ServiceException {
+  public WSRP_v1_Markup_PortType getWSRPMarkupService() throws ServiceException {
     return markupOperationsInterface;
   }
 
-  public WSRP_v1_Markup_PortType getWSRPBaseService(URL portAddress) throws ServiceException {
+  public WSRP_v1_Markup_PortType getWSRPMarkupService(URL portAddress) throws ServiceException {
     return markupOperationsInterface;
   }
 

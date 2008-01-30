@@ -48,6 +48,7 @@ import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
+import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.picocontainer.Startable;
 
 /**
@@ -164,6 +165,10 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
       result.putAll(((PortletContainerPlugin) plugin).getAllPortletMetaData());
     }
     return result;
+  }
+
+  public PortletApp getPortletApp(String portletAppName) {
+    return findPluginByPAPPName(portletAppName).getPortletApp(portletAppName);
   }
 
   public ResourceBundle getBundle(HttpServletRequest request,

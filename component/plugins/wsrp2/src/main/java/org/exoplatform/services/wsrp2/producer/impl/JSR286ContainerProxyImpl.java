@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.Collection;
@@ -48,8 +48,10 @@ import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
+import org.exoplatform.services.portletcontainer.pci.model.CustomPortletMode;
 import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
+import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 import org.exoplatform.services.wsrp2.WSRPConstants;
@@ -112,7 +114,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       log.debug("get description of portlet: " + portletName);
     }
     Map<String, PortletData> portletMetaDatas = pcService.getAllPortletMetaData();
-    PortletData portlet = (PortletData) portletMetaDatas.get(k[0] + Constants.PORTLET_META_DATA_ENCODER + k[1]);
+    PortletData portlet = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
     PortletDescription pD = new PortletDescription();
 
     // delegation to JSR 168 specs
@@ -135,9 +137,14 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
 
     pD.setTitle(getTitle(portletApplicationName, portletName, desiredLocales));
     pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
-    
+
     pD.setUserProfileItems(getUserProfileItems(portlet.getUserAttributes()));
     pD.setUserCategories(null);
+    
+    PortletApp portletApp = pcService.getPortletApp(portletApplicationName);
+    List<CustomPortletMode> customPortletMode = portletApp.getCustomPortletMode();
+//    portlet.getSupports().get(0).getPortletMode()
+    pD.setPortletManagedModes(null);
 
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
@@ -152,6 +159,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setNavigationalPublicValueDescriptions(getNavigationalPublicValueDescriptions(portlet.getSupportedPublicRenderParameter()));
     pD.setMayReturnPortletState(null);
     pD.setExtensions(null);
+
     return pD;
   }
 
@@ -296,7 +304,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       String desiredLocale = desiredLocales[i];
       for (Iterator<Description> iter = list.iterator(); iter.hasNext();) {
         Description desc = (Description) iter.next();
-        if (desc!=null && desc.getLang()!=null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (desc != null && desc.getLang() != null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(desc.getDescription(), desiredLocale);
         }
       }
@@ -310,7 +318,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       String desiredLocale = desiredLocales[i];
       for (Iterator<DisplayName> iter = list.iterator(); iter.hasNext();) {
         DisplayName displayName = (DisplayName) iter.next();
-        if (displayName!=null && displayName.getLang()!=null && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (displayName != null && displayName.getLang() != null && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(displayName.getDisplayName(), desiredLocale);
         }
       }

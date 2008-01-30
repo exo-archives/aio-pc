@@ -63,6 +63,7 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
+import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
@@ -506,6 +507,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return result;
   }
 
+  public PortletApp getPortletApp(String portletAppName) {
+    return null;
+  }
+  
   public ResourceBundle getBundle(HttpServletRequest request,
                                   HttpServletResponse response,
                                   String portletAppName,

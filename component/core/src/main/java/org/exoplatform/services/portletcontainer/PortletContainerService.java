@@ -37,6 +37,7 @@ import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
+import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 
 /**
  * Created by the Exo Development team.
@@ -90,6 +91,8 @@ public interface PortletContainerService {
                                   WindowState state);
 
   public Map<String, PortletData> getAllPortletMetaData();
+  
+  public PortletApp getPortletApp(String portletAppName);
 
   public ResourceBundle getBundle(HttpServletRequest request,
                                   HttpServletResponse response,
