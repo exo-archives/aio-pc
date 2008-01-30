@@ -175,9 +175,11 @@
 				      <tasks>
 					      <mkdir dir="${src.gen.dir}" />
 					      <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
+					      <!--
 					        <sysproperty key="proxySet" value="" />
 					        <sysproperty key="proxyHost" value="localhost" />
 					        <sysproperty key="proxyPort" value="80" />
+						-->
 					        <arg line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
 					         <classpath refid="maven.dependency.classpath" />
 					      </java>
