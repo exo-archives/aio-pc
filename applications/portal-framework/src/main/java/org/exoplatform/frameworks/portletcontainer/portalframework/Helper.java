@@ -208,6 +208,8 @@ public final class Helper {
    * @param src source map
    */
   public static void appendParams(final Map<String, String[]> dest, final Map<String, String[]> src) {
+    if (src == null)
+      return;
     for (Iterator<String> i = src.keySet().iterator(); i.hasNext();) {
       String paramName = i.next();
       if (!dest.containsKey(paramName)) {
@@ -234,8 +236,8 @@ public final class Helper {
   }
 
 
-  public static void separatePublicParams(HashMap<String, String[]> portletParams,
-      HashMap<String, String[]> publicRenderParams,
+  public static void separatePublicParams(Map<String, String[]> portletParams,
+      Map<String, String[]> publicRenderParams,
       List<String> list) {
     if (list == null)
       return;

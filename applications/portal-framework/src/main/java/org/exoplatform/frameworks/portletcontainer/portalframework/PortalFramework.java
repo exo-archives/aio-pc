@@ -700,9 +700,7 @@ public class PortalFramework {
     actionInput.setUserAttributes(new HashMap<String, String>());
     actionInput.setMarkup(cntType);
     actionInput.setPublicParamNames(getPublicNamesSet(target));
-    actionInput.setRenderParameters(new HashMap<String, String[]>());
-    Helper.appendParams(actionInput.getRenderParameters(), publicRenderParams);
-    Helper.appendParams(actionInput.getRenderParameters(), portletParams);
+    actionInput.setRenderParameters(portletParams);
     portletParams = new HashMap<String, String[]>();
     actionInput.setPortletMode(win.getPortletMode());
     actionInput.setWindowState(win.getWindowState());
@@ -731,13 +729,9 @@ public class PortalFramework {
     eventInput.setPublicParamNames(getPublicNamesSet(eventTarget));
     eventInput.setRenderParameters(new HashMap<String, String[]>());
     if (target != null && target.equals(eventTarget)) {
-      if (renderParams != null) {
-        Helper.appendParams(eventInput.getRenderParameters(), renderParams);
-      }
+      Helper.appendParams(eventInput.getRenderParameters(), renderParams);
     } else {
-      if (win.getRenderParams() != null) {
-        Helper.appendParams(eventInput.getRenderParameters(), win.getRenderParams());
-      }
+      Helper.appendParams(eventInput.getRenderParameters(), win.getRenderParams());
     }
     eventInput.setPortletMode(win.getPortletMode());
     eventInput.setWindowState(win.getWindowState());
@@ -766,13 +760,11 @@ public class PortalFramework {
     if (target != null && target.equals(plt)) {
       Helper.appendParams(renderInput.getRenderParameters(), publicRenderParams);
       Helper.appendParams(renderInput.getRenderParameters(), portletParams);
-      if (renderParams != null)
-        Helper.appendParams(renderInput.getRenderParameters(), renderParams);
+      Helper.appendParams(renderInput.getRenderParameters(), renderParams);
       win.setRenderParams(renderInput.getRenderParameters());
     } else {
       Helper.appendParams(renderInput.getRenderParameters(), fillPublicParams(plt, publicRenderParams));
-      if (win.getRenderParams() != null)
-        Helper.appendParams(renderInput.getRenderParameters(), win.getRenderParams());
+      Helper.appendParams(renderInput.getRenderParameters(), win.getRenderParams());
     }
     renderInput.setPortletMode(win.getPortletMode());
     renderInput.setWindowState(win.getWindowState());
@@ -851,9 +843,10 @@ public class PortalFramework {
       eventRenderParams = new HashMap<String, String[]>();
       return o;
     }
-    fixPublicRenderParams(o);
     if (eventRenderParams == null)
       eventRenderParams = new HashMap<String, String[]>();
+    Helper.separatePublicParams(eventRenderParams, publicRenderParams, publicParams.get(event.getTarget()));
+    fixPublicRenderParams(o);
     addEvents(o.getEvents());
     checkSessionInvalidation(httpRequest, o);
     final WindowID2 win = wins.get(event.getTarget());
