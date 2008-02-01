@@ -32,7 +32,7 @@ public class CustomPortletMode {
   private String portletMode ;
   // portlet api 2.0
   private String id;
-  private String portalManaged ;
+  private Boolean portalManaged ;
   private String resourceID ;
 
 	public List<Description> getDescription() {
@@ -62,11 +62,11 @@ public class CustomPortletMode {
 
   // portlet api 2.0
 
-  public void setPortalManaged(String portalManaged) {
+  public void setPortalManaged(Boolean portalManaged) {
     this.portalManaged = portalManaged;
   }
 
-  public String getPortalManaged() {
+  public Boolean isPortalManaged() {
     return portalManaged;
   }
 

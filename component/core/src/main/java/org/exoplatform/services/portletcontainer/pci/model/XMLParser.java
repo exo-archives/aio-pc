@@ -175,9 +175,9 @@ public class XMLParser {
      while(xpp.node("description")) mode.addDescription(readDescription(xpp));
      xpp.mandatoryNode("portlet-mode"); mode.setPortletMode(xpp.getContent().trim());
      if (xpp.node("portal-managed")) {
-       mode.setPortalManaged(xpp.getContent().trim());
+       mode.setPortalManaged(new Boolean(xpp.getContent().trim()));
      } else {
-       mode.setPortalManaged(Boolean.TRUE.toString());
+       mode.setPortalManaged(Boolean.TRUE);
      }
     return mode;
   }

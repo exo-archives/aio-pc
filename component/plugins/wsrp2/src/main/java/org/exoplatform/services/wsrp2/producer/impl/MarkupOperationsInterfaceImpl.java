@@ -324,7 +324,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     markupContext.setPreferredTitle(output.getTitle());
     markupContext.setRequiresRewriting(!conf.isDoesUrlTemplateProcessing());
     markupContext.setUseCachedItem(false);
-    //markupContext.setValidNewModes(validNewModes);
+    markupContext.setValidNewModes(null);
 
     // preparing markup response
     MarkupResponse markupResponse = new MarkupResponse();
@@ -550,6 +550,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         if (conf.isSavePortletStateOnConsumer())
           portletContext.setPortletState(output.getPortletState());
         updateResponse.setPortletContext(portletContext);
+        updateResponse.setExtensions(null);
 
         // get render parameters
         renderParameters = output.getRenderParameters();
@@ -1070,6 +1071,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     //    }
     updateResponse.setMarkupContext(markupContext);
     updateResponse.setPortletContext(portletContext);
+    updateResponse.setExtensions(null);
 
     // get public parameters
     Map<String, String[]> publicParameters = new HashMap<String, String[]>();

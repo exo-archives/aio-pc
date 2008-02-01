@@ -108,6 +108,7 @@ import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MarkupType;
+import org.exoplatform.services.wsrp2.type.MimeResponse;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.ParameterDescription;
@@ -563,7 +564,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public PortletApp getPortletApp(String portletAppName) {
     return null;
   }
-  
+
   public ResourceBundle getBundle(HttpServletRequest request,
                                   HttpServletResponse response,
                                   String portletAppName,
@@ -1112,9 +1113,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   private ClientData getClientData() {
     ClientData clientData = new ClientData();
     clientData.setUserAgent(userAgent);
-    //    clientData.setCcppHeaders(ccppHeaders);
-    //    clientData.setClientAttributes(clientAttributes);
-    //    clientData.setRequestVerb(requestVerb);
+    clientData.setCcppHeaders(null);
+    clientData.setClientAttributes(null);
+    clientData.setRequestVerb(null);
     return clientData;
   }
 
@@ -1201,34 +1202,13 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                     RenderOutput output) throws WSRPException {
     log.debug("process markup context for returned markup");
     if (markupContext != null && output != null) {
-      // markupContext.getCacheControl()
-      // markupContext.getCcppProfileWarning()
-      // markupContext.getExtensions()
-      // markupContext.getLocale()
-      // markupContext.getRequiresRewriting()
-      // markupContext.getUseCachedItem()
+      processMimeResponse(markupContext, output);
       output.setNextPossiblePortletModes(getPortletModesFromStrings(markupContext.getValidNewModes()));
       String title = markupContext.getPreferredTitle();
       if (title != null) {
         log.debug("user title : " + title);
         output.setTitle(title);
       }
-
-      output.setContentType(markupContext.getMimeType());
-
-      // process content
-      byte[] binaryMarkup = markupContext.getItemBinary();
-      if (binaryMarkup == null && markupContext.getItemString() != null) {
-        log.debug("string markup not null");
-        try {
-          binaryMarkup = markupContext.getItemString().getBytes("utf-8");
-        } catch (java.io.UnsupportedEncodingException e) {
-          binaryMarkup = markupContext.getItemString().getBytes();
-        }
-      } else {
-        log.debug("binary markup not null");
-      }
-      output.setContent(binaryMarkup);
     }
   }
 
@@ -1400,24 +1380,32 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                       ResourceOutput output) throws WSRPException {
     log.debug("process resource context for returned markup");
     if (resourceContext != null && output != null) {
+      processMimeResponse(resourceContext, output);
+    }
+  }
+
+  private void processMimeResponse(MimeResponse mimeResponse,
+                                   RenderOutput output) throws WSRPException {
+    log.debug("process resource context for returned markup");
+    if (mimeResponse != null && output != null) {
       // resourceContext.getCacheControl()
       // resourceContext.getCcppProfileWarning()
       // resourceContext.getExtensions()
       // resourceContext.getLocale()
       // resourceContext.getRequiresRewriting()
       // resourceContext.getUseCachedItem()
-      if (resourceContext.getMimeType() != null) {
-        output.setContentType(resourceContext.getMimeType());
+      if (mimeResponse.getMimeType() != null) {
+        output.setContentType(mimeResponse.getMimeType());
       }
 
       // process content
-      byte[] binaryMarkup = resourceContext.getItemBinary();
-      if (binaryMarkup == null && resourceContext.getItemString() != null) {
+      byte[] binaryMarkup = mimeResponse.getItemBinary();
+      if (binaryMarkup == null && mimeResponse.getItemString() != null) {
         log.debug("string markup not null");
         try {
-          binaryMarkup = resourceContext.getItemString().getBytes("utf-8");
+          binaryMarkup = mimeResponse.getItemString().getBytes("utf-8");
         } catch (java.io.UnsupportedEncodingException e) {
-          binaryMarkup = resourceContext.getItemString().getBytes();
+          binaryMarkup = mimeResponse.getItemString().getBytes();
         }
       } else {
         log.debug("binary markup not null");

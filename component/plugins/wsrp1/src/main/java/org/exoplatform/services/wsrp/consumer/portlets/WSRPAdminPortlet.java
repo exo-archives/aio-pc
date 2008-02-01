@@ -194,11 +194,11 @@ public class WSRPAdminPortlet {
         w.println("<td colspan='2'>");
         w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
         w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint() + "<br>");
-//        w.println("Description - " + producer.getDescription() + "<br>");
-//        RegistrationContext regCtx = producer.getRegistrationContext();
-//        if (regCtx != null) {
-//          w.println("RegistrationHandle - " + regCtx.getRegistrationHandle() + "<br>");
-//        }
+        //        w.println("Description - " + producer.getDescription() + "<br>");
+        //        RegistrationContext regCtx = producer.getRegistrationContext();
+        //        if (regCtx != null) {
+        //          w.println("RegistrationHandle - " + regCtx.getRegistrationHandle() + "<br>");
+        //        }
         w.println("</td>");
         w.println("</tr>");
         w.println("<tr>");

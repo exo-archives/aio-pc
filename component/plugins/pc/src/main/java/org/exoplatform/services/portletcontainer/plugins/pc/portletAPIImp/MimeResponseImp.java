@@ -237,7 +237,6 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     String originalCacheLevel = null;
     if (input_ instanceof ResourceInput) {
       originalCacheLevel = ((ResourceInput) input_).getCacheability();
-      // TODO EXOMAN
       // OK, the originalCacheLevel is a parent cache level, what is new?
     }
     if (input_.getPortletURLFactory() != null) {

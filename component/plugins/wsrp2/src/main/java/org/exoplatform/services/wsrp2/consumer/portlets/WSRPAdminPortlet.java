@@ -36,7 +36,6 @@ import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
 import org.exoplatform.services.portletcontainer.pci.EventInput;
 import org.exoplatform.services.portletcontainer.pci.EventOutput;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
@@ -53,7 +52,6 @@ import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupType;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.Register;
-import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
@@ -350,8 +348,6 @@ public class WSRPAdminPortlet {
           String[] CONSUMER_SCOPES = { "chunk_data" };
           String[] CONSUMER_CUSTOM_PROFILES = { "what_more" };
           RegistrationData registrationData = new RegistrationData();
-
-          Register register = new Register();
           // required
           registrationData.setConsumerName(consumerName);
           registrationData.setConsumerAgent(consumerAgent);
@@ -365,6 +361,7 @@ public class WSRPAdminPortlet {
           registrationData.setResourceList(null);
           registrationData.setExtensions(null);
 
+          Register register = new Register();
           register.setRegistrationData(registrationData);
           producer.register(register);
         }

@@ -62,6 +62,7 @@ import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MimeRequest;
+import org.exoplatform.services.wsrp2.type.MimeResponse;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -296,7 +297,7 @@ public class PortletDriverImpl implements PortletDriver {
       markupContext = response.getMarkupContext();
       Boolean requiresRewriting = markupContext.getRequiresRewriting();
       log.debug("requires URL rewriting : " + requiresRewriting);
-      String content = getMarkupContent(markupContext);
+      String content = getContent(markupContext);
 
       if (markupContext.getMimeType().startsWith("text/")) {
         String rewrittenMarkup = null;
@@ -334,18 +335,6 @@ public class PortletDriverImpl implements PortletDriver {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
     }
     return response;
-  }
-
-  private String getMarkupContent(MarkupContext markupContext) {
-    log.debug("markupContext.getItemString() = " + markupContext.getItemString());
-    log.debug("markupContext.getItemBinary() = " + markupContext.getItemBinary());
-    String content = null;
-    if (markupContext.getItemBinary() != null) {
-      content = new String(markupContext.getItemBinary());
-    } else {
-      content = markupContext.getItemString();
-    }
-    return content;
   }
 
   public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
@@ -572,7 +561,7 @@ public class PortletDriverImpl implements PortletDriver {
       resourceContext = response.getResourceContext();
       Boolean requiresRewriting = resourceContext.getRequiresRewriting();
       log.debug("requires URL rewriting : " + requiresRewriting);
-      String content = getResourceContent(resourceContext);
+      String content = getContent(resourceContext);
 
       if (resourceContext.getMimeType().startsWith("text/")) {
         String rewrittenMarkup = null;
@@ -613,14 +602,14 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  private String getResourceContent(ResourceContext resourceContext) {
-    log.debug("markupContext.getItemString() = " + resourceContext.getItemString());
-    log.debug("markupContext.getItemBinary() = " + resourceContext.getItemBinary());
+  private String getContent(MimeResponse mimeResponse) {
+    log.debug("mimeResponse.getItemString() = " + mimeResponse.getItemString());
+    log.debug("mimeResponse.getItemBinary() = " + mimeResponse.getItemBinary());
     String content = null;
-    if (resourceContext.getItemBinary() != null) {
-      content = new String(resourceContext.getItemBinary());
+    if (mimeResponse.getItemBinary() != null) {
+      content = new String(mimeResponse.getItemBinary());
     } else {
-      content = resourceContext.getItemString();
+      content = mimeResponse.getItemString();
     }
     return content;
   }
@@ -643,6 +632,9 @@ public class PortletDriverImpl implements PortletDriver {
     // lets just set this to the consumer agent for now
     if (producer.getRegistrationData() != null)
       clientData.setUserAgent(producer.getRegistrationData().getConsumerAgent());
+    clientData.setCcppHeaders(null);
+    clientData.setClientAttributes(null);
+    
     params.setClientData(clientData);
     params.setSecureClientCommunication(request.isSecureClientCommunication());
     params.setLocales(request.getLocales());//consumer.getSupportedLocales());

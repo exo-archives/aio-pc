@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -140,11 +141,25 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
 
     pD.setUserProfileItems(getUserProfileItems(portlet.getUserAttributes()));
     pD.setUserCategories(null);
-    
+
     PortletApp portletApp = pcService.getPortletApp(portletApplicationName);
-    List<CustomPortletMode> customPortletMode = portletApp.getCustomPortletMode();
-//    portlet.getSupports().get(0).getPortletMode()
-    pD.setPortletManagedModes(null);
+    List<Supports> supports = portlet.getSupports();
+    List<CustomPortletMode> customPortletModes = portletApp.getCustomPortletMode();
+    List<String> resultManagedModes = new ArrayList<String>();
+    for (Supports support : supports) {
+      List<String> portletModes = support.getPortletMode();
+      for (String mode : portletModes) {
+        for (CustomPortletMode customPortletMode : customPortletModes) {
+          if (mode.equalsIgnoreCase(customPortletMode.getPortletMode())) {
+            if (customPortletMode.isPortalManaged()) {
+              resultManagedModes.add(customPortletMode.getPortletMode());
+            }
+          }
+        }
+      }
+    }
+
+    pD.setPortletManagedModes((String[]) resultManagedModes.toArray(new String[resultManagedModes.size()]));
 
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
