@@ -71,6 +71,8 @@
 							</fileset>
 						</copy>
 						
+						<touch file="${basedir}/patches/jboss-sar/WEB-INF/classes/conf/exo-configuration.xml"/>
+						
 						<war
 						     destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/portal.war" update="true">
              	                                                      <webinf dir="${basedir}/patches/jboss-sar/WEB-INF/">
