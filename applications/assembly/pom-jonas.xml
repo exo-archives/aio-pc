@@ -37,7 +37,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-					            <!--
+					            
 						<delete
 							dir="${exo.projects.directory.working}/exo-jonas"
 							includeEmptyDirs="true" quiet="yes" />
@@ -47,7 +47,7 @@
 							<fileset
 								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jonas.version}" />
 						</copy>
-						-->
+						
 						<copy
 							todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
 							verbose="true" overwrite="true">
