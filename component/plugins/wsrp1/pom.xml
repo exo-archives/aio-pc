@@ -10,14 +10,14 @@
   <name>eXo Portlet Container 2 Plugins WSRP1</name>
   <description>eXo Portlet Container 2 wsrp1 plugin</description>
 
-  <repositories>
+  <!-- repositories>
     <repository>
-      <id>maven.org</id>
-      <name>maven.org repository</name>
-      <url>http://repo1.maven.org/maven2</url>
-      <layout>default</layout>
+    <id>maven.org</id>
+    <name>maven.org repository</name>
+    <url>http://repo1.maven.org/maven2</url>
+    <layout>default</layout>
     </repository>
-  </repositories>
+    </repositories -->
 
   <dependencies>
 
@@ -79,9 +79,9 @@
     </dependency>
 
     <dependency>
-       <groupId>org.exoplatform.portletcontainer</groupId>
-       <artifactId>exo.pc.component.core</artifactId>
-       <version>${exo.portlet-container.version}</version>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${exo.portlet-container.version}</version>
     </dependency>
 
     <dependency>
@@ -176,12 +176,15 @@
             <configuration>
               <tasks>
                 <mkdir dir="${src.gen.dir}" />
-                <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
-		<!--
-                  <sysproperty key="proxySet" value="" />
-                  <sysproperty key="proxyHost" value="localhost" />
-                  <sysproperty key="proxyPort" value="80" />
-		-->
+                <java
+                  fork="yes"
+                  dir="wsdl"
+                  classname="org.apache.axis.wsdl.WSDL2Java">
+                  <!--
+                    <sysproperty key="proxySet" value="" />
+                    <sysproperty key="proxyHost" value="localhost" />
+                    <sysproperty key="proxyPort" value="80" />
+                  -->
                   <arg line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
                   <classpath refid="maven.dependency.classpath" />
                 </java>
@@ -201,16 +204,20 @@
             <phase>compile</phase>
             <configuration>
               <tasks>
-                <taskdef name="hibernatedoclet"
+                <taskdef
+                  name="hibernatedoclet"
                   classname="xdoclet.modules.hibernate.HibernateDocletTask"
-                  classpathref="maven.compile.classpath"/>
-                <hibernatedoclet destdir="${basedir}/target/classes"
-                  excludedtags="@version,@author,@todo" mergedir="target/classes"
-                  force="true" verbose="false">
+                  classpathref="maven.compile.classpath" />
+                <hibernatedoclet
+                  destdir="${basedir}/target/classes"
+                  excludedtags="@version,@author,@todo"
+                  mergedir="target/classes"
+                  force="true"
+                  verbose="false">
                   <fileset dir="${basedir}/src/main/java">
-                    <include name="**/*.java"/>
+                    <include name="**/*.java" />
                   </fileset>
-                  <hibernate version="3.0"/>
+                  <hibernate version="3.0" />
                 </hibernatedoclet>
               </tasks>
             </configuration>
@@ -218,25 +225,28 @@
               <goal>run</goal>
             </goals>
           </execution>
-          <!-- execution>
+          <execution>
             <id>2</id>
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <mkdir dir="${basedir}/target/test-classes/"/>
+                <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
                   <fileset dir="${basedir}/war_template/src">
-                    <include name="**/*.properties"/>
-                    <include name="**/*.xml"/>
+                    <include name="**/*.properties" />
+                    <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
-                           debug="${maven.compile.debug}"
-                           deprecation="${maven.compile.deprecation}"
-                           optimize="${maven.compile.optimize}">
+                <javac
+                  fork="true"
+                  srcdir="${basedir}/war_template/src"
+                  destdir="${basedir}/target/test-classes/"
+                  debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}"
+                  optimize="${maven.compile.optimize}">
                   <classpath>
-                    <path refid="maven.dependency.classpath"/>
-                    <pathelement path="${maven.build.dest}"/>
+                    <path refid="maven.dependency.classpath" />
+                    <pathelement path="${maven.build.dest}" />
                   </classpath>
                 </javac>
               </tasks>
@@ -244,11 +254,11 @@
             <goals>
               <goal>run</goal>
             </goals>
-          </execution -->
+          </execution>
         </executions>
       </plugin>
 
-      <!-- plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
@@ -267,11 +277,12 @@
             </property>
           </systemProperties>
           <includes>
-            <include>**/Test*.java</include>
+            <include>**/AllTestsPortlet.java</include>
+            <!-- include>**/Test*.java</include -->
           </includes>
-          <skip>true</skip>
+          <skip>false</skip>
         </configuration>
-      </plugin -->
+      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

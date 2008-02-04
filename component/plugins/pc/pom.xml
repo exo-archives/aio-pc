@@ -8,31 +8,9 @@
   <artifactId>exo.pc.component.plugins.pc</artifactId>
   <packaging>jar</packaging>
   <name>eXo Portlet Container 2 Plugins PC (actual impl)</name>
-  <description>
-    eXo Portlet Container 2 plugins.pc (actual impl)
-  </description>
+  <description>eXo Portlet Container 2 plugins.pc (actual impl)</description>
 
   <dependencies>
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jsp-api</artifactId>
-      <version>2.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.portlet</groupId>
-      <artifactId>portlet-api</artifactId>
-      <version>2.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>                          
-      <groupId>javax.ccpp</groupId>    
-      <artifactId>ccpp</artifactId>
-      <version>1.0</version>              
-      <scope>compile</scope>              
-    </dependency>                         
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
@@ -90,7 +68,31 @@
       <scope>compile</scope>
     </dependency>
 
+    <!-- *************************** -->
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>2.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.ccpp</groupId>
+      <artifactId>ccpp</artifactId>
+      <version>1.0</version>
+      <scope>compile</scope>
+    </dependency>
+
     <!-- for javax.xml.bind.JAXBContext; -->
+
     <dependency>
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
@@ -147,7 +149,9 @@
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src"
+                <javac
+                  fork="true"
+                  srcdir="${basedir}/war_template/src"
                   destdir="${basedir}/target/test-classes/"
                   debug="${maven.compile.debug}"
                   deprecation="${maven.compile.deprecation}"
@@ -164,7 +168,9 @@
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src"
+                <javac
+                  fork="true"
+                  srcdir="${basedir}/war_template2/src"
                   destdir="${basedir}/target/test-classes/"
                   debug="${maven.compile.debug}"
                   deprecation="${maven.compile.deprecation}"

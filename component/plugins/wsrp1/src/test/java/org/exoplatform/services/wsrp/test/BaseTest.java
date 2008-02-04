@@ -125,8 +125,9 @@ public class BaseTest extends TestCase {
   public BaseTest(String s) {
     super(s);
   }
-
-  public void setUp() throws Exception {                    
+  
+  public void setUp() throws Exception {                
+    System.out.println(">>> EXOMAN test BaseTest.setUp()");
     RootContainer.getInstance();
     if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
       PortalContainer manager = PortalContainer.getInstance();

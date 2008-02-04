@@ -45,12 +45,14 @@ import org.exoplatform.services.wsrp.wsdl.WSRPService;
  */
 
 public class MockWSRPService implements WSRPService {
+  
   private WSRP_v1_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
   private WSRP_v1_Registration_Binding_SOAPImpl registrationOperationsInterface;
   private WSRP_v1_Markup_Binding_SOAPImpl markupOperationsInterface;
   private WSRP_v1_PortletManagement_Binding_SOAPImpl portletManagementOperationsInterface;
 
   public MockWSRPService() {
+    System.out.println(">>> EXOMAN MockWSRPService.MockWSRPService()");
     serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
     registrationOperationsInterface = new WSRP_v1_Registration_Binding_SOAPImpl();
     markupOperationsInterface = new WSRP_v1_Markup_Binding_SOAPImpl();

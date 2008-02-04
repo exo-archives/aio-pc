@@ -100,6 +100,7 @@ public class BaseTest extends TestCase {
   private PortletApplicationRegister portletApplicationRegister;
 
   protected void setUp() throws Exception { 
+    System.out.println(">>> EXOMAN testConsumer BaseTest.setUp()");
     try {
 
       URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
