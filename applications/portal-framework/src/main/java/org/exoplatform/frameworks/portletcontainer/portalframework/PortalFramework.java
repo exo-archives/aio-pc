@@ -38,6 +38,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
@@ -399,12 +400,12 @@ public class PortalFramework {
       locales.add(e.nextElement());
 
     Helper.parseParams(httpRequest, portalParams, portletParams, propertyParams);
-    target = Helper.string0(portalParams.get(org.exoplatform.Constants.COMPONENT_PARAMETER));
+    target = Helper.string0(portalParams.get(Constants.COMPONENT_PARAMETER));
     fixPublicRenderParams(portalParams.get(PCConstants.removePublicString));
-    action = Helper.getActionType(Helper.string0(portalParams.get(org.exoplatform.Constants.TYPE_PARAMETER)));
+    action = Helper.getActionType(Helper.string0(portalParams.get(Constants.TYPE_PARAMETER)));
 
-    if (portalParams.get(org.exoplatform.Constants.CACHELEVEL_PARAMETER) == null)
-      portalParams.put(org.exoplatform.Constants.CACHELEVEL_PARAMETER, new String[] { ResourceURL.PAGE });
+    if (portalParams.get(Constants.CACHELEVEL_PARAMETER) == null)
+      portalParams.put(Constants.CACHELEVEL_PARAMETER, new String[] { ResourceURL.PAGE });
 
     // confirm that target is valid to pattern "APPLICATION_NAME/PORTLET_NAME"
     if (target != null)
@@ -416,8 +417,8 @@ public class PortalFramework {
     if (target != null && action == PCConstants.renderInt)
       Helper.separatePublicParams(portletParams, publicRenderParams, publicParams.get(target));
 
-    if (!portalParams.isEmpty() && portalParams.containsKey(org.exoplatform.Constants.WINDOW_STATE_PARAMETER)) {
-      if (portalParams.get(org.exoplatform.Constants.WINDOW_STATE_PARAMETER).equals(WindowState.MINIMIZED)) {
+    if (!portalParams.isEmpty() && portalParams.containsKey(Constants.WINDOW_STATE_PARAMETER)) {
+      if (portalParams.get(Constants.WINDOW_STATE_PARAMETER).equals(WindowState.MINIMIZED)) {
         final Set<String> set = wins.keySet();
         final Iterator<String> it = set.iterator();
         while (it.hasNext()) {
@@ -434,10 +435,10 @@ public class PortalFramework {
 
       final WindowID2 win = wins.get(target);
       // set MODE
-      final PortletMode portletMode = Helper.getPortletMode(Helper.string0(portalParams.get(org.exoplatform.Constants.PORTLET_MODE_PARAMETER)),
+      final PortletMode portletMode = Helper.getPortletMode(Helper.string0(portalParams.get(Constants.PORTLET_MODE_PARAMETER)),
                                                             getPortletModes(pn[0], pn[1]));
       // set STATE
-      final WindowState windowState = Helper.getWindowState(Helper.string0(portalParams.get(org.exoplatform.Constants.WINDOW_STATE_PARAMETER)),
+      final WindowState windowState = Helper.getWindowState(Helper.string0(portalParams.get(Constants.WINDOW_STATE_PARAMETER)),
                                                             getWindowStates(pn[0], pn[1]));
 
       if (portletMode != null) {
@@ -482,7 +483,7 @@ public class PortalFramework {
 
       if (wins.get(portletName) == null) {
         final WindowID2 windowID = new WindowID2();
-        windowID.setOwner(org.exoplatform.Constants.ANON_USER);
+        windowID.setOwner(Constants.ANON_USER);
         windowID.setPortletApplicationName(ss[0]);
         windowID.setPortletName(ss[1]);
         windowID.setPersistenceId(ss[0] + "II" + ss[1]);
@@ -679,8 +680,8 @@ public class PortalFramework {
     resourceInput.setRenderParameters(portletParams);
     resourceInput.setPortletMode(win.getPortletMode());
     resourceInput.setWindowState(win.getWindowState());
-    resourceInput.setResourceID(Helper.string0(portalParams.get(org.exoplatform.Constants.RESOURCE_ID_PARAMETER)));
-    resourceInput.setCacheability(Helper.string0(portalParams.get(org.exoplatform.Constants.CACHELEVEL_PARAMETER)));
+    resourceInput.setResourceID(Helper.string0(portalParams.get(Constants.RESOURCE_ID_PARAMETER)));
+    resourceInput.setCacheability(Helper.string0(portalParams.get(Constants.CACHELEVEL_PARAMETER)));
     return resourceInput;
   }
 
@@ -768,7 +769,7 @@ public class PortalFramework {
     }
     renderInput.setPortletMode(win.getPortletMode());
     renderInput.setWindowState(win.getWindowState());
-    //renderInput.setCacheability(Helper.string0(portalParams.get(org.exoplatform.Constants.CACHELEVEL_PARAMETER)));
+    //renderInput.setCacheability(Helper.string0(portalParams.get(Constants.CACHELEVEL_PARAMETER)));
     return renderInput;
   }
 
@@ -932,7 +933,7 @@ public class PortalFramework {
                                                      final String markupType,
                                                      final ArrayList<String> requestedPortlets) {
 
-    baseURL = httpRequest.getRequestURI() + "?" + org.exoplatform.Constants.COMPONENT_PARAMETER + "=";
+    baseURL = httpRequest.getRequestURI() + "?" + Constants.COMPONENT_PARAMETER + "=";
 
     setParams(httpRequest, markupType);
 
