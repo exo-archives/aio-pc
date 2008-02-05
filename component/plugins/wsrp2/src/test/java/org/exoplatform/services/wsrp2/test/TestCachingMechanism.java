@@ -3,16 +3,16 @@
  * Please look at license.txt in info directory for more license detail.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.WSRPConstants;
-import org.exoplatform.services.wsrp.type.CacheControl;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.WSRPConstants;
+import org.exoplatform.services.wsrp2.type.CacheControl;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 
 /*

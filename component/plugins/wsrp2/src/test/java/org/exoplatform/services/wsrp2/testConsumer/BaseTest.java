@@ -3,7 +3,7 @@
 * Please look at license.txt in info directory for more license detail.
 */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp2.testConsumer;
 
 
 
@@ -22,24 +22,24 @@ import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.impl.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
-import org.exoplatform.services.wsrp.consumer.PortletKey;
-import org.exoplatform.services.wsrp.consumer.PortletRegistry;
-import org.exoplatform.services.wsrp.consumer.Producer;
-import org.exoplatform.services.wsrp.consumer.ProducerRegistry;
-import org.exoplatform.services.wsrp.consumer.URLGenerator;
-import org.exoplatform.services.wsrp.consumer.URLRewriter;
-import org.exoplatform.services.wsrp.consumer.User;
-import org.exoplatform.services.wsrp.consumer.UserRegistry;
-import org.exoplatform.services.wsrp.consumer.WSRPPortlet;
-import org.exoplatform.services.wsrp.consumer.adapters.PortletKeyAdapter;
-import org.exoplatform.services.wsrp.consumer.adapters.UserAdapter;
-import org.exoplatform.services.wsrp.consumer.adapters.WSRPPortletAdapter;
-import org.exoplatform.services.wsrp.consumer.impl.ProducerImpl;
-import org.exoplatform.services.wsrp.type.PersonName;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationData;
-import org.exoplatform.services.wsrp.type.UserContext;
-import org.exoplatform.services.wsrp.type.UserProfile;
+import org.exoplatform.services.wsrp2.consumer.PortletKey;
+import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
+import org.exoplatform.services.wsrp2.consumer.Producer;
+import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp2.consumer.URLGenerator;
+import org.exoplatform.services.wsrp2.consumer.URLRewriter;
+import org.exoplatform.services.wsrp2.consumer.User;
+import org.exoplatform.services.wsrp2.consumer.UserRegistry;
+import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
+import org.exoplatform.services.wsrp2.consumer.adapters.PortletKeyAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.UserAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.WSRPPortletAdapter;
+import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
+import org.exoplatform.services.wsrp2.type.PersonName;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
+import org.exoplatform.services.wsrp2.type.UserContext;
+import org.exoplatform.services.wsrp2.type.UserProfile;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 
 /*

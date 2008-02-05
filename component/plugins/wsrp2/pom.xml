@@ -143,6 +143,10 @@
 	    </properties>
 	  </profile>
   </profiles>
+  
+  <properties>
+    <war.dir>${basedir}/war_template</war.dir>
+  </properties>
 
   <build>
 
@@ -161,6 +165,9 @@
       </resource>
     </resources>
 
+
+    <testSourceDirectory>src/notest</testSourceDirectory>
+    
     <plugins>
 
       <plugin>
@@ -216,8 +223,63 @@
               <goal>run</goal>
             </goals>
           </execution>
+          <!-- execution>
+            <id>2</id>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="${basedir}/target/test-classes/" />
+                <copy todir="${basedir}/target/test-classes/">
+                  <fileset dir="${basedir}/war_template/src">
+                    <include name="**/*.properties" />
+                    <include name="**/*.xml" />
+                  </fileset>
+                </copy>
+                <javac
+                  fork="true"
+                  srcdir="${basedir}/war_template/src"
+                  destdir="${basedir}/target/test-classes/"
+                  debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}"
+                  optimize="${maven.compile.optimize}">
+                  <classpath>
+                    <path refid="maven.dependency.classpath" />
+                    <pathelement path="${maven.build.dest}" />
+                  </classpath>
+                </javac>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution -->        
         </executions>
       </plugin>
+
+      <!-- plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>testPath</name>
+              <value>${basedir}</value>
+            </property>
+            <property>
+              <name>mock.portal.dir</name>
+              <value>${war.dir}</value>
+            </property>
+            <property>
+              <name>maven.exoplatform.dir</name>
+              <value>${war.dir}</value>
+            </property>
+          </systemProperties>
+          <includes>
+            <include>**/AllTestsPortlet.java</include>
+          </includes>
+          <skip>false</skip>
+        </configuration>
+      </plugin -->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

@@ -3,11 +3,11 @@
 * Please look at license.txt in info directory for more license detail.
 */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp2.testConsumer;
 
-import org.exoplatform.services.wsrp.exceptions.WSRPException;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /*
  * @author  Mestrallet Benjamin

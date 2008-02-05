@@ -3,7 +3,7 @@
 * Please look at license.txt in info directory for more license detail.
 */
 
-package org.exoplatform.services.wsrp.mock;
+package org.exoplatform.services.wsrp2.mock;
 
 
 import java.net.URL;
@@ -16,15 +16,15 @@ import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.encoding.TypeMappingRegistry;
 import javax.xml.rpc.handler.HandlerRegistry;
 
-import org.exoplatform.services.wsrp.bind.WSRP_v2_Markup_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v2_PortletManagement_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v2_Registration_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v2_ServiceDescription_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.intf.WSRP_v2_Markup_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v2_PortletManagement_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v2_Registration_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v2_ServiceDescription_PortType;
-import org.exoplatform.services.wsrp.wsdl.WSRPService;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_Markup_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_PortletManagement_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_Registration_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_ServiceDescription_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 /*
  * @author  Mestrallet Benjamin

@@ -1,4 +1,4 @@
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 /**
  * Copyright 2001-2007 The eXo platform SAS  All rights reserved.
@@ -8,13 +8,13 @@ package org.exoplatform.services.wsrp.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp2.type.MarkupRequest;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.ServiceDescriptionRequest;
 
 /**
  * Created by the Exo Development team.

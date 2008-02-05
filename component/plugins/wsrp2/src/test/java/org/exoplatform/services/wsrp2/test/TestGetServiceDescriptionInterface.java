@@ -4,14 +4,14 @@
  *  
  * Created on 6 janv. 2004
  */
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 
-import org.exoplatform.services.wsrp.type.ItemDescription;
-import org.exoplatform.services.wsrp.type.MarkupType;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp2.type.ItemDescription;
+import org.exoplatform.services.wsrp2.type.MarkupType;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.ServiceDescriptionRequest;
 
 /**
  * @author  Mestrallet Benjamin

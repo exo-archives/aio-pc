@@ -2,13 +2,13 @@
  * Copyright 2001-2007 The eXo platform SAS  All rights reserved.
  * Please look at license.txt in info directory for more license detail.
  */
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.wsrp.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp.producer.impl.PersistentStateManagerImpl;
-import org.exoplatform.services.wsrp.producer.impl.StateData;
-import org.exoplatform.services.wsrp.type.RegistrationData;
+import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
+import org.exoplatform.services.wsrp2.producer.impl.StateData;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net

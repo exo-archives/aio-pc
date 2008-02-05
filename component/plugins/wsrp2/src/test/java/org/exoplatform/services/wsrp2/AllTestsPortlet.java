@@ -30,7 +30,7 @@ import org.exoplatform.services.log.ExoLogger;
  */
 public class AllTestsPortlet extends TestCase {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp.AllTestsPortlet");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp2.AllTestsPortlet");
 
   public static TestSuite suite() {
     log.info("Preparing...");

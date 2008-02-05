@@ -4,14 +4,14 @@
  *  
  * Created on 15 janv. 2004
  */
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.type.ModifyRegistrationRequest;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.RegistrationState;
+import org.exoplatform.services.wsrp2.type.ModifyRegistrationRequest;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.RegistrationState;
 
 /**
  * @author Mestrallet Benjamin
