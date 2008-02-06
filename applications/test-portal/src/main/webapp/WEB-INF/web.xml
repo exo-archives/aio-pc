@@ -121,7 +121,6 @@
     <servlet-name>WSRPStarter2</servlet-name>
     <display-name>WSRPStarter2</display-name>
     <servlet-class>org.exoplatform.services.wsrp2.producer.impl.WSRPStarter</servlet-class>
-    <load-on-startup>1</load-on-startup>
     <init-param>
       <param-name>base</param-name>
       <param-value>http://localhost:8080/</param-value>
@@ -146,6 +145,7 @@
       <param-name>delay-retry-sec</param-name>
       <param-value>2</param-value>
     </init-param>
+    <load-on-startup>1</load-on-startup>
   </servlet>
   
   <!-- Axis servlet for WSRP1 -->
