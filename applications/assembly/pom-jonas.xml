@@ -37,8 +37,7 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-					            
-						<delete
+					 	<delete
 							dir="${exo.projects.directory.working}/exo-jonas"
 							includeEmptyDirs="true" quiet="yes" />
 						<copy
@@ -47,7 +46,6 @@
 							<fileset
 								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jonas.version}" />
 						</copy>
-						
 						<copy
 							todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
 							verbose="true" overwrite="true">
@@ -90,16 +88,36 @@
              	                                                      <webinf dir="${basedir}/patches/jonas/WEB-INF/">
 						      </webinf>
 						</war>
-
-					          <ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
-						          <fileset dir="${exo.projects.directory.working}/exo-jonas/apps/autoload/">
-						           <filename name="portal.war"/> 
+						
+					         <touch>
+					                    <fileset dir="${basedir}/patches/jonas/lib/">
+						            <filename name="**/*.jar" /> 
+						         </fileset>
+					          </touch>
+					          
+						<ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
+						          <fileset dir="${basedir}/patches/jonas/lib/">
+						              <filename name="**/*.jar" /> 
 						          </fileset>
 					           </ear>	
+					           
+					          <ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
+						          <fileset dir="${exo.projects.directory.working}/exo-jonas/apps/autoload/">
+						            <filename name="portal.war"/> 
+						          </fileset>
+					           </ear>	
+
 						
 						<delete
 							file="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war" />
-						
+							
+						<delete>
+							 <fileset dir="${exo.projects.directory.working}/exo-jonas/lib/endorsed/">
+							   <include name="xalan*.jar" /> 
+							   <include name="xerces*.jar" /> 
+							   <include name="xml*.jar" /> 
+						             </fileset>
+					        </delete>
 					</tasks>
 				</configuration>
 			</plugin>
