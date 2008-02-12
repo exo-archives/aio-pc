@@ -188,10 +188,6 @@ public class PortletFilter implements Filter {
       ArrayList<PortletInfo> portletInfos = framework.processRequest(ctx, httpRequest, dummyHttpResponse, "text/html",
           portlets2render);
 
-      // Session Replication
-      String count2 = (String) httpSession.getAttribute("count");
-      count2 += "+";
-      //session_info.clear();
 
       if (framework.getRedirect() != null) {
         httpResponse.sendRedirect(framework.getRedirect());
