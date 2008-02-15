@@ -35,6 +35,15 @@ import javax.portlet.RenderResponse;
  */
 public class TestUrlListenersPortlet2 extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   public void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
     response.setContentType("text/html");
     PrintWriter w = response.getWriter();

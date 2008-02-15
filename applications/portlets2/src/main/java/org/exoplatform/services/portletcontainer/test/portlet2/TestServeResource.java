@@ -35,12 +35,21 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.ResourceURL;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class TestServeResource extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   protected void doView(RenderRequest renderRequest,
                         RenderResponse renderResponse) throws PortletException,
                                                       IOException {
@@ -58,17 +67,17 @@ public class TestServeResource extends GenericPortlet {
     renderURL.setParameter("renderURL_param_name_2", "render_value_2");
     renderURL.setParameter("same_param_name", "render");
     w.println("<p><a href=\"" + renderURL.toString() + "\">render URL</a>");
-    
+
     PortletURL renderURLnop = renderResponse.createRenderURL();
     renderURLnop.removePublicRenderParameter("");
     w.println("<p><a href=\"" + renderURLnop.toString() + "\">render URL no params</a>");
-    
+
     PortletURL actionURL = renderResponse.createActionURL();
     actionURL.setParameter("actionURL_param_name_1", "action_value_1");
     actionURL.setParameter("actionURL_param_name_2", "action_value_2");
     actionURL.setParameter("same_param_name", "action");
     w.println("<p><a href=\"" + actionURL.toString() + "\">action URL</a>");
-    
+
     PortletURL actionURLnop = renderResponse.createActionURL();
     w.println("<p><a href=\"" + actionURLnop.toString() + "\">action URL no params</a>");
 
@@ -142,10 +151,10 @@ public class TestServeResource extends GenericPortlet {
     renderURL.setParameter("renderURL_param_name_2", "resource_value_2");
     renderURL.setParameter("same_param_name", "resource");
     w.println("<p><a href=\"" + renderURL.toString() + "\">render URL</a>");
-    
+
     PortletURL renderURLnop = resourceResponse.createRenderURL();
     w.println("<p><a href=\"" + renderURLnop.toString() + "\">render URL no params</a>");
-    
+
     //on console
     Enumeration parnames = resourceRequest.getParameterNames();
     while (parnames.hasMoreElements()) {

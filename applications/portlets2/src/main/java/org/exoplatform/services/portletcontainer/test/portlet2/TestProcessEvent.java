@@ -31,12 +31,21 @@ import javax.portlet.RenderResponse;
 import javax.xml.namespace.QName;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class TestProcessEvent extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   protected void doView(RenderRequest renderRequest, RenderResponse renderResponse)
       throws PortletException, IOException {
     //System.out.println("In doView method of TestPortletNEW...");
@@ -98,7 +107,7 @@ public class TestProcessEvent extends GenericPortlet {
 
     //resp.setPortletMode(PortletMode.EDIT);
 
-    /*  
+    /*
     MyEventPub sampleAddress = new MyEventPub();
     sampleAddress.setStreet("myStreet");
     sampleAddress.setCity("myCity");

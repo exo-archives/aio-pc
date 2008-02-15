@@ -20,38 +20,63 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
  *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: CustomWindowState.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class CustomWindowState {
-  private String            name;
 
+  /**
+   * Name.
+   */
+  private String name;
+
+  /**
+   * Description.
+   */
   private List<Description> description;
 
+  /**
+   * Simple constructor.
+   */
   public CustomWindowState() {
     description = new ArrayList<Description>();
   }
 
-  public List<Description> getDescription() {
+  /**
+   * @return description
+   */
+  public final List<Description> getDescription() {
     return description;
   }
 
-  public void setDescription(List<Description> descrition) {
+  /**
+   * @param descrition descriptions
+   */
+  public final void setDescription(final List<Description> descrition) {
     this.description = descrition;
   }
 
-  public void addDescription(Description desc) {
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
     description.add(desc);
   }
 
-  public String getName() {
+  /**
+   * @return name
+   */
+  public final String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
 }

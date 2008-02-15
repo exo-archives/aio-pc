@@ -30,32 +30,40 @@ import javax.portlet.WindowState;
 import java.util.HashMap;
 import java.util.Random;
 
-import org.exoplatform.frameworks.portletcontainer.portalframework.WindowID2;
+/**
+ * sessions test portlet.
+ */
+public class TestSessions extends GenericPortlet {
 
-public class TestSessions  extends GenericPortlet {
-
-  protected void doView(RenderRequest renderRequest,
-      RenderResponse renderResponse) throws PortletException, IOException {
-
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
+  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+      IOException {
 
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();
     w.println("<center><font size='3'><b><i>Simple portlet for test storing session params when replication is enabled</i></b></font></center><br>");
 
-    String a  = (String)renderRequest.getPortletSession().getAttribute("a");
+    String a = (String) renderRequest.getPortletSession().getAttribute("a");
     if (a == null || a.equals(""))
       a = "";
     w.println(a + "<br>");
-    a +="~~";
+    a += "++";
     renderRequest.getPortletSession().setAttribute("a", a);
 
-
-    String c  = (String)renderRequest.getPortletSession().getAttribute("c");
+    String c = (String) renderRequest.getPortletSession().getAttribute("c");
     if (c == null)
       c = "";
-    c +="||";
-  	if (c.length() > 10)
-  	  c = "";
+    c += "||";
+    if (c.length() > 10)
+      c = "";
     w.println(c + "<br>");
 
     renderRequest.getPortletSession().setAttribute("c", c);
@@ -80,8 +88,8 @@ public class TestSessions  extends GenericPortlet {
     
    }
 
-  public void processAction(ActionRequest actionRequest,
-      ActionResponse actionResponse) throws PortletException, IOException {
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+      IOException {
 
   }
 

@@ -32,11 +32,21 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class ImageServlet extends HttpServlet {
+
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws IOException exception
+   * @throws ServletException exception
+   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   */
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException {
 

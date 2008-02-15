@@ -250,17 +250,17 @@ public class PortletInfo implements Serializable {
    *
    * @return either the portlet has to be rendered
    */
-  public boolean isToRender() {
+  public final boolean isToRender() {
     return isToRender;
   }
 
   /**
    * Setter for isToRender.
    *
-   * @param isToRender has the portlet to be rendered
+   * @param isToRender1 has the portlet to be rendered
    */
-  public void setToRender(boolean isToRender) {
-    this.isToRender = isToRender;
+  public final void setToRender(final boolean isToRender1) {
+    this.isToRender = isToRender1;
   }
 
 }

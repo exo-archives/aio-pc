@@ -30,13 +30,21 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Roman Pedchenko
  *          roman.pedchenko@exoplatform.com.ua
  */
 public class TestForm extends GenericPortlet {
 
-
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse request
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();

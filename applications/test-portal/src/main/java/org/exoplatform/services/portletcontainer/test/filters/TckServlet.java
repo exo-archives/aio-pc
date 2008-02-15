@@ -37,6 +37,15 @@ import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
  */
 public class TckServlet extends HttpServlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws ServletException exception
+   * @throws IOException exception
+   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   */
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
       IOException {
     HttpSession session = request.getSession();

@@ -23,35 +23,54 @@ import javax.portlet.PortletPreferences;
 import org.exoplatform.services.portletcontainer.pci.WindowID;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 29, 2003
- * Time: 2:10:13 AM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
+ * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 2:10:13 AM
  */
 public class PortletWindowInternal implements Serializable {
+
+  /**
+   * Preferences.
+   */
   private PortletPreferences preferences;
 
-  private WindowID           windowID;
+  /**
+   * Window id.
+   */
+  private WindowID windowID;
 
+  /**
+   * Simple constructor.
+   */
   public PortletWindowInternal() {
   }
 
-  public PortletWindowInternal(WindowID windowID,
-                               PortletPreferences preferences) {
+  /**
+   * @param windowID windowID
+   * @param preferences preferences
+   */
+  public PortletWindowInternal(final WindowID windowID, final PortletPreferences preferences) {
     this.windowID = windowID;
     this.preferences = preferences;
   }
 
-  public WindowID getWindowID() {
+  /**
+   * @return window id
+   */
+  public final WindowID getWindowID() {
     return windowID;
   }
 
-  public PortletPreferences getPreferences() {
+  /**
+   * @return preferences
+   */
+  public final PortletPreferences getPreferences() {
     return preferences;
   }
 
-  public void setPreferences(PortletPreferences preferences) {
+  /**
+   * @param preferences preferences
+   */
+  public final void setPreferences(final PortletPreferences preferences) {
     this.preferences = preferences;
   }
 }

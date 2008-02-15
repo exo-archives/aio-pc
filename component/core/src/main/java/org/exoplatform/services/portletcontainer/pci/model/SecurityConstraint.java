@@ -22,59 +22,100 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
  *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: SecurityConstraint.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class SecurityConstraint {
-  private List<DisplayName>  displayName;
 
-  private PortletCollection  portletCollection;
+  /**
+   * Display name.
+   */
+  private List<DisplayName> displayName;
 
+  /**
+   * Portlet collection.
+   */
+  private PortletCollection portletCollection;
+
+  /**
+   * User data constraint.
+   */
   private UserDataConstraint userDataConstraint;
 
   // portlet api 2.0
-  private String             id;
 
-  public List<DisplayName> getDisplayNames() {
+  /**
+   * Id.
+   */
+  private String id;
+
+  /**
+   * @return display names
+   */
+  public final List<DisplayName> getDisplayNames() {
     if (displayName == null)
       return Constants.EMPTY_LIST;
     return displayName;
   }
 
-  public void setDisplayName(List<DisplayName> displayName) {
+  /**
+   * @param displayName display names
+   */
+  public final void setDisplayName(final List<DisplayName> displayName) {
     this.displayName = displayName;
   }
 
-  public void addDisplayName(DisplayName name) {
+  /**
+   * @param name display name
+   */
+  public final void addDisplayName(final DisplayName name) {
     if (this.displayName == null)
       displayName = new ArrayList<DisplayName>();
     this.displayName.add(name);
   }
 
-  public PortletCollection getPortletCollection() {
+  /**
+   * @return portlet collection
+   */
+  public final PortletCollection getPortletCollection() {
     return portletCollection;
   }
 
-  public void setPortletCollection(PortletCollection portletCollection) {
+  /**
+   * @param portletCollection portlet collection
+   */
+  public final void setPortletCollection(final PortletCollection portletCollection) {
     this.portletCollection = portletCollection;
   }
 
-  public UserDataConstraint getUserDataConstraint() {
+  /**
+   * @return constraint
+   */
+  public final UserDataConstraint getUserDataConstraint() {
     return userDataConstraint;
   }
 
-  public void setUserDataConstraint(UserDataConstraint userDataConstraint) {
+  /**
+   * @param userDataConstraint constraint
+   */
+  public final void setUserDataConstraint(final UserDataConstraint userDataConstraint) {
     this.userDataConstraint = userDataConstraint;
   }
 
-  public String getId() {
+  /**
+   * @return id
+   */
+  public final String getId() {
     return this.id;
   }
 
-  public void setId(String value) {
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
     this.id = value;
   }
 }

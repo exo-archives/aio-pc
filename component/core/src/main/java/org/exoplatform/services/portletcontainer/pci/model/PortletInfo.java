@@ -17,43 +17,89 @@
 package org.exoplatform.services.portletcontainer.pci.model;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: PortletInfo.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class PortletInfo {
-	private String	title;
-	private String	shortTitle;
-	private String	keywords;
+
+  /**
+   * Title.
+   */
+  private String title;
+
+  /**
+   * Short title.
+   */
+  private String shortTitle;
+
+  /**
+   * Keywords.
+   */
+  private String keywords;
+
   // portlet api 2.0
+
+  /**
+   * Id.
+   */
   private String id;
 
-	public String getKeywords() {
-		return keywords;
-	}
+  /**
+   * @return keywords
+   */
+  public final String getKeywords() {
+    return keywords;
+  }
 
-	public void setKeywords(String keywords) {
-		this.keywords = keywords;
-	}
+  /**
+   * @param keywords keywords
+   */
+  public final void setKeywords(final String keywords) {
+    this.keywords = keywords;
+  }
 
-	public String getShortTitle() {
-		return shortTitle;
-	}
+  /**
+   * @return short title
+   */
+  public final String getShortTitle() {
+    return shortTitle;
+  }
 
-	public void setShortTitle(String shortTitle) {
-		this.shortTitle = shortTitle;
-	}
+  /**
+   * @param shortTitle short title
+   */
+  public final void setShortTitle(final String shortTitle) {
+    this.shortTitle = shortTitle;
+  }
 
-	public String getTitle() {
-		return title;
-	}
+  /**
+   * @return title
+   */
+  public final String getTitle() {
+    return title;
+  }
 
-	public void setTitle(String title) {
-		this.title = title;
-	}
+  /**
+   * @param title title
+   */
+  public final void setTitle(final String title) {
+    this.title = title;
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
 }

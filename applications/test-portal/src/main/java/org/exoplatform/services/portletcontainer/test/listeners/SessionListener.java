@@ -50,7 +50,7 @@ public class SessionListener implements HttpSessionListener {
    */
   public final void sessionDestroyed(final HttpSessionEvent se) {
     WindowInfosContainer.removeInstance(ExoContainerContext.getCurrentContainer(), se.getSession().getId());
-    PortletFilter.frameworks.remove(se.getSession().getId());
+    PortletFilter.FRAMEWORKS.remove(se.getSession().getId());
   }
 
 }

@@ -46,87 +46,194 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
  */
 public interface PortletContainerService {
 
-  public void addPlugin(PortletContainerPlugin plugin);
+  /**
+   * @param plugin plugin object
+   */
+  void addPlugin(PortletContainerPlugin plugin);
 
-  public void setName(String name);
+  /**
+   * @param name name
+   */
+  void setName(String name);
 
-  public void setDescription(String description);
+  /**
+   * @param description description
+   */
+  void setDescription(String description);
 
-  public void setMajorVersion(int majorVersion);
+  /**
+   * @param majorVersion major version
+   */
+  void setMajorVersion(int majorVersion);
 
-  public void setMinorVersion(int minorVersion);
+  /**
+   * @param minorVersion minor version
+   */
+  void setMinorVersion(int minorVersion);
 
-  public void setProperties(Map<String, String> properties);
+  /**
+   * @param properties properties
+   */
+  void setProperties(Map<String, String> properties);
 
-  // public void setSupportedPortletModesWithDescriptions(Collection
-  // portletModes);
+  /**
+   * @return portlet modes
+   */
+  Collection<PortletMode> getSupportedPortletModes();
 
-  // public void setSupportedWindowStatesWithDescriptions(Collection
-  // windowStates);
+  /**
+   * @return window states
+   */
+  Collection<WindowState> getSupportedWindowStates();
 
-  public Collection<PortletMode> getSupportedPortletModes();
-
-  public Collection<WindowState> getSupportedWindowStates();
-
-  // public Collection getSupportedPortletModesWithDescriptions();
-
-  // public Collection getSupportedWindowStatesWithDescriptions();
-
-  public Collection<PortletMode> getPortletModes(String portletAppName,
+  /**
+   * @param portletAppName app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @return portlet modes
+   */
+  Collection<PortletMode> getPortletModes(String portletAppName,
                                                  String portletName,
                                                  String markup);
 
-  public boolean isModeSuported(String portletAppName,
+  /**
+   * @param portletAppName app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @param mode mode
+   * @return either it is supported
+   */
+  boolean isModeSuported(String portletAppName,
                                 String portletName,
                                 String markup,
                                 PortletMode mode);
 
-  public Collection<WindowState> getWindowStates(String portletAppName,
+  /**
+   * @param portletAppName app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @return window states
+   */
+  Collection<WindowState> getWindowStates(String portletAppName,
                                                  String portletName,
                                                  String markup);
 
-  public boolean isStateSupported(String portletAppName,
+  /**
+   * @param portletAppName app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @param state state
+   * @return either it is supported
+   */
+  boolean isStateSupported(String portletAppName,
                                   String portletName,
                                   String markup,
                                   WindowState state);
 
-  public Map<String, PortletData> getAllPortletMetaData();
-  
-  public PortletApp getPortletApp(String portletAppName);
+  /**
+   * @return all portlet metadata
+   */
+  Map<String, PortletData> getAllPortletMetaData();
 
-  public ResourceBundle getBundle(HttpServletRequest request,
+  /**
+   * @param portletAppName app name
+   * @return app object
+   */
+  PortletApp getPortletApp(String portletAppName);
+
+  /**
+   * @param request request
+   * @param response response
+   * @param portletAppName app name
+   * @param portletName portlet name
+   * @param locale locale
+   * @return bundle
+   * @throws PortletContainerException exception
+   */
+  ResourceBundle getBundle(HttpServletRequest request,
                                   HttpServletResponse response,
                                   String portletAppName,
                                   String portletName,
                                   Locale locale) throws PortletContainerException;
 
-  public void setPortletPreference(Input input,
+  /**
+   * @param input input
+   * @param preferences preferences
+   * @throws PortletContainerException exception
+   */
+  void setPortletPreference(Input input,
                                    Map<String, String> preferences) throws PortletContainerException;
 
-  public Map<String, String[]> getPortletPreference(Input input);
+  /**
+   * @param input input
+   * @return preferences map
+   */
+  Map<String, String[]> getPortletPreference(Input input);
 
-  public ActionOutput processAction(HttpServletRequest request,
+  /**
+   * @param request request
+   * @param response response
+   * @param input input
+   * @return output
+   * @throws PortletContainerException exception
+   */
+  ActionOutput processAction(HttpServletRequest request,
                                     HttpServletResponse response,
                                     ActionInput input) throws PortletContainerException;
 
-  public RenderOutput render(HttpServletRequest request,
+  /**
+   * @param request request
+   * @param response response
+   * @param input input
+   * @return output
+   * @throws PortletContainerException exception
+   */
+  RenderOutput render(HttpServletRequest request,
                              HttpServletResponse response,
                              RenderInput input) throws PortletContainerException;
 
-  public ResourceOutput serveResource(HttpServletRequest request,
+  /**
+   * @param request request
+   * @param response response
+   * @param input input
+   * @return output
+   * @throws PortletContainerException exception
+   */
+  ResourceOutput serveResource(HttpServletRequest request,
                                       HttpServletResponse response,
                                       ResourceInput input) throws PortletContainerException;
 
-  public EventOutput processEvent(HttpServletRequest request,
+  /**
+   * @param request request
+   * @param response response
+   * @param input input
+   * @return output
+   * @throws PortletContainerException exception
+   */
+  EventOutput processEvent(HttpServletRequest request,
                                   HttpServletResponse response,
                                   EventInput input) throws PortletContainerException;
 
-  public void sendAttrs(HttpServletRequest request,
+  /**
+   * @param request request
+   * @param response response
+   * @param attrs attrs
+   * @param portletApplicationName app name
+   * @throws PortletContainerException exception
+   */
+  void sendAttrs(HttpServletRequest request,
                         HttpServletResponse response,
                         Map<String, Object> attrs,
                         String portletApplicationName) throws PortletContainerException;
 
-  public boolean isEventPayloadTypeMatches(String portletAppName,
+  /**
+   * @param portletAppName app name
+   * @param eventName event name
+   * @param payload payload
+   * @return either payload type matches
+   * @throws PortletContainerException exception
+   */
+  boolean isEventPayloadTypeMatches(String portletAppName,
                                            QName eventName,
                                            Object payload) throws PortletContainerException;
 

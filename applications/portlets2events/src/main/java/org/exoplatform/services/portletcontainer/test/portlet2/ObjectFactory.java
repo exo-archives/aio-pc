@@ -10,29 +10,51 @@ import javax.xml.bind.annotation.XmlElementDecl;
 import javax.xml.bind.annotation.XmlRegistry;
 import javax.xml.namespace.QName;
 
-
+/**
+ * JAXB object factory.
+ */
 @XmlRegistry
 public class ObjectFactory {
 
-  private final static QName _Street_QNAME = new QName("", "street");
-  private final static QName _City_QNAME = new QName("", "city");
+  /**
+   * street element name.
+   */
+  private static final QName STREET_QNAME = new QName("", "street");
 
+  /**
+   * city element name.
+   */
+  private static final QName CITY_QNAME = new QName("", "city");
 
+  /**
+   * simple constructor.
+   */
   public ObjectFactory() {
   }
 
-  public MyEventPub createMyEventPub() {
+  /**
+   * @return demo event
+   */
+  public final MyEventPub createMyEventPub() {
     return new MyEventPub();
   }
 
+  /**
+   * @param value title
+   * @return JAXB element
+   */
   @XmlElementDecl(namespace = "", name = "street")
-  public JAXBElement<String> createTitle(String value) {
-    return new JAXBElement<String>(_Street_QNAME, String.class, null, value);
+  public final JAXBElement<String> createTitle(final String value) {
+    return new JAXBElement<String>(STREET_QNAME, String.class, null, value);
   }
 
+  /**
+   * @param value author
+   * @return JAXB element
+   */
   @XmlElementDecl(namespace = "", name = "city")
-  public JAXBElement<String> createAuthor(String value) {
-    return new JAXBElement<String>(_City_QNAME, String.class, null, value);
+  public final JAXBElement<String> createAuthor(final String value) {
+    return new JAXBElement<String>(CITY_QNAME, String.class, null, value);
   }
 
 }

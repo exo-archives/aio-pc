@@ -20,20 +20,43 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.organization.auth.ExoLoginJAASLoginModule;
 
+/**
+ * standalone JAAS login module.
+ *
+ */
 public class StandaloneJAASLoginModule extends ExoLoginJAASLoginModule {
 
+  /**
+   * Overridden method.
+   *
+   * @return exo container
+   * @throws Exception exception
+   * @see org.exoplatform.services.organization.auth.ExoLoginJAASLoginModule#getContainer()
+   */
   @Override
-  public ExoContainer getContainer() throws Exception {
+  public final ExoContainer getContainer() throws Exception {
     return StandaloneContainer.getInstance();
   }
 
+  /**
+   * Overridden method.
+   *
+   * @throws Exception exception
+   * @see org.exoplatform.services.organization.auth.ExoLoginJAASLoginModule#postProcessOperations()
+   */
   @Override
   public void postProcessOperations() throws Exception {
-    
+
   }
 
+  /**
+   * Overridden method.
+   *
+   * @throws Exception exception
+   * @see org.exoplatform.services.organization.auth.ExoLoginJAASLoginModule#preProcessOperations()
+   */
   @Override
   public void preProcessOperations() throws Exception {
-    
+
   }
 }

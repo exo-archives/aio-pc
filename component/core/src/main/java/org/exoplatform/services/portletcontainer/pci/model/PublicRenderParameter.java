@@ -25,79 +25,137 @@ import org.exoplatform.Constants;
 
 /**
  * @author: Roman Pedchenko
- * @email:  roman.pedchenko@exoplatform.com.ua
+ * @email: roman.pedchenko@exoplatform.com.ua
  * @version: $Id$
  */
 public class PublicRenderParameter {
+
+  /**
+   * Description.
+   */
   private List<String> description;
 
-  private String       identifier;
+  /**
+   * Indentifier.
+   */
+  private String identifier;
 
-  private QName        qname;
+  /**
+   * QName.
+   */
+  private QName qname;
 
-  private String       name;
+  /**
+   * Name.
+   */
+  private String name;
 
-  private List<QName>  aliases;
+  /**
+   * Aliases.
+   */
+  private List<QName> aliases;
 
-  private String       id;
+  /**
+   * Id.
+   */
+  private String id;
 
-  public List<String> getDescription() {
+  /**
+   * @return descriptions
+   */
+  public final List<String> getDescription() {
     if (description == null)
       return Constants.EMPTY_LIST;
     return description;
   }
 
-  public void setDescription(List<String> description) {
+  /**
+   * @param description descriptions
+   */
+  public final void setDescription(final List<String> description) {
     this.description = description;
   }
 
-  public void addDescription(String desc) {
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final String desc) {
     if (this.description == null)
       description = new ArrayList<String>();
     this.description.add(desc);
   }
 
-  public String getIdentifier() {
+  /**
+   * @return identifier
+   */
+  public final String getIdentifier() {
     return this.identifier;
   }
 
-  public void setIdentifier(String value) {
+  /**
+   * @param value identifier
+   */
+  public final void setIdentifier(final String value) {
     this.identifier = value;
   }
 
-  public void addAlias(QName value) {
+  /**
+   * @param value alias
+   */
+  public final void addAlias(final QName value) {
     if (aliases == null)
       aliases = new ArrayList<QName>();
     aliases.add(value);
   }
 
-  public List<QName> getAlias() {
+  /**
+   * @return aliases
+   */
+  public final List<QName> getAlias() {
     if (aliases == null)
       return Constants.EMPTY_LIST;
     return aliases;
   }
-  
-  public QName getQname() {
+
+  /**
+   * @return qname
+   */
+  public final QName getQname() {
     return qname;
   }
-  
-  public void setQname(QName qname) {
+
+  /**
+   * @param qname qname
+   */
+  public final void setQname(final QName qname) {
     this.qname = qname;
   }
-  
-  public String getName() {
+
+  /**
+   * @return name
+   */
+  public final String getName() {
     return name;
   }
-  
-  public void setName(String name) {
+
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
-  
-  public String getId() {
+
+  /**
+   * @return id
+   */
+  public final String getId() {
     return this.id;
   }
 
-  public void setId(String value) {
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
     this.id = value;
   }
 

@@ -38,12 +38,21 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class TestServeResource2 extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   protected void doView(RenderRequest renderRequest, RenderResponse renderResponse)
       throws PortletException, IOException {
     //System.out.println("In doView method of TestPortletNEW...");

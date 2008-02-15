@@ -28,8 +28,20 @@ import javax.portlet.PortletURL;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
+/**
+ * Cache test portlet 2.
+ */
 public class TestCache2 extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   public void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
     boolean istagvalid = request.getAttribute("istagvalid") != null;
     System.out.println("portlet2.TestCache2: ---- tag valid? : " + request.getAttribute("istagvalid"));
@@ -47,7 +59,8 @@ public class TestCache2 extends GenericPortlet {
     response.setTitle("TestCache2: " + d.toString());
 
     PrintWriter w = response.getWriter();
-    w.println("<center><font size='3'><b><i>Portlet for test cache control of the portlet request. Date and time must not change while cache time not expired or link clicked.</i></b></font></center><br>");
+    w.println("<center><font size='3'><b><i>Portlet for test cache control of the portlet request." +
+        " Date and time must not change while cache time not expired or link clicked.</i></b></font></center><br>");
     w.println("<font size='4'>TestCache2: " + d.toString() + "</font>");
     if (request.getParameter("invalidatetag") != null) {
       System.out.println("portlet2.TestCache2: ---- tag invalidated");

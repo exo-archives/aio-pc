@@ -17,21 +17,27 @@
 package org.exoplatform.services.portletcontainer.pci;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 30, 2003
- * Time: 9:08:10 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
+ * benjmestrallet@users.sourceforge.net Date: Jul 30, 2003 Time: 9:08:10 PM
  */
 public class ActionOutput extends EventOutput {
 
+  /**
+   * Portlet state.
+   */
   private byte[] portletState;
 
-  public byte[] getPortletState() {
+  /**
+   * @return portlet state
+   */
+  public final byte[] getPortletState() {
     return portletState;
   }
 
-  public void setPortletState(byte[] portletState) {
+  /**
+   * @param portletState portlet state
+   */
+  public final void setPortletState(final byte[] portletState) {
     this.portletState = portletState;
   }
 

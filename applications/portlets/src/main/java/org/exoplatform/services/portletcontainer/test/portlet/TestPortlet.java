@@ -31,18 +31,24 @@ import javax.portlet.RenderResponse;
 import javax.portlet.WindowState;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 26, 2003
- * Time: 3:38:11 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
+ * benjmestrallet@users.sourceforge.net Date: Jul 26, 2003 Time: 3:38:11 PM
  */
 public class TestPortlet extends GenericPortlet {
 
-  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse)
-      throws PortletException, IOException {
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
+  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+      IOException {
     renderResponse.setContentType("text/html; charset=UTF-8");
-//    System.out.println("In doView method of TestPortlet...");
+    // System.out.println("In doView method of TestPortlet...");
     PrintWriter w = renderResponse.getWriter();
     w.println("<h2 align=\"center\">Test</h2>");
     w.println("<table width=\"100%\" border=\"1\">");
@@ -75,10 +81,10 @@ public class TestPortlet extends GenericPortlet {
     renderResponse.setTitle("TEST PORTLET");
   }
 
-  protected void doEdit(RenderRequest renderRequest, RenderResponse renderResponse)
-      throws PortletException, IOException {
+  protected void doEdit(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+      IOException {
     renderResponse.setContentType("text/html; charset=UTF-8");
-//    System.out.println("In doEdit method of TestPortlet...");
+    // System.out.println("In doEdit method of TestPortlet...");
     PrintWriter w = renderResponse.getWriter();
 
     PortletURL actionURL = renderResponse.createActionURL();
@@ -86,8 +92,8 @@ public class TestPortlet extends GenericPortlet {
     w.println("<p><a href=\"" + actionURL.toString() + "\">back to view</a>");
   }
 
-  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-      throws PortletException, IOException {
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+      IOException {
     actionResponse.setRenderParameter("test_render_param", "test-----------------2");
   }
 

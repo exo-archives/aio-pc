@@ -34,73 +34,125 @@ import javax.xml.namespace.QName;
  */
 public class EventOutput extends Output {
 
-  private List<Event>           events           = new ArrayList<Event>();
+  /**
+   * Events list.
+   */
+  private List<Event> events = new ArrayList<Event>();
 
-  private PortletMode           nextMode;
+  /**
+   * Next mode.
+   */
+  private PortletMode nextMode;
 
-  private WindowState           nextState;
+  /**
+   * Next state.
+   */
+  private WindowState nextState;
 
+  /**
+   * Render parameters.
+   */
   private Map<String, String[]> renderParameters = new HashMap<String, String[]>();
 
-  public List<Event> getEvents() {
+  /**
+   * @return events list
+   */
+  public final List<Event> getEvents() {
     return events;
   }
 
-  public Event getEventByName(String eventName) {
-    for (Event event : events) {
+  /**
+   * @param eventName event name
+   * @return event object
+   */
+  public final Event getEventByName(final String eventName) {
+    for (Event event : events)
       if (event.getName().equals(eventName))
         return event;
-    }
     return null;
   }
 
-  public Serializable getEventValueByName(String eventName) {
+  /**
+   * @param eventName event name
+   * @return event payload
+   */
+  public final Serializable getEventValueByName(final String eventName) {
     Event event = getEventByName(eventName);
     if (event != null)
       return event.getValue();
     return null;
   }
 
-  public void setEvents(List<Event> events) {
+  /**
+   * @param events events list
+   */
+  public final void setEvents(final List<Event> events) {
     this.events = events;
   }
 
-  public void setEvent(QName name,
-                       Serializable event) {
+  /**
+   * @param name event name
+   * @param event event object
+   */
+  public final void setEvent(final QName name, final Serializable event) {
     events.add(new EventImpl(name, event));
   }
 
-  public PortletMode getNextMode() {
+  /**
+   * @return next mode
+   */
+  public final PortletMode getNextMode() {
     return nextMode;
   }
 
-  public void setNextMode(PortletMode nextMode) {
+  /**
+   * @param nextMode next mode
+   */
+  public final void setNextMode(final PortletMode nextMode) {
     this.nextMode = nextMode;
   }
 
-  public WindowState getNextState() {
+  /**
+   * @return next state
+   */
+  public final WindowState getNextState() {
     return nextState;
   }
 
-  public void setNextState(WindowState nextState) {
+  /**
+   * @param nextState next state
+   */
+  public final void setNextState(final WindowState nextState) {
     this.nextState = nextState;
   }
 
-  public Map<String, String[]> getRenderParameters() {
+  /**
+   * @return parameters
+   */
+  public final Map<String, String[]> getRenderParameters() {
     return renderParameters;
   }
 
-  public void setRenderParameters(Map<String, String[]> renderParameters) {
+  /**
+   * @param renderParameters parameters
+   */
+  public final void setRenderParameters(final Map<String, String[]> renderParameters) {
     this.renderParameters = renderParameters;
   }
 
-  public void setRenderParameter(String key,
-                                 String value) {
-    renderParameters.put(key, new String[] { value });
+  /**
+   * @param key key
+   * @param value value
+   */
+  public final void setRenderParameter(final String key, final String value) {
+    renderParameters.put(key, new String[] {value});
   }
 
-  public void setRenderParameters(String key,
-                                  String[] values) {
+  /**
+   * @param key key
+   * @param values values
+   */
+  public final void setRenderParameters(final String key, final String[] values) {
     renderParameters.put(key, values);
   }
 

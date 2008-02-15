@@ -92,7 +92,7 @@ public class PortalFramework {
    * Map of public parameters for portlets.
    *
    * String is portlet handle
-   * List<String> is SupportedPublicRenderParameter for that portlet handle
+   * List is SupportedPublicRenderParameter for that portlet handle
    */
   private HashMap<String, List<String>> publicParams        = null;
 
@@ -186,6 +186,9 @@ public class PortalFramework {
    */
   private int resourceStatus = 0;
 
+  /**
+   * base URL value for URLs.
+   */
   private String                        baseURL             = null;
 
   /**
@@ -286,7 +289,7 @@ public class PortalFramework {
    *
    * @return status
    */
-  public int getResourceStatus() {
+  public final int getResourceStatus() {
     return resourceStatus;
   }
 
@@ -405,11 +408,11 @@ public class PortalFramework {
     action = Helper.getActionType(Helper.string0(portalParams.get(Constants.TYPE_PARAMETER)));
 
     if (portalParams.get(Constants.CACHELEVEL_PARAMETER) == null)
-      portalParams.put(Constants.CACHELEVEL_PARAMETER, new String[] { ResourceURL.PAGE });
+      portalParams.put(Constants.CACHELEVEL_PARAMETER, new String[] {ResourceURL.PAGE});
 
     // confirm that target is valid to pattern "APPLICATION_NAME/PORTLET_NAME"
     if (target != null)
-      if (target.split("/").length >= 3)
+      if (target.split("/").length > 2)
         target = target.split("/")[0] + "/" + target.split("/")[1];
 
     if (target == null)
@@ -478,7 +481,7 @@ public class PortalFramework {
     final Iterator<String> i = keys.iterator();
     while (i.hasNext()) {
       final String key = i.next();
-      final String portletName = key;// was: = key.replace('.', '/');
+      final String portletName = key; // was: = key.replace('.', '/');
       final String[] ss = StringUtils.split(portletName, "/");
 
       if (wins.get(portletName) == null) {
@@ -557,7 +560,7 @@ public class PortalFramework {
    *
    * @param o target output
    */
-  private void fixPublicRenderParams(Output o) {
+  private void fixPublicRenderParams(final Output o) {
     if (o.getRemovedPublicRenderParameters() == null)
       return;
     for (Iterator<String> i = o.getRemovedPublicRenderParameters().iterator(); i.hasNext();) {
@@ -571,7 +574,7 @@ public class PortalFramework {
    *
    * @param nl list of names
    */
-  private void fixPublicRenderParams(String[] nl) {
+  private void fixPublicRenderParams(final String[] nl) {
     if (nl == null)
       return;
     for (String name : nl)
@@ -623,20 +626,13 @@ public class PortalFramework {
     if (newEvents != null) {
       for (final Iterator<Event> newEventsIterator = newEvents.iterator(); newEventsIterator.hasNext();) {
         final Event event = newEventsIterator.next();
-        // TODO: PLT.15.2.4.1 Declaration in the deployment descriptor
-        // Event parameter names
-        // the event-definition element are allowed to end with a �.� character
-        // to indicate the
-        // 30 portlet is willing to process or publish any event whose name
-        // starts with the characters
-        // before the �.� character.
         List<String> portletsNames = eventDelivery.get(event.getQName());
         if (portletsNames == null)
           continue;
         for (final Iterator<String> portletsNamesIterator = portletsNames.iterator(); portletsNamesIterator.hasNext();) {
           final String pname = portletsNamesIterator.next();
           final EventInfo eventInfo = new EventInfo(event, pname);
-          if (eventInfo.getEvent().getValue()== null || checkEventValueType(eventInfo))
+          if (eventInfo.getEvent().getValue() == null || checkEventValueType(eventInfo))
             events.add(eventInfo); // here put event for process
         }
       }
@@ -664,7 +660,6 @@ public class PortalFramework {
   /**
    * Creates ResourceInput instance and fills it with appropriate values.
    *
-   * @param ctx servlet context
    * @return resource input object
    */
   protected final ResourceInput createResourceInput() {
@@ -688,7 +683,6 @@ public class PortalFramework {
   /**
    * Creates ActionInput instance and fills it with appropriate values.
    *
-   * @param ctx servlet context
    * @return action input object
    */
   protected final ActionInput createActionInput() {
@@ -712,7 +706,6 @@ public class PortalFramework {
   /**
    * Creates EventInput instance and fills it with appropriate values.
    *
-   * @param ctx servlet context
    * @param event event to deliver
    * @return event input object
    */
@@ -743,7 +736,6 @@ public class PortalFramework {
   /**
    * Creates RenderInput instance and fills it with appropriate values.
    *
-   * @param ctx servlet context
    * @param plt name of portlet to render
    * @return render input object
    */
@@ -782,7 +774,7 @@ public class PortalFramework {
    * @param httpResponse http servlet response
    * @param resourceInput resource input object
    * @return resource output object
-   * @throws PortletContainerException
+   * @throws PortletContainerException exception
    */
   protected final ResourceOutput serveResource(final HttpServletRequest httpRequest,
                                                final HttpServletResponse httpResponse,

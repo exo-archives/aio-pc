@@ -25,13 +25,22 @@ import javax.portlet.Event;
  */
 public class EventInput extends Input {
 
+  /**
+   * Event.
+   */
   private Event event;
 
-  public Event getEvent() {
+  /**
+   * @return event
+   */
+  public final Event getEvent() {
     return event;
   }
 
-  public void setEvent(Event event) {
+  /**
+   * @param event event
+   */
+  public final void setEvent(final Event event) {
     this.event = event;
   }
 

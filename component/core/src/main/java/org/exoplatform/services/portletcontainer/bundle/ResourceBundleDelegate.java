@@ -26,6 +26,11 @@ import java.util.ResourceBundle;
  */
 public interface ResourceBundleDelegate {
 
-  public ResourceBundle lookupBundle(String portletBundledName, Locale locale);
+  /**
+   * @param portletBundledName name
+   * @param locale locale
+   * @return bundle
+   */
+  ResourceBundle lookupBundle(String portletBundledName, Locale locale);
 
 }

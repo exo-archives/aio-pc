@@ -23,24 +23,41 @@ package org.exoplatform.services.portletcontainer.pci;
  */
 public class ResourceInput extends RenderInput {
 
+  /**
+   * Resource id.
+   */
   private String resourceID;
 
-  // for creating URL
+  /**
+   * Cache level.
+   */
   private String cacheLevel;
 
-  public void setResourceID(String resourceID) {
+  /**
+   * @param resourceID resource id
+   */
+  public final void setResourceID(final String resourceID) {
     this.resourceID = resourceID;
   }
 
-  public String getResourceID() {
+  /**
+   * @return resource id
+   */
+  public final String getResourceID() {
     return resourceID;
   }
 
-  public void setCacheability(String cacheLevel) {
-    this.cacheLevel = cacheLevel;
+  /**
+   * @param cacheLevel1 cache level
+   */
+  public final void setCacheability(final String cacheLevel1) {
+    this.cacheLevel = cacheLevel1;
   }
 
-  public String getCacheability() {
+  /**
+   * @return cache level
+   */
+  public final String getCacheability() {
     return this.cacheLevel;
   }
 

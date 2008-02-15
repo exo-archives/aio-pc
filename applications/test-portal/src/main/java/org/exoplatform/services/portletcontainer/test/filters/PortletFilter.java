@@ -57,7 +57,7 @@ public class PortletFilter implements Filter {
   /**
    * Frameworks. One per http session.
    */
-  public static final HashMap<String, PortalFramework> frameworks = new HashMap<String, PortalFramework>();
+  public static final HashMap<String, PortalFramework> FRAMEWORKS = new HashMap<String, PortalFramework>();
 
   /**
    * Current framework.
@@ -137,10 +137,10 @@ public class PortletFilter implements Filter {
       WindowInfosContainer.createInstance(portalContainer, httpSession.getId(), httpRequest.getRemoteUser());
 
       // create/get PortalFramework instance
-      framework = frameworks.get(httpSession.getId());
+      framework = FRAMEWORKS.get(httpSession.getId());
       if (framework == null) {
         framework = new PortalFramework(portalContainer);
-        frameworks.put(httpSession.getId(), framework);
+        FRAMEWORKS.put(httpSession.getId(), framework);
       }
       framework.init(httpSession);
 

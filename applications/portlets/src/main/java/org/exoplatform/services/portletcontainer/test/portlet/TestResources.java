@@ -30,15 +30,22 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Alexey V. Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 11.10.2006
+ * Created by The eXo Platform SAS Author : Alexey V. Zavizionov
+ * alexey.zavizionov@exoplatform.com.ua 11.10.2006
  */
 public class TestResources extends GenericPortlet {
 
-  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse)
-  throws PortletException, IOException {
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
+  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+      IOException {
     renderResponse.setContentType("text/html; charset=UTF-8");
     renderResponse.setTitle("TestResources");
     PrintWriter w = renderResponse.getWriter();
@@ -46,15 +53,11 @@ public class TestResources extends GenericPortlet {
     PortletConfig portletConfig = getPortletConfig();
     w.println("<br>Locale.getDefault = " + Locale.getDefault() + "<br>");
     w.println("~~~~~~~~~~~~~~~~~~~~~~~~~<br>");
-    Locale locales[] = new Locale[] {
-                        new Locale("en"),
-                        new Locale("ru")
-                        };
-    if(portletConfig != null) {
-      for(int i = 0; i < locales.length; i++) {
+    Locale locales[] = new Locale[] { new Locale("en"), new Locale("ru") };
+    if (portletConfig != null) {
+      for (int i = 0; i < locales.length; i++) {
         w.println(locales[i]);
-        ResourceBundle resourceBundle =
-          portletConfig.getResourceBundle(locales[i]);
+        ResourceBundle resourceBundle = portletConfig.getResourceBundle(locales[i]);
         if (resourceBundle != null) {
           String resourceTitle = resourceBundle.getString("javax.portlet.title");
           w.println(" = " + resourceTitle + "<br>");
@@ -66,17 +69,16 @@ public class TestResources extends GenericPortlet {
     }
   }
 
-protected void doEdit(RenderRequest renderRequest, RenderResponse renderResponse)
-  throws PortletException, IOException {
+  protected void doEdit(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+      IOException {
     renderResponse.setContentType("text/html; charset=UTF-8");
     PrintWriter w = renderResponse.getWriter();
     w.println("<p>test");
   }
 
-public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-  throws PortletException, IOException {
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+      IOException {
 
   }
-
 
 }

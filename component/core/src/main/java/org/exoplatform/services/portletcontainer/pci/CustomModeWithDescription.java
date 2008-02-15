@@ -17,19 +17,29 @@
 package org.exoplatform.services.portletcontainer.pci;
 
 import java.util.List;
+import javax.portlet.PortletMode;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net .
  */
 public class CustomModeWithDescription {
 
-  private javax.portlet.PortletMode  portletMode;
+  /**
+   * Portlet mode.
+   */
+  private final PortletMode portletMode;
 
-  private List<LocalisedDescription> descriptions;
+  /**
+   * Descriptions.
+   */
+  private final List<LocalisedDescription> descriptions;
 
-  public CustomModeWithDescription(javax.portlet.PortletMode portletMode,
-      List<LocalisedDescription> descriptions) {
+  /**
+   * @param portletMode portlet mode
+   * @param descriptions descriptions
+   */
+  public CustomModeWithDescription(final PortletMode portletMode,
+      final List<LocalisedDescription> descriptions) {
     this.portletMode = portletMode;
     this.descriptions = descriptions;
   }
@@ -37,11 +47,14 @@ public class CustomModeWithDescription {
   /**
    * @return a List of LocalisedDescription objects
    */
-  public List<LocalisedDescription> getDescriptions() {
+  public final List<LocalisedDescription> getDescriptions() {
     return descriptions;
   }
 
-  public javax.portlet.PortletMode getPortletMode() {
+  /**
+   * @return portlet mode object
+   */
+  public final PortletMode getPortletMode() {
     return portletMode;
   }
 

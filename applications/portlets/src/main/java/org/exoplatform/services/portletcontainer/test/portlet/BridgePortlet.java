@@ -138,11 +138,11 @@ public class BridgePortlet extends GenericPortlet {
       ByteArrayOutputStream  byteOutput = new ByteArrayOutputStream();
       //set transform params
       PortletOutputTransformer rewriter  = new PortletOutputTransformer();
-      rewriter.portalURI = getPortalBaseURI();
-      rewriter.portletURI = getPorletBaseURI(requestWrapper);
-      rewriter.portalContextPath = requestWrapper.getContextPath();
-      rewriter.portalQueryString = "";
-      rewriter.paramNamespace = getPortletBasedParamName("");
+      rewriter.setPortalURI(getPortalBaseURI());
+      rewriter.setPortletURI(getPorletBaseURI(requestWrapper));
+      rewriter.setPortalContextPath(requestWrapper.getContextPath());
+      rewriter.setPortalQueryString("");
+      rewriter.setParamNamespace(getPortletBasedParamName(""));
 
       //transform output
       rewriter.rewrite(responseAsInputStream,byteOutput);

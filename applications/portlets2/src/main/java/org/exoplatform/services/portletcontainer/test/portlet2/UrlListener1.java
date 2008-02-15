@@ -26,15 +26,33 @@ import javax.portlet.ResourceURL;
  */
 public class UrlListener1 implements PortletURLGenerationListener {
 
-  public void filterActionURL(PortletURL url) {
+  /**
+   * Overridden method.
+   *
+   * @param url url object
+   * @see javax.portlet.PortletURLGenerationListener#filterActionURL(javax.portlet.PortletURL)
+   */
+  public final void filterActionURL(final PortletURL url) {
     url.setParameter("paramFromListener1", "val");
   }
 
-  public void filterRenderURL(PortletURL url) {
+  /**
+   * Overridden method.
+   *
+   * @param url url object
+   * @see javax.portlet.PortletURLGenerationListener#filterRenderURL(javax.portlet.PortletURL)
+   */
+  public final void filterRenderURL(final PortletURL url) {
     url.setParameter("paramFromListener1", "val");
   }
 
-  public void filterResourceURL(ResourceURL url) {
+  /**
+   * Overridden method.
+   *
+   * @param url url object
+   * @see javax.portlet.PortletURLGenerationListener#filterResourceURL(javax.portlet.ResourceURL)
+   */
+  public final void filterResourceURL(final ResourceURL url) {
     url.setParameter("paramFromListener1", "val");
   }
 

@@ -26,11 +26,21 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class ImageInclude extends HttpServlet {
+
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws IOException exception
+   * @throws ServletException exception
+   * @see javax.servlet.http.HttpServlet#doGet(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   */
   public void doGet(HttpServletRequest request, HttpServletResponse response)
     throws IOException, ServletException {
      try {

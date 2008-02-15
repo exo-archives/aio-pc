@@ -28,50 +28,104 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004.
  *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: PortletApp.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class PortletApp {
-  private List<Portlet>                      portlet;
 
-  private String                             version;
+  /**
+   * Portlets.
+   */
+  private final List<Portlet> portlet;
 
-  private List<CustomWindowState>            customWindowState;
+  /**
+   * Version.
+   */
+  private String version;
 
-  private List<CustomPortletMode>            customPortletMode;
+  /**
+   * Custom window states.
+   */
+  private final List<CustomWindowState> customWindowState;
 
-  private List<SecurityConstraint>           securityConstraint;
+  /**
+   * Custom portlet modes.
+   */
+  private final List<CustomPortletMode> customPortletMode;
 
-  private List<UserAttribute>                userAttribute;
+  /**
+   * Security constraints.
+   */
+  private final List<SecurityConstraint> securityConstraint;
 
-  private List<EventDefinition>              eventDefinition;
+  /**
+   * User attributes.
+   */
+  private final List<UserAttribute> userAttribute;
 
-  private List<SharedSessionAttribute>       sharedSessionAttribute;
+  /**
+   * Event definitions.
+   */
+  private final List<EventDefinition> eventDefinition;
 
-  private List<PublicRenderParameter>        publicRenderParameter;
+  /**
+   * Public render parameters.
+   */
+  private final List<PublicRenderParameter> publicRenderParameter;
 
-  private List<Filter>                       filter;
+  /**
+   * Filters.
+   */
+  private List<Filter> filter;
 
-  private List<FilterMapping>                filterMapping;
+  /**
+   * Filter mappings.
+   */
+  private List<FilterMapping> filterMapping;
 
-  private String                             id;
+  /**
+   * Id.
+   */
+  private String id;
 
   // Portlet spec 2 add:
-  private String                             resourceBundle;
 
-  private Map<String, String[]>              containerRuntimeOption;
+  /**
+   * Resource bundle.
+   */
+  private String resourceBundle;
 
-  private boolean                            ver2;
+  /**
+   * Container runtime options.
+   */
+  private Map<String, String[]> containerRuntimeOption;
 
-  private String                             defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
+  /**
+   * Either v2 portlet app.
+   */
+  private boolean ver2;
 
-  private List<String>                       urlGenerationListener;
+  /**
+   * Default namespace.
+   */
+  private String defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
 
+  /**
+   * URL generation listeners.
+   */
+  private List<String> urlGenerationListener;
+
+  /**
+   * Runtime URL listeners objects.
+   */
   private List<PortletURLGenerationListener> urlListeners;
 
+  /**
+   * simple constructor.
+   */
   public PortletApp() {
     portlet = new ArrayList<Portlet>();
     customWindowState = new ArrayList<CustomWindowState>();
@@ -79,58 +133,86 @@ public class PortletApp {
     securityConstraint = new ArrayList<SecurityConstraint>();
     userAttribute = new ArrayList<UserAttribute>();
     eventDefinition = new ArrayList<EventDefinition>();
-    sharedSessionAttribute = new ArrayList<SharedSessionAttribute>();
     publicRenderParameter = new ArrayList<PublicRenderParameter>();
     containerRuntimeOption = new HashMap<String, String[]>();
     filter = new ArrayList<Filter>();
     filterMapping = new ArrayList<FilterMapping>();
   }
 
-  public List<PortletURLGenerationListener> getUrlListeners() {
+  /**
+   * @return listeners
+   */
+  public final List<PortletURLGenerationListener> getUrlListeners() {
     return urlListeners;
   }
 
-  public void setUrlListeners(List<PortletURLGenerationListener> urlListeners) {
+  /**
+   * @param urlListeners listeners
+   */
+  public final void setUrlListeners(final List<PortletURLGenerationListener> urlListeners) {
     this.urlListeners = urlListeners;
   }
 
-  public List<String> getUrlGenerationListener() {
+  /**
+   * @return listeners
+   */
+  public final List<String> getUrlGenerationListener() {
     return urlGenerationListener;
   }
 
-  public void addUrlGenerationListener(String listener) {
+  /**
+   * @param listener listeners
+   */
+  public final void addUrlGenerationListener(final String listener) {
     if (urlGenerationListener == null)
       urlGenerationListener = new ArrayList<String>();
 
     if (urlGenerationListener.contains(listener)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"listener\" in portlet app description");
-    } else {
+    } else
       urlGenerationListener.add(listener);
-    }
   }
 
-  public void setDefaultNamespace(String namespace) {
+  /**
+   * @param namespace default namespace
+   */
+  public final void setDefaultNamespace(final String namespace) {
     defaultNamespace = namespace;
   }
 
-  public String getDefaultNamespace() {
+  /**
+   * @return default namespace
+   */
+  public final String getDefaultNamespace() {
     return defaultNamespace;
   }
 
-  public boolean getVer2() {
+  /**
+   * @return either version is 2
+   */
+  public final boolean getVer2() {
     return this.ver2;
   }
 
-  public void setVer2(boolean value) {
+  /**
+   * @param value version
+   */
+  public final void setVer2(final boolean value) {
     this.ver2 = value;
   }
 
-  public List<Portlet> getPortlet() {
+  /**
+   * @return portlets
+   */
+  public final List<Portlet> getPortlet() {
     return this.portlet;
   }
 
-  public void addPortlet(Portlet p) {
+  /**
+   * @param p portlet definition
+   */
+  public final void addPortlet(final Portlet p) {
     if (portlet.contains(p)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"Portlet-Name\" in portlet-application description");
@@ -140,25 +222,40 @@ public class PortletApp {
     }
   }
 
-  public String getVersion() {
+  /**
+   * @return version
+   */
+  public final String getVersion() {
     return this.version;
   }
 
-  public void setVersion(String value) {
+  /**
+   * @param value version
+   */
+  public final void setVersion(final String value) {
     this.version = value;
   }
 
-  public List<Filter> getFilter() {
+  /**
+   * @return filters
+   */
+  public final List<Filter> getFilter() {
     if (filter == null)
       return Constants.EMPTY_LIST;
     return filter;
   }
 
-  public void setFilter(List<Filter> filter) {
+  /**
+   * @param filter filters
+   */
+  public final void setFilter(final List<Filter> filter) {
     this.filter = filter;
   }
 
-  public void addFilter(Filter f) {
+  /**
+   * @param f filter
+   */
+  public final void addFilter(final Filter f) {
     if (f != null) {
       if (filter == null)
         filter = new ArrayList<Filter>();
@@ -171,61 +268,92 @@ public class PortletApp {
     }
   }
 
-  public List<FilterMapping> getFilterMapping() {
+  /**
+   * @return filter mappings
+   */
+  public final List<FilterMapping> getFilterMapping() {
     if (filterMapping == null)
       return Constants.EMPTY_LIST;
     return filterMapping;
   }
 
-  public void setFilterMapping(List<FilterMapping> filterMapping) {
+  /**
+   * @param filterMapping filter mappings
+   */
+  public final void setFilterMapping(final List<FilterMapping> filterMapping) {
     this.filterMapping = filterMapping;
   }
 
-  public void addFilterMapping(FilterMapping f) {
+  /**
+   * @param f filter mapping
+   */
+  public final void addFilterMapping(final FilterMapping f) {
     if (filterMapping == null)
       filterMapping = new ArrayList<FilterMapping>();
     this.filterMapping.add(f);
   }
 
-  public List<CustomWindowState> getCustomWindowState() {
+  /**
+   * @return window state
+   */
+  public final List<CustomWindowState> getCustomWindowState() {
     return this.customWindowState;
   }
 
-  public void addCustomWindowState(CustomWindowState value) {
+  /**
+   * @param value window state
+   */
+  public final void addCustomWindowState(final CustomWindowState value) {
     if (customWindowState.contains(value)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"custom-window-state\" in portlet-application description");
-    } else {
+    } else
       this.customWindowState.add(value);
-    }
   }
 
-  public List<CustomPortletMode> getCustomPortletMode() {
+  /**
+   * @return portlet mode
+   */
+  public final List<CustomPortletMode> getCustomPortletMode() {
     return this.customPortletMode;
   }
 
-  public void addCustomPortletMode(CustomPortletMode mode) {
+  /**
+   * @param mode portlet mode
+   */
+  public final void addCustomPortletMode(final CustomPortletMode mode) {
     if (customPortletMode.contains(mode)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"custom-window-state\" in portlet-application description");
-    } else {
+    } else
       this.customPortletMode.add(mode);
-    }
   }
 
-  public List<SecurityConstraint> getSecurityConstraint() {
+  /**
+   * @return security constraint
+   */
+  public final List<SecurityConstraint> getSecurityConstraint() {
     return this.securityConstraint;
   }
 
-  public void addSecurityConstraint(SecurityConstraint sc) {
+  /**
+   * @param sc security constraint
+   */
+  public final void addSecurityConstraint(final SecurityConstraint sc) {
     this.securityConstraint.add(sc);
   }
 
-  public List<UserAttribute> getUserAttribute() {
+  /**
+   * @return user attribute
+   */
+  public final List<UserAttribute> getUserAttribute() {
     return userAttribute;
   }
 
-  public void addUserAttribute(UserAttribute att) {
+  /**
+   * @param att user attribute
+   */
+  public final void addUserAttribute(final UserAttribute att) {
     if (userAttribute.contains(att)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"user-attribute\" in portlet-application description");
@@ -233,11 +361,17 @@ public class PortletApp {
       this.userAttribute.add(att);
   }
 
-  public List<EventDefinition> getEventDefinition() {
+  /**
+   * @return event definition
+   */
+  public final List<EventDefinition> getEventDefinition() {
     return eventDefinition;
   }
 
-  public void addEventDefinition(EventDefinition edef) {
+  /**
+   * @param edef event definition
+   */
+  public final void addEventDefinition(final EventDefinition edef) {
     if (eventDefinition.contains(edef)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"event-definition\" in portlet-application description");
@@ -245,19 +379,17 @@ public class PortletApp {
       this.eventDefinition.add(edef);
   }
 
-  public List<SharedSessionAttribute> getSharedSessionAttribute() {
-    return sharedSessionAttribute;
-  }
-
-  public void addSharedSessionAttribute(SharedSessionAttribute ssa) {
-    this.sharedSessionAttribute.add(ssa);
-  }
-
-  public List<PublicRenderParameter> getPublicRenderParameter() {
+  /**
+   * @return public parameters
+   */
+  public final List<PublicRenderParameter> getPublicRenderParameter() {
     return publicRenderParameter;
   }
 
-  public void addPublicRenderParameter(PublicRenderParameter srp) {
+  /**
+   * @param srp public parameter
+   */
+  public final void addPublicRenderParameter(final PublicRenderParameter srp) {
     if (publicRenderParameter.contains(srp)) {
       Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"public-render-parameter\" in portlet-application description");
@@ -265,35 +397,60 @@ public class PortletApp {
       this.publicRenderParameter.add(srp);
   }
 
-  public void setContainerRuntimeOption(Map<String, String[]> containerRuntimeOption) {
+  /**
+   * @param containerRuntimeOption container runtime option
+   */
+  public final void setContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption) {
     this.containerRuntimeOption = containerRuntimeOption;
   }
 
-  public Map<String, String[]> getContainerRuntimeOption() {
+  /**
+   * @return container runtime option
+   */
+  public final Map<String, String[]> getContainerRuntimeOption() {
     return containerRuntimeOption;
   }
 
-  public void addContainerRuntimeOption(String name, String[] value) {
+  /**
+   * @param name container runtime option name
+   * @param value value
+   */
+  public final void addContainerRuntimeOption(final String name, final String[] value) {
     this.containerRuntimeOption.put(name, value);
   }
 
-  public void addContainerRuntimeOption(Map<String, String[]> containerRuntimeOption1) {
+  /**
+   * @param containerRuntimeOption1 container runtime option
+   */
+  public final void addContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption1) {
     this.containerRuntimeOption.putAll(containerRuntimeOption1);
   }
 
-  public String getId() {
+  /**
+   * @return id
+   */
+  public final String getId() {
     return this.id;
   }
 
-  public void setId(String value) {
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
     this.id = value;
   }
 
-  public String getResourceBundle() {
+  /**
+   * @return resource bundle
+   */
+  public final String getResourceBundle() {
     return resourceBundle;
   }
 
-  public void setResourceBundle(String resourceBundle) {
+  /**
+   * @param resourceBundle resource bundle
+   */
+  public final void setResourceBundle(final String resourceBundle) {
     this.resourceBundle = resourceBundle;
   }
 }

@@ -32,6 +32,13 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class TestServlet extends HttpServlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param servletConfig config
+   * @throws ServletException exception
+   * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+   */
   public void init(ServletConfig servletConfig) throws ServletException {
     super.init(servletConfig);
   }
@@ -42,5 +49,5 @@ public class TestServlet extends HttpServlet {
     PrintWriter writer = servletResponse.getWriter();
     writer.println("WE ARE IN FORWARD !<br>");
     writer.println("");
-	}
+  }
 }

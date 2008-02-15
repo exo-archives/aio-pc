@@ -41,8 +41,16 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  */
 public class TestResourceHeaders extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   protected void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-
     response.setContentType("text/html; charset=utf-8");
     PrintWriter w = response.getWriter();
     w.println("<center><font size='3'><b><i>Demo for setting http headers in serveResource()</i></b></font></center><br/>");

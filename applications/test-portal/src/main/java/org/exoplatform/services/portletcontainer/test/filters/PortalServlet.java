@@ -41,6 +41,9 @@ import org.exoplatform.services.log.ExoLogger;
  */
 public class PortalServlet extends HttpServlet {
 
+  /**
+   * Log.
+   */
   private Log log;
 
   /**
@@ -122,7 +125,8 @@ public class PortalServlet extends HttpServlet {
           w.println("<input type='hidden' name='listCollapsed' id='fis' value='" + collapsed.toString() + "'>");
             w.println("<div id='elCollapsed'" + displayClosed + ">");
               w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-                w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6'><img src=\"../img/triangle.gif\" onclick='listOpen()' /> <font size='4' face='Verdana,Arial'>Collapsed portlet list</font></th></tr>");
+                w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6'><img src=\"../img/triangle.gif\" onclick='listOpen()' />" +
+                    " <font size='4' face='Verdana,Arial'>Collapsed portlet list</font></th></tr>");
               w.println("</table>");
             w.println("</div>");
             w.println("<div id='elList'" + displayOpen + ">");

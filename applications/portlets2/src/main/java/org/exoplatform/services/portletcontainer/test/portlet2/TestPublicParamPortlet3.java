@@ -30,12 +30,21 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class TestPublicParamPortlet3 extends GenericPortlet {
 
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
   protected void doView(RenderRequest renderRequest, RenderResponse renderResponse)
       throws PortletException, IOException {
 

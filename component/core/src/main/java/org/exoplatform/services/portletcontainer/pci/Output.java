@@ -18,7 +18,6 @@ package org.exoplatform.services.portletcontainer.pci;
 
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -29,63 +28,101 @@ import javax.portlet.ResourceResponse;
 import org.exoplatform.services.portletcontainer.PCConstants;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 30, 2003
- * Time: 9:09:25 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
+ * benjmestrallet@users.sourceforge.net Date: Jul 30, 2003 Time: 9:09:25 PM
  */
 public class Output {
 
-  final static public String      INVALIDATE_SESSION = "_invalidate_session_";
+  /**
+   * HTTP OK status (code 200).
+   */
+  private static final int HTTP_OK_STATUS = 200;
 
-  final static public String      SEND_REDIRECT              = "_send_redirect_";
+  /**
+   * Invalidate session constant.
+   */
+  public static final String INVALIDATE_SESSION = "_invalidate_session_";
 
-  final static public String      LOGIN                      = "_login_";
+  /**
+   * Redirect constant.
+   */
+  public static final String SEND_REDIRECT = "_send_redirect_";
 
-  final static public String      PASSWORD                   = "_password_";
+  /**
+   * Login constant.
+   */
+  public static final String LOGIN = "_login_";
 
-  final static public String      LOGOUT                     = "_logout_";
+  /**
+   * Password constant.
+   */
+  public static final String PASSWORD = "_password_";
 
-  private Map<String, Object>     properties                 = new HashMap<String, Object>();
+  /**
+   * Logout constant.
+   */
+  public static final String LOGOUT = "_logout_";
 
-  private HashMap<String, Object> sessionMap                 = new HashMap<String, Object>();
+  /**
+   * Properties.
+   */
+  private Map<String, Object> properties = new HashMap<String, Object>();
 
-  private Set<String>             publicRenderParamsToRemove = new HashSet<String>();
+  /**
+   * Session map.
+   */
+  private HashMap<String, Object> sessionMap = new HashMap<String, Object>();
 
-  public Map<String, Object> getProperties() {
+  /**
+   * Params to remove.
+   */
+  private final Set<String> publicRenderParamsToRemove = new HashSet<String>();
+
+  /**
+   * @return props
+   */
+  public final Map<String, Object> getProperties() {
     return properties;
   }
 
-  public void addProperty(String key,
-                          Object o) {
+  /**
+   * @param key name
+   * @param o value
+   */
+  public final void addProperty(final String key, final Object o) {
     properties.put(key, o);
   }
 
-  public void setProperties(Map<String, Object> properties) {
+  /**
+   * @param properties props
+   */
+  public final void setProperties(final Map<String, Object> properties) {
     this.properties = properties;
   }
 
-  private List<String> specialProperties = java.util.Arrays.asList(MimeResponse.CACHE_SCOPE,
-                                                                   MimeResponse.EXPIRATION_CACHE,
-                                                                   MimeResponse.ETAG,
-                                                                   MimeResponse.USE_CACHED_CONTENT,
-                                                                   MimeResponse.MARKUP_HEAD_ELEMENT,
-                                                                   MimeResponse.NAMESPACED_RESPONSE,
-                                                                   ResourceResponse.HTTP_STATUS_CODE,
-                                                                   Output.SEND_REDIRECT,
-                                                                   Output.INVALIDATE_SESSION,
-                                                                   PCConstants.EXCEPTION,
-                                                                   PCConstants.DESTROYED);
+  /**
+   * Special properties names.
+   */
+  private final List<String> specialProperties = java.util.Arrays.asList(MimeResponse.CACHE_SCOPE,
+      MimeResponse.EXPIRATION_CACHE, MimeResponse.ETAG, MimeResponse.USE_CACHED_CONTENT,
+      MimeResponse.MARKUP_HEAD_ELEMENT, MimeResponse.NAMESPACED_RESPONSE,
+      ResourceResponse.HTTP_STATUS_CODE, Output.SEND_REDIRECT, Output.INVALIDATE_SESSION,
+      PCConstants.EXCEPTION, PCConstants.DESTROYED);
 
-  private boolean specialProperty(String s) {
+  /**
+   * @param s name
+   * @return either specified property is special
+   */
+  private boolean specialProperty(final String s) {
     return specialProperties.contains(s);
   }
 
-  public Map<String, String> getHeaderProperties() {
+  /**
+   * @return properties map
+   */
+  public final Map<String, String> getHeaderProperties() {
     HashMap<String, String> newMap = new HashMap<String, String>();
-    for (Iterator<String> iterator = properties.keySet().iterator(); iterator.hasNext();) {
-      String name = iterator.next();
+    for (String name : properties.keySet()) {
       if (specialProperty(name))
         continue;
       if (!(properties.get(name) instanceof String))
@@ -95,33 +132,52 @@ public class Output {
     return newMap;
   }
 
-  public int getStatus() {
+  /**
+   * @return http status
+   */
+  public final int getStatus() {
     try {
       return Integer.parseInt((String) properties.get(ResourceResponse.HTTP_STATUS_CODE));
     } catch (Exception e) {
-      return 200;
+      return HTTP_OK_STATUS;
     }
   }
 
-  public boolean hasError() {
-    if (properties.get(PCConstants.DESTROYED) != null || properties.get(PCConstants.EXCEPTION) != null)
+  /**
+   * @return either output has error
+   */
+  public final boolean hasError() {
+    if ((properties.get(PCConstants.DESTROYED) != null)
+        || (properties.get(PCConstants.EXCEPTION) != null))
       return true;
     return false;
   }
 
-  public HashMap<String, Object> getSessionMap() {
+  /**
+   * @return map
+   */
+  public final HashMap<String, Object> getSessionMap() {
     return sessionMap;
   }
 
-  public void setSessionMap(HashMap<String, Object> map) {
+  /**
+   * @param map map
+   */
+  public final void setSessionMap(final HashMap<String, Object> map) {
     this.sessionMap = map;
   }
 
-  public void removePublicRenderParameter(String name) {
+  /**
+   * @param name param name to remove
+   */
+  public final void removePublicRenderParameter(final String name) {
     publicRenderParamsToRemove.add(name);
   }
 
-  public Set<String> getRemovedPublicRenderParameters() {
+  /**
+   * @return removed params
+   */
+  public final Set<String> getRemovedPublicRenderParameters() {
     return publicRenderParamsToRemove;
   }
 

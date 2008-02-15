@@ -5,7 +5,6 @@
  */
 package org.exoplatform.services.portletcontainer.test.portlet2;
 
-import java.lang.String;
 import java.io.Serializable;
 
 import javax.xml.bind.annotation.XmlAccessType;
@@ -14,31 +13,52 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.XmlType;
 
-
+/**
+ * test event class.
+ */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "", propOrder = {
-    "street",
-    "city"})
+@XmlType(name = "", propOrder = { "street", "city" })
 @XmlRootElement(name = "myeventpub")
 public class MyEventPub implements Serializable {
 
+  /**
+   * street.
+   */
   @XmlElement(required = true)
   private String street;
+
+  /**
+   * city.
+   */
   @XmlElement(required = true)
   private String city;
 
-  public void setStreet(String s) {
+  /**
+   * @param s street
+   */
+  public final void setStreet(final String s) {
     street = s;
   }
-  public String getStreet() {
+
+  /**
+   * @return street
+   */
+  public final String getStreet() {
     return street;
   }
-  public void setCity(String c) {
+
+  /**
+   * @param c city
+   */
+  public final void setCity(final String c) {
     city = c;
   }
-  public String getCity() {
+
+  /**
+   * @return city
+   */
+  public final String getCity() {
     return city;
   }
 
 }
-

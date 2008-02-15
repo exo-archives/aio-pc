@@ -19,20 +19,34 @@ package org.exoplatform.services.portletcontainer.pci;
 import java.io.Serializable;
 
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
  * benjamin.mestrallet@exoplatform.com
  */
-public interface WindowID extends Serializable{
+public interface WindowID extends Serializable {
 
-  public String getOwner();
+  /**
+   * @return owner
+   */
+  String getOwner();
 
-  public String getPortletApplicationName();
+  /**
+   * @return portlet app name
+   */
+  String getPortletApplicationName();
 
-  public String getPortletName();
+  /**
+   * @return portlet name
+   */
+  String getPortletName();
 
-  public String getUniqueID();
+  /**
+   * @return unique key id
+   */
+  String getUniqueID();
 
-  public String generateKey();
+  /**
+   * @return key
+   */
+  String generateKey();
 
 }

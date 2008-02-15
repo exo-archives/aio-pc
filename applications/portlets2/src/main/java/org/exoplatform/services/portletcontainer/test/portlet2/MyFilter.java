@@ -24,18 +24,37 @@ import javax.portlet.ResourceResponse;
 import javax.portlet.UnavailableException;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
 public class MyFilter implements ResourceFilter {
 
+  /**
+   * name.
+   */
   private String name;
 
+  /**
+   * Overridden method.
+   *
+   * @param config config
+   * @throws UnavailableException exception
+   * @see javax.portlet.filter.PortletFilter#init(javax.portlet.filter.FilterConfig)
+   */
   public void init(FilterConfig config) throws UnavailableException {
     name = config.getInitParameter("name");
   }
 
+  /**
+   * Overridden method.
+   *
+   * @param resourceRequest request
+   * @param resourceResponse response
+   * @param filterChain chain
+   * @throws UnavailableException exception
+   * @see javax.portlet.filter.ResourceFilter#doFilter(javax.portlet.ResourceRequest, javax.portlet.ResourceResponse, javax.portlet.filter.FilterChain)
+   */
   public void doFilter(ResourceRequest resourceRequest, ResourceResponse resourceResponse, FilterChain filterChain) throws UnavailableException {
     resourceRequest.setAttribute("name",name);
   }
