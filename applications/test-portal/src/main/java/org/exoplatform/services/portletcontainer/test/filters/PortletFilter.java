@@ -78,6 +78,10 @@ public class PortletFilter implements Filter {
    * Portal identifier.
    */
   public static final String PORTAL_IDENTIFIER = "PID";
+  
+  public static final String REPLICATOR_IDENTIFIER = "RID";
+  
+  private SessionReplicator sr;
 
   /**
    * Portal container name.
@@ -237,9 +241,12 @@ public class PortletFilter implements Filter {
     sessionInfo.put(SESSION_IDENTIFIER, httpSession.getId());
     sessionInfo.put(PORTAL_IDENTIFIER, portalContainerName);
     try {
-//      SessionReplicator sr = new SessionReplicator();
-//      sr.send(session_info);
+      if (sr == null)
+        sr = new SessionReplicator();
+      sessionInfo.put(REPLICATOR_IDENTIFIER, sr.toString());
+      sr.send(sessionInfo);
     } catch (Exception e){
+      e.printStackTrace();
     }
   }
 
