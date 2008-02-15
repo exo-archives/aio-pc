@@ -25,6 +25,12 @@ import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
+import javax.portlet.PortletMode;
+import javax.portlet.WindowState;
+import java.util.HashMap;
+import java.util.Random;
+
+import org.exoplatform.frameworks.portletcontainer.portalframework.WindowID2;
 
 public class TestSessions  extends GenericPortlet {
 
@@ -40,7 +46,7 @@ public class TestSessions  extends GenericPortlet {
     if (a == null || a.equals(""))
       a = "";
     w.println(a + "<br>");
-    a +="++";
+    a +="~~";
     renderRequest.getPortletSession().setAttribute("a", a);
 
 
@@ -53,6 +59,25 @@ public class TestSessions  extends GenericPortlet {
     w.println(c + "<br>");
 
     renderRequest.getPortletSession().setAttribute("c", c);
+      
+    WindowID2 d  = (WindowID2)renderRequest.getPortletSession().getAttribute("d");
+    if (d != null) {
+
+      w.println("Object " + d.getClass().getSimpleName() + " received with: ");  
+      w.println("content: " + d.getRenderParams()+  "<br>");
+
+    }
+    d = new WindowID2();
+    HashMap map = new HashMap <String, String[]>();
+    Random random = new Random();
+    map.put("param1", "value1" + random.nextInt());
+    map.put("param2", "value2"+ random.nextInt());
+    map.put("param3", "value3"+random.nextInt());
+    d.setRenderParams(map);
+
+    renderRequest.getPortletSession().setAttribute("d", d);
+
+    
    }
 
   public void processAction(ActionRequest actionRequest,
