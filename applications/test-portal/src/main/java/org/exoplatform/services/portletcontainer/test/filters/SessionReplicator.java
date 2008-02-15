@@ -91,11 +91,16 @@ public class SessionReplicator implements RequestHandler {
     HashMap<String, Serializable> sessionInfo = (HashMap<String, Serializable>) msg.getObject();
     String sid = (String) sessionInfo.get(PortletFilter.SESSION_IDENTIFIER);
     String pid = (String) sessionInfo.get(PortletFilter.PORTAL_IDENTIFIER);
+    String rid = (String) sessionInfo.get(PortletFilter.REPLICATOR_IDENTIFIER);
+    if (rid.equals(this.toString())) 
+             return null;
     sessionInfo.remove(PortletFilter.SESSION_IDENTIFIER);
     sessionInfo.remove(PortletFilter.PORTAL_IDENTIFIER);
+    sessionInfo.remove(PortletFilter.REPLICATOR_IDENTIFIER);
 
     ExoContainer container = ExoContainerContext.getContainerByName(pid);
 
+    
     PortletContainerService service = (PortletContainerService) container.getComponentInstanceOfType(PortletContainerService.class);
 
     ServletContext ctx = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
@@ -103,16 +108,19 @@ public class SessionReplicator implements RequestHandler {
     FakeHttpSession httpSession = new FakeHttpSession(sid, ctx);
     FakeHttpRequest httpRequest = new FakeHttpRequest(httpSession);
     FakeHttpResponse httpResponse = new FakeHttpResponse();
-
+    
     try {
       for (Iterator<String> i = sessionInfo.keySet().iterator(); i.hasNext();) {
         String appName = i.next();
+        if (sessionInfo.get(appName) != null) {
         service.sendAttrs((HttpServletRequest) httpRequest,
                           (HttpServletResponse) httpResponse,
                           (Map<String, Object>) sessionInfo.get(appName),
                           appName);
+        }
       }
     } catch (Exception exc) {
+      exc.printStackTrace();
     }
     return new String("Ok");
   }
