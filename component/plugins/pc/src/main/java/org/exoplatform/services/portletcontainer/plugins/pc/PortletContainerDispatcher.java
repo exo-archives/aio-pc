@@ -412,24 +412,24 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                         Map<String, Object> attrs,
                         String portletApplicationName) throws PortletContainerException {
     request.setAttribute(CONTAINER, container.getContext().getName());
-
-    Set<Entry<String, Object>> s = attrs.entrySet();
-    Iterator<Entry<String, Object>> it = s.iterator();
-    while (it.hasNext()) {
-
-      Map.Entry<String, Object> entry = it.next();
-      if (entry.getValue() == null) {
-        attrs.remove(entry.getKey());
-        request.removeAttribute(entry.getKey());
+    try {
+      Set<Entry<String, Object>> s = attrs.entrySet();
+      Iterator<Entry<String, Object>> it = s.iterator();
+      while (it.hasNext()) {
+        Map.Entry<String, Object> entry = it.next();
+        if (entry.getValue() == null) {
+          it.remove();
+          request.removeAttribute(entry.getKey());
+        }
       }
-
-    }
-
-    request.setAttribute(ATTRS, attrs);
-    if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
-    } else {
-      dispatch(request, response, portletApplicationName);
-    }
+      request.setAttribute(ATTRS, attrs);
+      if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
+      } else {
+        dispatch(request, response, portletApplicationName);
+      }
+    } catch(Exception ex) {
+     ex.printStackTrace();
+    } 
   }
 
   private Output process(HttpServletRequest request,
