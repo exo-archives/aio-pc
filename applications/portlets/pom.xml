@@ -23,7 +23,17 @@
       <version>${exo.portlet-container.version}</version>
       <scope>compile</scope>
     </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.portal-framework</artifactId>
+      <version>${exo.portlet-container.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
   </dependencies>
+
+
 
   <build>
     <finalName>portlets</finalName>
