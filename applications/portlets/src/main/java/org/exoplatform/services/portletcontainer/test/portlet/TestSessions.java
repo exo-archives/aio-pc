@@ -18,6 +18,8 @@ package org.exoplatform.services.portletcontainer.test.portlet;
 
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.HashMap;
+import java.util.Random;
 
 import javax.portlet.ActionRequest;
 import javax.portlet.ActionResponse;
@@ -25,10 +27,8 @@ import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
-import javax.portlet.PortletMode;
-import javax.portlet.WindowState;
-import java.util.HashMap;
-import java.util.Random;
+
+import org.exoplatform.frameworks.portletcontainer.portalframework.WindowID2;
 
 /**
  * sessions test portlet.
@@ -67,11 +67,11 @@ public class TestSessions extends GenericPortlet {
     w.println(c + "<br>");
 
     renderRequest.getPortletSession().setAttribute("c", c);
-      
+
     WindowID2 d  = (WindowID2)renderRequest.getPortletSession().getAttribute("d");
     if (d != null) {
 
-      w.println("Object " + d.getClass().getSimpleName() + " received with: ");  
+      w.println("Object " + d.getClass().getSimpleName() + " received with: ");
       w.println("content: " + d.getRenderParams()+  "<br>");
 
     }
@@ -85,7 +85,7 @@ public class TestSessions extends GenericPortlet {
 
     renderRequest.getPortletSession().setAttribute("d", d);
 
-    
+
    }
 
   public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
