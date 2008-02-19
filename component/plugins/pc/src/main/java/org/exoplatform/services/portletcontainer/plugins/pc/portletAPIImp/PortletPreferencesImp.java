@@ -276,8 +276,13 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   private void save(ExoPortletPreferences preferences) throws IOException {
     try {
       persister_.savePortletPreferences(windowID_, preferences);
-    } catch (Exception ex) {
-      throw new IOException(ex.getMessage());
+    } catch (final Exception ex) {
+      throw new IOException(ex.getMessage()) {
+        @Override
+        public Throwable getCause() {
+          return ex;
+        }
+      };
     }
   }
 
