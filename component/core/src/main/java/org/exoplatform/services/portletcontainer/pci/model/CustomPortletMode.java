@@ -22,59 +22,121 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: CustomPortletMode.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class CustomPortletMode {
-	private List<Description> description ;
-  private String portletMode ;
+
+  /**
+   * Description list.
+   */
+  private List<Description> description;
+
+  /**
+   * Portlet mode.
+   */
+  private String portletMode;
+
   // portlet api 2.0
+
+  /**
+   * Id.
+   */
   private String id;
-  private Boolean portalManaged ;
-  private String resourceID ;
 
-	public List<Description> getDescription() {
-    if(description == null) return Constants.EMPTY_LIST ;
-		return description;
-	}
-	public void setDescription(List<Description> description) {
-		this.description = description;
-	}
+  /**
+   * Either portal managed mode.
+   */
+  private Boolean portalManaged;
 
-  public void addDescription(Description desc) {
-    if (description == null) description = new ArrayList<Description>() ;
-    this.description.add(desc) ;
+  /**
+   * Resource id.
+   */
+  private String resourceID;
+
+  /**
+   * @return description list
+   */
+  public final List<Description> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
   }
 
-	public String getPortletMode() {
-		return portletMode;
-	}
+  /**
+   * @param description description list
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
 
-	public void setPortletMode(String portletMode) {
-		this.portletMode = portletMode;
-	}
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (description == null)
+      description = new ArrayList<Description>();
+    this.description.add(desc);
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @return portlet mode
+   */
+  public final String getPortletMode() {
+    return portletMode;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @param portletMode portlet mode
+   */
+  public final void setPortletMode(final String portletMode) {
+    this.portletMode = portletMode;
+  }
+
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
+
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
 
   // portlet api 2.0
 
-  public void setPortalManaged(Boolean portalManaged) {
+  /**
+   * @param portalManaged either portal managed mode
+   */
+  public final void setPortalManaged(final Boolean portalManaged) {
     this.portalManaged = portalManaged;
   }
 
-  public Boolean isPortalManaged() {
+  /**
+   * @return is portal managed mode
+   */
+  public final Boolean isPortalManaged() {
     return portalManaged;
   }
 
-  public void setResourceID(String resourceID) {
+  /**
+   * @param resourceID resource id
+   */
+  public final void setResourceID(final String resourceID) {
     this.resourceID = resourceID;
   }
 
-  public String getResourceID() {
+  /**
+   * @return resource id
+   */
+  public final String getResourceID() {
     return resourceID;
   }
 

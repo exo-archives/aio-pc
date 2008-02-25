@@ -22,81 +22,160 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: Filter.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class Filter {
 
+  /**
+   * All lifecycles.
+   */
   public static final int ALL = 0;
+
+  /**
+   * Action lifecycle.
+   */
   public static final int ACTION = 1;
+
+  /**
+   * Event lifecycle.
+   */
   public static final int EVENT = 2;
+
+  /**
+   * Render lifecycle.
+   */
   public static final int RENDER = 3;
+
+  /**
+   * Resource lifecycle.
+   */
   public static final int RESOURCE = 4;
 
-	private String	filterName;
-	private String	filterClass;
-	private List<InitParam>		initParam;
-  private List<Integer>    lifecycle;
-  private List<Description> description;
-  private List<DisplayName>  displayName;
+  /**
+   * Filter name.
+   */
+  private String filterName;
 
-  public void addDescription(Description desc) {
+  /**
+   * Filter class.
+   */
+  private String filterClass;
+
+  /**
+   * Init params.
+   */
+  private List<InitParam> initParam;
+
+  /**
+   * Lifecycles.
+   */
+  private List<Integer> lifecycle;
+
+  /**
+   * Descriptions.
+   */
+  private List<Description> description;
+
+  /**
+   * Display names.
+   */
+  private List<DisplayName> displayName;
+
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
     if (description == null)
       description = new ArrayList<Description>();
     this.description.add(desc);
   }
 
-  public void addDisplayName(DisplayName name) {
+  /**
+   * @param name display name
+   */
+  public final void addDisplayName(final DisplayName name) {
     if (this.displayName == null)
       displayName = new ArrayList<DisplayName>();
     this.displayName.add(name);
   }
 
-	public String getFilterClass() {
-		return filterClass;
-	}
-
-	public void setFilterClass(String filterClass) {
-		this.filterClass = filterClass;
-	}
-
-	public String getFilterName() {
-		return filterName;
-	}
-
-	public void setFilterName(String filterName) {
-		this.filterName = filterName;
-	}
-
-	public List<InitParam> getInitParam() {
-    if (initParam == null)
-      return Constants.EMPTY_LIST;
-		return initParam;
-	}
-
-	public void setInitParam(List<InitParam> initParam) {
-		this.initParam = initParam;
-	}
-
-  public void addInitParam(InitParam param) {
-    if (initParam == null)
-      initParam = new ArrayList<InitParam>();
-  	this.initParam.add(param);
+  /**
+   * @return filter class
+   */
+  public final String getFilterClass() {
+    return filterClass;
   }
 
-  public List getLifecycle() {
+  /**
+   * @param filterClass filter class
+   */
+  public final void setFilterClass(final String filterClass) {
+    this.filterClass = filterClass;
+  }
+
+  /**
+   * @return filter name
+   */
+  public final String getFilterName() {
+    return filterName;
+  }
+
+  /**
+   * @param filterName filter name
+   */
+  public final void setFilterName(final String filterName) {
+    this.filterName = filterName;
+  }
+
+  /**
+   * @return init params
+   */
+  public final List<InitParam> getInitParam() {
+    if (initParam == null)
+      return Constants.EMPTY_LIST;
+    return initParam;
+  }
+
+  /**
+   * @param initParam init params
+   */
+  public final void setInitParam(final List<InitParam> initParam) {
+    this.initParam = initParam;
+  }
+
+  /**
+   * @param param init param
+   */
+  public final void addInitParam(final InitParam param) {
+    if (initParam == null)
+      initParam = new ArrayList<InitParam>();
+    this.initParam.add(param);
+  }
+
+  /**
+   * @return lifecycle list
+   */
+  public final List<Integer> getLifecycle() {
     if (lifecycle == null)
       return Constants.EMPTY_LIST;
     return lifecycle;
   }
 
-  public void setLifecycle(List<Integer> lifecycle) {
+  /**
+   * @param lifecycle lifecycle list
+   */
+  public final void setLifecycle(final List<Integer> lifecycle) {
     this.lifecycle = lifecycle;
   }
 
-  public void addLifecycle(Integer num) {
+  /**
+   * @param num lifecycle mark
+   */
+  public final void addLifecycle(final Integer num) {
     if (lifecycle == null)
       lifecycle = new ArrayList<Integer>();
     this.lifecycle.add(num);

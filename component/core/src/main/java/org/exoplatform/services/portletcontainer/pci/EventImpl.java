@@ -21,29 +21,58 @@ import javax.portlet.Event;
 import javax.xml.namespace.QName;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS .
  * Author : Roman Pedchenko
- *          roman.pedchenko@exoplatform.com.ua
+ * roman.pedchenko@exoplatform.com.ua
  */
 public class EventImpl implements Event {
 
+  /**
+   * Name.
+   */
   private QName name = null;
+
+  /**
+   * Value.
+   */
   private Serializable value = null;
 
-  public EventImpl(QName name, Serializable value) {
+  /**
+   * @param name name
+   * @param value value
+   */
+  public EventImpl(final QName name, final Serializable value) {
     this.name = name;
     this.value = value;
   }
 
-  public QName getQName() {
+  /**
+   * Overridden method.
+   *
+   * @return FQN
+   * @see javax.portlet.Event#getQName()
+   */
+  public final QName getQName() {
     return name;
   }
 
-  public String getName() {
+  /**
+   * Overridden method.
+   *
+   * @return name
+   * @see javax.portlet.Event#getName()
+   */
+  public final String getName() {
     return name.getLocalPart();
   }
 
-  public Serializable getValue() {
+  /**
+   * Overridden method.
+   *
+   * @return value
+   * @see javax.portlet.Event#getValue()
+   */
+  public final Serializable getValue() {
     return value;
   }
 

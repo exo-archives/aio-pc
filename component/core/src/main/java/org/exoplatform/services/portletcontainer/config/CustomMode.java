@@ -20,36 +20,58 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
  *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: CustomMode.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class CustomMode {
-  private String            name;
 
+  /**
+   * Name.
+   */
+  private String name;
+
+  /**
+   * Description list.
+   */
   private List<Description> description;
 
-  public List<Description> getDescription() {
+  /**
+   * @return description list
+   */
+  public final List<Description> getDescription() {
     return description;
   }
 
-  public void setDescrition(List<Description> descrition) {
+  /**
+   * @param descrition description list
+   */
+  public final void setDescrition(final List<Description> descrition) {
     this.description = descrition;
   }
 
-  public void addDescription(Description desc) {
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
     if (description == null)
       description = new ArrayList<Description>();
     description.add(desc);
   }
 
-  public String getName() {
+  /**
+   * @return name
+   */
+  public final String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
 }

@@ -34,48 +34,113 @@ import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface PortletData {
+
   // elements that must be found in the resource bundle
-  public static final String PORTLET_TITLE       = "javax.portlet.title";
 
-  public static final String PORTLET_SHORT_TITLE = "javax.portlet.short-title";
+  /**
+   * Constant for 'title' key.
+   */
+  String PORTLET_TITLE = "javax.portlet.title";
 
-  public static final String KEYWORDS            = "javax.portlet.keywords";
+  /**
+   * Constant for 'short-title' key.
+   */
+  String PORTLET_SHORT_TITLE = "javax.portlet.short-title";
 
-  public List<DisplayName> getDisplayName();
+  /**
+   * Constant for 'keywords' key.
+   */
+  String KEYWORDS = "javax.portlet.keywords";
 
-  public List<SecurityRoleRef> getSecurityRoleRef();
+  /**
+   * @return display names
+   */
+  List<DisplayName> getDisplayName();
 
-  public List<InitParam> getInitParam();
+  /**
+   * @return security role refs
+   */
+  List<SecurityRoleRef> getSecurityRoleRef();
 
-  // public java.util.ResourceBundle getPortletInfo(Locale locale);
-  public List<Supports> getSupports();
+  /**
+   * @return init params
+   */
+  List<InitParam> getInitParam();
 
-  public List<Description> getDescription();
+  /**
+   * @return supports
+   */
+  List<Supports> getSupports();
 
-  public String getDescription(String lang);
+  /**
+   * @return descriptions
+   */
+  List<Description> getDescription();
 
-  public boolean isCacheGlobal();
+  /**
+   * @param lang language
+   * @return description
+   */
+  String getDescription(String lang);
 
-  public String getExpirationCache();
+  /**
+   * @return is cache global
+   */
+  boolean isCacheGlobal();
 
-  public String getPortletName();
+  /**
+   * @return expiration cache
+   */
+  String getExpirationCache();
 
-  public List<Locale> getSupportedLocale();
+  /**
+   * @return portlet name
+   */
+  String getPortletName();
 
-  public ExoPortletPreferences getPortletPreferences();
+  /**
+   * @return supported locales
+   */
+  List<Locale> getSupportedLocale();
 
-  public boolean isSecure();
+  /**
+   * @return portlet preferences
+   */
+  ExoPortletPreferences getPortletPreferences();
 
-  public List<UserAttribute> getUserAttributes();
+  /**
+   * @return is secure
+   */
+  boolean isSecure();
 
-  public List<QName> getSupportedProcessingEvent();
+  /**
+   * @return user attributes
+   */
+  List<UserAttribute> getUserAttributes();
 
-  public List<QName> getSupportedPublishingEvent();
+  /**
+   * @return supported processing events
+   */
+  List<QName> getSupportedProcessingEvent();
 
-  public List<String> getSupportedPublicRenderParameter();
+  /**
+   * @return supported publishing events
+   */
+  List<QName> getSupportedPublishingEvent();
 
-  public Map<String, String[]> getContainerRuntimeOption();
+  /**
+   * @return supported public render parameters
+   */
+  List<String> getSupportedPublicRenderParameter();
 
-  public boolean getEscapeXml();
+  /**
+   * @return container runtime options
+   */
+  Map<String, String[]> getContainerRuntimeOption();
+
+  /**
+   * @return escapeXml
+   */
+  boolean getEscapeXml();
 
 }

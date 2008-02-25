@@ -22,92 +22,147 @@ import org.exoplatform.commons.xml.ExoXMLSerializer;
 import org.exoplatform.services.portletcontainer.PortletContainer;
 
 /**
- * Jul 8, 2004
+ * Jul 8, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: XMLSerializer.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class XMLSerializer {
-  static private String NS = "" ;
 
-	static public void toXML(ExoXMLSerializer ser, PortletContainer pc) throws Exception {
-    List list ;
-		ser.startTag(NS, "global"); toXML(ser, pc.getGlobal()); ser.endTag(NS, "global");
-    ser.startTag(NS, "cache"); toXML(ser, pc.getCache()); ser.endTag(NS, "cache");
+  /**
+   * Namespace.
+   */
+  private static String pcNS = "";
+
+  /**
+   * Simple constructor.
+   */
+  protected XMLSerializer() {
+  }
+
+  /**
+   * @param ser serializer
+   * @param pc PC configuration
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final PortletContainer pc) throws Exception {
+    List list;
+    ser.startTag(pcNS, "global");
+    toXML(ser, pc.getGlobal());
+    ser.endTag(pcNS, "global");
+    ser.startTag(pcNS, "cache");
+    toXML(ser, pc.getCache());
+    ser.endTag(pcNS, "cache");
     list = pc.getSupportedContent();
-    for(int i = 0; i < list.size(); i++) {
-      ser.startTag(NS, "supported-content");
-      ser.element(NS, "name", ((SupportedContent)list.get(i)).getName());
-      ser.endTag(NS, "supported-content");
+    for (int i = 0; i < list.size(); i++) {
+      ser.startTag(pcNS, "supported-content");
+      ser.element(pcNS, "name", ((SupportedContent) list.get(i)).getName());
+      ser.endTag(pcNS, "supported-content");
     }
     list = pc.getCustomMode();
-    for(int i = 0; i < list.size(); i++) {
-      ser.startTag(NS, "custom-mode");
-      toXML(ser, (CustomMode)list.get(i));
-      ser.endTag(NS, "custom-mode");
+    for (int i = 0; i < list.size(); i++) {
+      ser.startTag(pcNS, "custom-mode");
+      toXML(ser, (CustomMode) list.get(i));
+      ser.endTag(pcNS, "custom-mode");
     }
     list = pc.getCustomWindowState();
-    for(int i = 0; i < list.size(); i++) {
-      ser.startTag(NS, "custom-window-state");
-      toXML(ser, (CustomWindowState)list.get(i));
-      ser.endTag(NS, "custom-window-state");
+    for (int i = 0; i < list.size(); i++) {
+      ser.startTag(pcNS, "custom-window-state");
+      toXML(ser, (CustomWindowState) list.get(i));
+      ser.endTag(pcNS, "custom-window-state");
     }
     list = pc.getProperties();
-    for(int i = 0; i < list.size(); i++) {
-      ser.startTag(NS, "properties");
-      toXML(ser, (Properties)list.get(i));
-      ser.endTag(NS, "properties");
+    for (int i = 0; i < list.size(); i++) {
+      ser.startTag(pcNS, "properties");
+      toXML(ser, (Properties) list.get(i));
+      ser.endTag(pcNS, "properties");
     }
   }
 
-  static public void toXML(ExoXMLSerializer ser, Global global) throws Exception {
-    ser.element(NS, "name", global.getName()) ;
-    ser.element(NS, "description", global.getDescription()) ;
-    ser.element(NS, "major-version", Integer.toString(global.getMajorVersion())) ;
-    ser.element(NS, "minor-version", Integer.toString(global.getMinorVersion())) ;
+  /**
+   * @param ser serializer
+   * @param global global data
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final Global global) throws Exception {
+    ser.element(pcNS, "name", global.getName());
+    ser.element(pcNS, "description", global.getDescription());
+    ser.element(pcNS, "major-version", Integer.toString(global.getMajorVersion()));
+    ser.element(pcNS, "minor-version", Integer.toString(global.getMinorVersion()));
   }
 
-  static public void toXML(ExoXMLSerializer ser, Cache cache) throws Exception {
-    ser.element(NS, "enable", cache.getEnable()) ;
+  /**
+   * @param ser serializer
+   * @param cache cache
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final Cache cache) throws Exception {
+    ser.element(pcNS, "enable", cache.getEnable());
   }
 
-  static public void toXML(ExoXMLSerializer ser, CustomMode mode) throws Exception {
-    ser.element(NS, "name", mode.getName()) ;
-    List descs = mode.getDescription();
-    for(int i = 0; i < descs.size(); i++) {
-      toXML(ser,(Description)descs.get(i));
-    }
+  /**
+   * @param ser serializer
+   * @param mode portlet mode
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final CustomMode mode) throws Exception {
+    ser.element(pcNS, "name", mode.getName());
+    List<Description> descs = mode.getDescription();
+    for (int i = 0; i < descs.size(); i++)
+      toXML(ser, descs.get(i));
   }
 
-  static public void toXML(ExoXMLSerializer ser, CustomWindowState state) throws Exception {
-    ser.element(NS, "name", state.getName()) ;
-    List descs = state.getDescription();
-    for(int i = 0; i < descs.size(); i++) {
-      toXML(ser,(Description)descs.get(i));
-    }
+  /**
+   * @param ser serializer
+   * @param state window state
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final CustomWindowState state) throws Exception {
+    ser.element(pcNS, "name", state.getName());
+    List<Description> descs = state.getDescription();
+    for (int i = 0; i < descs.size(); i++)
+      toXML(ser, descs.get(i));
   }
 
-  static public void toXML(ExoXMLSerializer ser, Properties props) throws Exception {
-    ser.element(NS, "description", props.getName()) ;
-    ser.element(NS, "name", props.getName()) ;
-    ser.element(NS, "value", props.getValue()) ;
+  /**
+   * @param ser serializer
+   * @param props properties
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final Properties props) throws Exception {
+    ser.element(pcNS, "description", props.getName());
+    ser.element(pcNS, "name", props.getName());
+    ser.element(pcNS, "value", props.getValue());
   }
 
-  static public void toXML(ExoXMLSerializer ser, Description desc) throws Exception {
-    ser.startTag(NS, "description"); ser.attribute(NS, "lang", desc.getLang()) ;
-    ser.text(desc.getDescription()) ;
-    ser.endTag(NS, "description") ;
+  /**
+   * @param ser serializer
+   * @param desc description
+   * @throws Exception exception
+   */
+  public static void toXML(final ExoXMLSerializer ser, final Description desc) throws Exception {
+    ser.startTag(pcNS, "description");
+    ser.attribute(pcNS, "lang", desc.getLang());
+    ser.text(desc.getDescription());
+    ser.endTag(pcNS, "description");
   }
 
-  static public String toXML(PortletContainer pc) throws Exception {
-  	ExoXMLSerializer ser = ExoXMLSerializer.getInstance() ;
-    StringWriter sw = new StringWriter() ;
+  /**
+   * @param pc PC configuration
+   * @return XML document
+   * @throws Exception exception
+   */
+  public static String toXML(final PortletContainer pc) throws Exception {
+    ExoXMLSerializer ser = ExoXMLSerializer.getInstance();
+    StringWriter sw = new StringWriter();
     ser.setOutput(sw);
-    ser.startDocument("UTF-8", null); ser.text("\n") ;
-    ser.startTag(NS, "portlet-container") ;
-    toXML(ser, pc) ;
-    ser.endTag(NS, "portlet-container") ;
+    ser.startDocument("UTF-8", null);
+    ser.text("\n");
+    ser.startTag(pcNS, "portlet-container");
+    toXML(ser, pc);
+    ser.endTag(pcNS, "portlet-container");
     ser.endDocument();
-    return sw.getBuffer().toString() ;
+    return sw.getBuffer().toString();
   }
 }

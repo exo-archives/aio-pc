@@ -24,82 +24,180 @@ import org.apache.commons.lang.StringUtils;
  * benjamin.mestrallet@exoplatform.com
  */
 public class ExoWindowID implements WindowID {
-  final static public String DEFAULT_PORTAL_CONFIG = "default-portal-config" ;
-  final static public String MOBILE_PORTAL_CONFIG = "default-portal-config" ;
 
+  /**
+   * Constant for default portal source.
+   */
+  public static final String DEFAULT_PORTAL_CONFIG = "default-portal-config";
+
+  /**
+   * Constant for mobile portal source.
+   */
+  public static final String MOBILE_PORTAL_CONFIG = "default-portal-config";
+
+  /**
+   * Owner.
+   */
   private String owner;
+
+  /**
+   * Portlet application name.
+   */
   private String portletApplicationName;
+
+  /**
+   * Portlet name.
+   */
   private String portletName;
+
+  /**
+   * Unique id.
+   */
   private String uniqueID;
-  private String persistenceId ;
+
+  /**
+   * Persistence id.
+   */
+  private String persistenceId;
+
+  /**
+   * Configuration source.
+   */
   private String configurationSource = DEFAULT_PORTAL_CONFIG;
 
+  /**
+   * Simple constructor.
+   */
   public ExoWindowID() {
   }
 
-  public ExoWindowID(String persistenceId) {
-  	this.persistenceId = persistenceId ;
-		int idx = persistenceId.indexOf(":/");
-		owner = persistenceId.substring(0, idx);
-		persistenceId = persistenceId.substring(idx + 2, persistenceId.length());
-		String[] keys = StringUtils.split(persistenceId, "/");
-		portletApplicationName = keys[0];
-		portletName = keys[1];
-		uniqueID = keys[2];
-	}
+  /**
+   * @param persistenceId persistence id
+   */
+  public ExoWindowID(final String persistenceId) {
+    this.persistenceId = persistenceId;
+    int idx = persistenceId.indexOf(":/");
+    owner = persistenceId.substring(0, idx);
+    String persistenceId1 = persistenceId.substring(idx + 2, persistenceId.length());
+    String[] keys = StringUtils.split(persistenceId1, "/");
+    portletApplicationName = keys[0];
+    portletName = keys[1];
+    uniqueID = keys[2];
+  }
 
-  public String getOwner() {
+  /**
+   * Overridden method.
+   *
+   * @return owner
+   * @see org.exoplatform.services.portletcontainer.pci.WindowID#getOwner()
+   */
+  public final String getOwner() {
     return owner;
   }
 
-  public void setOwner(String owner) {
+  /**
+   * @param owner owner
+   */
+  public final void setOwner(final String owner) {
     this.owner = owner;
   }
 
-  public String getPortletApplicationName() {
+  /**
+   * Overridden method.
+   *
+   * @return app name
+   * @see org.exoplatform.services.portletcontainer.pci.WindowID#getPortletApplicationName()
+   */
+  public final String getPortletApplicationName() {
     return portletApplicationName;
   }
 
-  public void setPortletApplicationName(String portletApplicationName) {
+  /**
+   * @param portletApplicationName app name
+   */
+  public final void setPortletApplicationName(final String portletApplicationName) {
     this.portletApplicationName = portletApplicationName;
   }
 
-  public String getPortletName() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet name
+   * @see org.exoplatform.services.portletcontainer.pci.WindowID#getPortletName()
+   */
+  public final String getPortletName() {
     return portletName;
   }
 
-  public void setPortletName(String portletName) {
+  /**
+   * @param portletName portlet name
+   */
+  public final void setPortletName(final String portletName) {
     this.portletName = portletName;
   }
 
-  public String getUniqueID() {
-    return uniqueID;
-  }
-
-  public void setUniqueID(String uniqueID) {
-    this.uniqueID = uniqueID;
-  }
-
-  public String getPersistenceId() {
-  	return this.persistenceId ;
-  }
-
-  public void setPersistenceId(String id) {
-  	persistenceId = id ;
-  }
-
-  public String generatePersistenceId() {
-  	return owner + ":/" + portletApplicationName + "/" + portletName + "/" + uniqueID ;
-  }
-
-  public String generateKey() {
+  /**
+   * Overridden method.
+   *
+   * @return unique id
+   * @see org.exoplatform.services.portletcontainer.pci.WindowID#getUniqueID()
+   */
+  public final String getUniqueID() {
     return uniqueID;
   }
 
   /**
-   * The configuration source can be from default portal config layout, mobile portal
-   * config layout  or page config
+   * @param uniqueID unique id
    */
-  public String getConfigurationSource() { return configurationSource ; }
-  public void setConfigurationSource(String source) { configurationSource = source; }
+  public final void setUniqueID(final String uniqueID) {
+    this.uniqueID = uniqueID;
+  }
+
+  /**
+   * @return persistence id
+   */
+  public final String getPersistenceId() {
+    return this.persistenceId;
+  }
+
+  /**
+   * @param id persistence id
+   */
+  public final void setPersistenceId(final String id) {
+    persistenceId = id;
+  }
+
+  /**
+   * @return generated persistence id
+   */
+  public final String generatePersistenceId() {
+    return owner + ":/" + portletApplicationName + "/" + portletName + "/" + uniqueID;
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @return generated key
+   * @see org.exoplatform.services.portletcontainer.pci.WindowID#generateKey()
+   */
+  public final String generateKey() {
+    return uniqueID;
+  }
+
+  /**
+   * The configuration source can be from default portal config layout, mobile
+   * portal config layout or page config.
+   *
+   * @return source
+   */
+  public final String getConfigurationSource() {
+    return configurationSource;
+  }
+
+  /**
+   * @param source source
+   */
+  public final void setConfigurationSource(final String source) {
+    configurationSource = source;
+  }
 }

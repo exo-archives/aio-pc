@@ -199,7 +199,7 @@ public class PortletFilter implements Filter {
         return;
       }
 
-      if (framework.getAction() == PCConstants.resourceInt) {
+      if (framework.getAction() == PCConstants.RESOURCE_INT) {
         httpSession.setAttribute("resourceType", framework.getResourceContentType());
         httpSession.setAttribute("resource", framework.getResourceContent());
         httpSession.setAttribute("resourceHeaders", framework.getResourceHeaders());

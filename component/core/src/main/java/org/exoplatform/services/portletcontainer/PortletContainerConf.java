@@ -21,7 +21,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,39 +43,81 @@ import org.exoplatform.services.portletcontainer.pci.CustomWindowStateWithDescri
 import org.exoplatform.services.portletcontainer.pci.LocalisedDescription;
 
 /**
- * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * Created by the Exo Development team. Author : Mestrallet Benjamin .
  * benjmestrallet@users.sourceforge.net Date: 10 nov. 2003 Time: 11:38:24
  */
 public class PortletContainerConf {
 
-  private Map<String, String>                          properties;
+  /**
+   * Properties.
+   */
+  private Map<String, String> properties;
 
-  private String                                       name;
+  /**
+   * Name.
+   */
+  private String name;
 
-  private String                                       description;
+  /**
+   * Description.
+   */
+  private String description;
 
-  private int                                          majorVersion = -1;
+  /**
+   * Major version.
+   */
+  private int majorVersion = -1;
 
-  private int                                          minorVersion = -1;
+  /**
+   * Minor version.
+   */
+  private int minorVersion = -1;
 
-  private Collection<PortletMode>                      customModes;
+  /**
+   * Portlet modes.
+   */
+  private Collection<PortletMode> customModes;
 
-  private Collection<WindowState>                      customStates;
+  /**
+   * Window states.
+   */
+  private Collection<WindowState> customStates;
 
-  private Collection<CustomModeWithDescription>        customModesWithDescriptions;
+  /**
+   * Custom portlet modes.
+   */
+  private Collection<CustomModeWithDescription> customModesWithDescriptions;
 
+  /**
+   * Custom window states.
+   */
   private Collection<CustomWindowStateWithDescription> customStatesWithDescriptions;
 
-  private Collection<String>                           supportedContents;
+  /**
+   * Supported content types.
+   */
+  private Collection<String> supportedContents;
 
-  private boolean                                      isCacheEnable;
+  /**
+   * Either cache enabled.
+   */
+  private boolean isCacheEnable;
 
-  private PortletContainer                             containerConfs;
+  /**
+   * Actual PC configuration.
+   */
+  private PortletContainer containerConfs;
 
-  private boolean                                      isBundleLookupDelegated;
+  /**
+   * Either bundle look up delegated.
+   */
+  private boolean isBundleLookupDelegated;
 
-  public PortletContainerConf(InitParams params,
-                              ConfigurationManager cmanager) {
+  /**
+   * @param params init params
+   * @param cmanager configuration manager
+   */
+  public PortletContainerConf(final InitParams params, final ConfigurationManager cmanager) {
     try {
       ObjectParameter param = params.getObjectParam("conf");
       containerConfs = (PortletContainer) param.getObject();
@@ -87,6 +128,9 @@ public class PortletContainerConf {
     }
   }
 
+  /**
+   * Initialization.
+   */
   private void init() {
     String c = containerConfs.getCache().getEnable();
     if ("true".equals(c))
@@ -97,12 +141,14 @@ public class PortletContainerConf {
       isBundleLookupDelegated = true;
   }
 
-  public Map<String, String> getProperties() {
+  /**
+   * @return properties
+   */
+  public final Map<String, String> getProperties() {
     if (properties == null) {
       Map<String, String> map = new HashMap<String, String>();
       List<Properties> l = containerConfs.getProperties();
-      for (Iterator<Properties> iterator = l.iterator(); iterator.hasNext();) {
-        Properties props = iterator.next();
+      for (Properties props : l) {
         map.put(props.getName(), props.getValue());
       }
       properties = map;
@@ -110,75 +156,102 @@ public class PortletContainerConf {
     return properties;
   }
 
-  public void setProperties(Map<String, String> properties) {
+  /**
+   * @param properties properties
+   */
+  public final void setProperties(final Map<String, String> properties) {
     this.properties = properties;
   }
 
-  public String getName() {
-    if (name == null) {
+  /**
+   * @return name
+   */
+  public final String getName() {
+    if (name == null)
       name = containerConfs.getGlobal().getName();
-    }
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
 
-  public String getDescription() {
-    if (description == null) {
+  /**
+   * @return description
+   */
+  public final String getDescription() {
+    if (description == null)
       description = containerConfs.getGlobal().getDescription();
-    }
     return description;
   }
 
-  public void setDescription(String description) {
+  /**
+   * @param description description
+   */
+  public final void setDescription(final String description) {
     this.description = description;
   }
 
-  public int getMajorVersion() {
-    if (majorVersion < 0) {
+  /**
+   * @return major version
+   */
+  public final int getMajorVersion() {
+    if (majorVersion < 0)
       majorVersion = containerConfs.getGlobal().getMajorVersion();
-    }
     return majorVersion;
   }
 
-  public void setMajorVersion(int version) {
+  /**
+   * @param version major version
+   */
+  public final void setMajorVersion(final int version) {
     majorVersion = version;
   }
 
-  public int getMinorVersion() {
-    if (minorVersion < 0) {
+  /**
+   * @return minor version
+   */
+  public final int getMinorVersion() {
+    if (minorVersion < 0)
       minorVersion = containerConfs.getGlobal().getMinorVersion();
-    }
     return minorVersion;
   }
 
-  public void setMinorVersion(int version) {
+  /**
+   * @param version minor version
+   */
+  public final void setMinorVersion(final int version) {
     minorVersion = version;
   }
 
-  public Collection<String> getSupportedContent() {
+  /**
+   * @return supported content types
+   */
+  public final Collection<String> getSupportedContent() {
     if (supportedContents == null) {
       supportedContents = new ArrayList<String>();
       List<SupportedContent> content = containerConfs.getSupportedContent();
-      for (Iterator<SupportedContent> iter = content.iterator(); iter.hasNext();) {
-        SupportedContent element = iter.next();
+      for (SupportedContent element : content) {
         supportedContents.add(element.getName());
       }
     }
     return supportedContents;
   }
 
-  public Enumeration<PortletMode> getSupportedPortletModes() {
+  /**
+   * @return all portlet modes supported
+   */
+  public final Enumeration<PortletMode> getSupportedPortletModes() {
     if (customModes == null) {
       Collection<PortletMode> v = new ArrayList<PortletMode>();
       v.add(PortletMode.EDIT);
       v.add(PortletMode.HELP);
       v.add(PortletMode.VIEW);
       List<CustomMode> l = containerConfs.getCustomMode();
-      for (Iterator<CustomMode> iterator = l.iterator(); iterator.hasNext();) {
-        CustomMode customMode = iterator.next();
+      for (CustomMode customMode : l) {
         v.add(new PortletMode(customMode.getName()));
       }
       customModes = v;
@@ -186,15 +259,17 @@ public class PortletContainerConf {
     return Collections.enumeration(customModes);
   }
 
-  public Enumeration<WindowState> getSupportedWindowStates() {
+  /**
+   * @return all window states supported
+   */
+  public final Enumeration<WindowState> getSupportedWindowStates() {
     if (customStates == null) {
       Collection<WindowState> v = new ArrayList<WindowState>();
       v.add(WindowState.NORMAL);
       v.add(WindowState.MINIMIZED);
       v.add(WindowState.MAXIMIZED);
       List<CustomWindowState> l = containerConfs.getCustomWindowState();
-      for (Iterator<CustomWindowState> iterator = l.iterator(); iterator.hasNext();) {
-        CustomWindowState customState = iterator.next();
+      for (CustomWindowState customState : l) {
         v.add(new WindowState(customState.getName()));
       }
       customStates = v;
@@ -202,20 +277,23 @@ public class PortletContainerConf {
     return Collections.enumeration(customStates);
   }
 
-  public Collection<CustomModeWithDescription> getSupportedPortletModesWithDescriptions() {
+  /**
+   * @return custom portlet modes
+   */
+  public final Collection<CustomModeWithDescription> getSupportedPortletModesWithDescriptions() {
     if (customModesWithDescriptions == null) {
       Collection<CustomModeWithDescription> v = new ArrayList<CustomModeWithDescription>();
       List<CustomMode> l = containerConfs.getCustomMode();
-      for (Iterator<CustomMode> iterator = l.iterator(); iterator.hasNext();) {
-        CustomMode customMode = iterator.next();
+      for (CustomMode customMode : l) {
         List<Description> l2 = customMode.getDescription();
         List<LocalisedDescription> toBeReturned = new ArrayList<LocalisedDescription>();
-        for (Iterator<Description> iter = l2.iterator(); iter.hasNext();) {
-          Description element = iter.next();
-          LocalisedDescription d = new LocalisedDescription(new Locale(element.getLang()), element.getDescription());
+        for (Description element : l2) {
+          LocalisedDescription d = new LocalisedDescription(new Locale(element.getLang()), element
+              .getDescription());
           toBeReturned.add(d);
         }
-        CustomModeWithDescription cMWD = new CustomModeWithDescription(new PortletMode(customMode.getName()), toBeReturned);
+        CustomModeWithDescription cMWD = new CustomModeWithDescription(new PortletMode(customMode
+            .getName()), toBeReturned);
         v.add(cMWD);
       }
       customModesWithDescriptions = v;
@@ -223,20 +301,24 @@ public class PortletContainerConf {
     return customModesWithDescriptions;
   }
 
-  public Collection<CustomWindowStateWithDescription> getSupportedWindowStatesWithDescriptions() {
+  /**
+   * @return custom window states
+   */
+  public final Collection<CustomWindowStateWithDescription> getSupportedWindowStatesWithDescriptions() {
     if (customStatesWithDescriptions == null) {
       Collection<CustomWindowStateWithDescription> v = new ArrayList<CustomWindowStateWithDescription>();
       List<CustomWindowState> l = containerConfs.getCustomWindowState();
-      for (Iterator<CustomWindowState> iterator = l.iterator(); iterator.hasNext();) {
-        CustomWindowState customState = iterator.next();
+      for (CustomWindowState customState : l) {
         List<Description> l2 = customState.getDescription();
         List<LocalisedDescription> toBeReturned = new ArrayList<LocalisedDescription>();
-        for (Iterator<Description> iter = l2.iterator(); iter.hasNext();) {
-          Description element = iter.next();
-          LocalisedDescription d = new LocalisedDescription(new Locale(element.getLang()), element.getDescription());
+        for (Description element : l2) {
+          LocalisedDescription d = new LocalisedDescription(new Locale(element.getLang()), element
+              .getDescription());
           toBeReturned.add(d);
         }
-        CustomWindowStateWithDescription cMWD = new CustomWindowStateWithDescription(new WindowState(customState.getName()), toBeReturned);
+        CustomWindowStateWithDescription cMWD = new CustomWindowStateWithDescription(new WindowState(customState
+            .getName()),
+            toBeReturned);
         v.add(cMWD);
       }
       customStatesWithDescriptions = v;
@@ -244,7 +326,11 @@ public class PortletContainerConf {
     return customStatesWithDescriptions;
   }
 
-  public boolean isModeSupported(PortletMode mode) {
+  /**
+   * @param mode mode to check
+   * @return either the mode is supported
+   */
+  public final boolean isModeSupported(final PortletMode mode) {
     Enumeration<PortletMode> e = getSupportedPortletModes();
     while (e.hasMoreElements()) {
       PortletMode portletMode = e.nextElement();
@@ -254,7 +340,11 @@ public class PortletContainerConf {
     return false;
   }
 
-  public boolean isStateSupported(WindowState state) {
+  /**
+   * @param state state to check
+   * @return either the state is supported
+   */
+  public final boolean isStateSupported(final WindowState state) {
     Enumeration<WindowState> e = getSupportedWindowStates();
     while (e.hasMoreElements()) {
       WindowState windowState = e.nextElement();
@@ -265,11 +355,17 @@ public class PortletContainerConf {
 
   }
 
-  public boolean isCacheEnable() {
+  /**
+   * @return is cache enabled
+   */
+  public final boolean isCacheEnable() {
     return isCacheEnable;
   }
 
-  public boolean isBundleLookupDelegated() {
+  /**
+   * @return either bundle look up delegated
+   */
+  public final boolean isBundleLookupDelegated() {
     return isBundleLookupDelegated;
   }
 }

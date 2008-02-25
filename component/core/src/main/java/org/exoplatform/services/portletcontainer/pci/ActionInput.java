@@ -17,21 +17,27 @@
 package org.exoplatform.services.portletcontainer.pci;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 30, 2003
- * Time: 9:13:06 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
+ * benjmestrallet@users.sourceforge.net Date: Jul 30, 2003 Time: 9:13:06 PM
  */
 public class ActionInput extends Input {
 
+  /**
+   * Either state change authorized.
+   */
   private boolean stateChangeAuthorized;
 
-  public boolean isStateChangeAuthorized() {
+  /**
+   * @return either state change authorized
+   */
+  public final boolean isStateChangeAuthorized() {
     return stateChangeAuthorized;
   }
 
-  public void setStateChangeAuthorized(boolean stateChangeAuthorized) {
+  /**
+   * @param stateChangeAuthorized either state change authorized
+   */
+  public final void setStateChangeAuthorized(final boolean stateChangeAuthorized) {
     this.stateChangeAuthorized = stateChangeAuthorized;
   }
 

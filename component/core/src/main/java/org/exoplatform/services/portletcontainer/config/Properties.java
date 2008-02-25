@@ -17,34 +17,68 @@
 package org.exoplatform.services.portletcontainer.config;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: Properties.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class Properties {
-	private String description ;
-	private String name;
-	private String value ;
 
-  public String getDescription() {
-		return description;
-	}
+  /**
+   * Description.
+   */
+  private String description;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  /**
+   * Name.
+   */
+  private String name;
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getValue() {
-		return value;
-	}
-	public void setValue(String value) {
-		this.value = value;
-	}
+  /**
+   * Value.
+   */
+  private String value;
+
+  /**
+   * @return description
+   */
+  public final String getDescription() {
+    return description;
+  }
+
+  /**
+   * @param description description
+   */
+  public final void setDescription(final String description) {
+    this.description = description;
+  }
+
+  /**
+   * @return name
+   */
+  public final String getName() {
+    return name;
+  }
+
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
+    this.name = name;
+  }
+
+  /**
+   * @return value
+   */
+  public final String getValue() {
+    return value;
+  }
+
+  /**
+   * @param value value
+   */
+  public final void setValue(final String value) {
+    this.value = value;
+  }
 }

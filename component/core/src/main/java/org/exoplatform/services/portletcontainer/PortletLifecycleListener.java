@@ -16,7 +16,6 @@
  */
 package org.exoplatform.services.portletcontainer;
 
-
 import javax.portlet.PortletConfig;
 import javax.servlet.ServletContext;
 
@@ -25,25 +24,56 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 
 /**
  * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- * benjamin.mestrallet@exoplatform.com
+ * Author : Mestrallet Benjamin benjamin.mestrallet@exoplatform.com
  */
 public interface PortletLifecycleListener extends ComponentPlugin {
 
-  public void preDeploy(String portletApplicationName, PortletApp portletApplication,
-                        ServletContext servletContext);
-  public void postDeploy(String portletApplicationName, PortletApp portletApplication,
-                         ServletContext servletContext);
+  /**
+   * @param portletApplicationName app name
+   * @param portletApplication app object
+   * @param servletContext servlet context
+   */
+  void preDeploy(String portletApplicationName, PortletApp portletApplication, ServletContext servletContext);
 
-  public void preInit(PortletConfig portletConfig);
-  public void postInit(PortletConfig portletConfig);
+  /**
+   * @param portletApplicationName app name
+   * @param portletApplication app object
+   * @param servletContext servlet context
+   */
+  void postDeploy(String portletApplicationName, PortletApp portletApplication, ServletContext servletContext);
 
-  public void preDestroy();
-  public void postDestroy();
+  /**
+   * @param portletConfig portlet config
+   */
+  void preInit(PortletConfig portletConfig);
 
-  public void preUndeploy(String portletApplicationName, PortletApp portletApplication,
-                          ServletContext servletContext);
-  public void postUndeploy(String portletApplicationName, PortletApp portletApplication,
-                           ServletContext servletContext);
+  /**
+   * @param portletConfig portlet config
+   */
+  void postInit(PortletConfig portletConfig);
+
+  /**
+   * Pre destroy.
+   */
+  void preDestroy();
+
+  /**
+   * Post destroy.
+   */
+  void postDestroy();
+
+  /**
+   * @param portletApplicationName app name
+   * @param portletApplication app object
+   * @param servletContext servlet context
+   */
+  void preUndeploy(String portletApplicationName, PortletApp portletApplication, ServletContext servletContext);
+
+  /**
+   * @param portletApplicationName app name
+   * @param portletApplication app object
+   * @param servletContext servlet context
+   */
+  void postUndeploy(String portletApplicationName, PortletApp portletApplication, ServletContext servletContext);
 
 }

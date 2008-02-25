@@ -152,7 +152,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(encode(navigationalValuesString));
 
     // process interaction state
-    if (type.equalsIgnoreCase(PCConstants.actionString)) {
+    if (type.equalsIgnoreCase(PCConstants.ACTION_STRING)) {
       String interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);//was: privateParams

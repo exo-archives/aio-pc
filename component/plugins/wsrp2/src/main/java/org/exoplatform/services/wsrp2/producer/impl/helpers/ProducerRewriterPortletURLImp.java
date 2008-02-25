@@ -128,7 +128,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString));
 
     // process interaction state
-    if (type.equalsIgnoreCase(PCConstants.actionString)) {
+    if (type.equalsIgnoreCase(PCConstants.ACTION_STRING)) {
       String interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);//was: privateParams

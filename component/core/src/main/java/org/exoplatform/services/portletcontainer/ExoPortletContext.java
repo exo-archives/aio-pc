@@ -16,19 +16,19 @@
  */
 package org.exoplatform.services.portletcontainer;
 
-
 import javax.portlet.PortletContext;
 import javax.servlet.ServletContext;
 
 /**
  * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 19 nov. 2003
- * Time: 00:12:04
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: 19 nov. 2003 Time: 00:12:04
  */
-public interface ExoPortletContext extends PortletContext{
+public interface ExoPortletContext extends PortletContext {
 
-	public ServletContext getWrappedServletContext();
+  /**
+   * @return wrapped servlet context
+   */
+  ServletContext getWrappedServletContext();
 
 }

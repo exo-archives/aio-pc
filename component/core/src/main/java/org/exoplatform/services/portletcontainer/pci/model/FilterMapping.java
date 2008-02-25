@@ -21,31 +21,53 @@ import java.util.List;
 
 /**
  * @author: Roman Pedchenko
- * @email:  roman.pedchenko@exoplatform.com.ua
+ * @email: roman.pedchenko@exoplatform.com.ua
  * @version: $Id$
  */
 public class FilterMapping {
 
-	private String	filterName;
-  private List  portletName = new ArrayList();
+  /**
+   * Filter name.
+   */
+  private String filterName;
 
-	public String getFilterName() {
-		return filterName;
-	}
+  /**
+   * Portlet names.
+   */
+  private List portletName = new ArrayList<String>();
 
-	public void setFilterName(String filterName) {
-		this.filterName = filterName;
-	}
+  /**
+   * @return filter name
+   */
+  public final String getFilterName() {
+    return filterName;
+  }
 
-  public List getPortletName() {
+  /**
+   * @param filterName filter name
+   */
+  public final void setFilterName(final String filterName) {
+    this.filterName = filterName;
+  }
+
+  /**
+   * @return portlet names
+   */
+  public final List<String> getPortletName() {
     return portletName;
   }
 
-  public void setPortletName(List portletName) {
+  /**
+   * @param portletName portlet names
+   */
+  public final void setPortletName(final List<String> portletName) {
     this.portletName = portletName;
   }
 
-  public void addPortletName(String name) {
+  /**
+   * @param name portlet name
+   */
+  public final void addPortletName(final String name) {
     this.portletName.add(name);
   }
 

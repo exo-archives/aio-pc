@@ -315,7 +315,7 @@ public class PortletDriverImpl implements PortletDriver {
           }
         } else {
           String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + WSRPConstants.URL_TYPE_BLOCKINGACTION;
-          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.actionString;
+          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.ACTION_STRING;
           rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
           markupContext.setItemString(rewrittenMarkup);
           try {
@@ -579,7 +579,7 @@ public class PortletDriverImpl implements PortletDriver {
           }
         } else {
           String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + WSRPConstants.URL_TYPE_BLOCKINGACTION;
-          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.actionString;
+          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.ACTION_STRING;
           rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
           resourceContext.setItemString(rewrittenMarkup);
           try {

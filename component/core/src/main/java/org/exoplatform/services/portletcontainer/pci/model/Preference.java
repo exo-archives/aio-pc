@@ -21,78 +21,129 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
  * benjmestrallet@users.sourceforge.net Date: Jul 27, 2003 Time: 9:21:41 PM
  */
 public class Preference implements Serializable {
-  private String       name;
 
-  private List<String> values   = new ArrayList<String>();
+  /**
+   * Name.
+   */
+  private String name;
 
-  private boolean      readOnly = false;
+  /**
+   * Values.
+   */
+  private List<String> values = new ArrayList<String>();
+
+  /**
+   * Either readonly.
+   */
+  private boolean readOnly = false;
 
   // portlet api 2.0
-  private String       id;
 
-  public Preference() {
-  }
+  /**
+   * Id.
+   */
+  private String id;
 
-  public String getName() {
+  /**
+   * @return name
+   */
+  public final String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
 
-  public String getValue(String defaultValue) {
-    if (values.size() > 0) {
+  /**
+   * @param defaultValue default value
+   * @return value
+   */
+  public final String getValue(final String defaultValue) {
+    if (values.size() > 0)
       return values.get(0);
-    }
     return defaultValue;
   }
 
-  public String[] getValues(String key,
-                            String[] def) {
+  /**
+   * @param key key
+   * @param def default values
+   * @return values
+   */
+  public final String[] getValues(final String key, final String[] def) {
     int size = values.size();
     if (size == 0)
       return def;
     return values.toArray(new String[size]);
   }
 
-  public List<String> getValues() {
+  /**
+   * @return value list
+   */
+  public final List<String> getValues() {
     return values;
   }
 
-  public void setValues(List<String> values) {
+  /**
+   * @param values value list
+   */
+  public final void setValues(final List<String> values) {
     this.values = values;
   }
 
-  public void addValue(String value) {
+  /**
+   * @param value value
+   */
+  public final void addValue(final String value) {
     values.add(value);
   }
 
-  public boolean isReadOnly() {
+  /**
+   * @return either readonly
+   */
+  public final boolean isReadOnly() {
     return readOnly;
   }
 
-  public void setReadOnly(boolean readOnly) {
+  /**
+   * @param readOnly either readonly
+   */
+  public final void setReadOnly(final boolean readOnly) {
     this.readOnly = readOnly;
   }
 
-  public void setReadOnly(String readOnly) {
+  /**
+   * @param readOnly either readonly
+   */
+  public final void setReadOnly(final String readOnly) {
     this.readOnly = "true".equals(readOnly);
   }
 
-  public void clear() {
+  /**
+   * Clear values.
+   */
+  public final void clear() {
     values.clear();
   }
 
-  public String getId() {
+  /**
+   * @return id
+   */
+  public final String getId() {
     return this.id;
   }
 
-  public void setId(String value) {
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
     this.id = value;
   }
 }

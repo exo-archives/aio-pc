@@ -20,51 +20,103 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: InitParam.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class InitParam {
-	private List		description;
-	private String	name;
-	private String	value;
+
+  /**
+   * Descriptions.
+   */
+  private List<Description> description;
+
+  /**
+   * Name.
+   */
+  private String name;
+
+  /**
+   * Value.
+   */
+  private String value;
+
   // portlet api 2.0
+
+  /**
+   * Id.
+   */
   private String id;
 
-	public InitParam() {
-		description = new ArrayList();
-	}
+  /**
+   * Simple constructor.
+   */
+  public InitParam() {
+    description = new ArrayList<Description>();
+  }
 
-	public List getDescription() {
-		return description;
-	}
+  /**
+   * @return descriptions
+   */
+  public final List<Description> getDescription() {
+    return description;
+  }
 
-	public void setDescription(List description) {
-		this.description = description;
-	}
+  /**
+   * @param description descriptions
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
 
-	public void addDescription(Description desc) {
-		this.description.add(desc);
-	}
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    this.description.add(desc);
+  }
 
-	public String getName() {
-		return name;
-	}
+  /**
+   * @return name
+   */
+  public final String getName() {
+    return name;
+  }
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
+    this.name = name;
+  }
 
-	public String getValue() {
-		return value;
-	}
+  /**
+   * @return value
+   */
+  public final String getValue() {
+    return value;
+  }
 
-	public void setValue(String value) {
-		this.value = value;
-	}
+  /**
+   * @param value value
+   */
+  public final void setValue(final String value) {
+    this.value = value;
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @param id id
+   */
+  public final void setId(final String id) {
+    this.id = id;
+  }
 }

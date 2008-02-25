@@ -58,7 +58,7 @@ public class TestHibernatePersistenceManager extends BaseTest {
     	new PortletPreferencesImp(validator, prefs, windowID, persister);
     //preferences.setValue("param-1", "value-1") ; //null pointer exception ??
     //preferences.setValue("param-2", "value-2") ;
-    preferences.setMethodCalledIsAction(PCConstants.actionInt);
+    preferences.setMethodCalledIsAction(PCConstants.ACTION_INT);
     preferences.store();
     DefaultPersistenceManager manager =
         (DefaultPersistenceManager) PortalContainer.getInstance().

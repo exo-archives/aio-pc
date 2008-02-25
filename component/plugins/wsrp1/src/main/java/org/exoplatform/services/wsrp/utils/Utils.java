@@ -60,22 +60,22 @@ public class Utils {
   }
 
   public static String changeUrlTypeFromJSRPortletToWSRP(String type) {
-    if (type.equalsIgnoreCase(PCConstants.actionString))
+    if (type.equalsIgnoreCase(PCConstants.ACTION_STRING))
       return WSRPConstants.URL_TYPE_BLOCKINGACTION;
-    if (type.equalsIgnoreCase(PCConstants.resourceString))
+    if (type.equalsIgnoreCase(PCConstants.RESOURCE_STRING))
       return WSRPConstants.URL_TYPE_RESOURCE;
-    if (type.equalsIgnoreCase(PCConstants.renderString))
+    if (type.equalsIgnoreCase(PCConstants.RENDER_STRING))
       return WSRPConstants.URL_TYPE_RENDER;
     return type;
   }
 
   public static String changeUrlTypeFromWSRPToJSRPortlet(String type) {
     if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION))
-      return PCConstants.actionString;
+      return PCConstants.ACTION_STRING;
     if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE))
-      return PCConstants.resourceString;
+      return PCConstants.RESOURCE_STRING;
     if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER))
-      return PCConstants.renderString;
+      return PCConstants.RENDER_STRING;
     return type;
   }
 

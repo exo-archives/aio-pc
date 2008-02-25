@@ -17,19 +17,30 @@
 package org.exoplatform.services.portletcontainer.config;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: SupportedContent.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class SupportedContent {
-	private String name ;
 
-	public String getName() {
-		return name;
-	}
+  /**
+   * Name.
+   */
+  private String name;
 
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * @return name
+   */
+  public final String getName() {
+    return name;
+  }
+
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
+    this.name = name;
+  }
 }

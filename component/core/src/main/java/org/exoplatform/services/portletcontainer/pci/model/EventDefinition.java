@@ -25,59 +25,125 @@ import org.exoplatform.Constants;
 
 /**
  * @author: Roman Pedchenko
- * @email:  roman.pedchenko@exoplatform.com.ua
+ * @email: roman.pedchenko@exoplatform.com.ua
  * @version: $Id$
  */
 public class EventDefinition {
+
+  /**
+   * Descriptions.
+   */
   private List<Description> description;
-	private QName name;
+
+  /**
+   * Event name.
+   */
+  private QName name;
+
+  /**
+   * Aliases.
+   */
   private List<QName> aliases;
+
+  /**
+   * Class fully qualified name of an event.
+   */
   private String javaClass;
+
+  /**
+   * Id.
+   */
   private String id;
 
-	public List<Description> getDescription() {
+  /**
+   * @return descriptions
+   */
+  public final List<Description> getDescription() {
     if (description == null)
       return Constants.EMPTY_LIST;
-		return description;
-	}
+    return description;
+  }
 
-	public void setDescription(List<Description> description) {
-		this.description = description;
-	}
+  /**
+   * @param description descriptions
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
 
-  public void addDescription(Description desc) {
-  	if (this.description == null)
-  	  description = new ArrayList<Description>();
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (this.description == null)
+      description = new ArrayList<Description>();
     this.description.add(desc);
   }
 
-  public QName getPrefferedName() { return this.name; }
+  /**
+   * @return preffered name
+   */
+  public final QName getPrefferedName() {
+    return this.name;
+  }
 
-  public void setPrefferedName(QName value) {
+  /**
+   * @param value preffered name
+   */
+  public final void setPrefferedName(final QName value) {
     this.name = value;
   }
 
-  public void addAlias(QName value) {
+  /**
+   * @param value alias
+   */
+  public final void addAlias(final QName value) {
     if (aliases == null)
       aliases = new ArrayList<QName>();
     aliases.add(value);
   }
 
-  public List<QName> getAliases() {
+  /**
+   * @return aliases
+   */
+  public final List<QName> getAliases() {
     if (aliases == null)
       return Constants.EMPTY_LIST;
     return aliases;
   }
 
-  public String getJavaClass() { return this.javaClass; }
+  /**
+   * @return java class
+   */
+  public final String getJavaClass() {
+    return this.javaClass;
+  }
 
-  public void setJavaClass(String value) { this.javaClass = value; }
+  /**
+   * @param value java class
+   */
+  public final void setJavaClass(final String value) {
+    this.javaClass = value;
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
 
-  public void setAliases(List<QName> newAliases) {
+  /**
+   * @param newAliases aliases
+   */
+  public final void setAliases(final List<QName> newAliases) {
     aliases = newAliases;
   }
 }

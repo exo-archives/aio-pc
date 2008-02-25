@@ -31,21 +31,35 @@ import javax.portlet.ValidatorException;
 import org.exoplatform.commons.utils.ExoEnumeration;
 
 /**
- * Jun 9, 2004
+ * Jun 9, 2004 .
  *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: ExoPortletPreferences.java,v 1.1 2004/07/13 02:31:13 tuan08
  *           Exp $
  */
-public class ExoPortletPreferences extends HashMap<String, Preference> implements PortletPreferences, Serializable {
+public class ExoPortletPreferences extends HashMap<String, Preference> implements
+    PortletPreferences, Serializable {
 
+  /**
+   * Preferences validator.
+   */
   private String preferencesValidator;
 
   // portlet api 2.0
+
+  /**
+   * Id.
+   */
   private String id;
 
-  public Map<String, String[]> getMap() {
+  /**
+   * Overridden method.
+   *
+   * @return prefs map
+   * @see javax.portlet.PortletPreferences#getMap()
+   */
+  public final Map<String, String[]> getMap() {
     Map<String, String[]> result = new HashMap<String, String[]>();
     Iterator<String> iter = keySet().iterator();
     while (iter.hasNext()) {
@@ -55,7 +69,14 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     return Collections.unmodifiableMap(result);
   }
 
-  public boolean isReadOnly(String key) {
+  /**
+   * Overridden method.
+   *
+   * @param key key
+   * @return is readonly
+   * @see javax.portlet.PortletPreferences#isReadOnly(java.lang.String)
+   */
+  public final boolean isReadOnly(final String key) {
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
@@ -64,16 +85,30 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     return preference.isReadOnly();
   }
 
-  public String getValue(String key,
-                         String def) {
+  /**
+   * Overridden method.
+   *
+   * @param key key
+   * @param def def
+   * @return value
+   * @see javax.portlet.PortletPreferences#getValue(java.lang.String, java.lang.String)
+   */
+  public final String getValue(final String key, final String def) {
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
     return preference.getValue(def);
   }
 
-  public String[] getValues(String key,
-                            String[] def) {
+  /**
+   * Overridden method.
+   *
+   * @param key key
+   * @param def def
+   * @return values
+   * @see javax.portlet.PortletPreferences#getValues(java.lang.String, java.lang.String[])
+   */
+  public final String[] getValues(final String key, final String[] def) {
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
@@ -82,8 +117,15 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     return preference.getValues(key, def);
   }
 
-  public void setValue(String key,
-                       String value) throws ReadOnlyException {
+  /**
+   * Overridden method.
+   *
+   * @param key key
+   * @param value value
+   * @throws ReadOnlyException exception
+   * @see javax.portlet.PortletPreferences#setValue(java.lang.String, java.lang.String)
+   */
+  public final void setValue(final String key, final String value) throws ReadOnlyException {
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
@@ -99,8 +141,7 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     preference.addValue(value);
   }
 
-  public void setValues(String key,
-                        String[] value) throws ReadOnlyException {
+  public final void setValues(final String key, final String[] value) throws ReadOnlyException {
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
@@ -114,17 +155,16 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     if (value == null)
       return;
     ArrayList<String> list = new ArrayList<String>();
-    for (int i = 0; i < value.length; i++) {
-      list.add(value[i]);
-    }
+    for (String element : value)
+      list.add(element);
     preference.setValues(list);
   }
 
-  public Enumeration<String> getNames() {
+  public final Enumeration<String> getNames() {
     return new ExoEnumeration(keySet().iterator());
   }
 
-  public void reset(java.lang.String key) throws ReadOnlyException {
+  public final void reset(final java.lang.String key) throws ReadOnlyException {
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
@@ -135,28 +175,27 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     preference.clear();
   }
 
-  public void store() throws java.io.IOException,
-                     ValidatorException {
+  public final void store() throws java.io.IOException, ValidatorException {
     throw new Error("NOT SUPPORT");
   }
 
-  public void addPreference(Preference pref) {
+  public final void addPreference(final Preference pref) {
     put(pref.getName(), pref);
   }
 
-  public String getPreferencesValidator() {
+  public final String getPreferencesValidator() {
     return preferencesValidator;
   }
 
-  public void setPreferencesValidator(String preferencesValidator) {
+  public final void setPreferencesValidator(final String preferencesValidator) {
     this.preferencesValidator = preferencesValidator;
   }
 
-  public String getId() {
+  public final String getId() {
     return this.id;
   }
 
-  public void setId(String value) {
+  public final void setId(final String value) {
     this.id = value;
   }
 

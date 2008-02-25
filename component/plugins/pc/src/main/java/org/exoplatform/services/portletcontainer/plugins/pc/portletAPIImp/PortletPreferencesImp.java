@@ -299,7 +299,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   }
 
   public boolean isMethodCalledIsAction() {
-    return (methodCalledIsAction_ == PCConstants.actionInt);
+    return (methodCalledIsAction_ == PCConstants.ACTION_INT);
   }
 
   public boolean isStateChangeAuthorized() {

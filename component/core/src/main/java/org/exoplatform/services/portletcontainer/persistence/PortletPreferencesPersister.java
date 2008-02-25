@@ -20,14 +20,23 @@ import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 
 /**
- * Created y the eXo platform team
- * User: Benjamin Mestrallet
- * Date: 31 mai 2004
+ * Created y the eXo platform team.
+ * User: Benjamin Mestrallet Date: 31 mai 2004
  */
 public interface PortletPreferencesPersister {
 
-  public ExoPortletPreferences getPortletPreferences(WindowID windowID) throws Exception;
+  /**
+   * @param windowID window id
+   * @return preferences
+   * @throws Exception exception
+   */
+  ExoPortletPreferences getPortletPreferences(WindowID windowID) throws Exception;
 
-  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences) throws Exception;
+  /**
+   * @param windowID window id
+   * @param preferences preferences
+   * @throws Exception exception
+   */
+  void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences) throws Exception;
 
 }

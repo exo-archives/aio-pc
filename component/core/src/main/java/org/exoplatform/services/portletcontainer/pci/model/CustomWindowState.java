@@ -22,40 +22,81 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: CustomWindowState.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class CustomWindowState {
-	private List<Description> description;
-	private String windowState;
-	// portlet api 2.0
-  private String id ;
 
-	public List getDescription() {
-    if (description == null) return Constants.EMPTY_LIST ;
-		return description;
-	}
+  /**
+   * Descriptions.
+   */
+  private List<Description> description;
 
-	public void setDescription(List description) {
-		this.description = description;
-	}
+  /**
+   * Window state.
+   */
+  private String windowState;
 
-	public void addDescription(Description desc) {
-    if (description == null) description = new ArrayList<Description>() ;
-		this.description.add(desc);
-	}
+  // portlet api 2.0
 
-	public String getWindowState() {
-		return windowState;
-	}
+  /**
+   * Id.
+   */
+  private String id;
 
-	public void setWindowState(String windowState) {
-		this.windowState = windowState;
-	}
+  /**
+   * @return descriptions
+   */
+  public final List<Description> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
+  }
 
-  public String getId() { return this.id; }
+  /**
+   * @param description descriptions
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
 
-  public void setId(String value) { this.id = value; }
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (description == null)
+      description = new ArrayList<Description>();
+    this.description.add(desc);
+  }
+
+  /**
+   * @return window state
+   */
+  public final String getWindowState() {
+    return windowState;
+  }
+
+  /**
+   * @param windowState window state
+   */
+  public final void setWindowState(final String windowState) {
+    this.windowState = windowState;
+  }
+
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
+
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
 }

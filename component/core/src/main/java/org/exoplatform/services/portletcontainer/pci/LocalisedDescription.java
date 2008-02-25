@@ -19,25 +19,41 @@ package org.exoplatform.services.portletcontainer.pci;
 import java.util.Locale;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class LocalisedDescription {
 
-  private Locale locale;
-  private String description;
+  /**
+   * Locale.
+   */
+  private final Locale locale;
 
-  public LocalisedDescription (Locale locale, String description){
-   this.locale = locale;
-   this.description = description;
+  /**
+   * Description.
+   */
+  private final String description;
+
+  /**
+   * @param locale locale
+   * @param description description
+   */
+  public LocalisedDescription(final Locale locale, final String description) {
+    this.locale = locale;
+    this.description = description;
   }
 
-  public String getDescription() {
-   return description;
+  /**
+   * @return description
+   */
+  public final String getDescription() {
+    return description;
   }
 
-  public Locale getLocale() {
-   return locale;
+  /**
+   * @return locale
+   */
+  public final Locale getLocale() {
+    return locale;
   }
 
 }

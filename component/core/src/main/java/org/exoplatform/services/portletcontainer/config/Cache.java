@@ -17,18 +17,30 @@
 package org.exoplatform.services.portletcontainer.config;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: Cache.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class Cache {
-	private String enable ;
 
-	public String getEnable() {
-		return enable;
-	}
-	public void setEnable(String enable) {
-		this.enable = enable;
-	}
+  /**
+   * Is enabled.
+   */
+  private String enable;
+
+  /**
+   * @return is enabled
+   */
+  public final String getEnable() {
+    return enable;
+  }
+
+  /**
+   * @param enable is enabled
+   */
+  public final void setEnable(final String enable) {
+    this.enable = enable;
+  }
 }

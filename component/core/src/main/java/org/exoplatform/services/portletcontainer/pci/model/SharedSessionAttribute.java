@@ -23,64 +23,157 @@ import org.exoplatform.Constants;
 
 /**
  * @author: Roman Pedchenko
- * @email:  roman.pedchenko@exoplatform.com.ua
+ * @email: roman.pedchenko@exoplatform.com.ua
  * @version: $Id$
  */
 public class SharedSessionAttribute {
-  private List description;
-	private String name;
-  private List names;
+
+  /**
+   * Descriptions.
+   */
+  private List<Description> description;
+
+  /**
+   * Preffered name.
+   */
+  private String name;
+
+  /**
+   * Names.
+   */
+  private List<String> names;
+
+  /**
+   * XML schema.
+   */
   private String xmlSchema;
+
+  /**
+   * JAXB mapping.
+   */
   private String jaxbMapping;
+
+  /**
+   * Java class.
+   */
   private String javaClass;
+
+  /**
+   * Id.
+   */
   private String id;
 
-	public List getDescription() {
-    if(description == null) return Constants.EMPTY_LIST;
-		return description;
-	}
+  /**
+   * @return descriptions
+   */
+  public final List<Description> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
+  }
 
-	public void setDescription(List description) {
-		this.description = description;
-	}
+  /**
+   * @param description descriptions
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
 
-  public void addDescription(Description desc) {
-  	if(this.description == null)  description = new ArrayList();
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (this.description == null)
+      description = new ArrayList<Description>();
     this.description.add(desc);
   }
 
-  public String getPrefferedName() { return this.name; }
+  /**
+   * @return preffered name
+   */
+  public final String getPrefferedName() {
+    return this.name;
+  }
 
-  public void setPrefferedName(String value) {
+  /**
+   * @param value preffered name
+   */
+  public final void setPrefferedName(final String value) {
     this.name = value;
     addName(value);
   }
 
-  public void addName(String value) {
+  /**
+   * @param value name
+   */
+  public final void addName(final String value) {
     if (names == null)
-      names = new ArrayList();
+      names = new ArrayList<String>();
     names.add(value);
   }
 
-  public List getNames() {
+  /**
+   * @return names
+   */
+  public final List<String> getNames() {
     if (names == null)
       return Constants.EMPTY_LIST;
     return names;
   }
 
-  public String getXmlSchema() { return this.xmlSchema; }
+  /**
+   * @return xml schema
+   */
+  public final String getXmlSchema() {
+    return this.xmlSchema;
+  }
 
-  public void setXmlSchema(String value) { this.xmlSchema = value; }
+  /**
+   * @param value xml schema
+   */
+  public final void setXmlSchema(final String value) {
+    this.xmlSchema = value;
+  }
 
-  public String getJaxbMapping() { return this.jaxbMapping; }
+  /**
+   * @return jaxb mapping
+   */
+  public final String getJaxbMapping() {
+    return this.jaxbMapping;
+  }
 
-  public void setJaxbMapping(String value) { this.jaxbMapping = value; }
+  /**
+   * @param value jaxb mapping
+   */
+  public final void setJaxbMapping(final String value) {
+    this.jaxbMapping = value;
+  }
 
-  public String getJavaClass() { return this.javaClass; }
+  /**
+   * @return java class
+   */
+  public final String getJavaClass() {
+    return this.javaClass;
+  }
 
-  public void setJavaClass(String value) { this.javaClass = value; }
+  /**
+   * @param value java class
+   */
+  public final void setJavaClass(final String value) {
+    this.javaClass = value;
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @param id id
+   */
+  public final void setId(final String id) {
+    this.id = id;
+  }
 }

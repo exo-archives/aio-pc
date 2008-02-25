@@ -17,29 +17,49 @@
 package org.exoplatform.services.portletcontainer.config;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: Description.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class Description {
-	private String lang ;
-	private String description ;
 
+  /**
+   * Language.
+   */
+  private String lang;
 
-	public String getDescription() {
-		return description;
-	}
+  /**
+   * Description.
+   */
+  private String description;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  /**
+   * @return description
+   */
+  public final String getDescription() {
+    return description;
+  }
 
-	public String getLang() {
-		return lang;
-	}
+  /**
+   * @param description description
+   */
+  public final void setDescription(final String description) {
+    this.description = description;
+  }
 
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
+  /**
+   * @return language
+   */
+  public final String getLang() {
+    return lang;
+  }
+
+  /**
+   * @param lang language
+   */
+  public final void setLang(final String lang) {
+    this.lang = lang;
+  }
 }

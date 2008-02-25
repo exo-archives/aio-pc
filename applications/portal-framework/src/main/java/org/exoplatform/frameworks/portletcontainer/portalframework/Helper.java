@@ -83,16 +83,16 @@ public final class Helper {
    */
   public static int getActionType(final String v) {
     if (v == null)
-      return PCConstants.renderInt;
+      return PCConstants.RENDER_INT;
     if (v.toLowerCase().equals("render"))
-      return PCConstants.renderInt;
+      return PCConstants.RENDER_INT;
     if (v.toLowerCase().equals("action"))
-      return PCConstants.actionInt;
+      return PCConstants.ACTION_INT;
     if (v.toLowerCase().equals("event"))
-      return PCConstants.eventInt;
+      return PCConstants.EVENT_INT;
     if (v.toLowerCase().equals("resource"))
-      return PCConstants.resourceInt;
-    return PCConstants.renderInt;
+      return PCConstants.RESOURCE_INT;
+    return PCConstants.RENDER_INT;
   }
 
   /**

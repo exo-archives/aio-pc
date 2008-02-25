@@ -155,10 +155,10 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
     }
 
     if (input_.getPortletURLFactory() != null) {
-      return input_.getPortletURLFactory().createPortletURL(PCConstants.renderString);
+      return input_.getPortletURLFactory().createPortletURL(PCConstants.RENDER_STRING);
     }
 
-    return new PortletURLImp(PCConstants.renderString,
+    return new PortletURLImp(PCConstants.RENDER_STRING,
                              input_.getBaseURL(),
                              input_.getMarkup(),
                              portletDatas_.getSupports(),

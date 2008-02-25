@@ -18,45 +18,96 @@ package org.exoplatform.services.portletcontainer;
 
 import org.exoplatform.Constants;
 
-/*
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 26
- * janv. 2004 Time: 09:11:34
+/**
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: 26 janv. 2004
+ * Time: 09:11:34
  */
-
 public class PCConstants {
 
-  public static final String CACHE_REGION       = "jsr286:";
+  /**
+   * Cache.
+   */
+  public static final String CACHE_REGION = "jsr286:";
 
-  public static final String USER_SCOPE_CACHE   = CACHE_REGION + "user";
+  /**
+   * User scope.
+   */
+  public static final String USER_SCOPE_CACHE = CACHE_REGION + "user";
 
+  /**
+   * Global scope.
+   */
   public static final String GLOBAL_SCOPE_CACHE = CACHE_REGION + "forAll";
 
-  public static final String EXCEPTION          = "org.exoplatform.portal.container.exception";
+  /**
+   * Exception.
+   */
+  public static final String EXCEPTION = "org.exoplatform.portal.container.exception";
 
-  public static final String DESTROYED          = "org.exoplatform.portal.container.destroyed";
+  /**
+   * Destroyed.
+   */
+  public static final String DESTROYED = "org.exoplatform.portal.container.destroyed";
 
-  public static final String PORTLET_SCOPE      = "PORTLET_SCOPE";
+  /**
+   * Portlet scope.
+   */
+  public static final String PORTLET_SCOPE = "PORTLET_SCOPE";
 
-  public static final String APPLICATION_SCOPE  = "APPLICATION_SCOPE";
+  /**
+   * App scope.
+   */
+  public static final String APPLICATION_SCOPE = "APPLICATION_SCOPE";
 
-  public static final String XHTML_MIME_TYPE    = "text/html";
+  /**
+   * Mime type.
+   */
+  public static final String XHTML_MIME_TYPE = "text/html";
 
-  public static final String renderString       = "render";
+  /**
+   * Render.
+   */
+  public static final String RENDER_STRING = "render";
 
-  public static final String actionString       = "action";
+  /**
+   * Action.
+   */
+  public static final String ACTION_STRING = "action";
 
-  public static final String eventString        = "event";
+  /**
+   * Event.
+   */
+  public static final String EVENT_STRING = "event";
 
-  public static final String resourceString     = "resource";
+  /**
+   * Resource.
+   */
+  public static final String RESOURCE_STRING = "resource";
 
-  public static final int    renderInt          = 0;
+  /**
+   * Render.
+   */
+  public static final int RENDER_INT = 0;
 
-  public static final int    actionInt          = 1;
+  /**
+   * Action.
+   */
+  public static final int ACTION_INT = 1;
 
-  public static final int    eventInt           = 2;
+  /**
+   * Event.
+   */
+  public static final int EVENT_INT = 2;
 
-  public static final int    resourceInt        = 3;
+  /**
+   * Resource.
+   */
+  public static final int RESOURCE_INT = 3;
 
-  public static final String removePublicString = Constants.PARAMETER_ENCODER + "removePublicParam";
+  /**
+   * Remove public params.
+   */
+  public static final String REMOVE_PUBLIC_STRING = Constants.PARAMETER_ENCODER + "removePublicParam";
 
 }

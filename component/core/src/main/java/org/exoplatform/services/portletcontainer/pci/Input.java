@@ -29,168 +29,288 @@ import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesP
 
 /**
  * This objects must be created by the Portal that access this portlet
- * container.
- * The windowID is a unique id that references a portlet window
- * in the user scope.
- *
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 27, 2003
- * Time: 9:17:39 PM
+ * container. The windowID is a unique id that references a portlet window in
+ * the user scope. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 27, 2003 Time: 9:17:39 PM
  */
 
 public class Input {
 
-  private String                      markup;
+  /**
+   * Markup.
+   */
+  private String markup;
 
-  private PortletMode                 portletMode;
+  /**
+   * Portlet mode.
+   */
+  private PortletMode portletMode;
 
-  private WindowState                 windowState;
+  /**
+   * Window state.
+   */
+  private WindowState windowState;
 
-  private Map<String, String>         userAttributes;
+  /**
+   * User attributes.
+   */
+  private Map<String, String> userAttributes;
 
-  private WindowID                    windowID;
+  /**
+   * windowID.
+   */
+  private WindowID windowID;
 
-  private List<Locale>                locales;
+  /**
+   * Locales.
+   */
+  private List<Locale> locales;
 
-  private Map<String, String[]>       renderParameters;
+  /**
+   * Render parameters.
+   */
+  private Map<String, String[]> renderParameters;
 
-  private boolean                     stateSaveOnClient;
+  /**
+   * Save on client.
+   */
+  private boolean stateSaveOnClient;
 
-  private byte[]                      portletState;
+  /**
+   * Portlet state.
+   */
+  private byte[] portletState;
 
+  /**
+   * Portlet preferences persister.
+   */
   private PortletPreferencesPersister portletPreferencesPersister;
 
-  // for creating URL
-  private PortletURLFactory           portletURLFactory;
+  /**
+   * Portlet URL factory.
+   */
+  private PortletURLFactory portletURLFactory;
 
-  // for creating URL
-  private String                      baseURL;
+  /**
+   * Base URL.
+   */
+  private String baseURL;
 
-  // for creating URL
-  private boolean                     escapeXml;
+  /**
+   * escapeXml.
+   */
+  private boolean escapeXml;
 
-  private List<String>                pubNames;
+  /**
+   * Public param name list.
+   */
+  private List<String> pubNames;
 
-  public boolean isStateSaveOnClient() {
+  /**
+   * @return either state is being saved on client side
+   */
+  public final boolean isStateSaveOnClient() {
     return stateSaveOnClient;
   }
 
-  public void setStateSaveOnClient(boolean stateSaveOnClient) {
+  /**
+   * @param stateSaveOnClient either state is being saved on client side
+   */
+  public final void setStateSaveOnClient(final boolean stateSaveOnClient) {
     this.stateSaveOnClient = stateSaveOnClient;
   }
 
-  public WindowID getInternalWindowID() {
+  /**
+   * @return window id object
+   */
+  public final WindowID getInternalWindowID() {
     return windowID;
   }
 
-  public void setInternalWindowID(WindowID windowID) {
-    this.windowID = windowID;
+  /**
+   * @param windowID1 window id object
+   */
+  public final void setInternalWindowID(final WindowID windowID1) {
+    this.windowID = windowID1;
   }
 
-  public PortletMode getPortletMode() {
+  /**
+   * @return portlet mode
+   */
+  public final PortletMode getPortletMode() {
     return portletMode;
   }
 
-  public void setPortletMode(PortletMode portletMode) {
+  /**
+   * @param portletMode portlet mode
+   */
+  public final void setPortletMode(final PortletMode portletMode) {
     this.portletMode = portletMode;
   }
 
-  public WindowState getWindowState() {
+  /**
+   * @return window state
+   */
+  public final WindowState getWindowState() {
     return windowState;
   }
 
-  public void setWindowState(WindowState windowState) {
+  /**
+   * @param windowState window state
+   */
+  public final void setWindowState(final WindowState windowState) {
     this.windowState = windowState;
   }
 
-  public String getMarkup() {
+  /**
+   * @return markup
+   */
+  public final String getMarkup() {
     return markup;
   }
 
-  public void setMarkup(String markup) {
+  /**
+   * @param markup markup
+   */
+  public final void setMarkup(final String markup) {
     this.markup = markup;
   }
 
-  public Map<String, String> getUserAttributes() {
+  /**
+   * @return user attributes
+   */
+  public final Map<String, String> getUserAttributes() {
     return userAttributes;
   }
 
-  public void setUserAttributes(Map<String, String> userAttributes) {
+  /**
+   * @param userAttributes user attributes
+   */
+  public final void setUserAttributes(final Map<String, String> userAttributes) {
     this.userAttributes = userAttributes;
   }
 
-  public byte[] getPortletState() {
+  /**
+   * @return portlet state
+   */
+  public final byte[] getPortletState() {
     return portletState;
   }
 
-  public void setPortletState(byte[] portletState) {
+  /**
+   * @param portletState portlet state
+   */
+  public final void setPortletState(final byte[] portletState) {
     this.portletState = portletState;
   }
 
-  public PortletPreferencesPersister getPortletPreferencesPersister() {
+  /**
+   * @return preferences persister
+   */
+  public final PortletPreferencesPersister getPortletPreferencesPersister() {
     return portletPreferencesPersister;
   }
 
-  public void setPortletPreferencesPersister(PortletPreferencesPersister portletPreferencesPersister) {
+  /**
+   * @param portletPreferencesPersister preferences persister
+   */
+  public final void setPortletPreferencesPersister(final PortletPreferencesPersister portletPreferencesPersister) {
     this.portletPreferencesPersister = portletPreferencesPersister;
   }
 
-  public List<Locale> getLocales() {
+  /**
+   * @return locale list
+   */
+  public final List<Locale> getLocales() {
     return locales;
   }
 
-  public void setLocales(List<Locale> locales) {
+  /**
+   * @param locales locale list
+   */
+  public final void setLocales(final List<Locale> locales) {
     this.locales = locales;
   }
 
-  public Map<String, String[]> getRenderParameters() {
-    if (renderParameters == null) {
+  /**
+   * @return render params
+   */
+  public final Map<String, String[]> getRenderParameters() {
+    if (renderParameters == null)
       renderParameters = new HashMap<String, String[]>();
-    }
     return renderParameters;
   }
 
-  public void setRenderParameters(Map<String, String[]> renderParameters) {
-    if (renderParameters == null) {
-      renderParameters = new HashMap<String, String[]>();
-    }
-    this.renderParameters = renderParameters;
+  /**
+   * @param renderParameters1 render params
+   */
+  public final void setRenderParameters(final Map<String, String[]> renderParameters1) {
+    if (renderParameters1 == null)
+      this.renderParameters = new HashMap<String, String[]>();
+    else
+      this.renderParameters = renderParameters1;
   }
 
-  public PortletURLFactory getPortletURLFactory() {
+  /**
+   * @return portlet url factory
+   */
+  public final PortletURLFactory getPortletURLFactory() {
     return portletURLFactory;
   }
 
-  public void setPortletURLFactory(PortletURLFactory portletURLFactory) {
+  /**
+   * @param portletURLFactory portlet url factory
+   */
+  public final void setPortletURLFactory(final PortletURLFactory portletURLFactory) {
     this.portletURLFactory = portletURLFactory;
   }
 
-  public String getBaseURL() {
+  /**
+   * @return base url
+   */
+  public final String getBaseURL() {
     return baseURL;
   }
 
-  public void setBaseURL(String baseURL) {
+  /**
+   * @param baseURL base url
+   */
+  public final void setBaseURL(final String baseURL) {
     this.baseURL = baseURL;
   }
 
-  public boolean getEscapeXml() {
+  /**
+   * @return escapeXml
+   */
+  public final boolean getEscapeXml() {
     return escapeXml;
   }
 
-  public void setEscapeXml(boolean escapeXml) {
+  /**
+   * @param escapeXml escapeXml
+   */
+  public final void setEscapeXml(final boolean escapeXml) {
     this.escapeXml = escapeXml;
   }
 
-  public void setPublicParamNames(List<String> pubNames) {
-    this.pubNames = pubNames;
+  /**
+   * @param pubNames1 public param name list
+   */
+  public final void setPublicParamNames(final List<String> pubNames1) {
+    this.pubNames = pubNames1;
   }
 
-  public List<String> getPublicParamNames() {
+  /**
+   * @return public param name list
+   */
+  public final List<String> getPublicParamNames() {
     return pubNames;
   }
 
-  public Map<String, String[]> getPublicParameterMap() {
+  /**
+   * @return public param map
+   */
+  public final Map<String, String[]> getPublicParameterMap() {
     if (pubNames == null)
       return null;
     HashMap<String, String[]> publicMap = new HashMap<String, String[]>();

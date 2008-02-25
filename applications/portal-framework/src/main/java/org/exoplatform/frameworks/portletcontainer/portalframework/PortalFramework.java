@@ -404,7 +404,7 @@ public class PortalFramework {
 
     Helper.parseParams(httpRequest, portalParams, portletParams, propertyParams);
     target = Helper.string0(portalParams.get(Constants.COMPONENT_PARAMETER));
-    fixPublicRenderParams(portalParams.get(PCConstants.removePublicString));
+    fixPublicRenderParams(portalParams.get(PCConstants.REMOVE_PUBLIC_STRING));
     action = Helper.getActionType(Helper.string0(portalParams.get(Constants.TYPE_PARAMETER)));
 
     if (portalParams.get(Constants.CACHELEVEL_PARAMETER) == null)
@@ -416,8 +416,8 @@ public class PortalFramework {
         target = target.split("/")[0] + "/" + target.split("/")[1];
 
     if (target == null)
-      action = PCConstants.renderInt;
-    if (target != null && action == PCConstants.renderInt)
+      action = PCConstants.RENDER_INT;
+    if (target != null && action == PCConstants.RENDER_INT)
       Helper.separatePublicParams(portletParams, publicRenderParams, publicParams.get(target));
 
     if (!portalParams.isEmpty() && portalParams.containsKey(Constants.WINDOW_STATE_PARAMETER)) {
@@ -934,7 +934,7 @@ public class PortalFramework {
     resourceContent = null;
     resourceContentType = markupType;
 
-    if (getAction() == PCConstants.resourceInt) {
+    if (getAction() == PCConstants.RESOURCE_INT) {
 
       // processing resource
 
@@ -961,7 +961,7 @@ public class PortalFramework {
       return null;
     }
 
-    if (getAction() == PCConstants.actionInt) {
+    if (getAction() == PCConstants.ACTION_INT) {
 
       // processing action
 

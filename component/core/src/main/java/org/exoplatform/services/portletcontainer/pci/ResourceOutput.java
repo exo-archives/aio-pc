@@ -23,13 +23,22 @@ package org.exoplatform.services.portletcontainer.pci;
  */
 public class ResourceOutput extends RenderOutput {
 
+  /**
+   * Character encoding.
+   */
   private String charset;
 
-  public void setCharacterEncoding(String charset) {
-    this.charset = charset;
+  /**
+   * @param charset1 character encoding
+   */
+  public final void setCharacterEncoding(final String charset1) {
+    this.charset = charset1;
   }
 
-  public String getCharacterEncoding() {
+  /**
+   * @return character encoding
+   */
+  public final String getCharacterEncoding() {
     return charset;
   }
 

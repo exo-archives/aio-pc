@@ -28,9 +28,27 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
  */
 public interface PortletApplicationRegister {
 
-  public void registerPortletApplication(ServletContext servletContext, PortletApp portletApp_, Collection<String> roles, String portletAppName) throws PortletContainerException;
+  /**
+   * @param servletContext servlet context
+   * @param portletApp portlet app object
+   * @param roles roles
+   * @param portletAppName app name
+   * @throws PortletContainerException exception
+   */
+  void registerPortletApplication(ServletContext servletContext,
+      PortletApp portletApp,
+      Collection<String> roles,
+      String portletAppName) throws PortletContainerException;
 
-  public void removePortletApplication(ServletContext servletContext, String portletAppName) throws PortletContainerException;
+  /**
+   * @param servletContext servlet context
+   * @param portletAppName app name
+   * @throws PortletContainerException exception
+   */
+  void removePortletApplication(ServletContext servletContext, String portletAppName) throws PortletContainerException;
 
-  public void addListenerPlugin(ComponentPlugin listener);
+  /**
+   * @param listener listener plugin
+   */
+  void addListenerPlugin(ComponentPlugin listener);
 }

@@ -18,28 +18,33 @@ package org.exoplatform.services.portletcontainer;
 
 /**
  * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 10 nov. 2003
- * Time: 09:44:59
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: 10 nov. 2003 Time: 09:44:59
  */
-public class PortletContainerException extends Exception{
+public class PortletContainerException extends Exception {
 
-  public PortletContainerException() {
-  }
-
-  public PortletContainerException(Throwable cause) {
+  /**
+   * @param cause cause
+   */
+  public PortletContainerException(final Throwable cause) {
     super(cause.getMessage());
-    cause.printStackTrace() ;
+    cause.printStackTrace();
   }
 
-  public PortletContainerException(String message) {
+  /**
+   * @param message message
+   */
+  public PortletContainerException(final String message) {
     super(message);
   }
 
-  public PortletContainerException(String message, Throwable cause) {
+  /**
+   * @param message message
+   * @param cause cause
+   */
+  public PortletContainerException(final String message, final Throwable cause) {
     super(message);
-    cause.printStackTrace() ;
+    cause.printStackTrace();
   }
 
 }

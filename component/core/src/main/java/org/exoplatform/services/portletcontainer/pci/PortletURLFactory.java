@@ -20,13 +20,20 @@ import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface PortletURLFactory {
 
-  public PortletURL createPortletURL(String Type);
+  /**
+   * @param type type
+   * @return url
+   */
+  PortletURL createPortletURL(String type);
 
-  public ResourceURL createResourceURL(String Type);
+  /**
+   * @param type type
+   * @return url
+   */
+  ResourceURL createResourceURL(String type);
 
 }

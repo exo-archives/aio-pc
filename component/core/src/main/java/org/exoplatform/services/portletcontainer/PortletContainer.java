@@ -28,7 +28,7 @@ import org.exoplatform.services.portletcontainer.config.Properties;
 import org.exoplatform.services.portletcontainer.config.SupportedContent;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
  *
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
@@ -36,20 +36,45 @@ import org.exoplatform.services.portletcontainer.config.SupportedContent;
  *           Exp $
  */
 public class PortletContainer {
-  private Global                  global;
 
-  private Cache                   cache;
+  /**
+   * Global.
+   */
+  private Global global;
 
-  private List<SupportedContent>  supportedContent;
+  /**
+   * Cache.
+   */
+  private Cache cache;
 
-  private List<CustomMode>        customMode;
+  /**
+   * Supported content list.
+   */
+  private List<SupportedContent> supportedContent;
 
+  /**
+   * Custom portlet mode list.
+   */
+  private List<CustomMode> customMode;
+
+  /**
+   * Custom window state list.
+   */
   private List<CustomWindowState> customWindowState;
 
-  private List<Properties>        properties;
+  /**
+   * Properties.
+   */
+  private List<Properties> properties;
 
-  private DelegatedBundle         bundle;
+  /**
+   * Delegated bundle object.
+   */
+  private DelegatedBundle bundle;
 
+  /**
+   * Simple constructor.
+   */
   public PortletContainer() {
     supportedContent = new ArrayList<SupportedContent>();
     customMode = new ArrayList<CustomMode>();
@@ -57,75 +82,129 @@ public class PortletContainer {
     properties = new ArrayList<Properties>();
   }
 
-  public Cache getCache() {
+  /**
+   * @return cache
+   */
+  public final Cache getCache() {
     return cache;
   }
 
-  public void setCache(Cache cache) {
+  /**
+   * @param cache cache
+   */
+  public final void setCache(final Cache cache) {
     this.cache = cache;
   }
 
-  public List<CustomMode> getCustomMode() {
+  /**
+   * @return custom portlet mode list
+   */
+  public final List<CustomMode> getCustomMode() {
     return customMode;
   }
 
-  public void setCustomMode(List<CustomMode> list) {
+  /**
+   * @param list custom portlet mode list
+   */
+  public final void setCustomMode(final List<CustomMode> list) {
     this.customMode = list;
   }
 
-  public void addCustomMode(CustomMode mode) {
+  /**
+   * @param mode custom portlet mode
+   */
+  public final void addCustomMode(final CustomMode mode) {
     customMode.add(mode);
   }
 
-  public List<CustomWindowState> getCustomWindowState() {
+  /**
+   * @return custom window state list
+   */
+  public final List<CustomWindowState> getCustomWindowState() {
     return customWindowState;
   }
 
-  public void setCustomWindowState(List<CustomWindowState> list) {
+  /**
+   * @param list custom window state list
+   */
+  public final void setCustomWindowState(final List<CustomWindowState> list) {
     customWindowState = list;
   }
 
-  public void addCustomWindowState(CustomWindowState state) {
+  /**
+   * @param state custom window state
+   */
+  public final void addCustomWindowState(final CustomWindowState state) {
     customWindowState.add(state);
   }
 
-  public Global getGlobal() {
+  /**
+   * @return global
+   */
+  public final Global getGlobal() {
     return global;
   }
 
-  public void setGlobal(Global global) {
+  /**
+   * @param global global
+   */
+  public final void setGlobal(final Global global) {
     this.global = global;
   }
 
-  public List<Properties> getProperties() {
+  /**
+   * @return properties list
+   */
+  public final List<Properties> getProperties() {
     return properties;
   }
 
-  public void setProperties(List<Properties> list) {
+  /**
+   * @param list properties list
+   */
+  public final void setProperties(final List<Properties> list) {
     this.properties = list;
   }
 
-  public void addProperties(Properties props) {
+  /**
+   * @param props properties
+   */
+  public final void addProperties(final Properties props) {
     properties.add(props);
   }
 
-  public void setDelegatedBundle(DelegatedBundle bundle) {
-    this.bundle = bundle;
+  /**
+   * @param bundle1 delegated bundle object
+   */
+  public final void setDelegatedBundle(final DelegatedBundle bundle1) {
+    this.bundle = bundle1;
   }
 
-  public DelegatedBundle getDelegatedBundle() {
+  /**
+   * @return delegated bundle object
+   */
+  public final DelegatedBundle getDelegatedBundle() {
     return bundle;
   }
 
-  public List<SupportedContent> getSupportedContent() {
+  /**
+   * @return supported content list
+   */
+  public final List<SupportedContent> getSupportedContent() {
     return supportedContent;
   }
 
-  public void setSupportedContent(List<SupportedContent> list) {
+  /**
+   * @param list supported content list
+   */
+  public final void setSupportedContent(final List<SupportedContent> list) {
     supportedContent = list;
   }
 
-  public void addSupportedContent(SupportedContent supported) {
+  /**
+   * @param supported supported content
+   */
+  public final void addSupportedContent(final SupportedContent supported) {
     supportedContent.add(supported);
   }
 

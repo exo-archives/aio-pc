@@ -22,40 +22,81 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: UserAttribute.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class UserAttribute {
-	private List description ;
-  private String name ;
+
+  /**
+   * Descriptions.
+   */
+  private List<Description> description;
+
+  /**
+   * Name.
+   */
+  private String name;
+
   // portlet api 2.0
-  private String id ;
 
-	public List getDescription() {
-    if(description == null) return Constants.EMPTY_LIST ;
-		return description;
-	}
+  /**
+   * Id.
+   */
+  private String id;
 
-	public void setDescription(List description) {
-		this.description = description;
-	}
-
-  public void addDescription(Description desc) {
-  	if(description == null) description = new ArrayList() ;
-    description.add(desc) ;
+  /**
+   * @return descriptions
+   */
+  public final List<Description> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
   }
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * @param description descriptions
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
 
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (description == null)
+      description = new ArrayList<Description>();
+    description.add(desc);
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @return name
+   */
+  public final String getName() {
+    return name;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
+    this.name = name;
+  }
+
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
+
+  /**
+   * @param id id
+   */
+  public final void setId(final String id) {
+    this.id = id;
+  }
 }

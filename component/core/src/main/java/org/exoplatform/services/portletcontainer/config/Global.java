@@ -17,45 +17,87 @@
 package org.exoplatform.services.portletcontainer.config;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: Global.java,v 1.1 2004/07/08 19:11:45 tuan08 Exp $
  */
 public class Global {
-	private String name ;
-	private String description ;
-	private Integer majorVersion ;
-	private Integer minorVersion ;
 
-	public String getDescription() {
-		return description;
-	}
+  /**
+   * Name.
+   */
+  private String name;
 
-	public void setDescription(String description) {
-		this.description = description;
-	}
+  /**
+   * Description.
+   */
+  private String description;
 
-	public int getMajorVersion() {
-		return majorVersion.intValue();
-	}
+  /**
+   * Major version.
+   */
+  private Integer majorVersion;
 
-	public void setMajorVersion(int majorVersion) {
-		this.majorVersion = new Integer(majorVersion);
-	}
+  /**
+   * Minor version.
+   */
+  private Integer minorVersion;
 
-	public int getMinorVersion() {
-		return minorVersion.intValue();
-	}
+  /**
+   * @return description
+   */
+  public final String getDescription() {
+    return description;
+  }
 
-	public void setMinorVersion(int minorVersion) {
-		this.minorVersion = new Integer(minorVersion);
-	}
+  /**
+   * @param description description
+   */
+  public final void setDescription(final String description) {
+    this.description = description;
+  }
 
-	public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
+  /**
+   * @return major version
+   */
+  public final int getMajorVersion() {
+    return majorVersion.intValue();
+  }
+
+  /**
+   * @param majorVersion major version
+   */
+  public final void setMajorVersion(final int majorVersion) {
+    this.majorVersion = new Integer(majorVersion);
+  }
+
+  /**
+   * @return minor version
+   */
+  public final int getMinorVersion() {
+    return minorVersion.intValue();
+  }
+
+  /**
+   * @param minorVersion minor version
+   */
+  public final void setMinorVersion(final int minorVersion) {
+    this.minorVersion = new Integer(minorVersion);
+  }
+
+  /**
+   * @return name
+   */
+  public final String getName() {
+    return name;
+  }
+
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
+    this.name = name;
+  }
 }

@@ -20,23 +20,37 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: PortletCollection.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class PortletCollection {
-	private List<String>	portletName	= new ArrayList<String>();
 
-	public List<String> getPortletName() {
-		return portletName;
-	}
+  /**
+   * Portlet name list.
+   */
+  private List<String> portletName = new ArrayList<String>();
 
-	public void setPortletName(List<String> portletName) {
-		this.portletName = portletName;
-	}
+  /**
+   * @return portlet name list
+   */
+  public final List<String> getPortletName() {
+    return portletName;
+  }
 
-	public void addPortletName(String name) {
-		this.portletName.add(name);
-	}
+  /**
+   * @param portletName portlet name list
+   */
+  public final void setPortletName(final List<String> portletName) {
+    this.portletName = portletName;
+  }
+
+  /**
+   * @param name name
+   */
+  public final void addPortletName(final String name) {
+    this.portletName.add(name);
+  }
 }

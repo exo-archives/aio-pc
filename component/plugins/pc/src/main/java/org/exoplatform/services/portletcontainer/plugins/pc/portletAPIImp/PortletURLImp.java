@@ -166,7 +166,7 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   }
 
   public String toString(boolean escapeXML) {
-    if (type.equals(PCConstants.actionString))
+    if (type.equals(PCConstants.ACTION_STRING))
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();
@@ -229,7 +229,7 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   }
 
   public void removePublicRenderParameter(String name) {
-    setParameter(PCConstants.removePublicString, name);
+    setParameter(PCConstants.REMOVE_PUBLIC_STRING, name);
   }
 
 }

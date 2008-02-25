@@ -296,7 +296,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
-    preferences.setMethodCalledIsAction(/* true */PCConstants.actionInt);// to
+    preferences.setMethodCalledIsAction(/* true */PCConstants.ACTION_INT);// to
     // allow
     // restore
     // of
@@ -368,14 +368,14 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                     HttpServletResponse httpServletResponse,
                                     ActionInput actionInput) throws PortletContainerException {
     log.debug("ProcessAction method in PortletContainerDispatcher entered");
-    return (ActionOutput) process(httpServletRequest, httpServletResponse, actionInput, PCConstants.actionInt);
+    return (ActionOutput) process(httpServletRequest, httpServletResponse, actionInput, PCConstants.ACTION_INT);
   }
 
   public EventOutput processEvent(HttpServletRequest httpServletRequest,
                                   HttpServletResponse httpServletResponse,
                                   EventInput eventInput) throws PortletContainerException {
     log.debug("ProcessEvent method in PortletContainerDispatcher entered");
-    return (EventOutput) process(httpServletRequest, httpServletResponse, eventInput, PCConstants.eventInt);
+    return (EventOutput) process(httpServletRequest, httpServletResponse, eventInput, PCConstants.EVENT_INT);
   }
 
   public RenderOutput render(HttpServletRequest httpServletRequest,
@@ -389,7 +389,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
      * log.error("Can not flush servlet response buffer"); // throw new
      * PortletContainerException("Can not flush servlet response // buffer", e); }
      */
-    return (RenderOutput) process(httpServletRequest, httpServletResponse, renderInput, PCConstants.renderInt);
+    return (RenderOutput) process(httpServletRequest, httpServletResponse, renderInput, PCConstants.RENDER_INT);
   }
 
   public ResourceOutput serveResource(HttpServletRequest httpServletRequest,
@@ -404,7 +404,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
      * log.error("Can not flush servlet response buffer"); // throw new
      * PortletContainerException("Can not flush servlet response // buffer", e); }
      */
-    return (ResourceOutput) process(httpServletRequest, httpServletResponse, resourceInput, PCConstants.resourceInt);
+    return (ResourceOutput) process(httpServletRequest, httpServletResponse, resourceInput, PCConstants.RESOURCE_INT);
   }
 
   public void sendAttrs(HttpServletRequest request,
@@ -440,11 +440,11 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     log.debug("Encoding used : " + request.getCharacterEncoding());
     // create the ActionOutput object
     Output output = null;
-    if (isAction == PCConstants.actionInt) {
+    if (isAction == PCConstants.ACTION_INT) {
       output = new ActionOutput();
-    } else if (isAction == PCConstants.eventInt) {
+    } else if (isAction == PCConstants.EVENT_INT) {
       output = new EventOutput();
-    } else if (isAction == PCConstants.resourceInt) {
+    } else if (isAction == PCConstants.RESOURCE_INT) {
       output = new ResourceOutput();
     } else {
       output = new RenderOutput();
@@ -478,7 +478,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         ((PortletPreferencesImp) windowInfos.getPreferences()).discard();
       }
     }
-    if (input.isStateSaveOnClient() && isAction == PCConstants.actionInt) {
+    if (input.isStateSaveOnClient() && isAction == PCConstants.ACTION_INT) {
       try {
         log.debug("Serialize Portlet Preferences object to store it on the client");
         ((ActionOutput) output).setPortletState(IOUtil.serialize(windowInfos.getPreferences()));
@@ -494,7 +494,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                                Input input,
                                                int isAction) {
     boolean stateChangeAuthorized = true;
-    if (isAction == PCConstants.actionInt) {
+    if (isAction == PCConstants.ACTION_INT) {
       stateChangeAuthorized = ((ActionInput) input).isStateChangeAuthorized();
     }
 

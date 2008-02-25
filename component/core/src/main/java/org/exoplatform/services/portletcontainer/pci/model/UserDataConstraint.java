@@ -22,39 +22,81 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: UserDataConstraint.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class UserDataConstraint {
-  private List description ;
-	private String transportGuarantie ;
+
+  /**
+   * Description list.
+   */
+  private List<Description> description;
+
+  /**
+   * Transport guaranty.
+   */
+  private String transportGuarantie;
+
   // portlet api 2.0
-  private String id ;
 
-	public List getDescription() {
-    if(description == null) return Constants.EMPTY_LIST ;
-		return description;
-	}
+  /**
+   * Id.
+   */
+  private String id;
 
-	public void setDescription(List description) {
-		this.description = description;
-	}
+  /**
+   * @return description list
+   */
+  public final List<Description> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
+  }
 
-  public void addDescription(Description desc) {
-  	if(this.description == null)  description = new ArrayList() ;
+  /**
+   * @param description description list
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
+
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (this.description == null)
+      description = new ArrayList<Description>();
     this.description.add(desc);
   }
 
-	public String getTransportGuarantie() {
-		return transportGuarantie;
-	}
-	public void setTransportGuarantie(String transportGuarantie) {
-		this.transportGuarantie = transportGuarantie;
-	}
+  /**
+   * @return transport guaranty
+   */
+  public final String getTransportGuarantie() {
+    return transportGuarantie;
+  }
 
-  public String getId() { return this.id ; }
+  /**
+   * @param transportGuarantie transport guaranty
+   */
+  public final void setTransportGuarantie(final String transportGuarantie) {
+    this.transportGuarantie = transportGuarantie;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
+
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
 }

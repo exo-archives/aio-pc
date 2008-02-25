@@ -20,22 +20,39 @@ import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
 
 /**
- * Created y the eXo platform team
- * User: Benjamin Mestrallet
- * Date: 4 mai 2004
+ * Created y the eXo platform team.
+ * User: Benjamin Mestrallet Date: 4 mai 2004
  */
 public interface CachedData {
 
+  /**
+   * @return content
+   */
   byte[] getContent();
 
+  /**
+   * @return last access time
+   */
   long getLastAccessTime();
 
+  /**
+   * @return title
+   */
   String getTitle();
 
+  /**
+   * @return eTag
+   */
   String getETag();
 
+  /**
+   * @return portlet mode
+   */
   PortletMode getMode();
 
+  /**
+   * @return window state
+   */
   WindowState getWindowState();
 
 }

@@ -17,24 +17,81 @@
 package org.exoplatform.services.portletcontainer.monitor;
 
 /**
- * Created y the eXo platform team
- * User: Benjamin Mestrallet
- * Date: 4 mai 2004
+ * Created y the eXo platform team User: Benjamin Mestrallet Date: 4 mai 2004 .
  */
 public interface PortletRuntimeData {
+
+  /**
+   * @return app name
+   */
   String getPortletAppName();
+
+  /**
+   * @return portlet name
+   */
   String getPortletName();
+
+  /**
+   * @return is initialized
+   */
   boolean isInitialized();
+
+  /**
+   * @return time
+   */
   long getInitializationTime();
+
+  /**
+   * @return time
+   */
   long getLastAccessTime();
+
+  /**
+   * @return time
+   */
   long getLastFailureAccessTime();
+
+  /**
+   * @return time
+   */
   long getLastInitFailureAccessTime();
+
+  /**
+   * @param lastInitFailureAccessTime time
+   */
   void setLastInitFailureAccessTime(long lastInitFailureAccessTime);
 
+  /**
+   * @return unavailability period
+   */
   long getUnavailabilityPeriod();
+
+  /**
+   * @param key cache key
+   * @param isCacheGlobal either to use global cache
+   * @return is data cached
+   */
   boolean isDataCached(String key, boolean isCacheGlobal);
+
+  /**
+   * @return cache scope
+   */
   String getCacheScope();
+
+  /**
+   * @param key cache key
+   * @param isCacheGlobal either to use global cache
+   * @return cached data
+   */
   CachedData getCachedData(String key, boolean isCacheGlobal);
+
+  /**
+   * @return cache expiration period
+   */
   int getCacheExpirationPeriod();
+
+  /**
+   * @return monitor data
+   */
   PortletRequestMonitorData[] getPortletRequestMonitorData();
 }

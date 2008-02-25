@@ -216,9 +216,9 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     }
 
     if (input_.getPortletURLFactory() != null)
-      return input_.getPortletURLFactory().createPortletURL(PCConstants.actionString);
+      return input_.getPortletURLFactory().createPortletURL(PCConstants.ACTION_STRING);
 
-    return new PortletURLImp(PCConstants.actionString,
+    return new PortletURLImp(PCConstants.ACTION_STRING,
                              input_.getBaseURL(),
                              input_.getMarkup(),
                              portletDatas_.getSupports(),
@@ -240,10 +240,10 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
       // OK, the originalCacheLevel is a parent cache level, what is new?
     }
     if (input_.getPortletURLFactory() != null) {
-      return input_.getPortletURLFactory().createResourceURL(PCConstants.resourceString);
+      return input_.getPortletURLFactory().createResourceURL(PCConstants.RESOURCE_STRING);
     }
 
-      return new ResourceURLImp(PCConstants.resourceString,
+      return new ResourceURLImp(PCConstants.RESOURCE_STRING,
           input_.getBaseURL(),
           isCurrentlySecured_,
           input_.getEscapeXml(),

@@ -19,12 +19,14 @@ package org.exoplatform.services.portletcontainer.helper;
 /**
  * Created by the Exo Development team.
  * Author : Tuan Nguyen
- *          tuan08@users.sourceforge.net
- * Date: 19 nov. 2003
- * Time: 00:12:04
+ * tuan08@users.sourceforge.net Date: 19 nov. 2003 Time: 00:12:04
  */
 public interface URLEncoder {
 
-  String encodeURL(String url) ;
+  /**
+   * @param url url
+   * @return encoded url
+   */
+  String encodeURL(String url);
 
 }

@@ -21,46 +21,103 @@ import java.util.HashMap;
 import org.exoplatform.container.ExoContainer;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko
- *          roman.pedchenko@exoplatform.com.ua
- * Apr 19, 2007
+ * Created by The eXo Platform SAS Author : Roman Pedchenko .
+ * roman.pedchenko@exoplatform.com.ua Apr 19, 2007
  */
+public class WindowInfosContainer extends HashMap<Object, Object> {
 
-public class WindowInfosContainer extends HashMap <Object, Object> {
+  /**
+   * Internal storage of containers.
+   */
+  private static ThreadLocal threadLocal = new ThreadLocal();
 
-  private static ThreadLocal threadLocal_ = new ThreadLocal();
+  /**
+   * Internal map of window infos.
+   */
   private static HashMap map = new HashMap();
-  private String id;
+
+  /**
+   * Id.
+   */
+  private final String id;
+
+  /**
+   * Owner.
+   */
   private String owner;
 
-  public WindowInfosContainer(String id, String owner) {
+  /**
+   * @param id id
+   * @param owner owner
+   */
+  public WindowInfosContainer(final String id, final String owner) {
     this.id = id;
   }
 
-  public String getId() { return id; }
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return id;
+  }
 
-  public String getOwner() { return owner; }
+  /**
+   * @return owner
+   */
+  public final String getOwner() {
+    return owner;
+  }
 
-  final public void addInfos(String key, PortletWindowInternal obj) { put(key, obj); }
+  /**
+   * @param key key
+   * @param obj infos
+   */
+  public final void addInfos(final String key, final PortletWindowInternal obj) {
+    put(key, obj);
+  }
 
-  final public PortletWindowInternal getInfos(String key) { return (PortletWindowInternal) get(key); }
+  /**
+   * @param key key
+   * @return infos
+   */
+  public final PortletWindowInternal getInfos(final String key) {
+    return (PortletWindowInternal) get(key);
+  }
 
-  static public WindowInfosContainer getInstance() { return (WindowInfosContainer) threadLocal_.get(); }
+  /**
+   * @return window infos container
+   */
+  public static WindowInfosContainer getInstance() {
+    return (WindowInfosContainer) threadLocal.get();
+  }
 
-  static public void setInstance(WindowInfosContainer scontainer) { threadLocal_.set(scontainer); }
+  /**
+   * @param scontainer window infos container
+   */
+  public static void setInstance(final WindowInfosContainer scontainer) {
+    threadLocal.set(scontainer);
+  }
 
-  static public void createInstance(ExoContainer cnt, String id, String owner) {
+  /**
+   * @param cnt exo container
+   * @param id id
+   * @param owner owner portal
+   */
+  public static void createInstance(final ExoContainer cnt, final String id, final String owner) {
     String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + cnt.getContext().getName() + id;
     if (map.get(key) != null)
-      threadLocal_.set(map.get(key));
+      threadLocal.set(map.get(key));
     else {
-      threadLocal_.set(new WindowInfosContainer(id, owner));
-      map.put(key, threadLocal_.get());
+      threadLocal.set(new WindowInfosContainer(id, owner));
+      map.put(key, threadLocal.get());
     }
   }
 
-  static public void removeInstance(ExoContainer cnt, String id) {
+  /**
+   * @param cnt exo container
+   * @param id id
+   */
+  public static void removeInstance(final ExoContainer cnt, final String id) {
     String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + cnt.getContext().getName() + id;
     if (map.get(key) != null)
       map.remove(key);

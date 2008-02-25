@@ -177,11 +177,11 @@ public class PortletApplicationHandler {
 
       // @todo sort the attributes
 
-      if (isAction == PCConstants.actionInt) {
+      if (isAction == PCConstants.ACTION_INT) {
         portletRequest = new ActionRequestImp(reqCtx);
-      } else if (isAction == PCConstants.eventInt) {
+      } else if (isAction == PCConstants.EVENT_INT) {
         portletRequest = new EventRequestImp(reqCtx);
-      } else if (isAction == PCConstants.resourceInt) {
+      } else if (isAction == PCConstants.RESOURCE_INT) {
         portletRequest = new ResourceRequestImp(reqCtx);
       } else {
         portletRequest = new RenderRequestImp(reqCtx);
@@ -200,11 +200,11 @@ public class PortletApplicationHandler {
                                                    portalContext,
                                                    portletRequest);
 
-      if (isAction == PCConstants.actionInt) {
+      if (isAction == PCConstants.ACTION_INT) {
         portletResponse = new ActionResponseImp(resCtx);
-      } else if (isAction == PCConstants.eventInt) {
+      } else if (isAction == PCConstants.EVENT_INT) {
         portletResponse = new EventResponseImp(resCtx);
-      } else if (isAction == PCConstants.resourceInt) {
+      } else if (isAction == PCConstants.RESOURCE_INT) {
         portletResponse = new ResourceResponseImp(resCtx);
       } else {
         portletResponse = new RenderResponseImp(resCtx);
@@ -238,7 +238,7 @@ public class PortletApplicationHandler {
         }
         try {
           PortletCommandChain chain = (PortletCommandChain) cont.getComponentInstanceOfType(PortletCommandChain.class);
-          if (isAction == PCConstants.actionInt) {
+          if (isAction == PCConstants.ACTION_INT) {
             chain.doProcessAction(portlet, (ActionRequest) portletRequest, (ActionResponse) portletResponse);
             // portlet.processAction((ActionRequest) portletRequest,
             // (ActionResponse) portletResponse);
@@ -247,9 +247,9 @@ public class PortletApplicationHandler {
               log_.debug("need to redirect to " + location);
               output.addProperty(Output.SEND_REDIRECT, location);
             }
-          } else if (isAction == PCConstants.eventInt) {
+          } else if (isAction == PCConstants.EVENT_INT) {
             chain.doProcessEvent(portlet, (EventRequest) portletRequest, (EventResponse) portletResponse);
-          } else if (isAction == PCConstants.resourceInt) {
+          } else if (isAction == PCConstants.RESOURCE_INT) {
             chain.doServeResource(portlet, (ResourceRequest) portletRequest, (ResourceResponse) portletResponse);
           } else {
             chain.doRender(portlet, (RenderRequest) portletRequest, (RenderResponse) portletResponse);
@@ -302,11 +302,11 @@ public class PortletApplicationHandler {
           output.addProperty(Output.INVALIDATE_SESSION, "" + portletRequest.getPortletSession(false).getMaxInactiveInterval());
       if (rtd != null) { // should fix this later , this can happen if the
         // portlet is broken
-        if (isAction == PCConstants.actionInt) {
+        if (isAction == PCConstants.ACTION_INT) {
           rtd.logProcessActionRequest(startTime, endTime);
-        } else if (isAction == PCConstants.eventInt) {
+        } else if (isAction == PCConstants.EVENT_INT) {
           rtd.logProcessEventRequest(startTime, endTime);
-        } else if (isAction == PCConstants.resourceInt) {
+        } else if (isAction == PCConstants.RESOURCE_INT) {
           boolean cacheHit = ((ResourceOutput) output).isCacheHit();
           rtd.logServeResourceRequest(startTime, endTime, cacheHit);
         } else {
@@ -365,7 +365,7 @@ public class PortletApplicationHandler {
         content = "There is a problem";
       }
     }
-    if (isAction == PCConstants.actionInt || isAction == PCConstants.eventInt) {
+    if (isAction == PCConstants.ACTION_INT || isAction == PCConstants.EVENT_INT) {
       output.addProperty(prop_key, prop_output);
     } else {
       ((RenderOutput) output).setTitle(title);

@@ -89,19 +89,19 @@ public class URLRewriterImpl implements URLRewriter {
     Map<String, String> params = new TreeMap<String, String>();
     if (toRewriteURL.startsWith(WSRPConstants.URL_TYPE_BLOCKINGACTION)) {
       // action
-      params.put(Constants.TYPE_PARAMETER, PCConstants.actionString);
+      params.put(Constants.TYPE_PARAMETER, PCConstants.ACTION_STRING);
       toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_BLOCKINGACTION.length() + 1);
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getBlockingActionURL(baseURL, params);
     } else if (toRewriteURL.startsWith(WSRPConstants.URL_TYPE_RENDER)) {
       // render
-      params.put(Constants.TYPE_PARAMETER, PCConstants.renderString);
+      params.put(Constants.TYPE_PARAMETER, PCConstants.RENDER_STRING);
       toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_RENDER.length() + 1);
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getRenderURL(baseURL, params);
     } else if (toRewriteURL.startsWith(WSRPConstants.URL_TYPE_RESOURCE)) {
       // resource
-      params.put(Constants.TYPE_PARAMETER, PCConstants.resourceString);
+      params.put(Constants.TYPE_PARAMETER, PCConstants.RESOURCE_STRING);
       toRewriteURL = toRewriteURL.substring(WSRPConstants.URL_TYPE_RESOURCE.length() + 1);
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getResourceURL(baseURL, params);

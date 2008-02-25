@@ -105,7 +105,7 @@ public class URLGeneratorImpl implements URLGenerator {
       return value;
     } else if (WSRPConstants.WSRP_URL_TYPE.equals(name)) {
       if (WSRPConstants.URL_TYPE_BLOCKINGACTION.equals(value))
-        value = PCConstants.actionString;
+        value = PCConstants.ACTION_STRING;
       return value;
     } else if (WSRPConstants.WSRP_MODE.equals(name)) {
       return Modes.delAllPrefixWSRP(value);

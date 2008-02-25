@@ -17,29 +17,49 @@
 package org.exoplatform.services.portletcontainer.pci.model;
 
 /**
- * Jul 7, 2004
+ * Jul 7, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: DisplayName.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class DisplayName {
-	private String lang ;
-	private String displayName ;
 
+  /**
+   * Language.
+   */
+  private String lang;
 
-	public String getDisplayName() {
-		return displayName;
-	}
+  /**
+   * Display name.
+   */
+  private String displayName;
 
-	public void setDisplayName(String name) {
-		this.displayName = name;
-	}
+  /**
+   * @return display name
+   */
+  public final String getDisplayName() {
+    return displayName;
+  }
 
-	public String getLang() {
-		return lang;
-	}
+  /**
+   * @param name name
+   */
+  public final void setDisplayName(final String name) {
+    this.displayName = name;
+  }
 
-	public void setLang(String lang) {
-		this.lang = lang;
-	}
+  /**
+   * @return language
+   */
+  public final String getLang() {
+    return lang;
+  }
+
+  /**
+   * @param lang language
+   */
+  public final void setLang(final String lang) {
+    this.lang = lang;
+  }
 }

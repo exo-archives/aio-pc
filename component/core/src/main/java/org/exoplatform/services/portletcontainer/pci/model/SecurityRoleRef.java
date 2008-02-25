@@ -22,48 +22,100 @@ import java.util.List;
 import org.exoplatform.Constants;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: SecurityRoleRef.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class SecurityRoleRef {
-	private String	roleName;
-	private String	roleLink;
+
+  /**
+   * Role name.
+   */
+  private String roleName;
+
+  /**
+   * Role link.
+   */
+  private String roleLink;
+
   // portlet api 2.0
-  private String id ;
-	private List description ;
 
-	public String getRoleLink() {
-		return roleLink;
-	}
+  /**
+   * Id.
+   */
+  private String id;
 
-	public void setRoleLink(String roleLink) {
-		this.roleLink = roleLink;
-	}
+  /**
+   * Description list.
+   */
+  private List<Description> description;
 
-	public String getRoleName() {
-		return roleName;
-	}
-
-	public void setRoleName(String roleName) {
-		this.roleName = roleName;
-	}
-
-	public List getDescription() {
-    if(description == null) return Constants.EMPTY_LIST ;
-		return description;
-	}
-	public void setDescription(List description) {
-		this.description = description;
-	}
-
-  public void addDescription(Description desc) {
-    if(description == null) description = new ArrayList() ;
-    this.description.add(desc) ;
+  /**
+   * @return role link
+   */
+  public final String getRoleLink() {
+    return roleLink;
   }
 
-  public String getId() { return this.id ; }
+  /**
+   * @param roleLink role link
+   */
+  public final void setRoleLink(final String roleLink) {
+    this.roleLink = roleLink;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @return role name
+   */
+  public final String getRoleName() {
+    return roleName;
+  }
+
+  /**
+   * @param roleName role name
+   */
+  public final void setRoleName(final String roleName) {
+    this.roleName = roleName;
+  }
+
+  /**
+   * @return description list
+   */
+  public final List<Description> getDescription() {
+    if (description == null)
+      return Constants.EMPTY_LIST;
+    return description;
+  }
+
+  /**
+   * @param description description list
+   */
+  public final void setDescription(final List<Description> description) {
+    this.description = description;
+  }
+
+  /**
+   * @param desc description
+   */
+  public final void addDescription(final Description desc) {
+    if (description == null)
+      description = new ArrayList<Description>();
+    description.add(desc);
+  }
+
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
+
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
 }

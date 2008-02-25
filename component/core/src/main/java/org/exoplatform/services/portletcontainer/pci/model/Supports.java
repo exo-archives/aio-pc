@@ -20,57 +20,112 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Jul 11, 2004
+ * Jul 11, 2004 .
+ *
  * @author: Tuan Nguyen
- * @email:   tuan08@users.sourceforge.net
+ * @email: tuan08@users.sourceforge.net
  * @version: $Id: Supports.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
  */
 public class Supports {
-	private String	mimeType;
-	private List<String>		portletMode;
-	// portlet api 2.0
-	private String	id;
-  private List<String>    windowState;
 
+  /**
+   * Mime type.
+   */
+  private String mimeType;
+
+  /**
+   * Portlet modes.
+   */
+  private List<String> portletMode;
+
+  // portlet api 2.0
+
+  /**
+   * Id.
+   */
+  private String id;
+
+  /**
+   * Window states.
+   */
+  private List<String> windowState;
+
+  /**
+   * Constructor.
+   */
   public Supports() {
-  	portletMode = new ArrayList<String>() ;
+    portletMode = new ArrayList<String>();
     windowState = new ArrayList<String>();
   }
 
-	public String getMimeType() {
-		return mimeType;
-	}
-
-	public void setMimeType(String mimeType) {
-		this.mimeType = mimeType;
-	}
-
-	public List<String> getPortletMode() {
-		return portletMode;
-	}
-
-	public void setPortletMode(List<String> portletMode) {
-		this.portletMode = portletMode;
-	}
-
-  public void addPortletMode(String mode) {
-  	this.portletMode.add(mode) ;
+  /**
+   * @return mime type
+   */
+  public final String getMimeType() {
+    return mimeType;
   }
 
-  public String getId() { return this.id ; }
+  /**
+   * @param mimeType mime type
+   */
+  public final void setMimeType(final String mimeType) {
+    this.mimeType = mimeType;
+  }
 
-  public void setId(String value) { this.id = value ; }
+  /**
+   * @return portlet modes
+   */
+  public final List<String> getPortletMode() {
+    return portletMode;
+  }
 
-  public List<String> getWindowState() {
+  /**
+   * @param portletMode portlet modes
+   */
+  public final void setPortletMode(final List<String> portletMode) {
+    this.portletMode = portletMode;
+  }
+
+  /**
+   * @param mode portlet mode
+   */
+  public final void addPortletMode(final String mode) {
+    this.portletMode.add(mode);
+  }
+
+  /**
+   * @return id
+   */
+  public final String getId() {
+    return this.id;
+  }
+
+  /**
+   * @param value id
+   */
+  public final void setId(final String value) {
+    this.id = value;
+  }
+
+  /**
+   * @return window states
+   */
+  public final List<String> getWindowState() {
     return windowState;
   }
 
-  public void setWindowState(List<String> windowState) {
+  /**
+   * @param windowState window states
+   */
+  public final void setWindowState(final List<String> windowState) {
     this.windowState = windowState;
   }
 
-  public void addWindowState(String state) {
-    this.windowState.add(state) ;
+  /**
+   * @param state window state
+   */
+  public final void addWindowState(final String state) {
+    this.windowState.add(state);
   }
 
 }

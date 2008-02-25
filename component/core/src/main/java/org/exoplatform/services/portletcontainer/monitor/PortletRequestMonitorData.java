@@ -16,162 +16,386 @@
  */
 package org.exoplatform.services.portletcontainer.monitor;
 
-/*
- * Tue, May 27, 2003 @
+/**
+ * Tue, May 27, 2003 .
  * @author: Tuan Nguyen
  * @version: $Id: PortletRequestMonitorData.java,v 1.2 2004/05/06 12:19:00 tuan08 Exp $
  * @since: 0.0
  * @email: tuan08@yahoo.com
  */
 public class PortletRequestMonitorData {
-  private long minRange_ ;
-  private long maxRange_ ;
-  private int  actionRequestCounter_ ;
-  private long minActionExecutionTime_ ;
-  private long maxActionExecutionTime_ ;
-  private long sumActionExecutionTime_ = 0 ;
 
-  private int  renderRequestCounter_ ;
-  private long minRenderExecutionTime_ ;
-  private long maxRenderExecutionTime_ ;
-  private long sumRenderExecutionTime_ = 0 ;
+  /**
+   * Ignore 5 first request to make sure the jvm optimize the class.
+   */
+  private static final int REQUESTS_TO_SKIP = -5;
 
-  private int  eventRequestCounter_ ;
-  private long minEventExecutionTime_ ;
-  private long maxEventExecutionTime_ ;
-  private long sumEventExecutionTime_ = 0 ;
+  /**
+   * Min range.
+   */
+  private final long minRange;
 
-  private int  resourceRequestCounter_ ;
-  private long minResourceExecutionTime_ ;
-  private long maxResourceExecutionTime_ ;
-  private long sumResourceExecutionTime_ = 0 ;
+  /**
+   * Max range.
+   */
+  private final long maxRange;
 
-  private int cacheHitCounter_ ;
+  /**
+   * Action request counter.
+   */
+  private int actionRequestCounter;
 
-  public PortletRequestMonitorData(long minRange, long maxRange) {
-    minRange_ = minRange ;
-    maxRange_ = maxRange ;
+  /**
+   * Min action execution time.
+   */
+  private long minActionExecutionTime;
 
-    actionRequestCounter_ = -5 ; //ignore 5 first request to make sure the jvm optimize the class
-    minActionExecutionTime_  = 0 ;
-    maxActionExecutionTime_ = 0 ;
+  /**
+   * Max action execution time.
+   */
+  private long maxActionExecutionTime;
 
-    renderRequestCounter_ = -5 ; //ignore 5 first request to make sure the jvm optimize the class
-    minRenderExecutionTime_  = 0 ;
-    maxRenderExecutionTime_ = 0 ;
+  /**
+   * Total action execution time.
+   */
+  private long sumActionExecutionTime = 0;
 
-    eventRequestCounter_ = -5 ; //ignore 5 first request to make sure the jvm optimize the class
-    minEventExecutionTime_  = 0 ;
-    maxEventExecutionTime_ = 0 ;
+  /**
+   * Render request counter.
+   */
+  private int renderRequestCounter;
 
-    resourceRequestCounter_ = -5 ; //ignore 5 first request to make sure the jvm optimize the class
-    minResourceExecutionTime_  = 0 ;
-    maxResourceExecutionTime_ = 0 ;
+  /**
+   * Min render execution time.
+   */
+  private long minRenderExecutionTime;
 
-    cacheHitCounter_ = 0 ;
+  /**
+   * Max render execution time.
+   */
+  private long maxRenderExecutionTime;
+
+  /**
+   * Total render execution time.
+   */
+  private long sumRenderExecutionTime = 0;
+
+  /**
+   * Event request counter.
+   */
+  private int eventRequestCounter;
+
+  /**
+   * Min event execution time.
+   */
+  private long minEventExecutionTime;
+
+  /**
+   * Max event execution time.
+   */
+  private long maxEventExecutionTime;
+
+  /**
+   * Total event execution time.
+   */
+  private long sumEventExecutionTime = 0;
+
+  /**
+   * Resource request counter.
+   */
+  private int resourceRequestCounter;
+
+  /**
+   * Min resource execution time.
+   */
+  private long minResourceExecutionTime;
+
+  /**
+   * Max resource execution time.
+   */
+  private long maxResourceExecutionTime;
+
+  /**
+   * Total resource execution time.
+   */
+  private long sumResourceExecutionTime = 0;
+
+  /**
+   * Cache hit counter.
+   */
+  private int cacheHitCounter;
+
+  /**
+   * @param minRange min range
+   * @param maxRange max range
+   */
+  public PortletRequestMonitorData(final long minRange, final long maxRange) {
+    this.minRange = minRange;
+    this.maxRange = maxRange;
+
+    this.actionRequestCounter = REQUESTS_TO_SKIP; // ignore 5 first request to make sure the jvm
+                                  // optimize the class
+    this.minActionExecutionTime = 0;
+    this.maxActionExecutionTime = 0;
+
+    this.renderRequestCounter = REQUESTS_TO_SKIP; // ignore 5 first request to make sure the jvm
+                                  // optimize the class
+    this.minRenderExecutionTime = 0;
+    this.maxRenderExecutionTime = 0;
+
+    this.eventRequestCounter = REQUESTS_TO_SKIP; // ignore 5 first request to make sure the jvm
+                                // optimize the class
+    this.minEventExecutionTime = 0;
+    this.maxEventExecutionTime = 0;
+
+    this.resourceRequestCounter = REQUESTS_TO_SKIP; // ignore 5 first request to make sure the
+                                    // jvm optimize the class
+    this.minResourceExecutionTime = 0;
+    this.maxResourceExecutionTime = 0;
+
+    this.cacheHitCounter = 0;
   }
 
-  public long minRange() { return minRange_ ; }
-  public long maxRange() { return maxRange_ ; }
-
-  public int getActionRequestCounter() { return actionRequestCounter_  ; }
-  public int getRenderRequestCounter() { return renderRequestCounter_  ; }
-  public int getEventRequestCounter() { return eventRequestCounter_  ; }
-  public int getResourceRequestCounter() { return resourceRequestCounter_  ; }
-
-  public int getCacheHitCounter() { return cacheHitCounter_  ; }
-
-  public long getMinActionExecutionTime() { return minActionExecutionTime_ ; }
-
-  public long getMinRenderExecutionTime() { return minRenderExecutionTime_ ; }
-
-  public long getMinEventExecutionTime() { return minEventExecutionTime_ ; }
-
-  public long getMinResourceExecutionTime() { return minResourceExecutionTime_ ; }
-
-  public long getMaxActionExecutionTime() { return maxActionExecutionTime_ ; }
-
-  public long getMaxRenderExecutionTime() { return maxRenderExecutionTime_ ; }
-
-  public long getMaxEventExecutionTime() { return maxEventExecutionTime_ ; }
-
-  public long getMaxResourceExecutionTime() { return maxResourceExecutionTime_ ; }
-
-  public long getAvgActionExecutionTime() {
-    if(actionRequestCounter_ <= 0) return 0 ;
-    return sumActionExecutionTime_/actionRequestCounter_ ;
+  /**
+   * @return min range
+   */
+  public final long minRange() {
+    return minRange;
   }
 
-  public long getAvgRenderExecutionTime() {
-    if(renderRequestCounter_ <= 0) return 0 ;
-    return sumRenderExecutionTime_/renderRequestCounter_ ;
+  /**
+   * @return max range
+   */
+  public final long maxRange() {
+    return maxRange;
   }
 
-  public long getAvgEventExecutionTime() {
-    if(eventRequestCounter_ <= 0) return 0 ;
-    return sumEventExecutionTime_/eventRequestCounter_ ;
+  /**
+   * @return action request counter
+   */
+  public final int getActionRequestCounter() {
+    return actionRequestCounter;
   }
 
-  public long getAvgResourceExecutionTime() {
-    if(resourceRequestCounter_ <= 0) return 0 ;
-    return sumResourceExecutionTime_/resourceRequestCounter_ ;
+  /**
+   * @return render request counter
+   */
+  public final int getRenderRequestCounter() {
+    return renderRequestCounter;
   }
 
-  public long sumActionExecutionTime() { return sumActionExecutionTime_ ; }
+  /**
+   * @return event request counter
+   */
+  public final int getEventRequestCounter() {
+    return eventRequestCounter;
+  }
 
-  public long sumRenderExecutionTime() { return sumRenderExecutionTime_ ; }
+  /**
+   * @return resource request counter
+   */
+  public final int getResourceRequestCounter() {
+    return resourceRequestCounter;
+  }
 
-  public long sumEventExecutionTime() { return sumEventExecutionTime_ ; }
+  /**
+   * @return cache hit counter
+   */
+  public final int getCacheHitCounter() {
+    return cacheHitCounter;
+  }
 
-  public long sumResourceExecutionTime() { return sumResourceExecutionTime_ ; }
+  /**
+   * @return min action execution time
+   */
+  public final long getMinActionExecutionTime() {
+    return minActionExecutionTime;
+  }
 
-  public void logActionRequest(long executionTime) {
-    actionRequestCounter_++ ;
-    if(actionRequestCounter_ > 0) {
-      sumActionExecutionTime_  += executionTime;
-      if(executionTime < minActionExecutionTime_) minActionExecutionTime_ = executionTime ;
-      if(executionTime > maxActionExecutionTime_) maxActionExecutionTime_ = executionTime ;
+  /**
+   * @return min render execution time
+   */
+  public final long getMinRenderExecutionTime() {
+    return minRenderExecutionTime;
+  }
+
+  /**
+   * @return min event execution time
+   */
+  public final long getMinEventExecutionTime() {
+    return minEventExecutionTime;
+  }
+
+  /**
+   * @return min resource execution time
+   */
+  public final long getMinResourceExecutionTime() {
+    return minResourceExecutionTime;
+  }
+
+  /**
+   * @return max action execution time
+   */
+  public final long getMaxActionExecutionTime() {
+    return maxActionExecutionTime;
+  }
+
+  /**
+   * @return max render execution time
+   */
+  public final long getMaxRenderExecutionTime() {
+    return maxRenderExecutionTime;
+  }
+
+  /**
+   * @return max event execution time
+   */
+  public final long getMaxEventExecutionTime() {
+    return maxEventExecutionTime;
+  }
+
+  /**
+   * @return max resource execution time
+   */
+  public final long getMaxResourceExecutionTime() {
+    return maxResourceExecutionTime;
+  }
+
+  /**
+   * @return average action execution time
+   */
+  public final long getAvgActionExecutionTime() {
+    if (actionRequestCounter <= 0)
+      return 0;
+    return sumActionExecutionTime / actionRequestCounter;
+  }
+
+  /**
+   * @return average render execution time
+   */
+  public final long getAvgRenderExecutionTime() {
+    if (renderRequestCounter <= 0)
+      return 0;
+    return sumRenderExecutionTime / renderRequestCounter;
+  }
+
+  /**
+   * @return average event execution time
+   */
+  public final long getAvgEventExecutionTime() {
+    if (eventRequestCounter <= 0)
+      return 0;
+    return sumEventExecutionTime / eventRequestCounter;
+  }
+
+  /**
+   * @return average resource execution time
+   */
+  public final long getAvgResourceExecutionTime() {
+    if (resourceRequestCounter <= 0)
+      return 0;
+    return sumResourceExecutionTime / resourceRequestCounter;
+  }
+
+  /**
+   * @return action execution time
+   */
+  public final long sumActionExecutionTime() {
+    return sumActionExecutionTime;
+  }
+
+  /**
+   * @return render execution time
+   */
+  public final long sumRenderExecutionTime() {
+    return sumRenderExecutionTime;
+  }
+
+  /**
+   * @return event execution time
+   */
+  public final long sumEventExecutionTime() {
+    return sumEventExecutionTime;
+  }
+
+  /**
+   * @return resource execution time
+   */
+  public final long sumResourceExecutionTime() {
+    return sumResourceExecutionTime;
+  }
+
+  /**
+   * @param executionTime execution time
+   */
+  public final void logActionRequest(final long executionTime) {
+    actionRequestCounter++;
+    if (actionRequestCounter > 0) {
+      sumActionExecutionTime += executionTime;
+      if (executionTime < minActionExecutionTime)
+        minActionExecutionTime = executionTime;
+      if (executionTime > maxActionExecutionTime)
+        maxActionExecutionTime = executionTime;
     } else {
-      minActionExecutionTime_ = executionTime ;
-      maxActionExecutionTime_ = executionTime ;
+      minActionExecutionTime = executionTime;
+      maxActionExecutionTime = executionTime;
     }
   }
 
-  public void logRenderRequest(long executionTime, boolean cacheHit) {
-    renderRequestCounter_++ ;
-    if(renderRequestCounter_ > 0) {
-      sumRenderExecutionTime_  += executionTime;
-      if(cacheHit) cacheHitCounter_++ ;
-      if(executionTime < minRenderExecutionTime_) minRenderExecutionTime_ = executionTime ;
-      if(executionTime > maxRenderExecutionTime_) maxRenderExecutionTime_ = executionTime ;
+  /**
+   * @param executionTime execution time
+   * @param cacheHit cache hit
+   */
+  public final void logRenderRequest(final long executionTime, final boolean cacheHit) {
+    renderRequestCounter++;
+    if (renderRequestCounter > 0) {
+      sumRenderExecutionTime += executionTime;
+      if (cacheHit)
+        cacheHitCounter++;
+      if (executionTime < minRenderExecutionTime)
+        minRenderExecutionTime = executionTime;
+      if (executionTime > maxRenderExecutionTime)
+        maxRenderExecutionTime = executionTime;
     } else {
-      minRenderExecutionTime_ = executionTime ;
-      maxRenderExecutionTime_ = executionTime ;
+      minRenderExecutionTime = executionTime;
+      maxRenderExecutionTime = executionTime;
     }
   }
 
-  public void logEventRequest(long executionTime) {
-    eventRequestCounter_++ ;
-    if(eventRequestCounter_ > 0) {
-      sumEventExecutionTime_  += executionTime;
-      if(executionTime < minEventExecutionTime_) minEventExecutionTime_ = executionTime ;
-      if(executionTime > maxEventExecutionTime_) maxEventExecutionTime_ = executionTime ;
+  /**
+   * @param executionTime execution time
+   */
+  public final void logEventRequest(final long executionTime) {
+    eventRequestCounter++;
+    if (eventRequestCounter > 0) {
+      sumEventExecutionTime += executionTime;
+      if (executionTime < minEventExecutionTime)
+        minEventExecutionTime = executionTime;
+      if (executionTime > maxEventExecutionTime)
+        maxEventExecutionTime = executionTime;
     } else {
-      minEventExecutionTime_ = executionTime ;
-      maxEventExecutionTime_ = executionTime ;
+      minEventExecutionTime = executionTime;
+      maxEventExecutionTime = executionTime;
     }
   }
 
-  public void logResourceRequest(long executionTime, boolean cacheHit) {
-    resourceRequestCounter_++ ;
-    if(resourceRequestCounter_ > 0) {
-      sumResourceExecutionTime_  += executionTime;
-      if(cacheHit) cacheHitCounter_++ ;
-      if(executionTime < minResourceExecutionTime_) minResourceExecutionTime_ = executionTime ;
-      if(executionTime > maxResourceExecutionTime_) maxResourceExecutionTime_ = executionTime ;
+  /**
+   * @param executionTime execution time
+   * @param cacheHit cache hit
+   */
+  public final void logResourceRequest(final long executionTime, final boolean cacheHit) {
+    resourceRequestCounter++;
+    if (resourceRequestCounter > 0) {
+      sumResourceExecutionTime += executionTime;
+      if (cacheHit)
+        cacheHitCounter++;
+      if (executionTime < minResourceExecutionTime)
+        minResourceExecutionTime = executionTime;
+      if (executionTime > maxResourceExecutionTime)
+        maxResourceExecutionTime = executionTime;
     } else {
-      minResourceExecutionTime_ = executionTime ;
-      maxResourceExecutionTime_ = executionTime ;
+      minResourceExecutionTime = executionTime;
+      maxResourceExecutionTime = executionTime;
     }
   }
 }

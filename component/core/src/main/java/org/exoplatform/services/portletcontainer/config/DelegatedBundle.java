@@ -21,13 +21,22 @@ package org.exoplatform.services.portletcontainer.config;
  */
 public class DelegatedBundle {
 
+  /**
+   * Enable.
+   */
   private String enable;
 
-  public String getEnable() {
+  /**
+   * @return enable
+   */
+  public final String getEnable() {
     return enable;
   }
 
-  public void setEnable(String enable) {
+  /**
+   * @param enable enable
+   */
+  public final void setEnable(final String enable) {
     this.enable = enable;
   }
 

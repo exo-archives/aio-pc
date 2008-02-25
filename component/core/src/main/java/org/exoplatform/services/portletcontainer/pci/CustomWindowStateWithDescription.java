@@ -19,16 +19,26 @@ package org.exoplatform.services.portletcontainer.pci;
 import java.util.List;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net .
  */
 public class CustomWindowStateWithDescription {
 
-  private javax.portlet.WindowState  windowState;
+  /**
+   * Window state.
+   */
+  private final javax.portlet.WindowState windowState;
 
-  private List<LocalisedDescription> descriptions;
+  /**
+   * Descriptions.
+   */
+  private final List<LocalisedDescription> descriptions;
 
-  public CustomWindowStateWithDescription(javax.portlet.WindowState windowState, List descriptions) {
+  /**
+   * @param windowState window state
+   * @param descriptions descriptions
+   */
+  public CustomWindowStateWithDescription(final javax.portlet.WindowState windowState,
+      final List<LocalisedDescription> descriptions) {
     this.windowState = windowState;
     this.descriptions = descriptions;
   }
@@ -36,29 +46,52 @@ public class CustomWindowStateWithDescription {
   /**
    * @return a List of LocalisedDescription objects
    */
-  public List<LocalisedDescription> getDescriptions() {
+  public final List<LocalisedDescription> getDescriptions() {
     return descriptions;
   }
 
-  public javax.portlet.WindowState getWindowState() {
+  /**
+   * @return window state
+   */
+  public final javax.portlet.WindowState getWindowState() {
     return windowState;
   }
 
+  /**
+   * Description class.
+   */
   public class Description {
-    private String lang;
 
-    private String description;
+    /**
+     * Language.
+     */
+    private final String lang;
 
-    public Description(String lang, String description) {
+    /**
+     * Description.
+     */
+    private final String description;
+
+    /**
+     * @param lang language
+     * @param description description
+     */
+    public Description(final String lang, final String description) {
       this.lang = lang;
       this.description = description;
     }
 
-    public String getDescription() {
+    /**
+     * @return description
+     */
+    public final String getDescription() {
       return description;
     }
 
-    public String getLang() {
+    /**
+     * @return language
+     */
+    public final String getLang() {
       return lang;
     }
 

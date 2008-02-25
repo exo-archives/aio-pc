@@ -132,9 +132,9 @@ public class WSRPAdminPortlet {
       PortletURL actionURL = null;
 
       if (input.getPortletURLFactory() != null) {
-        actionURL = input.getPortletURLFactory().createPortletURL(PCConstants.actionString);
+        actionURL = input.getPortletURLFactory().createPortletURL(PCConstants.ACTION_STRING);
       }
-      actionURL = new PortletURLImp(PCConstants.actionString, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml(), null);
+      actionURL = new PortletURLImp(PCConstants.ACTION_STRING, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml(), null);
 
       // actionURL.setSecure(true);
       actionURL.setWindowState(WindowState.NORMAL);

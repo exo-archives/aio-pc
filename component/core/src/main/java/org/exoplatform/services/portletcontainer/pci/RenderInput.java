@@ -16,30 +16,48 @@
  */
 package org.exoplatform.services.portletcontainer.pci;
 
-
 /**
- * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin .
  */
 public class RenderInput extends Input {
 
-  private String            title;
+  /**
+   * Title.
+   */
+  private String title;
 
-  private boolean           updateCache;
+  /**
+   * Update cache.
+   */
+  private boolean updateCache;
 
-  public String getTitle() {
+  /**
+   * @return title
+   */
+  public final String getTitle() {
     return title;
   }
 
-  // for UIPortletLifecycle.processRender, the title getting from UIPortlet
-  public void setTitle(String title) {
+  /**
+   * For UIPortletLifecycle.processRender, the title getting from UIPortlet.
+   *
+   * @param title title
+   */
+  public final void setTitle(final String title) {
     this.title = title;
   }
 
-  public boolean isUpdateCache() {
+  /**
+   * @return update cache
+   */
+  public final boolean isUpdateCache() {
     return updateCache;
   }
 
-  public void setUpdateCache(boolean updateCache) {
+  /**
+   * @param updateCache update cache
+   */
+  public final void setUpdateCache(final boolean updateCache) {
     this.updateCache = updateCache;
   }
 
