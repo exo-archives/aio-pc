@@ -57,14 +57,14 @@ public class PortletMethodCommand extends BaseCommandUnit {
   }
 
   protected Object processAction(ActionExecutionContext acontext)  throws Throwable  {
-    ActionRequest request = acontext.request_;
-    ActionResponse response = acontext.response_;
+    ActionRequest request = acontext.getRequest();
+    ActionResponse response = acontext.getResponse();
     request.setAttribute("javax.portlet.config",((ActionRequestImp)request).getPortletConfig());
     request.setAttribute("javax.portlet.request", request);
     request.setAttribute("javax.portlet.response", response);
     request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.ACTION_PHASE);
 
-    acontext.portlet_.processAction(acontext.request_, acontext.response_) ;
+    acontext.getPortlet().processAction(acontext.getRequest(), acontext.getResponse()) ;
 
     request.removeAttribute("javax.portlet.config");
     request.removeAttribute("javax.portlet.request");

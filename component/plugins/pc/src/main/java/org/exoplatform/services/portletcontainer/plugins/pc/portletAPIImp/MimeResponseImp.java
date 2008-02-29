@@ -21,7 +21,6 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 
@@ -42,19 +41,19 @@ import org.exoplatform.services.portletcontainer.pci.model.Supports;
  */
 public class MimeResponseImp extends PortletResponseImp implements MimeResponse {
 
-  private Collection<String> supportedContents_;
+  private final Collection<String> supportedContents_;
 
-  private String             contentType_;
+  private String contentType_;
 
-  private boolean            writerAlreadyCalled_;
+  private boolean writerAlreadyCalled_;
 
-  private boolean            outputStreamAlreadyCalled_;
+  private boolean outputStreamAlreadyCalled_;
 
-  private CacheControlImp    cacheCtl;
+  private final CacheControlImp cacheCtl;
 
-  private boolean            committed;
+  private boolean committed;
 
-  public MimeResponseImp(ResponseContext resCtx) {
+  public MimeResponseImp(final ResponseContext resCtx) {
     super(resCtx);
     this.supportedContents_ = resCtx.getSupportedContents();
     this.writerAlreadyCalled_ = false;
@@ -64,7 +63,7 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
   }
 
   public String getContentType() {
-    if (contentType_ == null || "".equals(contentType_))
+    if ((contentType_ == null) || "".equals(contentType_))
       return null;
     return contentType_;
   }
@@ -75,9 +74,8 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     if (contentType != null)
       contentType = StringUtils.split(contentType, ';')[0];
 
-    if (!isContentTypeSupported(contentType)) {
+    if (!isContentTypeSupported(contentType))
       throw new IllegalArgumentException("the content type : " + contentType + " is not supported.");
-    }
     this.contentType_ = contentType;
     if (getOutput() instanceof RenderOutput)
       ((RenderOutput) getOutput()).setContentType(this.contentType_);
@@ -87,34 +85,34 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
   }
 
   public OutputStream getPortletOutputStream() throws IOException {
-    if (alreadyForwarded)
+    if (isAlreadyForwarded())
       throw new IllegalStateException("response has already been forwarded");
     if (writerAlreadyCalled_)
       throw new IllegalStateException("getWriter() has already been called");
-    if (contentType_ == null || "".equals(contentType_))
-      throw new IllegalStateException("the content type has not been set before calling the" + "getPortletOutputStream() method.");
+    if ((contentType_ == null) || "".equals(contentType_))
+      throw new IllegalStateException("the content type has not been set before calling the"
+          + "getPortletOutputStream() method.");
     outputStreamAlreadyCalled_ = true;
     return super.getOutputStream();
   }
 
   public PrintWriter getWriter() throws IOException {
-    if (alreadyForwarded)
+    if (isAlreadyForwarded())
       throw new IllegalStateException("response has already been forwarded");
     if (outputStreamAlreadyCalled_)
       throw new IllegalStateException("the getPortletOutputStream object has already been called");
-    if (contentType_ == null || "".equals(contentType_))
-      throw new IllegalStateException("the content type has not been set before calling the" + "getWriter() method.");
+    if ((contentType_ == null) || "".equals(contentType_))
+      throw new IllegalStateException("the content type has not been set before calling the"
+          + "getWriter() method.");
     writerAlreadyCalled_ = true;
     return super.getWriter();
   }
 
-  private boolean isContentTypeSupported(String contentTypeToTest) {
+  private boolean isContentTypeSupported(final String contentTypeToTest) {
     Collection<String> c = getResponseContentTypes();
-    for (Iterator<String> iter = c.iterator(); iter.hasNext();) {
-      String element = iter.next();
-      if (element.equals(contentTypeToTest)) {
+    for (String element : c) {
+      if (element.equals(contentTypeToTest))
         return true;
-      }
     }
     return false;
   }
@@ -123,17 +121,15 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
   private Collection<String> getResponseContentTypes() {
     Collection<String> result = new ArrayList<String>();
     result.add(getResponseContentType());
-    for (Iterator<String> iter = supportedContents_.iterator(); iter.hasNext();) {
-      String element = iter.next();
-      List<Supports> l = portletDatas_.getSupports();
+    for (String element : supportedContents_) {
+      List<Supports> l = getPortletDatas().getSupports();
       for (int i = 0; i < l.size(); i++) {
         Supports supportsType = l.get(i);
         String mimeType = supportsType.getMimeType();
-        if (element.equals(mimeType) && !element.equals(input_.getMarkup())) {
+        if (element.equals(mimeType) && !element.equals(getInput().getMarkup())) {
           List<String> portletModes = supportsType.getPortletMode();
-          for (Iterator<String> iter2 = portletModes.iterator(); iter2.hasNext();) {
-            String portletMode = iter2.next();
-            if (portletMode.equals(input_.getPortletMode().toString())) {
+          for (String portletMode : portletModes) {
+            if (portletMode.equals(getInput().getPortletMode().toString())) {
               result.add(mimeType);
               break;
             }
@@ -145,17 +141,15 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
   }
 
   private String getResponseContentType() {
-    List<Supports> l = portletDatas_.getSupports();
+    List<Supports> l = getPortletDatas().getSupports();
     for (int i = 0; i < l.size(); i++) {
       Supports supportsType = l.get(i);
       String mimeType = supportsType.getMimeType();
-      if (mimeType.equals(input_.getMarkup())) {
+      if (mimeType.equals(getInput().getMarkup())) {
         List<String> portletModes = supportsType.getPortletMode();
-        for (Iterator<String> iter = portletModes.iterator(); iter.hasNext();) {
-          String portletMode = iter.next();
-          if (portletMode.equals(input_.getPortletMode().toString())) {
+        for (String portletMode : portletModes) {
+          if (portletMode.equals(getInput().getPortletMode().toString()))
             return mimeType;
-          }
         }
       }
     }
@@ -187,7 +181,7 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     return;
   }
 
-  public void setBufferSize(int arg0) {
+  public void setBufferSize(final int arg0) {
     return;
   }
 
@@ -204,27 +198,25 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
 
   public PortletURL createActionURL() throws java.lang.IllegalStateException {
 
-    if (input_ instanceof ResourceInput) {
+    if (getInput() instanceof ResourceInput)
       // throws java.lang.IllegalStateException:
       // "If the cacheability level of the resource URL triggering this
       // serveResource call is not PAGE and thus does not allow for creating
       // action URLs."
       // if Cacheability == PAGE, then create URL
-      if (!ResourceURL.PAGE.equalsIgnoreCase(((ResourceInput) input_).getCacheability())) {
+      if (!ResourceURL.PAGE.equalsIgnoreCase(((ResourceInput) getInput()).getCacheability()))
         throw new IllegalStateException("Cannot create action URL from within serveResource() without PAGE Cacheability");
-      }
-    }
 
-    if (input_.getPortletURLFactory() != null)
-      return input_.getPortletURLFactory().createPortletURL(PCConstants.ACTION_STRING);
+    if (getInput().getPortletURLFactory() != null)
+      return getInput().getPortletURLFactory().createPortletURL(PCConstants.ACTION_STRING);
 
     return new PortletURLImp(PCConstants.ACTION_STRING,
-                             input_.getBaseURL(),
-                             input_.getMarkup(),
-                             portletDatas_.getSupports(),
-                             isCurrentlySecured_,
-                             input_.getEscapeXml(),
-                             portletDatas_);
+        getInput().getBaseURL(),
+        getInput().getMarkup(),
+        getPortletDatas().getSupports(),
+        isCurrentlySecured(),
+        getInput().getEscapeXml(),
+        getPortletDatas());
   }
 
   public ResourceURL createResourceURL() throws java.lang.IllegalStateException {
@@ -235,20 +227,18 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     // or one of the parent calls, have defined a stricter
     // cachability level.
     String originalCacheLevel = null;
-    if (input_ instanceof ResourceInput) {
-      originalCacheLevel = ((ResourceInput) input_).getCacheability();
-      // OK, the originalCacheLevel is a parent cache level, what is new?
-    }
-    if (input_.getPortletURLFactory() != null) {
-      return input_.getPortletURLFactory().createResourceURL(PCConstants.RESOURCE_STRING);
-    }
+    if (getInput() instanceof ResourceInput)
+      originalCacheLevel = ((ResourceInput) getInput()).getCacheability();
+    // OK, the originalCacheLevel is a parent cache level, what is new?
+    if (getInput().getPortletURLFactory() != null)
+      return getInput().getPortletURLFactory().createResourceURL(PCConstants.RESOURCE_STRING);
 
-      return new ResourceURLImp(PCConstants.RESOURCE_STRING,
-          input_.getBaseURL(),
-          isCurrentlySecured_,
-          input_.getEscapeXml(),
-          originalCacheLevel,
-          portletDatas_,
-          input_.getRenderParameters());
+    return new ResourceURLImp(PCConstants.RESOURCE_STRING,
+        getInput().getBaseURL(),
+        isCurrentlySecured(),
+        getInput().getEscapeXml(),
+        originalCacheLevel,
+        getPortletDatas(),
+        getInput().getRenderParameters());
   }
 }

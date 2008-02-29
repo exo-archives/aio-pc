@@ -58,8 +58,8 @@ public class PortletFilterCommand extends BaseCommandUnit {
   protected Object processAction(ActionExecutionContext acontext)  throws Throwable {
     log_.debug("--> processAction method, call portlet filter aspect");
 
-    ActionRequestImp req = (ActionRequestImp) acontext.request_;
-    ActionResponseImp res = (ActionResponseImp) acontext.response_;
+    ActionRequestImp req = (ActionRequestImp) acontext.getRequest();
+    ActionResponseImp res = (ActionResponseImp) acontext.getResponse();
     PortletContext portletContext = req.getPortletConfig().getPortletContext();
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {

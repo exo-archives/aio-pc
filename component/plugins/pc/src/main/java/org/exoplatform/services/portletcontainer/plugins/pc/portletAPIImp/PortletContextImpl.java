@@ -33,41 +33,77 @@ import org.exoplatform.services.portletcontainer.ExoPortletContext;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by The eXo Platform SAS Author : Tuan Nguyen
- * tuan08@users.sourceforge.net Date: Jul 27, 2003 Time: 2:13:09 AM
+ * Created by The eXo Platform SAS.
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net
+ * Date: Jul 27, 2003
+ * Time: 2:13:09 AM
  */
 public class PortletContextImpl implements PortletContext, ExoPortletContext {
-  private ServletContext servletContext_;
 
-  private Log            log;
+  /**
+   * Servlet context.
+   */
+  private final ServletContext servletContext;
 
-  protected ExoContainer cont;
+  /**
+   * Logger.
+   */
+  private final Log log;
 
-  private Portlet        portlet;
+  /**
+   * Exo container.
+   */
+  private ExoContainer cont;
 
-  public PortletContextImpl(ExoContainer cont,
-                            ServletContext scontext,
-                            Portlet portlet) {
+  /**
+   * Portlet object.
+   */
+  private final Portlet portlet;
+
+  /**
+   * @param cont exo container
+   * @param scontext servlet context
+   * @param portlet portlet object
+   */
+  public PortletContextImpl(final ExoContainer cont,
+      final ServletContext scontext,
+      final Portlet portlet) {
     this.log = LogUtil.getLog("org.exoplatform.services.portletcontainer");
-    servletContext_ = scontext;
+    servletContext = scontext;
     this.cont = cont;
     this.portlet = portlet;
   }
 
-  public ExoContainer getContainer() {
+  /**
+   * @return exo container
+   */
+  public final ExoContainer getContainer() {
     return cont;
   }
 
-  public String getServerInfo() {
-    return servletContext_.getServerInfo();
+  /**
+   * Overridden method.
+   *
+   * @return server info
+   * @see javax.portlet.PortletContext#getServerInfo()
+   */
+  public final String getServerInfo() {
+    return servletContext.getServerInfo();
   }
 
-  public PortletRequestDispatcher getRequestDispatcher(String path) {
-    if (path == null || !path.startsWith("/"))
+  /**
+   * Overridden method.
+   *
+   * @param path path
+   * @return request dispatcher
+   * @see javax.portlet.PortletContext#getRequestDispatcher(java.lang.String)
+   */
+  public final PortletRequestDispatcher getRequestDispatcher(final String path) {
+    if ((path == null) || !path.startsWith("/"))
       return null;
     RequestDispatcher rD = null;
     try {
-      rD = servletContext_.getRequestDispatcher(path);
+      rD = servletContext.getRequestDispatcher(path);
       if (rD == null)
         return null;
     } catch (IllegalArgumentException e) {
@@ -77,10 +113,17 @@ public class PortletContextImpl implements PortletContext, ExoPortletContext {
     return new PortletRequestDispatcherImp(cont, rD, path);
   }
 
-  public PortletRequestDispatcher getNamedDispatcher(String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return named dispatcher
+   * @see javax.portlet.PortletContext#getNamedDispatcher(java.lang.String)
+   */
+  public final PortletRequestDispatcher getNamedDispatcher(final String name) {
     RequestDispatcher rD = null;
     try {
-      rD = servletContext_.getNamedDispatcher(name);
+      rD = servletContext.getNamedDispatcher(name);
       if (rD == null)
         return null;
     } catch (IllegalArgumentException e) {
@@ -90,120 +133,225 @@ public class PortletContextImpl implements PortletContext, ExoPortletContext {
     return new PortletRequestDispatcherImp(cont, rD, name);
   }
 
-  public InputStream getResourceAsStream(String path) {
-    return servletContext_.getResourceAsStream(path);
+  /**
+   * Overridden method.
+   *
+   * @param path path
+   * @return resource stream
+   * @see javax.portlet.PortletContext#getResourceAsStream(java.lang.String)
+   */
+  public final InputStream getResourceAsStream(final String path) {
+    return servletContext.getResourceAsStream(path);
   }
 
-  public int getMajorVersion() {
-    return portlet.getApplication().getVer2() ? 2 : 1;
+  /**
+   * Overridden method.
+   *
+   * @return major version
+   * @see javax.portlet.PortletContext#getMajorVersion()
+   */
+  public final int getMajorVersion() {
+    if (portlet.getApplication().getVer2())
+      return 2;
+    return 1;
   }
 
-  public int getMinorVersion() {
+  /**
+   * Overridden method.
+   *
+   * @return minor version
+   * @see javax.portlet.PortletContext#getMinorVersion()
+   */
+  public final int getMinorVersion() {
     return 0;
   }
 
-  public String getMimeType(String file) {
-    return servletContext_.getMimeType(file);
+  /**
+   * Overridden method.
+   *
+   * @param file file
+   * @return mime type
+   * @see javax.portlet.PortletContext#getMimeType(java.lang.String)
+   */
+  public final String getMimeType(final String file) {
+    return servletContext.getMimeType(file);
   }
 
-  public String getRealPath(String path) {
-    return servletContext_.getRealPath(path);
+  /**
+   * Overridden method.
+   *
+   * @param path path
+   * @return real path
+   * @see javax.portlet.PortletContext#getRealPath(java.lang.String)
+   */
+  public final String getRealPath(final String path) {
+    return servletContext.getRealPath(path);
   }
 
-  public java.util.Set getResourcePaths(String path) {
-    return servletContext_.getResourcePaths(path);
+  /**
+   * Overridden method.
+   *
+   * @param path path
+   * @return set of paths
+   * @see javax.portlet.PortletContext#getResourcePaths(java.lang.String)
+   */
+  public final java.util.Set getResourcePaths(final String path) {
+    return servletContext.getResourcePaths(path);
   }
 
-  public java.net.URL getResource(String path) throws MalformedURLException {
+  /**
+   * Overridden method.
+   *
+   * @param path path
+   * @return url
+   * @throws MalformedURLException exception
+   * @see javax.portlet.PortletContext#getResource(java.lang.String)
+   */
+  public final java.net.URL getResource(final String path) throws MalformedURLException {
     if (!path.startsWith("/"))
       throw new MalformedURLException("path must start with /");
-    return servletContext_.getResource(path);
+    return servletContext.getResource(path);
   }
 
-  public java.lang.Object getAttribute(String name) {
-    if (name == null) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return value
+   * @see javax.portlet.PortletContext#getAttribute(java.lang.String)
+   */
+  public final java.lang.Object getAttribute(final String name) {
+    if (name == null)
       throw new IllegalArgumentException("The attribute name cannot be null");
-    }
-    return servletContext_.getAttribute(name);
+    return servletContext.getAttribute(name);
   }
 
-  public void removeAttribute(java.lang.String name) {
-    if (name == null) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @see javax.portlet.PortletContext#removeAttribute(java.lang.String)
+   */
+  public final void removeAttribute(final java.lang.String name) {
+    if (name == null)
       throw new IllegalArgumentException("The attribute name cannot be null");
-    }
-    servletContext_.removeAttribute(name);
+    servletContext.removeAttribute(name);
   }
 
-  public void setAttribute(String name,
-                           Object value) {
-    if (name == null) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param value value
+   * @see javax.portlet.PortletContext#setAttribute(java.lang.String, java.lang.Object)
+   */
+  public final void setAttribute(final String name, final Object value) {
+    if (name == null)
       throw new IllegalArgumentException("The attribute name cannot be null");
-    }
     // when the value is null, should have the same effect as removeAttribute
     // (Spec)
-    if (value == null) {
-      servletContext_.removeAttribute(name);
-    } else {
-      servletContext_.setAttribute(name, value);
-    }
+    if (value == null)
+      servletContext.removeAttribute(name);
+    else
+      servletContext.setAttribute(name, value);
   }
 
-  public Enumeration getAttributeNames() {
-    return servletContext_.getAttributeNames();
+  /**
+   * Overridden method.
+   *
+   * @return attribute names
+   * @see javax.portlet.PortletContext#getAttributeNames()
+   */
+  public final Enumeration getAttributeNames() {
+    return servletContext.getAttributeNames();
   }
 
-  public String getInitParameter(String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return init parameter value
+   * @see javax.portlet.PortletContext#getInitParameter(java.lang.String)
+   */
+  public final String getInitParameter(final String name) {
     if (name == null)
       throw new IllegalArgumentException("argument must not be null");
-    return servletContext_.getInitParameter(name);
+    return servletContext.getInitParameter(name);
   }
 
-  public Enumeration getInitParameterNames() {
-    return servletContext_.getInitParameterNames();
+  /**
+   * Overridden method.
+   *
+   * @return init parameter names
+   * @see javax.portlet.PortletContext#getInitParameterNames()
+   */
+  public final Enumeration getInitParameterNames() {
+    return servletContext.getInitParameterNames();
   }
 
-  public String getPortletContextName() {
-    return servletContext_.getServletContextName();
+  /**
+   * Overridden method.
+   *
+   * @return portlet context name
+   * @see javax.portlet.PortletContext#getPortletContextName()
+   */
+  public final String getPortletContextName() {
+    return servletContext.getServletContextName();
   }
 
-  public ServletContext getWrappedServletContext() {
-    return servletContext_;
+  /**
+   * Overridden method.
+   *
+   * @return encapsulated servlet contex
+   * @see org.exoplatform.services.portletcontainer.ExoPortletContext#getWrappedServletContext()
+   */
+  public final ServletContext getWrappedServletContext() {
+    return servletContext;
   }
 
-  public void log(java.lang.String msg) {
-    servletContext_.log(msg);
+  /**
+   * Overridden method.
+   *
+   * @param msg message to log
+   * @see javax.portlet.PortletContext#log(java.lang.String)
+   */
+  public final void log(final java.lang.String msg) {
+    servletContext.log(msg);
   }
 
-  public void log(java.lang.String message,
-                  java.lang.Throwable throwable) {
-    servletContext_.log(message, throwable);
+  /**
+   * Overridden method.
+   *
+   * @param message message to log
+   * @param throwable exception
+   * @see javax.portlet.PortletContext#log(java.lang.String, java.lang.Throwable)
+   */
+  public final void log(final java.lang.String message, final java.lang.Throwable throwable) {
+    servletContext.log(message, throwable);
   }
 
-  // A PC spec Draft 20 changes:
-
-  // public Map getPortletRuntimeOptions() {
-  // return portlet.getContainerRuntimeOption();
-  // }
-  //
-  // public Map getApplicationRuntimeOptions() {
-  // return portlet.getApplication().getContainerRuntimeOption();
-  // }
-
-  public Enumeration<String> getContainerRuntimeOptions() {
+  /**
+   * Overridden method.
+   *
+   * @return container runtime options
+   * @see javax.portlet.PortletContext#getContainerRuntimeOptions()
+   */
+  public final Enumeration<String> getContainerRuntimeOptions() {
     Map<String, String[]> a = portlet.getContainerRuntimeOption();
     Map<String, String[]> b = portlet.getApplication().getContainerRuntimeOption();
 
-    // // If a container
-    // runtime option is set on the portlet application level and on the portlet
-    // level with the same name the setting on the portlet level takes
-    // precedence
+    // If a container runtime option is set on the portlet application level and on the portlet
+    // level with the same name the setting on the portlet level takes precedence
     // and overwrites the one set on the portal application level.
 
     b.putAll(a);
     return java.util.Collections.enumeration(b.keySet());
   }
 
-  public Portlet getPortlet() {
+  /**
+   * @return portlet object
+   */
+  public final Portlet getPortlet() {
     return portlet;
   }
 

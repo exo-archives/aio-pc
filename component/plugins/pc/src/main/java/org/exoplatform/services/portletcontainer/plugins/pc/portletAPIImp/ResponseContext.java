@@ -32,47 +32,47 @@ import org.exoplatform.services.portletcontainer.pci.model.CustomWindowState;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS Author : Roman Pedchenko
+ * <roman.pedchenko@exoplatform.com.ua>
  */
 public class ResponseContext {
 
-  private HttpServletResponse      httpServletResponse_;
+  private final HttpServletResponse httpServletResponse_;
 
-  private ExoContainer             cont_;
+  private final ExoContainer cont_;
 
-  private String                   windowID_;
+  private final String windowID_;
 
-  private Input                    input_;
+  private final Input input_;
 
-  private Portlet                  portletDatas_;
+  private final Portlet portletDatas_;
 
-  private boolean                  isSecure_;
+  private final boolean isSecure_;
 
-  private Collection<String>       supportedContents_;
+  private final Collection<String> supportedContents_;
 
-  private Enumeration<WindowState> windowStates_;
+  private final Enumeration<WindowState> windowStates_;
 
-  private List<CustomWindowState>  customWindowState_;
+  private final List<CustomWindowState> customWindowState_;
 
-  private Output                   output_;
+  private final Output output_;
 
-  private PortalContext            portalContext_;
+  private final PortalContext portalContext_;
 
   private final PortletRequest request;
 
-  public ResponseContext(HttpServletResponse httpServletResponse,
-                         ExoContainer cont,
-                         String windowID,
-                         Input input,
-                         Portlet portletDatas,
-                         boolean isSecure,
-                         Collection<String> supportedContents,
-                         Enumeration<WindowState> windowStates,
-                         List<CustomWindowState> customWindowState,
-                         Output output,
-                         PortalContext portalContext,
-                         PortletRequest request) {
+  public ResponseContext(final HttpServletResponse httpServletResponse,
+      final ExoContainer cont,
+      final String windowID,
+      final Input input,
+      final Portlet portletDatas,
+      final boolean isSecure,
+      final Collection<String> supportedContents,
+      final Enumeration<WindowState> windowStates,
+      final List<CustomWindowState> customWindowState,
+      final Output output,
+      final PortalContext portalContext,
+      final PortletRequest request) {
     this.httpServletResponse_ = httpServletResponse;
     this.cont_ = cont;
     this.windowID_ = windowID;

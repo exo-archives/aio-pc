@@ -48,28 +48,28 @@ import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesP
  */
 public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
-  transient private PreferencesValidator  validator_;
+  private final transient PreferencesValidator validator_;
 
-  transient private ExoPortletPreferences defaultPreferences_;
+  private final transient ExoPortletPreferences defaultPreferences_;
 
-  transient private int                   methodCalledIsAction_;
+  transient private int methodCalledIsAction_;
 
-  transient private boolean               stateChangeAuthorized_ = true;
+  transient private boolean stateChangeAuthorized_ = true;
 
-  private ExoPortletPreferences           preferences_           = new ExoPortletPreferences();
+  private ExoPortletPreferences preferences_ = new ExoPortletPreferences();
 
-  private ExoPortletPreferences           modifiedPreferences_   = new ExoPortletPreferences();
+  private ExoPortletPreferences modifiedPreferences_ = new ExoPortletPreferences();
 
-  private boolean                         stateSaveOnClient_;
+  private boolean stateSaveOnClient_;
 
-  protected WindowID                      windowID_;
+  protected WindowID windowID_;
 
-  private PortletPreferencesPersister     persister_;
+  private final PortletPreferencesPersister persister_;
 
-  public PortletPreferencesImp(PreferencesValidator validator,
-                               ExoPortletPreferences defaultPreferences,
-                               WindowID windowID,
-                               PortletPreferencesPersister persister) {
+  public PortletPreferencesImp(final PreferencesValidator validator,
+      final ExoPortletPreferences defaultPreferences,
+      final WindowID windowID,
+      final PortletPreferencesPersister persister) {
     this.validator_ = validator;
     this.defaultPreferences_ = defaultPreferences;
     this.windowID_ = windowID;
@@ -82,15 +82,13 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
       return;
     Collection<Preference> collection = defaultPreferences_.values();
     Preference wrapper;
-    for (Iterator<Preference> i = collection.iterator(); i.hasNext();) {
-      Preference preferenceType = i.next();
+    for (Preference preferenceType : collection) {
       wrapper = new Preference();
       wrapper.setName(preferenceType.getName());
       wrapper.setReadOnly(preferenceType.isReadOnly());
       List<String> values = preferenceType.getValues();
-      for (int j = 0; j < values.size(); j++) {
+      for (int j = 0; j < values.size(); j++)
         wrapper.addValue(values.get(j));
-      }
       preferences_.put(preferenceType.getName(), wrapper);
     }
   }
@@ -99,11 +97,11 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     return this.preferences_;
   }
 
-  public void setCurrentPreferences(ExoPortletPreferences map) {
+  public void setCurrentPreferences(final ExoPortletPreferences map) {
     this.preferences_ = map;
   }
 
-  public boolean isReadOnly(String s) {
+  public boolean isReadOnly(final String s) {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     Preference wrapper = modifiedPreferences_.get(s);
@@ -114,26 +112,24 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     return wrapper.isReadOnly();
   }
 
-  public String getValue(String s,
-                         String s1) {
+  public String getValue(final String s, final String s1) {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     Preference wrapper = modifiedPreferences_.get(s);
     if (wrapper == null)
       wrapper = preferences_.get(s);
-    if (wrapper == null || wrapper.getValues().isEmpty())
+    if ((wrapper == null) || wrapper.getValues().isEmpty())
       return s1;
     return wrapper.getValues().iterator().next();
   }
 
-  public String[] getValues(String s,
-                            String[] strings) {
+  public String[] getValues(final String s, final String[] strings) {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     Preference wrapper = modifiedPreferences_.get(s);
     if (wrapper == null)
       wrapper = preferences_.get(s);
-    if (wrapper == null || wrapper.getValues().isEmpty())
+    if ((wrapper == null) || wrapper.getValues().isEmpty())
       return strings;
 
     Object[] arr = wrapper.getValues().toArray();
@@ -145,8 +141,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     return sA;
   }
 
-  public void setValue(String s,
-                       String s1) throws ReadOnlyException {
+  public void setValue(final String s, final String s1) throws ReadOnlyException {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (isReadOnly(s))
@@ -159,8 +154,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     modifiedPreferences_.put(s, wrapper);
   }
 
-  public void setValues(String s,
-                        String[] strings) throws ReadOnlyException {
+  public void setValues(final String s, final String[] strings) throws ReadOnlyException {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (isReadOnly(s))
@@ -171,8 +165,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     wrapper.setReadOnly(false);
 
     Collection<String> c = new ArrayList<String>(strings.length);
-    for (int i = 0; i < strings.length; i++) {
-      String string = strings[i];
+    for (String string : strings) {
       c.add(string);
     }
     wrapper.getValues().addAll(c);
@@ -183,8 +176,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   public Enumeration<String> getNames() {
     Collection<String> c = new ArrayList<String>();
     Set<String> names = mergeModifiedPreference().keySet();
-    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-      String s = iterator.next();
+    for (String s : names) {
       c.add(s);
     }
 
@@ -194,8 +186,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   public Map<String, String[]> getMap() {
     Map<String, String[]> result = new HashMap<String, String[]>();
     Collection<String> keys = mergeModifiedPreference().keySet();
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-      String key = iter.next();
+    for (String key : keys) {
       Preference element = mergeModifiedPreference().get(key);
       Collection<String> c2 = element.getValues();
       String[] myArray = new String[c2.size()];
@@ -214,15 +205,14 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     ExoPortletPreferences result = new ExoPortletPreferences();
     result.putAll(modifiedPreferences_);
     Collection<String> keys = preferences_.keySet();
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-      String key = iter.next();
+    for (String key : keys) {
       if (!result.containsKey(key))
         result.put(key, preferences_.get(key));
     }
     return result;
   }
 
-  public void reset(String s) throws ReadOnlyException {
+  public void reset(final String s) throws ReadOnlyException {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (isReadOnly(s))
@@ -231,15 +221,14 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     if (defaultPreferences_ != null)
       preferenceType = defaultPreferences_.get(s);
     try {
-      if (preferenceType == null) {
+      if (preferenceType == null)
         preferences_.remove(s);
-      } else {
+      else {
         Preference wrapper = preferences_.get(s);
         wrapper.getValues().clear();
         List<String> defaultValues = preferenceType.getValues();
-        for (int i = 0; i < defaultValues.size(); i++) {
+        for (int i = 0; i < defaultValues.size(); i++)
           wrapper.addValue(defaultValues.get(i));
-        }
       }
       modifiedPreferences_.remove(s);
       if (persister_.getPortletPreferences(windowID_) != null)
@@ -252,28 +241,24 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   /**
    * We first validate every field then we deleguates the storing to an object
    * that implements the PersistentManager interface
-   *
+   * 
    * @throws IOException
    * @throws ValidatorException
    */
-  public void store() throws IOException,
-                     ValidatorException {
-    if (!isMethodCalledIsAction()) {
+  public void store() throws IOException, ValidatorException {
+    if (!isMethodCalledIsAction())
       throw new IllegalStateException("the store() method can not be called from a render method");
-    }
     if (!isStateChangeAuthorized())
       throw new IllegalStateException("the state of the portlet can not be changed");
-    if (validator_ != null) {
+    if (validator_ != null)
       validator_.validate(this);
-    }
     preferences_ = mergeModifiedPreference();
     modifiedPreferences_ = new ExoPortletPreferences();
-    if (!isStateSaveOnClient()) {
+    if (!isStateSaveOnClient())
       save(getCurrentPreferences());
-    }
   }
 
-  private void save(ExoPortletPreferences preferences) throws IOException {
+  private void save(final ExoPortletPreferences preferences) throws IOException {
     try {
       persister_.savePortletPreferences(windowID_, preferences);
     } catch (final Exception ex) {
@@ -290,7 +275,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     modifiedPreferences_ = new ExoPortletPreferences();
   }
 
-  public void setMethodCalledIsAction(int b) {
+  public void setMethodCalledIsAction(final int b) {
     methodCalledIsAction_ = b;
   }
 
@@ -306,11 +291,11 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     return stateChangeAuthorized_;
   }
 
-  public void setStateChangeAuthorized(boolean stateChangeAuthorized) {
+  public void setStateChangeAuthorized(final boolean stateChangeAuthorized) {
     this.stateChangeAuthorized_ = stateChangeAuthorized;
   }
 
-  public void setStateSaveOnClient(boolean stateSaveOnClient) {
+  public void setStateSaveOnClient(final boolean stateSaveOnClient) {
     this.stateSaveOnClient_ = stateSaveOnClient;
   }
 

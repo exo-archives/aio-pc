@@ -20,32 +20,57 @@ import javax.servlet.jsp.tagext.TagSupport;
 import javax.servlet.jsp.JspException;
 
 /**
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Aug 20, 2003
- * Time: 1:54:58 PM
+ * @author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * @date: Aug 20, 2003
+ * @time: 1:54:58 PM
  */
 public class ParamTag extends TagSupport {
 
+  /**
+   * Name.
+   */
   private String name;
+
+  /**
+   * Value.
+   */
   private String value;
 
-  public String getValue() {
+  /**
+   * @return value
+   */
+  public final String getValue() {
     return value;
   }
 
-  public void setValue(String value) {
+  /**
+   * @param value value
+   */
+  public final void setValue(final String value) {
     this.value = value;
   }
 
-  public String getName() {
+  /**
+   * @return name
+   */
+  public final String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
 
+  /**
+   * Overridden method.
+   *
+   * @return state
+   * @throws JspException exception
+   * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+   */
   public int doEndTag() throws JspException {
     XURLTag father = (XURLTag) getParent();
     father.addParameter(name, value);

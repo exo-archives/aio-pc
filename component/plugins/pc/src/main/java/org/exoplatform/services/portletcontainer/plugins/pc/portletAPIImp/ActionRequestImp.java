@@ -19,15 +19,12 @@ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 import javax.portlet.ActionRequest;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 29, 2003
- * Time: 1:38:46 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 1:38:46 PM
  */
 public class ActionRequestImp extends ClientDataRequestImp implements ActionRequest {
 
-  public ActionRequestImp(RequestContext reqCtx) {
+  public ActionRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
   }
 

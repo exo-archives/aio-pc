@@ -16,23 +16,23 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
-import java.util.Locale;
 import javax.portlet.ResourceResponse;
+
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS Author : Roman Pedchenko
+ * <roman.pedchenko@exoplatform.com.ua>
  */
 public class ResourceResponseImp extends MimeResponseImp implements ResourceResponse {
 
-  public ResourceResponseImp(ResponseContext resCtx) {
+  public ResourceResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
   public void setContentType(String contentType) {
-    if (contentType != null && contentType.indexOf(';') >= 0) {
+    if ((contentType != null) && (contentType.indexOf(';') >= 0)) {
       String s = StringUtils.split(contentType, ';')[1].trim();
       contentType = StringUtils.split(contentType, ';')[0].trim();
       if (s.toLowerCase().startsWith("charset="))
@@ -41,9 +41,8 @@ public class ResourceResponseImp extends MimeResponseImp implements ResourceResp
     super.setContentType(contentType);
   }
 
-  public void setCharacterEncoding(String charset) {
-    ((ResourceOutput) output_).setCharacterEncoding(charset);
+  public void setCharacterEncoding(final String charset) {
+    ((ResourceOutput) getOutput()).setCharacterEncoding(charset);
   }
- 
- 
+
 }

@@ -19,23 +19,36 @@ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils
 import javax.portlet.PortletSession;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  * Date: Jul 26, 2003
  * Time: 4:54:01 PM
  *
  * The attribute name may be encoded according to its scope (application or portlet)
- * using
- *           javax.portlet.p.<ID>?attributeName    (for portlet  scope)
+ * using javax.portlet.p.{ID}?attributeName (for portlet scope)
  */
-public class PortletSessionImpUtil {
+public final class PortletSessionImpUtil {
 
+  /**
+   * Attribute name prefix.
+   */
   private static final String PORTLET_SCOPE_NAMESPACE = "javax.portlet.p.";
 
-  public static String encodePortletSessionAttribute(String id,
-                                                     String attributeName,
-                                                     int scope) {
+  /**
+   * Private constructor.
+   */
+  private PortletSessionImpUtil() {
+  }
+
+  /**
+   * @param id id
+   * @param attributeName attr name
+   * @param scope scope
+   * @return encoded attr name
+   */
+  public static String encodePortletSessionAttribute(final String id,
+      final String attributeName,
+      final int scope) {
     StringBuffer sB = new StringBuffer();
     if (PortletSession.APPLICATION_SCOPE == scope) {
       sB.append(attributeName);
@@ -46,9 +59,8 @@ public class PortletSessionImpUtil {
       sB.append("?");
       sB.append(attributeName);
       return sB.toString();
-    } else {
+    } else
       return null;
-    }
   }
 
 }

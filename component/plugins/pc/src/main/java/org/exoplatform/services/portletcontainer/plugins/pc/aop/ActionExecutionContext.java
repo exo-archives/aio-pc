@@ -23,21 +23,77 @@ import javax.portlet.Portlet;
 import org.exoplatform.container.component.ExecutionContext;
 
 /**
- * Created by The eXo Platform SAS Author : Tuan Nguyen
+ * Created by The eXo Platform SAS. Author : Tuan Nguyen
  * tuan08@users.sourceforge.net Sep 17, 2005
  */
 public class ActionExecutionContext extends ExecutionContext {
-  ActionRequest  request_;
 
-  ActionResponse response_;
+  /**
+   * Request.
+   */
+  private ActionRequest request;
 
-  Portlet        portlet_;
+  /**
+   * Response.
+   */
+  private ActionResponse response;
 
-  public ActionExecutionContext(Portlet p,
-                                ActionRequest req,
-                                ActionResponse res) {
-    portlet_ = p;
-    request_ = req;
-    response_ = res;
+  /**
+   * Portlet object.
+   */
+  private Portlet portlet;
+
+  /**
+   * @param p portlet object
+   * @param req request
+   * @param res response
+   */
+  public ActionExecutionContext(final Portlet p, final ActionRequest req, final ActionResponse res) {
+    setPortlet(p);
+    setRequest(req);
+    setResponse(res);
   }
+
+  /**
+   * @param portlet the portlet to set
+   */
+  final void setPortlet(final Portlet portlet) {
+    this.portlet = portlet;
+  }
+
+  /**
+   * @return the portlet
+   */
+  final Portlet getPortlet() {
+    return portlet;
+  }
+
+  /**
+   * @param response the response to set
+   */
+  final void setResponse(final ActionResponse response) {
+    this.response = response;
+  }
+
+  /**
+   * @return the response
+   */
+  final ActionResponse getResponse() {
+    return response;
+  }
+
+  /**
+   * @param request the request to set
+   */
+  final void setRequest(final ActionRequest request) {
+    this.request = request;
+  }
+
+  /**
+   * @return the request
+   */
+  final ActionRequest getRequest() {
+    return request;
+  }
+
 }

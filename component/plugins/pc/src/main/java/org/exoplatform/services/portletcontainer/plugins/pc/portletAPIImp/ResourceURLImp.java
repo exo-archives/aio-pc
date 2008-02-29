@@ -17,7 +17,6 @@
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -34,31 +33,29 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
  */
 public class ResourceURLImp extends BaseURLImp implements ResourceURL {
 
-  protected String                resourceID;
+  protected String resourceID;
 
-  protected String                originalCacheLevel;
+  protected String originalCacheLevel;
 
-  protected String                cacheLevel;
+  protected String cacheLevel;
 
   protected Map<String, String[]> renderParams;
 
-
-  public ResourceURLImp(String type,
-                        String baseURL,
-                        boolean isCurrentlySecured,
-                        boolean defaultEscapeXml,
-                        String cacheLevel,
-                        Portlet portletDatas,
-                        Map<String, String[]> renderParams) {
+  public ResourceURLImp(final String type,
+      final String baseURL,
+      final boolean isCurrentlySecured,
+      final boolean defaultEscapeXml,
+      final String cacheLevel,
+      final Portlet portletDatas,
+      final Map<String, String[]> renderParams) {
     super(type, baseURL, isCurrentlySecured, defaultEscapeXml, portletDatas);
 
     this.renderParams = renderParams;
 
-    if (cacheLevel == null) {
+    if (cacheLevel == null)
       this.originalCacheLevel = ResourceURL.PAGE;
-    } else {
+    else
       this.originalCacheLevel = cacheLevel;
-    }
     this.cacheLevel = this.originalCacheLevel;
   }
 
@@ -68,8 +65,7 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
     if (list == null)
       return;
-    for (Iterator<PortletURLGenerationListener> i = list.iterator(); i.hasNext();) {
-      PortletURLGenerationListener listener = i.next();
+    for (PortletURLGenerationListener listener : list) {
       try {
         listener.filterResourceURL(this);
       } catch (Exception e) {
@@ -77,7 +73,7 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     }
   }
 
-  public String toString(boolean escapeXML) {
+  public String toString(final boolean escapeXML) {
     invokeFilterResourceURL();
 
     if (!setSecureCalled && isCurrentlySecured)
@@ -112,8 +108,7 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
 
     try {
       Set<String> names = parameters.keySet();
-      for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-        String name = iterator.next();
+      for (String name : names) {
         Object obj = parameters.get(name);
         if (obj instanceof String) {
           String value = (String) obj;
@@ -123,11 +118,11 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
           sB.append(encode(value, escapeXML));
         } else {
           String[] values = (String[]) obj;
-          for (int i = 0; i < values.length; i++) {
+          for (String element : values) {
             sB.append(Constants.AMPERSAND);
             sB.append(encode(name, escapeXML));
             sB.append("=");
-            sB.append(encode(values[i], escapeXML));
+            sB.append(encode(element, escapeXML));
           }
         }
       }
@@ -135,11 +130,11 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
       e.printStackTrace();
     }
 
-    if (renderParams != null && (cacheLevel.equals(ResourceURL.PAGE) || cacheLevel.equals(ResourceURL.PORTLET))) {
+    if ((renderParams != null)
+        && (cacheLevel.equals(ResourceURL.PAGE) || cacheLevel.equals(ResourceURL.PORTLET)))
       try {
         Set<String> names = renderParams.keySet();
-        for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-          String name = iterator.next();
+        for (String name : names) {
           Object obj = renderParams.get(name);
           if (obj instanceof String) {
             String value = (String) obj;
@@ -149,28 +144,26 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
             sB.append(encode(value, escapeXML));
           } else {
             String[] values = (String[]) obj;
-            for (int i = 0; i < values.length; i++) {
+            for (String element : values) {
               sB.append(Constants.AMPERSAND);
               sB.append(encode(name, escapeXML));
               sB.append("=");
-              sB.append(encode(values[i], escapeXML));
+              sB.append(encode(element, escapeXML));
             }
           }
         }
       } catch (Exception e) {
         e.printStackTrace();
       }
-    }
 
     String propertyString = getPropertyString(escapeXML);
-    if (propertyString != "" && propertyString != null) {
+    if ((propertyString != "") && (propertyString != null))
       // sB.append(Constants.AMPERSAND);
       sB.append(propertyString);
-    }
     return sB.toString();
   }
 
-  public void setResourceID(String resourceID) {
+  public void setResourceID(final String resourceID) {
     this.resourceID = resourceID;
   }
 
@@ -186,20 +179,20 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
   // cannot set null cache level
   // default "cacheLevelPage"
   // originalCacheLevel >= cacheLevel should set
-  public void setCacheability(String cacheLevel) {
+  public void setCacheability(final String cacheLevel) {
     if (cacheLevel != null) {
-      if (!isSupportedCacheLevel(cacheLevel)) {
-        throw new IllegalStateException("Cacheability level error: the cache level '" + cacheLevel + "' is unknown to the portlet container");
-      }
-      if (getSupportedCacheLevel().indexOf(originalCacheLevel) < getSupportedCacheLevel().indexOf(cacheLevel)) {
-        throw new IllegalStateException("Cacheability level error: wants to become cache level '" + cacheLevel + "' a weaker than the parent '"
-            + originalCacheLevel + "'.");
-      }
+      if (!isSupportedCacheLevel(cacheLevel))
+        throw new IllegalStateException("Cacheability level error: the cache level '" + cacheLevel
+            + "' is unknown to the portlet container");
+      if (getSupportedCacheLevel().indexOf(originalCacheLevel) < getSupportedCacheLevel().indexOf(
+          cacheLevel))
+        throw new IllegalStateException("Cacheability level error: wants to become cache level '"
+            + cacheLevel + "' a weaker than the parent '" + originalCacheLevel + "'.");
       this.cacheLevel = cacheLevel;
     }
   }
 
-  public static boolean isSupportedCacheLevel(String cacheLevel) {
+  public static boolean isSupportedCacheLevel(final String cacheLevel) {
     return getSupportedCacheLevel().contains(cacheLevel);
   }
 

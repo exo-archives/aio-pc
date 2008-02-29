@@ -25,48 +25,48 @@ import javax.portlet.PortletURL;
 import javax.portlet.WindowStateException;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 29, 2003
- * Time: 2:44:18 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 2:44:18 PM
  */
 public class ActionResponseImp extends StateAwareResponseImp implements ActionResponse {
 
   private String location;
 
-  public ActionResponseImp(ResponseContext resCtx) {
+  public ActionResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
-  public void sendRedirect(String location1) throws IOException {
-    if (!redirectionPossible_)
-      throw new IllegalStateException(" The sendRedirect method can not be invoked " +
-          "after any of the following methods of the ActionResponse interface has " +
-          "been called: setPortletMode, setWindowState, setRenderParameter, " +
-      "setRenderParameters");
-    if (location1.startsWith("/") || location1.startsWith("http://") || location1.startsWith("https://")) {
-      this.sendRedirectAlreadyOccured_ = true;
+  public void sendRedirect(final String location1) throws IOException {
+    if (!isRedirectionPossible())
+      throw new IllegalStateException(" The sendRedirect method can not be invoked "
+          + "after any of the following methods of the ActionResponse interface has "
+          + "been called: setPortletMode, setWindowState, setRenderParameter, "
+          + "setRenderParameters");
+    if (location1.startsWith("/") || location1.startsWith("http://")
+        || location1.startsWith("https://")) {
+      this.setSendRedirectAlreadyOccured(true);
       this.location = location1;
-    } else {
-      throw new IllegalArgumentException ("a relative or incorrect path URL is given");
-    }
+    } else
+      throw new IllegalArgumentException("a relative or incorrect path URL is given");
   }
 
   public void sendRedirect(String location1, String renderUrlParamName) throws IOException {
     PortletURL url = this.createRenderURL();
     try {
       url.setPortletMode(getPortletMode());
-    } catch (PortletModeException e) { }
+    } catch (PortletModeException e) {
+    }
     try {
       url.setWindowState(getWindowState());
-    } catch (WindowStateException e) { }
-    url.setParameters(resCtx.getPortletRequest().getParameterMap());
+    } catch (WindowStateException e) {
+    }
+    url.setParameters(getResCtx().getPortletRequest().getParameterMap());
     String paramForRedirect = url.toString();
     try {
       renderUrlParamName = URLEncoder.encode(renderUrlParamName, "utf-8");
       paramForRedirect = URLEncoder.encode(paramForRedirect, "utf-8");
-    } catch (java.io.UnsupportedEncodingException e) {}
+    } catch (java.io.UnsupportedEncodingException e) {
+    }
     if (location1.indexOf('?') < 0)
       location1 = location1 + "?";
     else

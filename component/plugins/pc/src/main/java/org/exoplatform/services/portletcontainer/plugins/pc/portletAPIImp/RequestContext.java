@@ -32,50 +32,50 @@ import org.exoplatform.services.portletcontainer.pci.model.SecurityConstraint;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS Author : Roman Pedchenko
+ * <roman.pedchenko@exoplatform.com.ua>
  */
 public class RequestContext {
 
-  private HttpServletRequest       httpServletRequest_;
+  private final HttpServletRequest httpServletRequest_;
 
-  private PortalContext            portalContext_;
+  private final PortalContext portalContext_;
 
-  private PortletContext           portletContext_;
+  private final PortletContext portletContext_;
 
-  private PortletSessionImp        session_;
+  private final PortletSessionImp session_;
 
-  private Portlet                  portletDatas_;
+  private final Portlet portletDatas_;
 
-  private Input                    input_;
+  private final Input input_;
 
-  private PortletWindowInternal    portletWindowInternal_;
+  private final PortletWindowInternal portletWindowInternal_;
 
-  private List<SecurityConstraint> securityContraints_;
+  private final List<SecurityConstraint> securityContraints_;
 
-  private List<UserAttribute>      userAttributes_;
+  private final List<UserAttribute> userAttributes_;
 
-  private List<CustomPortletMode>  customPortletModes_;
+  private final List<CustomPortletMode> customPortletModes_;
 
-  private List<CustomWindowState>  customWindowStates_;
+  private final List<CustomWindowState> customWindowStates_;
 
-  private Collection<String>       roles_;
+  private final Collection<String> roles_;
 
-  private Collection               supportedContents_;
+  private final Collection supportedContents_;
 
-  public RequestContext(HttpServletRequest httpServletRequest,
-                        PortalContext portalContext,
-                        PortletContext portletContext,
-                        PortletSessionImp session,
-                        // Portlet portletDatas,
-                        Input input,
-                        PortletWindowInternal portletWindowInternal,
-                        List<SecurityConstraint> securityContraints,
-                        List<UserAttribute> userAttributes,
-                        List<CustomPortletMode> customPortletModes,
-                        List<CustomWindowState> customWindowStates,
-                        Collection<String> roles,
-                        Collection supportedContents) {
+  public RequestContext(final HttpServletRequest httpServletRequest,
+      final PortalContext portalContext,
+      final PortletContext portletContext,
+      final PortletSessionImp session,
+      // Portlet portletDatas,
+      final Input input,
+      final PortletWindowInternal portletWindowInternal,
+      final List<SecurityConstraint> securityContraints,
+      final List<UserAttribute> userAttributes,
+      final List<CustomPortletMode> customPortletModes,
+      final List<CustomWindowState> customWindowStates,
+      final Collection<String> roles,
+      final Collection supportedContents) {
     this.httpServletRequest_ = httpServletRequest;
     this.portalContext_ = portalContext;
     this.portletContext_ = portletContext;

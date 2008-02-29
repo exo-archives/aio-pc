@@ -39,51 +39,52 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
 
   protected List<Supports> supports;
 
-  protected WindowState    requiredWindowState;
+  protected WindowState requiredWindowState;
 
-  protected PortletMode    requiredPortletMode;
+  protected PortletMode requiredPortletMode;
 
-  protected String         markup;
+  protected String markup;
 
-//  public PortletURLImp(String type,
-//                       String baseURL,
-//                       String markup,
-//                       List<Supports> supports,
-//                       boolean isCurrentlySecured,
-//                       boolean defaultEscapeXml) {
-//    this(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml, null);
-//  }
+  // public PortletURLImp(String type,
+  // String baseURL,
+  // String markup,
+  // List<Supports> supports,
+  // boolean isCurrentlySecured,
+  // boolean defaultEscapeXml) {
+  // this(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml,
+  // null);
+  // }
 
-  public PortletURLImp(String type,
-                       String baseURL,
-                       String markup,
-                       List<Supports> supports,
-                       boolean isCurrentlySecured,
-                       boolean defaultEscapeXml,
-                       Portlet portletDatas) {
+  public PortletURLImp(final String type,
+      final String baseURL,
+      final String markup,
+      final List<Supports> supports,
+      final boolean isCurrentlySecured,
+      final boolean defaultEscapeXml,
+      final Portlet portletDatas) {
     super(type, baseURL, isCurrentlySecured, defaultEscapeXml, portletDatas);
     this.markup = markup;
     this.supports = supports;
   }
 
-  public void setWindowState(WindowState windowState) throws WindowStateException {
+  public void setWindowState(final WindowState windowState) throws WindowStateException {
 
-    if (windowState == null) {
+    if (windowState == null)
       throw new WindowStateException("The portlet state is null", windowState);
-    }
-    if (windowState == WindowState.NORMAL || windowState == WindowState.MINIMIZED || windowState == WindowState.MAXIMIZED) {
+    if ((windowState == WindowState.NORMAL) || (windowState == WindowState.MINIMIZED)
+        || (windowState == WindowState.MAXIMIZED)) {
       requiredWindowState = windowState;
       return;
     }
 
     boolean supported = false;
-    for (Iterator iterator = supports.iterator(); iterator.hasNext();) {
-      Supports sp = (Supports) iterator.next();
+    for (Object element : supports) {
+      Supports sp = (Supports) element;
       if (markup.equals(sp.getMimeType())) {
         List stateList = sp.getWindowState();
         for (Iterator iterator1 = stateList.iterator(); iterator1.hasNext();) {
           String stateString = (String) iterator1.next();
-          if (stateString != null && stateString.equalsIgnoreCase(windowState.toString())) {
+          if ((stateString != null) && stateString.equalsIgnoreCase(windowState.toString())) {
             supported = true;
             break;
           }
@@ -92,29 +93,29 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
       }
     }
     if (!supported)
-      throw new WindowStateException("The window state " + windowState.toString() + " is not supported by that portlet", windowState);
+      throw new WindowStateException("The window state " + windowState.toString()
+          + " is not supported by that portlet", windowState);
 
     requiredWindowState = windowState;
   }
 
-  public void setPortletMode(PortletMode portletMode) throws PortletModeException {
+  public void setPortletMode(final PortletMode portletMode) throws PortletModeException {
 
-    if (portletMode == null) {
+    if (portletMode == null)
       throw new PortletModeException("The portlet mode is null", portletMode);
-    }
     if (portletMode == PortletMode.VIEW) {
       requiredPortletMode = portletMode;
       return;
     }
 
     boolean supported = false;
-    for (Iterator iterator = supports.iterator(); iterator.hasNext();) {
-      Supports sp = (Supports) iterator.next();
+    for (Object element : supports) {
+      Supports sp = (Supports) element;
       if (markup.equals(sp.getMimeType())) {
         List modeList = sp.getPortletMode();
         for (Iterator iterator1 = modeList.iterator(); iterator1.hasNext();) {
           String modeString = (String) iterator1.next();
-          if (modeString != null && modeString.equalsIgnoreCase(portletMode.toString())) {
+          if ((modeString != null) && modeString.equalsIgnoreCase(portletMode.toString())) {
             supported = true;
             break;
           }
@@ -123,7 +124,8 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
       }
     }
     if (!supported)
-      throw new PortletModeException("The mode " + portletMode.toString() + " is not supported by that portlet", portletMode);
+      throw new PortletModeException("The mode " + portletMode.toString()
+          + " is not supported by that portlet", portletMode);
 
     requiredPortletMode = portletMode;
   }
@@ -142,11 +144,11 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
     if (list == null)
       return;
-    for (Iterator<PortletURLGenerationListener> i = list.iterator(); i.hasNext();) {
-      PortletURLGenerationListener listener = i.next();
+    for (PortletURLGenerationListener listener : list) {
       try {
         listener.filterRenderURL(this);
-      } catch (Exception e) { }
+      } catch (Exception e) {
+      }
     }
   }
 
@@ -156,8 +158,7 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
     if (list == null)
       return;
-    for (Iterator<PortletURLGenerationListener> i = list.iterator(); i.hasNext();) {
-      PortletURLGenerationListener listener = i.next();
+    for (PortletURLGenerationListener listener : list) {
       try {
         listener.filterActionURL(this);
       } catch (Exception e) {
@@ -165,7 +166,7 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     }
   }
 
-  public String toString(boolean escapeXML) {
+  public String toString(final boolean escapeXML) {
     if (type.equals(PCConstants.ACTION_STRING))
       invokeFilterActionURL();
     else
@@ -212,23 +213,22 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
         sB.append(encode(value, escapeXML));
       } else {
         String[] values = (String[]) obj;
-        for (int i = 0; i < values.length; i++) {
+        for (String element : values) {
           sB.append(Constants.AMPERSAND);
           sB.append(encode(name, escapeXML));
           sB.append("=");
-          sB.append(encode(values[i], escapeXML));
+          sB.append(encode(element, escapeXML));
         }
       }
     }
     String propertyString = getPropertyString(escapeXML);
-    if (propertyString != "" && propertyString != null) {
+    if ((propertyString != "") && (propertyString != null))
       // sB.append(Constants.AMPERSAND);
       sB.append(propertyString);
-    }
     return sB.toString();
   }
 
-  public void removePublicRenderParameter(String name) {
+  public void removePublicRenderParameter(final String name) {
     setParameter(PCConstants.REMOVE_PUBLIC_STRING, name);
   }
 

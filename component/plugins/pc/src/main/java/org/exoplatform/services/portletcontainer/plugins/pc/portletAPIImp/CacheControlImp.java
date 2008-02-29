@@ -20,49 +20,103 @@ import javax.portlet.CacheControl;
 import javax.portlet.RenderResponse;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class CacheControlImp implements CacheControl {
 
-  private MimeResponseImp resp;
+  /**
+   * Response.
+   */
+  private final MimeResponseImp resp;
 
-  public CacheControlImp(MimeResponseImp resp) {
+  /**
+   * @param resp response
+   */
+  public CacheControlImp(final MimeResponseImp resp) {
     this.resp = resp;
   }
 
-  public int getExpirationTime() {
+  /**
+   * Overridden method.
+   *
+   * @return time
+   * @see javax.portlet.CacheControl#getExpirationTime()
+   */
+  public final int getExpirationTime() {
     return Integer.parseInt(resp.getProperty(RenderResponse.EXPIRATION_CACHE));
   }
 
-  public void setExpirationTime(int time) {
+  /**
+   * Overridden method.
+   *
+   * @param time time
+   * @see javax.portlet.CacheControl#setExpirationTime(int)
+   */
+  public final void setExpirationTime(final int time) {
     resp.setProperty(RenderResponse.EXPIRATION_CACHE, String.valueOf(time));
   }
 
-  public boolean isPublicScope() {
+  /**
+   * Overridden method.
+   *
+   * @return public scope
+   * @see javax.portlet.CacheControl#isPublicScope()
+   */
+  public final boolean isPublicScope() {
     return resp.getProperty(RenderResponse.CACHE_SCOPE).equals(RenderResponse.PUBLIC_SCOPE);
   }
 
-  public void setPublicScope(boolean publicScope) {
+  /**
+   * Overridden method.
+   *
+   * @param publicScope public scope
+   * @see javax.portlet.CacheControl#setPublicScope(boolean)
+   */
+  public final void setPublicScope(final boolean publicScope) {
     if (publicScope)
       resp.setProperty(RenderResponse.CACHE_SCOPE, RenderResponse.PUBLIC_SCOPE);
     else
       resp.setProperty(RenderResponse.CACHE_SCOPE, RenderResponse.PRIVATE_SCOPE);
   }
 
-  public String getETag() {
+  /**
+   * Overridden method.
+   *
+   * @return token
+   * @see javax.portlet.CacheControl#getETag()
+   */
+  public final String getETag() {
     return resp.getProperty(RenderResponse.ETAG);
   }
 
-  public void setETag(String token) {
+  /**
+   * Overridden method.
+   *
+   * @param token token
+   * @see javax.portlet.CacheControl#setETag(java.lang.String)
+   */
+  public final void setETag(final String token) {
     resp.setProperty(RenderResponse.ETAG, token);
   }
 
-  public boolean useCachedContent() {
+  /**
+   * Overridden method.
+   *
+   * @return either to use cached content
+   * @see javax.portlet.CacheControl#useCachedContent()
+   */
+  public final boolean useCachedContent() {
     return resp.getProperty(RenderResponse.USE_CACHED_CONTENT) != null;
   }
 
-  public void setUseCachedContent(boolean useCachedContent) {
+  /**
+   * Overridden method.
+   *
+   * @param useCachedContent either to use cached content
+   * @see javax.portlet.CacheControl#setUseCachedContent(boolean)
+   */
+  public final void setUseCachedContent(final boolean useCachedContent) {
     if (useCachedContent)
       resp.setProperty(RenderResponse.USE_CACHED_CONTENT, "");
     else

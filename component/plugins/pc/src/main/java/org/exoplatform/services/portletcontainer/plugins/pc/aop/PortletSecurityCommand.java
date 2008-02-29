@@ -42,7 +42,7 @@ public class PortletSecurityCommand extends BaseCommandUnit {
 
   protected Object processAction(ActionExecutionContext acontext)  throws  Throwable {
     log_.debug("--> processAction method, call security interceptor");
-    PortletRequestImp req = (PortletRequestImp) acontext.request_;
+    PortletRequestImp req = (PortletRequestImp) acontext.getRequest();
     String portletName = req.getPortletDatas().getPortletName();
     boolean needSecure = req.needsSecurityContraints(portletName);
     if (needSecure) {

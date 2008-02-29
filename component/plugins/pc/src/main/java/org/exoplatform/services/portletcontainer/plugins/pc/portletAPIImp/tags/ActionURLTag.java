@@ -22,17 +22,23 @@ import javax.portlet.BaseURL;
 import javax.servlet.ServletRequest;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  * Date: Aug 20, 2003
  * Time: 2:47:30 PM
  */
-public class ActionURLTag extends XURLTag{
+public class ActionURLTag extends XURLTag {
 
-  public BaseURL getPortletURL() {
-    ServletRequest request =  pageContext.getRequest();
-    MimeResponse portletResponse = (MimeResponse) request.getAttribute("javax.portlet.response") ;
+  /**
+   * Overridden method.
+   *
+   * @return portlet url
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.tags.XURLTag#getPortletURL()
+   */
+  public final BaseURL getPortletURL() {
+    ServletRequest request = pageContext.getRequest();
+    MimeResponse portletResponse = (MimeResponse) request.getAttribute("javax.portlet.response");
     return portletResponse.createActionURL();
   }
+
 }

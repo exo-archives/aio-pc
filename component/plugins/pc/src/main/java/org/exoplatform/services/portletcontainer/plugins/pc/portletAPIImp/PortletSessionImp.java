@@ -33,92 +33,96 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.PortletSessionImpUtil;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 26, 2003
- * Time: 4:30:52 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 26, 2003 Time: 4:30:52 PM
  */
 public class PortletSessionImp extends AbstractMap implements PortletSession {
 
-	private HttpSession session;
-	private PortletContext context;
-	private String windowId;
-  private String applicationId;
+  private HttpSession session;
+  private final PortletContext context;
+  private String windowId;
+  private final String applicationId;
   private boolean invalidated;
-  private Log log;
+  private final Log log;
   protected ExoContainer cont;
 
-  public PortletSessionImp(ExoContainer cont, HttpSession session, PortletContext context, String windowId) {
+  public PortletSessionImp(final ExoContainer cont,
+      final HttpSession session,
+      final PortletContext context,
+      final String windowId) {
     this.cont = cont;
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
-		this.session = session;
-		this.context = context;
-		this.windowId = windowId;
+    this.session = session;
+    this.context = context;
+    this.windowId = windowId;
     this.applicationId = context.getPortletContextName();
     this.invalidated = this.session == null;
   }
 
-	public Object getAttribute(String name) {
-		return getAttribute(name, PortletSession.PORTLET_SCOPE);
-	}
+  public Object getAttribute(final String name) {
+    return getAttribute(name, PortletSession.PORTLET_SCOPE);
+  }
 
-	public Object getAttribute(String name, int scope) {
+  public Object getAttribute(final String name, final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
-    if (name == null) {
-      throw new IllegalArgumentException("The attribute name cannot be null") ;
+    if (name == null)
+      throw new IllegalArgumentException("The attribute name cannot be null");
+    if (PortletSession.APPLICATION_SCOPE == scope)
+      return session.getAttribute(name);
+    else if (PortletSession.PORTLET_SCOPE == scope) {
+      String key = PortletSessionImpUtil.encodePortletSessionAttribute(windowId, name,
+          PortletSession.PORTLET_SCOPE);
+      return session.getAttribute(key);
     }
-		if (PortletSession.APPLICATION_SCOPE == scope) {
-			return session.getAttribute(name);
-		} else if (PortletSession.PORTLET_SCOPE == scope) {
-      String key = PortletSessionImpUtil.encodePortletSessionAttribute(windowId, name, PortletSession.PORTLET_SCOPE) ;
-			return session.getAttribute(key);
-		}
-		return null;
-	}
+    return null;
+  }
 
-	public void removeAttribute(String name) {
+  public void removeAttribute(final String name) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
-		removeAttribute(name, PortletSession.PORTLET_SCOPE);
-	}
+    removeAttribute(name, PortletSession.PORTLET_SCOPE);
+  }
 
-	public void removeAttribute(String name, int scope) {
+  public void removeAttribute(final String name, final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
-    if (name == null) {
-      throw new IllegalArgumentException("The attribute name cannot be null") ;
+    if (name == null)
+      throw new IllegalArgumentException("The attribute name cannot be null");
+    if (PortletSession.APPLICATION_SCOPE == scope)
+      session.removeAttribute(name);
+    else if (PortletSession.PORTLET_SCOPE == scope) {
+      String key = PortletSessionImpUtil.encodePortletSessionAttribute(windowId, name,
+          PortletSession.PORTLET_SCOPE);
+      session.removeAttribute(key);
     }
-		if (PortletSession.APPLICATION_SCOPE == scope) {
-			session.removeAttribute(name);
-		} else if (PortletSession.PORTLET_SCOPE == scope) {
-      String key = PortletSessionImpUtil.encodePortletSessionAttribute(windowId, name, PortletSession.PORTLET_SCOPE) ;
-			session.removeAttribute(key);
-		}
-	}
+  }
 
-	final public void setAttribute(String name, Object o) {
+  final public void setAttribute(final String name, final Object o) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     setAttribute(name, o, PortletSession.PORTLET_SCOPE);
-	}
+  }
 
-	public void setAttribute(String name, Object o, int scope) {
+  public void setAttribute(final String name, final Object o, final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
-    if (name == null) {
-      throw new IllegalArgumentException("The attribute name cannot be null") ;
+    if (name == null)
+      throw new IllegalArgumentException("The attribute name cannot be null");
+    if (PortletSession.APPLICATION_SCOPE == scope) {
+      if (o == null)
+        session.removeAttribute(name);
+      else
+        session.setAttribute(name, o);
+    } else if (PortletSession.PORTLET_SCOPE == scope) {
+      String key = PortletSessionImpUtil.encodePortletSessionAttribute(windowId, name,
+          PortletSession.PORTLET_SCOPE);
+      if (o == null)
+        session.removeAttribute(key);
+      else
+        session.setAttribute(key, o);
     }
-		if (PortletSession.APPLICATION_SCOPE == scope) {
-      if (o == null) session.removeAttribute(name);
-      else session.setAttribute(name, o);
-		} else if (PortletSession.PORTLET_SCOPE == scope) {
-      String key = PortletSessionImpUtil.encodePortletSessionAttribute(windowId, name, PortletSession.PORTLET_SCOPE) ;
-      if (o == null) session.removeAttribute(key);
-      else session.setAttribute(key, o);
-		}
-	}
+  }
 
   public Enumeration<String> getAttributeNames() {
     if (invalidated)
@@ -126,7 +130,7 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     return getAttributeNames(PortletSession.PORTLET_SCOPE);
   }
 
-  public Enumeration<String> getAttributeNames(int scope) {
+  public Enumeration<String> getAttributeNames(final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     Enumeration<String> e = session.getAttributeNames();
@@ -136,10 +140,8 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
       if (scope == PortletSession.PORTLET_SCOPE) {
         if (PortletSessionUtil.decodeScope(s) == PortletSession.PORTLET_SCOPE)
           v.add(PortletSessionUtil.decodeAttributeName(s));
-      } else {
-        if (PortletSessionUtil.decodeScope(s) == PortletSession.APPLICATION_SCOPE)
-          v.add(s);
-      }
+      } else if (PortletSessionUtil.decodeScope(s) == PortletSession.APPLICATION_SCOPE)
+        v.add(s);
     }
     return v.elements();
   }
@@ -150,7 +152,7 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     return getAttributeMap(PortletSession.PORTLET_SCOPE);
   }
 
-  public Map getAttributeMap(int scope) {
+  public Map getAttributeMap(final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     Enumeration e = session.getAttributeNames();
@@ -162,10 +164,8 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
           String key = PortletSessionUtil.decodeAttributeName(s);
           m.put(key, session.getAttribute(key));
         }
-      } else {
-        if (PortletSessionUtil.decodeScope(s) == PortletSession.APPLICATION_SCOPE)
-          m.put(s, session.getAttribute(s));
-      }
+      } else if (PortletSessionUtil.decodeScope(s) == PortletSession.APPLICATION_SCOPE)
+        m.put(s, session.getAttribute(s));
     }
     return m;
   }
@@ -204,12 +204,12 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
   public boolean isSessionValid() {
     if (session == null)
       return false;
-    try{
+    try {
       long lastAccessTime = session.getLastAccessedTime();
-      //tomcat 5
+      // tomcat 5
       if (lastAccessTime == 0)
         return true;
-      //tomcat 4
+      // tomcat 4
       if (lastAccessTime == -1)
         return false;
       int maxInterval = session.getMaxInactiveInterval();
@@ -220,7 +220,7 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
         return false;
       }
       return true;
-    } catch(IllegalStateException e) {
+    } catch (IllegalStateException e) {
       log.error("IllegalStateException in PortletSessionImp for isSessionValid()", e);
       return false;
     }
@@ -232,21 +232,21 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     return session.isNew();
   }
 
-  public void setMaxInactiveInterval(int i) {
+  public void setMaxInactiveInterval(final int i) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     session.setMaxInactiveInterval(i);
   }
 
-	public PortletContext getPortletContext() {
-		return context;
-	}
+  public PortletContext getPortletContext() {
+    return context;
+  }
 
   public HttpSession getSession() {
     return session;
   }
 
-  public void setSession(HttpSession session, String windowId) {
+  public void setSession(final HttpSession session, final String windowId) {
     this.session = session;
     this.invalidated = this.session == null;
     this.windowId = windowId;

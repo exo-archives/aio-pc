@@ -54,34 +54,31 @@ import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationProxy;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 27, 2003
- * Time: 8:44:32 PM
- *
- * This implementation acts like a wrapper to the global ServletRequest This
- * object should be pooled, therefore two fill and empty methods are provided.
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 27, 2003 Time: 8:44:32 PM This
+ * implementation acts like a wrapper to the global ServletRequest This object
+ * should be pooled, therefore two fill and empty methods are provided.
  */
-public abstract class PortletRequestImp extends HttpServletRequestWrapper implements PortletRequest, Map {
+public abstract class PortletRequestImp extends HttpServletRequestWrapper implements
+    PortletRequest, Map {
 
-  private Log                   log;
+  private final Log log;
 
-  protected ExoContainer        cont;
+  protected ExoContainer cont;
 
-  protected RequestContext      reqCtx;
+  protected RequestContext reqCtx;
 
-  private Vector<String>        paramNames;
+  private Vector<String> paramNames;
 
   private Map<String, String[]> filteredMap;
 
-  protected boolean             encodingModified;
+  protected boolean encodingModified;
 
-  protected String              enc;
+  protected String enc;
 
-  private Map<String, String[]> renderParameters;
+  private final Map<String, String[]> renderParameters;
 
-  public PortletRequestImp(RequestContext reqCtx) {
+  public PortletRequestImp(final RequestContext reqCtx) {
     super(reqCtx.getHttpServletRequest());
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cont = ((PortletContextImpl) reqCtx.getPortletContext()).getContainer();
@@ -90,7 +87,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     this.renderParameters = reqCtx.getInput().getRenderParameters();
   }
 
-  public boolean isWindowStateAllowed(WindowState windowState) {
+  public boolean isWindowStateAllowed(final WindowState windowState) {
     Enumeration<WindowState> e = reqCtx.getPortalContext().getSupportedWindowStates();
     while (e.hasMoreElements()) {
       WindowState supportedWindowState = e.nextElement();
@@ -100,11 +97,12 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return false;
   }
 
-  public boolean isPortletModeAllowed(PortletMode portletMode) {
+  public boolean isPortletModeAllowed(final PortletMode portletMode) {
     Enumeration<PortletMode> e = reqCtx.getPortalContext().getSupportedPortletModes();
     while (e.hasMoreElements()) {
       PortletMode supportedPortletMode = e.nextElement();
-      if (supportedPortletMode.toString().toLowerCase().equals(portletMode.toString().toLowerCase()))
+      if (supportedPortletMode.toString().toLowerCase()
+          .equals(portletMode.toString().toLowerCase()))
         return true;
     }
     return false;
@@ -112,8 +110,10 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
 
   public PortletConfig getPortletConfig() {
     ExoContainer manager = cont;
-    String portletAppName = reqCtx.getPortletWindowInternal().getWindowID().getPortletApplicationName();
-    PortletApplicationProxy proxy = (PortletApplicationProxy) manager.getComponentInstance(portletAppName);
+    String portletAppName = reqCtx.getPortletWindowInternal().getWindowID()
+        .getPortletApplicationName();
+    PortletApplicationProxy proxy = (PortletApplicationProxy) manager
+        .getComponentInstance(portletAppName);
     return proxy.getPortletConfig(reqCtx.getPortletWindowInternal().getWindowID().getPortletName());
   }
 
@@ -137,13 +137,12 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return getPortletSession(true);
   }
 
-  public PortletSession getPortletSession(boolean create) {
+  public PortletSession getPortletSession(final boolean create) {
     if (create) {
-      if (reqCtx.getSession().isSessionValid()) {
+      if (reqCtx.getSession().isSessionValid())
         return reqCtx.getSession();
-      }
       reqCtx.getSession().setSession(((HttpServletRequest) super.getRequest()).getSession(),
-                                     reqCtx.getPortletWindowInternal().getWindowID().getUniqueID());
+          reqCtx.getPortletWindowInternal().getWindowID().getUniqueID());
       return reqCtx.getSession();
     }
     // HttpSession tmpSession = ((HttpServletRequest)
@@ -171,14 +170,14 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     }
   }
 
-  public String getProperty(String s) {
+  public String getProperty(final String s) {
     String header = ((HttpServletRequest) super.getRequest()).getHeader(s);
     if (header != null)
       return header;
     return reqCtx.getPortalContext().getProperty(s);
   }
 
-  public Enumeration<String> getProperties(String s) {
+  public Enumeration<String> getProperties(final String s) {
     Enumeration<String> header = ((HttpServletRequest) super.getRequest()).getHeaders(s);
     return header;
   }
@@ -247,13 +246,13 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return Collections.enumeration(result);
   }
 
-  public boolean isUserInRole(String role) {
+  public boolean isUserInRole(final String role) {
     List l = reqCtx.getPortletDatas().getSecurityRoleRef();
     for (Iterator iterator = l.iterator(); iterator.hasNext();) {
       SecurityRoleRef securityRoleRef = (SecurityRoleRef) iterator.next();
       if (securityRoleRef.getRoleName().equals(role)) {
         String roleLink = securityRoleRef.getRoleLink();
-        if (roleLink == null || "".equals(roleLink)) {
+        if ((roleLink == null) || "".equals(roleLink)) {
           if (isRoleDefinedInWebXML(role))
             return super.isUserInRole(role);
           return false;
@@ -266,9 +265,9 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return false;
   }
 
-  private boolean isRoleDefinedInWebXML(String role) {
-    for (Iterator iter = reqCtx.getRoles().iterator(); iter.hasNext();) {
-      String roleDefined = (String) iter.next();
+  private boolean isRoleDefinedInWebXML(final String role) {
+    for (Object element : reqCtx.getRoles()) {
+      String roleDefined = (String) element;
       if (roleDefined.equals(role))
         return true;
     }
@@ -283,9 +282,9 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return reqCtx.getPortletWindowInternal();
   }
 
-  public boolean needsSecurityContraints(String portletName) {
-    for (Iterator iterator = reqCtx.getSecurityContraints().iterator(); iterator.hasNext();) {
-      SecurityConstraint securityConstraint = (SecurityConstraint) iterator.next();
+  public boolean needsSecurityContraints(final String portletName) {
+    for (Object element : reqCtx.getSecurityContraints()) {
+      SecurityConstraint securityConstraint = (SecurityConstraint) element;
       List l = securityConstraint.getPortletCollection().getPortletName();
       for (Iterator iterator2 = l.iterator(); iterator2.hasNext();) {
         String portletN = (String) iterator2.next();
@@ -310,31 +309,26 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
       return type;
   }
 
-  public Object getAttribute(String name) {
-    if (name == null) {
+  public Object getAttribute(final String name) {
+    if (name == null)
       throw new IllegalArgumentException("The attribute name cannot be null");
-    }
     return super.getAttribute(name);
   }
 
-  public void setAttribute(String name,
-                           Object value) {
-    if (name == null) {
+  public void setAttribute(final String name, final Object value) {
+    if (name == null)
       throw new IllegalArgumentException("The attribute name cannot be null");
-    }
     // when the value is null, should have the same effect as removeAttribute
     // (Spec)
-    if (value == null) {
+    if (value == null)
       super.removeAttribute(name);
-    } else {
+    else
       super.setAttribute(name, value);
-    }
   }
 
-  public void removeAttribute(String name) {
-    if (name == null) {
+  public void removeAttribute(final String name) {
+    if (name == null)
       throw new IllegalArgumentException("The attribute name cannot be null");
-    }
     super.removeAttribute(name);
   }
 
@@ -347,10 +341,9 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
   public int size() {
     int n = 0;
     Enumeration keys = getAttributeNames();
-    while (keys.hasMoreElements()) {
+    while (keys.hasMoreElements())
       // String key = (String) keys.nextElement();
       n++;
-    }
     return n;
   }
 
@@ -358,11 +351,11 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return !getAttributeNames().hasMoreElements();
   }
 
-  public boolean containsKey(Object key) {
+  public boolean containsKey(final Object key) {
     return (getAttribute((String) key) != null);
   }
 
-  public boolean containsValue(Object value) {
+  public boolean containsValue(final Object value) {
     boolean match = false;
     Enumeration<String> keys = getAttributeNames();
     while (keys.hasMoreElements()) {
@@ -376,12 +369,11 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return match;
   }
 
-  public Object get(Object key) {
+  public Object get(final Object key) {
     return getAttribute((String) key);
   }
 
-  public Object put(Object key,
-                    Object value) {
+  public Object put(final Object key, final Object value) {
     Object result = null;
     if (containsKey(key))
       result = getAttribute((String) key);
@@ -389,7 +381,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return result;
   }
 
-  public Object remove(Object key) {
+  public Object remove(final Object key) {
     Object result = null;
     if (containsKey(key))
       result = getAttribute((String) key);
@@ -397,7 +389,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return result;
   }
 
-  public void putAll(Map t) {
+  public void putAll(final Map t) {
     for (Iterator i = t.keySet().iterator(); i.hasNext();) {
       String key = (String) i.next();
       Object value = t.get(key);
@@ -423,17 +415,15 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
 
   public Locale getLocale() {
     List<Locale> locales = reqCtx.getInput().getLocales();
-    if (locales != null && !locales.isEmpty()) {
+    if ((locales != null) && !locales.isEmpty())
       return locales.iterator().next();
-    }
     return super.getLocale();
   }
 
   public Enumeration<Locale> getLocales() {
     List<Locale> locales = reqCtx.getInput().getLocales();
-    if (locales != null) {
+    if (locales != null)
       return Collections.enumeration(locales);
-    }
     return super.getLocales();
   }
 
@@ -442,8 +432,8 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return reqCtx.getInput().getInternalWindowID().getUniqueID();
   }
 
-  public String getParameter(String param) {
-    if (param == null || param.startsWith(Constants.PARAMETER_ENCODER))
+  public String getParameter(final String param) {
+    if ((param == null) || param.startsWith(Constants.PARAMETER_ENCODER))
       throw new IllegalArgumentException("parameter must not be null");
     Object obj = renderParameters.get(param);
     if (obj instanceof String[]) {
@@ -457,8 +447,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     if (paramNames == null) {
       Set<String> set = renderParameters.keySet();
       paramNames = new Vector<String>();
-      for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
-        String key = iterator.next();
+      for (String key : set) {
         if (!key.startsWith(Constants.PARAMETER_ENCODER))
           paramNames.add(key);
       }
@@ -466,8 +455,8 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     return paramNames.elements();
   }
 
-  public String[] getParameterValues(String s) {
-    if (s == null || s.startsWith(Constants.PARAMETER_ENCODER))
+  public String[] getParameterValues(final String s) {
+    if ((s == null) || s.startsWith(Constants.PARAMETER_ENCODER))
       throw new IllegalArgumentException("parameter must not be null");
     Object o = renderParameters.get(s);
     if (o == null)
@@ -483,16 +472,14 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     if (filteredMap == null) {
       Set<String> set = renderParameters.keySet();
       filteredMap = new HashMap<String, String[]>();
-      for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
-        String key = iterator.next();
+      for (String key : set) {
         String[] values = renderParameters.get(key);
         // if (values instanceof String) {
         // String[] a = { (String) values };
         // values = a;
         // }
-        if (!key.startsWith(Constants.PARAMETER_ENCODER)) {
+        if (!key.startsWith(Constants.PARAMETER_ENCODER))
           filteredMap.put(key, values);
-        }
       }
     }
     return Collections.unmodifiableMap(filteredMap);
@@ -510,9 +497,8 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     Iterator<String> names = allMap.keySet().iterator();
     while (names.hasNext()) {
       String name = names.next();
-      if (!pubNames.contains(name)) {
+      if (!pubNames.contains(name))
         privateMap.put(name, allMap.get(name));
-      }
     }
     return Collections.unmodifiableMap(privateMap);
   }
@@ -529,9 +515,8 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     Iterator<String> names = allMap.keySet().iterator();
     while (names.hasNext()) {
       String name = names.next();
-      if (pubNames.contains(name)) {
+      if (pubNames.contains(name))
         publicMap.put(name, allMap.get(name));
-      }
     }
     return Collections.unmodifiableMap(publicMap);
   }

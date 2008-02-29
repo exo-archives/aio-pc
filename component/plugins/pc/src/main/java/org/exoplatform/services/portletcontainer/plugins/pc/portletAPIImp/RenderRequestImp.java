@@ -20,14 +20,12 @@ import javax.portlet.RenderRequest;
 import javax.servlet.http.Cookie;
 
 /**
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 29, 2003
- * Time: 5:50:44 PM
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: Jul
+ * 29, 2003 Time: 5:50:44 PM
  */
 public class RenderRequestImp extends PortletRequestImp implements RenderRequest {
 
-  public RenderRequestImp(RequestContext reqCtx) {
+  public RenderRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
   }
 

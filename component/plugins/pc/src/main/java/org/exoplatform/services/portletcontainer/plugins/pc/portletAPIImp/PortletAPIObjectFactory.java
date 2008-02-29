@@ -23,32 +23,33 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 11 nov. 2003
- * Time: 19:52:26
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: 11 nov. 2003 Time: 19:52:26
  */
 public class PortletAPIObjectFactory {
 
   private static PortletAPIObjectFactory ourInstance;
 
   public synchronized static PortletAPIObjectFactory getInstance() {
-    if (ourInstance == null) {
+    if (ourInstance == null)
       ourInstance = new PortletAPIObjectFactory();
-    }
     return ourInstance;
   }
 
   private PortletAPIObjectFactory() {
   }
 
-  public PortletContext createPortletContext(ExoContainer cont, ServletContext scontext, Portlet portlet) {
-    return new PortletContextImpl(cont, scontext, portlet) ;
+  public PortletContext createPortletContext(final ExoContainer cont,
+      final ServletContext scontext,
+      final Portlet portlet) {
+    return new PortletContextImpl(cont, scontext, portlet);
   }
 
-  public PortletContext createPortletContext(ExoContainer cont, ServletContext scontext,  Portlet portlet, URLClassLoader cl) {
-    return new PortletContextImpl(cont, scontext, portlet) ;
+  public PortletContext createPortletContext(final ExoContainer cont,
+      final ServletContext scontext,
+      final Portlet portlet,
+      final URLClassLoader cl) {
+    return new PortletContextImpl(cont, scontext, portlet);
   }
 
 }

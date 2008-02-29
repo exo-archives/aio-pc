@@ -38,29 +38,48 @@ import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserDataConstraint;
 
 /**
- * Created by the Exo Development team. Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: 11 nov. 2003 Time: 14:47:22
+ * Created by the Exo Development team.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: 11 nov. 2003
+ * Time: 14:47:22
  */
 public class PortletApplicationsHolder {
 
-  private Map<String, PortletApplicationHelper> portletApps;
+  /**
+   * Portlet application map.
+   */
+  private final Map<String, PortletApplicationHelper> portletApps;
 
-  private Log                                   log;
+  /**
+   * Log.
+   */
+  private final Log log;
 
+  /**
+   * Simple constructor.
+   */
   public PortletApplicationsHolder() {
     this.portletApps = new HashMap<String, PortletApplicationHelper>();
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
+  /**
+   * start().
+   */
   public void start() {
-
   }
 
+  /**
+   * stop().
+   */
   public void stop() {
-
   }
 
-  public PortletApp getPortletApplication(String portletAppName) {
+  /**
+   * @param portletAppName portlet app name
+   * @return portlet app object
+   */
+  public final PortletApp getPortletApplication(final String portletAppName) {
     PortletApplicationHelper helper = portletApps.get(portletAppName);
     if (helper == null) {
       log.debug("Portlet application : " + portletAppName + " does not exist");
@@ -69,23 +88,34 @@ public class PortletApplicationsHolder {
     return helper.getPortletApp();
   }
 
-  public List<PortletApp> getPortletAppList() {
+  /**
+   * @return portlet app list
+   */
+  public final List<PortletApp> getPortletAppList() {
     List<PortletApp> result = new ArrayList<PortletApp>();
-    for (Iterator<String> i = portletApps.keySet().iterator(); i.hasNext();) {
-      PortletApplicationHelper helper = portletApps.get(i.next());
+    for (String string : portletApps.keySet()) {
+      PortletApplicationHelper helper = portletApps.get(string);
       if (helper != null)
         result.add(helper.getPortletApp());
     }
     return result;
   }
 
-  public Collection<String> getRoles(String portletAppName) {
+  /**
+   * @param portletAppName portlet app name
+   * @return roles
+   */
+  public final Collection<String> getRoles(final String portletAppName) {
     log.debug("getRoles() entered");
     PortletApplicationHelper helper = portletApps.get(portletAppName);
     return helper.getRoles();
   }
 
-  public Map<String, PortletData> getAllPortletMetaData(ExoContainer container) {
+  /**
+   * @param container exo container
+   * @return all portlet metadata
+   */
+  public final Map<String, PortletData> getAllPortletMetaData(final ExoContainer container) {
     log.debug("getAllPortletMetaData() entered");
     HashMap<String, PortletData> all = new HashMap<String, PortletData>();
     Collection<String> applicationsKeys = portletApps.keySet();
@@ -102,43 +132,43 @@ public class PortletApplicationsHolder {
       for (int i = 0; i < portlets.size(); i++) {
         Portlet portlet = portlets.get(i);
         // for each security contraint (OPTION)
-        for (Iterator<SecurityConstraint> iter = securityContraints.iterator(); iter.hasNext();) {
-          SecurityConstraint securityConstraint = iter.next();
+        for (SecurityConstraint securityConstraint : securityContraints) {
           List<String> portletNames = securityConstraint.getPortletCollection().getPortletName();
-          for (Iterator<String> iterator2 = portletNames.iterator(); iterator2.hasNext();) {
-            String portletName = iterator2.next();
+          for (String portletName : portletNames) {
             if (portletName.equals(portlet.getPortletName())) {
               userDataConstraintType = securityConstraint.getUserDataConstraint();
               break;
             }
           }
         }
-        all.put(key + Constants.PORTLET_META_DATA_ENCODER + portlet.getPortletName(), new PortletDataImp(container,
-                                                                                                         portlet,
-                                                                                                         userDataConstraintType,
-                                                                                                         portletApp.getUserAttribute()));
+        all.put(key + Constants.PORTLET_META_DATA_ENCODER + portlet.getPortletName(),
+            new PortletDataImp(container, portlet, userDataConstraintType, portletApp
+                .getUserAttribute()));
       }
     }
     return all;
   }
 
-  public Collection<PortletMode> getPortletModes(String portletAppName,
-                                                 String portletName,
-                                                 String markup) {
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @return portlet modes
+   */
+  public final Collection<PortletMode> getPortletModes(final String portletAppName,
+      final String portletName,
+      final String markup) {
     log.debug("getPortletModes() entered");
     Collection<PortletMode> modes = new ArrayList<PortletMode>();
     List<Portlet> portlets = getPortletApplication(portletAppName).getPortlet();
-    for (Iterator<Portlet> iterator = portlets.iterator(); iterator.hasNext();) {
-      Portlet portlet = iterator.next();
+    for (Portlet portlet : portlets) {
       if (portlet.getPortletName().equals(portletName)) {
         List<Supports> l = portlet.getSupports();
-        for (Iterator<Supports> iterator2 = l.iterator(); iterator2.hasNext();) {
-          Supports supports = iterator2.next();
+        for (Supports supports : l) {
           String mimeType = supports.getMimeType();
           if (mimeType.equals(markup)) {
             List<String> modesR = supports.getPortletMode();
-            for (Iterator<String> iterator1 = modesR.iterator(); iterator1.hasNext();) {
-              String s = iterator1.next();
+            for (String s : modesR) {
               modes.add(new PortletMode(s));
             }
           }
@@ -148,39 +178,48 @@ public class PortletApplicationsHolder {
     return modes;
   }
 
-  public boolean isModeSuported(String portletAppName,
-                                String portletName,
-                                String markup,
-                                PortletMode mode) {
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @param mode mode
+   * @return either the specififed portlet mode supported
+   */
+  public final boolean isModeSuported(final String portletAppName,
+      final String portletName,
+      final String markup,
+      final PortletMode mode) {
     log.debug("isModeSuported() entered");
     if (PortletMode.VIEW == mode)
       return true;
     Collection<PortletMode> modesSupported = getPortletModes(portletAppName, portletName, markup);
-    for (Iterator<PortletMode> iterator = modesSupported.iterator(); iterator.hasNext();) {
-      PortletMode portletMode = iterator.next();
+    for (PortletMode portletMode : modesSupported) {
       if (portletMode.toString().equals(mode.toString()))
         return true;
     }
     return false;
   }
 
-  public Collection<WindowState> getWindowStates(String portletAppName,
-                                    String portletName,
-                                    String markup) {
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @return window states
+   */
+  public final Collection<WindowState> getWindowStates(final String portletAppName,
+      final String portletName,
+      final String markup) {
     log.debug("getWindowStates() entered");
     Collection<WindowState> states = new ArrayList<WindowState>();
     List<Portlet> portlets = getPortletApplication(portletAppName).getPortlet();
-    for (Iterator<Portlet> iterator = portlets.iterator(); iterator.hasNext();) {
-      Portlet portlet = iterator.next();
+    for (Portlet portlet : portlets) {
       if (portlet.getPortletName().equals(portletName)) {
         List<Supports> l = portlet.getSupports();
-        for (Iterator<Supports> iterator2 = l.iterator(); iterator2.hasNext();) {
-          Supports supports = iterator2.next();
+        for (Supports supports : l) {
           String mimeType = supports.getMimeType();
           if (mimeType.equals(markup)) {
             List<String> statesR = supports.getWindowState();
-            for (Iterator<String> iterator1 = statesR.iterator(); iterator1.hasNext();) {
-              String s = iterator1.next();
+            for (String s : statesR) {
               states.add(new WindowState(s));
             }
           }
@@ -190,10 +229,17 @@ public class PortletApplicationsHolder {
     return states;
   }
 
-  public boolean isStateSupported(String portletAppName,
-                                  String portletName,
-                                  String markup,
-                                  WindowState state) {
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @param state state
+   * @return either the specified state supported
+   */
+  public final boolean isStateSupported(final String portletAppName,
+      final String portletName,
+      final String markup,
+      final WindowState state) {
     log.debug("isStateSupported() entered");
     if (WindowState.MINIMIZED == state)
       return true;
@@ -202,67 +248,106 @@ public class PortletApplicationsHolder {
     if (WindowState.MAXIMIZED == state)
       return true;
     Collection<WindowState> statesSupported = getWindowStates(portletAppName, portletName, markup);
-    for (Iterator<WindowState> iterator = statesSupported.iterator(); iterator.hasNext();) {
-      WindowState windowState = iterator.next();
+    for (WindowState windowState : statesSupported) {
       if (windowState.toString().equals(state.toString()))
         return true;
     }
     return false;
   }
 
-  public void registerPortletApplication(String portletAppName,
-                                         PortletApp portletApp,
-                                         Collection<String> roles) {
-    PortletApplicationHelper helper = new PortletApplicationHelper(portletAppName, portletApp, roles);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletApp portlet app object
+   * @param roles roles
+   */
+  public final void registerPortletApplication(final String portletAppName,
+      final PortletApp portletApp,
+      final Collection<String> roles) {
+    PortletApplicationHelper helper = new PortletApplicationHelper(portletAppName,
+        portletApp,
+        roles);
     synchronized (portletApps) {
       portletApps.put(portletAppName, helper);
     }
   }
 
-  public void removePortletApplication(String portletAppName) {
+  /**
+   * @param portletAppName portlet app name
+   */
+  public final void removePortletApplication(final String portletAppName) {
     synchronized (portletApps) {
       portletApps.remove(portletAppName);
     }
   }
 
-  public Portlet getPortletMetaData(String portletApplication,
-                                    String portlet) {
+  /**
+   * @param portletApplication portlet app name
+   * @param portlet portlet name
+   * @return portlet metadata
+   */
+  public final Portlet getPortletMetaData(final String portletApplication, final String portlet) {
     log.debug("getPortletMetaData() entered");
     PortletApp portletApp = getPortletApplication(portletApplication);
     if (portletApp == null)
       return null;
     List<Portlet> l = portletApp.getPortlet();
-    for (Iterator<Portlet> iterator = l.iterator(); iterator.hasNext();) {
-      Portlet portlet1 = iterator.next();
+    for (Portlet portlet1 : l) {
       if (portlet1.getPortletName().equals(portlet))
         return portlet1;
     }
     return null;
   }
 
+  /**
+   * Helper class to hold portlet app objects.
+   */
   private class PortletApplicationHelper {
-    private PortletApp         portletApp;
 
-    private Collection<String> roles;
+    /**
+     * Portlet app object.
+     */
+    private final PortletApp portletApp;
 
-    private String             portletAppName;
+    /**
+     * Roles.
+     */
+    private final Collection<String> roles;
 
-    public PortletApplicationHelper(String portletAppName,
-                                    PortletApp portletApp,
-                                    Collection<String> roles) {
+    /**
+     * Portlet app name.
+     */
+    private final String portletAppName;
+
+    /**
+     * @param portletAppName portlet app name
+     * @param portletApp portlet app object
+     * @param roles roles
+     */
+    public PortletApplicationHelper(final String portletAppName,
+        final PortletApp portletApp,
+        final Collection<String> roles) {
       this.portletApp = portletApp;
       this.roles = roles;
       this.portletAppName = portletAppName;
     }
 
+    /**
+     * @return portlet app object
+     */
     public PortletApp getPortletApp() {
       return portletApp;
     }
 
+    /**
+     * @return roles
+     */
     public Collection<String> getRoles() {
       return roles;
     }
 
+    /**
+     * @return portlet app name
+     */
     public String getPortletAppName() {
       return portletAppName;
     }

@@ -20,7 +20,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -44,29 +43,29 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle
  */
 public class PortletConfigImp implements PortletConfig {
 
-  private Portlet                  portletDatas_;
+  private final Portlet portletDatas_;
 
-  private Map<String, InitParam>   params_ = new HashMap<String, InitParam>();
+  private final Map<String, InitParam> params_ = new HashMap<String, InitParam>();
 
-  private PortletContextImpl       portletContext;
+  private final PortletContextImpl portletContext;
 
-  private List<SecurityConstraint> securityContraints;
+  private final List<SecurityConstraint> securityContraints;
 
-  private List<UserAttribute>      userAttributes_;
+  private final List<UserAttribute> userAttributes_;
 
-  private List<CustomPortletMode>  customPortletModes_;
+  private final List<CustomPortletMode> customPortletModes_;
 
-  private List<CustomWindowState>  customWindowStates_;
+  private final List<CustomWindowState> customWindowStates_;
 
-  private String                   defaultNamespace;
+  private final String defaultNamespace;
 
-  public PortletConfigImp(Portlet portletDatas,
-                          PortletContext portletContext,
-                          List<SecurityConstraint> securityContraints,
-                          List<UserAttribute> userAttributes,
-                          List<CustomPortletMode> customPortletModes,
-                          List<CustomWindowState> customWindowStates,
-                          String defaultNamespace) {
+  public PortletConfigImp(final Portlet portletDatas,
+      final PortletContext portletContext,
+      final List<SecurityConstraint> securityContraints,
+      final List<UserAttribute> userAttributes,
+      final List<CustomPortletMode> customPortletModes,
+      final List<CustomWindowState> customWindowStates,
+      final String defaultNamespace) {
     this.portletDatas_ = portletDatas;
     this.defaultNamespace = defaultNamespace;
     this.portletContext = (PortletContextImpl) portletContext;
@@ -77,8 +76,7 @@ public class PortletConfigImp implements PortletConfig {
 
     // optimize the accesses to init paramters with Map
     List<InitParam> l = portletDatas_.getInitParam();
-    for (Iterator<InitParam> iterator = l.iterator(); iterator.hasNext();) {
-      InitParam initParam = iterator.next();
+    for (InitParam initParam : l) {
       params_.put(initParam.getName(), initParam);
     }
   }
@@ -91,15 +89,15 @@ public class PortletConfigImp implements PortletConfig {
     return portletContext;
   }
 
-  public ResourceBundle getResourceBundle(Locale locale) {
-    ResourceBundleManager manager = (ResourceBundleManager) portletContext.getContainer().getComponentInstanceOfType(ResourceBundleManager.class);
+  public ResourceBundle getResourceBundle(final Locale locale) {
+    ResourceBundleManager manager = (ResourceBundleManager) portletContext.getContainer()
+        .getComponentInstanceOfType(ResourceBundleManager.class);
     return manager.lookupBundle(portletDatas_, locale);
   }
 
-  public String getInitParameter(String name) {
-    if (name == null) {
+  public String getInitParameter(final String name) {
+    if (name == null)
       throw new IllegalArgumentException("You cannot have null as a paramter");
-    }
     InitParam initParam = params_.get(name);
     if (initParam != null)
       return initParam.getValue();
@@ -114,12 +112,10 @@ public class PortletConfigImp implements PortletConfig {
     return portletDatas_;
   }
 
-  public boolean needsSecurityContraints(String portletName) {
-    for (Iterator<SecurityConstraint> iterator = securityContraints.iterator(); iterator.hasNext();) {
-      SecurityConstraint securityConstraint = iterator.next();
+  public boolean needsSecurityContraints(final String portletName) {
+    for (SecurityConstraint securityConstraint : securityContraints) {
       List<String> l = securityConstraint.getPortletCollection().getPortletName();
-      for (Iterator<String> iterator2 = l.iterator(); iterator2.hasNext();) {
-        String portlet = iterator2.next();
+      for (String portlet : l) {
         if (portlet.equals(portletName))
           return true;
       }

@@ -43,41 +43,83 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helper
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.NestedResponseWrapper;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  * Date: Jul 25, 2003
  * Time: 6:46:52 PM
  */
 public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
 
-  private String path;
-  private RequestDispatcher dispatcher;
-  private Log log;
-  protected ExoContainer cont;
+  /**
+   * Path.
+   */
+  private final String path;
 
-  public PortletRequestDispatcherImp(ExoContainer cont, RequestDispatcher dispatcher, String path) {
+  /**
+   * Request dispatcher.
+   */
+  private final RequestDispatcher dispatcher;
+
+  /**
+   * Logger.
+   */
+  private final Log log;
+
+  /**
+   * Exo container.
+   */
+  private ExoContainer cont;
+
+  /**
+   * @param cont exo container
+   * @param dispatcher dispatcher
+   * @param path path
+   */
+  public PortletRequestDispatcherImp(final ExoContainer cont,
+      final RequestDispatcher dispatcher,
+      final String path) {
     this.dispatcher = dispatcher;
     this.path = path;
     this.cont = cont;
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
-  public void include(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
+  /**
+   * Overridden method.
+   *
+   * @param renderRequest request
+   * @param renderResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.PortletRequestDispatcher#include(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
+  public void include(final RenderRequest renderRequest, final RenderResponse renderResponse) throws PortletException,
+      IOException {
     include((PortletRequest) renderRequest, (PortletResponse) renderResponse);
   }
 
-  public void include(PortletRequest portletRequest, PortletResponse portletResponse) throws PortletException, IOException {
+  /**
+   * Overridden method.
+   *
+   * @param portletRequest request
+   * @param portletResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @see javax.portlet.PortletRequestDispatcher#include(javax.portlet.PortletRequest, javax.portlet.PortletResponse)
+   */
+  public void include(final PortletRequest portletRequest, final PortletResponse portletResponse) throws PortletException,
+      IOException {
     CustomRequestWrapper requestWrapper = null;
     try {
-      requestWrapper =
-        ((CustomRequestWrapper) ((HttpServletRequestWrapper) portletRequest).getRequest());
+      requestWrapper = ((CustomRequestWrapper) ((HttpServletRequestWrapper) portletRequest)
+          .getRequest());
 
-      CustomResponseWrapper realResponseWrapper =
-        (CustomResponseWrapper) ((HttpServletResponseWrapper) portletResponse).getResponse();
+      CustomResponseWrapper realResponseWrapper = (CustomResponseWrapper) ((HttpServletResponseWrapper) portletResponse)
+          .getResponse();
       NestedResponseWrapper responseWrapper = new NestedResponseWrapper(realResponseWrapper);
 
-      portletRequest.setAttribute("javax.portlet.config", ((PortletRequestImp) portletRequest).getPortletConfig());
+      portletRequest.setAttribute("javax.portlet.config", ((PortletRequestImp) portletRequest)
+          .getPortletConfig());
       portletRequest.setAttribute("javax.portlet.request", portletRequest);
       portletRequest.setAttribute("javax.portlet.response", portletResponse);
       if (portletRequest instanceof ActionRequest) {
@@ -109,9 +151,9 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
       byte[] ca = responseWrapper.getPortletContent();
       if (ca == null)
         ca = new byte[0];
-      if (realResponseWrapper.isStreamUsed()) {
+      if (realResponseWrapper.isStreamUsed())
         realResponseWrapper.getOutputStream().write(ca);
-      } else
+      else
         realResponseWrapper.getWriter().write(new String(ca, "utf-8"));
     } catch (ServletException e) {
       if (e.getRootCause() != null)
@@ -123,47 +165,61 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
       portletRequest.removeAttribute("javax.portlet.request");
       portletRequest.removeAttribute("javax.portlet.response");
       portletRequest.removeAttribute(PortletRequest.LIFECYCLE_PHASE);
-      if(requestWrapper != null)
+      if (requestWrapper != null)
         requestWrapper.setRedirected(false);
     }
   }
 
-  public void forward(PortletRequest portletRequest, PortletResponse portletResponse) throws PortletException, IOException, IllegalStateException {
-    CustomRequestWrapper requestWrapper =
-      ((CustomRequestWrapper) ((HttpServletRequestWrapper) portletRequest).getRequest());
-    CustomResponseWrapper servResponse = (CustomResponseWrapper) ((PortletResponseImp) (portletResponse)).getResponse();
+  /**
+   * Overridden method.
+   *
+   * @param portletRequest request
+   * @param portletResponse response
+   * @throws PortletException exception
+   * @throws IOException exception
+   * @throws IllegalStateException exception
+   * @see javax.portlet.PortletRequestDispatcher#forward(javax.portlet.PortletRequest, javax.portlet.PortletResponse)
+   */
+  public void forward(final PortletRequest portletRequest, final PortletResponse portletResponse) throws PortletException,
+      IOException,
+      IllegalStateException {
+    CustomRequestWrapper requestWrapper = ((CustomRequestWrapper) ((HttpServletRequestWrapper) portletRequest)
+        .getRequest());
+    CustomResponseWrapper servResponse = (CustomResponseWrapper) ((PortletResponseImp) (portletResponse))
+        .getResponse();
     NestedResponseWrapper responseWrapper = new NestedResponseWrapper(servResponse);
     if ((portletResponse instanceof MimeResponse) && ((MimeResponse) portletResponse).isCommitted())
       throw new IllegalStateException("Can't forward on committed response");
     try {
-      ServletContext portalContext = (ServletContext) cont.getComponentInstanceOfType(ServletContext.class);
+      ServletContext portalContext = (ServletContext) cont
+          .getComponentInstanceOfType(ServletContext.class);
       ServletContext portletContext = portalContext.getContext(portletRequest.getContextPath());
       RequestDispatcher dispatcher = portletContext.getRequestDispatcher(path);
       requestWrapper.setRedirected(true);
       requestWrapper.setRedirectedPath(path);
       requestWrapper.setContextPath(portletRequest.getContextPath());
-      if (portletRequest instanceof ActionRequest) {
+      if (portletRequest instanceof ActionRequest)
         responseWrapper.setNoValues(true);
-      } else if (portletRequest instanceof EventRequest) {
+      else if (portletRequest instanceof EventRequest) {
         requestWrapper.setNoInput(true);
         requestWrapper.setNoValues(true);
         responseWrapper.setNoValues(true);
-      } else if (portletRequest instanceof ResourceRequest) {
+      } else if (portletRequest instanceof ResourceRequest)
         responseWrapper.setContentType(((ResourceResponse) portletResponse).getContentType());
-      } else {
+      else {
         responseWrapper.setContentType(null);
         requestWrapper.setNoInput(true);
         requestWrapper.setNoValues(true);
       }
 
       if (dispatcher != null) {
-        dispatcher.forward(requestWrapper/*servRequest*/, responseWrapper);
+        dispatcher.forward(requestWrapper/* servRequest */, responseWrapper);
         byte[] ca = responseWrapper.getPortletContent();
         if (ca == null)
           ca = new byte[0];
-        if (servResponse.isStreamUsed()) {
+        if (servResponse.isStreamUsed())
           servResponse.getOutputStream().write(ca);
-        } else
+        else
           servResponse.getWriter().write(new String(ca, "utf-8"));
         ((PortletResponseImp) portletResponse).setAlreadyForwarded();
       }

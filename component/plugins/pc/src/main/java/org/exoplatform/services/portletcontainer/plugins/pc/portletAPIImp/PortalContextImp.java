@@ -29,24 +29,21 @@ import javax.portlet.WindowState;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Jul 29, 2003
- * Time: 6:15:45 PM
+ * Created by The eXo Platform SAS Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 6:15:45 PM
  */
 public class PortalContextImp implements PortalContext {
 
-  private Map<String, String>  properties = new HashMap<String, String>();
+  private Map<String, String> properties = new HashMap<String, String>();
 
-  private PortletContainerConf conf;
+  private final PortletContainerConf conf;
 
-  public PortalContextImp(PortletContainerConf conf) {
+  public PortalContextImp(final PortletContainerConf conf) {
     properties = conf.getProperties();
     this.conf = conf;
   }
 
-  public String getProperty(String s) {
+  public String getProperty(final String s) {
     return properties.get(s);
   }
 
@@ -54,20 +51,18 @@ public class PortalContextImp implements PortalContext {
     return new Vector<String>(properties.keySet()).elements();
   }
 
-  public Enumeration<String> getProperties(String s) {
+  public Enumeration<String> getProperties(final String s) {
     Vector<String> result = new Vector<String>();
     Iterator<String> keys = properties.keySet().iterator();
     while (keys.hasNext()) {
       String key = keys.next();
-      if (key.equals(s)) {
+      if (key.equals(s))
         result.add(properties.get(key));
-      }
     }
     return result.elements();
   }
 
-  public void addProperty(String key,
-                          String value) {
+  public void addProperty(final String key, final String value) {
     properties.put(key, value);
   }
 

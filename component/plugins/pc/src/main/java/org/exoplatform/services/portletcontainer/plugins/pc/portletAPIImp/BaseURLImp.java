@@ -22,7 +22,6 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,29 +37,29 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
  */
 public abstract class BaseURLImp implements BaseURL {
 
-  protected String                    baseURL;
+  protected String baseURL;
 
-  protected Map<String, String[]>     parameters       = new HashMap<String, String[]>();
+  protected Map<String, String[]> parameters = new HashMap<String, String[]>();
 
-  protected Map<String, List<String>> properties       = new HashMap<String, List<String>>();
+  protected Map<String, List<String>> properties = new HashMap<String, List<String>>();
 
-  protected boolean                   isSecure;
+  protected boolean isSecure;
 
-  protected boolean                   setSecureCalled;
+  protected boolean setSecureCalled;
 
-  protected String                    type;
+  protected String type;
 
-  protected boolean                   isCurrentlySecured;
+  protected boolean isCurrentlySecured;
 
-  protected boolean                   defaultEscapeXml = true;
+  protected boolean defaultEscapeXml = true;
 
-  protected final Portlet             portletDatas;
+  protected final Portlet portletDatas;
 
-  public BaseURLImp(String type,
-                    String baseURL,
-                    boolean isCurrentlySecured,
-                    boolean defaultEscapeXml,
-                    Portlet portletDatas) {
+  public BaseURLImp(final String type,
+      final String baseURL,
+      final boolean isCurrentlySecured,
+      final boolean defaultEscapeXml,
+      final Portlet portletDatas) {
     this.type = type;
     this.baseURL = baseURL;
     this.isCurrentlySecured = isCurrentlySecured;
@@ -68,8 +67,7 @@ public abstract class BaseURLImp implements BaseURL {
     this.portletDatas = portletDatas;
   }
 
-  public void setParameter(String name,
-                           String value) {
+  public void setParameter(final String name, final String value) {
     if (name == null)
       throw new IllegalArgumentException("the key given is null");
     if (value == null)
@@ -77,8 +75,7 @@ public abstract class BaseURLImp implements BaseURL {
     parameters.put(name, new String[] { value });
   }
 
-  public void setParameter(String name,
-                           String[] values) {
+  public void setParameter(final String name, final String[] values) {
     if (name == null)
       throw new IllegalArgumentException("the key given is null");
     if (values == null)
@@ -86,21 +83,19 @@ public abstract class BaseURLImp implements BaseURL {
     parameters.put(name, values);
   }
 
-  public void setParameters(Map<String, String[]> map) {
+  public void setParameters(final Map<String, String[]> map) {
     if (map == null)
       throw new IllegalArgumentException("the map given is null");
     if (map.containsKey(null))
       throw new IllegalArgumentException("the map given contains a null key");
     Set<String> keys = map.keySet();
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-      if (!(iter.next() instanceof String))
+    for (String string : keys)
+      if (!(string instanceof String))
         throw new IllegalArgumentException("the map contains a non String key");
-    }
     Collection<String[]> values = map.values();
-    for (Iterator<String[]> iter = values.iterator(); iter.hasNext();) {
-      if (!(iter.next() instanceof String[]))
+    for (String[] name : values)
+      if (!(name instanceof String[]))
         throw new IllegalArgumentException("the map contains a non String[] value");
-    }
     parameters = map;
   }
 
@@ -110,19 +105,18 @@ public abstract class BaseURLImp implements BaseURL {
 
   // Spec draft nr.20 new methods
 
-  public void addProperty(String key,
-                          String value) {
+  public void addProperty(final String key, final String value) {
     if (key == null)
       throw new IllegalArgumentException("the property key given is null");
 
-    List<String> propvalues = (properties.get(key) != null ? properties.get(key) : new ArrayList<String>());
+    List<String> propvalues = (properties.get(key) != null ? properties.get(key)
+        : new ArrayList<String>());
     propvalues.add(value);
     properties.put(key, propvalues);
 
   }
 
-  public void setProperty(String key,
-                          String value) {
+  public void setProperty(final String key, final String value) {
     if (key == null)
       throw new IllegalArgumentException("the property key given is null");
 
@@ -136,12 +130,11 @@ public abstract class BaseURLImp implements BaseURL {
     return getPropertyString(defaultEscapeXml);
   }
 
-  public String getPropertyString(boolean escapeXML) {
+  public String getPropertyString(final boolean escapeXML) {
     StringBuffer sb = new StringBuffer();
     try {
       Set<String> names = properties.keySet();
-      for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-        String name = iterator.next();
+      for (String name : names) {
         List<String> propvalues = properties.get(name);
         for (int i = 0; i <= propvalues.size(); i++) {
           sb.append(Constants.AMPERSAND);
@@ -157,7 +150,7 @@ public abstract class BaseURLImp implements BaseURL {
     return sb.toString();
   }
 
-  public void setSecure(boolean isSecure) throws PortletSecurityException {
+  public void setSecure(final boolean isSecure) throws PortletSecurityException {
     this.isSecure = isSecure;
     this.setSecureCalled = true;
   }
@@ -168,9 +161,8 @@ public abstract class BaseURLImp implements BaseURL {
     return toString(defaultEscapeXml);
   }
 
-  protected String encode(String s,
-                          boolean escapeXML) {
-    if (s == null || s == "")
+  protected String encode(String s, final boolean escapeXML) {
+    if ((s == null) || (s == ""))
       return "";
     if (escapeXML)
       s = encodeChars(s);
@@ -181,20 +173,20 @@ public abstract class BaseURLImp implements BaseURL {
     }
   }
 
-  protected String encode(String s) {
+  protected String encode(final String s) {
     return encode(s, false);
   }
-                          
-  protected String encodeChars(String s) {
-    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;").replace("\"", "&#034;").replace("'", "&#039;");
+
+  protected String encodeChars(final String s) {
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        .replace("\"", "&#034;").replace("'", "&#039;");
   }
 
-  public void write(Writer out) throws IOException {
+  public void write(final Writer out) throws IOException {
     out.write(toString(defaultEscapeXml));
   }
 
-  public void write(Writer out,
-                    boolean escapeXML) throws IOException {
+  public void write(final Writer out, final boolean escapeXML) throws IOException {
     out.write(toString(escapeXML));
   }
 

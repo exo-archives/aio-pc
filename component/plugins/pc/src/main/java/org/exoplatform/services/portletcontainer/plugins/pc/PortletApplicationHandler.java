@@ -75,33 +75,62 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helper
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.DummyCcppProfile;
 
 /**
- * Created by the Exo Development team. Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: 10 nov. 2003 Time: 13:02:54
+ * Created by the Exo Development team.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: 10 nov. 2003
+ * Time: 13:02:54
  */
 public class PortletApplicationHandler {
 
-  private PortalContext               portalContext;
+  /**
+   * Portal context.
+   */
+  private final PortalContext portalContext;
 
-  // private int nbInstances = 0;
+  /**
+   * Portlet application holder.
+   */
+  private final PortletApplicationsHolder holder;
 
-  private PortletApplicationsHolder   holder;
+  /**
+   * Portlet container configurtaion.
+   */
+  private final PortletContainerConf conf;
 
-  private PortletContainerConf        conf;
+  /**
+   * Logger.
+   */
+  private static Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
-  static private Log                  log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+  /**
+   * Portlet container monitor.
+   */
+  private final PortletContainerMonitorImpl monitor;
 
-  private PortletContainerMonitorImpl monitor;
+  /**
+   * Resource bundle manager.
+   */
+  private final ResourceBundleManager resourceBundleManager;
 
-  private ResourceBundleManager       resourceBundleManager;
+  /**
+   * Exo container.
+   */
+  private ExoContainer cont;
 
-  protected ExoContainer              cont;
-
-  public PortletApplicationHandler(PortalContext portalContext,
-                                   PortletApplicationsHolder holder,
-                                   PortletContainerConf conf,
-                                   PortletContainerMonitorImpl portletMonitor,
-                                   ResourceBundleManager manager,
-                                   ExoContainerContext context) {
+  /**
+   * @param portalContext portal context
+   * @param holder holder
+   * @param conf conf
+   * @param portletMonitor portlet monitor
+   * @param manager bundle manager
+   * @param context exo container context
+   */
+  public PortletApplicationHandler(final PortalContext portalContext,
+      final PortletApplicationsHolder holder,
+      final PortletContainerConf conf,
+      final PortletContainerMonitorImpl portletMonitor,
+      final ResourceBundleManager manager,
+      final ExoContainerContext context) {
     this.portalContext = portalContext;
     this.holder = holder;
     this.conf = conf;
@@ -110,15 +139,25 @@ public class PortletApplicationHandler {
     this.cont = context.getContainer();
   }
 
-  public void process(ServletContext servletContext,
-                      HttpServletRequest request,
-                      HttpServletResponse response,
-                      Input input,
-                      Output output,
-                      PortletWindowInternal windowInfos,
-                      int isAction) throws PortletContainerException {
+  /**
+   * @param servletContext servlet context
+   * @param request request
+   * @param response response
+   * @param input input
+   * @param output output
+   * @param windowInfos window infos
+   * @param isAction action type
+   * @throws PortletContainerException exception
+   */
+  public final void process(final ServletContext servletContext,
+      final HttpServletRequest request,
+      final HttpServletResponse response,
+      final Input input,
+      final Output output,
+      final PortletWindowInternal windowInfos,
+      final int isAction) throws PortletContainerException {
     long startTime = System.currentTimeMillis();
-    log_.debug("process() method in PortletApplicationHandler entered");
+    log.debug("process() method in PortletApplicationHandler entered");
     PortletSessionImp session = null;
     CustomRequestWrapper requestWrapper = null;
     CustomResponseWrapper responseWrapper = null;
@@ -128,33 +167,35 @@ public class PortletApplicationHandler {
     String portletName = windowInfos.getWindowID().getPortletName();
     try {
       ExoContainer manager = cont;
-      PortletApplicationProxy proxy = (PortletApplicationProxy) manager.getComponentInstance(portletAppName);
+      PortletApplicationProxy proxy = (PortletApplicationProxy) manager
+          .getComponentInstance(portletAppName);
 
-      if (!holder.isModeSuported(portletAppName, portletName, input.getMarkup(), input.getPortletMode())) {
-        throw new PortletContainerException("The portlet mode " + input.getPortletMode().toString() + " is not supported for the "
-            + input.getMarkup() + " markup language.");
-      }
+      if (!holder.isModeSuported(portletAppName, portletName, input.getMarkup(), input
+          .getPortletMode()))
+        throw new PortletContainerException("The portlet mode " + input.getPortletMode().toString()
+            + " is not supported for the " + input.getMarkup() + " markup language.");
 
-      if (!holder.isStateSupported(portletAppName, portletName, input.getMarkup(), input.getWindowState())) {
-        log_.debug("Window state : " + input.getWindowState() + " not supported, set the window state to normal");
+      if (!holder.isStateSupported(portletAppName, portletName, input.getMarkup(), input
+          .getWindowState())) {
+        log.debug("Window state : " + input.getWindowState()
+            + " not supported, set the window state to normal");
         input.setWindowState(WindowState.NORMAL);
       }
 
       String exception_key = PCConstants.EXCEPTION + portletAppName + portletName;
 
-      PortletContext portletContext = PortletAPIObjectFactory.getInstance().createPortletContext(cont,
-                                                                                                 servletContext,
-                                                                                                 holder.getPortletMetaData(portletAppName,
-                                                                                                                           portletName));
+      PortletContext portletContext = PortletAPIObjectFactory.getInstance().createPortletContext(
+          cont, servletContext, holder.getPortletMetaData(portletAppName, portletName));
 
-      log_.debug("Create new object");
+      log.debug("Create new object");
 
       long portletAppVersionNumber = 1;
       portletAppVersionNumber = monitor.getPortletVersionNumber(portletAppName);
-      log_.debug("Get portlet version number : " + portletAppVersionNumber);
+      log.debug("Get portlet version number : " + portletAppVersionNumber);
 
       // create a PortletSession object
-      session = new PortletSessionImp(cont, request.getSession(false), portletContext, windowInfos.getWindowID().getUniqueID());
+      session = new PortletSessionImp(cont, request.getSession(false), portletContext, windowInfos
+          .getWindowID().getUniqueID());
 
       // create a servlet request wrapper
       requestWrapper = new CustomRequestWrapper(request, windowInfos.getWindowID().getUniqueID());
@@ -163,52 +204,43 @@ public class PortletApplicationHandler {
       responseWrapper = new CustomResponseWrapper(response);
 
       RequestContext reqCtx = new RequestContext(requestWrapper,
-                                                 portalContext,
-                                                 portletContext,
-                                                 session,
-                                                 input,
-                                                 windowInfos,
-                                                 holder.getPortletApplication(portletAppName).getSecurityConstraint(),
-                                                 holder.getPortletApplication(portletAppName).getUserAttribute(),
-                                                 holder.getPortletApplication(portletAppName).getCustomPortletMode(),
-                                                 holder.getPortletApplication(portletAppName).getCustomWindowState(),
-                                                 holder.getRoles(portletAppName),
-                                                 conf.getSupportedContent());
+          portalContext,
+          portletContext,
+          session,
+          input,
+          windowInfos,
+          holder.getPortletApplication(portletAppName).getSecurityConstraint(),
+          holder.getPortletApplication(portletAppName).getUserAttribute(),
+          holder.getPortletApplication(portletAppName).getCustomPortletMode(),
+          holder.getPortletApplication(portletAppName).getCustomWindowState(),
+          holder.getRoles(portletAppName),
+          conf.getSupportedContent());
 
       // @todo sort the attributes
 
-      if (isAction == PCConstants.ACTION_INT) {
+      if (isAction == PCConstants.ACTION_INT)
         portletRequest = new ActionRequestImp(reqCtx);
-      } else if (isAction == PCConstants.EVENT_INT) {
+      else if (isAction == PCConstants.EVENT_INT)
         portletRequest = new EventRequestImp(reqCtx);
-      } else if (isAction == PCConstants.RESOURCE_INT) {
+      else if (isAction == PCConstants.RESOURCE_INT)
         portletRequest = new ResourceRequestImp(reqCtx);
-      } else {
+      else
         portletRequest = new RenderRequestImp(reqCtx);
-      }
 
-      ResponseContext resCtx = new ResponseContext(responseWrapper,
-                                                   cont,
-                                                   windowInfos.getWindowID().getUniqueID(),
-                                                   input,
-                                                   holder.getPortletMetaData(portletAppName, portletName),
-                                                   request.isSecure(),
-                                                   conf.getSupportedContent(),
-                                                   Collections.enumeration(holder.getWindowStates(portletAppName, portletName, input.getMarkup())),
-                                                   holder.getPortletApplication(portletAppName).getCustomWindowState(),
-                                                   output,
-                                                   portalContext,
-                                                   portletRequest);
+      ResponseContext resCtx = new ResponseContext(responseWrapper, cont, windowInfos.getWindowID()
+          .getUniqueID(), input, holder.getPortletMetaData(portletAppName, portletName), request
+          .isSecure(), conf.getSupportedContent(), Collections.enumeration(holder.getWindowStates(
+          portletAppName, portletName, input.getMarkup())), holder.getPortletApplication(
+          portletAppName).getCustomWindowState(), output, portalContext, portletRequest);
 
-      if (isAction == PCConstants.ACTION_INT) {
+      if (isAction == PCConstants.ACTION_INT)
         portletResponse = new ActionResponseImp(resCtx);
-      } else if (isAction == PCConstants.EVENT_INT) {
+      else if (isAction == PCConstants.EVENT_INT)
         portletResponse = new EventResponseImp(resCtx);
-      } else if (isAction == PCConstants.RESOURCE_INT) {
+      else if (isAction == PCConstants.RESOURCE_INT)
         portletResponse = new ResourceResponseImp(resCtx);
-      } else {
+      else
         portletResponse = new RenderResponseImp(resCtx);
-      }
 
       portletRequest.setAttribute(PortletRequest.USER_INFO, input.getUserAttributes());
       portletRequest.setAttribute(PortletRequest.CCPP_PROFILE, getCcppProfile(request));
@@ -219,11 +251,11 @@ public class PortletApplicationHandler {
       boolean isDestroyed = monitor.isDestroyed(portletAppName, portletName);
 
       if (isDestroyed) {
-        log_.debug("Portlet is destroyed");
+        log.debug("Portlet is destroyed");
         generateOutputForException(portletRequest, isAction, null, output);
         return;
-      } else if (isBroken || !isAvailable || portletRequest.getAttribute(exception_key) != null) {
-        log_.debug("Portlet is borken, not available or the request contains an associated error");
+      } else if (isBroken || !isAvailable || (portletRequest.getAttribute(exception_key) != null)) {
+        log.debug("Portlet is borken, not available or the request contains an associated error");
         generateOutputForException(portletRequest, isAction, exception_key, output);
         return;
       } else {
@@ -231,53 +263,59 @@ public class PortletApplicationHandler {
         try {
           portlet = proxy.getPortlet(portletContext, portletName);
         } catch (PortletException e) {
-          log_.error("unable to get portlet :  " + portletName, e);
+          log.error("unable to get portlet :  " + portletName, e);
           portletRequest.setAttribute(exception_key, e);
           generateOutputForException(portletRequest, isAction, exception_key, output);
           return;
         }
         try {
-          PortletCommandChain chain = (PortletCommandChain) cont.getComponentInstanceOfType(PortletCommandChain.class);
+          PortletCommandChain chain = (PortletCommandChain) cont
+              .getComponentInstanceOfType(PortletCommandChain.class);
           if (isAction == PCConstants.ACTION_INT) {
-            chain.doProcessAction(portlet, (ActionRequest) portletRequest, (ActionResponse) portletResponse);
+            chain.doProcessAction(portlet, (ActionRequest) portletRequest,
+                (ActionResponse) portletResponse);
             // portlet.processAction((ActionRequest) portletRequest,
             // (ActionResponse) portletResponse);
             if (((ActionResponseImp) portletResponse).isSendRedirectAlreadyOccured()) {
               String location = ((ActionResponseImp) portletResponse).getLocation();
-              log_.debug("need to redirect to " + location);
+              log.debug("need to redirect to " + location);
               output.addProperty(Output.SEND_REDIRECT, location);
             }
-          } else if (isAction == PCConstants.EVENT_INT) {
-            chain.doProcessEvent(portlet, (EventRequest) portletRequest, (EventResponse) portletResponse);
-          } else if (isAction == PCConstants.RESOURCE_INT) {
-            chain.doServeResource(portlet, (ResourceRequest) portletRequest, (ResourceResponse) portletResponse);
-          } else {
-            chain.doRender(portlet, (RenderRequest) portletRequest, (RenderResponse) portletResponse);
+          } else if (isAction == PCConstants.EVENT_INT)
+            chain.doProcessEvent(portlet, (EventRequest) portletRequest,
+                (EventResponse) portletResponse);
+          else if (isAction == PCConstants.RESOURCE_INT)
+            chain.doServeResource(portlet, (ResourceRequest) portletRequest,
+                (ResourceResponse) portletResponse);
+          else {
+            chain.doRender(portlet, (RenderRequest) portletRequest,
+                (RenderResponse) portletResponse);
             if (((RenderInput) input).getTitle() != null) {
-              log_.debug("overide default title");
+              log.debug("overide default title");
               ((RenderOutput) output).setTitle(((RenderInput) input).getTitle());
             }
           }
         } catch (Throwable t) {
-          log_.error("exception returned by processAction() or render() methods", t);
+          log.error("exception returned by processAction() or render() methods", t);
           monitor.setLastFailureAccessTime(portletAppName, portletName, startTime);
           if (t instanceof RuntimeException) {
-            log_.debug("It is a runtime exception");
+            log.debug("It is a runtime exception");
             portletRequest.setAttribute(exception_key, t);
             generateOutputForException(portletRequest, isAction, exception_key, output);
             return;
           }
           if (t instanceof PortletException) {
-            log_.debug("It is a portlet exception");
+            log.debug("It is a portlet exception");
             PortletException e = (PortletException) t;
             if (t instanceof UnavailableException) {
-              log_.debug("It is an unavailable exception");
+              log.debug("It is an unavailable exception");
               UnavailableException ex = (UnavailableException) e;
               if (!ex.isPermanent()) {
-                log_.debug("but a non permanent one");
-                monitor.setUnavailabilityPeriod(portletAppName, portletName, ex.getUnavailableSeconds());
+                log.debug("but a non permanent one");
+                monitor.setUnavailabilityPeriod(portletAppName, portletName, ex
+                    .getUnavailableSeconds());
               } else {
-                log_.debug("a permanent one, so destroy the portlet and broke it");
+                log.debug("a permanent one, so destroy the portlet and broke it");
                 proxy.destroy(portletName);
                 monitor.brokePortlet(portletAppName, portletName);
               }
@@ -286,7 +324,7 @@ public class PortletApplicationHandler {
             generateOutputForException(portletRequest, isAction, exception_key, output);
             return;
           }
-          log_.debug("It is not a portlet exception");
+          log.debug("It is not a portlet exception");
           portletRequest.setAttribute(exception_key, t);
           generateOutputForException(portletRequest, isAction, exception_key, output);
           return;
@@ -299,25 +337,29 @@ public class PortletApplicationHandler {
         if (portletRequest.getPortletSession(false) == null)
           output.addProperty(Output.INVALIDATE_SESSION, "0");
         else
-          output.addProperty(Output.INVALIDATE_SESSION, "" + portletRequest.getPortletSession(false).getMaxInactiveInterval());
-      if (rtd != null) { // should fix this later , this can happen if the
+          output.addProperty(Output.INVALIDATE_SESSION, ""
+              + portletRequest.getPortletSession(false).getMaxInactiveInterval());
+      if (rtd != null)
         // portlet is broken
-        if (isAction == PCConstants.ACTION_INT) {
+        if (isAction == PCConstants.ACTION_INT)
           rtd.logProcessActionRequest(startTime, endTime);
-        } else if (isAction == PCConstants.EVENT_INT) {
+        else if (isAction == PCConstants.EVENT_INT)
           rtd.logProcessEventRequest(startTime, endTime);
-        } else if (isAction == PCConstants.RESOURCE_INT) {
+        else if (isAction == PCConstants.RESOURCE_INT) {
           boolean cacheHit = ((ResourceOutput) output).isCacheHit();
           rtd.logServeResourceRequest(startTime, endTime, cacheHit);
         } else {
           boolean cacheHit = ((RenderOutput) output).isCacheHit();
           rtd.logRenderRequest(startTime, endTime, cacheHit);
         }
-      }
     }
   }
 
-  private Object getCcppProfile(HttpServletRequest request) {
+  /**
+   * @param request request
+   * @return CC/PP profile
+   */
+  private Object getCcppProfile(final HttpServletRequest request) {
     // jsr-188 (CC/PP)
     // ProfileFactory pf = ProfileFactoryImpl.getInstance();
     // Profile profile =
@@ -326,15 +368,21 @@ public class PortletApplicationHandler {
     return new DummyCcppProfile();
   }
 
-  private void generateOutputForException(PortletRequestImp request,
-                                          int isAction,
-                                          String key,
-                                          Output output) {
+  /**
+   * @param request request
+   * @param isAction action type
+   * @param key key
+   * @param output output
+   */
+  private void generateOutputForException(final PortletRequestImp request,
+      final int isAction,
+      final String key,
+      final Output output) {
     String prop_key = "";
     String prop_output = "";
     String title = "";
     String content = "";
-    log_.debug("generate the exception message");
+    log.debug("generate the exception message");
     if (key == null) {
       prop_key = PCConstants.DESTROYED;
       prop_output = "output generated because of a destroyed portlet access";
@@ -346,7 +394,7 @@ public class PortletApplicationHandler {
       prop_output = "output generated because of an exception";
       title = "Exception occured";
       if (e != null) {
-        log_.debug("Exception associated : " + e.toString());
+        log.debug("Exception associated : " + e.toString());
         content = e.toString();
         while (e.getCause() != null) {
           e = e.getCause();
@@ -356,18 +404,17 @@ public class PortletApplicationHandler {
           else
             content = content + "<br>" + ce;
         }
-        if (content == null) {
+        if (content == null)
           content = prop_output;
-        }
         prop_output = content;
       } else {
-        log_.debug("No exception associated");
+        log.debug("No exception associated");
         content = "There is a problem";
       }
     }
-    if (isAction == PCConstants.ACTION_INT || isAction == PCConstants.EVENT_INT) {
+    if ((isAction == PCConstants.ACTION_INT) || (isAction == PCConstants.EVENT_INT))
       output.addProperty(prop_key, prop_output);
-    } else {
+    else {
       ((RenderOutput) output).setTitle(title);
       try {
         ((RenderOutput) output).setContent(content.getBytes("utf-8"));
@@ -379,14 +426,22 @@ public class PortletApplicationHandler {
     }
   }
 
-  public ResourceBundle getBundle(String portletAppName,
-                                  String portletName,
-                                  Locale locale) {
-    org.exoplatform.services.portletcontainer.pci.model.Portlet portlet = holder.getPortletMetaData(portletAppName, portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param locale locale
+   * @return resource bundle
+   */
+  public final ResourceBundle getBundle(final String portletAppName,
+      final String portletName,
+      final Locale locale) {
+    org.exoplatform.services.portletcontainer.pci.model.Portlet portlet = holder
+        .getPortletMetaData(portletAppName, portletName);
     try {
       return resourceBundleManager.lookupBundle(portlet, locale);
     } catch (Exception e) {
       return null;
     }
   }
+
 }

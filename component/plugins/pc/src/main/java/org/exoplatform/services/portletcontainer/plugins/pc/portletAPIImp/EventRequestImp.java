@@ -22,12 +22,12 @@ import javax.portlet.EventRequest;
 import org.exoplatform.services.portletcontainer.pci.EventInput;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS Author : Roman Pedchenko
+ * <roman.pedchenko@exoplatform.com.ua>
  */
 public class EventRequestImp extends PortletRequestImp implements EventRequest {
 
-  public EventRequestImp(RequestContext reqCtx) {
+  public EventRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
   }
 

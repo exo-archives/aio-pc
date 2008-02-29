@@ -39,21 +39,49 @@ import javax.portlet.filter.RenderFilter;
 import javax.portlet.filter.ResourceFilter;
 
 import org.exoplatform.services.portletcontainer.pci.model.Filter;
+import org.exoplatform.services.portletcontainer.pci.model.InitParam;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko
- *          roman.pedchenko@exoplatform.com.ua
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class PortletFilterWrapper implements ActionFilter, EventFilter, RenderFilter, ResourceFilter {
 
-  private String filterName;
-  private String filterClass;
-  private List initParams;
-  private PortletFilter filter;
-  private List lifecycle;
+  /**
+   * Filter name.
+   */
+  private final String filterName;
 
-  public PortletFilterWrapper(String filterName, String filterClass, List initParams, List lifecycle) {
+  /**
+   * Filter class.
+   */
+  private final String filterClass;
+
+  /**
+   * Init params.
+   */
+  private final List<InitParam> initParams;
+
+  /**
+   * Filter.
+   */
+  private PortletFilter filter;
+
+  /**
+   * Lifecycle.
+   */
+  private final List<Integer> lifecycle;
+
+  /**
+   * @param filterName filter name
+   * @param filterClass filter class
+   * @param initParams init params
+   * @param lifecycle lifecycle
+   */
+  public PortletFilterWrapper(final String filterName,
+      final String filterClass,
+      final List<InitParam> initParams,
+      final List<Integer> lifecycle) {
     this.filterName = filterName;
     this.filterClass = filterClass;
     this.initParams = initParams;
@@ -61,18 +89,32 @@ public class PortletFilterWrapper implements ActionFilter, EventFilter, RenderFi
     filter = null;
   }
 
-  public String getFilterName() {
+  /**
+   * @return filter name
+   */
+  public final String getFilterName() {
     return filterName;
   }
 
-  public List getInitParam() {
+  /**
+   * @return init params
+   */
+  public final List<InitParam> getInitParam() {
     return initParams;
   }
 
-  public void init(FilterConfig config) throws PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param config config
+   * @throws PortletException exception
+   * @see javax.portlet.filter.PortletFilter#init(javax.portlet.filter.FilterConfig)
+   */
+  public final void init(final FilterConfig config) throws PortletException {
     if (filter == null) {
       try {
-        filter = (PortletFilter) Thread.currentThread().getContextClassLoader().loadClass(filterClass).newInstance();
+        filter = (PortletFilter) Thread.currentThread().getContextClassLoader().loadClass(
+            filterClass).newInstance();
       } catch (Exception e) {
         throw new PortletException(e);
       }
@@ -80,49 +122,105 @@ public class PortletFilterWrapper implements ActionFilter, EventFilter, RenderFi
     }
   }
 
-  public void doFilter(ActionRequest request, ActionResponse response, FilterChain chain) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @param chain chain
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.ActionFilter#doFilter(javax.portlet.ActionRequest, javax.portlet.ActionResponse, javax.portlet.filter.FilterChain)
+   */
+  public final void doFilter(final ActionRequest request,
+      final ActionResponse response,
+      final FilterChain chain) throws IOException, PortletException {
     if (isLifecycleSupported(request))
       ((ActionFilter) filter).doFilter(request, response, chain);
     else
-    	chain.doFilter(request, response);
+      chain.doFilter(request, response);
   }
 
-  public void doFilter(EventRequest request, EventResponse response, FilterChain chain) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @param chain chain
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.EventFilter#doFilter(javax.portlet.EventRequest, javax.portlet.EventResponse, javax.portlet.filter.FilterChain)
+   */
+  public final void doFilter(final EventRequest request,
+      final EventResponse response,
+      final FilterChain chain) throws IOException, PortletException {
     if (isLifecycleSupported(request))
       ((EventFilter) filter).doFilter(request, response, chain);
     else
-    	chain.doFilter(request, response);
+      chain.doFilter(request, response);
   }
 
-  public void doFilter(RenderRequest request, RenderResponse response, FilterChain chain) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @param chain chain
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.RenderFilter#doFilter(javax.portlet.RenderRequest, javax.portlet.RenderResponse, javax.portlet.filter.FilterChain)
+   */
+  public final void doFilter(final RenderRequest request,
+      final RenderResponse response,
+      final FilterChain chain) throws IOException, PortletException {
     if (isLifecycleSupported(request))
       ((RenderFilter) filter).doFilter(request, response, chain);
     else
-    	chain.doFilter(request, response);
+      chain.doFilter(request, response);
   }
 
-  public void doFilter(ResourceRequest request, ResourceResponse response, FilterChain chain) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @param chain chain
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.ResourceFilter#doFilter(javax.portlet.ResourceRequest, javax.portlet.ResourceResponse, javax.portlet.filter.FilterChain)
+   */
+  public final void doFilter(final ResourceRequest request,
+      final ResourceResponse response,
+      final FilterChain chain) throws IOException, PortletException {
     if (isLifecycleSupported(request))
       ((ResourceFilter) filter).doFilter(request, response, chain);
     else
-    	chain.doFilter(request, response);
+      chain.doFilter(request, response);
   }
 
-  private boolean isLifecycleSupported(PortletRequest request) {
+  /**
+   * @param request request
+   * @return is lifecycle supported
+   */
+  private boolean isLifecycleSupported(final PortletRequest request) {
     Iterator cycles = lifecycle.iterator();
     while (cycles.hasNext()) {
       int cycle = ((Integer) cycles.next()).intValue();
-      if ((cycle == Filter.ALL) ||
-        ((request instanceof ActionRequest) && (cycle == Filter.ACTION)) ||
-        ((request instanceof EventRequest) && (cycle == Filter.EVENT)) ||
-        ((request instanceof RenderRequest) && (cycle == Filter.RENDER)) ||
-        ((request instanceof ResourceRequest) && (cycle == Filter.RESOURCE))
-      ) return true;
+      if ((cycle == Filter.ALL) || ((request instanceof ActionRequest) && (cycle == Filter.ACTION))
+          || ((request instanceof EventRequest) && (cycle == Filter.EVENT))
+          || ((request instanceof RenderRequest) && (cycle == Filter.RENDER))
+          || ((request instanceof ResourceRequest) && (cycle == Filter.RESOURCE)))
+        return true;
     }
     return false;
   }
 
-  public void destroy() {
+  /**
+   * Overridden method.
+   *
+   * @see javax.portlet.filter.PortletFilter#destroy()
+   */
+  public final void destroy() {
     if (filter != null) {
       filter.destroy();
       filter = null;

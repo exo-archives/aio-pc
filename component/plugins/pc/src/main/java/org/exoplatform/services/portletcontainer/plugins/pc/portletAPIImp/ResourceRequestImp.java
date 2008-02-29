@@ -25,12 +25,12 @@ import javax.servlet.http.Cookie;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS Author : Roman Pedchenko
+ * <roman.pedchenko@exoplatform.com.ua>
  */
 public class ResourceRequestImp extends ClientDataRequestImp implements ResourceRequest {
 
-  public ResourceRequestImp(RequestContext reqCtx) {
+  public ResourceRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
   }
 

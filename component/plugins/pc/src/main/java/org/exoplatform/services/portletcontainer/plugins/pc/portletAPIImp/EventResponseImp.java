@@ -20,16 +20,25 @@ import javax.portlet.EventRequest;
 import javax.portlet.EventResponse;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Roman Pedchenko <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS. Author : Roman Pedchenko
+ * roman.pedchenko@exoplatform.com.ua
  */
 public class EventResponseImp extends StateAwareResponseImp implements EventResponse {
 
-  public EventResponseImp(ResponseContext resCtx) {
+  /**
+   * @param resCtx response context
+   */
+  public EventResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
-  public void setRenderParameters(EventRequest request) {
+  /**
+   * Overridden method.
+   * 
+   * @param request request
+   * @see javax.portlet.EventResponse#setRenderParameters(javax.portlet.EventRequest)
+   */
+  public final void setRenderParameters(final EventRequest request) {
     setRenderParameters(request.getParameterMap());
   }
 
