@@ -139,9 +139,9 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   }
 
   protected void invokeFilterRenderURL() {
-    if (portletDatas == null)
+    if (getPortletDatas() == null)
       return;
-    List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
+    List<PortletURLGenerationListener> list = getPortletDatas().getApplication().getUrlListeners();
     if (list == null)
       return;
     for (PortletURLGenerationListener listener : list) {
@@ -153,9 +153,9 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   }
 
   protected void invokeFilterActionURL() {
-    if (portletDatas == null)
+    if (getPortletDatas() == null)
       return;
-    List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
+    List<PortletURLGenerationListener> list = getPortletDatas().getApplication().getUrlListeners();
     if (list == null)
       return;
     for (PortletURLGenerationListener listener : list) {
@@ -167,13 +167,13 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
   }
 
   public String toString(final boolean escapeXML) {
-    if (type.equals(PCConstants.ACTION_STRING))
+    if (getType().equals(PCConstants.ACTION_STRING))
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();
 
-    if (!setSecureCalled && isCurrentlySecured)
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured())
+      setSecure(true);
 
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
@@ -181,12 +181,12 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     sB.append(Constants.AMPERSAND);
     sB.append(Constants.TYPE_PARAMETER);
     sB.append("=");
-    sB.append(type);
+    sB.append(getType());
 
     sB.append(Constants.AMPERSAND);
     sB.append(Constants.SECURE_PARAMETER);
     sB.append("=");
-    sB.append(isSecure);
+    sB.append(isSecure());
 
     if (requiredPortletMode != null) {
       sB.append(Constants.AMPERSAND);

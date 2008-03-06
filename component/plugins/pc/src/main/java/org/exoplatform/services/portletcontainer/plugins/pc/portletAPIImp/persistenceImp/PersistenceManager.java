@@ -21,10 +21,17 @@ import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 
 /**
- * Created y the eXo platform team
+ * Created y the eXo platform team.
  * User: Benjamin Mestrallet
  * Date: 31 mai 2004
  */
 public interface PersistenceManager {
-  public PortletWindowInternal getWindow(Input input, ExoPortletPreferences defaultPrefs);
+
+  /**
+   * @param input input
+   * @param defaultPrefs default prefs
+   * @return PortletWindowInternal object for specified portlet window
+   */
+  PortletWindowInternal getWindow(Input input, ExoPortletPreferences defaultPrefs);
+
 }

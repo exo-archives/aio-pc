@@ -56,8 +56,8 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   public String toString() {
     String secureInfo = "false";
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured()) {
+      setSecure(true);
       secureInfo = "true";
     }
 
@@ -70,7 +70,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     }
 
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     if (resourceID != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", resourceID);
     } else {

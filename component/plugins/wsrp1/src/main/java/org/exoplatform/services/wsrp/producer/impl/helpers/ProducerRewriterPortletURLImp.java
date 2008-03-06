@@ -59,8 +59,8 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
 
   public String toString() {
     String secureInfo = "false";
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured()) {
+      setSecure(true);
       secureInfo = "true";
     }
     
@@ -72,7 +72,7 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
     }
     
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
     } else {

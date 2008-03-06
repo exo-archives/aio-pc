@@ -65,7 +65,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
 
   public String toString() {
 
-    if (type.equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
+    if (getType().equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();
@@ -94,13 +94,13 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     }
 
     String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", type);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
 
     String secureInfo = "false";
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured()) {
+      setSecure(true);
       secureInfo = "true";
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
@@ -128,7 +128,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString));
 
     // process interaction state
-    if (type.equalsIgnoreCase(PCConstants.ACTION_STRING)) {
+    if (getType().equalsIgnoreCase(PCConstants.ACTION_STRING)) {
       String interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);//was: privateParams

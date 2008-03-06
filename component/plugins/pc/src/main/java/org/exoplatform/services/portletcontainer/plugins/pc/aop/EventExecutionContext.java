@@ -22,21 +22,77 @@ import javax.portlet.EventResponse;
 import org.exoplatform.container.component.ExecutionContext;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * roman.pedchenko@exoplatform.com.ua
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class EventExecutionContext extends ExecutionContext {
-  EventRequest  request_;
 
-  EventResponse response_;
+  /**
+   * Request.
+   */
+  private EventRequest request;
 
-  Portlet       portlet_;
+  /**
+   * Response.
+   */
+  private EventResponse response;
 
-  public EventExecutionContext(Portlet p,
-                               EventRequest req,
-                               EventResponse res) {
-    portlet_ = p;
-    request_ = req;
-    response_ = res;
+  /**
+   * Portlet object.
+   */
+  private Portlet portlet;
+
+  /**
+   * @param p portlet object
+   * @param req request
+   * @param res response
+   */
+  public EventExecutionContext(final Portlet p, final EventRequest req, final EventResponse res) {
+    setPortlet(p);
+    setRequest(req);
+    setResponse(res);
   }
+
+  /**
+   * @param portlet the portlet to set
+   */
+  protected void setPortlet(Portlet portlet) {
+    this.portlet = portlet;
+  }
+
+  /**
+   * @return the portlet
+   */
+  protected Portlet getPortlet() {
+    return portlet;
+  }
+
+  /**
+   * @param response the response to set
+   */
+  protected void setResponse(EventResponse response) {
+    this.response = response;
+  }
+
+  /**
+   * @return the response
+   */
+  protected EventResponse getResponse() {
+    return response;
+  }
+
+  /**
+   * @param request the request to set
+   */
+  protected void setRequest(EventRequest request) {
+    this.request = request;
+  }
+
+  /**
+   * @return the request
+   */
+  protected EventRequest getRequest() {
+    return request;
+  }
+
 }

@@ -66,7 +66,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   public String toString() {
 
-    if (type.equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
+    if (getType().equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();
@@ -100,7 +100,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(type);
+    sB.append(getType());
 
     sB.append("&");
     sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
@@ -112,13 +112,13 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append("=");
     sB.append("");
 
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured()) {
+      setSecure(true);
     }
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
-    sB.append(isSecure);
+    sB.append(isSecure());
 
     //if (requiredPortletMode != null) {
     sB.append("&");
@@ -152,7 +152,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(encode(navigationalValuesString));
 
     // process interaction state
-    if (type.equalsIgnoreCase(PCConstants.ACTION_STRING)) {
+    if (getType().equalsIgnoreCase(PCConstants.ACTION_STRING)) {
       String interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);//was: privateParams

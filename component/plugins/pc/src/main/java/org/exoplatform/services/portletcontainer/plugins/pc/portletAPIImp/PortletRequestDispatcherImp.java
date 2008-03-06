@@ -30,7 +30,6 @@ import javax.portlet.RenderResponse;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpServletResponseWrapper;
@@ -191,10 +190,10 @@ public class PortletRequestDispatcherImp implements PortletRequestDispatcher {
     if ((portletResponse instanceof MimeResponse) && ((MimeResponse) portletResponse).isCommitted())
       throw new IllegalStateException("Can't forward on committed response");
     try {
-      ServletContext portalContext = (ServletContext) cont
-          .getComponentInstanceOfType(ServletContext.class);
-      ServletContext portletContext = portalContext.getContext(portletRequest.getContextPath());
-      RequestDispatcher dispatcher = portletContext.getRequestDispatcher(path);
+//      ServletContext portalContext = (ServletContext) cont
+//          .getComponentInstanceOfType(ServletContext.class);
+//      ServletContext portletContext = portalContext.getContext(portletRequest.getContextPath());
+//      RequestDispatcher dispatcher = portletContext.getRequestDispatcher(path);
       requestWrapper.setRedirected(true);
       requestWrapper.setRedirectedPath(path);
       requestWrapper.setContextPath(portletRequest.getContextPath());

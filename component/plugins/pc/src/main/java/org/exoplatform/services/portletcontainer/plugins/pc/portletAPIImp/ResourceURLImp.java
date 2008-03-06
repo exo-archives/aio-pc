@@ -60,9 +60,9 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
   }
 
   protected void invokeFilterResourceURL() {
-    if (portletDatas == null)
+    if (getPortletDatas() == null)
       return;
-    List<PortletURLGenerationListener> list = portletDatas.getApplication().getUrlListeners();
+    List<PortletURLGenerationListener> list = getPortletDatas().getApplication().getUrlListeners();
     if (list == null)
       return;
     for (PortletURLGenerationListener listener : list) {
@@ -76,8 +76,8 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
   public String toString(final boolean escapeXML) {
     invokeFilterResourceURL();
 
-    if (!setSecureCalled && isCurrentlySecured)
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured())
+      setSecure(true);
 
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
@@ -85,12 +85,12 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     sB.append(Constants.AMPERSAND);
     sB.append(Constants.TYPE_PARAMETER);
     sB.append("=");
-    sB.append(type);
+    sB.append(getType());
 
     sB.append(Constants.AMPERSAND);
     sB.append(Constants.SECURE_PARAMETER);
     sB.append("=");
-    sB.append(isSecure);
+    sB.append(isSecure());
 
     if (resourceID != null) {
       sB.append(Constants.AMPERSAND);

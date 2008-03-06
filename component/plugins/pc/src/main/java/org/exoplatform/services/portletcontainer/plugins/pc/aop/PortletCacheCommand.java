@@ -282,7 +282,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
     if (!conf.isCacheEnable())
       return econtext.executeNextUnit();
     log_.debug("--> processEvent method, call cache interceptor");
-    EventRequestImp req = (EventRequestImp) econtext.request_;
+    EventRequestImp req = (EventRequestImp) econtext.getRequest();
     if (req.getPortletDatas().getCaching() == null)
       return econtext.executeNextUnit();
 

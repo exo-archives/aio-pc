@@ -93,15 +93,15 @@ public class PortletMethodCommand extends BaseCommandUnit {
   }
 
   protected Object processEvent(EventExecutionContext econtext)  throws Throwable  {
-    if (econtext.portlet_ instanceof EventPortlet) {
-      EventRequest request = econtext.request_;
-      EventResponse response = econtext.response_;
+    if (econtext.getPortlet() instanceof EventPortlet) {
+      EventRequest request = econtext.getRequest();
+      EventResponse response = econtext.getResponse();
       request.setAttribute("javax.portlet.config",((EventRequestImp)request).getPortletConfig());
       request.setAttribute("javax.portlet.request", request);
       request.setAttribute("javax.portlet.response", response);
       request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.EVENT_PHASE);
 
-      ((EventPortlet) econtext.portlet_).processEvent(econtext.request_, econtext.response_) ;
+      ((EventPortlet) econtext.getPortlet()).processEvent(econtext.getRequest(), econtext.getResponse()) ;
 
       request.removeAttribute("javax.portlet.config");
       request.removeAttribute("javax.portlet.request");

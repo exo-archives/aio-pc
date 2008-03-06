@@ -66,7 +66,7 @@ public class PortletSecurityCommand extends BaseCommandUnit {
 
   protected Object processEvent(EventExecutionContext econtext)  throws  Throwable {
     log_.debug("--> processAction method, call security interceptor");
-    PortletRequestImp req = (PortletRequestImp) econtext.request_;
+    PortletRequestImp req = (PortletRequestImp) econtext.getRequest();
     String portletName = req.getPortletDatas().getPortletName();
     boolean needSecure = req.needsSecurityContraints(portletName);
     if (needSecure) {

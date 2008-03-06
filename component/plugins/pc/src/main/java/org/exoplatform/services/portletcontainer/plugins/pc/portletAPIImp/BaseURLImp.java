@@ -27,7 +27,6 @@ import java.util.Map;
 import java.util.Set;
 
 import javax.portlet.BaseURL;
-import javax.portlet.PortletSecurityException;
 
 import org.exoplatform.Constants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
@@ -37,45 +36,93 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
  */
 public abstract class BaseURLImp implements BaseURL {
 
+  /**
+   * Base url string.
+   */
   protected String baseURL;
 
+  /**
+   * Parameters.
+   */
   protected Map<String, String[]> parameters = new HashMap<String, String[]>();
 
-  protected Map<String, List<String>> properties = new HashMap<String, List<String>>();
+  /**
+   * Properties.
+   */
+  private Map<String, List<String>> properties = new HashMap<String, List<String>>();
 
-  protected boolean isSecure;
+  /**
+   * Is actually secure.
+   */
+  private boolean isSecure;
 
-  protected boolean setSecureCalled;
+  /**
+   * Was setSecure() method called.
+   */
+  private boolean setSecureCalled;
 
-  protected String type;
+  /**
+   * Type (render, action...).
+   */
+  private String type;
 
-  protected boolean isCurrentlySecured;
+  /**
+   * Is secured.
+   */
+  private boolean isCurrentlySecured;
 
-  protected boolean defaultEscapeXml = true;
+  /**
+   * Either to escape xml chars.
+   */
+  private boolean defaultEscapeXml = true;
 
-  protected final Portlet portletDatas;
+  /**
+   * Portlet datas.
+   */
+  private final Portlet portletDatas;
 
+  /**
+   * @param type type (render, action ...)
+   * @param baseURL base url string
+   * @param isCurrentlySecured is secured
+   * @param defaultEscapeXml either to escape xml chars (default value)
+   * @param portletDatas portlet datas
+   */
   public BaseURLImp(final String type,
       final String baseURL,
       final boolean isCurrentlySecured,
       final boolean defaultEscapeXml,
       final Portlet portletDatas) {
-    this.type = type;
+    this.setType(type);
     this.baseURL = baseURL;
-    this.isCurrentlySecured = isCurrentlySecured;
+    this.setCurrentlySecured(isCurrentlySecured);
     this.defaultEscapeXml = defaultEscapeXml;
     this.portletDatas = portletDatas;
   }
 
-  public void setParameter(final String name, final String value) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param value value
+   * @see javax.portlet.BaseURL#setParameter(java.lang.String, java.lang.String)
+   */
+  public final void setParameter(final String name, final String value) {
     if (name == null)
       throw new IllegalArgumentException("the key given is null");
     if (value == null)
       throw new IllegalArgumentException("the value given is null");
-    parameters.put(name, new String[] { value });
+    parameters.put(name, new String[] {value});
   }
 
-  public void setParameter(final String name, final String[] values) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param values values
+   * @see javax.portlet.BaseURL#setParameter(java.lang.String, java.lang.String[])
+   */
+  public final void setParameter(final String name, final String[] values) {
     if (name == null)
       throw new IllegalArgumentException("the key given is null");
     if (values == null)
@@ -83,7 +130,13 @@ public abstract class BaseURLImp implements BaseURL {
     parameters.put(name, values);
   }
 
-  public void setParameters(final Map<String, String[]> map) {
+  /**
+   * Overridden method.
+   *
+   * @param map parameter map
+   * @see javax.portlet.BaseURL#setParameters(java.util.Map)
+   */
+  public final void setParameters(final Map<String, String[]> map) {
     if (map == null)
       throw new IllegalArgumentException("the map given is null");
     if (map.containsKey(null))
@@ -99,24 +152,45 @@ public abstract class BaseURLImp implements BaseURL {
     parameters = map;
   }
 
-  public Map<String, String[]> getParameterMap() {
+  /**
+   * Overridden method.
+   *
+   * @return parameter map
+   * @see javax.portlet.BaseURL#getParameterMap()
+   */
+  public final Map<String, String[]> getParameterMap() {
     return parameters;
   }
 
   // Spec draft nr.20 new methods
 
-  public void addProperty(final String key, final String value) {
+  /**
+   * Overridden method.
+   *
+   * @param key key
+   * @param value value
+   * @see javax.portlet.BaseURL#addProperty(java.lang.String, java.lang.String)
+   */
+  public final void addProperty(final String key, final String value) {
     if (key == null)
       throw new IllegalArgumentException("the property key given is null");
 
-    List<String> propvalues = (properties.get(key) != null ? properties.get(key)
-        : new ArrayList<String>());
+    List<String> propvalues = properties.get(key);
+    if (propvalues == null)
+      propvalues = new ArrayList<String>();
     propvalues.add(value);
     properties.put(key, propvalues);
 
   }
 
-  public void setProperty(final String key, final String value) {
+  /**
+   * Overridden method.
+   *
+   * @param key key
+   * @param value value
+   * @see javax.portlet.BaseURL#setProperty(java.lang.String, java.lang.String)
+   */
+  public final void setProperty(final String key, final String value) {
     if (key == null)
       throw new IllegalArgumentException("the property key given is null");
 
@@ -126,11 +200,18 @@ public abstract class BaseURLImp implements BaseURL {
 
   }
 
-  public String getPropertyString() {
+  /**
+   * @return property string
+   */
+  public final String getPropertyString() {
     return getPropertyString(defaultEscapeXml);
   }
 
-  public String getPropertyString(final boolean escapeXML) {
+  /**
+   * @param escapeXML either to escape xml chars
+   * @return property string
+   */
+  public final String getPropertyString(final boolean escapeXML) {
     StringBuffer sb = new StringBuffer();
     try {
       Set<String> names = properties.keySet();
@@ -150,17 +231,38 @@ public abstract class BaseURLImp implements BaseURL {
     return sb.toString();
   }
 
-  public void setSecure(final boolean isSecure) throws PortletSecurityException {
+  /**
+   * Overridden method.
+   *
+   * @param isSecure is secure
+   * @see javax.portlet.BaseURL#setSecure(boolean)
+   */
+  public final void setSecure(final boolean isSecure) {
     this.isSecure = isSecure;
-    this.setSecureCalled = true;
+    this.setSetSecureCalled(true);
   }
 
+  /**
+   * @param escapeXML either to escape xml chars
+   * @return string representation of utl
+   */
   public abstract String toString(boolean escapeXML);
 
+  /**
+   * Overridden method.
+   *
+   * @return string representation of url
+   * @see java.lang.Object#toString()
+   */
   public String toString() {
     return toString(defaultEscapeXml);
   }
 
+  /**
+   * @param s string to encode
+   * @param escapeXML either to escape xml chars
+   * @return encoded string
+   */
   protected String encode(String s, final boolean escapeXML) {
     if ((s == null) || (s == ""))
       return "";
@@ -173,21 +275,100 @@ public abstract class BaseURLImp implements BaseURL {
     }
   }
 
-  protected String encode(final String s) {
+  /**
+   * @param s string to encode
+   * @return encoded string
+   */
+  protected final String encode(final String s) {
     return encode(s, false);
   }
 
-  protected String encodeChars(final String s) {
+  /**
+   * @param s string to encode
+   * @return encoded string
+   */
+  protected final String encodeChars(final String s) {
     return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
         .replace("\"", "&#034;").replace("'", "&#039;");
   }
 
-  public void write(final Writer out) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param out writer
+   * @throws IOException exception
+   * @see javax.portlet.BaseURL#write(java.io.Writer)
+   */
+  public final void write(final Writer out) throws IOException {
     out.write(toString(defaultEscapeXml));
   }
 
-  public void write(final Writer out, final boolean escapeXML) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param out writer
+   * @param escapeXML either to escape xml chars
+   * @throws IOException exception
+   * @see javax.portlet.BaseURL#write(java.io.Writer, boolean)
+   */
+  public final void write(final Writer out, final boolean escapeXML) throws IOException {
     out.write(toString(escapeXML));
+  }
+
+  /**
+   * @return the portletDatas
+   */
+  protected Portlet getPortletDatas() {
+    return portletDatas;
+  }
+
+  /**
+   * @param type the type to set
+   */
+  protected void setType(String type) {
+    this.type = type;
+  }
+
+  /**
+   * @return the type
+   */
+  protected String getType() {
+    return type;
+  }
+
+  /**
+   * @param isCurrentlySecured the isCurrentlySecured to set
+   */
+  protected void setCurrentlySecured(boolean isCurrentlySecured) {
+    this.isCurrentlySecured = isCurrentlySecured;
+  }
+
+  /**
+   * @return the isCurrentlySecured
+   */
+  protected boolean isCurrentlySecured() {
+    return isCurrentlySecured;
+  }
+
+  /**
+   * @param setSecureCalled the setSecureCalled to set
+   */
+  protected void setSetSecureCalled(boolean setSecureCalled) {
+    this.setSecureCalled = setSecureCalled;
+  }
+
+  /**
+   * @return the setSecureCalled
+   */
+  protected boolean isSetSecureCalled() {
+    return setSecureCalled;
+  }
+
+  /**
+   * @return the isSecure
+   */
+  protected boolean isSecure() {
+    return isSecure;
   }
 
 }

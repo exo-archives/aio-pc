@@ -28,17 +28,29 @@ import java.util.Vector;
 import javax.portlet.ClientDataRequest;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public abstract class ClientDataRequestImp extends PortletRequestImp implements ClientDataRequest {
 
+  /**
+   * Either reader was requested.
+   */
   private boolean isCallGetReader;
 
+  /**
+   * Either stream was requested.
+   */
   private boolean isCallGetStream;
 
+  /**
+   * Either parameters are touched.
+   */
   private boolean areParamsTouched;
 
+  /**
+   * @param reqCtx request context
+   */
   public ClientDataRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
     isCallGetReader = false;
@@ -46,35 +58,64 @@ public abstract class ClientDataRequestImp extends PortletRequestImp implements 
     areParamsTouched = false;
   }
 
-  public String getParameter(final String param) {
+  /**
+   * Overridden method.
+   *
+   * @param name parameter name
+   * @return parameter value
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp#getParameter(java.lang.String)
+   */
+  public final String getParameter(final String name) {
     areParamsTouched = true;
     if (this.isCallGetReader || this.isCallGetStream)
       return null;
-    return super.getParameter(param);
+    return super.getParameter(name);
   }
 
-  public Enumeration<String> getParameterNames() {
+  /**
+   * Overridden method.
+   *
+   * @return parameter names
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp#getParameterNames()
+   */
+  public final Enumeration<String> getParameterNames() {
     areParamsTouched = true;
     if (this.isCallGetReader || this.isCallGetStream)
       return new Vector<String>().elements();
     return super.getParameterNames();
   }
 
-  public String[] getParameterValues(final String s) {
+  /**
+   * Overridden method.
+   *
+   * @param name parameter name
+   * @return parameter values
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp#getParameterValues(java.lang.String)
+   */
+  public final String[] getParameterValues(final String name) {
     areParamsTouched = true;
     if (this.isCallGetReader || this.isCallGetStream)
       return null;
-    return super.getParameterValues(s);
+    return super.getParameterValues(name);
   }
 
-  public Map<String, String[]> getParameterMap() {
+  /**
+   * Overridden method.
+   *
+   * @return parameter map
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp#getParameterMap()
+   */
+  public final Map<String, String[]> getParameterMap() {
     areParamsTouched = true;
     if (this.isCallGetReader || this.isCallGetStream)
       return new HashMap<String, String[]>();
     return super.getParameterMap();
   }
 
-  public byte[] makeFormDataByteArray() {
+  /**
+   * @return parsed form data
+   */
+  public final byte[] makeFormDataByteArray() {
     if (areParamsTouched)
       return new byte[0];
     try {
@@ -89,8 +130,10 @@ public abstract class ClientDataRequestImp extends PortletRequestImp implements 
               r.append("&");
             else
               touched = true;
-            r.append(n + "="
-                + java.net.URLEncoder.encode(element, (this.enc != null) ? this.enc : "utf-8"));
+            String encToUse = this.enc;
+            if (encToUse == null)
+              encToUse = "utf-8";
+            r.append(n + "=" + java.net.URLEncoder.encode(element, encToUse));
           }
       }
       return r.toString().getBytes("us-ascii");
@@ -99,7 +142,14 @@ public abstract class ClientDataRequestImp extends PortletRequestImp implements 
     }
   }
 
-  public java.io.InputStream getPortletInputStream() throws java.io.IOException {
+  /**
+   * Overridden method.
+   *
+   * @return input stream
+   * @throws java.io.IOException exception
+   * @see javax.portlet.ClientDataRequest#getPortletInputStream()
+   */
+  public final java.io.InputStream getPortletInputStream() throws java.io.IOException {
     if (this.isCallGetReader)
       throw new IllegalStateException("getPortletInputStream() cannot be called, when getReader() method has been called");
     if (this.isCallGetStream)
@@ -116,7 +166,15 @@ public abstract class ClientDataRequestImp extends PortletRequestImp implements 
     return super.getInputStream();
   }
 
-  public java.io.BufferedReader getReader() throws java.io.UnsupportedEncodingException,
+  /**
+   * Overridden method.
+   *
+   * @return reader
+   * @throws java.io.UnsupportedEncodingException exception
+   * @throws java.io.IOException exception
+   * @see javax.servlet.ServletRequestWrapper#getReader()
+   */
+  public final java.io.BufferedReader getReader() throws java.io.UnsupportedEncodingException,
       java.io.IOException {
     if (this.isCallGetReader)
       throw new IllegalStateException("getPortletInputStream() cannot be called twice");
@@ -135,7 +193,14 @@ public abstract class ClientDataRequestImp extends PortletRequestImp implements 
     return super.getReader();
   }
 
-  public void setCharacterEncoding(final String enc) throws java.io.UnsupportedEncodingException {
+  /**
+   * Overridden method.
+   *
+   * @param enc charset
+   * @throws java.io.UnsupportedEncodingException exception
+   * @see javax.servlet.ServletRequestWrapper#setCharacterEncoding(java.lang.String)
+   */
+  public final void setCharacterEncoding(final String enc) throws java.io.UnsupportedEncodingException {
     if (this.isCallGetReader || this.isCallGetStream)
       throw new IllegalStateException("This method cannot be called, when getReader() method has been called");
     super.setCharacterEncoding(enc);
@@ -143,22 +208,49 @@ public abstract class ClientDataRequestImp extends PortletRequestImp implements 
     this.encodingModified = true;
   }
 
-  public String getCharacterEncoding() {
+  /**
+   * Overridden method.
+   *
+   * @return charset
+   * @see javax.servlet.ServletRequestWrapper#getCharacterEncoding()
+   */
+  public final String getCharacterEncoding() {
     return super.getCharacterEncoding();
   }
 
-  public String getContentType() {
+  /**
+   * Overridden method.
+   *
+   * @return content type
+   * @see javax.servlet.ServletRequestWrapper#getContentType()
+   */
+  public final String getContentType() {
     return super.getContentType();
   }
 
-  public int getContentLength() {
+  /**
+   * Overridden method.
+   *
+   * @return content length
+   * @see javax.servlet.ServletRequestWrapper#getContentLength()
+   */
+  public final int getContentLength() {
     return super.getContentLength();
   }
 
+  /**
+   * Overridden method.
+   *
+   * @return http method
+   * @see javax.servlet.http.HttpServletRequestWrapper#getMethod()
+   */
   public String getMethod() {
     return super.getMethod();
   }
 
+  /**
+   * @return lifecycle phase
+   */
   public abstract String getLifecyclePhase();
 
 }

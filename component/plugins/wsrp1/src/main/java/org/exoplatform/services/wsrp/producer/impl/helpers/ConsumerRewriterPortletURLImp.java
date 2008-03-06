@@ -58,8 +58,8 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
   }
 
   public String toString() {
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured()) {
+      setSecure(true);
     }
 
     // process navigational state
@@ -75,7 +75,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(type);
+    sB.append(getType());
     
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
@@ -95,7 +95,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
-    sB.append(isSecure);
+    sB.append(isSecure());
 
     if (requiredPortletMode != null) {
       sB.append("&");

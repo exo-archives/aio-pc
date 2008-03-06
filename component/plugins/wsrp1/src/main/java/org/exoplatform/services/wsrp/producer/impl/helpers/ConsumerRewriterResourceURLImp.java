@@ -54,8 +54,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
   }
 
   public String toString() {
-    if (!setSecureCalled && isCurrentlySecured) {
-      isSecure = true;
+    if (!isSetSecureCalled() && isCurrentlySecured()) {
+      setSecure(true);
     }
 
     // process navigational state
@@ -71,7 +71,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(type);
+    sB.append(getType());
     
     sB.append("&");
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
@@ -91,7 +91,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     sB.append("&");
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
-    sB.append(isSecure);
+    sB.append(isSecure());
 
     if (resourceID != null) {
       sB.append("&");
