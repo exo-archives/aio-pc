@@ -29,27 +29,59 @@ import javax.ccpp.ProfileDescription;
  */
 public class DummyCcppProfile implements Profile {
 
-  public Attribute getAttribute(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return attribute
+   * @see javax.ccpp.Profile#getAttribute(java.lang.String)
+   */
+  public final Attribute getAttribute(final String name) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public Set getAttributes() {
+  /**
+   * Overridden method.
+   *
+   * @return attributes
+   * @see javax.ccpp.Profile#getAttributes()
+   */
+  public final Set getAttributes() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public Component getComponent(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return component
+   * @see javax.ccpp.Profile#getComponent(java.lang.String)
+   */
+  public final Component getComponent(final String name) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public Set getComponents() {
+  /**
+   * Overridden method.
+   *
+   * @return components
+   * @see javax.ccpp.Profile#getComponents()
+   */
+  public final Set getComponents() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public ProfileDescription getDescription() {
+  /**
+   * Overridden method.
+   *
+   * @return description
+   * @see javax.ccpp.Profile#getDescription()
+   */
+  public final ProfileDescription getDescription() {
     // TODO Auto-generated method stub
     return null;
   }

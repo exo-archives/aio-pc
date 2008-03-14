@@ -24,9 +24,9 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helper
 public class PortletContentCommand extends BaseCommandUnit {
 
   public Object render(RenderExecutionContext rcontext) throws Throwable {
-    log_.debug("--> render method, call content ");
+    log.debug("--> render method, call content ");
     Object result = rcontext.executeNextUnit();
-    PortletResponseImp rimpl = (PortletResponseImp) rcontext.response_;
+    PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
     CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
     responseWrapper.flushBuffer();
     RenderOutput routput = (RenderOutput) rimpl.getOutput();
@@ -39,9 +39,9 @@ public class PortletContentCommand extends BaseCommandUnit {
   }
 
   public Object serveResource(ResourceExecutionContext rcontext) throws Throwable {
-    log_.debug("--> resource method, call content ");
+    log.debug("--> resource method, call content ");
     Object result = rcontext.executeNextUnit();
-    PortletResponseImp rimpl = (PortletResponseImp) rcontext.response_;
+    PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
     CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
     responseWrapper.flushBuffer();
     ResourceOutput routput = (ResourceOutput) rimpl.getOutput();

@@ -25,42 +25,87 @@ import javax.servlet.http.Cookie;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class ResourceRequestImp extends ClientDataRequestImp implements ResourceRequest {
 
+  /**
+   * @param reqCtx request context
+   */
   public ResourceRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
   }
 
-  public String getResourceID() {
+  /**
+   * Overridden method.
+   *
+   * @return resource id
+   * @see javax.portlet.ResourceRequest#getResourceID()
+   */
+  public final String getResourceID() {
     return ((ResourceInput) getInput()).getResourceID();
   }
 
-  public String getLifecyclePhase() {
+  /**
+   * Overridden method.
+   *
+   * @return lifecycle phase
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ClientDataRequestImp#getLifecyclePhase()
+   */
+  public final String getLifecyclePhase() {
     return RESOURCE_PHASE;
   }
 
+  /**
+   * Overridden method.
+   *
+   * @return cookies
+   * @see javax.servlet.http.HttpServletRequestWrapper#getCookies()
+   */
   @Override
-  public Cookie[] getCookies() {
+  public final Cookie[] getCookies() {
     return super.getCookies();
   }
 
-  public String getMethod() {
+  /**
+   * Overridden method.
+   *
+   * @return http method
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ClientDataRequestImp#getMethod()
+   */
+  public final String getMethod() {
     return super.getMethod();
   }
 
-  public Map<String, String[]> getPrivateRenderParameterMap() {
+  /**
+   * Overridden method.
+   *
+   * @return private render parameter map
+   * @see javax.portlet.ResourceRequest#getPrivateRenderParameterMap()
+   */
+  public final Map<String, String[]> getPrivateRenderParameterMap() {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public String getETag() {
+  /**
+   * Overridden method.
+   *
+   * @return ETag
+   * @see javax.portlet.ResourceRequest#getETag()
+   */
+  public final String getETag() {
     return getProperty(RenderRequest.ETAG);
   }
 
-  public String getCacheability() {
+  /**
+   * Overridden method.
+   *
+   * @return cacheability
+   * @see javax.portlet.ResourceRequest#getCacheability()
+   */
+  public final String getCacheability() {
     return ((ResourceInput) getInput()).getCacheability();
   }
 

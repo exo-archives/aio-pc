@@ -33,7 +33,7 @@ import org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor
 import org.exoplatform.services.portletcontainer.monitor.PortletRuntimeData;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Sep 10, 2003
@@ -41,358 +41,698 @@ import org.exoplatform.services.portletcontainer.monitor.PortletRuntimeData;
  */
 public class PortletContainerMonitorImpl implements PortletContainerMonitor {
 
+  /**
+   * Separator.
+   */
   public static final char SEPARATOR = '/';
+
+  /**
+   * Version numbers.
+   */
   public static Map versionNumberMap = new HashMap();
 
-  private Map runtimeDatas_;
-  private Map destroyedPortlets_;
-  private Map brokenPortlets_;
-  private Log log_;
-  private ExoCache globalCache_;
-  private CacheService cacheService_;
+  /**
+   * Runtime metadatas.
+   */
+  private final Map runtimeDatas;
 
-  public PortletContainerMonitorImpl(CacheService cacheService) throws Exception {
-    this.log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
-    this.cacheService_ = cacheService;
-    globalCache_ = cacheService.getCacheInstance(PCConstants.GLOBAL_SCOPE_CACHE);
-    runtimeDatas_ = Collections.synchronizedMap(new HashMap());
-    brokenPortlets_ = Collections.synchronizedMap(new HashMap());
-    destroyedPortlets_ = Collections.synchronizedMap(new HashMap());
+  /**
+   * Destroyed portlets.
+   */
+  private final Map destroyedPortlets;
+
+  /**
+   * Broken portlets.
+   */
+  private final Map brokenPortlets;
+
+  /**
+   * Logger.
+   */
+  private final Log log;
+
+  /**
+   * Global cache.
+   */
+  private final ExoCache globalCache;
+
+  /**
+   * Cache service.
+   */
+  private final CacheService cacheService;
+
+  /**
+   * @param cacheService cache service
+   * @throws Exception exception
+   */
+  public PortletContainerMonitorImpl(final CacheService cacheService) throws Exception {
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+    this.cacheService = cacheService;
+    globalCache = cacheService.getCacheInstance(PCConstants.GLOBAL_SCOPE_CACHE);
+    runtimeDatas = Collections.synchronizedMap(new HashMap());
+    brokenPortlets = Collections.synchronizedMap(new HashMap());
+    destroyedPortlets = Collections.synchronizedMap(new HashMap());
   }
 
-  public Map getPortletRuntimeDataMap() {
-    return runtimeDatas_;
+  /**
+   * Overridden method.
+   *
+   * @return runtime datas
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getPortletRuntimeDataMap()
+   */
+  public final Map getPortletRuntimeDataMap() {
+    return runtimeDatas;
   }
 
-  public PortletRuntimeDatasImpl getPortletRuntimeData(String appName, String portletName) {
-    return (PortletRuntimeDatasImpl) runtimeDatas_.get(appName + SEPARATOR + portletName);
+  /**
+   * @param appName portlet application name
+   * @param portletName portlet name
+   * @return runtime datas
+   */
+  public final PortletRuntimeDatasImpl getPortletRuntimeData(final String appName,
+      final String portletName) {
+    return (PortletRuntimeDatasImpl) runtimeDatas.get(appName + SEPARATOR + portletName);
   }
 
-  public synchronized void registerPortletApp(String portletApplicationName) {
+  /**
+   * @param portletApplicationName portlet application name
+   */
+  public final synchronized void registerPortletApp(final String portletApplicationName) {
     long versionNumber = 1;
-    if (versionNumberMap.get(portletApplicationName) != null) {
+    if (versionNumberMap.get(portletApplicationName) != null)
       versionNumber = ((Long) versionNumberMap.get(portletApplicationName)).longValue() + 1;
-    }
     versionNumberMap.put(portletApplicationName, new Long(versionNumber));
   }
 
-  public long getPortletVersionNumber(String portletAppName) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @return portlet version number
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getPortletVersionNumber(java.lang.String)
+   */
+  public final long getPortletVersionNumber(final String portletAppName) {
     return ((Long) versionNumberMap.get(portletAppName)).longValue();
   }
 
-  public synchronized void register(String portletApplicationName, String portletName) {
-    PortletRuntimeData rD =
-      new PortletRuntimeDatasImpl(portletApplicationName, portletName,
-                                  cacheService_, globalCache_, log_);
-    runtimeDatas_.put(portletApplicationName + SEPARATOR + portletName, rD);
-    brokenPortlets_.remove(portletApplicationName + SEPARATOR + portletName);
-    destroyedPortlets_.remove(portletApplicationName + SEPARATOR + portletName);
+  /**
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   */
+  public final synchronized void register(final String portletApplicationName, final String portletName) {
+    PortletRuntimeData rD = new PortletRuntimeDatasImpl(portletApplicationName,
+        portletName,
+        cacheService,
+        globalCache,
+        log);
+    runtimeDatas.put(portletApplicationName + SEPARATOR + portletName, rD);
+    brokenPortlets.remove(portletApplicationName + SEPARATOR + portletName);
+    destroyedPortlets.remove(portletApplicationName + SEPARATOR + portletName);
   }
 
-  public boolean isInitialized(String portletAppName, String portletName) {
-    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas_.get(portletAppName +
-        SEPARATOR + portletName);
-    if (datas == null) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @return is initialized
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isInitialized(java.lang.String, java.lang.String)
+   */
+  public final boolean isInitialized(final String portletAppName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
+    if (datas == null)
       return false;
-    }
-    if (datas.isInitialized()) {
+    if (datas.isInitialized())
       return true;
-    }
     return false;
   }
 
-  public synchronized void init(String portletAppName, String portletName, int cacheExpirationTime) {
-    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas_.
-        get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param cacheExpirationTime cache expiration time
+   */
+  public final synchronized void init(final String portletAppName,
+      final String portletName,
+      final int cacheExpirationTime) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     datas.setInitialized(true);
     datas.setCacheExpirationPeriod(cacheExpirationTime);
   }
 
-  public synchronized void brokePortlet(String portletAppName, String portletName) {
-    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas_.get(portletAppName +
-        SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   */
+  public final synchronized void brokePortlet(final String portletAppName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     if (datas == null) {
-      datas = (PortletRuntimeData) destroyedPortlets_.get(portletAppName + SEPARATOR + portletName);
-      destroyedPortlets_.remove(portletAppName + SEPARATOR + portletName);
+      datas = (PortletRuntimeData) destroyedPortlets.get(portletAppName + SEPARATOR + portletName);
+      destroyedPortlets.remove(portletAppName + SEPARATOR + portletName);
     }
-    runtimeDatas_.remove(portletAppName + SEPARATOR + portletName);
-    brokenPortlets_.put(portletAppName + SEPARATOR + portletName, datas);
+    runtimeDatas.remove(portletAppName + SEPARATOR + portletName);
+    brokenPortlets.put(portletAppName + SEPARATOR + portletName, datas);
   }
 
-  public boolean isBroken(String portletAppName, String portletName) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) brokenPortlets_.get(portletAppName + SEPARATOR + portletName);
-    if (datas != null)    return true;
-    return false ;
-  }
-
-  public boolean isDestroyed(String portletAppName, String portletName) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) destroyedPortlets_.get(portletAppName + SEPARATOR + portletName);
-    if (datas != null)  return true;
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @return is broken
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isBroken(java.lang.String, java.lang.String)
+   */
+  public final boolean isBroken(final String portletAppName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) brokenPortlets.get(portletAppName + SEPARATOR
+        + portletName);
+    if (datas != null)
+      return true;
     return false;
   }
 
-  public boolean isAvailable(String portletApplicationName, String portletName, long l) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
-    if (datas == null)  return false ;
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @return is destroyed
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isDestroyed(java.lang.String, java.lang.String)
+   */
+  public final boolean isDestroyed(final String portletAppName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) destroyedPortlets.get(portletAppName
+        + SEPARATOR + portletName);
+    if (datas != null)
+      return true;
+    return false;
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @param l time
+   * @return is available
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isAvailable(java.lang.String, java.lang.String, long)
+   */
+  public final boolean isAvailable(final String portletApplicationName,
+      final String portletName,
+      final long l) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas
+        .get(portletApplicationName + SEPARATOR + portletName);
+    if (datas == null)
+      return false;
     return datas.isAvailable(l);
   }
 
-  public boolean isAvailable(String portletApplicationName, String portletName) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
-    if (datas == null)  return false;
+  /**
+   * Overridden method.
+   *
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @return is available
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isAvailable(java.lang.String, java.lang.String)
+   */
+  public final boolean isAvailable(final String portletApplicationName, final String portletName) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas
+        .get(portletApplicationName + SEPARATOR + portletName);
+    if (datas == null)
+      return false;
     return datas.isAvailable(System.currentTimeMillis());
   }
 
-  public long whenAvailable(String portletApplicationName, String portletName){
-    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas_.
-    get(portletApplicationName + SEPARATOR + portletName);
-    if (datas == null)  return -1;
-    if(datas.isAvailable(System.currentTimeMillis()))   return 0;
-    else  return datas.whenAvailable();
+  /**
+   * Overridden method.
+   *
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @return when available
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#whenAvailable(java.lang.String, java.lang.String)
+   */
+  public final long whenAvailable(final String portletApplicationName, final String portletName) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas
+        .get(portletApplicationName + SEPARATOR + portletName);
+    if (datas == null)
+      return -1;
+    if (datas.isAvailable(System.currentTimeMillis()))
+      return 0;
+    else
+      return datas.whenAvailable();
   }
 
-  public boolean isInitialisationAllowed(String portletApplicationName, String portletName, long l) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
-    if (datas == null) return false;
+  /**
+   * Overridden method.
+   *
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @param l time
+   * @return is initialization allowed
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isInitialisationAllowed(java.lang.String, java.lang.String, long)
+   */
+  public final boolean isInitialisationAllowed(final String portletApplicationName,
+      final String portletName,
+      final long l) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas
+        .get(portletApplicationName + SEPARATOR + portletName);
+    if (datas == null)
+      return false;
     return datas.isInitialisationAllowed(l);
   }
 
-  public synchronized void destroy(String portletApplicationName, String portletName) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
-    if (datas == null)  return;//already destroyed or broke
-    runtimeDatas_.remove(portletApplicationName + SEPARATOR + portletName);
-    destroyedPortlets_.put(portletApplicationName + SEPARATOR + portletName, datas);
+  /**
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   */
+  public final synchronized void destroy(final String portletApplicationName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletApplicationName
+        + SEPARATOR + portletName);
+    if (datas == null)
+      return; //already destroyed or broke
+    runtimeDatas.remove(portletApplicationName + SEPARATOR + portletName);
+    destroyedPortlets.put(portletApplicationName + SEPARATOR + portletName, datas);
   }
 
-  public void setLastAccessTime(String portletAppName, String portletName, long l) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
-    if (datas == null) {//look in broken portlets
-      datas = (PortletRuntimeDatasImpl) brokenPortlets_.get(portletAppName + SEPARATOR + portletName);
-    }
-    if (datas == null) {//look in destroyed portlets
-      datas = (PortletRuntimeDatasImpl) destroyedPortlets_.get(portletAppName + SEPARATOR + portletName);
-    }
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param l last access time
+   */
+  public final void setLastAccessTime(final String portletAppName, final String portletName, final long l) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
+    if (datas == null)
+      datas = (PortletRuntimeDatasImpl) brokenPortlets.get(portletAppName + SEPARATOR
+          + portletName);
+    if (datas == null)
+      datas = (PortletRuntimeDatasImpl) destroyedPortlets.get(portletAppName + SEPARATOR
+          + portletName);
     datas.setLastAccessTime(l);
   }
 
-  public void setLastInitFailureAccessTime(String portletAppName, String portletName, long l) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param l last init failure access time
+   */
+  public final void setLastInitFailureAccessTime(final String portletAppName,
+      final String portletName,
+      final long l) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     datas.setLastInitFailureAccessTime(l);
   }
 
-  public void setLastFailureAccessTime(String portletAppName, String portletName, long l) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param l last failure access time
+   */
+  public final void setLastFailureAccessTime(final String portletAppName,
+      final String portletName,
+      final long l) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     datas.setLastFailureAccessTime(l);
   }
 
-  public void setUnavailabilityPeriod(String portletAppName, String portletName, int unavailableSeconds) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param unavailableSeconds unavailability time in seconds
+   */
+  public final void setUnavailabilityPeriod(final String portletAppName,
+      final String portletName,
+      final int unavailableSeconds) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     datas.setUnavailabilityPeriod(unavailableSeconds * 1000);
   }
 
-  public boolean isDataCached(String portletApplicationName, String portletName,
-                              String key, boolean isCacheGlobal) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   * @return is data cached
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#isDataCached(java.lang.String, java.lang.String, java.lang.String, boolean)
+   */
+  public final boolean isDataCached(final String portletApplicationName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletApplicationName
+        + SEPARATOR + portletName);
     return datas.isDataCached(key, isCacheGlobal);
   }
 
-  public void removeCachedData(String portletApplicationName, String portletName,
-                               String key, boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
+  /**
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   */
+  public final void removeCachedData(final String portletApplicationName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas
+        .get(portletApplicationName + SEPARATOR + portletName);
     datas.removeCachedData(key, isCacheGlobal);
   }
 
-  public int getCacheExpirationPeriod(String portletApplicationName, String portletName) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletApplicationName portlet app name
+   * @param portletName portlet name
+   * @return cache expiration period
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getCacheExpirationPeriod(java.lang.String, java.lang.String)
+   */
+  public final int getCacheExpirationPeriod(final String portletApplicationName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletApplicationName
+        + SEPARATOR + portletName);
     return datas.getCacheExpirationPeriod();
   }
 
-  public void setCacheExpirationPeriod(String portletAppName, String portletName, int i) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param i cache expiration period
+   */
+  public final void setCacheExpirationPeriod(final String portletAppName,
+      final String portletName,
+      final int i) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     datas.setCacheExpirationPeriod(i);
   }
 
-  public long getPortletLastAccessTime(String portletAppName, String portletName,
-                                       String key, boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   * @return last access time
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getPortletLastAccessTime(java.lang.String, java.lang.String, java.lang.String, boolean)
+   */
+  public final long getPortletLastAccessTime(final String portletAppName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedData cachedData = datas.getCachedData(key, isCacheGlobal);
-    if (cachedData != null) {
+    if (cachedData != null)
       return ((CachedDataImpl) cachedData).getLastAccessTime();
-    }
     return 0;
   }
 
-  public void setPortletLastAccessTime(String portletAppName, String portletName,
-                                       String key, long lastAccessTime,
-                                       boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param lastAccessTime last access time
+   * @param isCacheGlobal is cache global
+   */
+  public final void setPortletLastAccessTime(final String portletAppName,
+      final String portletName,
+      final String key,
+      final long lastAccessTime,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedDataImpl cachedData = (CachedDataImpl) datas.getCachedData(key, isCacheGlobal);
     if (cachedData == null) {
       cachedData = new CachedDataImpl();
       cachedData.setLastAccessTime(lastAccessTime);
       datas.setCachedData(key, cachedData, isCacheGlobal);
-    } else {
+    } else
       cachedData.setLastAccessTime(lastAccessTime);
-    }
   }
 
-  public void setCachedTitle(String portletAppName, String portletName,
-                             String key, String title, boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param title title
+   * @param isCacheGlobal is cache global
+   */
+  public final void setCachedTitle(final String portletAppName,
+      final String portletName,
+      final String key,
+      final String title,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedDataImpl cachedData = (CachedDataImpl) datas.getCachedData(key, isCacheGlobal);
     if (cachedData == null) {
       cachedData = new CachedDataImpl();
       cachedData.setTitle(title);
       datas.setCachedData(key, cachedData, isCacheGlobal);
-    } else {
+    } else
       cachedData.setTitle(title);
-    }
   }
 
-  public String getCachedTitle(String portletAppName, String portletName,
-                               String key, boolean isCacheGlobal) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   * @return cached title
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getCachedTitle(java.lang.String, java.lang.String, java.lang.String, boolean)
+   */
+  public final String getCachedTitle(final String portletAppName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     CachedData cachedData = datas.getCachedData(key, isCacheGlobal);
-    if (cachedData != null) {
+    if (cachedData != null)
       return cachedData.getTitle();
-    }
     return null;
   }
 
-  public void setCachedETag(String portletAppName, String portletName,
-                             String key, String etag, boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param etag ETag
+   * @param isCacheGlobal is cache global
+   */
+  public final void setCachedETag(final String portletAppName,
+      final String portletName,
+      final String key,
+      final String etag,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedDataImpl cachedData = (CachedDataImpl) datas.getCachedData(key, isCacheGlobal);
     if (cachedData == null) {
       cachedData = new CachedDataImpl();
       cachedData.setETag(etag);
       datas.setCachedData(key, cachedData, isCacheGlobal);
-    } else {
+    } else
       cachedData.setETag(etag);
-    }
   }
 
-  public String getCachedETag(String portletAppName, String portletName,
-                               String key, boolean isCacheGlobal) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   * @return ETag
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getCachedETag(java.lang.String, java.lang.String, java.lang.String, boolean)
+   */
+  public final String getCachedETag(final String portletAppName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     CachedData cachedData = datas.getCachedData(key, isCacheGlobal);
-    if (cachedData != null) {
+    if (cachedData != null)
       return cachedData.getETag();
-    }
     return null;
   }
 
-  public void setCachedContent(String portletAppName, String portletName,
-                               String key, byte[] content,
-                               boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param content content
+   * @param isCacheGlobal is cache global
+   * @param isCacheGlobal
+   */
+  public final void setCachedContent(final String portletAppName,
+      final String portletName,
+      final String key,
+      final byte[] content,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedDataImpl cachedData = (CachedDataImpl) datas.getCachedData(key, isCacheGlobal);
     if (cachedData == null) {
       cachedData = new CachedDataImpl();
       cachedData.setContent(content);
       datas.setCachedData(key, cachedData, isCacheGlobal);
-    } else {
+    } else
       cachedData.setContent(content);
-    }
   }
 
-  public byte[] getCachedContent(String portletAppName, String portletName,
-                                 String key, boolean isCacheGlobal) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   * @return cached content
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getCachedContent(java.lang.String, java.lang.String, java.lang.String, boolean)
+   */
+  public final byte[] getCachedContent(final String portletAppName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     CachedData cachedData = datas.getCachedData(key, isCacheGlobal);
-    if (cachedData != null) {
+    if (cachedData != null)
       return cachedData.getContent();
-    }
     return null;
   }
 
-  public void setCachedMode(String portletAppName, String portletName,
-                            String key, PortletMode mode,
-                            boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param mode mode
+   * @param isCacheGlobal is cache global
+   */
+  public final void setCachedMode(final String portletAppName,
+      final String portletName,
+      final String key,
+      final PortletMode mode,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedDataImpl cachedData = (CachedDataImpl) datas.getCachedData(key, isCacheGlobal);
     if (cachedData == null) {
       cachedData = new CachedDataImpl();
       cachedData.setMode(mode);
       datas.setCachedData(key, cachedData, isCacheGlobal);
-    } else {
+    } else
       cachedData.setMode(mode);
-    }
   }
 
-  public void setCachedWindowState(String portletAppName, String portletName,
-                                   String key, WindowState window,
-                                   boolean isCacheGlobal) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param window window
+   * @param isCacheGlobal is cache global
+   */
+  public final void setCachedWindowState(final String portletAppName,
+      final String portletName,
+      final String key,
+      final WindowState window,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     CachedDataImpl cachedData = (CachedDataImpl) datas.getCachedData(key, isCacheGlobal);
     if (cachedData == null) {
       cachedData = new CachedDataImpl();
       cachedData.setWindowState(window);
       datas.setCachedData(key, cachedData, isCacheGlobal);
-    } else {
+    } else
       cachedData.setWindowState(window);
-    }
   }
 
-  public boolean needsCacheInvalidation(String portletAppName, String portletName,
-                                        String key, PortletMode mode,
-                                        WindowState window,
-                                        boolean isCacheGlobal) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param mode mode
+   * @param window window
+   * @param isCacheGlobal is cache global
+   * @return needs cache invalidation
+   */
+  public final boolean needsCacheInvalidation(final String portletAppName,
+      final String portletName,
+      final String key,
+      final PortletMode mode,
+      final WindowState window,
+      final boolean isCacheGlobal) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     CachedData cachedData = datas.getCachedData(key, isCacheGlobal);
-    if (cachedData == null)  return false;
-    if (cachedData.getMode() != mode || cachedData.getWindowState() != window) {
+    if (cachedData == null)
+      return false;
+    if ((cachedData.getMode() != mode) || (cachedData.getWindowState() != window))
       return true;
-    }
     return false;
   }
 
-  public void setInitializationTime(String portletAppName, String portletName, long accessTime) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param accessTime access time
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#setInitializationTime(java.lang.String, java.lang.String, long)
+   */
+  public final void setInitializationTime(final String portletAppName,
+      final String portletName,
+      final long accessTime) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     datas.setInitializationTime(accessTime);
   }
 
-  public long getInitializationTime(String portletAppName, String portletName) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @return initialization time
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getInitializationTime(java.lang.String, java.lang.String)
+   */
+  public final long getInitializationTime(final String portletAppName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletAppName + SEPARATOR
+        + portletName);
     return datas.getInitializationTime();
   }
 
-  public String getCacheScope(String portletApplicationName, String portletName) {
-    PortletRuntimeData datas =
-      (PortletRuntimeData) runtimeDatas_.get(portletApplicationName + SEPARATOR + portletName);
+  /**
+   * @param portletApplicationName portlet application name
+   * @param portletName portlet name
+   * @return scope
+   */
+  public final String getCacheScope(final String portletApplicationName, final String portletName) {
+    PortletRuntimeData datas = (PortletRuntimeData) runtimeDatas.get(portletApplicationName
+        + SEPARATOR + portletName);
     return datas.getCacheScope();
   }
 
-  public void setCacheScope(String portletAppName, String portletName, String s) {
-    PortletRuntimeDatasImpl datas =
-      (PortletRuntimeDatasImpl) runtimeDatas_.get(portletAppName + SEPARATOR + portletName);
+  /**
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param s scope
+   */
+  public final void setCacheScope(final String portletAppName, final String portletName, final String s) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
     datas.setCacheScope(s);
   }
 

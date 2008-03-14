@@ -17,7 +17,7 @@
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Jul 29, 2003
@@ -25,19 +25,31 @@ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils
  */
 public class CustomRequestWrapperUtil {
 
+  /**
+   * Separator.
+   */
   private static final char SEPARATOR = '$';
 
-  public static String decodeRequestAttribute(String windowId, String attributeName) {
+  /**
+   * @param windowId window id
+   * @param attributeName attribute name
+   * @return decoded attribute
+   */
+  public static final String decodeRequestAttribute(final String windowId, String attributeName) {
     if (attributeName.startsWith(windowId + SEPARATOR)) {
       int index = attributeName.indexOf(SEPARATOR);
-      if (index > -1) {
+      if (index > -1)
         attributeName = attributeName.substring(index + 1);
-      }
     }
     return attributeName;
   }
 
-  public static String encodeAttribute(String windowId, String attributeName) {
+  /**
+   * @param windowId window id
+   * @param attributeName attribbute name
+   * @return encoded attribute
+   */
+  public static final String encodeAttribute(final String windowId, final String attributeName) {
     if (attributeName.startsWith("javax.") || attributeName.startsWith("org.apache"))
       return attributeName;
     StringBuffer sB = new StringBuffer();

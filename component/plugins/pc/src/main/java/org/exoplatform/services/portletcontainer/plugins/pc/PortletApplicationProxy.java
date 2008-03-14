@@ -47,260 +47,373 @@ import org.picocontainer.defaults.DefaultPicoContainer;
  * Date: 11 nov. 2003
  * Time: 22:56:04
  */
-public class PortletApplicationProxy implements Startable{
-	private static final int WAITING_TIME_BEFORE_DESTROY = 50;//ms
-	PortletApplicationsHolder holder_;
-	private String portletAppName_;
-  private Map configs_;
-  private PortletContainerMonitorImpl monitor_;
-  private Log log_;
-  private MutablePicoContainer pico_;
+public class PortletApplicationProxy implements Startable {
+  /**
+   * Waiting time before destroying (ms).
+   */
+  private static final int WAITING_TIME_BEFORE_DESTROY = 50;
 
-  public PortletApplicationProxy(ExoContainerContext context,
-                                 PortletApplicationsHolder holder,
-                                 PortletContainerMonitorImpl monitor) {
-		this.holder_ = holder;
-    this.monitor_ = monitor;
-    configs_ = new HashMap();
-    this.log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
-    pico_ = new DefaultPicoContainer(context.getContainer());
-	}
+  /**
+   * Portlet application holder.
+   */
+  PortletApplicationsHolder holder;
 
-	public javax.portlet.Portlet getPortlet(PortletContext portletContext, String portletName)
-					throws PortletException {
-    log_.debug("getPortlet() in PortletApplicationProxy entered");
-		synchronized (monitor_) {
-			if (!monitor_.isInitialized(portletAppName_, portletName)) {
-        log_.debug("init monitor");
-				init(monitor_, portletName, portletContext);
-			}
-		}
-		return (javax.portlet.Portlet) pico_.
-        getComponentInstance(portletAppName_ + Constants.PORTLET_ENCODER + portletName);
-	}
+  /**
+   * Portlet application name.
+   */
+  private String portletAppName;
 
-	private void init(PortletContainerMonitorImpl monitor, String portletName, PortletContext portletContext) throws PortletException {
-		long accessTime = System.currentTimeMillis();
-		if (!monitor.isInitialisationAllowed(portletAppName_, portletName, accessTime))
-			throw new UnavailableException("Portlet initialization not possible");
+  /**
+   * Configs.
+   */
+  private final Map<String, PortletConfig> configs;
 
-		Portlet portletDatas = holder_.getPortletMetaData(portletAppName_, portletName);
-		PortletApp portletApp = holder_.getPortletApplication(portletAppName_);
-		PortletConfig config = new PortletConfigImp(portletDatas, portletContext,
-						portletApp.getSecurityConstraint(),
-						portletApp.getUserAttribute(),
-						portletApp.getCustomPortletMode(),
-						portletApp.getCustomWindowState(),
-						portletApp.getDefaultNamespace());
-		try {
-			if (pico_.getComponentInstance(portletAppName_ + Constants.PORTLET_ENCODER +
-          portletDatas.getPortletName()) == null){
-        log_.debug("First registration of portlet : " + portletAppName_ + "/" + portletName);
-				registerPortlet(portletDatas.getPortletName());
+  /**
+   * Monitor.
+   */
+  private final PortletContainerMonitorImpl monitor;
+
+  /**
+   * Logger.
+   */
+  private final Log log;
+
+  /**
+   * Pico container.
+   */
+  private final MutablePicoContainer pico;
+
+  /**
+   * @param context exo container context
+   * @param holder app holder
+   * @param monitor monitor
+   */
+  public PortletApplicationProxy(final ExoContainerContext context,
+      final PortletApplicationsHolder holder,
+      final PortletContainerMonitorImpl monitor) {
+    this.holder = holder;
+    this.monitor = monitor;
+    configs = new HashMap<String, PortletConfig>();
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+    pico = new DefaultPicoContainer(context.getContainer());
+  }
+
+  /**
+   * @param portletContext portlet context
+   * @param portletName portlet name
+   * @return portlet object
+   * @throws PortletException exception
+   */
+  public final javax.portlet.Portlet getPortlet(final PortletContext portletContext,
+      final String portletName) throws PortletException {
+    log.debug("getPortlet() in PortletApplicationProxy entered");
+    synchronized (monitor) {
+      if (!monitor.isInitialized(portletAppName, portletName)) {
+        log.debug("init monitor");
+        init(monitor, portletName, portletContext);
       }
-			((javax.portlet.Portlet) pico_.getComponentInstance(portletAppName_ + Constants.PORTLET_ENCODER
-							+ portletDatas.getPortletName())).init(config);
-      configs_.put(portletDatas.getPortletName(), config);
-      Integer expirationStr = portletDatas.getCaching() ;
-      int expiration = 0 ;
-      if(expirationStr != null)
+    }
+    return (javax.portlet.Portlet) pico.getComponentInstance(portletAppName
+        + Constants.PORTLET_ENCODER + portletName);
+  }
+
+  /**
+   * @param monitor1 monitor
+   * @param portletName portlet name
+   * @param portletContext portlet context
+   * @throws PortletException exception
+   */
+  private void init(final PortletContainerMonitorImpl monitor1,
+      final String portletName,
+      final PortletContext portletContext) throws PortletException {
+    long accessTime = System.currentTimeMillis();
+    if (!monitor1.isInitialisationAllowed(portletAppName, portletName, accessTime))
+      throw new UnavailableException("Portlet initialization not possible");
+
+    Portlet portletDatas = holder.getPortletMetaData(portletAppName, portletName);
+    PortletApp portletApp = holder.getPortletApplication(portletAppName);
+    PortletConfig config = new PortletConfigImp(portletDatas,
+        portletContext,
+        portletApp.getSecurityConstraint(),
+        portletApp.getUserAttribute(),
+        portletApp.getCustomPortletMode(),
+        portletApp.getCustomWindowState(),
+        portletApp.getDefaultNamespace());
+    try {
+      if (pico.getComponentInstance(portletAppName + Constants.PORTLET_ENCODER
+          + portletDatas.getPortletName()) == null) {
+        log.debug("First registration of portlet : " + portletAppName + "/" + portletName);
+        registerPortlet(portletDatas.getPortletName());
+      }
+      ((javax.portlet.Portlet) pico.getComponentInstance(portletAppName
+          + Constants.PORTLET_ENCODER + portletDatas.getPortletName())).init(config);
+      configs.put(portletDatas.getPortletName(), config);
+      Integer expirationStr = portletDatas.getCaching();
+      int expiration = 0;
+      if (expirationStr != null)
         expiration = expirationStr.intValue();
-		  monitor.init(portletAppName_, portletName, expiration);
-			monitor.setInitializationTime(portletAppName_, portletName, accessTime);
-		} catch (Throwable t) {
-      log_.error("exception while initializing portlet : " + portletName, t);
-			monitor.setLastInitFailureAccessTime(portletAppName_, portletName, accessTime);
-			releasePortlet(portletName);
-			if (t instanceof UnavailableException) {
-				UnavailableException e = (UnavailableException) t;
-				if (!e.isPermanent()) {
-					monitor.setUnavailabilityPeriod(portletAppName_, portletName, e.getUnavailableSeconds());
-				}
-				throw e;
-			}
-		  throw new PortletException("exception while initializing portlet", t);
-		}
-	}
-
-  public PortletConfig getPortletConfig(String portletName){
-    return (PortletConfig) configs_.get(portletName);
-  }
-
-	private void registerPortlet(String key) {
-		try {
-      ClassLoader cl = Thread.currentThread().getContextClassLoader();
-      pico_.registerComponentImplementation(portletAppName_ + Constants.PORTLET_ENCODER + key,
-          cl.loadClass(getPortletClassName(key)));
-		} catch (Exception e) {
-      log_.error("Can not register portlet : " + key, e);
-		}
-	}
-
-	private String getPortletClassName(String portletName) {
-		PortletApp portletApp = holder_.getPortletApplication(portletAppName_);
-		List portletMetaDataList = portletApp.getPortlet();
-		for (Iterator iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
-			Portlet portlet = (Portlet) iterator.next();
-			if (portlet.getPortletName().equals(portletName))
-				return portlet.getPortletClass();
-		}
-		return null;
-	}
-
-	private void releasePortlet(String portletName) {
-		try {
-		  pico_.unregisterComponent(portletAppName_ + Constants.PORTLET_ENCODER + portletName);
-		} catch (Exception e) {
-      log_.error("Can not release portlet : " + portletName, e);
-		}
-	}
-
-	public void destroy(String portletName) {
-		try {
-			boolean everLoaded = false;
-			synchronized (monitor_) {
-				everLoaded = monitor_.isInitialized(portletAppName_, portletName);
-        log_.debug("Was the portlet : " + portletAppName_ + "/" + portletName + " ever loaded : " + everLoaded);
-				monitor_.destroy(portletAppName_, portletName);
-			}
-			if (!everLoaded)
-				return;
-			if (pico_.getComponentInstance(portletAppName_ + Constants.PORTLET_ENCODER + portletName) == null){
-        log_.debug("The portlet is already destroyed or in broken state");
-				return;
+      monitor1.init(portletAppName, portletName, expiration);
+      monitor1.setInitializationTime(portletAppName, portletName, accessTime);
+    } catch (Throwable t) {
+      log.error("exception while initializing portlet : " + portletName, t);
+      monitor1.setLastInitFailureAccessTime(portletAppName, portletName, accessTime);
+      releasePortlet(portletName);
+      if (t instanceof UnavailableException) {
+        UnavailableException e = (UnavailableException) t;
+        if (!e.isPermanent())
+          monitor1.setUnavailabilityPeriod(portletAppName, portletName, e.getUnavailableSeconds());
+        throw e;
       }
-      log_.debug("Wait " + WAITING_TIME_BEFORE_DESTROY + " seconds before destroying the portlet");
-			Thread.sleep(WAITING_TIME_BEFORE_DESTROY);
-			((javax.portlet.Portlet) pico_.
-          getComponentInstance(portletAppName_ + Constants.PORTLET_ENCODER + portletName)).destroy();
-		} catch (Throwable t) {
-			//spec p34 ligne 28
-			log_.error("If the portlet object throws a RuntimeException within the execution of the destroy " +
-			           "method the portlet container must consider the portlet object successfully destroyed.", t);
-		} finally {
-			releasePortlet(portletName);
-		}
-	}
-
-	public void loadAndRegisterPortletClasses() {
-		String[] portletNames = getPortletNames();
-		initMonitor(portletNames);
-		loadAndRegisterClassesByKey(portletNames);
-	}
-
-	private String[] getPortletNames() {
-		PortletApp portletApp = holder_.getPortletApplication(portletAppName_);
-		List portletMetaDataList = portletApp.getPortlet();
-		String[] portletNames = new String[portletMetaDataList.size()];
-		int i = 0;
-		for (Iterator iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
-			Portlet portlet = (Portlet) iterator.next();
-			portletNames[i] = portlet.getPortletName() ;
-			i++;
-		}
-		return portletNames;
-	}
-
-	protected void initMonitor(String[] portletNames) {
-		synchronized (monitor_) {
-			monitor_.registerPortletApp(portletAppName_);
-		}
-		for (int i = 0; i < portletNames.length; i++) {
-			String portletName = portletNames[i];
-			registerPortletToMonitor(portletName);
-		}
-	}
-
-	public void registerPortletToMonitor(String portletName) {
-		synchronized (monitor_) {
-			monitor_.register(portletAppName_, portletName);
-		}
-	}
-
-	private void loadAndRegisterClassesByKey(String[] keys) {
-		for (int i = 0; i < keys.length; i++) {
-			String key = keys[i];
-			registerPortlet(key);
-		}
-	}
-
-	public PreferencesValidator getValidator(String validatorClass, String portletName) {
-		return (PreferencesValidator) pico_.getComponentInstance(portletAppName_ + "_" + portletName +
-						Constants.VALIDATOR_ENCODER + validatorClass);
-	}
-
-	public void loadAndRegisterValidatorClasses() {
-		String[] classNames = getValidatorClassNames();
-		String[] portletNames = getValidatorsPortletsNames();
-		if (classNames == null || portletNames == null)
-			return;
-		loadAndRegisterClasses(classNames, portletNames);
-	}
-
-	public String[] getValidatorClassNames() {
-		PortletApp portletApp = holder_.getPortletApplication(portletAppName_);
-		List portletMetaDataList = portletApp.getPortlet();
-		if (portletMetaDataList.size() == 0)
-			return null;
-		String[] validatorNames = new String[portletMetaDataList.size()];
-		int i = 0;
-		for (Iterator iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
-			Portlet portlet = (Portlet) iterator.next();
-
-			ExoPortletPreferences preferences = portlet.getPortletPreferences();
-			if (preferences != null)
-				validatorNames[i] = preferences.getPreferencesValidator();
-			i++;
-		}
-		return validatorNames;
-	}
-
-	public String[] getValidatorsPortletsNames() {
-		PortletApp portletApp = holder_.getPortletApplication(portletAppName_);
-		List portletMetaDataList = portletApp.getPortlet();
-		if (portletMetaDataList.size() == 0)
-			return null;
-		String[] validatorNames = new String[portletMetaDataList.size()];
-		int i = 0;
-		for (Iterator iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
-			Portlet portlet = (Portlet) iterator.next();
-
-			ExoPortletPreferences preferences = portlet.getPortletPreferences();
-			if (preferences != null)
-				validatorNames[i] = portlet.getPortletName();
-			i++;
-		}
-		return validatorNames;
-	}
-
-	private void loadAndRegisterClasses(String[] classNames, String[] portletNames) {
-		for (int i = 0; i < classNames.length; i++) {
-			String className = classNames[i];
-			String portletName = portletNames[i];
-			if (className != null) {
-				try {
-          ClassLoader cl = Thread.currentThread().getContextClassLoader();
-					pico_.registerComponentImplementation(portletAppName_ + "_" + portletName + Constants.VALIDATOR_ENCODER +
-					    className, cl.loadClass(className));
-				} catch (Exception e) {
-          log_.error("Can not load and register class : " + className, e);
-				}
-			}
-		}
-	}
-
-	public void load() {
-		loadAndRegisterPortletClasses();
-		loadAndRegisterValidatorClasses();
-	}
-
-	public void setApplicationName(String servletContextName) {
-		this.portletAppName_ = servletContextName;
-	}
-
-  public void start() {
+      throw new PortletException("exception while initializing portlet", t);
+    }
   }
 
-  public void stop() {
+  /**
+   * @param portletName portlet name
+   * @return portlet config
+   */
+  public final PortletConfig getPortletConfig(final String portletName) {
+    return configs.get(portletName);
+  }
+
+  /**
+   * @param key key
+   */
+  private void registerPortlet(final String key) {
+    try {
+      ClassLoader cl = Thread.currentThread().getContextClassLoader();
+      pico.registerComponentImplementation(portletAppName + Constants.PORTLET_ENCODER + key, cl
+          .loadClass(getPortletClassName(key)));
+    } catch (Exception e) {
+      log.error("Can not register portlet : " + key, e);
+    }
+  }
+
+  /**
+   * @param portletName portlet name
+   * @return portlet class name
+   */
+  private String getPortletClassName(final String portletName) {
+    PortletApp portletApp = holder.getPortletApplication(portletAppName);
+    List<Portlet> portletMetaDataList = portletApp.getPortlet();
+    for (Iterator<Portlet> iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
+      Portlet portlet = iterator.next();
+      if (portlet.getPortletName().equals(portletName))
+        return portlet.getPortletClass();
+    }
+    return null;
+  }
+
+  /**
+   * @param portletName portlet name
+   */
+  private void releasePortlet(final String portletName) {
+    try {
+      pico.unregisterComponent(portletAppName + Constants.PORTLET_ENCODER + portletName);
+    } catch (Exception e) {
+      log.error("Can not release portlet : " + portletName, e);
+    }
+  }
+
+  /**
+   * @param portletName portlet name
+   */
+  public final void destroy(final String portletName) {
+    try {
+      boolean everLoaded = false;
+      synchronized (monitor) {
+        everLoaded = monitor.isInitialized(portletAppName, portletName);
+        log.debug("Was the portlet : " + portletAppName + "/" + portletName + " ever loaded : "
+            + everLoaded);
+        monitor.destroy(portletAppName, portletName);
+      }
+      if (!everLoaded)
+        return;
+      if (pico.getComponentInstance(portletAppName + Constants.PORTLET_ENCODER + portletName) == null) {
+        log.debug("The portlet is already destroyed or in broken state");
+        return;
+      }
+      log.debug("Wait " + WAITING_TIME_BEFORE_DESTROY + " seconds before destroying the portlet");
+      Thread.sleep(WAITING_TIME_BEFORE_DESTROY);
+      ((javax.portlet.Portlet) pico.getComponentInstance(portletAppName
+          + Constants.PORTLET_ENCODER + portletName)).destroy();
+    } catch (Throwable t) {
+      //spec p34 ligne 28
+      log
+          .error(
+              "If the portlet object throws a RuntimeException within the execution of the destroy "
+                  + "method the portlet container must consider the portlet object successfully destroyed.",
+              t);
+    } finally {
+      releasePortlet(portletName);
+    }
+  }
+
+  /**
+   * Load and register portlet classes.
+   */
+  public final void loadAndRegisterPortletClasses() {
+    String[] portletNames = getPortletNames();
+    initMonitor(portletNames);
+    loadAndRegisterClassesByKey(portletNames);
+  }
+
+  /**
+   * @return portlet names
+   */
+  private String[] getPortletNames() {
+    PortletApp portletApp = holder.getPortletApplication(portletAppName);
+    List<Portlet> portletMetaDataList = portletApp.getPortlet();
+    String[] portletNames = new String[portletMetaDataList.size()];
+    int i = 0;
+    for (Iterator<Portlet> iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
+      Portlet portlet = iterator.next();
+      portletNames[i] = portlet.getPortletName();
+      i++;
+    }
+    return portletNames;
+  }
+
+  /**
+   * @param portletNames portlet names
+   */
+  protected void initMonitor(final String[] portletNames) {
+    synchronized (monitor) {
+      monitor.registerPortletApp(portletAppName);
+    }
+    for (String portletName : portletNames) {
+      registerPortletToMonitor(portletName);
+    }
+  }
+
+  /**
+   * @param portletName portlet name
+   */
+  public final void registerPortletToMonitor(final String portletName) {
+    synchronized (monitor) {
+      monitor.register(portletAppName, portletName);
+    }
+  }
+
+  /**
+   * @param keys keys
+   */
+  private void loadAndRegisterClassesByKey(final String[] keys) {
+    for (String key : keys) {
+      registerPortlet(key);
+    }
+  }
+
+  /**
+   * @param validatorClass validator class
+   * @param portletName portlet name
+   * @return preferences validator
+   */
+  public final PreferencesValidator getValidator(final String validatorClass, final String portletName) {
+    return (PreferencesValidator) pico.getComponentInstance(portletAppName + "_" + portletName
+        + Constants.VALIDATOR_ENCODER + validatorClass);
+  }
+
+  /**
+   * Load and register validator classes.
+   */
+  public final void loadAndRegisterValidatorClasses() {
+    String[] classNames = getValidatorClassNames();
+    String[] portletNames = getValidatorsPortletsNames();
+    if ((classNames == null) || (portletNames == null))
+      return;
+    loadAndRegisterClasses(classNames, portletNames);
+  }
+
+  /**
+   * @return validator class names
+   */
+  public final String[] getValidatorClassNames() {
+    PortletApp portletApp = holder.getPortletApplication(portletAppName);
+    List<Portlet> portletMetaDataList = portletApp.getPortlet();
+    if (portletMetaDataList.size() == 0)
+      return null;
+    String[] validatorNames = new String[portletMetaDataList.size()];
+    int i = 0;
+    for (Iterator<Portlet> iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
+      Portlet portlet = iterator.next();
+
+      ExoPortletPreferences preferences = portlet.getPortletPreferences();
+      if (preferences != null)
+        validatorNames[i] = preferences.getPreferencesValidator();
+      i++;
+    }
+    return validatorNames;
+  }
+
+  /**
+   * @return validator names
+   */
+  public final String[] getValidatorsPortletsNames() {
+    PortletApp portletApp = holder.getPortletApplication(portletAppName);
+    List<Portlet> portletMetaDataList = portletApp.getPortlet();
+    if (portletMetaDataList.size() == 0)
+      return null;
+    String[] validatorNames = new String[portletMetaDataList.size()];
+    int i = 0;
+    for (Iterator<Portlet> iterator = portletMetaDataList.iterator(); iterator.hasNext();) {
+      Portlet portlet = iterator.next();
+
+      ExoPortletPreferences preferences = portlet.getPortletPreferences();
+      if (preferences != null)
+        validatorNames[i] = portlet.getPortletName();
+      i++;
+    }
+    return validatorNames;
+  }
+
+  /**
+   * @param classNames class names
+   * @param portletNames portlet names
+   */
+  private void loadAndRegisterClasses(final String[] classNames, final String[] portletNames) {
+    for (int i = 0; i < classNames.length; i++) {
+      String className = classNames[i];
+      String portletName = portletNames[i];
+      if (className != null)
+        try {
+          ClassLoader cl = Thread.currentThread().getContextClassLoader();
+          pico.registerComponentImplementation(portletAppName + "_" + portletName
+              + Constants.VALIDATOR_ENCODER + className, cl.loadClass(className));
+        } catch (Exception e) {
+          log.error("Can not load and register class : " + className, e);
+        }
+    }
+  }
+
+  /**
+   * Load.
+   */
+  public final void load() {
+    loadAndRegisterPortletClasses();
+    loadAndRegisterValidatorClasses();
+  }
+
+  /**
+   * @param servletContextName servlet context name
+   */
+  public final void setApplicationName(final String servletContextName) {
+    this.portletAppName = servletContextName;
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @see org.picocontainer.Startable#start()
+   */
+  public final void start() {
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @see org.picocontainer.Startable#stop()
+   */
+  public final void stop() {
   }
 }

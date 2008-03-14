@@ -32,35 +32,85 @@ import org.exoplatform.services.portletcontainer.pci.model.CustomWindowState;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class ResponseContext {
 
-  private final HttpServletResponse httpServletResponse_;
+  /**
+   * Http servlet response.
+   */
+  private final HttpServletResponse httpServletResponse;
 
-  private final ExoContainer cont_;
+  /**
+   * Exo container.
+   */
+  private final ExoContainer cont;
 
-  private final String windowID_;
+  /**
+   * Window id.
+   */
+  private final String windowID;
 
-  private final Input input_;
+  /**
+   * Input.
+   */
+  private final Input input;
 
-  private final Portlet portletDatas_;
+  /**
+   * Portlet datas.
+   */
+  private final Portlet portletDatas;
 
-  private final boolean isSecure_;
+  /**
+   * Is secure.
+   */
+  private final boolean isSecure;
 
-  private final Collection<String> supportedContents_;
+  /**
+   * Supported contents.
+   */
+  private final Collection<String> supportedContents;
 
-  private final Enumeration<WindowState> windowStates_;
+  /**
+   * Window states.
+   */
+  private final Enumeration<WindowState> windowStates;
 
-  private final List<CustomWindowState> customWindowState_;
+  /**
+   * Custom window states.
+   */
+  private final List<CustomWindowState> customWindowState;
 
-  private final Output output_;
+  /**
+   * Output.
+   */
+  private final Output output;
 
-  private final PortalContext portalContext_;
+  /**
+   * Portal context.
+   */
+  private final PortalContext portalContext;
 
+  /**
+   * Portlet request.
+   */
   private final PortletRequest request;
 
+  /**
+   * @param httpServletResponse http servlet response
+   * @param cont container
+   * @param windowID window id
+   * @param input input
+   * @param portletDatas portlet datas
+   * @param isSecure is secure
+   * @param supportedContents supported contents
+   * @param windowStates window states
+   * @param customWindowState custom window state
+   * @param output output
+   * @param portalContext portal context
+   * @param request request
+   */
   public ResponseContext(final HttpServletResponse httpServletResponse,
       final ExoContainer cont,
       final String windowID,
@@ -73,65 +123,101 @@ public class ResponseContext {
       final Output output,
       final PortalContext portalContext,
       final PortletRequest request) {
-    this.httpServletResponse_ = httpServletResponse;
-    this.cont_ = cont;
-    this.windowID_ = windowID;
-    this.input_ = input;
-    this.portletDatas_ = portletDatas;
-    this.isSecure_ = isSecure;
-    this.supportedContents_ = supportedContents;
-    this.windowStates_ = windowStates;
-    this.customWindowState_ = customWindowState;
-    this.output_ = output;
-    this.portalContext_ = portalContext;
+    this.httpServletResponse = httpServletResponse;
+    this.cont = cont;
+    this.windowID = windowID;
+    this.input = input;
+    this.portletDatas = portletDatas;
+    this.isSecure = isSecure;
+    this.supportedContents = supportedContents;
+    this.windowStates = windowStates;
+    this.customWindowState = customWindowState;
+    this.output = output;
+    this.portalContext = portalContext;
     this.request = request;
   }
 
-  public HttpServletResponse getHttpServletResponse() {
-    return httpServletResponse_;
+  /**
+   * @return http servlet response
+   */
+  public final HttpServletResponse getHttpServletResponse() {
+    return httpServletResponse;
   }
 
-  public ExoContainer getCont() {
-    return cont_;
+  /**
+   * @return exo container
+   */
+  public final ExoContainer getCont() {
+    return cont;
   }
 
-  public String getWindowID() {
-    return windowID_;
+  /**
+   * @return window id
+   */
+  public final String getWindowID() {
+    return windowID;
   }
 
-  public Input getInput() {
-    return input_;
+  /**
+   * @return input
+   */
+  public final Input getInput() {
+    return input;
   }
 
-  public Portlet getPortletDatas() {
-    return portletDatas_;
+  /**
+   * @return portlet datas
+   */
+  public final Portlet getPortletDatas() {
+    return portletDatas;
   }
 
-  public boolean isSecure() {
-    return isSecure_;
+  /**
+   * @return is secure
+   */
+  public final boolean isSecure() {
+    return isSecure;
   }
 
-  public Collection<String> getSupportedContents() {
-    return supportedContents_;
+  /**
+   * @return supported contents
+   */
+  public final Collection<String> getSupportedContents() {
+    return supportedContents;
   }
 
-  public Enumeration<WindowState> getWindowStates() {
-    return windowStates_;
+  /**
+   * @return window states
+   */
+  public final Enumeration<WindowState> getWindowStates() {
+    return windowStates;
   }
 
-  public List<CustomWindowState> getCustomWindowState() {
-    return customWindowState_;
+  /**
+   * @return custom window states
+   */
+  public final List<CustomWindowState> getCustomWindowState() {
+    return customWindowState;
   }
 
-  public Output getOutput() {
-    return output_;
+  /**
+   * @return output
+   */
+  public final Output getOutput() {
+    return output;
   }
 
-  public PortalContext getPortalContext() {
-    return portalContext_;
+  /**
+   * @return portal context
+   */
+  public final PortalContext getPortalContext() {
+    return portalContext;
   }
 
-  public PortletRequest getPortletRequest() {
+  /**
+   * @return portlet request
+   */
+  public final PortletRequest getPortletRequest() {
     return request;
   }
 

@@ -20,25 +20,44 @@ import javax.portlet.RenderRequest;
 import javax.servlet.http.Cookie;
 
 /**
- * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: Jul
- * 29, 2003 Time: 5:50:44 PM
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net .
+ * Date: Jul 29, 2003
+ * Time: 5:50:44 PM
  */
 public class RenderRequestImp extends PortletRequestImp implements RenderRequest {
 
+  /**
+   * @param reqCtx request context
+   */
   public RenderRequestImp(final RequestContext reqCtx) {
     super(reqCtx);
   }
 
-  public String getETag() {
+  /**
+   * Overridden method.
+   *
+   * @return ETag
+   * @see javax.portlet.RenderRequest#getETag()
+   */
+  public final String getETag() {
     return getProperty(RenderRequest.ETAG);
   }
 
-  public String getLifecyclePhase() {
+  /**
+   * @return lifecycle phase
+   */
+  public final String getLifecyclePhase() {
     return RENDER_PHASE;
   }
 
+  /**
+   * Overridden method.
+   *
+   * @return cookies
+   * @see javax.servlet.http.HttpServletRequestWrapper#getCookies()
+   */
   @Override
-  public Cookie[] getCookies() {
+  public final Cookie[] getCookies() {
     // TODO Auto-generated method stub
     return super.getCookies();
   }

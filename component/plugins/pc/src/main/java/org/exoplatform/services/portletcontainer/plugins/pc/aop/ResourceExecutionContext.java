@@ -22,23 +22,79 @@ import javax.portlet.ResourceResponse;
 import org.exoplatform.container.component.ExecutionContext;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * roman.pedchenko@exoplatform.com.ua
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class ResourceExecutionContext extends ExecutionContext {
 
-  ResourceRequest  request_;
+  /**
+   * Request.
+   */
+  private ResourceRequest request;
 
-  ResourceResponse response_;
+  /**
+   * Response.
+   */
+  private ResourceResponse response;
 
-  Portlet          portlet_;
+  /**
+   * Portlet object.
+   */
+  private Portlet portlet;
 
-  public ResourceExecutionContext(Portlet p,
-                                  ResourceRequest req,
-                                  ResourceResponse res) {
-    portlet_ = p;
-    request_ = req;
-    response_ = res;
+  /**
+   * @param p portlet object
+   * @param req request
+   * @param res response
+   */
+  public ResourceExecutionContext(final Portlet p,
+      final ResourceRequest req,
+      final ResourceResponse res) {
+    setPortlet(p);
+    setRequest(req);
+    setResponse(res);
+  }
+
+  /**
+   * @param portlet the portlet to set
+   */
+  void setPortlet(Portlet portlet) {
+    this.portlet = portlet;
+  }
+
+  /**
+   * @return the portlet
+   */
+  Portlet getPortlet() {
+    return portlet;
+  }
+
+  /**
+   * @param response the response to set
+   */
+  void setResponse(ResourceResponse response) {
+    this.response = response;
+  }
+
+  /**
+   * @return the response
+   */
+  ResourceResponse getResponse() {
+    return response;
+  }
+
+  /**
+   * @param request the request to set
+   */
+  void setRequest(ResourceRequest request) {
+    this.request = request;
+  }
+
+  /**
+   * @return the request
+   */
+  ResourceRequest getRequest() {
+    return request;
   }
 
 }

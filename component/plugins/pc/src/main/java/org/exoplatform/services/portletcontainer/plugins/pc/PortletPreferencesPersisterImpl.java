@@ -26,22 +26,49 @@ import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences;
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
 
-public class PortletPreferencesPersisterImpl implements
-		PortletPreferencesPersister, Serializable {
+/**
+ * Portlet preferences simple memory persister.
+ */
+public class PortletPreferencesPersisterImpl implements PortletPreferencesPersister, Serializable {
 
-  private Map<String, ExoPortletPreferences> prefs = new HashMap<String, ExoPortletPreferences>();
-  private transient Log log_;
+  /**
+   * Preferences.
+   */
+  private final Map<String, ExoPortletPreferences> prefs = new HashMap<String, ExoPortletPreferences>();
 
+  /**
+   * Logger.
+   */
+  private final transient Log log;
+
+  /**
+   * Simple constructor.
+   */
   public PortletPreferencesPersisterImpl() {
-    log_ = ExoLogger.getLogger(getClass());
+    log = ExoLogger.getLogger(getClass());
   }
 
-  public ExoPortletPreferences getPortletPreferences(WindowID windowID) throws Exception {
-    return (ExoPortletPreferences) prefs.get(windowID.generateKey());
+  /**
+   * Overridden method.
+   *
+   * @param windowID window id
+   * @return exo prefs
+   * @throws Exception exception
+   * @see org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister#getPortletPreferences(org.exoplatform.services.portletcontainer.pci.WindowID)
+   */
+  public final ExoPortletPreferences getPortletPreferences(final WindowID windowID) throws Exception {
+    return prefs.get(windowID.generateKey());
   }
 
-  public void savePortletPreferences(WindowID windowID,
-                                     ExoPortletPreferences exoPref) throws Exception {
+  /**
+   * Overridden method.
+   *
+   * @param windowID window id
+   * @param exoPref exo prefs
+   * @throws Exception exception
+   * @see org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister#savePortletPreferences(org.exoplatform.services.portletcontainer.pci.WindowID, org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences)
+   */
+  public final void savePortletPreferences(final WindowID windowID, final ExoPortletPreferences exoPref) throws Exception {
     prefs.put(windowID.generateKey(), exoPref);
   }
 

@@ -45,9 +45,9 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
   public WSRPAdminPortletDataImp(ExoContainer cont,
                                  Map<String, String> adminPortletParams) {
     super(cont, null, null, new ArrayList<UserAttribute>());
-    portlet_ = new Portlet();
-    portlet_.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
-    portlet_.setPortletClass(WSRPConstants.WSRP_ADMIN_PORTLET_CLASS);
+    portlet = new Portlet();
+    portlet.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
+    portlet.setPortletClass(WSRPConstants.WSRP_ADMIN_PORTLET_CLASS);
     String portletTitle = null;
     if (adminPortletParams != null)
       portletTitle = (String) adminPortletParams.get(WSRPConstants.WAP_portletTitle);
@@ -58,10 +58,10 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
     dn.setDisplayName(portletTitle);
     dn.setLang("en");
     displayName.add(dn);
-    portlet_.setDisplayName(displayName);
+    portlet.setDisplayName(displayName);
     Supports supports = new Supports();
     supports.setMimeType("text/html");
-    portlet_.setSupports(supports);
+    portlet.setSupports(supports);
     portletObj = new WSRPAdminPortlet();
     portletObj.init(cont);
   }

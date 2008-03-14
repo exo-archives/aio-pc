@@ -23,29 +23,53 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by the Exo Development team. Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: 11 nov. 2003 Time: 19:52:26
+ * Created by the Exo Development team.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: 11 nov. 2003
+ * Time: 19:52:26
  */
 public class PortletAPIObjectFactory {
 
+  /**
+   * Instance.
+   */
   private static PortletAPIObjectFactory ourInstance;
 
+  /**
+   * @return class instance
+   */
   public synchronized static PortletAPIObjectFactory getInstance() {
     if (ourInstance == null)
       ourInstance = new PortletAPIObjectFactory();
     return ourInstance;
   }
 
+  /**
+   * Private constructor.
+   */
   private PortletAPIObjectFactory() {
   }
 
-  public PortletContext createPortletContext(final ExoContainer cont,
+  /**
+   * @param cont exo container
+   * @param scontext servlet context
+   * @param portlet portlet
+   * @return portlet context
+   */
+  public final PortletContext createPortletContext(final ExoContainer cont,
       final ServletContext scontext,
       final Portlet portlet) {
     return new PortletContextImpl(cont, scontext, portlet);
   }
 
-  public PortletContext createPortletContext(final ExoContainer cont,
+  /**
+   * @param cont exo container
+   * @param scontext servlet context
+   * @param portlet portlet
+   * @param cl class loader
+   * @return portlet context
+   */
+  public final PortletContext createPortletContext(final ExoContainer cont,
       final ServletContext scontext,
       final Portlet portlet,
       final URLClassLoader cl) {

@@ -21,24 +21,29 @@ import javax.servlet.jsp.tagext.VariableInfo;
 import javax.servlet.jsp.tagext.TagData;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Aug 20, 2003
  * Time: 3:04:57 PM
  */
-public class XURLExtraInfo extends TagExtraInfo{
+public class XURLExtraInfo extends TagExtraInfo {
 
-  public VariableInfo[] getVariableInfo(TagData tagData) {
+  /**
+   * Overridden method.
+   *
+   * @param tagData tag data
+   * @return variable info
+   * @see javax.servlet.jsp.tagext.TagExtraInfo#getVariableInfo(javax.servlet.jsp.tagext.TagData)
+   */
+  public final VariableInfo[] getVariableInfo(final TagData tagData) {
     String var = tagData.getAttributeString("var");
-    if(var != null){
-      return new VariableInfo[] {
-            new VariableInfo((String)tagData.getAttribute("var"),
-                             "java.lang.String",
-                             true,
-                             VariableInfo.AT_END )
-                             };
-    }
+    if (var != null)
+      return new VariableInfo[] { new VariableInfo((String) tagData.getAttribute("var"),
+          "java.lang.String",
+          true,
+          VariableInfo.AT_END) };
     return new VariableInfo[] {};
   }
+
 }

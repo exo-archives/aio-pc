@@ -46,96 +46,156 @@ import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilter
  */
 public class PortletApplicationRegisterImpl implements PortletApplicationRegister {
 
-  private Collection                listeners_;
+  /**
+   * Listeners.
+   */
+  private final Collection<PortletLifecycleListener> listeners;
 
-  private Log                       log;
+  /**
+   * Logger.
+   */
+  private final Log log;
 
-  private PortletApplicationsHolder holder_;
+  /**
+   * Application holder.
+   */
+  private final PortletApplicationsHolder holder;
 
-  protected ExoContainer            cont;
+  /**
+   * Exo container.
+   */
+  protected ExoContainer cont;
 
-  protected ExoContainer            appcont;
+  /**
+   * Application exo container.
+   */
+  protected ExoContainer appcont;
 
-  public PortletApplicationRegisterImpl(ExoContainerContext context, PortletApplicationsHolder holder) {
-    listeners_ = new ArrayList();
-    holder_ = holder;
+  /**
+   * @param context exo container context
+   * @param holder application holder
+   */
+  public PortletApplicationRegisterImpl(final ExoContainerContext context,
+      final PortletApplicationsHolder holder) {
+    this.listeners = new ArrayList<PortletLifecycleListener>();
+    this.holder = holder;
     this.log = ExoLogger.getLogger(getClass());
     cont = context.getContainer();
     appcont = ExoContainerContext.getTopContainer();
   }
 
-  public void addListenerPlugin(ComponentPlugin listener) {
-    if (listener instanceof PortletLifecycleListener) {
-      listeners_.add(listener);
-    } else {
+  /**
+   * Overridden method.
+   *
+   * @param listener listener
+   * @see org.exoplatform.services.portletcontainer.PortletApplicationRegister#addListenerPlugin(org.exoplatform.container.component.ComponentPlugin)
+   */
+  public final void addListenerPlugin(final ComponentPlugin listener) {
+    if (listener instanceof PortletLifecycleListener)
+      listeners.add((PortletLifecycleListener) listener);
+    else
       throw new RuntimeException("Expect listener of type PortletLifecycleListener");
-    }
   }
 
-  public ComponentPlugin removeListener(String name) {
+  /**
+   * @param name listener name
+   * @return removed listener
+   */
+  public final ComponentPlugin removeListener(final String name) {
     return null;
   }
 
-  public Collection getListeners() {
-    return listeners_;
+  /**
+   * @return listener collection
+   */
+  public final Collection<PortletLifecycleListener> getListeners() {
+    return listeners;
   }
 
-  public void registerPortletApplication(ServletContext servletContext, PortletApp portletApp_, Collection<String> roles, String portletAppName) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param servletContext servlet context
+   * @param portletApp_ portlet app instance
+   * @param roles roles
+   * @param portletAppName portlet app name
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletApplicationRegister#registerPortletApplication(javax.servlet.ServletContext, org.exoplatform.services.portletcontainer.pci.model.PortletApp, java.util.Collection, java.lang.String)
+   */
+  public final void registerPortletApplication(final ServletContext servletContext,
+      final PortletApp portletApp_,
+      final Collection<String> roles,
+      final String portletAppName) throws PortletContainerException {
     log.debug("send pre deploy event for portlet app : " + servletContext.getServletContextName());
-    for (Iterator iterator = listeners_.iterator(); iterator.hasNext();) {
-      PortletLifecycleListener portletLifecycleListener = (PortletLifecycleListener) iterator.next();
+    for (Iterator<PortletLifecycleListener> iterator = listeners.iterator(); iterator.hasNext();) {
+      PortletLifecycleListener portletLifecycleListener = iterator.next();
       portletLifecycleListener.preDeploy(portletAppName, portletApp_, servletContext);
     }
-    holder_.registerPortletApplication(portletAppName, portletApp_, roles);
+    holder.registerPortletApplication(portletAppName, portletApp_, roles);
     createFilterChains(portletApp_);
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     try {
-      appcont.registerComponentImplementation(portletAppName,
-                                              cl.loadClass("org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationProxy"));
+      appcont
+          .registerComponentImplementation(
+              portletAppName,
+              cl
+                  .loadClass("org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationProxy"));
     } catch (ClassNotFoundException e) {
       log.error("Class not found", e);
       throw new PortletContainerException("Class not found", e);
     }
-    PortletApplicationProxy proxy = (PortletApplicationProxy) appcont.getComponentInstance(portletAppName);
+    PortletApplicationProxy proxy = (PortletApplicationProxy) appcont
+        .getComponentInstance(portletAppName);
     proxy.setApplicationName(portletAppName);
     proxy.load();
     log.debug("send post deploy event");
-    for (Iterator iterator = listeners_.iterator(); iterator.hasNext();) {
-      PortletLifecycleListener portletLifecycleListener = (PortletLifecycleListener) iterator.next();
+    for (Iterator<PortletLifecycleListener> iterator = listeners.iterator(); iterator.hasNext();) {
+      PortletLifecycleListener portletLifecycleListener = iterator.next();
       portletLifecycleListener.postDeploy(portletAppName, portletApp_, servletContext);
     }
   }
 
-  public void removePortletApplication(ServletContext servletContext, String portletAppName) throws PortletContainerException {
-    PortletApp portletApp = holder_.getPortletApplication(portletAppName);
+  /**
+   * Overridden method.
+   *
+   * @param servletContext servlet context
+   * @param portletAppName portlet app name
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletApplicationRegister#removePortletApplication(javax.servlet.ServletContext, java.lang.String)
+   */
+  public final void removePortletApplication(final ServletContext servletContext,
+      final String portletAppName) throws PortletContainerException {
+    PortletApp portletApp = holder.getPortletApplication(portletAppName);
     if (portletApp == null)
       return;
     log.debug("send pre undeploy event");
-    for (Iterator iterator = listeners_.iterator(); iterator.hasNext();) {
-      PortletLifecycleListener portletLifecycleListener = (PortletLifecycleListener) iterator.next();
+    for (Iterator<PortletLifecycleListener> iterator = listeners.iterator(); iterator.hasNext();) {
+      PortletLifecycleListener portletLifecycleListener = iterator.next();
       portletLifecycleListener.preUndeploy(portletAppName, portletApp, servletContext);
     }
     appcont.unregisterComponent(portletAppName);
-    holder_.removePortletApplication(portletAppName);
+    holder.removePortletApplication(portletAppName);
     removeFilters(portletAppName, portletApp);
     log.debug("send post undeploy event");
-    for (Iterator iterator = listeners_.iterator(); iterator.hasNext();) {
-      PortletLifecycleListener portletLifecycleListener = (PortletLifecycleListener) iterator.next();
+    for (Iterator<PortletLifecycleListener> iterator = listeners.iterator(); iterator.hasNext();) {
+      PortletLifecycleListener portletLifecycleListener = iterator.next();
       portletLifecycleListener.postUndeploy(portletAppName, portletApp, servletContext);
     }
   }
 
-  private void createFilterChains(PortletApp portletApp) throws PortletContainerException {
+  /**
+   * @param portletApp portlet app instance
+   * @throws PortletContainerException exception
+   */
+  private void createFilterChains(final PortletApp portletApp) throws PortletContainerException {
     log.debug("create filter chains entered");
     List filterList = portletApp.getFilter();
     Map filters = new HashMap();
 
     for (Iterator iterator = filterList.iterator(); iterator.hasNext();) {
       Filter filter = (Filter) iterator.next();
-      filters.put(filter.getFilterName(), new PortletFilterWrapper(filter.getFilterName(),
-                                                                   filter.getFilterClass(),
-                                                                   filter.getInitParam(),
-                                                                   filter.getLifecycle()));
+      filters.put(filter.getFilterName(), new PortletFilterWrapper(filter.getFilterName(), filter
+          .getFilterClass(), filter.getInitParam(), filter.getLifecycle()));
     }
     List portlets = portletApp.getPortlet();
     for (Iterator iterator = portlets.iterator(); iterator.hasNext();) {
@@ -154,9 +214,11 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
               onePortletName.equals(portlet.getPortletName()) ||
               // if portlet name in mapping ends with * and partially equals to
               // current portlet name
-              (onePortletName.endsWith("*") && (portlet.getPortletName().startsWith(onePortletName.substring(0, onePortletName.length() - 1))))) {
+              (onePortletName.endsWith("*") && (portlet.getPortletName().startsWith(onePortletName
+                  .substring(0, onePortletName.length() - 1))))) {
             // then we add it to the chain
-            PortletFilterWrapper filter = (PortletFilterWrapper) filters.get(mapping.getFilterName());
+            PortletFilterWrapper filter = (PortletFilterWrapper) filters.get(mapping
+                .getFilterName());
             chain.add(filter);
           }
         }
@@ -166,28 +228,36 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
     portletApp.setUrlListeners(createUrlListeners(portletApp.getUrlGenerationListener()));
   }
 
-  private List<PortletURLGenerationListener> createUrlListeners(List<String> urlGenerationListener) throws PortletContainerException {
+  /**
+   * @param urlGenerationListener url generation listener class name list
+   * @return url generation listener instance list
+   * @throws PortletContainerException exception
+   */
+  private List<PortletURLGenerationListener> createUrlListeners(final List<String> urlGenerationListener) throws PortletContainerException {
     if (urlGenerationListener == null)
       return null;
     List<PortletURLGenerationListener> list = new ArrayList<PortletURLGenerationListener>();
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
-    for (Iterator<String> i = urlGenerationListener.iterator(); i.hasNext();) {
+    for (String string : urlGenerationListener)
       try {
-        PortletURLGenerationListener obj = (PortletURLGenerationListener) cl.loadClass(i.next()).newInstance();
+        PortletURLGenerationListener obj = (PortletURLGenerationListener) cl.loadClass(string)
+            .newInstance();
         list.add(obj);
       } catch (Exception e) {
         log.error("Class not found", e);
         throw new PortletContainerException("Class not found", e);
       }
-    }
     return list;
   }
 
-  private void removeFilters(String portletAppName, PortletApp portletApp) {
+  /**
+   * @param portletAppName portlet application name
+   * @param portletApp portlet application object
+   */
+  private void removeFilters(final String portletAppName, final PortletApp portletApp) {
     log.debug("remove filters entered");
     List<Portlet> portlets = portletApp.getPortlet();
-    for (Iterator<Portlet> iterator = portlets.iterator(); iterator.hasNext();) {
-      Portlet portlet = (Portlet) iterator.next();
+    for (Portlet portlet : portlets) {
       PortletFilterChainImpl chain = (PortletFilterChainImpl) portlet.getFilterChain();
       for (Iterator iter = chain.getFiltersIterator(); iter.hasNext();) {
         PortletFilterWrapper filter = (PortletFilterWrapper) iter.next();

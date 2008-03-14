@@ -33,19 +33,54 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.PortletSessionImpUtil;
 
 /**
- * Created by The eXo Platform SAS Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: Jul 26, 2003 Time: 4:30:52 PM
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: Jul 26, 2003
+ * Time: 4:30:52 PM
  */
 public class PortletSessionImp extends AbstractMap implements PortletSession {
 
+  /**
+   * Http session.
+   */
   private HttpSession session;
+
+  /**
+   * Portlet context.
+   */
   private final PortletContext context;
+
+  /**
+   * Window id.
+   */
   private String windowId;
+
+  /**
+   * Application id.
+   */
   private final String applicationId;
+
+  /**
+   * Is session invaludated.
+   */
   private boolean invalidated;
+
+  /**
+   * Logger.
+   */
   private final Log log;
+
+  /**
+   * Exo container.
+   */
   protected ExoContainer cont;
 
+  /**
+   * @param cont exo container
+   * @param session http session
+   * @param context portlet context
+   * @param windowId window id
+   */
   public PortletSessionImp(final ExoContainer cont,
       final HttpSession session,
       final PortletContext context,
@@ -59,11 +94,26 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     this.invalidated = this.session == null;
   }
 
-  public Object getAttribute(final String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return value
+   * @see org.exoplatform.commons.map.AbstractMap#getAttribute(java.lang.String)
+   */
+  public final Object getAttribute(final String name) {
     return getAttribute(name, PortletSession.PORTLET_SCOPE);
   }
 
-  public Object getAttribute(final String name, final int scope) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param scope scope
+   * @return value
+   * @see javax.portlet.PortletSession#getAttribute(java.lang.String, int)
+   */
+  public final Object getAttribute(final String name, final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     if (name == null)
@@ -78,13 +128,26 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     return null;
   }
 
-  public void removeAttribute(final String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @see org.exoplatform.commons.map.AbstractMap#removeAttribute(java.lang.String)
+   */
+  public final void removeAttribute(final String name) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     removeAttribute(name, PortletSession.PORTLET_SCOPE);
   }
 
-  public void removeAttribute(final String name, final int scope) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param scope scope
+   * @see javax.portlet.PortletSession#removeAttribute(java.lang.String, int)
+   */
+  public final void removeAttribute(final String name, final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     if (name == null)
@@ -98,13 +161,28 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     }
   }
 
-  final public void setAttribute(final String name, final Object o) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param o value
+   * @see org.exoplatform.commons.map.AbstractMap#setAttribute(java.lang.String, java.lang.Object)
+   */
+  public final void setAttribute(final String name, final Object o) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     setAttribute(name, o, PortletSession.PORTLET_SCOPE);
   }
 
-  public void setAttribute(final String name, final Object o, final int scope) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param o value
+   * @param scope scope
+   * @see javax.portlet.PortletSession#setAttribute(java.lang.String, java.lang.Object, int)
+   */
+  public final void setAttribute(final String name, final Object o, final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     if (name == null)
@@ -124,13 +202,26 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     }
   }
 
-  public Enumeration<String> getAttributeNames() {
+  /**
+   * Overridden method.
+   *
+   * @return attribute names
+   * @see org.exoplatform.commons.map.AbstractMap#getAttributeNames()
+   */
+  public final Enumeration<String> getAttributeNames() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return getAttributeNames(PortletSession.PORTLET_SCOPE);
   }
 
-  public Enumeration<String> getAttributeNames(final int scope) {
+  /**
+   * Overridden method.
+   *
+   * @param scope scope
+   * @return attribute names
+   * @see javax.portlet.PortletSession#getAttributeNames(int)
+   */
+  public final Enumeration<String> getAttributeNames(final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     Enumeration<String> e = session.getAttributeNames();
@@ -146,13 +237,26 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     return v.elements();
   }
 
-  public Map getAttributeMap() {
+  /**
+   * Overridden method.
+   *
+   * @return attribute map
+   * @see javax.portlet.PortletSession#getAttributeMap()
+   */
+  public final Map getAttributeMap() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return getAttributeMap(PortletSession.PORTLET_SCOPE);
   }
 
-  public Map getAttributeMap(final int scope) {
+  /**
+   * Overridden method.
+   *
+   * @param scope scope
+   * @return attribute map
+   * @see javax.portlet.PortletSession#getAttributeMap(int)
+   */
+  public final Map getAttributeMap(final int scope) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     Enumeration e = session.getAttributeNames();
@@ -170,38 +274,70 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     return m;
   }
 
-  public long getCreationTime() {
+  /**
+   * Overridden method.
+   *
+   * @return creation time
+   * @see javax.portlet.PortletSession#getCreationTime()
+   */
+  public final long getCreationTime() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return session.getCreationTime();
   }
 
-  public String getId() {
+  /**
+   * Overridden method.
+   *
+   * @return id
+   * @see javax.portlet.PortletSession#getId()
+   */
+  public final String getId() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return session.getId() + applicationId;
   }
 
-  public long getLastAccessedTime() {
+  /**
+   * Overridden method.
+   *
+   * @return last accessed time
+   * @see javax.portlet.PortletSession#getLastAccessedTime()
+   */
+  public final long getLastAccessedTime() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return session.getLastAccessedTime();
   }
 
-  public int getMaxInactiveInterval() {
+  /**
+   * Overridden method.
+   *
+   * @return max inactive interval
+   * @see javax.portlet.PortletSession#getMaxInactiveInterval()
+   */
+  public final int getMaxInactiveInterval() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return session.getMaxInactiveInterval();
   }
 
-  public void invalidate() {
+  /**
+   * Overridden method.
+   *
+   * @see javax.portlet.PortletSession#invalidate()
+   */
+  public final void invalidate() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     session.invalidate();
     invalidated = true;
   }
 
-  public boolean isSessionValid() {
+  /**
+   * @return is session valid
+   */
+  public final boolean isSessionValid() {
     if (session == null)
       return false;
     try {
@@ -226,27 +362,52 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
     }
   }
 
-  public boolean isNew() {
+  /**
+   * Overridden method.
+   *
+   * @return is new
+   * @see javax.portlet.PortletSession#isNew()
+   */
+  public final boolean isNew() {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     return session.isNew();
   }
 
-  public void setMaxInactiveInterval(final int i) {
+  /**
+   * Overridden method.
+   *
+   * @param i max inactive interval
+   * @see javax.portlet.PortletSession#setMaxInactiveInterval(int)
+   */
+  public final void setMaxInactiveInterval(final int i) {
     if (invalidated)
       throw new IllegalStateException("session invalidated");
     session.setMaxInactiveInterval(i);
   }
 
-  public PortletContext getPortletContext() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet context
+   * @see javax.portlet.PortletSession#getPortletContext()
+   */
+  public final PortletContext getPortletContext() {
     return context;
   }
 
-  public HttpSession getSession() {
+  /**
+   * @return session
+   */
+  public final HttpSession getSession() {
     return session;
   }
 
-  public void setSession(final HttpSession session, final String windowId) {
+  /**
+   * @param session session
+   * @param windowId window id
+   */
+  public final void setSession(final HttpSession session, final String windowId) {
     this.session = session;
     this.invalidated = this.session == null;
     this.windowId = windowId;

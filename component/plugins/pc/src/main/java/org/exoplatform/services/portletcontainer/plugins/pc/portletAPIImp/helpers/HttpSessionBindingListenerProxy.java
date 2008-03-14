@@ -24,12 +24,21 @@ import javax.servlet.http.HttpSessionBindingListener;
  */
 public class HttpSessionBindingListenerProxy {
 
-  private HttpSessionBindingListener listener;
+  /**
+   * Listener.
+   */
+  private final HttpSessionBindingListener listener;
 
-  public HttpSessionBindingListenerProxy(HttpSessionBindingListener listener) {
+  /**
+   * @param listener listener
+   */
+  public HttpSessionBindingListenerProxy(final HttpSessionBindingListener listener) {
     this.listener = listener;
   }
 
+  /**
+   * @return listener
+   */
   public HttpSessionBindingListener getListener() {
     return listener;
   }

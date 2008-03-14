@@ -16,10 +16,11 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.tags;
 
-import javax.portlet.MimeResponse;
+import javax.portlet.ActionRequest;
 import javax.portlet.BaseURL;
-
+import javax.portlet.MimeResponse;
 import javax.servlet.ServletRequest;
+import javax.servlet.jsp.JspException;
 
 /**
  * Created by The eXo Platform SAS.
@@ -28,6 +29,25 @@ import javax.servlet.ServletRequest;
  * Time: 2:47:30 PM
  */
 public class ActionURLTag extends XURLTag {
+
+  /**
+   * Name.
+   */
+  private String name;
+
+  /**
+   * @return name
+   */
+  public final String getName() {
+    return name;
+  }
+
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
+    this.name = name;
+  }
 
   /**
    * Overridden method.
@@ -39,6 +59,12 @@ public class ActionURLTag extends XURLTag {
     ServletRequest request = pageContext.getRequest();
     MimeResponse portletResponse = (MimeResponse) request.getAttribute("javax.portlet.response");
     return portletResponse.createActionURL();
+  }
+
+  public int doEndTag() throws JspException {
+    if (name != null)
+      addParameter(ActionRequest.ACTION_NAME, name);
+    return super.doEndTag();
   }
 
 }

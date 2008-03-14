@@ -27,47 +27,78 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Tuan Nguyen
  *          tuan08@users.sourceforge.net
  * Sep 17, 2005
  */
 public class PortletCommandChain {
-  private BaseCommandUnit commands_ ;
 
-  public void addCommand(BaseCommandUnit  command) {
-    if(commands_ == null) commands_ = command ;
-    else commands_.addExecutionUnit(command) ;
+  /**
+   * Command unit.
+   */
+  private BaseCommandUnit commands;
+
+  /**
+   * @param command command unit
+   */
+  public final void addCommand(final BaseCommandUnit command) {
+    if (this.commands == null)
+      this.commands = command;
+    else
+      this.commands.addExecutionUnit(command);
   }
 
-  public  void doRender(Portlet portlet, RenderRequest req, RenderResponse res) throws Throwable {
-    RenderExecutionContext context = new RenderExecutionContext(portlet, req, res) ;
-    context.setCurrentExecutionUnit(commands_) ;
-    context.execute() ;
+  /**
+   * @param portlet portlet object
+   * @param req request
+   * @param res response
+   * @throws Throwable throwable
+   */
+  public final void doRender(final Portlet portlet, final RenderRequest req, final RenderResponse res) throws Throwable {
+    RenderExecutionContext context = new RenderExecutionContext(portlet, req, res);
+    context.setCurrentExecutionUnit(commands);
+    context.execute();
   }
 
-  public  void doProcessAction(Portlet portlet, ActionRequest req, ActionResponse res) throws Throwable {
-    ActionExecutionContext context = new ActionExecutionContext(portlet, req, res) ;
-    context.setCurrentExecutionUnit(commands_) ;
-    context.execute() ;
+  /**
+   * @param portlet portlet object
+   * @param req request
+   * @param res response
+   * @throws Throwable throwable
+   */
+  public final void doProcessAction(final Portlet portlet,
+      final ActionRequest req,
+      final ActionResponse res) throws Throwable {
+    ActionExecutionContext context = new ActionExecutionContext(portlet, req, res);
+    context.setCurrentExecutionUnit(commands);
+    context.execute();
   }
 
-  public  void doProcessEvent(Portlet portlet, EventRequest req, EventResponse res) throws Throwable {
-    EventExecutionContext context = new EventExecutionContext(portlet, req, res) ;
-    context.setCurrentExecutionUnit(commands_) ;
-    context.execute() ;
+  /**
+   * @param portlet portlet object
+   * @param req request
+   * @param res response
+   * @throws Throwable throwable
+   */
+  public final void doProcessEvent(final Portlet portlet, final EventRequest req, final EventResponse res) throws Throwable {
+    EventExecutionContext context = new EventExecutionContext(portlet, req, res);
+    context.setCurrentExecutionUnit(commands);
+    context.execute();
   }
 
-  public  void doServeResource(Portlet portlet, ResourceRequest req, ResourceResponse res) throws Throwable {
-    ResourceExecutionContext context = new ResourceExecutionContext(portlet, req, res) ;
-    context.setCurrentExecutionUnit(commands_) ;
-    context.execute() ;
+  /**
+   * @param portlet portlet object
+   * @param req request
+   * @param res response
+   * @throws Throwable throwable
+   */
+  public final void doServeResource(final Portlet portlet,
+      final ResourceRequest req,
+      final ResourceResponse res) throws Throwable {
+    ResourceExecutionContext context = new ResourceExecutionContext(portlet, req, res);
+    context.setCurrentExecutionUnit(commands);
+    context.execute();
   }
-
-//  public  void doServeFragment(Portlet portlet, FragmentRequest req, FragmentResponse res) throws Throwable {
-//    FragmentExecutionContext context = new FragmentExecutionContext(portlet, req, res) ;
-//    context.setCurrentExecutionUnit(commands_) ;
-//    context.execute() ;
-//  }
 
 }

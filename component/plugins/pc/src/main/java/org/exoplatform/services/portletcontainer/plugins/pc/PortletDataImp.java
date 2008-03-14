@@ -41,121 +41,255 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle
  */
 public class PortletDataImp implements PortletData {
 
-  protected List<UserAttribute> userAttributes_;
+  /**
+   * User attributes.
+   */
+  protected List<UserAttribute> userAttributes;
 
-  protected Portlet             portlet_;
+  /**
+   * Portlet object.
+   */
+  protected Portlet portlet;
 
-  protected UserDataConstraint  userDataConstraintType_;
+  /**
+   * User data constraint type.
+   */
+  protected UserDataConstraint userDataConstraintType;
 
-  protected ExoContainer        cont;
+  /**
+   * Exo container.
+   */
+  protected ExoContainer cont;
 
-  public PortletDataImp(ExoContainer cont,
-                        Portlet portlet,
-                        UserDataConstraint userDataConstraintType,
-                        List<UserAttribute> userAttributes) {
+  /**
+   * @param cont exo container
+   * @param portlet portlet object
+   * @param userDataConstraintType user data constraint type
+   * @param userAttributes user attributes
+   */
+  public PortletDataImp(final ExoContainer cont,
+      final Portlet portlet,
+      final UserDataConstraint userDataConstraintType,
+      final List<UserAttribute> userAttributes) {
     this.cont = cont;
-    this.portlet_ = portlet;
-    this.userDataConstraintType_ = userDataConstraintType;
-    this.userAttributes_ = userAttributes;
+    this.portlet = portlet;
+    this.userDataConstraintType = userDataConstraintType;
+    this.userAttributes = userAttributes;
   }
 
-  public Portlet getWrappedPortletTyped() {
-    return portlet_;
+  /**
+   * @return portlet object
+   */
+  public final Portlet getWrappedPortletTyped() {
+    return portlet;
   }
 
-  public List<DisplayName> getDisplayName() {
-    return portlet_.getDisplayName();
+  /**
+   * Overridden method.
+   *
+   * @return display names
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getDisplayName()
+   */
+  public final List<DisplayName> getDisplayName() {
+    return portlet.getDisplayName();
   }
 
-  public List<SecurityRoleRef> getSecurityRoleRef() {
-    return portlet_.getSecurityRoleRef();
+  /**
+   * Overridden method.
+   *
+   * @return security role defs
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSecurityRoleRef()
+   */
+  public final List<SecurityRoleRef> getSecurityRoleRef() {
+    return portlet.getSecurityRoleRef();
   }
 
-  public List<InitParam> getInitParam() {
-    return portlet_.getInitParam();
+  /**
+   * Overridden method.
+   *
+   * @return init params
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getInitParam()
+   */
+  public final List<InitParam> getInitParam() {
+    return portlet.getInitParam();
   }
 
-  public ResourceBundle getPortletInfo(Locale locale) {
-    ResourceBundleManager manager = (ResourceBundleManager) cont.getComponentInstanceOfType(ResourceBundleManager.class);
+  /**
+   * @param locale locale
+   * @return portlet info
+   */
+  public final ResourceBundle getPortletInfo(final Locale locale) {
+    ResourceBundleManager manager = (ResourceBundleManager) cont
+        .getComponentInstanceOfType(ResourceBundleManager.class);
     try {
-      return manager.lookupBundle(portlet_, locale);
+      return manager.lookupBundle(portlet, locale);
     } catch (Exception e) {
       return null;
     }
   }
 
-  public List<Supports> getSupports() {
-    return portlet_.getSupports();
+  /**
+   * Overridden method.
+   *
+   * @return supports
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupports()
+   */
+  public final List<Supports> getSupports() {
+    return portlet.getSupports();
   }
 
-  public List<Description> getDescription() {
-    return portlet_.getDescription();
+  /**
+   * Overridden method.
+   *
+   * @return descriptions
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getDescription()
+   */
+  public final List<Description> getDescription() {
+    return portlet.getDescription();
   }
 
-  public String getDescription(String lang) {
-    return portlet_.getDescription(lang);
+  /**
+   * Overridden method.
+   *
+   * @param lang language
+   * @return description
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getDescription(java.lang.String)
+   */
+  public final String getDescription(final String lang) {
+    return portlet.getDescription(lang);
   }
 
-  public boolean isCacheGlobal() {
-    if ("true".equalsIgnoreCase(portlet_.getGlobalCache())) {
+  /**
+   * Overridden method.
+   *
+   * @return is cache global
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#isCacheGlobal()
+   */
+  public final boolean isCacheGlobal() {
+    if ("true".equalsIgnoreCase(portlet.getGlobalCache()))
       return true;
-    }
     return false;
   }
 
-  public String getExpirationCache() {
-    Integer s = portlet_.getCaching();
+  /**
+   * Overridden method.
+   *
+   * @return expiration cache
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getExpirationCache()
+   */
+  public final String getExpirationCache() {
+    Integer s = portlet.getCaching();
     if (s == null)
       return "0";
     return s.toString();
   }
 
-  public String getPortletName() {
-    return portlet_.getPortletName();
+  /**
+   * Overridden method.
+   *
+   * @return portlet name
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getPortletName()
+   */
+  public final String getPortletName() {
+    return portlet.getPortletName();
   }
 
-  public List<Locale> getSupportedLocale() {
-    return portlet_.getSupportedLocale();
+  /**
+   * Overridden method.
+   *
+   * @return supported locales
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedLocale()
+   */
+  public final List<Locale> getSupportedLocale() {
+    return portlet.getSupportedLocale();
   }
 
-  public ExoPortletPreferences getPortletPreferences() {
-    return portlet_.getPortletPreferences();
+  /**
+   * Overridden method.
+   *
+   * @return portlet preferences
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getPortletPreferences()
+   */
+  public final ExoPortletPreferences getPortletPreferences() {
+    return portlet.getPortletPreferences();
   }
 
-  public boolean isSecure() {
-    if (userDataConstraintType_ != null)
+  /**
+   * Overridden method.
+   *
+   * @return is secure
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#isSecure()
+   */
+  public final boolean isSecure() {
+    if (userDataConstraintType != null)
       return true;
     return false;
   }
 
-  public List<UserAttribute> getUserAttributes() {
-    return userAttributes_;
+  /**
+   * Overridden method.
+   *
+   * @return user attributes
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getUserAttributes()
+   */
+  public final List<UserAttribute> getUserAttributes() {
+    return userAttributes;
   }
 
-  public List<QName> getSupportedProcessingEvent() {
-    if (portlet_ == null)
-      return null; // DONE for avoid exc for WSRPAdminPortlet
-    return portlet_.getSupportedProcessingEvent();
+  /**
+   * Overridden method.
+   *
+   * @return supported processing events
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedProcessingEvent()
+   */
+  public final List<QName> getSupportedProcessingEvent() {
+    if (portlet == null)
+      return null;
+    return portlet.getSupportedProcessingEvent();
   }
 
-  public List<QName> getSupportedPublishingEvent() {
-    return portlet_.getSupportedPublishingEvent();
+  /**
+   * Overridden method.
+   *
+   * @return supported publishing events
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedPublishingEvent()
+   */
+  public final List<QName> getSupportedPublishingEvent() {
+    return portlet.getSupportedPublishingEvent();
   }
 
-  public List<String> getSupportedPublicRenderParameter() {
-    if (portlet_ == null)
-      return null; // DONE for avoid exc for WSRPAdminPortlet
-    return portlet_.getSupportedPublicRenderParameter();
+  /**
+   * Overridden method.
+   *
+   * @return supported public render parameters
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedPublicRenderParameter()
+   */
+  public final List<String> getSupportedPublicRenderParameter() {
+    if (portlet == null)
+      return null;
+    return portlet.getSupportedPublicRenderParameter();
   }
 
-  public Map<String, String[]> getContainerRuntimeOption() {
-    return portlet_.getContainerRuntimeOption();
+  /**
+   * Overridden method.
+   *
+   * @return container runtime options
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getContainerRuntimeOption()
+   */
+  public final Map<String, String[]> getContainerRuntimeOption() {
+    return portlet.getContainerRuntimeOption();
   }
 
+  /**
+   * Overridden method.
+   *
+   * @return escape xml
+   * @see org.exoplatform.services.portletcontainer.pci.PortletData#getEscapeXml()
+   */
   public boolean getEscapeXml() {
-    if (portlet_ == null)
-      return true; // DONE for avoid exc for WSRPAdminPortlet
-    return portlet_.getEscapeXml();
+    if (portlet == null)
+      return true;
+    return portlet.getEscapeXml();
   }
 
 }

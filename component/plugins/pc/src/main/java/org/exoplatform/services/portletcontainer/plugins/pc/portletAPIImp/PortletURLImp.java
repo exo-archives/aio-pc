@@ -37,24 +37,35 @@ import org.exoplatform.services.portletcontainer.pci.model.Supports;
  */
 public class PortletURLImp extends BaseURLImp implements PortletURL {
 
+  /**
+   * Supports.
+   */
   protected List<Supports> supports;
 
+  /**
+   * Required window state.
+   */
   protected WindowState requiredWindowState;
 
+  /**
+   * Required portlet mode.
+   */
   protected PortletMode requiredPortletMode;
 
+  /**
+   * Markup.
+   */
   protected String markup;
 
-  // public PortletURLImp(String type,
-  // String baseURL,
-  // String markup,
-  // List<Supports> supports,
-  // boolean isCurrentlySecured,
-  // boolean defaultEscapeXml) {
-  // this(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml,
-  // null);
-  // }
-
+  /**
+   * @param type url type
+   * @param baseURL base url
+   * @param markup markup
+   * @param supports supports
+   * @param isCurrentlySecured is currently secured
+   * @param defaultEscapeXml default escape xml
+   * @param portletDatas portlet datas
+   */
   public PortletURLImp(final String type,
       final String baseURL,
       final String markup,
@@ -67,7 +78,14 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     this.supports = supports;
   }
 
-  public void setWindowState(final WindowState windowState) throws WindowStateException {
+  /**
+   * Overridden method.
+   *
+   * @param windowState window state
+   * @throws WindowStateException exception
+   * @see javax.portlet.PortletURL#setWindowState(javax.portlet.WindowState)
+   */
+  public final void setWindowState(final WindowState windowState) throws WindowStateException {
 
     if (windowState == null)
       throw new WindowStateException("The portlet state is null", windowState);
@@ -99,7 +117,14 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     requiredWindowState = windowState;
   }
 
-  public void setPortletMode(final PortletMode portletMode) throws PortletModeException {
+  /**
+   * Overridden method.
+   *
+   * @param portletMode portlet mode
+   * @throws PortletModeException exception
+   * @see javax.portlet.PortletURL#setPortletMode(javax.portlet.PortletMode)
+   */
+  public final void setPortletMode(final PortletMode portletMode) throws PortletModeException {
 
     if (portletMode == null)
       throw new PortletModeException("The portlet mode is null", portletMode);
@@ -130,42 +155,65 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     requiredPortletMode = portletMode;
   }
 
-  public PortletMode getPortletMode() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet mode
+   * @see javax.portlet.PortletURL#getPortletMode()
+   */
+  public final PortletMode getPortletMode() {
     return requiredPortletMode;
   }
 
-  public WindowState getWindowState() {
+  /**
+   * Overridden method.
+   *
+   * @return window state
+   * @see javax.portlet.PortletURL#getWindowState()
+   */
+  public final WindowState getWindowState() {
     return requiredWindowState;
   }
 
-  protected void invokeFilterRenderURL() {
+  /**
+   * Invoke filter render url.
+   */
+  protected final void invokeFilterRenderURL() {
     if (getPortletDatas() == null)
       return;
     List<PortletURLGenerationListener> list = getPortletDatas().getApplication().getUrlListeners();
     if (list == null)
       return;
-    for (PortletURLGenerationListener listener : list) {
+    for (PortletURLGenerationListener listener : list)
       try {
         listener.filterRenderURL(this);
       } catch (Exception e) {
       }
-    }
   }
 
-  protected void invokeFilterActionURL() {
+  /**
+   * Invoke filter action url.
+   */
+  protected final void invokeFilterActionURL() {
     if (getPortletDatas() == null)
       return;
     List<PortletURLGenerationListener> list = getPortletDatas().getApplication().getUrlListeners();
     if (list == null)
       return;
-    for (PortletURLGenerationListener listener : list) {
+    for (PortletURLGenerationListener listener : list)
       try {
         listener.filterActionURL(this);
       } catch (Exception e) {
       }
-    }
   }
 
+  /**
+   * Overridden method.
+   *
+   * @param escapeXML escape xml
+   * @return string representation
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.BaseURLImp#toString(boolean)
+   */
   public String toString(final boolean escapeXML) {
     if (getType().equals(PCConstants.ACTION_STRING))
       invokeFilterActionURL();
@@ -228,7 +276,13 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     return sB.toString();
   }
 
-  public void removePublicRenderParameter(final String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @see javax.portlet.PortletURL#removePublicRenderParameter(java.lang.String)
+   */
+  public final void removePublicRenderParameter(final String name) {
     setParameter(PCConstants.REMOVE_PUBLIC_STRING, name);
   }
 

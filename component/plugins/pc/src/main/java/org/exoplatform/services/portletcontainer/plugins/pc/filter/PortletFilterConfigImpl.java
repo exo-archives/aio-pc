@@ -37,33 +37,77 @@ import org.exoplatform.services.portletcontainer.pci.model.InitParam;
  */
 public class PortletFilterConfigImpl implements FilterConfig {
 
-	private String filterName;
-	private PortletContext portletContext;
-	private Map initParams;
+  /**
+   * Filter name.
+   */
+  private final String filterName;
 
-	public PortletFilterConfigImpl(String filterName, List initParamsList, PortletContext portletContext) {
-		this.filterName = filterName;
-		this.portletContext = portletContext;
-		this.initParams = new HashMap();
-		for (Iterator iterator = initParamsList.iterator(); iterator.hasNext();) {
-			InitParam initParam = (InitParam) iterator.next();
-			initParams.put(initParam.getName(), initParam.getValue());
-		}
-	}
+  /**
+   * Portlet context.
+   */
+  private final PortletContext portletContext;
 
-	public String getFilterName() {
-		return filterName;
-	}
+  /**
+   * Init params.
+   */
+  private final Map initParams;
 
-	public String getInitParameter(String string) {
-		return (String) initParams.get(string);
-	}
+  /**
+   * @param filterName filter name
+   * @param initParamsList init param list
+   * @param portletContext portlet context
+   */
+  public PortletFilterConfigImpl(final String filterName,
+      final List initParamsList,
+      final PortletContext portletContext) {
+    this.filterName = filterName;
+    this.portletContext = portletContext;
+    this.initParams = new HashMap();
+    for (Iterator iterator = initParamsList.iterator(); iterator.hasNext();) {
+      InitParam initParam = (InitParam) iterator.next();
+      initParams.put(initParam.getName(), initParam.getValue());
+    }
+  }
 
-	public Enumeration getInitParameterNames() {
-		return Collections.enumeration(initParams.keySet());
-	}
+  /**
+   * Overridden method.
+   *
+   * @return filter name
+   * @see javax.portlet.filter.FilterConfig#getFilterName()
+   */
+  public String getFilterName() {
+    return filterName;
+  }
 
-	public PortletContext getPortletContext() {
-		return portletContext;
-	}
+  /**
+   * Overridden method.
+   *
+   * @param string name
+   * @return value
+   * @see javax.portlet.filter.FilterConfig#getInitParameter(java.lang.String)
+   */
+  public String getInitParameter(final String string) {
+    return (String) initParams.get(string);
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @return init parameter names
+   * @see javax.portlet.filter.FilterConfig#getInitParameterNames()
+   */
+  public Enumeration getInitParameterNames() {
+    return Collections.enumeration(initParams.keySet());
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @return portlet context
+   * @see javax.portlet.filter.FilterConfig#getPortletContext()
+   */
+  public PortletContext getPortletContext() {
+    return portletContext;
+  }
+
 }

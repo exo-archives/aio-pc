@@ -21,35 +21,59 @@ import javax.servlet.jsp.tagext.VariableInfo;
 import javax.servlet.jsp.tagext.TagData;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Aug 20, 2003
  * Time: 12:51:20 AM
  */
-public class DefineObjectsExtraInfo extends TagExtraInfo{
+public class DefineObjectsExtraInfo extends TagExtraInfo {
 
-  public VariableInfo[] getVariableInfo(TagData tagData) {
+  /**
+   * Overridden method.
+   *
+   * @param tagData tag data
+   * @return variable info
+   * @see javax.servlet.jsp.tagext.TagExtraInfo#getVariableInfo(javax.servlet.jsp.tagext.TagData)
+   */
+  public final VariableInfo[] getVariableInfo(final TagData tagData) {
     return new VariableInfo[] {
-      new VariableInfo("portletConfig", "javax.portlet.PortletConfig", true, VariableInfo.AT_END ),
+        new VariableInfo("portletConfig", "javax.portlet.PortletConfig", true, VariableInfo.AT_END),
 
-      new VariableInfo("renderRequest", "javax.portlet.RenderRequest", true, VariableInfo.AT_END),
-      new VariableInfo("renderResponse", "javax.portlet.RenderResponse", true, VariableInfo.AT_END),
+        new VariableInfo("renderRequest", "javax.portlet.RenderRequest", true, VariableInfo.AT_END),
+        new VariableInfo("renderResponse",
+            "javax.portlet.RenderResponse",
+            true,
+            VariableInfo.AT_END),
 
-      new VariableInfo("resourceRequest", "javax.portlet.ResourceRequest", true, VariableInfo.AT_END),
-      new VariableInfo("resourceResponse", "javax.portlet.ResourceResponse", true, VariableInfo.AT_END),
-      new VariableInfo("actionRequest", "javax.portlet.ActionRequest", true, VariableInfo.AT_END),
-      new VariableInfo("actionResponse", "javax.portlet.ActionResponse", true, VariableInfo.AT_END),
-      new VariableInfo("eventRequest", "javax.portlet.EventRequest", true, VariableInfo.AT_END),
-      new VariableInfo("eventResponse", "javax.portlet.EventResponse", true, VariableInfo.AT_END),
+        new VariableInfo("resourceRequest",
+            "javax.portlet.ResourceRequest",
+            true,
+            VariableInfo.AT_END),
+        new VariableInfo("resourceResponse",
+            "javax.portlet.ResourceResponse",
+            true,
+            VariableInfo.AT_END),
+        new VariableInfo("actionRequest", "javax.portlet.ActionRequest", true, VariableInfo.AT_END),
+        new VariableInfo("actionResponse",
+            "javax.portlet.ActionResponse",
+            true,
+            VariableInfo.AT_END),
+        new VariableInfo("eventRequest", "javax.portlet.EventRequest", true, VariableInfo.AT_END),
+        new VariableInfo("eventResponse", "javax.portlet.EventResponse", true, VariableInfo.AT_END),
 
-      new VariableInfo("portletSession", "javax.portlet.PortletSession", true, VariableInfo.AT_END),
-      new VariableInfo("portletSessionScope", "java.util.Map", true, VariableInfo.AT_END),
-      new VariableInfo("portletPreferences", "javax.portlet.PortletPreferences", true, VariableInfo.AT_END),
-      new VariableInfo("portletPreferencesValues", "java.util.Map", true, VariableInfo.AT_END)
+        new VariableInfo("portletSession",
+            "javax.portlet.PortletSession",
+            true,
+            VariableInfo.AT_END),
+        new VariableInfo("portletSessionScope", "java.util.Map", true, VariableInfo.AT_END),
+        new VariableInfo("portletPreferences",
+            "javax.portlet.PortletPreferences",
+            true,
+            VariableInfo.AT_END),
+        new VariableInfo("portletPreferencesValues", "java.util.Map", true, VariableInfo.AT_END)
 
     };
   }
-
 
 }

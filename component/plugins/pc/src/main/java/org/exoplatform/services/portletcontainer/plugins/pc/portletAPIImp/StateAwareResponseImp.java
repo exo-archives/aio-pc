@@ -36,15 +36,25 @@ import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 
 /**
- * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 25.05.2007
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 25.05.2007.
  */
 public class StateAwareResponseImp extends PortletResponseImp implements StateAwareResponse {
 
+  /**
+   * @param resCtx response context
+   */
   public StateAwareResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
-  public void setWindowState(final WindowState windowState) throws WindowStateException {
+  /**
+   * Overridden method.
+   *
+   * @param windowState window state
+   * @throws WindowStateException exception
+   * @see javax.portlet.StateAwareResponse#setWindowState(javax.portlet.WindowState)
+   */
+  public final void setWindowState(final WindowState windowState) throws WindowStateException {
     if (isSendRedirectAlreadyOccured())
       throw new IllegalStateException("sendRedirect was already called");
     if (windowState == null)
@@ -70,7 +80,14 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
         + " is not supported by the portlet container", windowState);
   }
 
-  public void setPortletMode(final PortletMode portletMode) throws PortletModeException {
+  /**
+   * Overridden method.
+   *
+   * @param portletMode portlet mode
+   * @throws PortletModeException exception
+   * @see javax.portlet.StateAwareResponse#setPortletMode(javax.portlet.PortletMode)
+   */
+  public final void setPortletMode(final PortletMode portletMode) throws PortletModeException {
     if (isSendRedirectAlreadyOccured())
       throw new IllegalStateException("sendRedirect was already called");
     if (portletMode == null)
@@ -81,7 +98,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       return;
     }
     List<Supports> l = getPortletDatas().getSupports();
-    for (Supports supports : l) {
+    for (Supports supports : l)
       if (getInput().getMarkup().equals(supports.getMimeType())) {
         List<String> modeList = supports.getPortletMode();
         for (String modeString : modeList) {
@@ -93,12 +110,17 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
           }
         }
       }
-    }
     throw new PortletModeException("The mode " + portletMode.toString()
         + " is not supported by that portlet", portletMode);
   }
 
-  public void setRenderParameters(final Map<String, String[]> map) {
+  /**
+   * Overridden method.
+   *
+   * @param map map
+   * @see javax.portlet.StateAwareResponse#setRenderParameters(java.util.Map)
+   */
+  public final void setRenderParameters(final Map<String, String[]> map) {
     if (map == null)
       throw new IllegalArgumentException("the map given is null");
     if (map.containsKey(null))
@@ -117,7 +139,14 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
     ((EventOutput) this.getOutput()).setRenderParameters(map);
   }
 
-  public void setRenderParameter(final String s, final String s1) {
+  /**
+   * Overridden method.
+   *
+   * @param s name
+   * @param s1 value
+   * @see javax.portlet.StateAwareResponse#setRenderParameter(java.lang.String, java.lang.String)
+   */
+  public final void setRenderParameter(final String s, final String s1) {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (s1 == null)
@@ -128,7 +157,14 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
     ((EventOutput) this.getOutput()).setRenderParameter(s, s1);
   }
 
-  public void setRenderParameter(final String s, final String[] strings) {
+  /**
+   * Overridden method.
+   *
+   * @param s name
+   * @param strings values
+   * @see javax.portlet.StateAwareResponse#setRenderParameter(java.lang.String, java.lang.String[])
+   */
+  public final void setRenderParameter(final String s, final String[] strings) {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (strings == null)
@@ -139,16 +175,34 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
     ((EventOutput) this.getOutput()).setRenderParameters(s, strings);
   }
 
-  public PortletMode getPortletMode() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet mode
+   * @see javax.portlet.StateAwareResponse#getPortletMode()
+   */
+  public final PortletMode getPortletMode() {
     return getInput().getPortletMode();
   }
 
-  public Map getRenderParameterMap() {
+  /**
+   * Overridden method.
+   *
+   * @return render parameters
+   * @see javax.portlet.StateAwareResponse#getRenderParameterMap()
+   */
+  public final Map getRenderParameterMap() {
     // TODO
     return null;
   }
 
-  public WindowState getWindowState() {
+  /**
+   * Overridden method.
+   *
+   * @return window state
+   * @see javax.portlet.StateAwareResponse#getWindowState()
+   */
+  public final WindowState getWindowState() {
     return getInput().getWindowState();
   }
 
@@ -158,10 +212,18 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       "java.awt.Image", "javax.activation.DataHandler", "javax.xml.transform.Source",
       "java.util.UUID" };
 
+  /**
+   * @param o event payload
+   * @return is it default JAXB serializable object
+   */
   protected boolean validateByJAXB8_5_2List(final Object o) {
     return java.util.Arrays.asList(jaxb8_5_2List).contains(o.getClass().getName());
   }
 
+  /**
+   * @param o event payload
+   * @return is it JAXB serializable object
+   */
   protected boolean validateWithJAXB(final Object o) {
     if (o == null)
       return true;
@@ -176,24 +238,54 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
     return true;
   }
 
-  public void setEvent(final QName name, final java.io.Serializable event) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param event event payload
+   * @see javax.portlet.StateAwareResponse#setEvent(javax.xml.namespace.QName, java.io.Serializable)
+   */
+  public final void setEvent(final QName name, final java.io.Serializable event) {
     if (!validateWithJAXB(event))
       throw new java.lang.IllegalArgumentException("setEvent(): can't get binding of "
           + event.getClass().getName());
     ((EventOutput) getOutput()).setEvent(name, event);
   }
 
-  public void setEvent(final String name, final java.io.Serializable event) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param event event payload
+   * @see javax.portlet.StateAwareResponse#setEvent(java.lang.String, java.io.Serializable)
+   */
+  public final void setEvent(final String name, final java.io.Serializable event) {
     ((EventOutput) getOutput()).setEvent(new QName(getPortletDatas().getApplication()
         .getDefaultNamespace(), name), event);
   }
 
+  /**
+   * @author Roman Pedchenko
+   * Null output stream
+   */
   private class NullOutputStream extends java.io.OutputStream {
-    public void write(final int b) {
+    /**
+     * Overridden method.
+     *
+     * @param b data byte
+     * @see java.io.OutputStream#write(int)
+     */
+    public final void write(final int b) {
     }
   }
 
-  public void removePublicRenderParameter(final String param) {
+  /**
+   * Overridden method.
+   *
+   * @param param param
+   * @see javax.portlet.StateAwareResponse#removePublicRenderParameter(java.lang.String)
+   */
+  public final void removePublicRenderParameter(final String param) {
     setRedirectionPossible(false);
     this.getOutput().removePublicRenderParameter(param);
   }

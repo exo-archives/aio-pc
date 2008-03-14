@@ -24,20 +24,36 @@ import javax.portlet.RenderResponse;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 
 /**
- * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: Jul
- * 29, 2003 Time: 5:52:27 PM
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net .
+ * Date: Jul 29, 2003
+ * Time: 5:52:27 PM
  */
 public class RenderResponseImp extends MimeResponseImp implements RenderResponse {
 
+  /**
+   * @param resCtx response context
+   */
   public RenderResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
-  public void setTitle(final String s) {
+  /**
+   * Overridden method.
+   *
+   * @param s title
+   * @see javax.portlet.RenderResponse#setTitle(java.lang.String)
+   */
+  public final void setTitle(final String s) {
     ((RenderOutput) getOutput()).setTitle(s);
   }
 
-  public void setNextPossiblePortletModes(final Collection<PortletMode> portletModes) {
+  /**
+   * Overridden method.
+   *
+   * @param portletModes portlet modes
+   * @see javax.portlet.RenderResponse#setNextPossiblePortletModes(java.util.Collection)
+   */
+  public final void setNextPossiblePortletModes(final Collection<PortletMode> portletModes) {
     ((RenderOutput) getOutput()).setNextPossiblePortletModes(portletModes);
   }
 

@@ -21,48 +21,76 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.container.component.ExecutionContext;
 import org.exoplatform.container.component.ExecutionUnit;
 
-/*
+/**
  * @author: Benjamin Mestrallet
  * @author: Tuan Nguyen
  */
 abstract public class BaseCommandUnit extends ExecutionUnit {
-  protected Log log_ = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
-  public Object execute(ExecutionContext context)  throws Throwable {
-    if(context instanceof  RenderExecutionContext) {
-      RenderExecutionContext rcontext  = (RenderExecutionContext) context ;
-      return render(rcontext) ;
+  /**
+   * Logger.
+   */
+  protected Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+
+  /**
+   * Overridden method.
+   *
+   * @param context context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.container.component.ExecutionUnit#execute(org.exoplatform.container.component.ExecutionContext)
+   */
+  public Object execute(final ExecutionContext context) throws Throwable {
+    if (context instanceof RenderExecutionContext) {
+      RenderExecutionContext rcontext = (RenderExecutionContext) context;
+      return render(rcontext);
     }
-    if(context instanceof  EventExecutionContext) {
-      EventExecutionContext econtext  = (EventExecutionContext) context ;
-      return processEvent(econtext) ;
+    if (context instanceof EventExecutionContext) {
+      EventExecutionContext econtext = (EventExecutionContext) context;
+      return processEvent(econtext);
     }
-    if(context instanceof  ResourceExecutionContext) {
-      ResourceExecutionContext rcontext  = (ResourceExecutionContext) context ;
-      return serveResource(rcontext) ;
+    if (context instanceof ResourceExecutionContext) {
+      ResourceExecutionContext rcontext = (ResourceExecutionContext) context;
+      return serveResource(rcontext);
     }
-    ActionExecutionContext acontext  = (ActionExecutionContext) context ;
-    return processAction(acontext) ;
+    ActionExecutionContext acontext = (ActionExecutionContext) context;
+    return processAction(acontext);
   }
 
-  protected Object render(RenderExecutionContext rcontext)  throws Throwable {
-    return rcontext.executeNextUnit() ;
+  /**
+   * @param rcontext context
+   * @return object
+   * @throws Throwable throwable
+   */
+  protected Object render(final RenderExecutionContext rcontext) throws Throwable {
+    return rcontext.executeNextUnit();
   }
 
-  protected Object serveResource(ResourceExecutionContext rcontext)  throws Throwable {
-    return rcontext.executeNextUnit() ;
+  /**
+   * @param rcontext context
+   * @return object
+   * @throws Throwable throwable
+   */
+  protected Object serveResource(final ResourceExecutionContext rcontext) throws Throwable {
+    return rcontext.executeNextUnit();
   }
 
-  protected Object processEvent(EventExecutionContext econtext)  throws Throwable  {
-    return econtext.executeNextUnit() ;
+  /**
+   * @param econtext context
+   * @return object
+   * @throws Throwable throwable
+   */
+  protected Object processEvent(final EventExecutionContext econtext) throws Throwable {
+    return econtext.executeNextUnit();
   }
 
-  protected Object processAction(ActionExecutionContext acontext)  throws Throwable  {
-    return acontext.executeNextUnit() ;
+  /**
+   * @param acontext context
+   * @return object
+   * @throws Throwable throwable
+   */
+  protected Object processAction(final ActionExecutionContext acontext) throws Throwable {
+    return acontext.executeNextUnit();
   }
-
-//  protected Object serveFragment(FragmentExecutionContext fcontext)  throws Throwable  {
-//    return fcontext.executeNextUnit() ;
-//  }
 
 }

@@ -35,7 +35,7 @@ import javax.servlet.jsp.JspException;
 import javax.servlet.jsp.tagext.TagSupport;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Aug 20, 2003
@@ -43,12 +43,20 @@ import javax.servlet.jsp.tagext.TagSupport;
  */
 public class DefineObjectsTag extends TagSupport {
 
-  public int doStartTag() throws JspException {
-    ServletRequest request =  pageContext.getRequest();
+  /**
+   * Overridden method.
+   *
+   * @return tag evaluation result
+   * @throws JspException
+   * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+   */
+  public final int doStartTag() throws JspException {
+    ServletRequest request = pageContext.getRequest();
 
-    PortletConfig portletConfig = (PortletConfig)request.getAttribute("javax.portlet.config");
+    PortletConfig portletConfig = (PortletConfig) request.getAttribute("javax.portlet.config");
     PortletRequest portletRequest = (PortletRequest) request.getAttribute("javax.portlet.request");
-    PortletResponse portletResponse = (PortletResponse) request.getAttribute("javax.portlet.response");
+    PortletResponse portletResponse = (PortletResponse) request
+        .getAttribute("javax.portlet.response");
     PortletSession portletSession = portletRequest.getPortletSession(); // (PortletSession) request.getAttribute("javax.portlet.session");
     PortletPreferences portletPreferences = portletRequest.getPreferences(); // (PortletPreferences) request.getAttribute("javax.portlet.preferences");
     java.util.Map<String, String[]> portletPreferencesValues = portletPreferences.getMap();
@@ -56,26 +64,23 @@ public class DefineObjectsTag extends TagSupport {
     pageContext.setAttribute("portletConfig", portletConfig);
 
     if (portletRequest instanceof RenderRequest) {
-      RenderRequest renderRequest = (RenderRequest) portletRequest ;
-      RenderResponse renderResponse = (RenderResponse) portletResponse ;
+      RenderRequest renderRequest = (RenderRequest) portletRequest;
+      RenderResponse renderResponse = (RenderResponse) portletResponse;
       pageContext.setAttribute("renderRequest", renderRequest);
       pageContext.setAttribute("renderResponse", renderResponse);
-    } else
-    if (portletRequest instanceof ResourceRequest) {
-      ResourceRequest resourceRequest = (ResourceRequest) portletRequest ;
-      ResourceResponse resourceResponse = (ResourceResponse) portletResponse ;
+    } else if (portletRequest instanceof ResourceRequest) {
+      ResourceRequest resourceRequest = (ResourceRequest) portletRequest;
+      ResourceResponse resourceResponse = (ResourceResponse) portletResponse;
       pageContext.setAttribute("resourceRequest", resourceRequest);
       pageContext.setAttribute("resourceResponse", resourceResponse);
-    } else
-    if (portletRequest instanceof ActionRequest) {
-      ActionRequest actionRequest = (ActionRequest) portletRequest ;
-      ActionResponse actionResponse = (ActionResponse) portletResponse ;
+    } else if (portletRequest instanceof ActionRequest) {
+      ActionRequest actionRequest = (ActionRequest) portletRequest;
+      ActionResponse actionResponse = (ActionResponse) portletResponse;
       pageContext.setAttribute("actionRequest", actionRequest);
       pageContext.setAttribute("actionResponse", actionResponse);
-    } else
-    if (portletRequest instanceof EventRequest) {
-      EventRequest eventRequest = (EventRequest) portletRequest ;
-      EventResponse eventResponse = (EventResponse) portletResponse ;
+    } else if (portletRequest instanceof EventRequest) {
+      EventRequest eventRequest = (EventRequest) portletRequest;
+      EventResponse eventResponse = (EventResponse) portletResponse;
       pageContext.setAttribute("eventRequest", eventRequest);
       pageContext.setAttribute("eventResponse", eventResponse);
     }

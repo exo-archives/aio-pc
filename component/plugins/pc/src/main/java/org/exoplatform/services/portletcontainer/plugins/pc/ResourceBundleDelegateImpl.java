@@ -23,19 +23,36 @@ import org.exoplatform.commons.utils.MapResourceBundle;
 import org.exoplatform.services.portletcontainer.bundle.ResourceBundleDelegate;
 import org.exoplatform.services.resources.ResourceBundleService;
 
+/**
+ * Resource bundle delegate implementation.
+ */
 public class ResourceBundleDelegateImpl implements ResourceBundleDelegate {
 
-  private ResourceBundleService resourceBundleService;
+  /**
+   * Resource bundle service.
+   */
+  private final ResourceBundleService resourceBundleService;
 
-  public ResourceBundleDelegateImpl(ResourceBundleService resourceBundleService) {
+  /**
+   * @param resourceBundleService resource bundle service
+   */
+  public ResourceBundleDelegateImpl(final ResourceBundleService resourceBundleService) {
     this.resourceBundleService = resourceBundleService;
   }
 
-  public ResourceBundle lookupBundle(String portletBundleName, Locale locale){
-//    String[] bundles = { portletBundleName };
-//    return resourceBundleService.getResourceBundle(bundles, locale);
-    ResourceBundle rB =
-      ResourceBundle.getBundle(portletBundleName, locale, Thread.currentThread().getContextClassLoader());
+  /**
+   * Overridden method.
+   *
+   * @param portletBundleName portlet bundle name
+   * @param locale locale
+   * @return resource bundle
+   * @see org.exoplatform.services.portletcontainer.bundle.ResourceBundleDelegate#lookupBundle(java.lang.String, java.util.Locale)
+   */
+  public final ResourceBundle lookupBundle(final String portletBundleName, final Locale locale) {
+    //    String[] bundles = { portletBundleName };
+    //    return resourceBundleService.getResourceBundle(bundles, locale);
+    ResourceBundle rB = ResourceBundle.getBundle(portletBundleName, locale, Thread.currentThread()
+        .getContextClassLoader());
     return new MapResourceBundle(rB, locale);
   }
 

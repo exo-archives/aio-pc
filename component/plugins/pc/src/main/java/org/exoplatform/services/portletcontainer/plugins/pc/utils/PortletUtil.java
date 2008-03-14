@@ -21,25 +21,34 @@ import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by the Exo Development team
+ * Created by the Exo Development team.
  * Author : Tuan Nguyen
  *          tuan08@users.sourceforge.net
  */
 public class PortletUtil {
 
-  static public String getPortletTitle(Portlet portlet) {
-    return portlet.getPortletInfo().getTitle() ;
+  /**
+   * @param portlet portlet object
+   * @return portlet title
+   */
+  public static final String getPortletTitle(final Portlet portlet) {
+    return portlet.getPortletInfo().getTitle();
   }
 
-  static public String getDescription(Portlet portlet, String lang) {
-    lang = lang.toLowerCase() ;
-    List list = portlet.getDescription() ;
+  /**
+   * @param portlet portlet object
+   * @param lang language
+   * @return description for specified language
+   */
+  public static final String getDescription(final Portlet portlet, String lang) {
+    lang = lang.toLowerCase();
+    List<Description> list = portlet.getDescription();
     for (int i = 0; i < list.size(); i++) {
-      Description desc = (Description) list.get(i) ;
-      if (lang.equals(desc.getLang().toLowerCase())) {
-        return desc.getDescription() ;
-      }
+      Description desc = list.get(i);
+      if (lang.equals(desc.getLang().toLowerCase()))
+        return desc.getDescription();
     }
-   return null ;
+    return null;
   }
+
 }

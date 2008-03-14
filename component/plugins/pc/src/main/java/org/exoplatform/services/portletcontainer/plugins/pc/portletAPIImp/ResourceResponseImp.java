@@ -22,15 +22,24 @@ import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class ResourceResponseImp extends MimeResponseImp implements ResourceResponse {
 
+  /**
+   * @param resCtx response context
+   */
   public ResourceResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
+  /**
+   * Overridden method.
+   *
+   * @param contentType content type
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.MimeResponseImp#setContentType(java.lang.String)
+   */
   public void setContentType(String contentType) {
     if ((contentType != null) && (contentType.indexOf(';') >= 0)) {
       String s = StringUtils.split(contentType, ';')[1].trim();
@@ -41,6 +50,12 @@ public class ResourceResponseImp extends MimeResponseImp implements ResourceResp
     super.setContentType(contentType);
   }
 
+  /**
+   * Overridden method.
+   *
+   * @param charset charset
+   * @see javax.servlet.ServletResponseWrapper#setCharacterEncoding(java.lang.String)
+   */
   public void setCharacterEncoding(final String charset) {
     ((ResourceOutput) getOutput()).setCharacterEncoding(charset);
   }

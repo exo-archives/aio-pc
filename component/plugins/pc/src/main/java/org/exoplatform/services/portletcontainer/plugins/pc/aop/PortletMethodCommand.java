@@ -33,82 +33,117 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.EventR
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.RenderRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceRequestImp;
 
-/*
+/**
  * @author: Benjamin Mestrallet
  * @author: Tuan Nguyen
  */
 public class PortletMethodCommand extends BaseCommandUnit {
 
-  protected Object render(RenderExecutionContext rcontext)  throws Throwable {
-    RenderRequest request = rcontext.request_;
-    RenderResponse response = rcontext.response_;
-    request.setAttribute("javax.portlet.config",((RenderRequestImp)request).getPortletConfig());
+  /**
+   * Overridden method.
+   *
+   * @param rcontext context
+   * @return result
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#render(org.exoplatform.services.portletcontainer.plugins.pc.aop.RenderExecutionContext)
+   */
+  protected final Object render(final RenderExecutionContext rcontext) throws Throwable {
+    RenderRequest request = rcontext.getRequest();
+    RenderResponse response = rcontext.getResponse();
+    request.setAttribute("javax.portlet.config", ((RenderRequestImp) request).getPortletConfig());
     request.setAttribute("javax.portlet.request", request);
     request.setAttribute("javax.portlet.response", response);
     request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.RENDER_PHASE);
 
-    rcontext.portlet_.render(request, response) ;
+    rcontext.getPortlet().render(request, response);
 
     request.removeAttribute("javax.portlet.config");
     request.removeAttribute("javax.portlet.request");
     request.removeAttribute("javax.portlet.response");
     request.removeAttribute(PortletRequest.LIFECYCLE_PHASE);
-    return null ;
+    return null;
   }
 
-  protected Object processAction(ActionExecutionContext acontext)  throws Throwable  {
+  /**
+   * Overridden method.
+   *
+   * @param acontext context
+   * @return result
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#processAction(org.exoplatform.services.portletcontainer.plugins.pc.aop.ActionExecutionContext)
+   */
+  protected final Object processAction(final ActionExecutionContext acontext) throws Throwable {
     ActionRequest request = acontext.getRequest();
     ActionResponse response = acontext.getResponse();
-    request.setAttribute("javax.portlet.config",((ActionRequestImp)request).getPortletConfig());
+    request.setAttribute("javax.portlet.config", ((ActionRequestImp) request).getPortletConfig());
     request.setAttribute("javax.portlet.request", request);
     request.setAttribute("javax.portlet.response", response);
     request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.ACTION_PHASE);
 
-    acontext.getPortlet().processAction(acontext.getRequest(), acontext.getResponse()) ;
+    acontext.getPortlet().processAction(acontext.getRequest(), acontext.getResponse());
 
     request.removeAttribute("javax.portlet.config");
     request.removeAttribute("javax.portlet.request");
     request.removeAttribute("javax.portlet.response");
     request.removeAttribute(PortletRequest.LIFECYCLE_PHASE);
-    return null ;
+    return null;
   }
 
-  protected Object serveResource(ResourceExecutionContext rcontext)  throws Throwable {
-    if (rcontext.portlet_ instanceof ResourceServingPortlet) {
-      ResourceRequest request = rcontext.request_;
-      ResourceResponse response = rcontext.response_;
-      request.setAttribute("javax.portlet.config",((ResourceRequestImp)request).getPortletConfig());
+  /**
+   * Overridden method.
+   *
+   * @param rcontext context
+   * @return result
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#serveResource(org.exoplatform.services.portletcontainer.plugins.pc.aop.ResourceExecutionContext)
+   */
+  protected final Object serveResource(final ResourceExecutionContext rcontext) throws Throwable {
+    if (rcontext.getPortlet() instanceof ResourceServingPortlet) {
+      ResourceRequest request = rcontext.getRequest();
+      ResourceResponse response = rcontext.getResponse();
+      request.setAttribute("javax.portlet.config", ((ResourceRequestImp) request)
+          .getPortletConfig());
       request.setAttribute("javax.portlet.request", request);
       request.setAttribute("javax.portlet.response", response);
       request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.RESOURCE_PHASE);
 
-      ((ResourceServingPortlet) rcontext.portlet_).serveResource(rcontext.request_, rcontext.response_) ;
+      ((ResourceServingPortlet) rcontext.getPortlet()).serveResource(rcontext.getRequest(),
+          rcontext.getResponse());
 
       request.removeAttribute("javax.portlet.config");
       request.removeAttribute("javax.portlet.request");
       request.removeAttribute("javax.portlet.response");
       request.removeAttribute(PortletRequest.LIFECYCLE_PHASE);
     }
-    return null ;
+    return null;
   }
 
-  protected Object processEvent(EventExecutionContext econtext)  throws Throwable  {
+  /**
+   * Overridden method.
+   *
+   * @param econtext event context
+   * @return result
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#processEvent(org.exoplatform.services.portletcontainer.plugins.pc.aop.EventExecutionContext)
+   */
+  protected final Object processEvent(final EventExecutionContext econtext) throws Throwable {
     if (econtext.getPortlet() instanceof EventPortlet) {
       EventRequest request = econtext.getRequest();
       EventResponse response = econtext.getResponse();
-      request.setAttribute("javax.portlet.config",((EventRequestImp)request).getPortletConfig());
+      request.setAttribute("javax.portlet.config", ((EventRequestImp) request).getPortletConfig());
       request.setAttribute("javax.portlet.request", request);
       request.setAttribute("javax.portlet.response", response);
       request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.EVENT_PHASE);
 
-      ((EventPortlet) econtext.getPortlet()).processEvent(econtext.getRequest(), econtext.getResponse()) ;
+      ((EventPortlet) econtext.getPortlet()).processEvent(econtext.getRequest(), econtext
+          .getResponse());
 
       request.removeAttribute("javax.portlet.config");
       request.removeAttribute("javax.portlet.request");
       request.removeAttribute("javax.portlet.response");
       request.removeAttribute(PortletRequest.LIFECYCLE_PHASE);
     }
-    return null ;
+    return null;
   }
 
 }

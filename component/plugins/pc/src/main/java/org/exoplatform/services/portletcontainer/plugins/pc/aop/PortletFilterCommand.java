@@ -32,31 +32,48 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Render
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceResponseImp;
 
-/*
+/**
  * @author: Benjamin Mestrallet
  * @author: Tuan Nguyen
  * @author: Roman Pedchenko
  */
 public class PortletFilterCommand extends BaseCommandUnit {
 
-  protected Object render(RenderExecutionContext rcontext)  throws Throwable {
-    log_.debug("--> render method, call portlet filter aspect");
+  /**
+   * Overridden method.
+   *
+   * @param rcontext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#render(org.exoplatform.services.portletcontainer.plugins.pc.aop.RenderExecutionContext)
+   */
+  protected final Object render(final RenderExecutionContext rcontext) throws Throwable {
+    log.debug("--> render method, call portlet filter aspect");
 
-    RenderRequestImp req = (RenderRequestImp) rcontext.request_;
-    RenderResponseImp res = (RenderResponseImp) rcontext.response_;
+    RenderRequestImp req = (RenderRequestImp) rcontext.getRequest();
+    RenderResponseImp res = (RenderResponseImp) rcontext.getResponse();
     PortletContext portletContext = req.getPortletConfig().getPortletContext();
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter.getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
+          .getInitParam(), portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);
     return rcontext.executeNextUnit();
   }
 
-  protected Object processAction(ActionExecutionContext acontext)  throws Throwable {
-    log_.debug("--> processAction method, call portlet filter aspect");
+  /**
+   * Overridden method.
+   *
+   * @param acontext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#processAction(org.exoplatform.services.portletcontainer.plugins.pc.aop.ActionExecutionContext)
+   */
+  protected final Object processAction(final ActionExecutionContext acontext) throws Throwable {
+    log.debug("--> processAction method, call portlet filter aspect");
 
     ActionRequestImp req = (ActionRequestImp) acontext.getRequest();
     ActionResponseImp res = (ActionResponseImp) acontext.getResponse();
@@ -64,30 +81,48 @@ public class PortletFilterCommand extends BaseCommandUnit {
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter.getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
+          .getInitParam(), portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);
     return acontext.executeNextUnit();
   }
 
-  protected Object serveResource(ResourceExecutionContext rcontext)  throws Throwable {
-    log_.debug("--> serveResource method, call portlet filter aspect");
-    ResourceRequestImp req = (ResourceRequestImp) rcontext.request_;
-    ResourceResponseImp res = (ResourceResponseImp) rcontext.response_;
+  /**
+   * Overridden method.
+   *
+   * @param rcontext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#serveResource(org.exoplatform.services.portletcontainer.plugins.pc.aop.ResourceExecutionContext)
+   */
+  protected final Object serveResource(final ResourceExecutionContext rcontext) throws Throwable {
+    log.debug("--> serveResource method, call portlet filter aspect");
+    ResourceRequestImp req = (ResourceRequestImp) rcontext.getRequest();
+    ResourceResponseImp res = (ResourceResponseImp) rcontext.getResponse();
     PortletContext portletContext = req.getPortletConfig().getPortletContext();
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter.getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
+          .getInitParam(), portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);
     return rcontext.executeNextUnit();
   }
 
-  protected Object processEvent(EventExecutionContext econtext)  throws Throwable {
-    log_.debug("--> processEvent method, call portlet filter aspect");
+  /**
+   * Overridden method.
+   *
+   * @param econtext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#processEvent(org.exoplatform.services.portletcontainer.plugins.pc.aop.EventExecutionContext)
+   */
+  protected final Object processEvent(final EventExecutionContext econtext) throws Throwable {
+    log.debug("--> processEvent method, call portlet filter aspect");
 
     EventRequestImp req = (EventRequestImp) econtext.getRequest();
     EventResponseImp res = (EventResponseImp) econtext.getResponse();
@@ -95,7 +130,8 @@ public class PortletFilterCommand extends BaseCommandUnit {
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter.getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
+          .getInitParam(), portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);

@@ -47,17 +47,42 @@ import java.util.Iterator;
  */
 public class ServletWrapper extends HttpServlet {
 
+  /**
+   * Session data.
+   */
   HashMap<String, Object> session_data = new HashMap<String, Object>();
 
-  HashMap<String, Object> tmp_data     = new HashMap<String, Object>();
+  /**
+   * Temp data.
+   */
+  HashMap<String, Object> tmp_data = new HashMap<String, Object>();
 
-  public void init(ServletConfig servletConfig) throws ServletException {
+  /**
+   * Overridden method.
+   *
+   * @param servletConfig config
+   * @throws ServletException exception
+   * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+   */
+  public final void init(ServletConfig servletConfig) throws ServletException {
     super.init(servletConfig);
   }
 
-  protected void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException, java.io.IOException {
-    ExoContainer manager = ExoContainerContext.getContainerByName((String) servletRequest.getAttribute(PortletContainerDispatcher.CONTAINER));
-    PortletApplicationHandler handler = (PortletApplicationHandler) manager.getComponentInstanceOfType(PortletApplicationHandler.class);
+  /**
+   * Overridden method.
+   *
+   * @param servletRequest request
+   * @param servletResponse response
+   * @throws ServletException exception
+   * @throws java.io.IOException exception
+   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   */
+  protected final void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException,
+      java.io.IOException {
+    ExoContainer manager = ExoContainerContext.getContainerByName((String) servletRequest
+        .getAttribute(PortletContainerDispatcher.CONTAINER));
+    PortletApplicationHandler handler = (PortletApplicationHandler) manager
+        .getComponentInstanceOfType(PortletApplicationHandler.class);
     Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     log.debug("Service method of ServletWrapper entered");
     log.debug("Encoding used : " + servletRequest.getCharacterEncoding());
@@ -82,22 +107,26 @@ public class ServletWrapper extends HttpServlet {
       isToGetBundle = b.booleanValue();
     if (isToGetBundle) {
       log.debug("Get bundle");
-      String portletAppName = (String) servletRequest.getAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME);
-      String portletName = (String) servletRequest.getAttribute(PortletContainerDispatcher.PORTLET_NAME);
-      ResourceBundle bundle = handler.getBundle(portletAppName,
-                                                portletName,
-                                                ((Locale) servletRequest.getAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE)));
+      String portletAppName = (String) servletRequest
+          .getAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME);
+      String portletName = (String) servletRequest
+          .getAttribute(PortletContainerDispatcher.PORTLET_NAME);
+      ResourceBundle bundle = handler.getBundle(portletAppName, portletName,
+          ((Locale) servletRequest.getAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE)));
       servletRequest.setAttribute(PortletContainerDispatcher.BUNDLE, bundle);
       return;
     }
 
     log.debug("Get " + (String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
-    PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest.getAttribute(PortletContainerDispatcher.WINDOW_INFO);
+    PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest
+        .getAttribute(PortletContainerDispatcher.WINDOW_INFO);
     Input input = (Input) servletRequest.getAttribute(PortletContainerDispatcher.INPUT);
     Output output = (Output) servletRequest.getAttribute(PortletContainerDispatcher.OUTPUT);
-    int isAction = Util.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
+    int isAction = Util.actionToInt((String) servletRequest
+        .getAttribute(PortletContainerDispatcher.IS_ACTION));
     try {
-      handler.process(getServletContext(), servletRequest, servletResponse, input, output, windowInfo, isAction);
+      handler.process(getServletContext(), servletRequest, servletResponse, input, output,
+          windowInfo, isAction);
     } catch (PortletContainerException e) {
       log.error("An error occured while processing the portlet request", e);
       throw new ServletException("An error occured while processing the portlet request", e);

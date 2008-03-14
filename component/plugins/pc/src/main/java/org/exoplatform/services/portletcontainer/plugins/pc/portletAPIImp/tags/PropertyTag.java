@@ -28,26 +28,52 @@ import javax.servlet.jsp.JspException;
  */
 public class PropertyTag extends TagSupport {
 
+  /**
+   * Name.
+   */
   private String name;
+
+  /**
+   * Value.
+   */
   private String value;
 
-  public String getValue() {
-    return value;
-  }
-
-  public void setValue(String value) {
-    this.value = value;
-  }
-
-  public String getName() {
+  /**
+   * @return name
+   */
+  public final String getName() {
     return name;
   }
 
-  public void setName(String name) {
+  /**
+   * @param name name
+   */
+  public final void setName(final String name) {
     this.name = name;
   }
 
-  public int doEndTag() throws JspException {
+  /**
+   * @return value
+   */
+  public final String getValue() {
+    return value;
+  }
+
+  /**
+   * @param value value
+   */
+  public final void setValue(final String value) {
+    this.value = value;
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @return tag evaluation resul
+   * @throws JspException
+   * @see javax.servlet.jsp.tagext.TagSupport#doEndTag()
+   */
+  public final int doEndTag() throws JspException {
     XURLTag father = (XURLTag) getParent();
     father.addProperty(name, value);
     return super.doEndTag();

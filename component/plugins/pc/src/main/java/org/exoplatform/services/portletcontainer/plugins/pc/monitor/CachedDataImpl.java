@@ -21,63 +21,141 @@ import javax.portlet.WindowState;
 import org.exoplatform.services.portletcontainer.monitor.CachedData;
 
 /**
- * Created y the eXo platform team
+ * Created y the eXo platform team.
  * User: Benjamin Mestrallet
  * Date: 6 mai 2004
  */
 public class CachedDataImpl implements CachedData {
+
+  /**
+   * Last access time.
+   */
   private long lastAccessTime = 0;
+
+  /**
+   * Portlet title.
+   */
   private String title;
+
+  /**
+   * ETag.
+   */
   private String etag;
+
+  /**
+   * Content.
+   */
   private byte[] content;
+
+  /**
+   * Portlet mode.
+   */
   private PortletMode mode;
+
+  /**
+   * Window state.
+   */
   private WindowState state;
 
-  public byte[] getContent() {
+  /**
+   * Overridden method.
+   *
+   * @return content
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getContent()
+   */
+  public final byte[] getContent() {
     return content;
   }
 
-  public synchronized void setContent(byte[] content) {
+  /**
+   * @param content content
+   */
+  public final synchronized void setContent(final byte[] content) {
     this.content = content;
   }
 
-  public long getLastAccessTime() {
+  /**
+   * Overridden method.
+   *
+   * @return last access time
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getLastAccessTime()
+   */
+  public final long getLastAccessTime() {
     return lastAccessTime;
   }
 
-  public synchronized void setLastAccessTime(long lastAccessTime) {
+  /**
+   * @param lastAccessTime last access time
+   */
+  public final synchronized void setLastAccessTime(final long lastAccessTime) {
     this.lastAccessTime = lastAccessTime;
   }
 
-  public String getTitle() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet title
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getTitle()
+   */
+  public final String getTitle() {
     return title;
   }
 
-  public synchronized void setTitle(String title) {
+  /**
+   * @param title portlet title
+   */
+  public final synchronized void setTitle(final String title) {
     this.title = title;
   }
 
-  public String getETag() {
+  /**
+   * Overridden method.
+   *
+   * @return ETag
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getETag()
+   */
+  public final String getETag() {
     return etag;
   }
 
-  public synchronized void setETag(String etag) {
+  /**
+   * @param etag ETag
+   */
+  public final synchronized void setETag(final String etag) {
     this.etag = etag;
   }
 
-  public PortletMode getMode() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet mode
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getMode()
+   */
+  public final PortletMode getMode() {
     return mode;
   }
 
-  public synchronized void setMode(PortletMode mode) {
+  /**
+   * @param mode portlet mode
+   */
+  public final synchronized void setMode(final PortletMode mode) {
     this.mode = mode;
   }
 
-  public WindowState getWindowState() {
+  /**
+   * Overridden method.
+   *
+   * @return window state
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getWindowState()
+   */
+  public final WindowState getWindowState() {
     return state;
   }
 
-  public synchronized void setWindowState(WindowState state) {
+  /**
+   * @param state window state
+   */
+  public final synchronized void setWindowState(final WindowState state) {
     this.state = state;
   }
 }

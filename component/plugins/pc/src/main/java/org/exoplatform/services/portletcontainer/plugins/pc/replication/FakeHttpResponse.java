@@ -22,117 +22,329 @@ import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
-import javax.servlet.http.HttpServletResponse;;
+import javax.servlet.http.HttpServletResponse;
 
+;
+
+/**
+ * Fake http request.
+ */
 public class FakeHttpResponse implements HttpServletResponse {
 
-  public void flushBuffer() throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @throws IOException
+   * @see javax.servlet.ServletResponse#flushBuffer()
+   */
+  public final void flushBuffer() throws IOException {
   }
 
-  public int getBufferSize() {
+  /**
+   * Overridden method.
+   *
+   * @return buffer size
+   * @see javax.servlet.ServletResponse#getBufferSize()
+   */
+  public final int getBufferSize() {
     return 0;
   }
 
-  public String getCharacterEncoding() {
+  /**
+   * Overridden method.
+   *
+   * @return encoding
+   * @see javax.servlet.ServletResponse#getCharacterEncoding()
+   */
+  public final String getCharacterEncoding() {
     return null;
   }
 
-  public String getContentType() {
+  /**
+   * Overridden method.
+   *
+   * @return content type
+   * @see javax.servlet.ServletResponse#getContentType()
+   */
+  public final String getContentType() {
     return null;
   }
 
-  public Locale getLocale() {
+  /**
+   * Overridden method.
+   *
+   * @return locale
+   * @see javax.servlet.ServletResponse#getLocale()
+   */
+  public final Locale getLocale() {
     return null;
   }
 
-  public ServletOutputStream getOutputStream() throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @return output stream
+   * @throws IOException exception
+   * @see javax.servlet.ServletResponse#getOutputStream()
+   */
+  public final ServletOutputStream getOutputStream() throws IOException {
     return null;
   }
 
-  public PrintWriter getWriter() throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @return writer
+   * @throws IOException exception
+   * @see javax.servlet.ServletResponse#getWriter()
+   */
+  public final PrintWriter getWriter() throws IOException {
     return null;
   }
 
-  public boolean isCommitted() {
+  /**
+   * Overridden method.
+   *
+   * @return is committed
+   * @see javax.servlet.ServletResponse#isCommitted()
+   */
+  public final boolean isCommitted() {
     return false;
   }
 
-  public void reset() {
+  /**
+   * Overridden method.
+   *
+   * @see javax.servlet.ServletResponse#reset()
+   */
+  public final void reset() {
   }
 
-  public void resetBuffer() {
+  /**
+   * Overridden method.
+   *
+   * @see javax.servlet.ServletResponse#resetBuffer()
+   */
+  public final void resetBuffer() {
   }
 
-  public void setBufferSize(int arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 buffer size
+   * @see javax.servlet.ServletResponse#setBufferSize(int)
+   */
+  public final void setBufferSize(final int arg0) {
   }
 
-  public void setCharacterEncoding(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 encoding
+   * @see javax.servlet.ServletResponse#setCharacterEncoding(java.lang.String)
+   */
+  public final void setCharacterEncoding(final String arg0) {
   }
 
-  public void setContentLength(int arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 content length
+   * @see javax.servlet.ServletResponse#setContentLength(int)
+   */
+  public final void setContentLength(final int arg0) {
   }
 
-  public void setContentType(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 content type
+   * @see javax.servlet.ServletResponse#setContentType(java.lang.String)
+   */
+  public final void setContentType(final String arg0) {
   }
 
-  public void setLocale(Locale arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 locale
+   * @see javax.servlet.ServletResponse#setLocale(java.util.Locale)
+   */
+  public final void setLocale(final Locale arg0) {
   }
 
-  public void addCookie(Cookie arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 cookie
+   * @see javax.servlet.http.HttpServletResponse#addCookie(javax.servlet.http.Cookie)
+   */
+  public final void addCookie(final Cookie arg0) {
   }
 
-  public void addDateHeader(String arg0, long arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @param arg1 value
+   * @see javax.servlet.http.HttpServletResponse#addDateHeader(java.lang.String, long)
+   */
+  public final void addDateHeader(final String arg0, final long arg1) {
   }
 
-  public void addHeader(String arg0, String arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @param arg1 value
+   * @see javax.servlet.http.HttpServletResponse#addHeader(java.lang.String, java.lang.String)
+   */
+  public final void addHeader(final String arg0, final String arg1) {
   }
 
-  public void addIntHeader(String arg0, int arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @param arg1 value
+   * @see javax.servlet.http.HttpServletResponse#addIntHeader(java.lang.String, int)
+   */
+  public final void addIntHeader(final String arg0, final int arg1) {
   }
 
-  public boolean containsHeader(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @return does contain
+   * @see javax.servlet.http.HttpServletResponse#containsHeader(java.lang.String)
+   */
+  public final boolean containsHeader(final String arg0) {
     return false;
   }
 
-  public String encodeRedirectUrl(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 url
+   * @return url
+   * @see javax.servlet.http.HttpServletResponse#encodeRedirectUrl(java.lang.String)
+   */
+  public final String encodeRedirectUrl(final String arg0) {
     return null;
   }
 
-  public String encodeRedirectURL(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 url
+   * @return url
+   * @see javax.servlet.http.HttpServletResponse#encodeRedirectURL(java.lang.String)
+   */
+  public final String encodeRedirectURL(final String arg0) {
     return null;
   }
 
-  public String encodeUrl(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 url
+   * @return url
+   * @see javax.servlet.http.HttpServletResponse#encodeUrl(java.lang.String)
+   */
+  public final String encodeUrl(final String arg0) {
     return null;
   }
 
-  public String encodeURL(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 url
+   * @return url
+   * @see javax.servlet.http.HttpServletResponse#encodeURL(java.lang.String)
+   */
+  public final String encodeURL(final String arg0) {
     return null;
   }
 
-  public void sendError(int arg0, String arg1) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 value
+   * @param arg1 string
+   * @throws IOException
+   * @see javax.servlet.http.HttpServletResponse#sendError(int, java.lang.String)
+   */
+  public final void sendError(final int arg0, final String arg1) throws IOException {
   }
 
-  public void sendError(int arg0) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 value
+   * @throws IOException
+   * @see javax.servlet.http.HttpServletResponse#sendError(int)
+   */
+  public final void sendError(final int arg0) throws IOException {
   }
 
-  public void sendRedirect(String arg0) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 url
+   * @throws IOException
+   * @see javax.servlet.http.HttpServletResponse#sendRedirect(java.lang.String)
+   */
+  public final void sendRedirect(final String arg0) throws IOException {
   }
 
-  public void setDateHeader(String arg0, long arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @param arg1 value
+   * @see javax.servlet.http.HttpServletResponse#setDateHeader(java.lang.String, long)
+   */
+  public final void setDateHeader(final String arg0, final long arg1) {
   }
 
-  public void setHeader(String arg0, String arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @param arg1 value
+   * @see javax.servlet.http.HttpServletResponse#setHeader(java.lang.String, java.lang.String)
+   */
+  public final void setHeader(final String arg0, final String arg1) {
   }
 
-  public void setIntHeader(String arg0, int arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 name
+   * @param arg1 value
+   * @see javax.servlet.http.HttpServletResponse#setIntHeader(java.lang.String, int)
+   */
+  public final void setIntHeader(final String arg0, final int arg1) {
   }
 
-  public void setStatus(int arg0, String arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 value
+   * @param arg1 string
+   * @see javax.servlet.http.HttpServletResponse#setStatus(int, java.lang.String)
+   */
+  public final void setStatus(final int arg0, final String arg1) {
   }
 
-  public void setStatus(int arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 value
+   * @see javax.servlet.http.HttpServletResponse#setStatus(int)
+   */
+  public final void setStatus(final int arg0) {
   }
-
 
 }

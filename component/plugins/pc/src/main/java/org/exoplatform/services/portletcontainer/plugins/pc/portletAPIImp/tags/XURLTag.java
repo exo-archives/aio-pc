@@ -18,7 +18,6 @@ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.tags;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
@@ -39,7 +38,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.BaseUR
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Aug 20, 2003
@@ -47,52 +46,96 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
  */
 public abstract class XURLTag extends BodyTagSupport {
 
-  protected WindowState             windowState;
+  /**
+   * Window state.
+   */
+  protected WindowState windowState;
 
-  protected PortletMode             portletMode;
+  /**
+   * Portlet mode.
+   */
+  protected PortletMode portletMode;
 
-  protected String                  var;
+  /**
+   * Var name.
+   */
+  protected String var;
 
-  protected boolean                 secure;
+  /**
+   * Secure.
+   */
+  protected boolean secure;
 
-  private HashMap<String, String[]> parameters                  = null;
+  /**
+   * Parameters.
+   */
+  private HashMap<String, String[]> parameters = null;
 
-  private Map<String, String[]> renderParameters                  = null;
+  /**
+   * Render parameters.
+   */
+  private Map<String, String[]> renderParameters = null;
 
-  private HashMap<String, String[]> properties                  = new HashMap<String, String[]>();
+  /**
+   * Properties.
+   */
+  private HashMap<String, String[]> properties = new HashMap<String, String[]>();
 
-  protected boolean                 copyCurrentRenderParameters = false;
+  /**
+   * Copy current render parameters.
+   */
+  protected boolean copyCurrentRenderParameters = false;
 
-  protected boolean                 escapeXml                   = true;
+  /**
+   * Escape xml value.
+   */
+  protected boolean escapeXml = true;
 
-  protected boolean                 changedEscapeXml            = false;
+  /**
+   * Was escape xml setting changed.
+   */
+  protected boolean changedEscapeXml = false;
 
-  protected String                  resourceID;
+  /**
+   * Resource id.
+   */
+  protected String resourceID;
 
-  protected String                  resourceCacheability;
+  /**
+   * Resource cacheability.
+   */
+  protected String resourceCacheability;
 
-  public void addParameter(String key, String value) {
-    if ((value == null || value.equals("")) && renderParameters.get(key) != null)
+  /**
+   * @param key key
+   * @param value value
+   */
+  public final void addParameter(final String key, final String value) {
+    if (parameters == null)
+      parameters = new HashMap<String, String[]>();
+    if (((value == null) || value.equals("")) && (renderParameters.get(key) != null))
       renderParameters.remove(key);
     if (parameters.get(key) == null) {
-      if (value != null && !value.equals(""))
+      if ((value != null) && !value.equals(""))
         parameters.put(key, new String[] { value });
-    } else {
-      if (value == null || value.equals(""))
-        parameters.remove(key);
-      else {
-        String[] oldValue = parameters.get(key);
-        String[] newValue = new String[oldValue.length + 1];
-        int i = 0;
-        for (String v : oldValue)
-          newValue[i++] = v;
-        newValue[i] = value;
-        parameters.put(key, newValue);
-      }
+    } else if ((value == null) || value.equals(""))
+      parameters.remove(key);
+    else {
+      String[] oldValue = parameters.get(key);
+      String[] newValue = new String[oldValue.length + 1];
+      int i = 0;
+      for (String v : oldValue)
+        newValue[i++] = v;
+      newValue[i] = value;
+      parameters.put(key, newValue);
     }
   }
 
-  protected void addParameters(String key, String[] values) {
+  /**
+   * @param key key
+   * @param values values
+   */
+  protected void addParameters(final String key, final String[] values) {
     if (parameters.get(key) == null) {
       if (values != null)
         parameters.put(key, values);
@@ -108,19 +151,25 @@ public abstract class XURLTag extends BodyTagSupport {
     }
   }
 
-  public void addProperty(String key, String value) {
+  /**
+   * @param key key
+   * @param value value
+   */
+  public final void addProperty(final String key, final String value) {
     properties.put(key, new String[] { value });
   }
 
-  public void setProperties(BaseURL url,
-                            Map<String, String[]> map) {
+  /**
+   * @param url url
+   * @param map url properties
+   */
+  public final void setProperties(final BaseURL url, final Map<String, String[]> map) {
     if (map == null)
       return;
     if (map.containsKey(null))
       return;
     Set<String> keys = map.keySet();
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-      String name = iter.next();
+    for (String name : keys) {
       Object value = map.get(name);
       if (value instanceof String)
         url.addProperty(name, (String) value);
@@ -132,7 +181,10 @@ public abstract class XURLTag extends BodyTagSupport {
     }
   }
 
-  public void setWindowState(String windowState) {
+  /**
+   * @param windowState window state
+   */
+  public final void setWindowState(final String windowState) {
     if (WindowState.MAXIMIZED.toString().equals(windowState))
       this.windowState = WindowState.MAXIMIZED;
     else if (WindowState.MINIMIZED.toString().equals(windowState))
@@ -143,7 +195,10 @@ public abstract class XURLTag extends BodyTagSupport {
       this.windowState = new WindowState(windowState);
   }
 
-  public void setPortletMode(String portletMode) {
+  /**
+   * @param portletMode portlet mode
+   */
+  public final void setPortletMode(final String portletMode) {
     if (PortletMode.EDIT.toString().equals(portletMode))
       this.portletMode = PortletMode.EDIT;
     else if (PortletMode.HELP.toString().equals(portletMode))
@@ -154,41 +209,67 @@ public abstract class XURLTag extends BodyTagSupport {
       this.portletMode = new PortletMode(portletMode);
   }
 
-  public void setVar(String var) {
+  /**
+   * @param var jsp var name
+   */
+  public final void setVar(final String var) {
     this.var = var;
   }
 
-  public void setSecure(String secure) {
+  /**
+   * @param secure secure
+   */
+  public final void setSecure(final String secure) {
     if (secure.equals("true"))
       this.secure = true;
     else
       this.secure = false;
   }
 
-  public void setCopyCurrentRenderParameters(boolean copyCurrentRenderParameters) {
+  /**
+   * @param copyCurrentRenderParameters copy current render parameters
+   */
+  public final void setCopyCurrentRenderParameters(final boolean copyCurrentRenderParameters) {
     this.copyCurrentRenderParameters = copyCurrentRenderParameters;
   }
 
-  public void setEscapeXml(boolean escapeXml) {
+  /**
+   * @param escapeXml escape xml
+   */
+  public final void setEscapeXml(final boolean escapeXml) {
     this.escapeXml = escapeXml;
     this.changedEscapeXml = true;
   }
 
-  public void setId(String resourceID) {
+  /**
+   * Overridden method.
+   *
+   * @param resourceID resource id
+   * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
+   */
+  public final void setId(final String resourceID) {
     this.resourceID = resourceID;
   }
 
-  public void setCacheability(String resourceCacheability) {
-    if (resourceCacheability != null) {
-      if (ResourceURLImp.isSupportedCacheLevel(resourceCacheability)) {
+  /**
+   * @param resourceCacheability cacheability
+   */
+  public final void setCacheability(final String resourceCacheability) {
+    if (resourceCacheability != null)
+      if (ResourceURLImp.isSupportedCacheLevel(resourceCacheability))
         this.resourceCacheability = resourceCacheability;
-      } else {
+      else
         this.resourceCacheability = ResourceURL.PAGE;
-      }
-    }
   }
 
-  public int doStartTag() throws JspException {
+  /**
+   * Overridden method.
+   *
+   * @return tag result
+   * @throws JspException
+   * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
+   */
+  public final int doStartTag() throws JspException {
     if (parameters == null)
       parameters = new HashMap<String, String[]>();
     ServletRequest request = pageContext.getRequest();
@@ -197,14 +278,20 @@ public abstract class XURLTag extends BodyTagSupport {
     return EVAL_BODY_BUFFERED;
   }
 
+  /**
+   * Overridden method.
+   *
+   * @return tag evaluation resul
+   * @throws JspException
+   * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
+   */
   public int doEndTag() throws JspException {
     BaseURL baseURL = getPortletURL();
 
     if (copyCurrentRenderParameters) {
       if (parameters == null)
         parameters = new HashMap<String, String[]>();
-      for (Iterator<String> i = renderParameters.keySet().iterator(); i.hasNext();) {
-        String name = i.next();
+      for (String name : renderParameters.keySet()) {
         addParameters(name, renderParameters.get(name));
       }
     }
@@ -219,22 +306,19 @@ public abstract class XURLTag extends BodyTagSupport {
           portletURL.setPortletMode(portletMode);
         if (windowState != null)
           portletURL.setWindowState(windowState);
-      } else {
-        if (baseURL instanceof ResourceURL) {
-          ResourceURL resourceURL = (ResourceURL) baseURL;
-          resourceURL.setResourceID(resourceID);
-          resourceURL.setCacheability(resourceCacheability);
-        }
+      } else if (baseURL instanceof ResourceURL) {
+        ResourceURL resourceURL = (ResourceURL) baseURL;
+        resourceURL.setResourceID(resourceID);
+        resourceURL.setCacheability(resourceCacheability);
       }
-      if (var == null || "".equals(var)) {
+      if ((var == null) || "".equals(var))
         try {
           pageContext.getOut().print(URLToString(baseURL));
         } catch (IOException e1) {
           throw new JspException(e1);
         }
-      } else {
+      else
         pageContext.setAttribute(var, URLToString(baseURL));
-      }
     } catch (PortletModeException e) {
       throw new JspException(e);
     } catch (WindowStateException e) {
@@ -248,6 +332,9 @@ public abstract class XURLTag extends BodyTagSupport {
     return EVAL_PAGE;
   }
 
+  /**
+   * Cleans up class fields.
+   */
   private void cleanUp() {
     parameters = null;
     properties = null;
@@ -262,12 +349,19 @@ public abstract class XURLTag extends BodyTagSupport {
     resourceCacheability = null;
   }
 
-  public String URLToString(BaseURL baseURL) {
+  /**
+   * @param baseURL base url
+   * @return url string
+   */
+  public final String URLToString(final BaseURL baseURL) {
     if (changedEscapeXml)
       return ((BaseURLImp) baseURL).toString(escapeXml);
     return ((BaseURLImp) baseURL).toString();
   }
 
+  /**
+   * @return portlet url
+   */
   public abstract BaseURL getPortletURL();
 
 }

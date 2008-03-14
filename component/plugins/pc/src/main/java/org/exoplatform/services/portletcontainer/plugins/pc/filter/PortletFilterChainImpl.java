@@ -46,45 +46,106 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
  */
 public class PortletFilterChainImpl implements FilterChain {
 
-  private Collection filters;
-	private Iterator iterator;
-	private Portlet portlet;
+  /**
+   * Filters.
+   */
+  private final Collection filters;
 
-	public PortletFilterChainImpl(Collection filters, Portlet p) {
-	  this.filters = filters;
-		this.portlet = p;
-	}
+  /**
+   * Filter iterator.
+   */
+  private Iterator iterator;
 
-	public Iterator getFiltersIterator() {
-		return filters.iterator();
-	}
+  /**
+   * Portlet object.
+   */
+  private final Portlet portlet;
 
-	public void restart() {
-		this.iterator = filters.iterator();
-	}
+  /**
+   * @param filters filters
+   * @param p portlet object
+   */
+  public PortletFilterChainImpl(final Collection filters, final Portlet p) {
+    this.filters = filters;
+    this.portlet = p;
+  }
 
-  public void doFilter(ActionRequest request, ActionResponse response) throws IOException, PortletException {
+  /**
+   * @return filter iterator
+   */
+  public final Iterator getFiltersIterator() {
+    return filters.iterator();
+  }
+
+  /**
+   * Restart filter iterator.
+   */
+  public final void restart() {
+    this.iterator = filters.iterator();
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.ActionRequest, javax.portlet.ActionResponse)
+   */
+  public final void doFilter(final ActionRequest request, final ActionResponse response) throws IOException,
+      PortletException {
     if (iterator.hasNext()) {
       ActionFilter portletFilter = (ActionFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
     }
   }
 
-  public void doFilter(EventRequest request, EventResponse response) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.EventRequest, javax.portlet.EventResponse)
+   */
+  public final void doFilter(final EventRequest request, final EventResponse response) throws IOException,
+      PortletException {
     if (iterator.hasNext()) {
       EventFilter portletFilter = (EventFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
     }
   }
 
-  public void doFilter(RenderRequest request, RenderResponse response) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   */
+  public final void doFilter(final RenderRequest request, final RenderResponse response) throws IOException,
+      PortletException {
     if (iterator.hasNext()) {
       RenderFilter portletFilter = (RenderFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
     }
   }
 
-  public void doFilter(ResourceRequest request, ResourceResponse response) throws IOException, PortletException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @throws IOException exception
+   * @throws PortletException exception
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.ResourceRequest, javax.portlet.ResourceResponse)
+   */
+  public final void doFilter(final ResourceRequest request, final ResourceResponse response) throws IOException,
+      PortletException {
     if (iterator.hasNext()) {
       ResourceFilter portletFilter = (ResourceFilter) iterator.next();
       portletFilter.doFilter(request, response, this);

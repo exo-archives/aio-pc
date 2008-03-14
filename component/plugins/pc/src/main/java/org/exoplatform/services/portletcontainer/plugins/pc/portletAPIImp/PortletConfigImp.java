@@ -39,26 +39,59 @@ import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle.ResourceBundleManager;
 
 /**
- * There is one object per portlet Lifetime. It can be pooled
+ * There is one object per portlet lifetime.
  */
 public class PortletConfigImp implements PortletConfig {
 
-  private final Portlet portletDatas_;
+  /**
+   * Portlet datas.
+   */
+  private final Portlet hPortletDatas;
 
-  private final Map<String, InitParam> params_ = new HashMap<String, InitParam>();
+  /**
+   * Parameters.
+   */
+  private final Map<String, InitParam> params = new HashMap<String, InitParam>();
 
+  /**
+   * Portlet context.
+   */
   private final PortletContextImpl portletContext;
 
+  /**
+   * Security contraints.
+   */
   private final List<SecurityConstraint> securityContraints;
 
-  private final List<UserAttribute> userAttributes_;
+  /**
+   * User attributes.
+   */
+  private final List<UserAttribute> userAttributes;
 
-  private final List<CustomPortletMode> customPortletModes_;
+  /**
+   * Custom portlet modes.
+   */
+  private final List<CustomPortletMode> customPortletModes;
 
-  private final List<CustomWindowState> customWindowStates_;
+  /**
+   * Custom window states.
+   */
+  private final List<CustomWindowState> customWindowStates;
 
+  /**
+   * Default namespace.
+   */
   private final String defaultNamespace;
 
+  /**
+   * @param portletDatas portlet datas
+   * @param portletContext portlet context
+   * @param securityContraints security contraints
+   * @param userAttributes user attributes
+   * @param customPortletModes custom portlet modes
+   * @param customWindowStates custom window states
+   * @param defaultNamespace default namespace
+   */
   public PortletConfigImp(final Portlet portletDatas,
       final PortletContext portletContext,
       final List<SecurityConstraint> securityContraints,
@@ -66,94 +99,171 @@ public class PortletConfigImp implements PortletConfig {
       final List<CustomPortletMode> customPortletModes,
       final List<CustomWindowState> customWindowStates,
       final String defaultNamespace) {
-    this.portletDatas_ = portletDatas;
+    this.hPortletDatas = portletDatas;
     this.defaultNamespace = defaultNamespace;
     this.portletContext = (PortletContextImpl) portletContext;
     this.securityContraints = securityContraints;
-    this.userAttributes_ = userAttributes;
-    this.customPortletModes_ = customPortletModes;
-    this.customWindowStates_ = customWindowStates;
+    this.userAttributes = userAttributes;
+    this.customPortletModes = customPortletModes;
+    this.customWindowStates = customWindowStates;
 
     // optimize the accesses to init paramters with Map
-    List<InitParam> l = portletDatas_.getInitParam();
-    for (InitParam initParam : l) {
-      params_.put(initParam.getName(), initParam);
-    }
+    List<InitParam> l = hPortletDatas.getInitParam();
+    for (InitParam initParam : l)
+      params.put(initParam.getName(), initParam);
   }
 
-  public String getPortletName() {
-    return portletDatas_.getPortletName();
+  /**
+   * Overridden method.
+   *
+   * @return portlet name
+   * @see javax.portlet.PortletConfig#getPortletName()
+   */
+  public final String getPortletName() {
+    return hPortletDatas.getPortletName();
   }
 
-  public PortletContext getPortletContext() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet context
+   * @see javax.portlet.PortletConfig#getPortletContext()
+   */
+  public final PortletContext getPortletContext() {
     return portletContext;
   }
 
-  public ResourceBundle getResourceBundle(final Locale locale) {
+  /**
+   * Overridden method.
+   *
+   * @param locale locale
+   * @return resource bundle
+   * @see javax.portlet.PortletConfig#getResourceBundle(java.util.Locale)
+   */
+  public final ResourceBundle getResourceBundle(final Locale locale) {
     ResourceBundleManager manager = (ResourceBundleManager) portletContext.getContainer()
         .getComponentInstanceOfType(ResourceBundleManager.class);
-    return manager.lookupBundle(portletDatas_, locale);
+    return manager.lookupBundle(hPortletDatas, locale);
   }
 
-  public String getInitParameter(final String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return value
+   * @see javax.portlet.PortletConfig#getInitParameter(java.lang.String)
+   */
+  public final String getInitParameter(final String name) {
     if (name == null)
       throw new IllegalArgumentException("You cannot have null as a paramter");
-    InitParam initParam = params_.get(name);
+    InitParam initParam = params.get(name);
     if (initParam != null)
       return initParam.getValue();
     return null;
   }
 
-  public Enumeration getInitParameterNames() {
-    return new Vector(params_.keySet()).elements();
+  /**
+   * Overridden method.
+   *
+   * @return init parameter names
+   * @see javax.portlet.PortletConfig#getInitParameterNames()
+   */
+  public final Enumeration getInitParameterNames() {
+    return new Vector(params.keySet()).elements();
   }
 
-  public Portlet getPortletDatas() {
-    return portletDatas_;
+  /**
+   * @return portlet datas
+   */
+  public final Portlet getPortletDatas() {
+    return hPortletDatas;
   }
 
-  public boolean needsSecurityContraints(final String portletName) {
+  /**
+   * @param portletName portlet name
+   * @return does it need security constraints
+   */
+  public final boolean needsSecurityContraints(final String portletName) {
     for (SecurityConstraint securityConstraint : securityContraints) {
       List<String> l = securityConstraint.getPortletCollection().getPortletName();
-      for (String portlet : l) {
+      for (String portlet : l)
         if (portlet.equals(portletName))
           return true;
-      }
     }
     return false;
   }
 
-  public String getDefaultNamespace() {
+  /**
+   * Overridden method.
+   *
+   * @return default namespace
+   * @see javax.portlet.PortletConfig#getDefaultNamespace()
+   */
+  public final String getDefaultNamespace() {
     // normally the value is inherited from <default-namespace/> element of
     // portlet.xml
     return defaultNamespace;
   }
 
-  public Enumeration getPublicRenderParameterNames() {
-    return notNullEnumeration(portletDatas_.getSupportedPublicRenderParameter());
+  /**
+   * Overridden method.
+   *
+   * @return public render parameter names
+   * @see javax.portlet.PortletConfig#getPublicRenderParameterNames()
+   */
+  public final Enumeration getPublicRenderParameterNames() {
+    return notNullEnumeration(hPortletDatas.getSupportedPublicRenderParameter());
   }
 
-  public Enumeration<QName> getPublishingEventQNames() {
-    return notNullEnumeration(portletDatas_.getSupportedPublishingEvent());
+  /**
+   * Overridden method.
+   *
+   * @return publishing event qnames
+   * @see javax.portlet.PortletConfig#getPublishingEventQNames()
+   */
+  public final Enumeration<QName> getPublishingEventQNames() {
+    return notNullEnumeration(hPortletDatas.getSupportedPublishingEvent());
   }
 
-  public Enumeration<QName> getProcessingEventQNames() {
-    return notNullEnumeration(portletDatas_.getSupportedProcessingEvent());
+  /**
+   * Overridden method.
+   *
+   * @return processing event qnames
+   * @see javax.portlet.PortletConfig#getProcessingEventQNames()
+   */
+  public final Enumeration<QName> getProcessingEventQNames() {
+    return notNullEnumeration(hPortletDatas.getSupportedProcessingEvent());
   }
 
-  public Enumeration<Locale> getSupportedLocales() {
-    return notNullEnumeration(portletDatas_.getSupportedLocale());
+  /**
+   * Overridden method.
+   *
+   * @return supported locales
+   * @see javax.portlet.PortletConfig#getSupportedLocales()
+   */
+  public final Enumeration<Locale> getSupportedLocales() {
+    return notNullEnumeration(hPortletDatas.getSupportedLocale());
   }
 
-  protected Enumeration notNullEnumeration(List list) {
+  /**
+   * @param list list
+   * @return not null enumeration of a list
+   */
+  protected final Enumeration notNullEnumeration(List list) {
     if (list == null)
       list = new ArrayList<String>();
     return Collections.enumeration(list);
   }
 
-  public Map<String, String[]> getContainerRuntimeOptions() {
-    Map<String, String[]> a = portletDatas_.getContainerRuntimeOption();
-    Map<String, String[]> b = portletDatas_.getApplication().getContainerRuntimeOption();
+  /**
+   * Overridden method.
+   *
+   * @return container runtime options
+   * @see javax.portlet.PortletConfig#getContainerRuntimeOptions()
+   */
+  public final Map<String, String[]> getContainerRuntimeOptions() {
+    Map<String, String[]> a = hPortletDatas.getContainerRuntimeOption();
+    Map<String, String[]> b = hPortletDatas.getApplication().getContainerRuntimeOption();
     b.putAll(a);
     return b;
   }

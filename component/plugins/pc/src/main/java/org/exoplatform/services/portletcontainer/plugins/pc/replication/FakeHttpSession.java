@@ -22,80 +22,202 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
+/**
+ * Fake http session.
+ */
 public class FakeHttpSession implements HttpSession {
 
+  /**
+   * Session id.
+   */
   private String id;
+
+  /**
+   * Servlet context.
+   */
   private ServletContext context;
 
-  public FakeHttpSession(String sid){
-    this.id =  sid;
+  /**
+   * @param sid session id
+   */
+  public FakeHttpSession(String sid) {
+    this.id = sid;
   }
 
-  public FakeHttpSession(String sid, ServletContext context){
-    this.id =  sid;
+  /**
+   * @param sid session id
+   * @param context context
+   */
+  public FakeHttpSession(String sid, ServletContext context) {
+    this.id = sid;
     this.context = context;
   }
 
-  public Object getAttribute(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return value
+   * @see javax.servlet.http.HttpSession#getAttribute(java.lang.String)
+   */
+  public final Object getAttribute(String name) {
     return null;
   }
 
-  public Enumeration getAttributeNames() {
+  /**
+   * Overridden method.
+   *
+   * @return attribute names
+   * @see javax.servlet.http.HttpSession#getAttributeNames()
+   */
+  public final Enumeration getAttributeNames() {
     return null;
   }
 
-  public long getCreationTime() {
+  /**
+   * Overridden method.
+   *
+   * @return creation time
+   * @see javax.servlet.http.HttpSession#getCreationTime()
+   */
+  public final long getCreationTime() {
     return 0;
   }
 
-  public String getId() {
+  /**
+   * Overridden method.
+   *
+   * @return id
+   * @see javax.servlet.http.HttpSession#getId()
+   */
+  public final String getId() {
     return id;
   }
 
-  public long getLastAccessedTime() {
+  /**
+   * Overridden method.
+   *
+   * @return last access time
+   * @see javax.servlet.http.HttpSession#getLastAccessedTime()
+   */
+  public final long getLastAccessedTime() {
     return 0;
   }
 
-  public int getMaxInactiveInterval() {
+  /**
+   * Overridden method.
+   *
+   * @return max inactive interval
+   * @see javax.servlet.http.HttpSession#getMaxInactiveInterval()
+   */
+  public final int getMaxInactiveInterval() {
     return 0;
   }
 
-  public ServletContext getServletContext() {
+  /**
+   * Overridden method.
+   *
+   * @return servlet context
+   * @see javax.servlet.http.HttpSession#getServletContext()
+   */
+  public final ServletContext getServletContext() {
     return null;
   }
 
-  public HttpSessionContext getSessionContext() {
+  /**
+   * Overridden method.
+   *
+   * @return session context
+   * @see javax.servlet.http.HttpSession#getSessionContext()
+   */
+  public final HttpSessionContext getSessionContext() {
     return null;
   }
 
-  public Object getValue(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @return value
+   * @see javax.servlet.http.HttpSession#getValue(java.lang.String)
+   */
+  public final Object getValue(String name) {
     return null;
   }
 
-  public String[] getValueNames() {
+  /**
+   * Overridden method.
+   *
+   * @return value names
+   * @see javax.servlet.http.HttpSession#getValueNames()
+   */
+  public final String[] getValueNames() {
     return null;
   }
 
-  public void invalidate() {
+  /**
+   * Overridden method.
+   *
+   * @see javax.servlet.http.HttpSession#invalidate()
+   */
+  public final void invalidate() {
   }
 
-  public boolean isNew() {
+  /**
+   * Overridden method.
+   *
+   * @return is new
+   * @see javax.servlet.http.HttpSession#isNew()
+   */
+  public final boolean isNew() {
     return false;
   }
 
-  public void putValue(String arg0, Object arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param value value
+   * @see javax.servlet.http.HttpSession#putValue(java.lang.String, java.lang.Object)
+   */
+  public final void putValue(String name, Object value) {
   }
 
-  public void removeAttribute(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @see javax.servlet.http.HttpSession#removeAttribute(java.lang.String)
+   */
+  public final void removeAttribute(String name) {
   }
 
-  public void removeValue(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @see javax.servlet.http.HttpSession#removeValue(java.lang.String)
+   */
+  public final void removeValue(String name) {
   }
 
-  public void setAttribute(String arg0, Object arg1) {
+  /**
+   * Overridden method.
+   *
+   * @param name name
+   * @param value value
+   * @see javax.servlet.http.HttpSession#setAttribute(java.lang.String, java.lang.Object)
+   */
+  public final void setAttribute(String name, Object value) {
   }
 
-  public void setMaxInactiveInterval(int arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param max max inactive interval
+   * @see javax.servlet.http.HttpSession#setMaxInactiveInterval(int)
+   */
+  public final void setMaxInactiveInterval(int max) {
   }
 
 }

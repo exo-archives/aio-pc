@@ -32,37 +32,90 @@ import org.exoplatform.services.portletcontainer.pci.model.SecurityConstraint;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 
 /**
- * Created by The eXo Platform SAS Author : Roman Pedchenko
- * <roman.pedchenko@exoplatform.com.ua>
+ * Created by The eXo Platform SAS.
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
  */
 public class RequestContext {
 
-  private final HttpServletRequest httpServletRequest_;
+  /**
+   * Http servlet request.
+   */
+  private final HttpServletRequest httpServletRequest;
 
-  private final PortalContext portalContext_;
+  /**
+   * Portal context.
+   */
+  private final PortalContext portalContext;
 
-  private final PortletContext portletContext_;
+  /**
+   * Portlet context.
+   */
+  private final PortletContext portletContext;
 
-  private final PortletSessionImp session_;
+  /**
+   * Session.
+   */
+  private final PortletSessionImp session;
 
-  private final Portlet portletDatas_;
+  /**
+   * Portlet datas.
+   */
+  private final Portlet portletDatas;
 
-  private final Input input_;
+  /**
+   * Input.
+   */
+  private final Input input;
 
-  private final PortletWindowInternal portletWindowInternal_;
+  /**
+   * Portlet window internal object.
+   */
+  private final PortletWindowInternal portletWindowInternal;
 
-  private final List<SecurityConstraint> securityContraints_;
+  /**
+   * Security contraints.
+   */
+  private final List<SecurityConstraint> securityContraints;
 
-  private final List<UserAttribute> userAttributes_;
+  /**
+   * User attributes.
+   */
+  private final List<UserAttribute> userAttributes;
 
-  private final List<CustomPortletMode> customPortletModes_;
+  /**
+   * Custom portlet modes
+   */
+  private final List<CustomPortletMode> customPortletModes;
 
-  private final List<CustomWindowState> customWindowStates_;
+  /**
+   * Custom window states.
+   */
+  private final List<CustomWindowState> customWindowStates;
 
-  private final Collection<String> roles_;
+  /**
+   * Roles.
+   */
+  private final Collection<String> roles;
 
-  private final Collection supportedContents_;
+  /**
+   * Supported contents.
+   */
+  private final Collection<String> supportedContents;
 
+  /**
+   * @param httpServletRequest http servlet request
+   * @param portalContext portal context
+   * @param portletContext portlet context
+   * @param session session
+   * @param input input
+   * @param portletWindowInternal portlet window internal
+   * @param securityContraints security contraints
+   * @param userAttributes user attributes
+   * @param customPortletModes custom portlet modes
+   * @param customWindowStates custom window states
+   * @param roles roles
+   * @param supportedContents supported contents
+   */
   public RequestContext(final HttpServletRequest httpServletRequest,
       final PortalContext portalContext,
       final PortletContext portletContext,
@@ -75,72 +128,111 @@ public class RequestContext {
       final List<CustomPortletMode> customPortletModes,
       final List<CustomWindowState> customWindowStates,
       final Collection<String> roles,
-      final Collection supportedContents) {
-    this.httpServletRequest_ = httpServletRequest;
-    this.portalContext_ = portalContext;
-    this.portletContext_ = portletContext;
-    this.session_ = session;
-    this.portletDatas_ = ((PortletContextImpl) portletContext).getPortlet();
-    this.input_ = input;
-    this.portletWindowInternal_ = portletWindowInternal;
-    this.securityContraints_ = securityContraints;
-    this.userAttributes_ = userAttributes;
-    this.customPortletModes_ = customPortletModes;
-    this.customWindowStates_ = customWindowStates;
-    this.roles_ = roles;
-    this.supportedContents_ = supportedContents;
+      final Collection<String> supportedContents) {
+    this.httpServletRequest = httpServletRequest;
+    this.portalContext = portalContext;
+    this.portletContext = portletContext;
+    this.session = session;
+    this.portletDatas = ((PortletContextImpl) portletContext).getPortlet();
+    this.input = input;
+    this.portletWindowInternal = portletWindowInternal;
+    this.securityContraints = securityContraints;
+    this.userAttributes = userAttributes;
+    this.customPortletModes = customPortletModes;
+    this.customWindowStates = customWindowStates;
+    this.roles = roles;
+    this.supportedContents = supportedContents;
   }
 
-  public HttpServletRequest getHttpServletRequest() {
-    return httpServletRequest_;
+  /**
+   * @return http servlet request
+   */
+  public final HttpServletRequest getHttpServletRequest() {
+    return httpServletRequest;
   }
 
-  public PortalContext getPortalContext() {
-    return portalContext_;
+  /**
+   * @return portal context
+   */
+  public final PortalContext getPortalContext() {
+    return portalContext;
   }
 
-  public PortletContext getPortletContext() {
-    return portletContext_;
+  /**
+   * @return portlet context
+   */
+  public final PortletContext getPortletContext() {
+    return portletContext;
   }
 
-  public PortletSessionImp getSession() {
-    return session_;
+  /**
+   * @return session
+   */
+  public final PortletSessionImp getSession() {
+    return session;
   }
 
-  public Portlet getPortletDatas() {
-    return portletDatas_;
+  /**
+   * @return portlet datas
+   */
+  public final Portlet getPortletDatas() {
+    return portletDatas;
   }
 
-  public Input getInput() {
-    return input_;
+  /**
+   * @return input
+   */
+  public final Input getInput() {
+    return input;
   }
 
-  public PortletWindowInternal getPortletWindowInternal() {
-    return portletWindowInternal_;
+  /**
+   * @return portlet window internal object
+   */
+  public final PortletWindowInternal getPortletWindowInternal() {
+    return portletWindowInternal;
   }
 
-  public List<SecurityConstraint> getSecurityContraints() {
-    return securityContraints_;
+  /**
+   * @return security constraints
+   */
+  public final List<SecurityConstraint> getSecurityContraints() {
+    return securityContraints;
   }
 
-  public List<UserAttribute> getUserAttributes() {
-    return userAttributes_;
+  /**
+   * @return user attributes
+   */
+  public final List<UserAttribute> getUserAttributes() {
+    return userAttributes;
   }
 
-  public List<CustomPortletMode> getCustomPortletModes() {
-    return customPortletModes_;
+  /**
+   * @return portlet modes
+   */
+  public final List<CustomPortletMode> getCustomPortletModes() {
+    return customPortletModes;
   }
 
-  public List<CustomWindowState> getCustomWindowStates() {
-    return customWindowStates_;
+  /**
+   * @return window states
+   */
+  public final List<CustomWindowState> getCustomWindowStates() {
+    return customWindowStates;
   }
 
-  public Collection<String> getRoles() {
-    return roles_;
+  /**
+   * @return roles
+   */
+  public final Collection<String> getRoles() {
+    return roles;
   }
 
-  public Collection getSupportedContents() {
-    return supportedContents_;
+  /**
+   * @return supported contents
+   */
+  public final Collection<String> getSupportedContents() {
+    return supportedContents;
   }
 
 }

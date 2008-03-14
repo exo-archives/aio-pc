@@ -28,19 +28,42 @@ import org.exoplatform.Constants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
- * Created by The eXo Platform SAS Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 11:13:44 PM
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: Jul 29, 2003
+ * Time: 11:13:44 PM
  */
 public class ResourceURLImp extends BaseURLImp implements ResourceURL {
 
+  /**
+   * Resource id.
+   */
   protected String resourceID;
 
+  /**
+   * Original cache level.
+   */
   protected String originalCacheLevel;
 
+  /**
+   * Cache level.
+   */
   protected String cacheLevel;
 
+  /**
+   * Render parameters.
+   */
   protected Map<String, String[]> renderParams;
 
+  /**
+   * @param type url type
+   * @param baseURL base url
+   * @param isCurrentlySecured is currently secured
+   * @param defaultEscapeXml default escape xml
+   * @param cacheLevel cache level
+   * @param portletDatas portlet datas
+   * @param renderParams render parameters
+   */
   public ResourceURLImp(final String type,
       final String baseURL,
       final boolean isCurrentlySecured,
@@ -59,21 +82,30 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     this.cacheLevel = this.originalCacheLevel;
   }
 
-  protected void invokeFilterResourceURL() {
+  /**
+   * Invokes resource url filters.
+   */
+  protected final void invokeFilterResourceURL() {
     if (getPortletDatas() == null)
       return;
     List<PortletURLGenerationListener> list = getPortletDatas().getApplication().getUrlListeners();
     if (list == null)
       return;
-    for (PortletURLGenerationListener listener : list) {
+    for (PortletURLGenerationListener listener : list)
       try {
         listener.filterResourceURL(this);
       } catch (Exception e) {
       }
-    }
   }
 
-  public String toString(final boolean escapeXML) {
+  /**
+   * Overridden method.
+   *
+   * @param escapeXML escape xml
+   * @return string representation of an url
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.BaseURLImp#toString(boolean)
+   */
+  public final String toString(final boolean escapeXML) {
     invokeFilterResourceURL();
 
     if (!isSetSecureCalled() && isCurrentlySecured())
@@ -163,23 +195,45 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     return sB.toString();
   }
 
-  public void setResourceID(final String resourceID) {
+  /**
+   * Overridden method.
+   *
+   * @param resourceID resource id
+   * @see javax.portlet.ResourceURL#setResourceID(java.lang.String)
+   */
+  public final void setResourceID(final String resourceID) {
     this.resourceID = resourceID;
   }
 
-  public String getResourceID() {
+  /**
+   * @return resource id
+   */
+  public final String getResourceID() {
     return resourceID;
   }
 
-  public String getCacheability() {
+  /**
+   * Overridden method.
+   *
+   * @return cacheability
+   * @see javax.portlet.ResourceURL#getCacheability()
+   */
+  public final String getCacheability() {
     return this.cacheLevel;
   }
 
-  // cannot set less cache level than was
-  // cannot set null cache level
-  // default "cacheLevelPage"
-  // originalCacheLevel >= cacheLevel should set
-  public void setCacheability(final String cacheLevel) {
+  /**
+   * Overridden method.
+   *
+   * cannot set less cache level than was
+   * cannot set null cache level
+   * default "cacheLevelPage"
+   * originalCacheLevel >= cacheLevel should set
+   *
+   * @param cacheLevel
+   * @see javax.portlet.ResourceURL#setCacheability(java.lang.String)
+   */
+  public final void setCacheability(final String cacheLevel) {
     if (cacheLevel != null) {
       if (!isSupportedCacheLevel(cacheLevel))
         throw new IllegalStateException("Cacheability level error: the cache level '" + cacheLevel
@@ -192,10 +246,17 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     }
   }
 
-  public static boolean isSupportedCacheLevel(final String cacheLevel) {
+  /**
+   * @param cacheLevel cache level
+   * @return is it supported
+   */
+  public static final boolean isSupportedCacheLevel(final String cacheLevel) {
     return getSupportedCacheLevel().contains(cacheLevel);
   }
 
+  /**
+   * @return cache levels
+   */
   private static List<String> getSupportedCacheLevel() {
     List<String> result = new ArrayList<String>();
     result.add(ResourceURL.FULL);

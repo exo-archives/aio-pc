@@ -72,53 +72,118 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Portle
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.PersistenceManager;
 
 /**
- * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * Created by the Exo Development team.
+ * Author : Mestrallet Benjamin
  */
 public class PortletContainerDispatcher implements PortletContainerPlugin {
 
-  public static final String        INPUT                    = "org.exoplatform.services.portletcontainer.pci.Input";
+  /**
+   * Input attribute.
+   */
+  public static final String INPUT = "org.exoplatform.services.portletcontainer.pci.Input";
 
-  public static final String        OUTPUT                   = "org.exoplatform.services.portletcontainer.pci.Output";
+  /**
+   * Output attribute.
+   */
+  public static final String OUTPUT = "org.exoplatform.services.portletcontainer.pci.Output";
 
-  public static final String        WINDOW_INFO              = "org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.PortletWindowInternal";
+  /**
+   * Window info attribute.
+   */
+  public static final String WINDOW_INFO = "org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.PortletWindowInternal";
 
-  public static final String        IS_ACTION                = "org.exoplatform.services.portletcontainer.plugins.pc.isAction";
+  /**
+   * Action type attribute.
+   */
+  public static final String IS_ACTION = "org.exoplatform.services.portletcontainer.plugins.pc.isAction";
 
-  public static final String        IS_TO_GET_BUNDLE         = "org.exoplatform.services.portletcontainer.plugins.pc.isToGetBundle";
+  /**
+   * Is to get bundle attribute.
+   */
+  public static final String IS_TO_GET_BUNDLE = "org.exoplatform.services.portletcontainer.plugins.pc.isToGetBundle";
 
-  public static final String        LOCALE_FOR_BUNDLE        = "org.exoplatform.services.portletcontainer.plugins.pc.LocaleForBundle";
+  /**
+   * Locale attribute.
+   */
+  public static final String LOCALE_FOR_BUNDLE = "org.exoplatform.services.portletcontainer.plugins.pc.LocaleForBundle";
 
-  public static final String        BUNDLE                   = "org.exoplatform.services.portletcontainer.plugins.pc.Bundle";
+  /**
+   * Bundle attribute.
+   */
+  public static final String BUNDLE = "org.exoplatform.services.portletcontainer.plugins.pc.Bundle";
 
-  public static String              PORTLET_APPLICATION_NAME = "org.exoplatform.services.portletcontainer.plugins.pc.PortletAppName";
+  /**
+   * Portlet app name attribute.
+   */
+  public static String PORTLET_APPLICATION_NAME = "org.exoplatform.services.portletcontainer.plugins.pc.PortletAppName";
 
-  public static String              PORTLET_NAME             = "org.exoplatform.services.portletcontainer.plugins.pc.PortletName";
+  /**
+   * Portlet name attribute.
+   */
+  public static String PORTLET_NAME = "org.exoplatform.services.portletcontainer.plugins.pc.PortletName";
 
-  public static final String        CONTAINER                = "org.exoplatform.container.ExoContainer";
+  /**
+   * Container attribute.
+   */
+  public static final String CONTAINER = "org.exoplatform.container.ExoContainer";
 
-  public static final String        SERVLET_MAPPING          = "/PortletWrapper";
+  /**
+   * Servlet mapping attribute.
+   */
+  public static final String SERVLET_MAPPING = "/PortletWrapper";
 
-  public static final String        ATTRS                    = "org.exoplatform.services.portletcontainer.pci.ATTRS";
+  /**
+   * Attrs attribute.
+   */
+  public static final String ATTRS = "org.exoplatform.services.portletcontainer.pci.ATTRS";
 
-  private PortletContainerConf      config;
+  /**
+   * PC conf.
+   */
+  private final PortletContainerConf config;
 
-  private PersistenceManager        manager;
+  /**
+   * Persistence manager.
+   */
+  private final PersistenceManager manager;
 
-  private PortletApplicationsHolder portletApplications;
+  /**
+   * Application holder.
+   */
+  private final PortletApplicationsHolder portletApplications;
 
-  private PortletApplicationHandler standAloneHandler;
+  /**
+   * Standalone app handler.
+   */
+  private final PortletApplicationHandler standAloneHandler;
 
-  private Log                       log;
+  /**
+   * Logger.
+   */
+  private final Log log;
 
-  protected ExoContainer            container;
+  /**
+   * Exo container.
+   */
+  protected ExoContainer container;
 
-  private String                    pluginName;
+  /**
+   * Plugin name.
+   */
+  private String pluginName;
 
-  public PortletContainerDispatcher(PortletContainerConf containerConf,
-                                    PersistenceManager manager,
-                                    PortletApplicationsHolder holder,
-                                    PortletApplicationHandler standAloneHandler,
-                                    ExoContainerContext context) {
+  /**
+   * @param containerConf PC conf
+   * @param manager persistence manager
+   * @param holder application holder
+   * @param standAloneHandler standalone app handler
+   * @param context exo container context
+   */
+  public PortletContainerDispatcher(final PortletContainerConf containerConf,
+      final PersistenceManager manager,
+      final PortletApplicationsHolder holder,
+      final PortletApplicationHandler standAloneHandler,
+      final ExoContainerContext context) {
     this.portletApplications = holder;
     this.config = containerConf;
     this.manager = manager;
@@ -127,67 +192,112 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
-  public void setName(String name) {
+  /**
+   * Overridden method.
+   *
+   * @param name plugin name
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setName(java.lang.String)
+   */
+  public final void setName(final String name) {
     pluginName = name;
   }
 
-  public String getName() {
+  /**
+   * Overridden method.
+   *
+   * @return plugin name
+   * @see org.exoplatform.container.component.ComponentPlugin#getName()
+   */
+  public final String getName() {
     return pluginName;
   }
 
-  public void setDescription(String description) {
+  /**
+   * Overridden method.
+   *
+   * @param description description
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setDescription(java.lang.String)
+   */
+  public final void setDescription(final String description) {
     config.setDescription(description);
   }
 
-  public String getDescription() {
+  /**
+   * Overridden method.
+   *
+   * @return description
+   * @see org.exoplatform.container.component.ComponentPlugin#getDescription()
+   */
+  public final String getDescription() {
     return config.getDescription();
   }
 
-  public void setMajorVersion(int majorVersion) {
+  /**
+   * Overridden method.
+   *
+   * @param majorVersion major version
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setMajorVersion(int)
+   */
+  public final void setMajorVersion(final int majorVersion) {
     config.setMajorVersion(majorVersion);
   }
 
-  public void setMinorVersion(int minorVersion) {
+  /**
+   * Overridden method.
+   *
+   * @param minorVersion minor version
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setMinorVersion(int)
+   */
+  public final void setMinorVersion(final int minorVersion) {
     config.setMinorVersion(minorVersion);
   }
 
-  public void setProperties(Map<String, String> properties) {
+  /**
+   * Overridden method.
+   *
+   * @param properties properties
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setProperties(java.util.Map)
+   */
+  public final void setProperties(final Map<String, String> properties) {
     config.setProperties(properties);
   }
 
-  // public void setSupportedPortletModesWithDescriptions(Collection
-  // portletModes) {
-  // config.setCustomModesWithDescriptions(portletModes);
-  // }
-
-  // public void setSupportedWindowStatesWithDescriptions(Collection
-  // customStates) {
-  // config.setCustomStatesWithDescriptions(customStates);
-  // }
-
-  // public Collection getSupportedPortletModesWithDescriptions() {
-  // return config.getSupportedPortletModesWithDescriptions();
-  // }
-
-  // public Collection getSupportedWindowStatesWithDescriptions() {
-  // return config.getSupportedWindowStatesWithDescriptions();
-  // }
-
-  public Collection<PortletMode> getSupportedPortletModes() {
+  /**
+   * Overridden method.
+   *
+   * @return portlet modes
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getSupportedPortletModes()
+   */
+  public final Collection<PortletMode> getSupportedPortletModes() {
     return Collections.unmodifiableCollection(Collections.list(config.getSupportedPortletModes()));
   }
 
-  public Collection<WindowState> getSupportedWindowStates() {
+  /**
+   * Overridden method.
+   *
+   * @return window states
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getSupportedWindowStates()
+   */
+  public final Collection<WindowState> getSupportedWindowStates() {
     return Collections.unmodifiableCollection(Collections.list(config.getSupportedWindowStates()));
   }
 
-  public Collection<PortletMode> getPortletModes(String portletAppName,
-                                                 String portletName,
-                                                 String markup) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @return portlet modes
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getPortletModes(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public final Collection<PortletMode> getPortletModes(final String portletAppName,
+      final String portletName,
+      final String markup) {
     Collection<PortletMode> filteredModes = new ArrayList<PortletMode>();
-    Collection<PortletMode> nonFilteredModes = portletApplications.getPortletModes(portletAppName, portletName, markup);
-    for (Iterator<PortletMode> iter = nonFilteredModes.iterator(); iter.hasNext();) {
-      PortletMode mode = iter.next();
+    Collection<PortletMode> nonFilteredModes = portletApplications.getPortletModes(portletAppName,
+        portletName, markup);
+    for (PortletMode mode : nonFilteredModes) {
       Enumeration<PortletMode> portalModes = config.getSupportedPortletModes();
       while (portalModes.hasMoreElements()) {
         PortletMode portalMode = portalModes.nextElement();
@@ -198,10 +308,20 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     return filteredModes;
   }
 
-  public boolean isModeSuported(String portletAppName,
-                                String portletName,
-                                String markup,
-                                PortletMode mode) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @param mode portlet mode
+   * @return is portlet mode supported
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#isModeSuported(java.lang.String, java.lang.String, java.lang.String, javax.portlet.PortletMode)
+   */
+  public final boolean isModeSuported(final String portletAppName,
+      final String portletName,
+      final String markup,
+      final PortletMode mode) {
     boolean isPortalMode = false;
     Enumeration<PortletMode> portalModes = config.getSupportedPortletModes();
     while (portalModes.hasMoreElements()) {
@@ -211,16 +331,26 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         break;
       }
     }
-    return portletApplications.isModeSuported(portletAppName, portletName, markup, mode) && isPortalMode;
+    return portletApplications.isModeSuported(portletAppName, portletName, markup, mode)
+        && isPortalMode;
   }
 
-  public Collection<WindowState> getWindowStates(String portletAppName,
-                                                 String portletName,
-                                                 String markup) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @return window states
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getWindowStates(java.lang.String, java.lang.String, java.lang.String)
+   */
+  public final Collection<WindowState> getWindowStates(final String portletAppName,
+      final String portletName,
+      final String markup) {
     Collection<WindowState> filteredStates = new ArrayList<WindowState>();
-    Collection<WindowState> nonFilteredStates = portletApplications.getWindowStates(portletAppName, portletName, markup);
-    for (Iterator<WindowState> iter = nonFilteredStates.iterator(); iter.hasNext();) {
-      WindowState state = iter.next();
+    Collection<WindowState> nonFilteredStates = portletApplications.getWindowStates(portletAppName,
+        portletName, markup);
+    for (WindowState state : nonFilteredStates) {
       Enumeration<WindowState> portalStates = config.getSupportedWindowStates();
       while (portalStates.hasMoreElements()) {
         WindowState portalState = portalStates.nextElement();
@@ -231,10 +361,20 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     return filteredStates;
   }
 
-  public boolean isStateSupported(String portletAppName,
-                                  String portletName,
-                                  String markup,
-                                  WindowState state) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param markup markup
+   * @param state window state
+   * @return is window state supported
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#isStateSupported(java.lang.String, java.lang.String, java.lang.String, javax.portlet.WindowState)
+   */
+  public final boolean isStateSupported(final String portletAppName,
+      final String portletName,
+      final String markup,
+      final WindowState state) {
     boolean isPortalState = false;
     Enumeration<WindowState> portalStates = config.getSupportedWindowStates();
     while (portalStates.hasMoreElements()) {
@@ -244,24 +384,46 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         break;
       }
     }
-    return portletApplications.isStateSupported(portletAppName, portletName, markup, state) && isPortalState;
+    return portletApplications.isStateSupported(portletAppName, portletName, markup, state)
+        && isPortalState;
   }
 
-  public Map<String, PortletData> getAllPortletMetaData() {
+  /**
+   * Overridden method.
+   *
+   * @return all portlet metadata
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getAllPortletMetaData()
+   */
+  public final Map<String, PortletData> getAllPortletMetaData() {
     return portletApplications.getAllPortletMetaData(container);
   }
-  
-  public PortletApp getPortletApp(String portletAppName) {
+
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet application name
+   * @return portlet app object
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getPortletApp(java.lang.String)
+   */
+  public final PortletApp getPortletApp(final String portletAppName) {
     return portletApplications.getPortletApplication(portletAppName);
   }
 
-  public boolean isEventPayloadTypeMatches(String portletAppName,
-                                           QName eventName,
-                                           Object payload) {
+  /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet application name
+   * @param eventName event name
+   * @param payload payload
+   * @return is payload type matches
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#isEventPayloadTypeMatches(java.lang.String, javax.xml.namespace.QName, java.lang.Object)
+   */
+  public final boolean isEventPayloadTypeMatches(final String portletAppName,
+      final QName eventName,
+      final Object payload) {
     PortletApp portletApp = portletApplications.getPortletApplication(portletAppName);
     List<EventDefinition> eds = portletApp.getEventDefinition();
-    for (Iterator<EventDefinition> i = eds.iterator(); i.hasNext();) {
-      EventDefinition ed = i.next();
+    for (EventDefinition ed : eds) {
       if (!ed.getPrefferedName().equals(eventName) && !ed.getAliases().contains(eventName))
         continue;
       if (ed.getJavaClass() == null)
@@ -272,13 +434,12 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       } catch (Exception e) {
         jc = null;
       }
-      if (jc == null) {
+      if (jc == null)
         try {
           jc = Class.forName(ed.getJavaClass(), true, payload.getClass().getClassLoader());
         } catch (Exception e) {
           jc = null;
         }
-      }
       if (log.isDebugEnabled())
         log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
       if (jc != null)
@@ -288,11 +449,19 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     return false;
   }
 
-  public void setPortletPreference(Input input,
-                                   Map<String, String> preferencesMap) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param input input
+   * @param preferencesMap preferences map
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setPortletPreference(org.exoplatform.services.portletcontainer.pci.Input, java.util.Map)
+   */
+  public final void setPortletPreference(final Input input, final Map<String, String> preferencesMap) throws PortletContainerException {
     log.debug("try to set a portlet preference directly from the setPortletPreference() method");
     WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID.getPortletName());
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+        windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
@@ -307,8 +476,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     // occurs
     Set<String> keys = preferencesMap.keySet();
     try {
-      for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
-        String key = iter.next();
+      for (String key : keys) {
         try {
           preferences.setValue(key, preferencesMap.get(key));
         } catch (ReadOnlyException e) {
@@ -322,21 +490,41 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     }
   }
 
-  public Map<String, String[]> getPortletPreference(Input input) {
+  /**
+   * Overridden method.
+   *
+   * @param input input
+   * @return portlet preference
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getPortletPreference(org.exoplatform.services.portletcontainer.pci.Input)
+   */
+  public final Map<String, String[]> getPortletPreference(final Input input) {
     log.debug("Try to get a portlet preference directly from the getPortletPreference() method ");
     WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID.getPortletName());
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+        windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
     return preferences.getMap();
   }
 
-  public java.util.ResourceBundle getBundle(HttpServletRequest request,
-                                            HttpServletResponse response,
-                                            String portletAppName,
-                                            String portletName,
-                                            Locale locale) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @param portletAppName portlet application name
+   * @param portletName portlet name
+   * @param locale locale
+   * @return resource bundle
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getBundle(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.lang.String, java.lang.String, java.util.Locale)
+   */
+  public final java.util.ResourceBundle getBundle(final HttpServletRequest request,
+      final HttpServletResponse response,
+      final String portletAppName,
+      final String portletName,
+      final Locale locale) throws PortletContainerException {
     log.debug("Try to get a bundle object for locale : " + locale);
     if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();
@@ -364,53 +552,92 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     return bundle;
   }
 
-  public ActionOutput processAction(HttpServletRequest httpServletRequest,
-                                    HttpServletResponse httpServletResponse,
-                                    ActionInput actionInput) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param httpServletRequest request
+   * @param httpServletResponse response
+   * @param actionInput input
+   * @return output
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#processAction(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.exoplatform.services.portletcontainer.pci.ActionInput)
+   */
+  public final ActionOutput processAction(final HttpServletRequest httpServletRequest,
+      final HttpServletResponse httpServletResponse,
+      final ActionInput actionInput) throws PortletContainerException {
     log.debug("ProcessAction method in PortletContainerDispatcher entered");
-    return (ActionOutput) process(httpServletRequest, httpServletResponse, actionInput, PCConstants.ACTION_INT);
+    return (ActionOutput) process(httpServletRequest, httpServletResponse, actionInput,
+        PCConstants.ACTION_INT);
   }
 
-  public EventOutput processEvent(HttpServletRequest httpServletRequest,
-                                  HttpServletResponse httpServletResponse,
-                                  EventInput eventInput) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param httpServletRequest request
+   * @param httpServletResponse response
+   * @param eventInput input
+   * @return output
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#processEvent(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.exoplatform.services.portletcontainer.pci.EventInput)
+   */
+  public final EventOutput processEvent(final HttpServletRequest httpServletRequest,
+      final HttpServletResponse httpServletResponse,
+      final EventInput eventInput) throws PortletContainerException {
     log.debug("ProcessEvent method in PortletContainerDispatcher entered");
-    return (EventOutput) process(httpServletRequest, httpServletResponse, eventInput, PCConstants.EVENT_INT);
+    return (EventOutput) process(httpServletRequest, httpServletResponse, eventInput,
+        PCConstants.EVENT_INT);
   }
 
-  public RenderOutput render(HttpServletRequest httpServletRequest,
-                             HttpServletResponse httpServletResponse,
-                             RenderInput renderInput) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param httpServletRequest requets
+   * @param httpServletResponse response
+   * @param renderInput input
+   * @return output
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#render(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.exoplatform.services.portletcontainer.pci.RenderInput)
+   */
+  public final RenderOutput render(final HttpServletRequest httpServletRequest,
+      final HttpServletResponse httpServletResponse,
+      final RenderInput renderInput) throws PortletContainerException {
     log.debug("Render method in PortletContainerDispatcher entered");
-    // flush the current buffer
-    // commented out by lautarul
-    /*
-     * try { httpServletResponse.flushBuffer(); } catch (IOException e) {
-     * log.error("Can not flush servlet response buffer"); // throw new
-     * PortletContainerException("Can not flush servlet response // buffer", e); }
-     */
-    return (RenderOutput) process(httpServletRequest, httpServletResponse, renderInput, PCConstants.RENDER_INT);
+    return (RenderOutput) process(httpServletRequest, httpServletResponse, renderInput,
+        PCConstants.RENDER_INT);
   }
 
-  public ResourceOutput serveResource(HttpServletRequest httpServletRequest,
-                                      HttpServletResponse httpServletResponse,
-                                      ResourceInput resourceInput) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param httpServletRequest request
+   * @param httpServletResponse response
+   * @param resourceInput input
+   * @return output
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#serveResource(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, org.exoplatform.services.portletcontainer.pci.ResourceInput)
+   */
+  public final ResourceOutput serveResource(final HttpServletRequest httpServletRequest,
+      final HttpServletResponse httpServletResponse,
+      final ResourceInput resourceInput) throws PortletContainerException {
     log.debug("ServeResource method in PortletContainerDispatcher entered");
-    // flush the current buffer
-    // commented by EXOMAN, because GenericPortlet#serveResource forward: Cannot
-    // forward after response has been committed
-    /*
-     * try { httpServletResponse.flushBuffer(); } catch (IOException e) {
-     * log.error("Can not flush servlet response buffer"); // throw new
-     * PortletContainerException("Can not flush servlet response // buffer", e); }
-     */
-    return (ResourceOutput) process(httpServletRequest, httpServletResponse, resourceInput, PCConstants.RESOURCE_INT);
+    return (ResourceOutput) process(httpServletRequest, httpServletResponse, resourceInput,
+        PCConstants.RESOURCE_INT);
   }
 
-  public void sendAttrs(HttpServletRequest request,
-                        HttpServletResponse response,
-                        Map<String, Object> attrs,
-                        String portletApplicationName) throws PortletContainerException {
+  /**
+   * Overridden method.
+   *
+   * @param request request
+   * @param response response
+   * @param attrs attrs
+   * @param portletApplicationName portlet application name
+   * @throws PortletContainerException exception
+   * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#sendAttrs(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse, java.util.Map, java.lang.String)
+   */
+  public final void sendAttrs(final HttpServletRequest request,
+      final HttpServletResponse response,
+      final Map<String, Object> attrs,
+      final String portletApplicationName) throws PortletContainerException {
     request.setAttribute(CONTAINER, container.getContext().getName());
     try {
       Set<Entry<String, Object>> s = attrs.entrySet();
@@ -424,31 +651,37 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       }
       request.setAttribute(ATTRS, attrs);
       if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
-      } else {
+      } else
         dispatch(request, response, portletApplicationName);
-      }
-    } catch(Exception ex) {
-     ex.printStackTrace();
-    } 
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
   }
 
-  private Output process(HttpServletRequest request,
-                         HttpServletResponse response,
-                         Input input,
-                         int isAction) throws PortletContainerException {
+  /**
+   * @param request request
+   * @param response response
+   * @param input input
+   * @param isAction action type
+   * @return output
+   * @throws PortletContainerException exception
+   */
+  private Output process(final HttpServletRequest request,
+      final HttpServletResponse response,
+      final Input input,
+      final int isAction) throws PortletContainerException {
     log.debug("Process method in PortletContainerDispatcher entered");
     log.debug("Encoding used : " + request.getCharacterEncoding());
     // create the ActionOutput object
     Output output = null;
-    if (isAction == PCConstants.ACTION_INT) {
+    if (isAction == PCConstants.ACTION_INT)
       output = new ActionOutput();
-    } else if (isAction == PCConstants.EVENT_INT) {
+    else if (isAction == PCConstants.EVENT_INT)
       output = new EventOutput();
-    } else if (isAction == PCConstants.RESOURCE_INT) {
+    else if (isAction == PCConstants.RESOURCE_INT)
       output = new ResourceOutput();
-    } else {
+    else
       output = new RenderOutput();
-    }
 
     // create a PortletPreferencesImp object
     PortletWindowInternal windowInfos = getWindowInfos(request, input, isAction);
@@ -465,8 +698,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();
       initTests();
       try {
-        ServletContext portalContext = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
-        standAloneHandler.process(portalContext, request, response, input, output, windowInfos, isAction);
+        ServletContext portalContext = (ServletContext) container
+            .getComponentInstanceOfType(ServletContext.class);
+        standAloneHandler.process(portalContext, request, response, input, output, windowInfos,
+            isAction);
       } finally {
         Thread.currentThread().setContextClassLoader(oldCL);
       }
@@ -478,7 +713,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         ((PortletPreferencesImp) windowInfos.getPreferences()).discard();
       }
     }
-    if (input.isStateSaveOnClient() && isAction == PCConstants.ACTION_INT) {
+    if (input.isStateSaveOnClient() && (isAction == PCConstants.ACTION_INT))
       try {
         log.debug("Serialize Portlet Preferences object to store it on the client");
         ((ActionOutput) output).setPortletState(IOUtil.serialize(windowInfos.getPreferences()));
@@ -486,28 +721,33 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         log.error("Can not serialize Portlet Preferences", e);
         throw new PortletContainerException("Can not serialize Portlet Preferences", e);
       }
-    }
     return output;
   }
 
-  private PortletWindowInternal getWindowInfos(HttpServletRequest request,
-                                               Input input,
-                                               int isAction) {
+  /**
+   * @param request request
+   * @param input input
+   * @param isAction action type
+   * @return portlet window internal object
+   */
+  private PortletWindowInternal getWindowInfos(final HttpServletRequest request,
+      final Input input,
+      final int isAction) {
     boolean stateChangeAuthorized = true;
-    if (isAction == PCConstants.ACTION_INT) {
+    if (isAction == PCConstants.ACTION_INT)
       stateChangeAuthorized = ((ActionInput) input).isStateChangeAuthorized();
-    }
 
     PortletWindowInternal windowInfos = null;
     if (!input.isStateSaveOnClient()) {// state save on the server
       log.debug("Extract or create windows info (store in the server)");
       WindowInfosContainer windowInfosContainer = WindowInfosContainer.getInstance();
       String key = "SESSION_CONTAINER_KEY_ENCODER" + input.getInternalWindowID().generateKey();
-      if (windowInfosContainer.getInfos(key) != null) {
+      if (windowInfosContainer.getInfos(key) != null)
         windowInfos = windowInfosContainer.getInfos(key);
-      } else {
+      else {
         WindowID windowID = input.getInternalWindowID();
-        Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID.getPortletName());
+        Portlet pDatas = portletApplications.getPortletMetaData(windowID
+            .getPortletApplicationName(), windowID.getPortletName());
         ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
         windowInfos = manager.getWindow(input, defaultPrefs);
         windowInfosContainer.addInfos(key, windowInfos);
@@ -515,25 +755,38 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     } else { // state change kept on the client (for example consumer in WSRP)
       log.debug("Extract or create windows info (sent by the client)");
       WindowID windowID = input.getInternalWindowID();
-      Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID.getPortletName());
+      Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+          windowID.getPortletName());
       ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
       windowInfos = manager.getWindow(input, defaultPrefs);
     }
     ((PortletPreferencesImp) windowInfos.getPreferences()).setMethodCalledIsAction(isAction);
-    ((PortletPreferencesImp) windowInfos.getPreferences()).setStateChangeAuthorized(stateChangeAuthorized);
-    ((PortletPreferencesImp) windowInfos.getPreferences()).setStateSaveOnClient(input.isStateSaveOnClient());
+    ((PortletPreferencesImp) windowInfos.getPreferences())
+        .setStateChangeAuthorized(stateChangeAuthorized);
+    ((PortletPreferencesImp) windowInfos.getPreferences()).setStateSaveOnClient(input
+        .isStateSaveOnClient());
     return windowInfos;
   }
 
-  private void dispatch(HttpServletRequest request,
-                        HttpServletResponse response,
-                        String portletApplicationName) throws PortletContainerException {
-    ServletContext portalContext = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
+  /**
+   * @param request request
+   * @param response response
+   * @param portletApplicationName portlet application name
+   * @throws PortletContainerException exception
+   */
+  private void dispatch(final HttpServletRequest request,
+      final HttpServletResponse response,
+      final String portletApplicationName) throws PortletContainerException {
+    ServletContext portalContext = (ServletContext) container
+        .getComponentInstanceOfType(ServletContext.class);
     ServletContext portletContext = portalContext.getContext("/" + portletApplicationName);
-    if (portletContext == null) {
-      log.error("Can't get servlet context for portlet app [" + portletApplicationName + "]. May be it's caused "
-          + "by difference between context name (usually WAR file name) and content of tag <display-name/> in your " + "WEB-INF/web.xml");
-    }
+    if (portletContext == null)
+      log
+          .error("Can't get servlet context for portlet app ["
+              + portletApplicationName
+              + "]. May be it's caused "
+              + "by difference between context name (usually WAR file name) and content of tag <display-name/> in your "
+              + "WEB-INF/web.xml");
     RequestDispatcher dispatcher = portletContext.getRequestDispatcher(SERVLET_MAPPING);
     try {
       log.debug("Dispatch request to the portlet application : " + portletApplicationName);
@@ -548,6 +801,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     }
   }
 
+  /**
+   * Init tests.
+   */
   private void initTests() {
     // defined for test purposes
     // protected static final String PORTLET_APP_PATH = "file:./war_template/";
@@ -564,6 +820,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     // }
   }
 
+  /**
+   * Init tests.
+   */
   private void initTests2() {
     // defined for test purposes
     // protected static final String PORTLET_APP_PATH = "file:./war_template2/";

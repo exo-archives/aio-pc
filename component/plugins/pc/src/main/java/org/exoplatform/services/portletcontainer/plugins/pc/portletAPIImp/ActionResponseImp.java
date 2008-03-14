@@ -25,18 +25,33 @@ import javax.portlet.PortletURL;
 import javax.portlet.WindowStateException;
 
 /**
- * Created by The eXo Platform SAS Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 2:44:18 PM
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * Date: Jul 29, 2003
+ * Time: 2:44:18 PM
  */
 public class ActionResponseImp extends StateAwareResponseImp implements ActionResponse {
 
+  /**
+   * Location.
+   */
   private String location;
 
+  /**
+   * @param resCtx response context
+   */
   public ActionResponseImp(final ResponseContext resCtx) {
     super(resCtx);
   }
 
-  public void sendRedirect(final String location1) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param location1 location
+   * @throws IOException exception
+   * @see javax.servlet.http.HttpServletResponseWrapper#sendRedirect(java.lang.String)
+   */
+  public final void sendRedirect(final String location1) throws IOException {
     if (!isRedirectionPossible())
       throw new IllegalStateException(" The sendRedirect method can not be invoked "
           + "after any of the following methods of the ActionResponse interface has "
@@ -50,7 +65,15 @@ public class ActionResponseImp extends StateAwareResponseImp implements ActionRe
       throw new IllegalArgumentException("a relative or incorrect path URL is given");
   }
 
-  public void sendRedirect(String location1, String renderUrlParamName) throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @param location1 location
+   * @param renderUrlParamName render url param name
+   * @throws IOException exception
+   * @see javax.portlet.ActionResponse#sendRedirect(java.lang.String, java.lang.String)
+   */
+  public final void sendRedirect(String location1, String renderUrlParamName) throws IOException {
     PortletURL url = this.createRenderURL();
     try {
       url.setPortletMode(getPortletMode());
@@ -75,7 +98,10 @@ public class ActionResponseImp extends StateAwareResponseImp implements ActionRe
     sendRedirect(location1);
   }
 
-  public String getLocation() {
+  /**
+   * @return location
+   */
+  public final String getLocation() {
     return location;
   }
 

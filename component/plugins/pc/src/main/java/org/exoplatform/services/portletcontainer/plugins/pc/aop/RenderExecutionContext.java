@@ -21,23 +21,64 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import org.exoplatform.container.component.ExecutionContext;
 
-
 /**
- * Created by The eXo Platform SAS Author : Tuan Nguyen
- * tuan08@users.sourceforge.net Sep 17, 2005
+ * Created by The eXo Platform SAS.
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net Sep 17, 2005
  */
 public class RenderExecutionContext extends ExecutionContext {
-  RenderRequest  request_;
 
-  RenderResponse response_;
+  private RenderRequest request;
 
-  Portlet        portlet_;
+  private RenderResponse response;
 
-  public RenderExecutionContext(Portlet p,
-                                RenderRequest req,
-                                RenderResponse res) {
-    portlet_ = p;
-    request_ = req;
-    response_ = res;
+  private Portlet portlet;
+
+  public RenderExecutionContext(final Portlet p, final RenderRequest req, final RenderResponse res) {
+    setPortlet(p);
+    setRequest(req);
+    setResponse(res);
   }
+
+  /**
+   * @param portlet the portlet to set
+   */
+  final void setPortlet(Portlet portlet) {
+    this.portlet = portlet;
+  }
+
+  /**
+   * @return the portlet
+   */
+  final Portlet getPortlet() {
+    return portlet;
+  }
+
+  /**
+   * @param response the response to set
+   */
+  final void setResponse(RenderResponse response) {
+    this.response = response;
+  }
+
+  /**
+   * @return the response
+   */
+  final RenderResponse getResponse() {
+    return response;
+  }
+
+  /**
+   * @param request the request to set
+   */
+  final void setRequest(RenderRequest request) {
+    this.request = request;
+  }
+
+  /**
+   * @return the request
+   */
+  final RenderRequest getRequest() {
+    return request;
+  }
+
 }

@@ -35,7 +35,7 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Jul 29, 2003
@@ -50,28 +50,80 @@ import javax.servlet.http.HttpSession;
  */
 public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
+  /**
+   * Path info.
+   */
   public String pathInfo;
+
+  /**
+   * Servlet path.
+   */
   public String servletPath;
+
+  /**
+   * Query.
+   */
   public String query;
-  private String windowId;
+
+  /**
+   * Window id.
+   */
+  private final String windowId;
+
+  /**
+   * Redirected.
+   */
   private boolean redirected;
+
+  /**
+   * Context path.
+   */
   public String contextPath;
-  private Map parameterMap ;
+
+  /**
+   * Parameter map.
+   */
+  private Map parameterMap;
+
+  /**
+   * Is version 2.
+   */
   private boolean ver2 = false;
+
+  /**
+   * No input.
+   */
   private boolean noInput;
+
+  /**
+   * No values.
+   */
   private boolean noValues;
 
-  public CustomRequestWrapper(HttpServletRequest httpServletRequest, String windowId) {
+  /**
+   * @param httpServletRequest http servlet request
+   * @param windowId window id
+   */
+  public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
     super(httpServletRequest);
     this.windowId = windowId;
-    this.parameterMap = httpServletRequest.getParameterMap() ;
+    this.parameterMap = httpServletRequest.getParameterMap();
   }
 
-  protected void setVer2(boolean val) {
+  /**
+   * @param val is version 2
+   */
+  protected final void setVer2(final boolean val) {
     ver2 = val;
   }
 
-  public Enumeration getAttributeNames() {
+  /**
+   * Overridden method.
+   *
+   * @return attribute names
+   * @see javax.servlet.ServletRequestWrapper#getAttributeNames()
+   */
+  public final Enumeration getAttributeNames() {
     Enumeration e = super.getAttributeNames();
     Vector v = new Vector();
     while (e.hasMoreElements()) {
@@ -82,19 +134,46 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
     return v.elements();
   }
 
-  //!!! EXOMAN - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
-  public Object getAttribute(String s) {
+  /**
+   * Overridden method.
+   *
+   * @param s name
+   * @return value
+   * @see javax.servlet.ServletRequestWrapper#getAttribute(java.lang.String)
+   */
+  public final Object getAttribute(final String s) {
+    //!!! EXOMAN - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
     return super.getAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
   }
 
-  public void removeAttribute(String s) {
+  /**
+   * Overridden method.
+   *
+   * @param s name
+   * @see javax.servlet.ServletRequestWrapper#removeAttribute(java.lang.String)
+   */
+  public final void removeAttribute(final String s) {
     super.removeAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
   }
 
-  public void setAttribute(String s, Object o) {
+  /**
+   * Overridden method.
+   *
+   * @param s name
+   * @param o value
+   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String, java.lang.Object)
+   */
+  public final void setAttribute(final String s, final Object o) {
     super.setAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s), o);
   }
-  public Map getParameterMap() {
+
+  /**
+   * Overridden method.
+   *
+   * @return parameter map
+   * @see javax.servlet.ServletRequestWrapper#getParameterMap()
+   */
+  public final Map getParameterMap() {
     Map superMap = super.getParameterMap();
     if (redirected) {
       Map filteredMap = new HashMap();
@@ -109,19 +188,34 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
     return superMap;
   }
 
-  public void setParameterMap(Map map) {
-    this.parameterMap = map ;
+  /**
+   * @param map parameter map
+   */
+  public final void setParameterMap(final Map map) {
+    this.parameterMap = map;
   }
 
-  public boolean isRedirected() {
+  /**
+   * @return is redirected
+   */
+  public final boolean isRedirected() {
     return redirected;
   }
 
-  public void setRedirected(boolean b) {
+  /**
+   * @param b redirected
+   */
+  public final void setRedirected(final boolean b) {
     redirected = b;
   }
 
-  public int getContentLength() {
+  /**
+   * Overridden method.
+   *
+   * @return content length
+   * @see javax.servlet.ServletRequestWrapper#getContentLength()
+   */
+  public final int getContentLength() {
     if (noValues)
       return 0;
     if (redirected)
@@ -129,171 +223,312 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
     return super.getContentLength();
   }
 
-  public StringBuffer getRequestURL() {
+  /**
+   * Overridden method.
+   *
+   * @return requested url
+   * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURL()
+   */
+  public final StringBuffer getRequestURL() {
     if (redirected)
       return null;
     return super.getRequestURL();
   }
 
-  public String getCharacterEncoding() {
+  /**
+   * Overridden method.
+   *
+   * @return character encoding
+   * @see javax.servlet.ServletRequestWrapper#getCharacterEncoding()
+   */
+  public final String getCharacterEncoding() {
     if (noValues)
       return null;
     return super.getCharacterEncoding();
   }
 
-  public String getContentType() {
+  /**
+   * Overridden method.
+   *
+   * @return content type
+   * @see javax.servlet.ServletRequestWrapper#getContentType()
+   */
+  public final String getContentType() {
     if (redirected)
       return null;
     return super.getContentType();
   }
 
-  public ServletInputStream getInputStream() throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @return input stream
+   * @throws IOException exception
+   * @see javax.servlet.ServletRequestWrapper#getInputStream()
+   */
+  public final ServletInputStream getInputStream() throws IOException {
     if (noInput)
       return null;
     return super.getInputStream();
   }
 
-  public BufferedReader getReader() throws IOException {
+  /**
+   * Overridden method.
+   *
+   * @return reader
+   * @throws IOException exception
+   * @see javax.servlet.ServletRequestWrapper#getReader()
+   */
+  public final BufferedReader getReader() throws IOException {
     if (noInput)
       return null;
     return super.getReader();
   }
 
-  public String getLocalAddr() {
+  /**
+   * Overridden method.
+   *
+   * @return local addr
+   * @see javax.servlet.ServletRequestWrapper#getLocalAddr()
+   */
+  public final String getLocalAddr() {
     if (redirected)
       return null;
     return super.getLocalAddr();
   }
 
-  public String getLocalName() {
+  /**
+   * Overridden method.
+   *
+   * @return local name
+   * @see javax.servlet.ServletRequestWrapper#getLocalName()
+   */
+  public final String getLocalName() {
     if (redirected)
       return null;
     return super.getLocalName();
   }
 
-  public int getLocalPort() {
+  /**
+   * Overridden method.
+   *
+   * @return local port
+   * @see javax.servlet.ServletRequestWrapper#getLocalPort()
+   */
+  public final int getLocalPort() {
     if (redirected)
       return 0;
     return super.getLocalPort();
   }
 
-  public int getRemotePort() {
+  /**
+   * Overridden method.
+   *
+   * @return remote port
+   * @see javax.servlet.ServletRequestWrapper#getRemotePort()
+   */
+  public final int getRemotePort() {
     if (redirected)
       return 0;
     return super.getRemotePort();
   }
 
-  public String getRealPath(String arg0) {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 path
+   * @return real path
+   * @see javax.servlet.ServletRequestWrapper#getRealPath(java.lang.String)
+   */
+  public final String getRealPath(final String arg0) {
     if (redirected)
       return null;
     return super.getRealPath(arg0);
   }
 
-  public String getRemoteAddr() {
+  /**
+   * Overridden method.
+   *
+   * @return remote addr
+   * @see javax.servlet.ServletRequestWrapper#getRemoteAddr()
+   */
+  public final String getRemoteAddr() {
     if (redirected)
       return null;
     return super.getRemoteAddr();
   }
 
-  public String getRemoteHost() {
+  /**
+   * Overridden method.
+   *
+   * @return remote host
+   * @see javax.servlet.ServletRequestWrapper#getRemoteHost()
+   */
+  public final String getRemoteHost() {
     if (redirected)
       return null;
     return super.getRemoteHost();
   }
 
-  public void setCharacterEncoding(String arg0)
-    throws UnsupportedEncodingException {
+  /**
+   * Overridden method.
+   *
+   * @param arg0 character encoding
+   * @throws UnsupportedEncodingException exception
+   * @see javax.servlet.ServletRequestWrapper#setCharacterEncoding(java.lang.String)
+   */
+  public final void setCharacterEncoding(final String arg0) throws UnsupportedEncodingException {
     if (redirected)
-        return;
+      return;
     super.setCharacterEncoding(arg0);
   }
 
-  public String getProtocol() {
+  /**
+   * Overridden method.
+   *
+   * @return http protocol
+   * @see javax.servlet.ServletRequestWrapper#getProtocol()
+   */
+  public final String getProtocol() {
     if (redirected)
       return "HTTP/1.1";
     return super.getProtocol();
   }
 
-  public HttpSession getSession() {
+  /**
+   * Overridden method.
+   *
+   * @return http session
+   * @see javax.servlet.http.HttpServletRequestWrapper#getSession()
+   */
+  public final HttpSession getSession() {
     return getSession(true);
   }
 
-  public HttpSession getSession(boolean b) {
+  /**
+   * Overridden method.
+   *
+   * @param b if to create
+   * @return http session
+   * @see javax.servlet.http.HttpServletRequestWrapper#getSession(boolean)
+   */
+  public final HttpSession getSession(final boolean b) {
     return super.getSession(b);
   }
 
-  public boolean isRequestedSessionIdValid() {
+  /**
+   * Overridden method.
+   *
+   * @return is requested session id valid
+   * @see javax.servlet.http.HttpServletRequestWrapper#isRequestedSessionIdValid()
+   */
+  public final boolean isRequestedSessionIdValid() {
     return super.isRequestedSessionIdValid();
   }
 
-  public void setContextPath(String string) {
+  /**
+   * @param string context path
+   */
+  public final void setContextPath(final String string) {
     contextPath = string;
   }
 
-  public String getContextPath() {
-    if (redirected && contextPath != null) {
+  /**
+   * Overridden method.
+   *
+   * @return context path
+   * @see javax.servlet.http.HttpServletRequestWrapper#getContextPath()
+   */
+  public final String getContextPath() {
+    if (redirected && (contextPath != null))
       return contextPath;
-    }
     return super.getContextPath();
   }
 
-  public void setRedirectedPath(String path) {
-   if (path == null || path.length() == 0)
-     path = "/";
+  /**
+   * @param path redirected path
+   */
+  public final void setRedirectedPath(String path) {
+    if ((path == null) || (path.length() == 0))
+      path = "/";
 
-    String[] key = StringUtils.split(path, "?") ;
+    String[] key = StringUtils.split(path, "?");
     String firstPart = "";
     if (key.length > 1) {
       query = key[1];
       firstPart = key[0];
-    } else {
+    } else
       firstPart = path;
-    }
 
-    if (firstPart.indexOf("/", 1)>0) {
+    if (firstPart.indexOf("/", 1) > 0) {
       servletPath = firstPart.substring(0, firstPart.indexOf("/", 1));
       pathInfo = firstPart.substring(firstPart.indexOf("/", 1));
     } else {
       servletPath = firstPart;
-          pathInfo = null;
+      pathInfo = null;
     }
   }
 
-  public String getPathInfo() {
-    if (redirected) {
+  /**
+   * Overridden method.
+   *
+   * @return path info
+   * @see javax.servlet.http.HttpServletRequestWrapper#getPathInfo()
+   */
+  public final String getPathInfo() {
+    if (redirected)
       return pathInfo;
-    }
     return super.getPathInfo();
   }
 
-  public String getServletPath() {
-    if (redirected) {
+  /**
+   * Overridden method.
+   *
+   * @return servlet path
+   * @see javax.servlet.http.HttpServletRequestWrapper#getServletPath()
+   */
+  public final String getServletPath() {
+    if (redirected)
       return servletPath;
-    }
     return super.getServletPath();
   }
 
-  public String getQueryString() {
-    if (redirected) {
+  /**
+   * Overridden method.
+   *
+   * @return query string
+   * @see javax.servlet.http.HttpServletRequestWrapper#getQueryString()
+   */
+  public final String getQueryString() {
+    if (redirected)
       return query;
-    }
     return super.getQueryString();
   }
 
-  public String getRequestURI() {
-    if (redirected) {
-      return getContextPath() +
-                 ((servletPath == null) ? "" : servletPath) +
-                 ((pathInfo == null) ? "" : pathInfo);
-    }
+  /**
+   * Overridden method.
+   *
+   * @return request uri
+   * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURI()
+   */
+  public final String getRequestURI() {
+    if (redirected)
+      return getContextPath() + ((servletPath == null) ? "" : servletPath)
+          + ((pathInfo == null) ? "" : pathInfo);
     return super.getRequestURI();
   }
 
-  public void setNoInput(boolean noInput) {
+  /**
+   * @param noInput noInput
+   */
+  public final void setNoInput(final boolean noInput) {
     this.noInput = noInput;
   }
 
-  public void setNoValues(boolean noValues) {
+  /**
+   * @param noValues noValues
+   */
+  public final void setNoValues(final boolean noValues) {
     this.noValues = noValues;
   }
 

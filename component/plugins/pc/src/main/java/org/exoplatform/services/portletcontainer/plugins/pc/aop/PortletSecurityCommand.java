@@ -18,61 +18,92 @@ package org.exoplatform.services.portletcontainer.plugins.pc.aop;
 
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp;
 
-/*
+/**
  * @author: Benjamin Mestrallet
  * @author: Tuan Nguyen
  */
 public class PortletSecurityCommand extends BaseCommandUnit {
 
+  /**
+   * Simple constructor.
+   */
   public PortletSecurityCommand() {
-
   }
 
-  protected Object render(RenderExecutionContext rcontext)  throws Throwable  {
-    log_.debug("--> render method, call security interceptor");
-    PortletRequestImp req = (PortletRequestImp) rcontext.request_ ;
+  /**
+   * Overridden method.
+   *
+   * @param rcontext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#render(org.exoplatform.services.portletcontainer.plugins.pc.aop.RenderExecutionContext)
+   */
+  protected Object render(final RenderExecutionContext rcontext) throws Throwable {
+    log.debug("--> render method, call security interceptor");
+    PortletRequestImp req = (PortletRequestImp) rcontext.getRequest();
     String portletName = req.getPortletDatas().getPortletName();
     boolean needSecure = req.needsSecurityContraints(portletName);
-    if (needSecure) {
-      if(!req.isSecure())
+    if (needSecure)
+      if (!req.isSecure())
         throw new Throwable("Need a secure transport layer");
-    }
     return rcontext.executeNextUnit();
   }
 
-  protected Object processAction(ActionExecutionContext acontext)  throws  Throwable {
-    log_.debug("--> processAction method, call security interceptor");
+  /**
+   * Overridden method.
+   *
+   * @param acontext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#processAction(org.exoplatform.services.portletcontainer.plugins.pc.aop.ActionExecutionContext)
+   */
+  protected Object processAction(final ActionExecutionContext acontext) throws Throwable {
+    log.debug("--> processAction method, call security interceptor");
     PortletRequestImp req = (PortletRequestImp) acontext.getRequest();
     String portletName = req.getPortletDatas().getPortletName();
     boolean needSecure = req.needsSecurityContraints(portletName);
-    if (needSecure) {
-      if(!req.isSecure())
+    if (needSecure)
+      if (!req.isSecure())
         throw new Throwable();
-    }
-    return acontext.executeNextUnit() ;
+    return acontext.executeNextUnit();
   }
 
-  protected Object serveResource(ResourceExecutionContext rcontext)  throws Throwable  {
-    log_.debug("--> render method, call security interceptor");
-    PortletRequestImp req = (PortletRequestImp) rcontext.request_ ;
+  /**
+   * Overridden method.
+   *
+   * @param rcontext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#serveResource(org.exoplatform.services.portletcontainer.plugins.pc.aop.ResourceExecutionContext)
+   */
+  protected Object serveResource(final ResourceExecutionContext rcontext) throws Throwable {
+    log.debug("--> render method, call security interceptor");
+    PortletRequestImp req = (PortletRequestImp) rcontext.getRequest();
     String portletName = req.getPortletDatas().getPortletName();
     boolean needSecure = req.needsSecurityContraints(portletName);
-    if (needSecure) {
-      if(!req.isSecure())
+    if (needSecure)
+      if (!req.isSecure())
         throw new Throwable("Need a secure transport layer");
-    }
     return rcontext.executeNextUnit();
   }
 
-  protected Object processEvent(EventExecutionContext econtext)  throws  Throwable {
-    log_.debug("--> processAction method, call security interceptor");
+  /**
+   * Overridden method.
+   *
+   * @param econtext context
+   * @return object
+   * @throws Throwable throwable
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.aop.BaseCommandUnit#processEvent(org.exoplatform.services.portletcontainer.plugins.pc.aop.EventExecutionContext)
+   */
+  protected Object processEvent(final EventExecutionContext econtext) throws Throwable {
+    log.debug("--> processAction method, call security interceptor");
     PortletRequestImp req = (PortletRequestImp) econtext.getRequest();
     String portletName = req.getPortletDatas().getPortletName();
     boolean needSecure = req.needsSecurityContraints(portletName);
-    if (needSecure) {
-      if(!req.isSecure())
+    if (needSecure)
+      if (!req.isSecure())
         throw new Throwable();
-    }
-    return econtext.executeNextUnit() ;
+    return econtext.executeNextUnit();
   }
+
 }

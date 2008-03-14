@@ -24,17 +24,25 @@ import javax.portlet.PortletResponse;
 import java.io.IOException;
 
 /**
- * Created by The eXo Platform SAS
+ * Created by The eXo Platform SAS.
  * Author : Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: Aug 20, 2003
  * Time: 3:15:38 PM
  */
-public class NamespaceTag extends TagSupport{
+public class NamespaceTag extends TagSupport {
 
-  public int doStartTag() throws JspException {
-    ServletRequest request =  pageContext.getRequest();
-    PortletResponse portletResponse = (PortletResponse) request.getAttribute("javax.portlet.response") ;
+  /**
+   * Overridden method.
+   *
+   * @return tag processing result
+   * @throws JspException
+   * @see javax.servlet.jsp.tagext.TagSupport#doStartTag()
+   */
+  public final int doStartTag() throws JspException {
+    ServletRequest request = pageContext.getRequest();
+    PortletResponse portletResponse = (PortletResponse) request
+        .getAttribute("javax.portlet.response");
 
     try {
       pageContext.getOut().print(portletResponse.getNamespace());
