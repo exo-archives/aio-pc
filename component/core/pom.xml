@@ -36,9 +36,43 @@
     </dependency>
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
-  		<artifactId>exo.kernel.component.common</artifactId> 
+       <artifactId>exo.kernel.component.common</artifactId> 
       <version>${exo.platform.version}</version>
       <optional>compile</optional>
     </dependency>
-  </dependencies>
+</dependencies>
+  <build>
+    <plugins>
+    <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>testPath</name>
+              <value>${basedir}</value>
+            </property>
+            <property>
+              <name>mock.portal.dir</name>
+              <value></value>
+            </property>
+            <property>
+              <name>maven.exoplatform.dir</name>
+              <value></value>
+            </property>
+            <property>
+              <name>emma.coverage.out.file</name>
+              <value>target/emma/coverage.ec</value>
+            </property>
+          </systemProperties>
+          <includes>
+            <include>**/AllTests.java</include>
+            <!-- include>**/TestFilters.java</include -->
+            <!-- include>**/Test*.java</include -->
+          </includes>
+          <skip>false</skip>
+        </configuration>
+      </plugin>
+    </plugins>
+    </build>
 </project>
