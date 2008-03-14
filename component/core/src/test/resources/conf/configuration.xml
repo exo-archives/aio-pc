@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configuration>
+ <component>
+    <key>org.exoplatform.services.portletcontainer.PortletContainerService</key>
+    <type>org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl</type>
+    <component-plugins>
+      <component-plugin>
+        <name>jsr168.jsr286.plugin</name>
+        <set-method>addPlugin</set-method>
+        <type>org.exoplatform.services.portletcontainer.test.plugins.TestPlugin1</type>
+        <description>jsr168 jsr286 plugin</description>
+      </component-plugin>
+    </component-plugins>
+  </component>
+</configuration>
