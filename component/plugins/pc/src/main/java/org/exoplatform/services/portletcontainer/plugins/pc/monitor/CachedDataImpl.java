@@ -33,6 +33,11 @@ public class CachedDataImpl implements CachedData {
   private long lastAccessTime = 0;
 
   /**
+   * Last update time.
+   */
+  private long lastUpdateTime = 0;
+
+  /**
    * Portlet title.
    */
   private String title;
@@ -89,6 +94,23 @@ public class CachedDataImpl implements CachedData {
    */
   public final synchronized void setLastAccessTime(final long lastAccessTime) {
     this.lastAccessTime = lastAccessTime;
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @return last update time
+   * @see org.exoplatform.services.portletcontainer.monitor.CachedData#getLastAccessTime()
+   */
+  public final long getLastUpdateTime() {
+    return lastUpdateTime;
+  }
+
+  /**
+   * @param lastUpdateTime last update time
+   */
+  public final synchronized void setLastUpdateTime(final long lastUpdateTime) {
+    this.lastUpdateTime = lastUpdateTime;
   }
 
   /**

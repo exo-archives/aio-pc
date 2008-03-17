@@ -455,6 +455,28 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
   }
 
   /**
+   * Overridden method.
+   *
+   * @param portletAppName portlet app name
+   * @param portletName portlet name
+   * @param key key
+   * @param isCacheGlobal is cache global
+   * @return last cache update time
+   * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getPortletLastCacheUpdateTime(java.lang.String, java.lang.String, java.lang.String, boolean)
+   */
+  public final long getPortletLastCacheUpdateTime(final String portletAppName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal) {
+    PortletRuntimeDatasImpl datas = (PortletRuntimeDatasImpl) runtimeDatas.get(portletAppName
+        + SEPARATOR + portletName);
+    CachedData cachedData = datas.getCachedData(key, isCacheGlobal);
+    if (cachedData != null)
+      return ((CachedDataImpl) cachedData).getLastUpdateTime();
+    return 0;
+  }
+
+  /**
    * @param portletAppName portlet app name
    * @param portletName portlet name
    * @param key key
@@ -589,6 +611,7 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
       datas.setCachedData(key, cachedData, isCacheGlobal);
     } else
       cachedData.setContent(content);
+    cachedData.setLastUpdateTime(System.currentTimeMillis());
   }
 
   /**

@@ -121,6 +121,18 @@ public interface PortletContainerMonitor {
    * @param portletName portlet name
    * @param key cache key
    * @param isCacheGlobal either use global cache
+   * @return last cache update time
+   */
+  long getPortletLastCacheUpdateTime(final String portletAppName,
+      final String portletName,
+      final String key,
+      final boolean isCacheGlobal);
+
+  /**
+   * @param portletAppName app name
+   * @param portletName portlet name
+   * @param key cache key
+   * @param isCacheGlobal either use global cache
    * @return cached data
    */
   String getCachedTitle(String portletAppName, String portletName, String key, boolean isCacheGlobal);
