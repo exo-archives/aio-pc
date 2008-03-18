@@ -27,28 +27,19 @@ import java.util.Iterator;
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
 import javax.servlet.ServletContextListener;
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.transform.stream.StreamSource;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import javax.xml.validation.Validator;
-import javax.xml.xpath.XPath;
-import javax.xml.xpath.XPathConstants;
-import javax.xml.xpath.XPathExpression;
-import javax.xml.xpath.XPathFactory;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.commons.xml.ExoXPPParser;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
-import org.exoplatform.services.xml.resolving.XMLResolvingService;
-import org.w3c.dom.Document;
-import org.w3c.dom.Node;
-import org.w3c.dom.NodeList;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
 import org.xml.sax.SAXException;
@@ -139,17 +130,15 @@ public class PortletApplicationListener implements ServletContextListener {
       is = servletContext.getResourceAsStream(fileWebXML);
       Collection<String> roles = new ArrayList<String>();
 
-      XPath xpath = XPathFactory.newInstance().newXPath();
-      XPathExpression roleNameExp = xpath.compile("/web-app/security-role/role-name");
-      DocumentBuilder builder = DocumentBuilderFactory.newInstance().newDocumentBuilder();
-      XMLResolvingService serviceXML = (XMLResolvingService) manager
-          .getComponentInstanceOfType(XMLResolvingService.class);
-      builder.setEntityResolver(serviceXML.getEntityResolver());
-      Document document = builder.parse(is);
-      NodeList nodes = (NodeList) roleNameExp.evaluate(document, XPathConstants.NODESET);
-      for (int i = 0; i < nodes.getLength(); i++) {
-        Node element = nodes.item(i);
-        roles.add(element.getFirstChild().getNodeValue());
+      ExoXPPParser xpp = ExoXPPParser.getInstance();
+      xpp.setInput(is, "UTF8");
+      xpp.mandatoryNode("web-app");
+      while (!xpp.node("security-role"))
+        xpp.next();
+      if (xpp.node("role-name")) {
+        roles.add(xpp.getContent());
+        while (xpp.node("security-role"))
+          roles.add(xpp.mandatoryNodeContent("role-name"));
       }
       log.info("  -- read: " + portletApp.getPortlet().size() + " portlets");
       PortletApplicationRegister service = (PortletApplicationRegister) manager
