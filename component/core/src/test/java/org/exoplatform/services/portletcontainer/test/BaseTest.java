@@ -25,6 +25,9 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
@@ -50,6 +53,8 @@ public class BaseTest extends TestCase{
   protected MockServletContext mockServletContext;
   protected PortletContainerServiceImpl portletContainer;
   protected RootContainer rootContainer;
+  protected PortletContainerConf config;
+  
   
   protected static final String CONTEXT_PATH = "/src/test/java/org/exoplatform/services/portletcontainer/test/xml";
   protected static final String PORTLET_APP_PATH = "file:" + System.getProperty("testPath") + CONTEXT_PATH;
@@ -85,6 +90,10 @@ public class BaseTest extends TestCase{
 //    
 //    portletContainer.addPlugin(plugin1);
     portletContainer.addPlugin((PortletContainerPlugin) plugin2);
+    
+    ExoContainer container = ExoContainerContext.getCurrentContainer();
+    this.config =  (PortletContainerConf) container.getComponentInstanceOfType(PortletContainerConf.class);
+    
   }
 
   

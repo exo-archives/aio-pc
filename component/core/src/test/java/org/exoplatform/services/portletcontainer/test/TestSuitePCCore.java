@@ -31,7 +31,7 @@ public class TestSuitePCCore extends TestSuite {
 
     addTestSuite(TestModesAndStates.class);
     addTestSuite(TestPlugins.class);
-    //addTestSuite(TestRenderParameters.class);
+    addTestSuite(TestConfig.class);
   }
 
   public void testVoid() throws Exception {
