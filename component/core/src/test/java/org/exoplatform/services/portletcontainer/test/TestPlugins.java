@@ -31,9 +31,7 @@ import org.exoplatform.services.portletcontainer.pci.EventInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
-import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
-import org.exoplatform.test.mocks.servlet.MockServletResponse;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.services.portletcontainer.test.plugins.*;
 

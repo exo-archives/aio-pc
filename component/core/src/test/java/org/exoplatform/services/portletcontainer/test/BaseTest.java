@@ -76,19 +76,10 @@ public class BaseTest extends TestCase{
     InputStream is = url.openStream();
     portletApp_ = XMLParser.parse(is,true); //Second portlet specification - JSR 286
 
-
     portletContainer = (PortletContainerServiceImpl) portalContainer.getComponentInstanceOfType(PortletContainerService.class);
     
-    //PortletContainerPlugin plugin1 =  new  TestPlugin1();
-   // PortletContainerPlugin plugin2 =  new  TestPlugin2();
-    //System.out.println("Portal Container " + portalContainer);
-    //System.out.println("Portlet Container " + portletContainer);
-    
-//    TestPlugin1 plugin1 =  new  TestPlugin1();
     TestPlugin2 plugin2 =  new  TestPlugin2();
     plugin2.addPortletApp("TESTAPP1", portletApp_);
-//    
-//    portletContainer.addPlugin(plugin1);
     portletContainer.addPlugin((PortletContainerPlugin) plugin2);
     
     ExoContainer container = ExoContainerContext.getCurrentContainer();
