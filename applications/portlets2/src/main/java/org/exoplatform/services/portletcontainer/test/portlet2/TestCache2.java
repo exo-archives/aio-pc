@@ -43,9 +43,9 @@ public class TestCache2 extends GenericPortlet {
    * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
    */
   public void doView(RenderRequest request, RenderResponse response) throws PortletException, IOException {
-    boolean istagvalid = request.getAttribute("istagvalid") != null;
-    System.out.println("portlet2.TestCache2: ---- tag valid? : " + request.getAttribute("istagvalid"));
-    request.setAttribute("istagvalid", "true");
+    boolean istagvalid = request.getPortletSession().getAttribute("istagvalid") != null;
+    System.out.println("portlet2.TestCache2: ---- tag valid? : " + request.getPortletSession().getAttribute("istagvalid"));
+    request.getPortletSession().setAttribute("istagvalid", "true");
     response.setContentType("text/html;charset=UTF-8");
     Date d = new Date();
     System.out.println("portlet2.TestCache2: ---- etag: " + request.getETag());
@@ -74,7 +74,7 @@ public class TestCache2 extends GenericPortlet {
   public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException, IOException {
     System.out.println("portlet2.TestCache2.processAction: ---- invalidatetag: " + actionRequest.getParameter("invalidatetag"));
     if (actionRequest.getParameter("invalidatetag") != null) {
-      actionRequest.removeAttribute("istagvalid");
+      actionRequest.getPortletSession().removeAttribute("istagvalid");
       actionResponse.setRenderParameter("invalidatetag", "true");
     }
   }
