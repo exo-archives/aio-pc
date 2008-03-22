@@ -3,7 +3,7 @@
   <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>config</artifactId>
   <name>eXo Portlet Container</name>
-  <version>trunk</version>
+  <version>2.0rc4</version>
   <packaging>pom</packaging>
 
   <modules>
@@ -164,8 +164,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <exo.platform.version>trunk</exo.platform.version>
-        <exo.portlet-container.version>trunk</exo.portlet-container.version>
+        <exo.platform.version>2.0</exo.platform.version>
+        <exo.portlet-container.version>2.0rc4</exo.portlet-container.version>
       </properties>
     </profile>
   </profiles>
