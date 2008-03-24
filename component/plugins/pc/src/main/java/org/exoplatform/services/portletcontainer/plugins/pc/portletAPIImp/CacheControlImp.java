@@ -44,7 +44,11 @@ public class CacheControlImp implements CacheControl {
    * @see javax.portlet.CacheControl#getExpirationTime()
    */
   public final int getExpirationTime() {
-    return Integer.parseInt(resp.getProperty(RenderResponse.EXPIRATION_CACHE));
+    try {
+      return Integer.parseInt(resp.getProperty(RenderResponse.EXPIRATION_CACHE));
+    } catch (NumberFormatException nfe) {
+      return 0;
+    }
   }
 
   /**
