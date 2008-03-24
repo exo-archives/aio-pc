@@ -13,7 +13,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portal</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portlets</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -29,7 +29,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portlets2</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -37,7 +37,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>demos</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>sbridgejsfportlet</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -55,28 +55,28 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 

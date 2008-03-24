@@ -14,14 +14,21 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.portlets2events</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
@@ -39,13 +46,6 @@
       <scope>compile</scope>
     </dependency>
     
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.portlets2events</artifactId>
-      <version>${exo.portlet-container.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
   </dependencies>
 
   <build>

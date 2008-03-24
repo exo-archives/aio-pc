@@ -164,8 +164,10 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <exo.platform.version>trunk</exo.platform.version>
-        <exo.portlet-container.version>trunk</exo.portlet-container.version>
+        <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>
+        <org.exoplatform.kernel.version>trunk</org.exoplatform.kernel.version>
+        <org.exoplatform.core.version>trunk</org.exoplatform.core.version>
+        <org.exoplatform.pc.version>trunk</org.exoplatform.pc.version>
       </properties>
     </profile>
   </profiles>

@@ -15,7 +15,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.util-bridge</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>

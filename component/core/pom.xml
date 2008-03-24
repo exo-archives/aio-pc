@@ -13,7 +13,7 @@
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.container</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.kernel.version}</version>
       <optional>true</optional>
     </dependency>
     <dependency>
@@ -31,13 +31,13 @@
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.commons</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.kernel.version}</version>
       <optional>compile</optional>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
        <artifactId>exo.kernel.component.common</artifactId> 
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.kernel.version}</version>
       <optional>compile</optional>
     </dependency>
 </dependencies>

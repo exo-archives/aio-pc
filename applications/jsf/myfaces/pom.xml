@@ -81,7 +81,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.util-jsf</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 

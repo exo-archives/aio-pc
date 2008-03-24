@@ -56,14 +56,17 @@ public class SessionReplicator implements RequestHandler {
   /**
    * Properties.
    */
-  private static final String      PROPS = "UDP(mcast_addr=228.8.8.8;mcast_port=45566;"
+  private static final String      PROPS = "UDP(" /* + "bind_addr=192.168.0.23;" */ + "mcast_addr=228.8.8.8;mcast_port=45566;"
                                              + "ip_ttl=32;mcast_send_buf_size=64000;mcast_recv_buf_size=64000):"
-                                             + "PING(timeout=2000;num_initial_members=3):" + "MERGE2(min_interval=5000;max_interval=10000):"
-                                             + "FD(timeout=5000):" + "VERIFY_SUSPECT(timeout=1500):"
+                                             + "PING(timeout=2000;num_initial_members=3):" 
+                                             + "MERGE2(min_interval=5000;max_interval=10000):"
+                                             + "FD(timeout=5000):" 
+                                             + "VERIFY_SUSPECT(timeout=1500):"
                                              + "pbcast.NAKACK(max_xmit_size=8096;gc_lag=50;retransmit_timeout=600,1200,2400,4800):"
-                                             + "UNICAST(timeout=600,1200,2400,4800):" + "pbcast.STABLE(desired_avg_gossip=20000):"
-                                             + "FRAG(frag_size=8096;down_thread=false;up_thread=false):" + "pbcast.GMS(join_timeout=5000;"
-                                             + "join_retry_timeout=2000;shun=false;print_local_addr=true)";
+                                             + "UNICAST(timeout=600,1200,2400,4800):" 
+                                             + "pbcast.STABLE(desired_avg_gossip=20000):"
+//                                             + "FRAG(frag_size=8096;down_thread=false;up_thread=false):" 
+                                             + "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=false;print_local_addr=true)";
 
   /**
    * Sends session info to other nodes.
@@ -92,15 +95,14 @@ public class SessionReplicator implements RequestHandler {
     String sid = (String) sessionInfo.get(PortletFilter.SESSION_IDENTIFIER);
     String pid = (String) sessionInfo.get(PortletFilter.PORTAL_IDENTIFIER);
     String rid = (String) sessionInfo.get(PortletFilter.REPLICATOR_IDENTIFIER);
-    if (rid.equals(this.toString())) 
-             return null;
+    if (rid.equals(this.toString()))
+      return null;
     sessionInfo.remove(PortletFilter.SESSION_IDENTIFIER);
     sessionInfo.remove(PortletFilter.PORTAL_IDENTIFIER);
     sessionInfo.remove(PortletFilter.REPLICATOR_IDENTIFIER);
 
     ExoContainer container = ExoContainerContext.getContainerByName(pid);
 
-    
     PortletContainerService service = (PortletContainerService) container.getComponentInstanceOfType(PortletContainerService.class);
 
     ServletContext ctx = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
@@ -108,15 +110,15 @@ public class SessionReplicator implements RequestHandler {
     FakeHttpSession httpSession = new FakeHttpSession(sid, ctx);
     FakeHttpRequest httpRequest = new FakeHttpRequest(httpSession);
     FakeHttpResponse httpResponse = new FakeHttpResponse();
-    
+
     try {
       for (Iterator<String> i = sessionInfo.keySet().iterator(); i.hasNext();) {
         String appName = i.next();
         if (sessionInfo.get(appName) != null) {
-        service.sendAttrs((HttpServletRequest) httpRequest,
-                          (HttpServletResponse) httpResponse,
-                          (Map<String, Object>) sessionInfo.get(appName),
-                          appName);
+          service.sendAttrs((HttpServletRequest) httpRequest,
+                            (HttpServletResponse) httpResponse,
+                            (Map<String, Object>) sessionInfo.get(appName),
+                            appName);
         }
       }
     } catch (Exception exc) {

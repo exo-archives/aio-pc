@@ -15,14 +15,14 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
 
@@ -48,21 +48,21 @@
     <dependency>
       <groupId>exo-jcr</groupId>
       <artifactId>exo-jcr.services.jcr.api</artifactId>
-      <version>${exo.jcr.version}</version>
+      <version>${org.exoplatform.jcr.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>exo-platform</groupId>
       <artifactId>exo-platform.container</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.platform.version}</version>
       <scope>provided</scope>
     </dependency>
 
     <dependency>
       <groupId>exo-jcr</groupId>
       <artifactId>exo-jcr.services.jcr.impl</artifactId>
-      <version>${exo.jcr.version}</version>
+      <version>${org.exoplatform.jcr.version}</version>
       <scope>provided</scope>
     </dependency>
     -->

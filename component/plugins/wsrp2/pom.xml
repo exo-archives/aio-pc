@@ -24,70 +24,70 @@
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.commons</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.kernel.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.container</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.kernel.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.component.cache</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.kernel.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.xml-processing</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.core.version}</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.organization.api</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.core.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.common</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.core.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.database</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.core.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.resources.api</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.core.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.organization.jdbc</artifactId>
-      <version>${exo.platform.version}</version>
+      <version>${org.exoplatform.core.version}</version>
     </dependency>
 
     <dependency>
-       <groupId>org.exoplatform.portletcontainer</groupId>
-       <artifactId>exo.pc.component.core</artifactId>
-       <version>${exo.portlet-container.version}</version>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${exo.portlet-container.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <!-- ************************ soap ************************ -->
