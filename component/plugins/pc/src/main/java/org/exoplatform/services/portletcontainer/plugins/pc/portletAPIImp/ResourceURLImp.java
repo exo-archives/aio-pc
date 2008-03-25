@@ -25,6 +25,7 @@ import javax.portlet.PortletURLGenerationListener;
 import javax.portlet.ResourceURL;
 
 import org.exoplatform.Constants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
@@ -114,25 +115,25 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
 
-    sB.append(Constants.AMPERSAND);
+    sB.append(PCConstants.AMPERSAND);
     sB.append(Constants.TYPE_PARAMETER);
     sB.append("=");
     sB.append(getType());
 
-    sB.append(Constants.AMPERSAND);
+    sB.append(PCConstants.AMPERSAND);
     sB.append(Constants.SECURE_PARAMETER);
     sB.append("=");
     sB.append(isSecure());
 
     if (resourceID != null) {
-      sB.append(Constants.AMPERSAND);
+      sB.append(PCConstants.AMPERSAND);
       sB.append(Constants.RESOURCE_ID_PARAMETER);
       sB.append("=");
       sB.append(resourceID);
     }
 
     if (cacheLevel != null) {
-      sB.append(Constants.AMPERSAND);
+      sB.append(PCConstants.AMPERSAND);
       sB.append(Constants.CACHELEVEL_PARAMETER);
       sB.append("=");
       sB.append(cacheLevel);
@@ -144,14 +145,14 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
         Object obj = parameters.get(name);
         if (obj instanceof String) {
           String value = (String) obj;
-          sB.append(Constants.AMPERSAND);
+          sB.append(PCConstants.AMPERSAND);
           sB.append(encode(name, escapeXML));
           sB.append("=");
           sB.append(encode(value, escapeXML));
         } else {
           String[] values = (String[]) obj;
           for (String element : values) {
-            sB.append(Constants.AMPERSAND);
+            sB.append(PCConstants.AMPERSAND);
             sB.append(encode(name, escapeXML));
             sB.append("=");
             sB.append(encode(element, escapeXML));
@@ -170,14 +171,14 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
           Object obj = renderParams.get(name);
           if (obj instanceof String) {
             String value = (String) obj;
-            sB.append(Constants.AMPERSAND);
+            sB.append(PCConstants.AMPERSAND);
             sB.append(encode(name, escapeXML));
             sB.append("=");
             sB.append(encode(value, escapeXML));
           } else {
             String[] values = (String[]) obj;
             for (String element : values) {
-              sB.append(Constants.AMPERSAND);
+              sB.append(PCConstants.AMPERSAND);
               sB.append(encode(name, escapeXML));
               sB.append("=");
               sB.append(encode(element, escapeXML));

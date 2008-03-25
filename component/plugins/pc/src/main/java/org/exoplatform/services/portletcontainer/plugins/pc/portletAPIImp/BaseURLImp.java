@@ -29,6 +29,7 @@ import java.util.Set;
 import javax.portlet.BaseURL;
 
 import org.exoplatform.Constants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
 /**
@@ -218,7 +219,7 @@ public abstract class BaseURLImp implements BaseURL {
       for (String name : names) {
         List<String> propvalues = properties.get(name);
         for (int i = 0; i <= propvalues.size(); i++) {
-          sb.append(Constants.AMPERSAND);
+          sb.append(PCConstants.AMPERSAND);
           sb.append(Constants.PROPERTY_ENCODER);
           sb.append(encode(name, escapeXML));
           sb.append("=");

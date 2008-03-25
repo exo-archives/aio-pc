@@ -226,24 +226,24 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
 
-    sB.append(Constants.AMPERSAND);
+    sB.append(PCConstants.AMPERSAND);
     sB.append(Constants.TYPE_PARAMETER);
     sB.append("=");
     sB.append(getType());
 
-    sB.append(Constants.AMPERSAND);
+    sB.append(PCConstants.AMPERSAND);
     sB.append(Constants.SECURE_PARAMETER);
     sB.append("=");
     sB.append(isSecure());
 
     if (requiredPortletMode != null) {
-      sB.append(Constants.AMPERSAND);
+      sB.append(PCConstants.AMPERSAND);
       sB.append(Constants.PORTLET_MODE_PARAMETER);
       sB.append("=");
       sB.append(requiredPortletMode);
     }
     if (requiredWindowState != null) {
-      sB.append(Constants.AMPERSAND);
+      sB.append(PCConstants.AMPERSAND);
       sB.append(Constants.WINDOW_STATE_PARAMETER);
       sB.append("=");
       sB.append(requiredWindowState);
@@ -255,14 +255,14 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        sB.append(Constants.AMPERSAND);
+        sB.append(PCConstants.AMPERSAND);
         sB.append(encode(name, escapeXML));
         sB.append("=");
         sB.append(encode(value, escapeXML));
       } else {
         String[] values = (String[]) obj;
         for (String element : values) {
-          sB.append(Constants.AMPERSAND);
+          sB.append(PCConstants.AMPERSAND);
           sB.append(encode(name, escapeXML));
           sB.append("=");
           sB.append(encode(element, escapeXML));
@@ -271,7 +271,7 @@ public class PortletURLImp extends BaseURLImp implements PortletURL {
     }
     String propertyString = getPropertyString(escapeXML);
     if ((propertyString != "") && (propertyString != null))
-      // sB.append(Constants.AMPERSAND);
+      // sB.append(PCConstants.AMPERSAND);
       sB.append(propertyString);
     return sB.toString();
   }
