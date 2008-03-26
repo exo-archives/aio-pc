@@ -84,18 +84,13 @@ public class PortletCacheCommand extends BaseCommandUnit {
     String portletAppName = req.getPortletWindowInternal().getWindowID()
         .getPortletApplicationName();
     String portletName = req.getPortletWindowInternal().getWindowID().getPortletName();
-    String uniqueId = req.getPortletWindowInternal().getWindowID().getUniqueID();
     PortletMode mode = req.getPortletMode();
     WindowState window = req.getWindowState();
 
     boolean isCacheGlobal = resolveCache(req.getPortletDatas().getGlobalCache(), portletMonitor
         .getCacheScope(portletAppName, portletName));
     log.debug("Is cache global: " + isCacheGlobal);
-    String key = null;
-    if (isCacheGlobal)
-      key = req.getInput().getInternalWindowID().getOwner() + uniqueId;
-    else
-      key = generateKey(req, uniqueId);
+    String key = generateKey(req, isCacheGlobal, "");
 
     if ((key != null)
         && portletMonitor.needsCacheInvalidation(portletAppName, portletName, key, mode, window,
@@ -120,7 +115,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
       } else {
         log.debug("Expiration period -1 data first cached, before proceed");
         rcontext.executeNextUnit();
-        key = generateKey(req, uniqueId);
+        key = generateKey(req, isCacheGlobal, "");
         log.debug("Expiration period -1 data first cached, after proceed");
         updateCache(portletAppName, portletName, key, res, mode, window, isCacheGlobal);
       }
@@ -130,7 +125,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
         ((PortalContextImp) req.getPortalContext()).addProperty(RenderResponse.ETAG,
             portletMonitor.getCachedETag(portletAppName, portletName, key, isCacheGlobal));
       rcontext.executeNextUnit();
-      key = generateKey(req, uniqueId);
+      key = generateKey(req, isCacheGlobal, "");
       log.debug("Expiration period currentAccessTime - lastCacheUpdateTime > expirationPeriod * 1000 after proceed");
       if (res.getOutput().getProperties().get(RenderResponse.USE_CACHED_CONTENT) != null)
         useCache(portletAppName, portletName, key, res, isCacheGlobal);
@@ -148,14 +143,24 @@ public class PortletCacheCommand extends BaseCommandUnit {
 
   /**
    * @param req request
-   * @param uniqueId unique id
+   * @param isCacheGlobal TODO
+   * @param modifier TODO
    * @return generated key
    */
-  private String generateKey(final PortletRequestImp req, final String uniqueId) {
+  private String generateKey(final PortletRequestImp req, boolean isCacheGlobal, String modifier) {
+    if (modifier == null)
+      modifier = "";
+    String uniqueId = "";
+    if (isCacheGlobal) {
+      uniqueId = String.valueOf((req.getInput().getInternalWindowID().getPortletApplicationName() +
+          req.getInput().getInternalWindowID().getPortletName()).hashCode());
+      return req.getInput().getInternalWindowID().getOwner() + uniqueId + modifier;
+    }
     if (req.getSession(false) == null)
       return null;
-    return req.getSession().getId() + req.getRemoteUser()
-        + req.getInput().getInternalWindowID().getOwner() + uniqueId;
+    uniqueId = req.getInput().getInternalWindowID().getUniqueID();
+    return req.getSession().getId() + req.getRemoteUser() + req.getInput().getInternalWindowID().getOwner() + uniqueId
+      + modifier;
   }
 
   /**
@@ -189,8 +194,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
     if (isCacheGlobal)
       key = req.getInput().getInternalWindowID().getOwner() + uniqueId;
     else
-      key = generateKey(req, uniqueId);
-    key = key + "r";
+      key = generateKey(req, isCacheGlobal, "r");
     int expirationPeriod = portletMonitor.getCacheExpirationPeriod(portletAppName, portletName);
     long lastUpdateTime = 0;
     if (key != null)
@@ -209,7 +213,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
       } else {
         log.debug("Expiration period -1 data first cached, before proceed");
         rcontext.executeNextUnit();
-        key = generateKey(req, uniqueId);
+        key = generateKey(req, isCacheGlobal, "r");
         log.debug("Expiration period -1 data first cached, after proceed");
         updateRCache(portletAppName, portletName, key, res, isCacheGlobal);
       }
@@ -219,7 +223,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
         ((PortalContextImp) req.getPortalContext()).addProperty(RenderResponse.ETAG,
             portletMonitor.getCachedETag(portletAppName, portletName, key, isCacheGlobal));
       rcontext.executeNextUnit();
-      key = generateKey(req, uniqueId);
+      key = generateKey(req, isCacheGlobal, "r");
       log.debug("Expiration period currentAccessTime - lastCacheUpdateTime > expirationPeriod * 1000 after proceed");
       if (res.getOutput().getProperties().get(RenderResponse.USE_CACHED_CONTENT) != null)
         useRCache(portletAppName, portletName, key, res, isCacheGlobal);
@@ -259,8 +263,10 @@ public class PortletCacheCommand extends BaseCommandUnit {
     log.debug("Is cache global: " + isCacheGlobal);
     // invalidate cache
     String uniqueID = req.getPortletWindowInternal().getWindowID().getUniqueID();
-    String key = generateKey(req, uniqueID);
-
+    String key = generateKey(req, isCacheGlobal, "");
+    if (key != null)
+      portletMonitor.removeCachedData(portletAppName, portletName, key, isCacheGlobal);
+    key = generateKey(req, isCacheGlobal, "r");
     if (key != null)
       portletMonitor.removeCachedData(portletAppName, portletName, key, isCacheGlobal);
 
@@ -291,8 +297,10 @@ public class PortletCacheCommand extends BaseCommandUnit {
     log.debug("Is cache global: " + isCacheGlobal);
     // invalidate cache
     String uniqueID = req.getPortletWindowInternal().getWindowID().getUniqueID();
-    String key = generateKey(req, uniqueID);
-
+    String key = generateKey(req, isCacheGlobal, "");
+    if (key != null)
+      portletMonitor.removeCachedData(portletAppName, portletName, key, isCacheGlobal);
+    key = generateKey(req, isCacheGlobal, "r");
     if (key != null)
       portletMonitor.removeCachedData(portletAppName, portletName, key, isCacheGlobal);
 
