@@ -24,6 +24,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.List;
 import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.portlet.PortletMode;
 import javax.portlet.WindowState;
@@ -54,6 +55,7 @@ public class TestPlugin2 implements  PortletContainerPlugin {
   private String name;
   private String description;
   private HashMap<String,PortletApp> portletApp = new HashMap();
+  private Map<String,String> portletprefs;
   
   
   
@@ -86,7 +88,22 @@ public class TestPlugin2 implements  PortletContainerPlugin {
 
   public Map<String, String[]> getPortletPreference(Input input) {
     // TODO Auto-generated method stub
-    return null;
+    
+    HashMap<String, String[]> out = new HashMap();
+    String[] arr;
+    arr = new String[5];
+    Set<String> keys = portletprefs.keySet();
+    int i = 0;
+    for (String key : keys) {
+      try {
+        arr[i] = portletprefs.get(key);
+        i++;
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+    }
+   out.put("testKey", arr);
+   return (Map<String, String[]>) out;
   }
 
   public Collection<PortletMode> getSupportedPortletModes() {
@@ -182,7 +199,7 @@ public class TestPlugin2 implements  PortletContainerPlugin {
 
   public void setPortletPreference(Input input, Map<String, String> preferences) throws PortletContainerException {
     // TODO Auto-generated method stub
-    
+    this.portletprefs = preferences;
   }
 
   public void setProperties(Map<String, String> properties) {
