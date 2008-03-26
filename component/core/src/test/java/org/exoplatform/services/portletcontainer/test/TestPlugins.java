@@ -18,6 +18,7 @@ package org.exoplatform.services.portletcontainer.test;
 
 import java.util.Collection;
 import java.util.Locale;
+import java.util.HashMap;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -31,6 +32,7 @@ import org.exoplatform.services.portletcontainer.pci.EventInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
+import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.services.portletcontainer.test.plugins.*;
@@ -90,5 +92,30 @@ public class TestPlugins extends BaseTest {
       ex.printStackTrace();
     }
   }
+  
+  
+  public void testPrefs() throws PortletContainerException {
+    log.info("org.exoplatform.services.portletcontainer.test.testPrefs");
+    HashMap<String, String> inner_map = new HashMap();
+    inner_map.put("TestPrefKey1", "TestPrefValue1");
+    inner_map.put("TestPrefKey2", "TestPrefValue2");
+    inner_map.put("TestPrefKey3", "TestPrefValue3");
+    try {
+      Input input = new Input();
+      ExoWindowID windowID1 = new ExoWindowID();
+      windowID1.setPortletApplicationName("Test");
+      input.setInternalWindowID(windowID1);
+      portletContainer.setPortletPreference(input, inner_map);
+      HashMap<String,String[]> out = (HashMap)portletContainer.getPortletPreference(input);
+      String[] arr = out.get("testKey");
+      assertTrue(arr[0].indexOf("TestPrefValue") > -1);
+      assertTrue(arr[1].indexOf("TestPrefValue") > -1);
+      assertTrue(arr[2].indexOf("TestPrefValue") > -1);
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+  
   
 }
