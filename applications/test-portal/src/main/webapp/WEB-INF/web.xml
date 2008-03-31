@@ -11,7 +11,7 @@
 
   <filter>
     <filter-name>PortletFilter</filter-name>
-    <filter-class>org.exoplatform.services.portletcontainer.test.filters.PortletFilter</filter-class>
+    <filter-class>org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortletFilter</filter-class>
   </filter>
 
   <!-- AXIS filter for WSRP1 -->
@@ -67,7 +67,11 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>org.exoplatform.services.portletcontainer.test.listeners.AppListener</listener-class>
+    <listener-class>org.exoplatform.frameworks.portletcontainer.portalframework.listeners.AppListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.exoplatform.frameworks.portletcontainer.portalframework.listeners.SessionListener</listener-class>
   </listener>
 
   <!-- SERVLETS -->
@@ -75,11 +79,11 @@
   <!-- PortalServlet -->
   <servlet>
     <servlet-name>PortalServlet</servlet-name>
-    <servlet-class>org.exoplatform.services.portletcontainer.test.filters.PortalServlet</servlet-class>
+    <servlet-class>org.exoplatform.services.portletcontainer.test.servlets.PortalServlet</servlet-class>
   </servlet>
   <servlet>
     <servlet-name>TckServlet</servlet-name>
-    <servlet-class>org.exoplatform.services.portletcontainer.test.filters.TckServlet</servlet-class>
+    <servlet-class>org.exoplatform.services.portletcontainer.test.servlets.TckServlet</servlet-class>
   </servlet>
 
   <!-- WSRPStarter servlet for WSRP1 -->

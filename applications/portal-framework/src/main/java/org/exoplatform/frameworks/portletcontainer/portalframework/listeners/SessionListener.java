@@ -14,14 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.portletcontainer.test.listeners;
+package org.exoplatform.frameworks.portletcontainer.portalframework.listeners;
 
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
-import org.exoplatform.services.portletcontainer.test.filters.PortletFilter;
+import org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortletFilter;
 
 /**
  * Created by The eXo Platform SAS .

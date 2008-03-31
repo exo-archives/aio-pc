@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.portletcontainer.test.listeners;
+package org.exoplatform.frameworks.portletcontainer.portalframework.listeners;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletContextEvent;
@@ -35,7 +35,7 @@ import org.exoplatform.container.StandaloneContainer;
 public class AppListener implements ServletContextListener {
 
   /**
-   * Creates stand-alone container when context have just initialized.
+   * Creates stand-alone container when context have just been initialized.
    *
    * @param sce servlet context event
    */
@@ -46,7 +46,7 @@ public class AppListener implements ServletContextListener {
       // it's needed to switch off default behavior -- searching for /conf/portal/configuration.xml in all
       // available jars
      // StandaloneContainer.setConfigurationURL(null);
-      StandaloneContainer standaloneContainer = StandaloneContainer.getInstance(this.getClass().getClassLoader(),
+      StandaloneContainer standaloneContainer = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
         components);
     } catch (Exception e) {
       System.out.println(" !!! AppListener.contextInitialized exception: " + e);
