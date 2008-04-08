@@ -122,7 +122,7 @@ public class PortletFilter implements Filter {
    * @throws IOException something may go wrong
    * @throws ServletException something may go wrong
    */
-  public void doFilter(ServletRequest servletRequest,
+  public synchronized void doFilter(ServletRequest servletRequest,
       ServletResponse servletResponse, FilterChain filterChain)
       throws IOException, ServletException {
 
