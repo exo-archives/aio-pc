@@ -17,6 +17,7 @@
 package org.exoplatform.frameworks.portletcontainer.portalframework.filters;
 
 import java.io.Serializable;
+import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -52,22 +53,7 @@ public class SessionReplicator implements RequestHandler {
    * Message dispatcher.
    */
   private static MessageDispatcher disp;
-
-  /**
-   * Properties.
-   */
-  private static final String      PROPS = "UDP(" /* + "bind_addr=192.168.0.23;" */ + "mcast_addr=228.8.8.8;mcast_port=45566;"
-                                             + "ip_ttl=32;mcast_send_buf_size=64000;mcast_recv_buf_size=64000):"
-                                             + "PING(timeout=2000;num_initial_members=3):" 
-                                             + "MERGE2(min_interval=5000;max_interval=10000):"
-                                             + "FD(timeout=5000):" 
-                                             + "VERIFY_SUSPECT(timeout=1500):"
-                                             + "pbcast.NAKACK(max_xmit_size=8096;gc_lag=50;retransmit_timeout=600,1200,2400,4800):"
-                                             + "UNICAST(timeout=600,1200,2400,4800):" 
-                                             + "pbcast.STABLE(desired_avg_gossip=20000):"
-//                                             + "FRAG(frag_size=8096;down_thread=false;up_thread=false):" 
-                                             + "pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=false;print_local_addr=true)";
-
+  
   /**
    * Sends session info to other nodes.
    *
@@ -75,13 +61,27 @@ public class SessionReplicator implements RequestHandler {
    * @throws Exception something may go wrong
    */
   public final void send(final HashMap<String, Serializable> sessionInfo) throws Exception {
+    
+    
+    try {
+      
     if (channel == null || disp == null) {
-      channel = new JChannel(PROPS);
+      InputStream stream = this.getClass().getClassLoader().getResourceAsStream("jgroups-configuration.conf");
+      byte[] b;
+      b = new byte[stream.available()];
+      stream.read(b, 0, stream.available());
+      String props = new String(b);
+
+      channel = new JChannel(props);
       disp = new MessageDispatcher(channel, null, null, this);
       channel.connect("TestGroup");
     }
     org.jgroups.Message mess = new org.jgroups.Message(null, null, sessionInfo);
     disp.castMessage(null, mess, GroupRequest.GET_ALL, 0);
+   
+    } catch (Exception ex){
+      ex.printStackTrace();
+   }
   }
 
   /**
