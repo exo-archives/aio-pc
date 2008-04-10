@@ -280,7 +280,7 @@
             <include>**/AllTestsPortlet.java</include>
             <!-- include>**/Test*.java</include -->
           </includes>
-          <skip>false</skip>
+          <skip>${exo.test.skip}</skip>
         </configuration>
       </plugin>
 
