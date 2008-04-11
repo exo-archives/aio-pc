@@ -38,14 +38,26 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
-          <useFile>true</useFile>
+<!--
+        <exo.test.forkmode>never</exo.test.forkmode>
+        <exo.test.failure.ignore>true</exo.test.failure.ignore>
+        <exo.test.includes>Test*</exo.test.includes>
+-->
+          <skip>${exo.test.skip}</skip>
+          <useFile>${exo.test.use.file}</useFile>
+          <testFailureIgnore>${exo.test.failure.ignore}</testFailureIgnore>
+          <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
+          <forkMode>${exo.test.forkMode}</forkMode>
+          <includes>
+            <include>**/${exo.test.includes}.java</include>
+          </includes>
+<!--	
           <forkMode>pertest</forkMode>
           <testFailureIgnore>false</testFailureIgnore>
-          <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
           <includes>
             <include implementation="java.lang.String">**/Test*.java</include>
           </includes>
+-->
           <systemProperties>
             <property>
               <name>emma.coverage.out.file</name>
@@ -166,6 +178,7 @@
       <properties>
         <exo.platform.version>2.0</exo.platform.version>
         <exo.portlet-container.version>2.0rc4</exo.portlet-container.version>
+        <org.exoplatform.core.version>2.0.1</org.exoplatform.core.version>
       </properties>
     </profile>
   </profiles>

@@ -47,6 +47,16 @@
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
+          <skip>${exo.test.skip}</skip>
+          <useFile>${exo.test.use.file}</useFile>
+          <testFailureIgnore>${exo.test.failure.ignore}</testFailureIgnore>
+          <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
+          <forkMode>${exo.test.forkMode}</forkMode>
+          <includes>
+            <include>**/AllTests.java</include>
+            <!-- include>**/TestFilters.java</include -->
+            <!-- include>**/Test*.java</include -->
+          </includes>
           <systemProperties>
             <property>
               <name>testPath</name>
@@ -65,12 +75,6 @@
               <value>target/emma/coverage.ec</value>
             </property>
           </systemProperties>
-          <includes>
-            <include>**/AllTests.java</include>
-            <!-- include>**/TestFilters.java</include -->
-            <!-- include>**/Test*.java</include -->
-          </includes>
-          <skip>false</skip>
         </configuration>
       </plugin>
     </plugins>
