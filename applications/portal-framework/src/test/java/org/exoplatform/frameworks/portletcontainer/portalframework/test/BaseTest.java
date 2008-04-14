@@ -95,16 +95,16 @@ public class BaseTest extends TestCase {
 
     persister = (PortletPreferencesPersister) portalContainer.getComponentInstanceOfType(PortletPreferencesPersister.class) ;
     orgService_ = (OrganizationService)portalContainer.getComponentInstanceOfType(OrganizationService.class) ;
-    User user = orgService_.getUserHandler().findUserByName("exotest") ;
-    if(user == null) {
-      user = orgService_.getUserHandler().createUserInstance() ;
-      user.setUserName("exotest") ;
-      user.setPassword("exo") ;
-      user.setFirstName("Exo") ;
-      user.setLastName("Platform") ;
-      user.setEmail("exo@exoportal.org") ;
-      orgService_.getUserHandler().createUser(user, true);
-    }
+//    User user = orgService_.getUserHandler().findUserByName("exotest") ;
+//    if(user == null) {
+//      user = orgService_.getUserHandler().createUserInstance() ;
+//      user.setUserName("exotest") ;
+//      user.setPassword("exo") ;
+//      user.setFirstName("Exo") ;
+//      user.setLastName("Platform") ;
+//      user.setEmail("exo@exoportal.org") ;
+//      orgService_.getUserHandler().createUser(user, true);
+//    }
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
     InputStream is = url.openStream();
     portletApp_ = XMLParser.parse(is,true); //Second portlet specification - JSR 286

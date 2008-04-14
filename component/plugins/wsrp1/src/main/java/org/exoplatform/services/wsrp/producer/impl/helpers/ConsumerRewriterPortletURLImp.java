@@ -77,35 +77,35 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append("=");
     sB.append(getType());
     
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
     
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
     sB.append("=");
     sB.append(navigationalState);
     
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SESSION_ID);
     sB.append("=");
     sB.append(sessionID);
     
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
     sB.append(isSecure());
 
     if (requiredPortletMode != null) {
-      sB.append("&");
+      sB.append(WSRPConstants.NEXT_PARAM);
       sB.append(WSRPConstants.WSRP_MODE);
       sB.append("=");
       sB.append(requiredPortletMode);
     }
 
     if (requiredWindowState != null) {
-      sB.append("&");
+      sB.append(WSRPConstants.NEXT_PARAM);
       sB.append(WSRPConstants.WSRP_WINDOW_STATE);
       sB.append("=");
       sB.append(requiredWindowState);
@@ -119,14 +119,14 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        sB.append(Constants.AMPERSAND);
+        sB.append(WSRPConstants.NEXT_PARAM);
         sB.append(encode(name));
         sB.append("=");
         sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          sB.append(Constants.AMPERSAND);
+          sB.append(WSRPConstants.NEXT_PARAM);
           sB.append(encode(name));
           sB.append("=");
           sB.append(encode(values[i]));

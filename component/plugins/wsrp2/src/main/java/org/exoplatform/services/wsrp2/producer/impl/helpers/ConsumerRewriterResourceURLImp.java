@@ -77,7 +77,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
           // process navigationalValuesString
           for (String param : value) {
             if (navigationalValuesString != "")
-              navigationalValuesString += "&";
+              navigationalValuesString += WSRPConstants.NEXT_PARAM;
             navigationalValuesString += key + "=" + param;
           }
         } else {
@@ -95,12 +95,12 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     sB.append("=");
     sB.append(getType());
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
     sB.append("=");
     sB.append("");
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_EXTENSIONS);
     sB.append("=");
     sB.append("");
@@ -108,17 +108,17 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);
     }
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
     sB.append(isSecure());
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_URL);
     sB.append("=");
     sB.append("");
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_RESOURCE_ID);
     sB.append("=");
     sB.append(resourceID);
@@ -130,22 +130,22 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_RESOURCE_STATE);
     sB.append("=");
     sB.append(resourceState);
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_RESOURCE_CACHEABILITY);
     sB.append("=");
     sB.append(cacheLevel);
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_REQUIRES_REWRITE);
     sB.append("=");
     sB.append("");
 
-    sB.append("&");
+    sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PREFER_OPERATION);
     sB.append("=");
     sB.append("");
@@ -158,14 +158,14 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        sB.append(Constants.AMPERSAND);
+        sB.append(WSRPConstants.NEXT_PARAM);
         sB.append(encode(name));
         sB.append("=");
         sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          sB.append(Constants.AMPERSAND);
+          sB.append(WSRPConstants.NEXT_PARAM);
           sB.append(encode(name));
           sB.append("=");
           sB.append(encode(values[i]));

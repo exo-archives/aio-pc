@@ -111,9 +111,9 @@ public class URLRewriterImpl implements URLRewriter {
     int lengthNext = 0;
     String subNext = null;
     while (index != -1) {
-      subNext = rewriteURL.substring(index, index + WSRPConstants.NEXT_PARAM_AMP.length());
-      if (subNext.equals(WSRPConstants.NEXT_PARAM_AMP)) {
-        lengthNext = WSRPConstants.NEXT_PARAM_AMP.length();
+      subNext = rewriteURL.substring(index, index + WSRPConstants.NEXT_PARAM.length());
+      if (subNext.equals(WSRPConstants.NEXT_PARAM)) {
+        lengthNext = WSRPConstants.NEXT_PARAM.length();
       } else {
         lengthNext = WSRPConstants.NEXT_PARAM.length();
       }

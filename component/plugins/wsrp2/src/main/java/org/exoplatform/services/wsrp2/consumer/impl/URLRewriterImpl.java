@@ -107,8 +107,8 @@ public class URLRewriterImpl implements URLRewriter {
       return urlGenerator.getResourceURL(baseURL, params);
     } else {
       // extension
-      params.put(Constants.TYPE_PARAMETER, toRewriteURL.substring(0, toRewriteURL.indexOf("&") - 1));
-      toRewriteURL = toRewriteURL.substring(toRewriteURL.indexOf("&") );
+      params.put(Constants.TYPE_PARAMETER, toRewriteURL.substring(0, toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM) - 1));
+      toRewriteURL = toRewriteURL.substring(toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM) );
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getExtensionURL(baseURL, params);
     }
@@ -119,8 +119,8 @@ public class URLRewriterImpl implements URLRewriter {
     String[] parameterPairs = toRewriteURL.split(WSRPConstants.NEXT_PARAM);
     for (String string : parameterPairs) {
       String[] nameAndValue = string.split("=");
-      if (nameAndValue[0].startsWith(WSRPConstants.NEXT_PARAM_AMP.substring(1)))
-        nameAndValue[0] = nameAndValue[0].substring(WSRPConstants.NEXT_PARAM_AMP.substring(1).length());
+      if (nameAndValue[0].startsWith(WSRPConstants.NEXT_PARAM.substring(1)))
+        nameAndValue[0] = nameAndValue[0].substring(WSRPConstants.NEXT_PARAM.substring(1).length());
       if (nameAndValue.length == 1)
         params.put(nameAndValue[0], "");
       else

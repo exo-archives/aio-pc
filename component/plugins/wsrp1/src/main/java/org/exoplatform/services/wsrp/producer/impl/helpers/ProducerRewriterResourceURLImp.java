@@ -99,14 +99,14 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        template += Constants.AMPERSAND;
+        template += WSRPConstants.NEXT_PARAM;
         template += encode(name);
         template += "=";
         template += encode(value);
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          template += Constants.AMPERSAND;
+          template += WSRPConstants.NEXT_PARAM;
           template += encode(name);
           template += "=";
           template += encode(values[i]);

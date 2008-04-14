@@ -77,7 +77,7 @@ public class URLGeneratorImpl implements URLGenerator {
       String value = (String) parameters.get(name);
       if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
         continue;
-      sB.append("&");
+      sB.append(WSRPConstants.NEXT_PARAM);
       sB.append(replaceName(name));//encode(replaceName(name), false));
       sB.append("=");
       sB.append(replaceValue(name, value));//encode(replaceValue(name, value), false));
