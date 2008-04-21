@@ -14,17 +14,59 @@
     <module>applications</module>
   </modules>
   
-  <dependencies>
+  <!-- dependencies>
     <dependency>
       <groupId>emma</groupId>
       <artifactId>emma</artifactId>
       <version>2.0.5312</version>
       <scope>test</scope>
     </dependency>
-  </dependencies>
+  </dependencies -->
 
   <build>
+
+    <resources>
+      <resource>
+        <directory>src/main/java</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.xsl</include>
+          <include>**/*.properties</include>
+          <include>**/*.ion</include>
+        </includes>
+      </resource>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.xml</include>
+          <include>**/*.xsl</include>
+          <include>**/*.properties</include>
+          <include>**/login.conf</include>
+          <include>**/*.ion</include>
+        </includes>
+      </resource>
+    </resources>
+    <testResources>
+      <testResource>
+        <directory>src/test/java</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.xml</include>
+          <include>**/*.txt</include>
+        </includes>
+      </testResource>
+      <testResource>
+        <directory>src/test/resources</directory>
+        <includes>
+          <include>**/*.properties</include>
+          <include>**/*.xml</include>
+          <include>**/*.txt</include>
+        </includes>
+      </testResource>
+    </testResources>
+
     <plugins>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
@@ -34,18 +76,22 @@
           <optimize>true</optimize>
         </configuration>
       </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
-          <skip>true</skip>
-          <useFile>true</useFile>
-          <forkMode>pertest</forkMode>
-          <testFailureIgnore>false</testFailureIgnore>
+          <skip>${exo.test.skip}</skip>
+          <useFile>${exo.test.use.file}</useFile>
+          <testFailureIgnore>${exo.test.failure.ignore}</testFailureIgnore>
           <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
+          <forkMode>${exo.test.forkMode}</forkMode>
           <includes>
-            <include implementation="java.lang.String">**/Test*.java</include>
+            <include>**/${exo.test.includes}.java</include>
           </includes>
+          <excludes>
+            <!-- exclude>**/myproject/**/${exo.test.includes}.java</exclude -->
+          </excludes>
           <systemProperties>
             <property>
               <name>emma.coverage.out.file</name>
@@ -54,6 +100,7 @@
           </systemProperties>
         </configuration>        
       </plugin>
+
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.2-SNAPSHOT</version>
@@ -144,6 +191,7 @@
       </plugin>
     </plugins>
   </build>
+
   <reporting>
     <plugins>
       <plugin>
@@ -156,6 +204,7 @@
       </plugin>
     </plugins>
   </reporting>
+
   <profiles>
     <profile>
       <id>default</id>

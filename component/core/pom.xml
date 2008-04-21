@@ -40,7 +40,7 @@
       <version>${org.exoplatform.kernel.version}</version>
       <optional>compile</optional>
     </dependency>
-</dependencies>
+  </dependencies>
   <build>
     <plugins>
     <plugin>
@@ -67,10 +67,8 @@
           </systemProperties>
           <includes>
             <include>**/AllTests.java</include>
-            <!-- include>**/TestFilters.java</include -->
             <!-- include>**/Test*.java</include -->
           </includes>
-          <skip>${exo.test.skip}</skip>
         </configuration>
       </plugin>
     </plugins>

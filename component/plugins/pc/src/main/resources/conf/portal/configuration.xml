@@ -18,12 +18,12 @@
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHandler</type>
   </component>
-  
+
   <component>
     <key>javax.portlet.PortalContext</key>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortalContextImp</type>
   </component>
-  
+
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle.ResourceBundleManager</type>
   </component>
@@ -33,8 +33,7 @@
     <type>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.DefaultPersistenceManager</type>
   </component>
 
-
- <component>
+  <component>
     <key>org.exoplatform.services.portletcontainer.PortletContainerService</key>
     <type>org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl</type>
     <component-plugins>
@@ -47,4 +46,5 @@
       </component-plugin>
     </component-plugins>
   </component>
+
 </configuration>

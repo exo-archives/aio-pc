@@ -46,7 +46,6 @@
     </dependency>
   </dependencies>
 
-
   <build>
     <plugins>
      <plugin>
@@ -104,12 +103,9 @@
            </property>
          </systemProperties>
          <includes>
-           <!-- <include>**/ZZZ.java</include> -->
            <include>**/AllTestsPortlet.java</include>
-           <!-- include>**/TestFilters.java</include -->
            <!-- include>**/Test*.java</include -->
          </includes>
-         <skip>${exo.test.skip}</skip>
        </configuration>
      </plugin>
 
