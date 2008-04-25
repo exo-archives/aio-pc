@@ -55,7 +55,6 @@ public class PortalServlet extends HttpServlet {
    * @throws ServletException declared by superclass
    */
   public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-
     try {
       this.log = ExoLogger.getLogger(getClass());
       HttpSession session = request.getSession();
@@ -91,7 +90,44 @@ public class PortalServlet extends HttpServlet {
           w.println("<title>Portlet rendering</title>");
         w.println("</head>");
       w.println("<body width='100%' style='font-family: Arial' bgcolor='#FFFFFF'>");
-      w.println("<img src=\"../img/logotestportal.png\">");
+      w.println("<table width='100%'>");
+        w.println("<tr>");
+          w.println("<td><img src=\"../img/logotestportal.png\"></td>");
+          w.println("<td>&nbsp;</td>");
+          w.println("<td align=\"right\">");
+            w.println("<form method='post' name='addPortlet' action='.'>");
+            w.println("<input type='hidden' name='pAction' value='add'/>");
+            w.println("<select name='pApp' id='pApp' onchange='pltListSelectApp();'>");
+            w.println("</select>");
+            w.println("<select name='pName' id='pName'>");
+            w.println("</select>");
+            w.println("<input type='submit' value='Add portlet'/>");
+            w.println("</form>");
+            w.println("<form method='post' name='delPortlet' id='delPortlet' action='.'>");
+            w.println("<input type='hidden' name='pAction' value='del'/>");
+            w.println("<input type='hidden' name='pId' id='pId' value=''/>");
+            w.println("</form>");
+            w.println("<script language='JavaScript'>");
+            w.println("function pltListSelectApp() {");
+            w.println("  var sel = document.getElementById('pApp');");
+            w.println("  if (sel.selectedIndex != -1) {");
+            w.println("    var sel1 = document.getElementById('pName');");
+            w.println("    sel1.options.length = 0;");
+            w.println("    var pRow = pList[sel.options[sel.selectedIndex].value];");
+            w.println("    for (var i in pRow) {");
+            w.println("      sel1.options[sel1.options.length] = new Option(pRow[i], pRow[i]);");
+            w.println("    }");
+            w.println("  }");
+            w.println("}");
+            w.println(session.getAttribute("portletNames"));
+            w.println("var sel = document.getElementById('pApp');");
+            w.println("for (var i in pList) {");
+            w.println("  sel.options[sel.options.length] = new Option(i, i);");
+            w.println("}");
+            w.println("pltListSelectApp();");
+            w.println("</script>");
+        w.println("</tr>");
+      w.println("</table>");
 
       ArrayList<PortletInfo> portletinfos = (ArrayList<PortletInfo>) session.getAttribute("portletinfos");
 
@@ -131,15 +167,16 @@ public class PortalServlet extends HttpServlet {
             w.println("</div>");
             w.println("<div id='elList'" + displayOpen + ">");
             w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-              w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='4'>"
+              w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='5'>"
                   + "<img src=\"../img/opentriangle.gif\" onclick='listClose()' /> <font size='4' face='Verdana,Arial'>Please, select some of the following portlets :</font></th></tr>");
               w.println("<tr><td align='center'><b>Checked</b></td>");
                 w.println("<td align='center'><b>Num</b></td>");
                 w.println("<td align='center'><b>Portlet Id</b></td>");
-              w.println("<td align='center'><b>Portlet Name</b></td></tr>");
+              w.println("<td align='center'><b>Portlet Name</b></td>");
+              w.println("<td>&nbsp;</td></tr>");
           int i2 = 0;
-          for (Iterator i = portletinfos.iterator(); i.hasNext();) {
-            PortletInfo pinf = (PortletInfo) i.next();
+          for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
+            PortletInfo pinf = i.next();
               String title2 = pinf.getTitle();
               String id2 = pinf.getPortlet();
               String myatr2str = "";
@@ -150,7 +187,11 @@ public class PortalServlet extends HttpServlet {
                 w.println("<input type='checkbox' name='n" + i2 + "n' ID='n" + i2 + "n'" + myatr2str
                     + " onClick='checkPortlet.submit()'>");
                 w.println("</td><td align='center'>" + i2 + "</td><td valign='center' bgcolor=''>" + id2 + "</td>");
-              w.println("<td valign='center' bgcolor=''>" + title2 + "</td></tr>");
+              w.println("<td valign='center' bgcolor=''>" + title2 + "</td>");
+              w.println("<td>");
+                w.println("<input type='button' value='Delete' onclick='document.getElementById(\"pId\").value = \"" + id2 + "\"; document.getElementById(\"delPortlet\").submit();'/>");
+              w.println("</td>");
+              w.println("</tr>");
             }
             w.println("</table>");
             w.println("</div>");

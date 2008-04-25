@@ -18,6 +18,7 @@ package org.exoplatform.frameworks.portletcontainer.portalframework;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Date;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -37,7 +38,6 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.PCConstants;
@@ -335,7 +335,8 @@ public class PortalFramework {
    * @return display name of a portlet
    */
   protected final String getPortletDisplayName(final String plt) {
-    final PortletData portlet = allPortletMetaData.get(plt);
+    final WindowID2 wid = getWindowID(plt);
+    final PortletData portlet = allPortletMetaData.get(wid.getPortletApplicationName() + "/" + wid.getPortletName());
     if (portlet.getDisplayName() == null)
       return null;
     if (portlet.getDisplayName().size() == 0)
@@ -410,11 +411,6 @@ public class PortalFramework {
     if (portalParams.get(Constants.CACHELEVEL_PARAMETER) == null)
       portalParams.put(Constants.CACHELEVEL_PARAMETER, new String[] {ResourceURL.PAGE});
 
-    // confirm that target is valid to pattern "APPLICATION_NAME/PORTLET_NAME"
-    if (target != null)
-      if (target.split("/").length > 2)
-        target = target.split("/")[0] + "/" + target.split("/")[1];
-
     if (target == null)
       action = PCConstants.RENDER_INT;
     if (target != null && action == PCConstants.RENDER_INT)
@@ -432,17 +428,17 @@ public class PortalFramework {
       }
     }
 
-    final String[] pn = StringUtils.split(target, "/");
-
     if (target != null) {
 
       final WindowID2 win = wins.get(target);
       // set MODE
-      final PortletMode portletMode = Helper.getPortletMode(Helper.string0(portalParams.get(Constants.PORTLET_MODE_PARAMETER)),
-                                                            getPortletModes(pn[0], pn[1]));
+      final PortletMode portletMode = Helper.getPortletMode(Helper.string0(
+          portalParams.get(Constants.PORTLET_MODE_PARAMETER)), getPortletModes(win.getPortletApplicationName(),
+          win.getPortletName()));
       // set STATE
-      final WindowState windowState = Helper.getWindowState(Helper.string0(portalParams.get(Constants.WINDOW_STATE_PARAMETER)),
-                                                            getWindowStates(pn[0], pn[1]));
+      final WindowState windowState = Helper.getWindowState(Helper.string0(
+          portalParams.get(Constants.WINDOW_STATE_PARAMETER)), getWindowStates(win.getPortletApplicationName(),
+          win.getPortletName()));
 
       if (portletMode != null) {
         changes.add(target);
@@ -462,8 +458,11 @@ public class PortalFramework {
    */
   protected final void initMaps() {
     allPortletMetaData = service.getAllPortletMetaData();
-    buildEventDeliveryAndPublicParamsMaps(allPortletMetaData);
-    createOrUpdateWins(allPortletMetaData);
+    if (wins == null)
+      wins = new HashMap<String, WindowID2>();
+    else
+      buildEventDeliveryAndPublicParamsMaps(wins);
+//    createOrUpdateWins(allPortletMetaData);
   }
 
   /**
@@ -480,11 +479,11 @@ public class PortalFramework {
     final Set<String> keys = allPortlets.keySet();
     final Iterator<String> i = keys.iterator();
     while (i.hasNext()) {
-      final String key = i.next();
-      final String portletName = key; // was: = key.replace('.', '/');
-      final String[] ss = StringUtils.split(portletName, "/");
+      String winKey = i.next();
+      final String[] ss = winKey.split("/");
+      winKey = winKey.hashCode() + "_" + httpSession.getId();
 
-      if (wins.get(portletName) == null) {
+      if (wins.get(winKey) == null) {
         final WindowID2 windowID = new WindowID2();
         windowID.setOwner(Constants.ANON_USER);
         windowID.setPortletApplicationName(ss[0]);
@@ -492,26 +491,73 @@ public class PortalFramework {
         windowID.setPersistenceId(ss[0] + "II" + ss[1]);
         windowID.setPortletMode(PortletMode.VIEW);
         windowID.setWindowState(WindowState.NORMAL);
-        windowID.setUniqueID(portletName.hashCode() + "_" + httpSession.getId());
-        newWins.put(portletName, windowID);
+        windowID.setUniqueID(winKey);
+        newWins.put(winKey, windowID);
       } else
-        newWins.put(portletName, wins.get(portletName));
+        newWins.put(winKey, wins.get(winKey));
     }
     wins = newWins;
   }
 
   /**
+   * Adds a requested portlet by creating a WindowID2 instance for it.
+   *
+   * @param appName portlet application name
+   * @param portletName portlet name
+   */
+  public final void addPortlet(final String appName, final String portletName) {
+    PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
+    if (pd == null)
+      return;
+    String key = "";
+    do
+      key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_" + httpSession.getId();
+    while (wins.get(key) != null);
+
+    final WindowID2 windowID = new WindowID2();
+    windowID.setOwner(Constants.ANON_USER);
+    windowID.setPortletApplicationName(appName);
+    windowID.setPortletName(portletName);
+    windowID.setPersistenceId(appName + "II" + portletName);
+    windowID.setPortletMode(PortletMode.VIEW);
+    windowID.setWindowState(WindowState.NORMAL);
+    windowID.setUniqueID(key);
+    wins.put(key, windowID);
+  }
+
+  /**
+   * Removes a requested portlet by deleting its WindowID2 instance.
+   *
+   * @param key portlet unique key
+   */
+  public final void removePortlet(final String key) {
+    if (wins.get(key) != null)
+      wins.remove(key);
+  }
+
+  /**
+   * @return list of portlets currently added to portal page
+   */
+  public ArrayList<String> getAddedPortlets() {
+    ArrayList<String> al = new ArrayList<String>();
+    if (wins != null)
+      al.addAll(wins.keySet());
+    return al;
+  }
+
+  /**
    * Generates maps for event and public parameters delivery.
    *
-   * @param allPortlets map of portlet metadata objects
+   * @param portlets map of portlet metadata objects
    */
-  protected final void buildEventDeliveryAndPublicParamsMaps(final Map<String, PortletData> allPortlets) {
+  protected final void buildEventDeliveryAndPublicParamsMaps(final Map<String, WindowID2> portlets) {
     eventDelivery = new HashMap<QName, List<String>>();
     publicParams = new HashMap<String, List<String>>();
-    final Iterator<String> i = allPortlets.keySet().iterator();
+    final Iterator<String> i = portlets.keySet().iterator();
     while (i.hasNext()) {
       final String pname = i.next();
-      final PortletData portlet = allPortlets.get(pname);
+      final WindowID2 win = portlets.get(pname);
+      final PortletData portlet = allPortletMetaData.get(win.getPortletApplicationName() + "/" + win.getPortletName());
       // public params
       final List<String> srp = portlet.getSupportedPublicRenderParameter();
       if (srp != null)
@@ -585,13 +631,14 @@ public class PortalFramework {
    * Returns value of 'javax.portlet.escapeXml' portlet container runtime option
    * for specified portlet.
    *
-   * @param portlet portlet name
+   * @param plt portlet name
    * @return either 'javax.portlet.escapeXml' portlet container runtime option
    *         is set
    */
-  protected final boolean getPortletEscapeXml(final String portlet) {
+  protected final boolean getPortletEscapeXml(final String plt) {
     try {
-      return allPortletMetaData.get(portlet).getEscapeXml();
+      WindowID2 wid = getWindowID(plt);
+      return allPortletMetaData.get(wid.getPortletApplicationName() + "/" + wid.getPortletName()).getEscapeXml();
     } catch (final Exception e) {
       e.printStackTrace();
       return false;
@@ -609,8 +656,11 @@ public class PortalFramework {
     if (event.getEvent() == null)
       return false;
     try {
-      final String[] hs = StringUtils.split(event.getTarget(), "/");
-      return service.isEventPayloadTypeMatches(hs[0], event.getEvent().getQName(), event.getEvent().getValue());
+      WindowID2 win = wins.get(event.getTarget());
+      if (win != null)
+        return service.isEventPayloadTypeMatches(win.getPortletApplicationName(), event.getEvent().getQName(),
+            event.getEvent().getValue());
+      return false;
     } catch (final Exception e) {
       e.printStackTrace();
       return false;
@@ -780,7 +830,6 @@ public class PortalFramework {
                                                final HttpServletResponse httpResponse,
                                                final ResourceInput resourceInput) throws PortletContainerException {
     final ResourceOutput o = service.serveResource(httpRequest, httpResponse, resourceInput);
-    checkSessionInvalidation(httpRequest, o);
     return o;
   }
 
@@ -807,7 +856,6 @@ public class PortalFramework {
       renderParams = new HashMap<String, String[]>();
     addEvents(o.getEvents());
     redirect = (String) o.getProperties().get(Output.SEND_REDIRECT);
-    checkSessionInvalidation(httpRequest, o);
     final WindowID2 win = wins.get(target);
     if (o.getNextMode() != null)
       win.setPortletMode(o.getNextMode());
@@ -841,7 +889,6 @@ public class PortalFramework {
     Helper.separatePublicParams(eventRenderParams, publicRenderParams, publicParams.get(event.getTarget()));
     fixPublicRenderParams(o);
     addEvents(o.getEvents());
-    checkSessionInvalidation(httpRequest, o);
     final WindowID2 win = wins.get(event.getTarget());
     if (o.getNextMode() != null)
       win.setPortletMode(o.getNextMode());
@@ -863,20 +910,7 @@ public class PortalFramework {
                                       final HttpServletResponse httpResponse,
                                       final RenderInput renderInput) throws PortletContainerException {
     final RenderOutput o = service.render(httpRequest, httpResponse, renderInput);
-    checkSessionInvalidation(httpRequest, o);
     return o;
-  }
-
-  private void checkSessionInvalidation(final HttpServletRequest httpRequest, final Output o) {
-//    String interval = (String) o.getProperties().get(Output.INVALIDATE_SESSION);
-//    if (interval != null) {
-//      int i = -1;
-//      try { i = Integer.parseInt(interval); } catch (Exception e) { i = -1; }
-//      if (i > 0)
-//        httpRequest.getSession().setMaxInactiveInterval(i);
-//      else
-//        httpRequest.getSession().invalidate();
-//    }
   }
 
   // --- ---
@@ -990,11 +1024,11 @@ public class PortalFramework {
 
     // collecting portlets to render
 
-    final Iterator<String> totalPlts = getPortletNames().iterator();
+//    final Iterator<String> totalPlts = getPortletNames().iterator();
 
     final ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
-    while (totalPlts.hasNext()) {
-      final String portlet = totalPlts.next();
+    for (Iterator<String> reqPlts = wins.keySet().iterator(); reqPlts.hasNext(); ) {
+      final String portlet = reqPlts.next();
       final PortletInfo portletinfo = Helper.createPortletInfo(this, portlet);
       portletInfos.add(portletinfo);
       if (requestedPortlets == null || !requestedPortlets.contains(portlet))

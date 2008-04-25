@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.Filter;
@@ -78,9 +79,9 @@ public class PortletFilter implements Filter {
    * Portal identifier.
    */
   public static final String PORTAL_IDENTIFIER = "PID";
-  
+
   public static final String REPLICATOR_IDENTIFIER = "RID";
-  
+
   private SessionReplicator sr;
 
   /**
@@ -158,12 +159,49 @@ public class PortletFilter implements Filter {
       } else
         portlets2render = (ArrayList<String>) httpSession.getAttribute("portletName");
 
+      Map<String, String[]> servletParams = servletRequest.getParameterMap();
+
+      if (servletParams.containsKey("pAction")) {
+        if (servletParams.get("pAction")[0].equals("add"))
+          framework.addPortlet(servletParams.get("pApp")[0], servletParams.get("pName")[0]);
+        else if (servletParams.get("pAction")[0].equals("del"))
+          framework.removePortlet(servletParams.get("pId")[0]);
+      }
+
+      Map<String, List<String>> pList = new HashMap<String, List<String>>();
+      for (Iterator<String> i = framework.getPortletNames().iterator(); i.hasNext(); ) {
+        String pn = i.next();
+        String[] ss = pn.split("/");
+        List<String> pl = pList.get(ss[0]);
+        if (pl == null)
+          pList.put(ss[0], pl = new ArrayList<String>());
+        pl.add(ss[1]);
+      }
+      String pNames = "var pList = {";
+      boolean b = false;
+      for (Iterator<String> i = pList.keySet().iterator(); i.hasNext(); ) {
+        String pan = i.next();
+        if (b)
+          pNames += ", ";
+        pNames += "\"" + pan + "\": [";
+        List<String> pl = pList.get(pan);
+        boolean b1 = false;
+        for (Iterator<String> i1 = pl.iterator(); i1.hasNext(); ) {
+          if (b1)
+            pNames += ", ";
+          pNames += "\"" + i1.next() + "\"";
+          b1 = true;
+        }
+        pNames += "]";
+        b = true;
+      }
+      httpSession.setAttribute("portletNames", pNames + "};");
+
       // collecting portlets to render
       if (portlets2render == null) {
-        Map<String, String[]> servletParams = servletRequest.getParameterMap();
 
         if (servletParams.containsKey("fis")) {
-          Iterator<String> plts = framework.getPortletNames().iterator();
+          Iterator<String> plts = framework.getAddedPortlets().iterator();
           portlets2render = new ArrayList<String>();
 
           int count = 0;

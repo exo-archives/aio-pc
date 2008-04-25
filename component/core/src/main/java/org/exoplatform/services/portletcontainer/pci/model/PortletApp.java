@@ -453,4 +453,5 @@ public class PortletApp {
   public final void setResourceBundle(final String resourceBundle) {
     this.resourceBundle = resourceBundle;
   }
+
 }

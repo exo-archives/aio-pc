@@ -159,18 +159,17 @@ public final class Helper {
   public static PortletInfo createPortletInfo(final PortalFramework framework, final String plt) {
     PortletInfo portletinfo = new PortletInfo();
     portletinfo.setPortlet(plt);
-    String[] pl = org.apache.commons.lang.StringUtils.split(plt, "/");
     WindowID2 win = framework.getWindowID(plt);
     portletinfo.setWid(win.getUniqueID());
     portletinfo.setTitle(framework.getPortletDisplayName(plt));
     if (portletinfo.getTitle() == null)
-      portletinfo.setTitle(pl[1]);
+      portletinfo.setTitle(win.getPortletName());
 
     // Create supported modes for each portlet
     portletinfo.setMode(win.getPortletMode().toString());
     portletinfo.setModes(null);
     try {
-      Iterator<PortletMode> i = framework.getPortletModes(pl[0], pl[1]).iterator();
+      Iterator<PortletMode> i = framework.getPortletModes(win.getPortletApplicationName(), win.getPortletName()).iterator();
       ArrayList<String> pmode = null;
       while (i.hasNext()) {
         PortletMode mode = i.next();
@@ -187,7 +186,7 @@ public final class Helper {
     portletinfo.setState(win.getWindowState().toString());
     portletinfo.setStates(null);
     try {
-      Iterator<WindowState> i = framework.getWindowStates(pl[0], pl[1]).iterator();
+      Iterator<WindowState> i = framework.getWindowStates(win.getPortletApplicationName(), win.getPortletName()).iterator();
       ArrayList<String> pstate = null;
       while (i.hasNext()) {
         WindowState state = i.next();
