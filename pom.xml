@@ -46,12 +46,6 @@
           <testFailureIgnore>${exo.test.failure.ignore}</testFailureIgnore>
           <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
           <forkMode>${exo.test.forkMode}</forkMode>
-          <includes>
-            <include>**/${exo.test.includes}.java</include>
-          </includes>
-          <excludes>
-            <!-- exclude>**/myproject/**/${exo.test.includes}.java</exclude -->
-          </excludes>
           <systemProperties>
             <property>
               <name>emma.coverage.out.file</name>

@@ -30,8 +30,8 @@ public class TestSuitePortalFramework extends TestSuite {
 
 
     addTestSuite(TestIncludingModeAndState.class);
-    addTestSuite(TestParametersIsolation.class);
-    addTestSuite(TestRenderParameters.class);
+//    addTestSuite(TestParametersIsolation.class);
+//    addTestSuite(TestRenderParameters.class);
   }
 
   public void testVoid() throws Exception {
