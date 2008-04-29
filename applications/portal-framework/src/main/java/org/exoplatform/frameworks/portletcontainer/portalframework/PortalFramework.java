@@ -415,7 +415,6 @@ public class PortalFramework {
       action = PCConstants.RENDER_INT;
     if (target != null && action == PCConstants.RENDER_INT)
       Helper.separatePublicParams(portletParams, publicRenderParams, publicParams.get(target));
-
     if (!portalParams.isEmpty() && portalParams.containsKey(Constants.WINDOW_STATE_PARAMETER)) {
       if (portalParams.get(Constants.WINDOW_STATE_PARAMETER).equals(WindowState.MINIMIZED)) {
         final Set<String> set = wins.keySet();
@@ -429,12 +428,12 @@ public class PortalFramework {
     }
 
     if (target != null) {
-
       final WindowID2 win = wins.get(target);
       // set MODE
       final PortletMode portletMode = Helper.getPortletMode(Helper.string0(
           portalParams.get(Constants.PORTLET_MODE_PARAMETER)), getPortletModes(win.getPortletApplicationName(),
           win.getPortletName()));
+      
       // set STATE
       final WindowState windowState = Helper.getWindowState(Helper.string0(
           portalParams.get(Constants.WINDOW_STATE_PARAMETER)), getWindowStates(win.getPortletApplicationName(),
@@ -458,6 +457,9 @@ public class PortalFramework {
    */
   protected final void initMaps() {
     allPortletMetaData = service.getAllPortletMetaData();
+    eventDelivery = new HashMap<QName, List<String>>();
+    publicParams = new HashMap<String, List<String>>();
+
     if (wins == null)
       wins = new HashMap<String, WindowID2>();
     else
@@ -505,10 +507,10 @@ public class PortalFramework {
    * @param appName portlet application name
    * @param portletName portlet name
    */
-  public final void addPortlet(final String appName, final String portletName) {
+  public final String addPortlet(final String appName, final String portletName) {
     PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
     if (pd == null)
-      return;
+      return null;
     String key = "";
     do
       key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_" + httpSession.getId();
@@ -523,6 +525,7 @@ public class PortalFramework {
     windowID.setWindowState(WindowState.NORMAL);
     windowID.setUniqueID(key);
     wins.put(key, windowID);
+    return key;
   }
 
   /**
@@ -551,8 +554,6 @@ public class PortalFramework {
    * @param portlets map of portlet metadata objects
    */
   protected final void buildEventDeliveryAndPublicParamsMaps(final Map<String, WindowID2> portlets) {
-    eventDelivery = new HashMap<QName, List<String>>();
-    publicParams = new HashMap<String, List<String>>();
     final Iterator<String> i = portlets.keySet().iterator();
     while (i.hasNext()) {
       final String pname = i.next();
@@ -852,7 +853,7 @@ public class PortalFramework {
     }
     fixPublicRenderParams(o);
     renderParams = o.getRenderParameters();
-    if (renderParams == null)
+    if (renderParams == null) 
       renderParams = new HashMap<String, String[]>();
     addEvents(o.getEvents());
     redirect = (String) o.getProperties().get(Output.SEND_REDIRECT);
