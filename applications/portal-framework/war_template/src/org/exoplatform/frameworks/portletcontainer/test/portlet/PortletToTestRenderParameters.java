@@ -26,6 +26,7 @@ public class PortletToTestRenderParameters implements Portlet {
   public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException, IOException {
     
     actionResponse.setRenderParameter("testParamether", "123");
+    
   }
 
   public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
