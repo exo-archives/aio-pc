@@ -17,6 +17,7 @@
 package org.exoplatform.frameworks.portletcontainer.portalframework.test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
@@ -57,17 +58,17 @@ public class TestIncludingModeAndState extends BaseTest {
 
     log.info("testIncludingModeAndState...");
     String markupType = "text/html";
-    ArrayList requestedPortlets = new ArrayList();
-    requestedPortlets.add("war_template/PortletToTestIncludingModeAndState");
+    ArrayList<String> requestedPortlets = new ArrayList<String>();
+    requestedPortlets.add(key1);
 
     MockServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
     HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-    request.setParameter("portal:action", "render");
+    request.setParameter("portal:type", "render");
     request.setParameter("portal:windowState", "minimized");
     request.setParameter("portal:portletMode", "edit");
-    request.setParameter("portal:componentId", "war_template/PortletToTestIncludingModeAndState");
+    request.setParameter("portal:componentId", key1);
 
-    ArrayList resultList  = framework.processRequest(mockServletContext, request, response,
+    ArrayList<PortletInfo> resultList  = framework.processRequest(mockServletContext, request, response,
         markupType, requestedPortlets);
 
 
@@ -76,15 +77,21 @@ public class TestIncludingModeAndState extends BaseTest {
     request2.setParameter("portal:action", "render");
     //request2.setParameter("portal:windowState", "minimized");
     //request2.setParameter("portal:portletMode", "edit");
-    request2.setParameter("portal:componentId", "war_template/PortletToTestIncludingModeAndState");
+    request2.setParameter("portal:componentId", key1);
 
-    ArrayList resultList2  = framework.processRequest(mockServletContext, request2, response2,
+    ArrayList<PortletInfo> resultList2  = framework.processRequest(mockServletContext, request2, response2,
         markupType, requestedPortlets);
-
-    PortletInfo pInfo = (PortletInfo)resultList2.get(0);
-    assertTrue(pInfo.getOut().indexOf("minimized") > -1);
-    assertTrue(pInfo.getOut().indexOf("edit") > -1);
-
+         
+    
+    Iterator it = resultList.iterator();
+    while (it.hasNext()) {
+      PortletInfo pInfo = (PortletInfo)it.next();
+      if (pInfo.getPortlet().equals(key1)){
+        assertTrue(pInfo.getOut().indexOf("minimized") > -1);
+         assertTrue(pInfo.getOut().indexOf("edit") > -1);
+      }
+    }
+    log.info("Done.");
     } catch (Exception e) {
       e.printStackTrace();
     }

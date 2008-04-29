@@ -74,6 +74,7 @@ public class BaseTest extends TestCase {
   protected PortalContainer portalContainer;
   protected Map allPortletMetaData = null;
   protected ExoWindowID windowID;
+  protected String key1, key2, key3;
 //  protected PortletContext portletContext;
 //  protected PortletDataImp portletDatas;
 
@@ -121,22 +122,23 @@ public class BaseTest extends TestCase {
     portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, PORTLET_APP_NAME);
     portletMonitor = (PortletContainerMonitorImpl) RootContainer.getInstance().getComponentInstanceOfType(PortletContainerMonitorImpl.class);
 
+     ((MockServletContext)portalContainer.getComponentInstanceOfType(MockServletContext.class)).setName(PORTLET_APP_NAME);
+    allPortletMetaData = portletContainer.getAllPortletMetaData();
+
 
     framework = (PortalFramework) frameworks.get();
     if (framework == null) {
       framework = new PortalFramework(portalContainer);
       frameworks.set(framework);
     }
+    
     framework.init(new MockHttpSession());
-
-    String portal_container_name = framework.getPortalName();
-
-
-
-    ((MockServletContext)portalContainer.getComponentInstanceOfType(MockServletContext.class)).setName(PORTLET_APP_NAME);
-
-    allPortletMetaData = portletContainer.getAllPortletMetaData();
-
+    
+    key1 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestIncludingModeAndState");
+    key2 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestParametersIsolation");
+    key3 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestRenderParameters");
+    //String portal_container_name = framework.getPortalName();
+    
   }
 
   public void tearDown() throws Exception {

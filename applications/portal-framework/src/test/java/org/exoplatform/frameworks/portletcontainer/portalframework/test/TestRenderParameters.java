@@ -17,6 +17,7 @@
 package org.exoplatform.frameworks.portletcontainer.portalframework.test;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletResponse;
@@ -55,22 +56,28 @@ public class TestRenderParameters extends BaseTest {
 
     log.info("testRenderParameters...");
     String markupType = "text/html";
-    ArrayList requestedPortlets = new ArrayList();
-    requestedPortlets.add("war_template/PortletToTestParametersIsolation");
+    ArrayList<String> requestedPortlets = new ArrayList<String>();
+    requestedPortlets.add(key3);
 
     MockServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
     HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-    request.setParameter("portal:action", "action");
+    request.setParameter("portal:type", "action");
     request.setParameter("portal:windowState", "normal");
     request.setParameter("portal:portletMode", "view");
-    request.setParameter("portal:componentId", "war_template/PortletToTestRenderParameters");
+    request.setParameter("portal:componentId", key3);
 
     ArrayList resultList  = framework.processRequest(mockServletContext, request, response,
         markupType, requestedPortlets);
 
-    PortletInfo pInfo = (PortletInfo)resultList.get(1);
-    assertTrue(pInfo.getOut().indexOf("OK") > -1);
-    log.info("Done.");
+    Iterator it = resultList.iterator();
+    while (it.hasNext()) {
+      PortletInfo pInfo = (PortletInfo)it.next();
+      if (pInfo.getPortlet().equals(key3)){
+        assertTrue(pInfo.getOut().indexOf("OK") > -1);
+      }
+      
+    }
+     log.info("Done.");
   }
 
 }
