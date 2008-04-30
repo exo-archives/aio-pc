@@ -23,6 +23,7 @@ import java.util.Iterator;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
@@ -63,11 +64,11 @@ public class TestParametersIsolation extends BaseTest {
 
    MockServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
    HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-   request.setParameter("portal:type", "event");
+   request.setParameter(Constants.TYPE_PARAMETER, "event");
    // optionally can be action or event
    //request.setParameter("portal:action", "action");
-   request.setParameter("portal:windowState", "normal");
-   request.setParameter("portal:portletMode", "view");
+   request.setParameter(Constants.WINDOW_STATE_PARAMETER, "normal");
+   request.setParameter(Constants.PORTLET_MODE_PARAMETER, "view");
    request.setParameter("portal:testParamether", "123");
    request.setParameter("portal:componentId", key2);
 

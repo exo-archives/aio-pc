@@ -23,6 +23,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
@@ -63,9 +64,9 @@ public class TestIncludingModeAndState extends BaseTest {
 
     MockServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
     HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-    request.setParameter("portal:type", "render");
-    request.setParameter("portal:windowState", "minimized");
-    request.setParameter("portal:portletMode", "edit");
+    request.setParameter(Constants.TYPE_PARAMETER, Constants.PORTAL_RENDER);
+    request.setParameter(Constants.WINDOW_STATE_PARAMETER, "minimized");
+    request.setParameter(Constants.PORTLET_MODE_PARAMETER, "edit");
     request.setParameter("portal:componentId", key1);
 
     ArrayList<PortletInfo> resultList  = framework.processRequest(mockServletContext, request, response,
@@ -74,7 +75,7 @@ public class TestIncludingModeAndState extends BaseTest {
 
     MockServletRequest request2 = new MockServletRequest(new MockHttpSession(), Locale.US, true);
     HttpServletResponse response2 = new MockServletResponse(new EmptyResponse());
-    request2.setParameter("portal:action", "render");
+    request2.setParameter(Constants.TYPE_PARAMETER, Constants.PORTAL_RENDER);
     //request2.setParameter("portal:windowState", "minimized");
     //request2.setParameter("portal:portletMode", "edit");
     request2.setParameter("portal:componentId", key1);

@@ -23,6 +23,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
@@ -61,9 +62,9 @@ public class TestRenderParameters extends BaseTest {
 
     MockServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
     HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-    request.setParameter("portal:type", "action");
-    request.setParameter("portal:windowState", "normal");
-    request.setParameter("portal:portletMode", "view");
+    request.setParameter(Constants.TYPE_PARAMETER, Constants.PORTAL_PROCESS_ACTION);
+    request.setParameter(Constants.WINDOW_STATE_PARAMETER, "normal");
+    request.setParameter(Constants.PORTLET_MODE_PARAMETER, "view");
     request.setParameter("portal:componentId", key3);
 
     ArrayList resultList  = framework.processRequest(mockServletContext, request, response,
