@@ -139,7 +139,7 @@
   </portlet>
 
   <portlet>
-    <description xml:lang="en">Clock</description>
+    <description xml:lang="en">The displayed time matches your computer's system clock - not the actual atomic clock's time.</description>
     <portlet-name>Clock</portlet-name>
     <display-name xml:lang="en">Clock</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.Clock</portlet-class>
