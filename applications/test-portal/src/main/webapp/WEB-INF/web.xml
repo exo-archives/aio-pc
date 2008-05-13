@@ -209,12 +209,12 @@
   <!-- PortalServlet mapping -->
   <servlet-mapping>
     <servlet-name>PortalServlet</servlet-name>
-    <url-pattern>/portal/</url-pattern>
+    <url-pattern>/private/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>TckServlet</servlet-name>
-    <url-pattern>/tck/</url-pattern>
+    <url-pattern>/tck/*</url-pattern>
   </servlet-mapping>
 
   <!-- WSRPStarter mapping for WSRP1 -->
@@ -298,7 +298,7 @@
  <security-constraint>
     <web-resource-collection>
       <web-resource-name>authentication</web-resource-name>
-      <url-pattern>/portal/*</url-pattern>
+      <url-pattern>/private/*</url-pattern>
       <http-method>POST</http-method>
       <http-method>GET</http-method>
     </web-resource-collection>

@@ -1,14 +1,20 @@
-<%String loginAction = request.getContextPath() + "/j_security_check";%>
-<html>
+<%@ page language="java" %>
+<%@ page contentType="text/html" %>
+<%String contextPath  =  request.getContextPath();%>
+<%String loginAction = contextPath + "/j_security_check";%>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <title>eXo Platform Test Portal - Authorisation error</title>
-	<link rel="stylesheet" href="exopcstyle.css">
+  <link rel="stylesheet" type='text/css' href="<%=contextPath%>/exopcstyle.css" />
 </head>
 <body bgcolor='#FFFFFF'>
    <!--  h1>eXo Platform Test Portal - Authorisation required </h1  -->
     <table>
     <tr>
-        <td><img src="img/SigninPaper162x207.jpg"></td>
+        <td><img src="<%=contextPath%>/img/SigninPaper162x207.jpg"></td>
         <td><font color="#F9747E"> Login error : <br>
              <form name="loginForm" method="post" action="<%=loginAction%>">
              <input name="j_username" value="admin"/>

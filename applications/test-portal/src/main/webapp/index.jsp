@@ -1,1 +1,1 @@
-<%response.sendRedirect("portal/");%>
+<%response.sendRedirect(request.getContextPath() + "/private/");%>
