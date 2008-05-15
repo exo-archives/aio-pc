@@ -70,7 +70,7 @@ public class TestParametersIsolation extends BaseTest {
    request.setParameter(Constants.WINDOW_STATE_PARAMETER, "normal");
    request.setParameter(Constants.PORTLET_MODE_PARAMETER, "view");
    request.setParameter("portal:testParamether", "123");
-   request.setParameter("portal:componentId", key2);
+   request.setParameter(Constants.COMPONENT_PARAMETER, key2);
 
    ArrayList resultList  = framework.processRequest(mockServletContext, request, response,
        markupType, requestedPortlets);

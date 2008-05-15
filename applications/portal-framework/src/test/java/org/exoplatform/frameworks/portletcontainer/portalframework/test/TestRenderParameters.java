@@ -65,7 +65,7 @@ public class TestRenderParameters extends BaseTest {
     request.setParameter(Constants.TYPE_PARAMETER, Constants.PORTAL_PROCESS_ACTION);
     request.setParameter(Constants.WINDOW_STATE_PARAMETER, "normal");
     request.setParameter(Constants.PORTLET_MODE_PARAMETER, "view");
-    request.setParameter("portal:componentId", key3);
+    request.setParameter(Constants.COMPONENT_PARAMETER, key3);
 
     ArrayList resultList  = framework.processRequest(mockServletContext, request, response,
         markupType, requestedPortlets);

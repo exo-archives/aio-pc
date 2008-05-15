@@ -67,7 +67,7 @@ public class TestIncludingModeAndState extends BaseTest {
     request.setParameter(Constants.TYPE_PARAMETER, Constants.PORTAL_RENDER);
     request.setParameter(Constants.WINDOW_STATE_PARAMETER, "minimized");
     request.setParameter(Constants.PORTLET_MODE_PARAMETER, "edit");
-    request.setParameter("portal:componentId", key1);
+    request.setParameter(Constants.COMPONENT_PARAMETER, key1);
 
     ArrayList<PortletInfo> resultList  = framework.processRequest(mockServletContext, request, response,
         markupType, requestedPortlets);
@@ -78,7 +78,7 @@ public class TestIncludingModeAndState extends BaseTest {
     request2.setParameter(Constants.TYPE_PARAMETER, Constants.PORTAL_RENDER);
     //request2.setParameter("portal:windowState", "minimized");
     //request2.setParameter("portal:portletMode", "edit");
-    request2.setParameter("portal:componentId", key1);
+    request2.setParameter(Constants.COMPONENT_PARAMETER, key1);
 
     ArrayList<PortletInfo> resultList2  = framework.processRequest(mockServletContext, request2, response2,
         markupType, requestedPortlets);
