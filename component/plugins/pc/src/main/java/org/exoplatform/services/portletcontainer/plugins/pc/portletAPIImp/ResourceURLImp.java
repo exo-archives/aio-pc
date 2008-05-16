@@ -146,16 +146,16 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
         if (obj instanceof String) {
           String value = (String) obj;
           sB.append(PCConstants.AMPERSAND);
-          sB.append(encode(name, escapeXML));
+          sB.append(encode(name));
           sB.append("=");
-          sB.append(encode(value, escapeXML));
+          sB.append(encode(value));
         } else {
           String[] values = (String[]) obj;
           for (String element : values) {
             sB.append(PCConstants.AMPERSAND);
-            sB.append(encode(name, escapeXML));
+            sB.append(encode(name));
             sB.append("=");
-            sB.append(encode(element, escapeXML));
+            sB.append(encode(element));
           }
         }
       }
@@ -172,16 +172,16 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
           if (obj instanceof String) {
             String value = (String) obj;
             sB.append(PCConstants.AMPERSAND);
-            sB.append(encode(name, escapeXML));
+            sB.append(encode(name));
             sB.append("=");
-            sB.append(encode(value, escapeXML));
+            sB.append(encode(value));
           } else {
             String[] values = (String[]) obj;
             for (String element : values) {
               sB.append(PCConstants.AMPERSAND);
-              sB.append(encode(name, escapeXML));
+              sB.append(encode(name));
               sB.append("=");
-              sB.append(encode(element, escapeXML));
+              sB.append(encode(element));
             }
           }
         }
@@ -189,10 +189,12 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
         e.printStackTrace();
       }
 
-    String propertyString = getPropertyString(escapeXML);
+    String propertyString = getPropertyString();
     if ((propertyString != "") && (propertyString != null))
       // sB.append(Constants.AMPERSAND);
       sB.append(propertyString);
+    if (escapeXML)
+      return encodeChars(sB.toString());
     return sB.toString();
   }
 

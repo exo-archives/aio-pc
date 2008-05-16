@@ -142,12 +142,12 @@ public abstract class BaseURLImp implements BaseURL {
       throw new IllegalArgumentException("the map given is null");
     if (map.containsKey(null))
       throw new IllegalArgumentException("the map given contains a null key");
-    Set<String> keys = map.keySet();
-    for (String string : keys)
+    Set keys = map.keySet();
+    for (Object string : keys)
       if (!(string instanceof String))
         throw new IllegalArgumentException("the map contains a non String key");
-    Collection<String[]> values = map.values();
-    for (String[] name : values)
+    Collection values = map.values();
+    for (Object name : values)
       if (!(name instanceof String[]))
         throw new IllegalArgumentException("the map contains a non String[] value");
     parameters = map;
