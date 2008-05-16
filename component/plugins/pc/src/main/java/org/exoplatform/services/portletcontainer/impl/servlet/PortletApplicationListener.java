@@ -42,7 +42,9 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.w3c.dom.ls.LSInput;
 import org.w3c.dom.ls.LSResourceResolver;
+import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 import org.xmlpull.v1.XmlPullParser;
 
 import com.sun.org.apache.xerces.internal.dom.DOMInputImpl;
@@ -59,32 +61,32 @@ public class PortletApplicationListener implements ServletContextListener {
   /**
    * Logger.
    */
-  private static Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+  private static Log       log              = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
   /**
    * WebXML.
    */
-  private static String fileWebXML = "/WEB-INF/web.xml";
+  private static String    fileWebXML       = "/WEB-INF/web.xml";
 
   /**
    * PortletXML.
    */
-  private static String filePortletXML = "/WEB-INF/portlet.xml";
+  private static String    filePortletXML   = "/WEB-INF/portlet.xml";
 
   /**
    * XMLXSD.
    */
-  private static String fileXMLXSD = "javax/servlet/resources/" + "xml.xsd";
+  private static String    fileXMLXSD       = "javax/servlet/resources/" + "xml.xsd";
 
   /**
    * XMLSchemaDTD.
    */
-  private static String fileXMLSchemaDTD = "javax/servlet/resources/" + "XMLSchema.dtd";
+  private static String    fileXMLSchemaDTD = "javax/servlet/resources/" + "XMLSchema.dtd";
 
   /**
    * DatatypesDTD.
    */
-  private static String fileDatatypesDTD = "javax/servlet/resources/" + "datatypes.dtd";
+  private static String    fileDatatypesDTD = "javax/servlet/resources/" + "datatypes.dtd";
 
   /**
    * Servlet context.
@@ -100,18 +102,16 @@ public class PortletApplicationListener implements ServletContextListener {
   public final void contextInitialized(final ServletContextEvent servletContextEvent) {
 
     ExoContainer manager = ExoContainerContext.getTopContainer();
-
     if (log.isDebugEnabled())
       log.debug("Getting context path");
 
     String portletAppName = getContextPath(servletContextEvent);
-
     if (log.isDebugEnabled())
       log.debug("Context path:" + portletAppName);
 
     ServletContext servletContext = servletContextEvent.getServletContext();
     hServletContext = servletContextEvent.getServletContext();
-    log.info("DEPLOY PORTLET APPLICATION: " + portletAppName);
+    log.info("DEPLOYING PORTLET APPLICATION: " + portletAppName);
     if (log.isDebugEnabled())
       log.debug("Real path : " + servletContext.getRealPath(""));
 
@@ -121,16 +121,14 @@ public class PortletApplicationListener implements ServletContextListener {
     try {
 
       String spec = validationPortletXML(servletContext);
+
       if (spec == null)
         return;
-
       is = servletContext.getResourceAsStream(filePortletXML);
       log.info("The portlet.xml file valid portlet spec " + spec);
-      PortletApp portletApp = XMLParser.parse(is, spec.equalsIgnoreCase("2") ? Boolean.TRUE
-          : Boolean.FALSE);
+      PortletApp portletApp = XMLParser.parse(is, spec.equalsIgnoreCase("2") ? Boolean.TRUE : Boolean.FALSE);
       is = servletContext.getResourceAsStream(fileWebXML);
       Collection<String> roles = new ArrayList<String>();
-
       ExoXPPParser xpp = ExoXPPParser.getInstance();
       xpp.setInput(is, "UTF8");
       xpp.mandatoryNode("web-app");
@@ -145,9 +143,9 @@ public class PortletApplicationListener implements ServletContextListener {
           roles.add(xpp.mandatoryNodeContent("role-name"));
       }
       log.info("  -- read: " + portletApp.getPortlet().size() + " portlets");
-      PortletApplicationRegister service = (PortletApplicationRegister) manager
-          .getComponentInstanceOfType(PortletApplicationRegister.class);
+      PortletApplicationRegister service = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
       service.registerPortletApplication(servletContext, portletApp, roles, portletAppName);
+      log.info("DEPLOYED PORTLET APPLICATION: " + portletAppName);
     } catch (Exception e) {
       log.error("Cannot deploy " + portletAppName, e);
     } finally {
@@ -163,13 +161,13 @@ public class PortletApplicationListener implements ServletContextListener {
    * @see javax.servlet.ServletContextListener#contextDestroyed(javax.servlet.ServletContextEvent)
    */
   public final void contextDestroyed(final ServletContextEvent servletContextEvent) {
+
     ServletContext servletContext = servletContextEvent.getServletContext();
     String portletAppName = getContextPath(servletContextEvent);
     ExoContainer manager = ExoContainerContext.getTopContainer();
     log.info("UNDEPLOY PORTLET APPLICATION: " + portletAppName);
     try {
-      PortletApplicationRegister service = (PortletApplicationRegister) manager
-          .getComponentInstanceOfType(PortletApplicationRegister.class);
+      PortletApplicationRegister service = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
       service.removePortletApplication(servletContext, portletAppName);
     } catch (Exception e) {
       log.error("UNDEPLOY PORTLET APPLICATION: " + e);
@@ -184,13 +182,12 @@ public class PortletApplicationListener implements ServletContextListener {
 
     String portletAppName = null;
     try {
-      portletAppName = (String) ServletContext.class.getMethod("getContextPath", new Class[0])
-          .invoke(servletContextEvent.getServletContext(), new Class[0]);
+      portletAppName = (String) ServletContext.class.getMethod("getContextPath", new Class[0]).invoke(servletContextEvent.getServletContext(),
+                                                                                                      new Class[0]);
       portletAppName = portletAppName.substring(portletAppName.lastIndexOf("/") + 1);
       return portletAppName;
     } catch (Exception e) {
-      log
-          .warn("Servlet api 2.4 or below detected. Unable to find method getContextPath on ServletContext.");
+      log.warn("Servlet api 2.4 or below detected. Unable to find method getContextPath on ServletContext.");
       //e.printStackTrace();
     }
     if (portletAppName == null)
@@ -234,15 +231,17 @@ public class PortletApplicationListener implements ServletContextListener {
       log.debug("Defining portlet specification");
     ClassLoader cl = Thread.currentThread().getContextClassLoader();
     StreamSource source = null;
-    //      long time = java.lang.System.currentTimeMillis();
+
     try {
+//    long time = java.lang.System.currentTimeMillis();
       if (log.isDebugEnabled())
         log.debug("validation 1-st portlet spec");
       source = new StreamSource(servletContext.getResourceAsStream(filePortletXML));
-      SchemaFactory factory = SchemaFactory
-          .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      SchemaFactory factory = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
       StreamSource schemaFile = new StreamSource(cl.getResourceAsStream("portlet-app_1_0.xsd"));
       factory.setResourceResolver(new PCResourceResolverImpl());
+      ErrorHandler aHandler = new MyErrorHandler();
+      factory.setErrorHandler(aHandler);
       Schema schema = factory.newSchema(schemaFile);
       Validator validator = schema.newValidator();
       validator.validate(source);
@@ -251,15 +250,18 @@ public class PortletApplicationListener implements ServletContextListener {
       specErr1 = e.getMessage();
     } catch (IOException e) {
       specErr1 = e.getMessage();
+    } catch (Exception e) {
+      log.info(e.getMessage());
+    } finally {
+//    System.out.println(java.lang.System.currentTimeMillis()-time + " - time 1-st portlet spec validation");
     }
-    //      System.out.println(java.lang.System.currentTimeMillis()-time + " - time 1-st portlet spec validation");
-    //      time = java.lang.System.currentTimeMillis();
+
     try {
+//    time = java.lang.System.currentTimeMillis();
       if (log.isDebugEnabled())
         log.debug("validation 2-nd portlet spec");
       source = new StreamSource(servletContext.getResourceAsStream(filePortletXML));
-      SchemaFactory factory = SchemaFactory
-          .newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
+      SchemaFactory factory = SchemaFactory.newInstance(javax.xml.XMLConstants.W3C_XML_SCHEMA_NS_URI);
       StreamSource schemaFile = new StreamSource(cl.getResourceAsStream("portlet-app_2_0.xsd"));
       factory.setResourceResolver(new PCResourceResolverImpl());
       Schema schema = factory.newSchema(schemaFile);
@@ -270,8 +272,11 @@ public class PortletApplicationListener implements ServletContextListener {
       specErr2 = e.getMessage();
     } catch (IOException e) {
       specErr2 = e.getMessage();
+    } catch (Exception e) {
+      log.info(e.getMessage());
+    } finally {
+//    System.out.println(java.lang.System.currentTimeMillis()-time + " - time 2-nd portlet spec validation");
     }
-    //      System.out.println(java.lang.System.currentTimeMillis()-time + " - time 2-nd portlet spec validation");
 
     if (log.isDebugEnabled())
       log.debug("Checking that was the error reason internet connection problem.");
@@ -336,10 +341,10 @@ public class PortletApplicationListener implements ServletContextListener {
      * @see org.w3c.dom.ls.LSResourceResolver#resolveResource(java.lang.String, java.lang.String, java.lang.String, java.lang.String, java.lang.String)
      */
     public final LSInput resolveResource(final String type, // 'http://www.w3.org/2001/XMLSchema'
-        final String namespaceURI, // 'http://www.w3.org/XML/1998/namespace'
-        final String publicId, // 'null'
-        final String systemId, // 'http://www.w3.org/2001/xml.xsd' <- this one require for us
-        final String baseURI) // 'null'
+                                         final String namespaceURI, // 'http://www.w3.org/XML/1998/namespace'
+                                         final String publicId, // 'null'
+                                         final String systemId, // 'http://www.w3.org/2001/xml.xsd' <- this one require for us
+                                         final String baseURI) // 'null'
     {
       try {
 
@@ -355,8 +360,7 @@ public class PortletApplicationListener implements ServletContextListener {
             is = url.openStream();
             if (is != null) {
               if (log.isDebugEnabled())
-                log.debug("Have got the : " + fileXMLXSD + ", url = " + url + ", key = "
-                    + url.toString());
+                log.debug("Have got the : " + fileXMLXSD + ", url = " + url + ", key = " + url.toString());
               break;
             }
           }
@@ -376,8 +380,7 @@ public class PortletApplicationListener implements ServletContextListener {
             is = url.openStream();
             if (is != null) {
               if (log.isDebugEnabled())
-                log.debug("Have got the : " + fileXMLSchemaDTD + ", url = " + url + ", key = "
-                    + url.toString());
+                log.debug("Have got the : " + fileXMLSchemaDTD + ", url = " + url + ", key = " + url.toString());
               break;
             }
           }
@@ -397,8 +400,7 @@ public class PortletApplicationListener implements ServletContextListener {
             is = url.openStream();
             if (is != null) {
               if (log.isDebugEnabled())
-                log.debug("Have got the : " + fileDatatypesDTD + ", url = " + url + ", key = "
-                    + url.toString());
+                log.debug("Have got the : " + fileDatatypesDTD + ", url = " + url + ", key = " + url.toString());
               break;
             }
           }
@@ -415,4 +417,28 @@ public class PortletApplicationListener implements ServletContextListener {
 
   }
 
+}
+
+class MyErrorHandler implements ErrorHandler {
+
+  public void warning(SAXParseException exception) throws SAXException {
+    // Bring things to a crashing halt
+    System.out.println("**Parsing Warning**" + "  Line:    " + exception.getLineNumber() + "" + "  URI:     " + exception.getSystemId() + ""
+        + "  Message: " + exception.getMessage());
+    throw new SAXException("Warning encountered");
+  }
+
+  public void error(SAXParseException exception) throws SAXException {
+    // Bring things to a crashing halt
+    System.out.println("**Parsing Error**" + "  Line:    " + exception.getLineNumber() + "" + "  URI:     " + exception.getSystemId() + ""
+        + "  Message: " + exception.getMessage());
+    throw new SAXException("Error encountered");
+  }
+
+  public void fatalError(SAXParseException exception) throws SAXException {
+    // Bring things to a crashing halt
+    System.out.println("**Parsing Fatal Error**" + "  Line:    " + exception.getLineNumber() + "" + "  URI:     " + exception.getSystemId() + ""
+        + "  Message: " + exception.getMessage());
+    throw new SAXException("Fatal Error encountered");
+  }
 }
