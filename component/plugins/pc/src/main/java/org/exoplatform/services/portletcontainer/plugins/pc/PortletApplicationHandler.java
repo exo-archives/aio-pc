@@ -218,14 +218,22 @@ public class PortletApplicationHandler {
 
       // @todo sort the attributes
 
-      if (isAction == PCConstants.ACTION_INT)
+      if (isAction == PCConstants.ACTION_INT){
         portletRequest = new ActionRequestImp(reqCtx);
-      else if (isAction == PCConstants.EVENT_INT)
+        processActionRequest(portletRequest);
+      }
+      else if (isAction == PCConstants.EVENT_INT){
         portletRequest = new EventRequestImp(reqCtx);
-      else if (isAction == PCConstants.RESOURCE_INT)
+        processEventRequest(portletRequest);
+      }
+      else if (isAction == PCConstants.RESOURCE_INT){
         portletRequest = new ResourceRequestImp(reqCtx);
-      else
+        processResourceRequest(portletRequest);
+      }
+      else {
         portletRequest = new RenderRequestImp(reqCtx);
+        processRenderRequest(portletRequest);
+      }
 
       ResponseContext resCtx = new ResponseContext(responseWrapper, cont, windowInfos.getWindowID()
           .getUniqueID(), input, holder.getPortletMetaData(portletAppName, portletName), request
@@ -444,4 +452,27 @@ public class PortletApplicationHandler {
     }
   }
 
+  // can be overriden for specific Action request processing
+  protected void processActionRequest(PortletRequestImp request)
+  {
+    
+  }
+  
+  // can be overriden for specific Event request processing
+  protected void processEventRequest(PortletRequestImp request)
+  {
+    
+  }
+  
+  // can be overriden for specific Resource request processing
+  protected void processResourceRequest(PortletRequestImp request)
+  {
+    
+  }
+  
+  // can be overriden for specific Render request processing
+  protected void processRenderRequest(PortletRequestImp request)
+  {
+    
+  }
 }
