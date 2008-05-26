@@ -20,6 +20,14 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>wsrp</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>portlets</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
@@ -93,7 +101,6 @@
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
-
 
   </dependencies>
 

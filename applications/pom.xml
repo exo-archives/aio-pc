@@ -16,7 +16,8 @@
     <module>portlets2events</module>
     <module>portlets2</module>
     <module>demos</module>
-    
+    <module>wsrp</module>
+
     <!--module>portlet-jaxb</module-->
     
     <!--module>util-jsf</module-->
