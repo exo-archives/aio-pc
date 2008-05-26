@@ -86,6 +86,8 @@ public class WSRPConstants {
   public static final String PASSWORD_USER_AUTHENTIFICATION     = WSRP_PREFIX + "password";
 
   public static final String CERTIFICATE_USER_AUTHENTIFICATION  = WSRP_PREFIX + "certificate";
+  
+  // WSRP ADMIN
 
   public static final String WSRP_PRODUCER_APP_ENCODER          = "@";
 
@@ -98,6 +100,8 @@ public class WSRPConstants {
   public static final String WSRP_ADMIN_PORTLET_KEY             = WSRP_ADMIN_PORTLET_APP + // portletapp name 
                                                                     Constants.PORTLET_META_DATA_ENCODER + WSRP_ADMIN_PORTLET_NAME;             //portlet name
 
+  // WSRP REGISTRATION PARAMS
+  
   public static final String WAP_portletTitle                   = "portletTitle";
 
   public static final String WAP_consumerName                   = "consumerName";

@@ -90,7 +90,11 @@ public class AxisFilter implements Filter {
   }
   
   private void register() {
-    container = ExoContainerContext.getCurrentContainer();
+    container = ExoContainerContext.getContainerByName(containerName);
+    if (container == null)
+      container = ExoContainerContext.getTopContainer();
+    ExoContainerContext.setCurrentContainer(container);
+    
     WSRPHttpServletRequest checkwsrpHttpServletRequest = 
       (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
     if (checkwsrpHttpServletRequest == null) {
@@ -99,30 +103,6 @@ public class AxisFilter implements Filter {
       container.registerComponentInstance(wsrpHttpSession);
       System.out.println("StandaloneContainer: injecting " + WSRPHttpSession.class);
     }
-//    if ( ExoContainerContext.getTopContainer() instanceof RootContainer) {
-//      //PORTALCONTAINER
-//      container = RootContainer.getInstance().getPortalContainer(containerName);
-//      PortalContainer.setInstance((PortalContainer)container);
-//      WSRPHttpServletRequest checkwsrpHttpServletRequest = 
-//        (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-//      if (checkwsrpHttpServletRequest == null) {
-//        container.registerComponentInstance(wsrpHttpServletRequest);
-//        System.out.println("PortalContainer: injecting " + WSRPHttpServletRequest.class);
-//        container.registerComponentInstance(wsrpHttpSession);
-//        System.out.println("PortalContainer: injecting " + WSRPHttpSession.class);
-//      }
-//    } else {
-//      //STANDALONECONTAINER
-//      container = ExoContainerContext.getTopContainer();
-//      WSRPHttpServletRequest checkwsrpHttpServletRequest = 
-//        (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-//      if (checkwsrpHttpServletRequest == null) {
-//        container.registerComponentInstance(wsrpHttpServletRequest);
-//        System.out.println("StandaloneContainer: injecting " + WSRPHttpServletRequest.class);
-//        container.registerComponentInstance(wsrpHttpSession);
-//        System.out.println("StandaloneContainer: injecting " + WSRPHttpSession.class);
-//      }
-//    }
   }
   
   private void hibernateCloseSession() {

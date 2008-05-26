@@ -87,7 +87,11 @@ public class AxisFilter implements Filter {
   }
   
   private void register() {
-    container = ExoContainerContext.getCurrentContainer();
+    container = ExoContainerContext.getContainerByName(containerName);
+    if (container == null)
+      container = ExoContainerContext.getTopContainer();
+    ExoContainerContext.setCurrentContainer(container);
+    
     WSRPHttpServletRequest checkwsrpHttpServletRequest = 
       (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
     if (checkwsrpHttpServletRequest == null) {

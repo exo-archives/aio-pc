@@ -572,6 +572,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                   Locale locale) throws PortletContainerException {
     log.debug("getBundle method in WSRPConsumerPlugin entered");
     MapResourceBundle bundle = new MapResourceBundle(locale);
+    /* for WSRP Admin Portlet */
     if (portletAppName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_APP)) {
       if (portletName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_NAME)) {
         bundle.add(ResourceBundleManager.PORTLET_TITLE, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
