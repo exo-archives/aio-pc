@@ -69,19 +69,20 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 	log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
     Map<String, PortletData> portletMetaDatas = cont.getAllPortletMetaData();
     Set<String> keys = portletMetaDatas.keySet();
-    Set<String> keys2 = new HashSet<String>(keys); 
+    Set<String> iterableKeys = new HashSet<String>(keys);
     if (conf.getExcludeList() != null) {
-      for (Iterator<String> iter = conf.getExcludeList().iterator(); iter.hasNext();) {
-        String handle = (String) iter.next();
-        if (handle.endsWith("*")) {
-          for (Object object : keys2) {
-            if (((String)object).startsWith(handle.substring(0,handle.length()-1))) {
-              keys.remove((String)object);
+      //remove exclude portlets from portletMetaDatas
+      for (Iterator<String> excludeIter = conf.getExcludeList().iterator(); excludeIter.hasNext();) {
+        String excludeHandle = (String) excludeIter.next();
+        if (excludeHandle.endsWith("*")) {
+          for (String iterKey : iterableKeys) {
+            if (iterKey.startsWith(excludeHandle.substring(0, excludeHandle.length() - 1))) {
+              keys.remove(iterKey);
             }
-          }          
+          }
         } else {
-          if (keys.contains(handle))
-            keys.remove(handle);
+          if (keys.contains(excludeHandle))
+            keys.remove(excludeHandle);
         }
       }
     }

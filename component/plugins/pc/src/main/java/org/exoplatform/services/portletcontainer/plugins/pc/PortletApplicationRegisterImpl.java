@@ -80,7 +80,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
     this.listeners = new ArrayList<PortletLifecycleListener>();
     this.holder = holder;
     this.log = ExoLogger.getLogger(getClass());
-    cont = context.getContainer();
+    cont = context.getContainer(); // EXOMAN ??
     appcont = ExoContainerContext.getTopContainer();
   }
 
