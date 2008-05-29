@@ -70,7 +70,17 @@
     <init-params>
       <values-param>
         <name>exclude-list</name>
-        <value>portlets/BridgePortlet</value>
+        <value>wsrp/*</value>
+        <value>portal/*</value>
+        <value>eXoWidgetWeb/*</value>
+        <value>eXoSkinMac/*</value>
+        <value>cometd/*</value>
+        <value>web/*</value>
+        <value>exoadmin/*</value>
+        <value>rest/*</value>
+        <value>ecm/*</value>
+        <value>eXoSkinVista/*</value>
+        <value>workflow/*</value>
       </values-param>
       <properties-param>
         <name>wsrp-conf</name>

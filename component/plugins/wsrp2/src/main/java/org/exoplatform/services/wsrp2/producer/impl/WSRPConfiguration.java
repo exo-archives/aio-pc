@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+import org.apache.commons.logging.Log;
 import org.exoplatform.commons.utils.ExoProperties;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.container.xml.PropertiesParam;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 
 /**
@@ -41,8 +43,11 @@ public class WSRPConfiguration {
   private List<String>            excludeList        = null;
 
   private HashMap<String, String> adminPortletParams = null;
+  
+  private final Log log;
 
   public WSRPConfiguration(InitParams params) {
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     PropertiesParam param = params.getPropertiesParam("wsrp-conf");
     init(param.getProperties());
     PropertiesParam paramAdminPortlet = params.getPropertiesParam("wsrp-admin-portlet-conf");
@@ -52,6 +57,7 @@ public class WSRPConfiguration {
     else
       excludeList = new ArrayList<String>();
     excludeList.add(WSRPConstants.WSRP_ADMIN_PORTLET_KEY.substring(0, 5) + "*");
+    log.info(" excludeList = " + excludeList);
   }
 
   private void init(ExoProperties props) {
