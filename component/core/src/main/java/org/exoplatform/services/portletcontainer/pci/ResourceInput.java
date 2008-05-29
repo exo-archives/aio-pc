@@ -32,6 +32,7 @@ public class ResourceInput extends RenderInput {
    * Cache level.
    */
   private String cacheLevel;
+ 
 
   /**
    * @param resourceID resource id
@@ -60,5 +61,5 @@ public class ResourceInput extends RenderInput {
   public final String getCacheability() {
     return this.cacheLevel;
   }
-
+  
 }

@@ -105,6 +105,11 @@ public class Input {
    * Public param name list.
    */
   private List<String> pubNames;
+  
+  /**
+   * Property parameters extracted from http request.
+   */
+  private HashMap<String, String[]> propertyParams;
 
   /**
    * @return either state is being saved on client side
@@ -298,6 +303,22 @@ public class Input {
    */
   public final void setPublicParamNames(final List<String> pubNames1) {
     this.pubNames = pubNames1;
+  }
+  
+  /**
+   * @param propertyParams  hash map
+   */
+  public final void setPropertyParams(final HashMap<String, String[]> propertyParams)
+  {
+    this.propertyParams = propertyParams;
+  }
+
+  /**
+   * @return property params
+   */
+  public final HashMap getPropertyParams()
+  {
+    return propertyParams;
   }
 
   /**
