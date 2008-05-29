@@ -50,6 +50,11 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
    * Cache level.
    */
   protected String cacheLevel;
+  
+//  /**
+//   * Unique ID.
+//   */
+//  protected String uniqueID;
 
   /**
    * Render parameters.
@@ -64,6 +69,7 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
    * @param cacheLevel cache level
    * @param portletDatas portlet datas
    * @param renderParams render parameters
+   * @param uniqueId resource unique id
    */
   public ResourceURLImp(final String type,
       final String baseURL,
@@ -71,7 +77,8 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
       final boolean defaultEscapeXml,
       final String cacheLevel,
       final Portlet portletDatas,
-      final Map<String, String[]> renderParams) {
+      final Map<String, String[]> renderParams,
+      final String uniqueId) {
     super(type, baseURL, isCurrentlySecured, defaultEscapeXml, portletDatas);
 
     this.renderParams = renderParams;
@@ -81,7 +88,24 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
     else
       this.originalCacheLevel = cacheLevel;
     this.cacheLevel = this.originalCacheLevel;
+    
+    if (uniqueId != null)
+      //this.uniqueID = uniqueId;
+      this.setProperty(ResourceURL.SHARED, uniqueId);
+    
   }
+  
+  public ResourceURLImp(final String type,
+      final String baseURL,
+      final boolean isCurrentlySecured,
+      final boolean defaultEscapeXml,
+      final String cacheLevel,
+      final Portlet portletDatas,
+      final Map<String, String[]> renderParams) {
+    
+         this(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel, portletDatas, renderParams, null);
+    }
+  
 
   /**
    * Invokes resource url filters.

@@ -343,13 +343,26 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     if (getInput().getPortletURLFactory() != null)
       return getInput().getPortletURLFactory().createResourceURL(PCConstants.RESOURCE_STRING);
 
+    
+    String uniqueid  = null;
+    if (getInput().getPropertyParams() != null && getInput().getPropertyParams().containsKey(ResourceURL.SHARED)){
+        uniqueid  = string0((String[])getInput().getPropertyParams().get(ResourceURL.SHARED));
+    }
+    
     return new ResourceURLImp(PCConstants.RESOURCE_STRING,
         getInput().getBaseURL(),
         isCurrentlySecured(),
         getInput().getEscapeXml(),
         originalCacheLevel,
         getPortletDatas(),
-        getInput().getRenderParameters());
+        getInput().getRenderParameters(),
+        uniqueid);
+  }
+  
+  private static String string0(final String[] strings) {
+    if (strings == null)
+      return null;
+    return strings[0];
   }
 
 }
