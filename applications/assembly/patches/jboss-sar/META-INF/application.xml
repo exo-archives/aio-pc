@@ -4,7 +4,7 @@
   <display-name>exoplatform</display-name>
   <module>
     <web>
-      <web-uri>portal.war</web-uri>
+      <web-uri>01portal.war</web-uri>
       <context-root>portal</context-root>
     </web>
   </module>
@@ -18,6 +18,18 @@
     <web>
       <web-uri>portlets2.war</web-uri>
       <context-root>portlets2</context-root>
+    </web>
+  </module>
+  <module>
+    <web>
+      <web-uri>wsrp.war</web-uri>
+      <context-root>wsrp</context-root>
+    </web>
+  </module>
+  <module>
+    <web>
+      <web-uri>demos.war</web-uri>
+      <context-root>demos</context-root>
     </web>
   </module>
 </application>

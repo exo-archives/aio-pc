@@ -33,21 +33,6 @@
     </init-param>
   </filter>
 
-  <!-- AXIS filter for WSRP2 -->
-
-  <filter>
-    <filter-name>AxisFilter2</filter-name>
-    <filter-class>org.exoplatform.services.wsrp2.filter.AxisFilter</filter-class>
-    <init-param>
-      <param-name>portal-container-name</param-name>
-      <param-value>portal</param-value>
-    </init-param>
-    <init-param>
-      <param-name>retries-to-register</param-name>
-      <param-value>3</param-value>
-    </init-param>
-  </filter>
-
   <!-- AXIS filter mapping for WSRP1 -->
 
   <filter-mapping>
@@ -58,18 +43,6 @@
   <filter-mapping>
     <filter-name>ContainerFilter</filter-name>
     <url-pattern>/services/*</url-pattern>
-  </filter-mapping>
-
-  <!-- AXIS filter mapping for WSRP2 -->
-
-  <filter-mapping>
-    <filter-name>AxisFilter2</filter-name>
-    <url-pattern>/services2/*</url-pattern>
-  </filter-mapping>
-
-  <filter-mapping>
-    <filter-name>ContainerFilter</filter-name>
-    <url-pattern>/services2/*</url-pattern>
   </filter-mapping>
 
   <!-- WSRPStarter servlet for WSRP1 -->
@@ -105,39 +78,6 @@
     <load-on-startup>1</load-on-startup>
  </servlet>
 
-  <!-- WSRPStarter servlet for WSRP2 -->
-
-  <servlet>
-    <servlet-name>WSRPStarter2</servlet-name>
-    <display-name>WSRPStarter2</display-name>
-    <servlet-class>org.exoplatform.services.wsrp2.producer.impl.WSRPStarter</servlet-class>
-    <init-param>
-      <param-name>base</param-name>
-      <param-value>http://localhost:8080/</param-value>
-    </init-param>
-    <init-param>
-      <param-name>path</param-name>
-      <param-value>wsrp/services2</param-value>
-    </init-param>
-    <init-param>
-      <param-name>deploy-wsdd</param-name>
-      <param-value>org/exoplatform/services/wsrp2/wsdl/deploy.wsdd</param-value>
-    </init-param>
-    <init-param>
-      <param-name>delay-before-start-sec</param-name>
-      <param-value>2</param-value>
-    </init-param>
-    <init-param>
-      <param-name>retries</param-name>
-      <param-value>5</param-value>
-    </init-param>
-    <init-param>
-      <param-name>delay-retry-sec</param-name>
-      <param-value>2</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-  
   <!-- Axis servlet for WSRP1 -->
 
   <servlet>
@@ -164,32 +104,6 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- Axis servlet for WSRP2 -->
-
-  <servlet>
-    <servlet-name>AxisServlet2</servlet-name>
-    <display-name>Apache-Axis Servlet</display-name>
-    <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
-  </servlet>
-
-  <servlet>
-    <servlet-name>AdminServlet2</servlet-name>
-    <display-name>Axis Admin Servlet</display-name>
-    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet>
-    <servlet-name>SOAPMonitorService2</servlet-name>
-    <display-name>SOAPMonitorService2</display-name>
-    <servlet-class>org.apache.axis.monitor.SOAPMonitorService</servlet-class>
-    <init-param>
-      <param-name>SOAPMonitorPort</param-name>
-      <param-value>5002</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
   <!-- WSRPStarter mapping for WSRP1 -->
   
   <!-- servlet-mapping>
@@ -197,13 +111,6 @@
     <url-pattern>/servlet/WSRPStarter1</url-pattern>
   </servlet-mapping -->
   
-  <!-- WSRPStarter mapping for WSRP2 -->
-
-  <!-- servlet-mapping>
-    <servlet-name>WSRPStarter2</servlet-name>
-    <url-pattern>/servlet/WSRPStarter2</url-pattern>
-  </servlet-mapping -->
-
   <!-- soap/axis service mapping for WSRP1 -->
 
   <servlet-mapping>
@@ -224,28 +131,6 @@
   <servlet-mapping>
     <servlet-name>SOAPMonitorService</servlet-name>
     <url-pattern>/SOAPMonitor</url-pattern>
-  </servlet-mapping>
-
-  <!-- soap/axis service mapping for WSRP2 -->
-
-  <servlet-mapping>
-    <servlet-name>AxisServlet2</servlet-name>
-    <url-pattern>/servlet/AxisServlet2</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>AxisServlet2</servlet-name>
-    <url-pattern>*.jws</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>AxisServlet2</servlet-name>
-    <url-pattern>/services2/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>SOAPMonitorService2</servlet-name>
-    <url-pattern>/SOAPMonitor2</url-pattern>
   </servlet-mapping>
 
   <!-- ================================================================== -->

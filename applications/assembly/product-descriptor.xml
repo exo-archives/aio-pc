@@ -1,5 +1,5 @@
 <assembly>
-	<id>${exo.portlet-container.version}</id>
+	<id>${org.exoplatform.pc.version}</id>
 	<formats>
 		<format>dir</format>
 		<!--<format>jar</format>-->

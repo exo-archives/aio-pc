@@ -25,7 +25,7 @@
 #                    - Use JONAS_BASE
 # Florent Benoit & Ludovic Bert
 # ---------------------------------------------------------------------------
-# $Id: jonas.sh 9868 2006-11-24 16:52:00Z coqp $
+# $Id: jonas.sh 9882 2006-12-04 09:02:48 +0000 (Mon, 04 Dec 2006) coqp $
 # ---------------------------------------------------------------------------
 
 # -----------------------------------------------------------------------
@@ -54,12 +54,12 @@ CLASSPATH=$JONAS_ROOT/lib/common/ow_jonas_bootstrap.jar$SPS$JONAS_ROOT/lib/commo
 
 JROOT=$JONAS_ROOT
 JBASE=$JONAS_BASE
-
 if type readlink >/dev/null 2>&1
 then
    JROOT=`readlink -f $JONAS_ROOT` 
    JBASE=`readlink -f $JONAS_BASE`
 fi 
+
 
 JONAS_OPTS="\
     -Dinstall.root=$JROOT  \
@@ -78,7 +78,7 @@ JONAS_OPTS="\
     -Djava.endorsed.dirs=$JONAS_ROOT/lib/endorsed "
 
 # ------------------------- Begin eXo configuration ----------------------------
-cd $JONAS_ROOT/bin
+#cd $JONAS_ROOT/bin
 JONAS_OPTS="$JONAS_OPTS -Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog -Djava.awt.headless=true"
 JAVA_OPTS="$JAVA_OPTS -Xmx512M"
 # -------------------------- End eXo configuration -----------------------------

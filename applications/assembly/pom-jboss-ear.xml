@@ -46,14 +46,14 @@
 								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jboss.version}" />
 						</copy>
 						<copy
-							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar"
+							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear"
 							verbose="true" overwrite="true">
 							<fileset
 								dir="${basedir}/target/ear/"
 								excludes="**/*.war" />
 						</copy>
 						<copy
-							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar"
+							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear"
 							verbose="true" flatten="true" overwrite="true">
 							<fileset
 								dir="${basedir}/target/ear/"
@@ -62,39 +62,50 @@
 								<exclude name="portal.war" />
 							</fileset>
 						</copy>
-						
-                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" 
-						      file="${basedir}/target/ear/portal.war" overwrite="true"/>
-					    						
+
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/01portal.war" 
+						      file="${basedir}/target/ear/portal.war" />
+
 						<copy
-							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/META-INF"
+							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/META-INF"
 							verbose="true" overwrite="true">
 							<fileset
-								dir="${basedir}/patches/jboss-sar/META-INF/"> 
+								dir="${basedir}/patches/jboss-ear/META-INF/"> 
 							</fileset>	
 						</copy>
-
-						<touch file="${basedir}/patches/jboss-sar/WEB-INF/classes/conf/exo-configuration.xml"/>
+					
+						<touch file="${basedir}/patches/jboss-ear/WEB-INF/classes/conf/exo-configuration.xml"/>
 						
 						<war
-						     destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" update="true">
-             	                                                      <webinf dir="${basedir}/patches/jboss-sar/WEB-INF/">
+						     destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/01portal.war" update="true">
+             	                                                      <webinf dir="${basedir}/patches/jboss-ear/WEB-INF/">
 						     </webinf>
 						</war>
 
+					             <delete
+						           file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/jtidy-4aug2000r7-dev.jar" />
+
+
+
+
+
 <!-- PATCH SERVER -->
                                                 <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/jboss-web.deployer/server.xml" 
-						      file="${basedir}/patches/jboss-sar/jboss-web.deployer/server.xml" overwrite="true"/>
+						      file="${basedir}/patches/jboss-ear/jboss-web.deployer/server.xml" overwrite="true"/>
+
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/conf/login-config.xml" 
+						      file="${basedir}/patches/jboss-ear/conf/login-config.xml" overwrite="true"/>
 
                                                 <copy tofile="${exo.projects.directory.working}/exo-jboss/bin/run.conf" 
-						      file="${basedir}/patches/jboss-sar/run.conf" overwrite="true"/>
+						      file="${basedir}/patches/jboss-ear/run.conf" overwrite="true"/>
 <!--
 						<delete
 							file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
 -->
 <!--					             <delete
-						           file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/demos.war" />
+						           file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/demos.war" />
 -->
+
 					</tasks>
 				</configuration>
 			</plugin>

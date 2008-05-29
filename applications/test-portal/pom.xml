@@ -10,30 +10,10 @@
   <name>eXo Portlet Container 2 Test Portal</name>
 
   <dependencies>
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.core</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <scope>compile</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
@@ -49,13 +29,6 @@
       <groupId>javax.portlet</groupId>
       <artifactId>portlet-api</artifactId>
       <version>2.0</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.5</version>
       <scope>compile</scope>
     </dependency>
 
