@@ -724,6 +724,7 @@ public class PortalFramework {
     resourceInput.setMarkup(cntType);
     resourceInput.setPublicParamNames(getPublicNamesSet(target));
     resourceInput.setRenderParameters(portletParams);
+    resourceInput.setPropertyParams(propertyParams);
     resourceInput.setPortletMode(win.getPortletMode());
     resourceInput.setWindowState(win.getWindowState());
     resourceInput.setResourceID(Helper.string0(portalParams.get(Constants.RESOURCE_ID_PARAMETER)));
