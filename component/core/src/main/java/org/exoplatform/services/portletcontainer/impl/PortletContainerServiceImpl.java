@@ -56,7 +56,7 @@ import org.picocontainer.Startable;
  * benjamin.mestrallet@exoplatform.com
  */
 public class PortletContainerServiceImpl implements PortletContainerService, Startable {
-
+  
   /**
    * Plugins list.
    */
