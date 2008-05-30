@@ -50,11 +50,6 @@ public class ResourceURLImp extends BaseURLImp implements ResourceURL {
    * Cache level.
    */
   protected String cacheLevel;
-  
-//  /**
-//   * Unique ID.
-//   */
-//  protected String uniqueID;
 
   /**
    * Render parameters.
