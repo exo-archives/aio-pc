@@ -63,7 +63,6 @@ public class AxisFilter implements Filter {
   public synchronized void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
       throws IOException, ServletException {
     wsrpHttpServletRequest = new WSRPHttpServletRequest((HttpServletRequest)servletRequest);
-    System.out.println(">>> EXOMAN AxisFilter.doFilter wsrpHttpServletRequest = " + wsrpHttpServletRequest);
     HttpSession httpSession = ((HttpServletRequest)servletRequest).getSession();
     wsrpHttpSession = new WSRPHttpSession( httpSession.getId(), httpSession.getMaxInactiveInterval());
     int i = retriesToRegister;
@@ -88,16 +87,13 @@ public class AxisFilter implements Filter {
   }
   
   private void register() {
-    System.out.println(">>> EXOMAN AxisFilter.register containerName = " + containerName);
     container = ExoContainerContext.getContainerByName(containerName);
     if (container == null)
       container = ExoContainerContext.getTopContainer();
-    System.out.println(">>> EXOMAN AxisFilter.register container = " + container);
     ExoContainerContext.setCurrentContainer(container);
     
     WSRPHttpServletRequest checkwsrpHttpServletRequest = 
       (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-    System.out.println(">>> EXOMAN AxisFilter.register checkwsrpHttpServletRequest = " + checkwsrpHttpServletRequest);
     if (checkwsrpHttpServletRequest == null) {
       container.registerComponentInstance(wsrpHttpServletRequest);
       System.out.println("StandaloneContainer: injecting " + WSRPHttpServletRequest.class);
