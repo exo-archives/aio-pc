@@ -65,29 +65,41 @@
 						
                                                 <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" 
 						      file="${basedir}/target/ear/portal.war" overwrite="true"/>
-					    						
+
+
+						<touch file="${basedir}/patches/jboss/WEB-INF/classes/conf/exo-configuration.xml"/>
+
+<!-- PATCH SAR -->					    						
 						<copy
-							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/META-INF"
+							todir="${exo.projects.directory.working}/exo-jboss"
 							verbose="true" overwrite="true">
 							<fileset
-								dir="${basedir}/patches/jboss-sar/META-INF/"> 
+								dir="${basedir}/patches/jboss-sar/jbosshome/"> 
 							</fileset>	
 						</copy>
-
-						<touch file="${basedir}/patches/jboss-sar/WEB-INF/classes/conf/exo-configuration.xml"/>
 						
 						<war
 						     destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" update="true">
-             	                                                      <webinf dir="${basedir}/patches/jboss-sar/WEB-INF/">
+             	                                                      <webinf dir="${basedir}/patches/jboss/WEB-INF/">
 						     </webinf>
 						</war>
 
 <!-- PATCH SERVER -->
+						<copy
+							todir="${exo.projects.directory.working}/exo-jboss"
+							verbose="true" overwrite="true">
+							<fileset
+								dir="${basedir}/patches/jboss/jbosshome/"> 
+							</fileset>	
+						</copy>
+
+<!--
                                                 <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/jboss-web.deployer/server.xml" 
 						      file="${basedir}/patches/jboss-sar/jboss-web.deployer/server.xml" overwrite="true"/>
 
                                                 <copy tofile="${exo.projects.directory.working}/exo-jboss/bin/run.conf" 
 						      file="${basedir}/patches/jboss-sar/run.conf" overwrite="true"/>
+-->
 <!--
 						<delete
 							file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
