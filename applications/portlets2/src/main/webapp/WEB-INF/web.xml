@@ -8,6 +8,13 @@
   <display-name>portlets2</display-name>
   <description>test portlet application portlets 2</description>
 
+  <!-- ALLOW WEB APPLICATIONS TO DISABLE PORTLET DEPLOYMENT ON WAS -->
+
+  <context-param>
+    <param-name>com.ibm.websphere.portletcontainer.PortletDeploymentEnabled</param-name>
+    <param-value>false</param-value>
+  </context-param> 
+
   <listener>
     <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
   </listener>

@@ -5,22 +5,29 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd">
 
 <web-app>
-	<display-name>portlets</display-name>
-	<description>test portlet application portlets</description>
+  <display-name>portlets</display-name>
+  <description>test portlet application portlets</description>
 
-	<listener>
-		<listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
-	</listener>
+  <!-- ALLOW WEB APPLICATIONS TO DISABLE PORTLET DEPLOYMENT ON WAS -->
 
-	<servlet>
-		<servlet-name>PortletWrapper</servlet-name>
-		<servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
-	</servlet>
+  <context-param>
+    <param-name>com.ibm.websphere.portletcontainer.PortletDeploymentEnabled</param-name>
+    <param-value>false</param-value>
+  </context-param> 
 
-	<servlet>
-		<servlet-name>TestServlet</servlet-name>
-		<servlet-class>org.exoplatform.services.portletcontainer.test.TestServlet</servlet-class>
-	</servlet>
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>PortletWrapper</servlet-name>
+    <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>TestServlet</servlet-name>
+    <servlet-class>org.exoplatform.services.portletcontainer.test.TestServlet</servlet-class>
+  </servlet>
 
   <servlet>
     <servlet-name>TestServlet2</servlet-name>
@@ -32,15 +39,15 @@
     <url-pattern>/TestServlet</url-pattern>
   </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>PortletWrapper</servlet-name>
-		<url-pattern>/PortletWrapper</url-pattern>
-	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>PortletWrapper</servlet-name>
+    <url-pattern>/PortletWrapper</url-pattern>
+  </servlet-mapping>
 
-	<servlet-mapping>
-		<servlet-name>TestServlet</servlet-name>
-		<url-pattern>/test</url-pattern>
-	</servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>TestServlet</servlet-name>
+    <url-pattern>/test</url-pattern>
+  </servlet-mapping>
 
   <security-role> 
     <role-name>auth-user</role-name> 

@@ -9,6 +9,13 @@
   <description>wsrp service server</description>
   <distributable/>
 
+  <!-- ALLOW WEB APPLICATIONS TO DISABLE PORTLET DEPLOYMENT ON WAS -->
+
+  <context-param>
+    <param-name>com.ibm.websphere.portletcontainer.PortletDeploymentEnabled</param-name>
+    <param-value>false</param-value>
+  </context-param> 
+
   <filter>
     <filter-name>ContainerFilter</filter-name>
     <filter-class>org.exoplatform.services.filter.ContainerFilter</filter-class>

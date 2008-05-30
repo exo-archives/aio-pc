@@ -9,6 +9,13 @@
   <description>test portlet container application</description>
   <distributable/>
 
+  <!-- ALLOW WEB APPLICATIONS TO DISABLE PORTLET DEPLOYMENT ON WAS -->
+
+  <context-param>
+    <param-name>com.ibm.websphere.portletcontainer.PortletDeploymentEnabled</param-name>
+    <param-value>false</param-value>
+  </context-param> 
+
   <filter>
     <filter-name>PortletFilter</filter-name>
     <filter-class>org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortletFilter</filter-class>
