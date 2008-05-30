@@ -16,11 +16,15 @@
  */
 package org.exoplatform.services.portletcontainer.test.servlets;
 
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletException;
@@ -31,6 +35,14 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
+import org.exoplatform.frameworks.portletcontainer.portalframework.Template;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutColumn;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutHtmlTag;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutHtmlText;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutItem;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutNode;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutPlt;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutZone;
 import org.exoplatform.services.log.ExoLogger;
 
 /**
@@ -45,6 +57,11 @@ public class PortalServlet extends HttpServlet {
    * Log.
    */
   private Log log;
+
+  /**
+   * Portlet infos.
+   */
+  private List<PortletInfo> portletInfos;
 
   /**
    * Serves http request. Renders portal page.
@@ -81,177 +98,120 @@ public class PortalServlet extends HttpServlet {
         return;
       }
 
+      portletInfos = (List<PortletInfo>) session.getAttribute("portletinfos");
+
+      Map<String, List<String>> pList = new HashMap<String, List<String>>();
+      for (Iterator<String> i = ((List<String>) session.getAttribute("portletNames")).iterator(); i.hasNext(); ) {
+        String pn = i.next();
+        String[] ss = pn.split("/");
+        List<String> pl = pList.get(ss[0]);
+        if (pl == null)
+          pList.put(ss[0], pl = new ArrayList<String>());
+        pl.add(ss[1]);
+      }
+      String pNames = "";
+      boolean b = false;
+      List<String> pal = new ArrayList<String>(pList.keySet());
+      Collections.sort(pal);
+      for (Iterator<String> i = pal.iterator(); i.hasNext(); ) {
+        String pan = i.next();
+        if (b)
+          pNames += ", ";
+        pNames += "\"" + pan + "\": [";
+        List<String> pl = pList.get(pan);
+        boolean b1 = false;
+        for (Iterator<String> i1 = pl.iterator(); i1.hasNext(); ) {
+          if (b1)
+            pNames += ", ";
+          pNames += "\"" + i1.next() + "\"";
+          b1 = true;
+        }
+        pNames += "]";
+        b = true;
+      }
+      session.setAttribute("portletNames", pNames);
+
       response.setContentType("text/html;charset=UTF-8");
       PrintWriter w = response.getWriter();
 
-      w.println("<html>");
-        w.println("<head>");
-          w.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\">");
-          w.println("<title>Portlet rendering</title>");
-        w.println("</head>");
-      w.println("<body width='100%' style='font-family: Arial' bgcolor='#FFFFFF'>");
-      w.println("<table width='100%'>");
-        w.println("<tr>");
-          w.println("<td><img src=\"../img/logotestportal.png\"></td>");
-          w.println("<td>&nbsp;</td>");
-          w.println("<td align=\"right\">");
-            w.println("<form method='post' name='addPortlet' action='.'>");
-            w.println("<input type='hidden' name='pAction' value='add'/>");
-            w.println("<select name='pApp' id='pApp' onchange='pltListSelectApp();'>");
-            w.println("</select>");
-            w.println("<select name='pName' id='pName'>");
-            w.println("</select>");
-            w.println("<input type='submit' value='Add portlet'/>");
-            w.println("</form>");
-            w.println("<form method='post' name='delPortlet' id='delPortlet' action='.'>");
-            w.println("<input type='hidden' name='pAction' value='del'/>");
-            w.println("<input type='hidden' name='pId' id='pId' value=''/>");
-            w.println("</form>");
-            w.println("<script language='JavaScript'>");
-            w.println("function pltListSelectApp() {");
-            w.println("  var sel = document.getElementById('pApp');");
-            w.println("  if (sel.selectedIndex != -1) {");
-            w.println("    var sel1 = document.getElementById('pName');");
-            w.println("    sel1.options.length = 0;");
-            w.println("    var pRow = pList[sel.options[sel.selectedIndex].value];");
-            w.println("    for (var i in pRow) {");
-            w.println("      sel1.options[sel1.options.length] = new Option(pRow[i], pRow[i]);");
-            w.println("    }");
-            w.println("  }");
-            w.println("}");
-            w.println(session.getAttribute("portletNames"));
-            w.println("var sel = document.getElementById('pApp');");
-            w.println("for (var i in pList) {");
-            w.println("  sel.options[sel.options.length] = new Option(i, i);");
-            w.println("}");
-            w.println("pltListSelectApp();");
-            w.println("</script>");
-        w.println("</tr>");
-      w.println("</table>");
+      includeJsp(request, response, "/pages/portal_header.jsp");
 
-      ArrayList<PortletInfo> portletinfos = (ArrayList<PortletInfo>) session.getAttribute("portletinfos");
+      List<LayoutItem> layout = Template.getPortletLayout(new FileInputStream((String) session.getAttribute("pageTemplate")));
 
-      try {
-        if (portletinfos != null) {
-          Boolean collapsed = (Boolean) session.getAttribute("listCollapsed");
-          if (collapsed == null)
-            collapsed = new Boolean(false);
-          String displayOpen = "";
-          String displayClosed = "";
-          if (collapsed.booleanValue())
-            displayOpen = " style='display: none'";
-          else
-            displayClosed = " style='display: none'";
-          w.println("<script language='JavaScript'>");
-          w.println("function listOpen() {");
-          w.println("  elCollapsed.style.display = 'none';");
-          w.println("  elList.style.display = '';");
-          w.println("  checkPortlet.listCollapsed.value = 'false';");
-          w.println("  checkPortlet.submit();");
-          w.println("}");
-          w.println("function listClose() {");
-          w.println("  elCollapsed.style.display='';");
-          w.println("  elList.style.display='none';");
-          w.println("  checkPortlet.listCollapsed.value = 'true';");
-          w.println("  checkPortlet.submit();");
-          w.println("}");
-          w.println("</script>");
-          w.println("<form method='POST' name='checkPortlet' action='.'>");
-          w.println("<input type='hidden' name='fis' id='fis' value='yes'>");
-          w.println("<input type='hidden' name='listCollapsed' id='fis' value='" + collapsed.toString() + "'>");
-            w.println("<div id='elCollapsed'" + displayClosed + ">");
-              w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-                w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6'><img src=\"../img/triangle.gif\" onclick='listOpen()' />" +
-                    " <font size='4' face='Verdana,Arial'>Collapsed portlet list</font></th></tr>");
-              w.println("</table>");
-            w.println("</div>");
-            w.println("<div id='elList'" + displayOpen + ">");
-            w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-              w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='5'>"
-                  + "<img src=\"../img/opentriangle.gif\" onclick='listClose()' /> <font size='4' face='Verdana,Arial'>Please, select some of the following portlets :</font></th></tr>");
-              w.println("<tr><td align='center'><b>Checked</b></td>");
-                w.println("<td align='center'><b>Num</b></td>");
-                w.println("<td align='center'><b>Portlet Id</b></td>");
-              w.println("<td align='center'><b>Portlet Name</b></td>");
-              w.println("<td>&nbsp;</td></tr>");
-          int i2 = 0;
-          for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
-            PortletInfo pinf = i.next();
-              String title2 = pinf.getTitle();
-              String id2 = pinf.getPortlet();
-              String myatr2str = "";
-              if (pinf.isToRender())
-                myatr2str = " checked";
-              i2++;
-              w.println("<tr><td align='center'>");
-                w.println("<input type='checkbox' name='n" + i2 + "n' ID='n" + i2 + "n'" + myatr2str
-                    + " onClick='checkPortlet.submit()'>");
-                w.println("</td><td align='center'>" + i2 + "</td><td valign='center' bgcolor=''>" + id2 + "</td>");
-              w.println("<td valign='center' bgcolor=''>" + title2 + "</td>");
-              w.println("<td>");
-                w.println("<input type='button' value='Delete' onclick='document.getElementById(\"pId\").value = \"" + id2 + "\"; document.getElementById(\"delPortlet\").submit();'/>");
-              w.println("</td>");
-              w.println("</tr>");
-            }
-            w.println("</table>");
-            w.println("</div>");
-          w.println("</form>");
-        } else {
-          w.println("<table width='100%' border='1'><tr><td>There's no portlet data to show</td></tr></table>");
-        }
-      } catch (Exception e1) {
-        e1.printStackTrace();
-      }
+      renderLayout(layout, request, response, w);
 
-      String reqURL = new String(request.getRequestURL() + "?");
-      String reqContextPath = new String(request.getContextPath().substring(1, request.getContextPath().length()) + ":");
-
-      try {
-        if (portletinfos != null) {
-          for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
-            PortletInfo pinf = i.next();
-            if (pinf.isToRender()) {
-              String title = pinf.getTitle();
-              String hs = pinf.getOut();
-              ArrayList<String> mymodes = pinf.getModes();
-              ArrayList<String> mystates = pinf.getStates();
-              String portlet = pinf.getPortlet();
-              w.println("<table width='100%' border='1' STYLE='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-                w.println("<tr><th valign='center' bgcolor='#A3A7F6'><font size='4' face='Verdana,Arial'><div id=\"p" + pinf.getWid() + "title\">"
-                    + title + " (" + portlet + ")"+ "</div></font>");
-              String resMode = reqURL;
-              resMode += reqContextPath + "componentId=" + portlet;
-//              resMode += "&" + reqContextPath + "type=action";
-              resMode += "&" + reqContextPath + "isSecure=true";
-              if (mymodes!= null)
-              for (int j = 0; j < mymodes.size(); j++) {
-                w.println("<a href='" + resMode + "&" + reqContextPath + "portletMode=" + mymodes.get(j) + "'>"
-                    + mymodes.get(j) + "</a>");
-              }
-                w.println("<br>");
-              if (mystates!= null)
-                for (int k = 0; k < mystates.size(); k++) {
-                  w.println("<a href='" + resMode + "&" + reqContextPath + "windowState=" + mystates.get(k) + "'>"
-                      + mystates.get(k) + "</a>");
-                }
-                w.println("</th></tr>");
-                w.println("<tr><td><div id=\"p" + pinf.getWid() + "content\">" + hs + "</div></td></tr>");
-              w.println("</table>");
-            }
-          }
-        } else {
-          w.println("<table width='100%' border='1'><tr><th>There's no portlet data to show</th></tr></table>");
-        }
-      } catch (Exception e1) {
-        e1.printStackTrace();
-      }
-      w.println("</body>");
-      w.println("</html>");
+      includeJsp(request, response, "/pages/portal_footer.jsp");
       System.out.println("-------------------------------------------------------------");
 
     } catch (Exception e) {
       e.printStackTrace();
     }
+  }
+
+  private void renderLayout(List<LayoutItem> layout, HttpServletRequest request, HttpServletResponse response,
+      PrintWriter w) throws ServletException, IOException {
+    HttpSession session = request.getSession();
+    for (Iterator<LayoutItem> i = layout.iterator(); i.hasNext();) {
+      renderItem(i.next(), request, response, session, w);
+    }
+  }
+
+  private void renderItem(LayoutItem item, HttpServletRequest request, HttpServletResponse response, HttpSession session,
+      PrintWriter w) throws ServletException, IOException {
+    if (item == null)
+      return;
+    if (item instanceof LayoutColumn) {
+      LayoutColumn col = (LayoutColumn) item;
+      request.setAttribute("col_id", col.getId());
+      request.setAttribute("col_width", col.getWidth());
+      includeJsp(request, response, "/pages/col_header.jsp");
+      renderChildren(item, request, response, session, w);
+      includeJsp(request, response, "/pages/col_footer.jsp");
+    } else if (item instanceof LayoutZone) {
+      includeJsp(request, response, "/pages/zone_header.jsp");
+      renderChildren(item, request, response, session, w);
+      includeJsp(request, response, "/pages/zone_footer.jsp");
+    } else if (item instanceof LayoutPlt)
+      renderPortlet((LayoutPlt) item, request, response, session);
+    else if (item instanceof LayoutHtmlText)
+      w.print(item.getName());
+    else if (item instanceof LayoutHtmlTag) {
+      w.print("<" + item.getName() + " ");
+      for (Map.Entry<String, String> attr : ((LayoutHtmlTag) item).getAttrs().entrySet())
+        w.print(attr.getKey() + "=\"" + attr.getValue() + "\"");
+      w.print(">");
+      renderChildren(item, request, response, session, w);
+      w.print("</" + item.getName() + ">");
+    } else if (item.getName().equals(LayoutItem.HEADER))
+      includeJsp(request, response, "/pages/header.jsp");
+    else if (item.getName().equals(LayoutItem.FOOTER))
+      includeJsp(request, response, "/pages/footer.jsp");
+    else if (item.getName().equals(LayoutItem.PAGES))
+      includeJsp(request, response, "/pages/tabs.jsp");
+  }
+
+  private void renderChildren(LayoutItem item, HttpServletRequest request, HttpServletResponse response,
+      HttpSession session, PrintWriter w) throws ServletException, IOException {
+    if (item instanceof LayoutNode) {
+      for (Iterator<LayoutItem> i = ((LayoutNode) item).getChildren().iterator(); i.hasNext();)
+        renderItem(i.next(), request, response, session, w);
+    }
+  }
+
+  private void renderPortlet(LayoutPlt lp, HttpServletRequest request, HttpServletResponse response,
+      HttpSession session) throws ServletException, IOException {
+    for (Iterator<PortletInfo> i = portletInfos.iterator(); i.hasNext();) {
+      PortletInfo pinf = i.next();
+      if (pinf.getWid().equals(lp.getId())) {
+        session.setAttribute("pinf", pinf);
+        includeJsp(request, response, "/pages/plt.jsp");
+      }
+    }
+  }
+
+  private void includeJsp(HttpServletRequest request, HttpServletResponse response, String page) throws ServletException,
+      IOException {
+    getServletContext().getRequestDispatcher(page).include(request, response);
   }
 
 }

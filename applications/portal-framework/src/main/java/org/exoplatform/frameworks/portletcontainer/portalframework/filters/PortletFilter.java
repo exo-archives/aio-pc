@@ -16,7 +16,10 @@
  */
 package org.exoplatform.frameworks.portletcontainer.portalframework.filters;
 
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -39,6 +42,9 @@ import org.apache.commons.lang.StringUtils;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
+import org.exoplatform.frameworks.portletcontainer.portalframework.Template;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutItem;
+import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutPlt;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 
@@ -88,6 +94,11 @@ public class PortletFilter implements Filter {
    * Portal container name.
    */
   private String portalContainerName = "";
+
+  /**
+   * Portlet map for TCK tests.
+   */
+  private Map<String, String> tckPltMap = new HashMap<String, String>();
 
   /**
    * Some ASs commit ServletResponse's that they get with include() method so we have to
@@ -147,74 +158,94 @@ public class PortletFilter implements Filter {
 
       portalContainerName = framework.getPortalName();
 
-      ArrayList<String> portlets2render = null;
+      if (servletRequest.getParameter("portal:page") != null)
+        framework.setCurrentPage(servletRequest.getParameter("portal:page"));
+      else if (servletRequest.getParameter("portal:newpage") != null)
+        framework.addPortalPage(servletRequest.getParameter("portal:newpage"));
+      else if (servletRequest.getParameter("portal:delpage") != null)
+        framework.delPortalPage(servletRequest.getParameter("portal:delpage"));
+      httpSession.setAttribute("portalPage", framework.getCurrentPage());
+
+      ArrayList<String> pages = new ArrayList<String>();
+      for (Iterator<String> i = framework.getPortalPages(); i.hasNext(); )
+        pages.add(i.next());
+      httpSession.setAttribute("portalPages", pages);
+
+      List<String> portlets2render = null;
 
       // collecting portlets to render -- especially for TCK tests
       String[] ps = servletRequest.getParameterValues("portletName");
       if (ps != null) {
         portlets2render = new ArrayList<String>();
-        for (String s : ps)
-          portlets2render.add(s);
+        for (String s : ps) {
+          String nn = tckPltMap.get(s);
+          if (nn == null) {
+            String[] ss = s.split("/");
+            nn = framework.addPortlet(ss[0], ss[1]);
+            tckPltMap.put(s, nn);
+          } else
+          portlets2render.add(nn);
+        }
         httpSession.setAttribute("portletName", portlets2render);
       } else
         portlets2render = (ArrayList<String>) httpSession.getAttribute("portletName");
 
       Map<String, String[]> servletParams = servletRequest.getParameterMap();
 
+      LayoutPlt newPlt = null;
+      String pltIdToDel = null;
       if (servletParams.containsKey("pAction")) {
-        if (servletParams.get("pAction")[0].equals("add"))
-          framework.addPortlet(servletParams.get("pApp")[0], servletParams.get("pName")[0]);
-        else if (servletParams.get("pAction")[0].equals("del"))
-          framework.removePortlet(servletParams.get("pId")[0]);
+        if (servletParams.get("pAction")[0].equals("add")) {
+          String id = framework.addPortlet(servletParams.get("pApp")[0], servletParams.get("pName")[0]);
+          if (id != null) {
+            newPlt = new LayoutPlt(servletParams.get("pApp")[0], servletParams.get("pName")[0], id);
+            framework.addPortletToPage(id);
+          }
+        } else if (servletParams.get("pAction")[0].equals("del")) {
+          pltIdToDel = servletParams.get("pId")[0];
+          framework.removePortlet(pltIdToDel);
+        }
       }
 
-      Map<String, List<String>> pList = new HashMap<String, List<String>>();
-      for (Iterator<String> i = framework.getPortletNames().iterator(); i.hasNext(); ) {
-        String pn = i.next();
-        String[] ss = pn.split("/");
-        List<String> pl = pList.get(ss[0]);
-        if (pl == null)
-          pList.put(ss[0], pl = new ArrayList<String>());
-        pl.add(ss[1]);
-      }
-      String pNames = "var pList = {";
-      boolean b = false;
-      for (Iterator<String> i = pList.keySet().iterator(); i.hasNext(); ) {
-        String pan = i.next();
-        if (b)
-          pNames += ", ";
-        pNames += "\"" + pan + "\": [";
-        List<String> pl = pList.get(pan);
-        boolean b1 = false;
-        for (Iterator<String> i1 = pl.iterator(); i1.hasNext(); ) {
-          if (b1)
-            pNames += ", ";
-          pNames += "\"" + i1.next() + "\"";
-          b1 = true;
-        }
-        pNames += "]";
-        b = true;
-      }
-      httpSession.setAttribute("portletNames", pNames + "};");
+      httpSession.setAttribute("portletNames", framework.getPortletNames());
 
       // collecting portlets to render
       if (portlets2render == null) {
-
-        if (servletParams.containsKey("fis")) {
-          Iterator<String> plts = framework.getAddedPortlets().iterator();
-          portlets2render = new ArrayList<String>();
-
-          int count = 0;
-          while (plts.hasNext()) {
-            count++;
-            String portlet = plts.next();
-            if ((servletParams.containsKey("fis") &&
-                (servletParams.containsKey("n" + count + "n") &&
-                    servletParams.get("n" + count + "n")[0].equals("on"))))
-              portlets2render.add(portlet);
+        if (framework.getCurrentPage().equals(""))
+          portlets2render = framework.getAllPortlets();
+        else {
+          InputStream tmpl = null;
+          String tmplPath = "/pages/" + framework.getCurrentPage() + "_" + httpRequest.getRemoteUser().hashCode() + ".tmpl";
+          try {
+            tmpl = new FileInputStream(ctx.getRealPath(tmplPath));
+          } catch(Exception e) {
+            tmpl = ctx.getResourceAsStream("/pages/default.tmpl");
           }
-          httpSession.setAttribute("listCollapsed", new Boolean(servletParams.containsKey("listCollapsed") &&
-              servletParams.get("listCollapsed")[0].equals("true")));
+          List<LayoutItem> layout = Template.getPortletLayout(tmpl);
+          List<LayoutPlt> plts = Template.getPortletList(layout);
+          for (Iterator<LayoutPlt> i = plts.iterator(); i.hasNext();) {
+            LayoutPlt plt = i.next();
+            String id = null;
+            if (plt.getId() != null) {
+              if (framework.getPortletWindowById(plt.getId()) == null)
+                id = framework.addPortletWithId(plt.getApp(), plt.getName(), plt.getId());
+            } else {
+              id = framework.addPortlet(plt.getApp(), plt.getName());
+              plt.setId(id);
+            }
+            if (!framework.getPagePortlets().contains(id))
+              framework.addPortletToPage(id);
+          }
+          if (newPlt != null)
+            Template.addPortletToLayout(layout, newPlt);
+          if (pltIdToDel != null)
+            Template.delLayoutPltById(layout, pltIdToDel);
+          if (servletRequest.getParameter("portal:layout") != null)
+            Template.changeLayoutWith(layout, servletRequest.getParameter("portal:layout"));
+          Template.saveLayoutAs(layout, new FileOutputStream(ctx.getRealPath(tmplPath)));
+          if (servletRequest.getParameter("portal:layout") != null)
+            return;
+          httpSession.setAttribute("pageTemplate", ctx.getRealPath(tmplPath));
         }
       }
 
@@ -227,8 +258,11 @@ public class PortletFilter implements Filter {
       HttpServletResponse dummyHttpResponse = createDummyResponse(httpResponse);
 
       // call PortalFramework to process current request to portlet container
-      ArrayList<PortletInfo> portletInfos = framework.processRequest(ctx, httpRequest, dummyHttpResponse, "text/html",
-          portlets2render);
+      ArrayList<PortletInfo> portletInfos;
+      if (framework.getCurrentPage().equals(""))
+        portletInfos = framework.processRequest(ctx, httpRequest, dummyHttpResponse, "text/html", portlets2render);
+      else
+        portletInfos = framework.processRequestForCurrentPage(ctx, httpRequest, dummyHttpResponse, "text/html");
 
 
       if (framework.getRedirect() != null) {
@@ -247,9 +281,8 @@ public class PortletFilter implements Filter {
         if (httpSession.getAttribute("portletName") == null) {
           while (plts.hasNext()) {
             PortletInfo portletinfo = plts.next();
-            portletinfo.setTitle(portletinfo.getTitle() + " {mode: " + portletinfo.getMode() + "; state: " +
-                portletinfo.getState() + "}");
-            portletinfo.setToRender(portlets2render != null && portlets2render.contains(portletinfo.getPortlet()));
+            portletinfo.setTitle(portletinfo.getTitle());
+            portletinfo.setToRender(true);
             //Collecting session info
             HashMap<String, Object> hm = portletinfo.getSessionMap();
             sessionInfo.put(StringUtils.split(portletinfo.getPortlet(), "/")[0], hm);

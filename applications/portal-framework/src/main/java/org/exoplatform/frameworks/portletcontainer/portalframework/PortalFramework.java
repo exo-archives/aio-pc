@@ -192,6 +192,21 @@ public class PortalFramework {
   private String                        baseURL             = null;
 
   /**
+   * Portal pages map.
+   *
+   * Items of the map are List<String> objects that represent portal pages and
+   * elements of the arrays represent individual portlets that are positioned at
+   * a page, by their window IDs.
+   * Keys of the map are page names or any other string keys.
+   */
+  private Map<String, List<String>>     pages               = null;
+
+  /**
+   * Current portal page selected.
+   */
+  private String currentPage = "default";
+
+  /**
    * Constructor.
    *
    * @param cnt portal container
@@ -250,7 +265,7 @@ public class PortalFramework {
    *
    * @return set of portlet names
    */
-  public final ArrayList<String> getPortletNames() {
+  public final List<String> getPortletNames() {
     ArrayList<String> list = new ArrayList<String>(allPortletMetaData.keySet());
     if (list != null)
       java.util.Collections.sort(list);
@@ -433,7 +448,7 @@ public class PortalFramework {
       final PortletMode portletMode = Helper.getPortletMode(Helper.string0(
           portalParams.get(Constants.PORTLET_MODE_PARAMETER)), getPortletModes(win.getPortletApplicationName(),
           win.getPortletName()));
-      
+
       // set STATE
       final WindowState windowState = Helper.getWindowState(Helper.string0(
           portalParams.get(Constants.WINDOW_STATE_PARAMETER)), getWindowStates(win.getPortletApplicationName(),
@@ -459,47 +474,51 @@ public class PortalFramework {
     allPortletMetaData = service.getAllPortletMetaData();
     eventDelivery = new HashMap<QName, List<String>>();
     publicParams = new HashMap<String, List<String>>();
+    if (pages == null) {
+      pages = new HashMap<String, List<String>>();
+      pages.put("default", new ArrayList<String>());
+    }
 
     if (wins == null)
       wins = new HashMap<String, WindowID2>();
     else
       buildEventDeliveryAndPublicParamsMaps(wins);
-//    createOrUpdateWins(allPortletMetaData);
   }
 
-  /**
-   * [Re]creates WindowID map for newly appeared portlets it creates new
-   * WindowID instance for already used ones it just copies it for deleted ones
-   * it just abandons appropriate instances.
-   *
-   * @param allPortlets map of portlet metadata objects
-   */
-  protected final void createOrUpdateWins(final Map<String, PortletData> allPortlets) {
-    final HashMap<String, WindowID2> newWins = new HashMap<String, WindowID2>();
-    if (wins == null)
-      wins = new HashMap<String, WindowID2>();
-    final Set<String> keys = allPortlets.keySet();
-    final Iterator<String> i = keys.iterator();
-    while (i.hasNext()) {
-      String winKey = i.next();
-      final String[] ss = winKey.split("/");
-      winKey = winKey.hashCode() + "_" + httpSession.getId();
-
-      if (wins.get(winKey) == null) {
-        final WindowID2 windowID = new WindowID2();
-        windowID.setOwner(Constants.ANON_USER);
-        windowID.setPortletApplicationName(ss[0]);
-        windowID.setPortletName(ss[1]);
-        windowID.setPersistenceId(ss[0] + "II" + ss[1]);
-        windowID.setPortletMode(PortletMode.VIEW);
-        windowID.setWindowState(WindowState.NORMAL);
-        windowID.setUniqueID(winKey);
-        newWins.put(winKey, windowID);
-      } else
-        newWins.put(winKey, wins.get(winKey));
-    }
-    wins = newWins;
-  }
+//  /**
+//   * [Re]creates WindowID map for newly appeared portlets it creates new
+//   * WindowID instance for already used ones it just copies it for deleted ones
+//   * it just abandons appropriate instances.
+//   *
+//   * @param allPortlets map of portlet metadata objects
+//   */
+//  protected final void createOrUpdateWins(final Map<String, PortletData> allPortlets) {
+//    final HashMap<String, WindowID2> newWins = new HashMap<String, WindowID2>();
+//    if (wins == null)
+//      wins = new HashMap<String, WindowID2>();
+//    final Set<String> keys = allPortlets.keySet();
+//    final Iterator<String> i = keys.iterator();
+//    while (i.hasNext()) {
+//      String winKey = i.next();
+//      final String[] ss = winKey.split("/");
+//      winKey = winKey.hashCode() + "_" + httpSession.getId();
+//
+//      if (wins.get(winKey) == null) {
+//        final WindowID2 windowID = new WindowID2();
+//        windowID.setOwner(Constants.ANON_USER);
+//        windowID.setPortletApplicationName(ss[0]);
+//        windowID.setPortletName(ss[1]);
+//        windowID.setPersistenceId(ss[0] + "II" + ss[1]);
+//        windowID.setPortletMode(PortletMode.VIEW);
+//        windowID.setWindowState(WindowState.NORMAL);
+//        windowID.setUniqueID(winKey);
+//        newWins.put(winKey, windowID);
+//      } else
+//        newWins.put(winKey, wins.get(winKey));
+//    }
+//    wins = newWins;
+//  }
+//
 
   /**
    * Adds a requested portlet by creating a WindowID2 instance for it.
@@ -508,13 +527,25 @@ public class PortalFramework {
    * @param portletName portlet name
    */
   public final String addPortlet(final String appName, final String portletName) {
-    PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
-    if (pd == null)
-      return null;
     String key = "";
     do
       key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_" + httpSession.getId();
     while (wins.get(key) != null);
+
+    return addPortletWithId(appName, portletName, key);
+  }
+
+  /**
+   * Adds a requested portlet by creating a WindowID2 instance for it with given window ID.
+   *
+   * @param appName portlet application name
+   * @param portletName portlet name
+   * @param windowId window ID
+   */
+  public final String addPortletWithId(final String appName, final String portletName, final String windowId) {
+    PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
+    if (pd == null)
+      return null;
 
     final WindowID2 windowID = new WindowID2();
     windowID.setOwner(Constants.ANON_USER);
@@ -523,9 +554,17 @@ public class PortalFramework {
     windowID.setPersistenceId(appName + "II" + portletName);
     windowID.setPortletMode(PortletMode.VIEW);
     windowID.setWindowState(WindowState.NORMAL);
-    windowID.setUniqueID(key);
-    wins.put(key, windowID);
-    return key;
+    windowID.setUniqueID(windowId);
+    wins.put(windowId, windowID);
+    return windowId;
+  }
+
+  /**
+   * @param id window ID
+   * @return portlet window
+   */
+  public final WindowID2 getPortletWindowById(final String id) {
+    return wins.get(id);
   }
 
   /**
@@ -536,16 +575,105 @@ public class PortalFramework {
   public final void removePortlet(final String key) {
     if (wins.get(key) != null)
       wins.remove(key);
+    removePortletFromPages(key);
   }
 
   /**
-   * @return list of portlets currently added to portal page
+   * @return list of portlets currently added to the portal
    */
-  public ArrayList<String> getAddedPortlets() {
+  public List<String> getAllPortlets() {
     ArrayList<String> al = new ArrayList<String>();
     if (wins != null)
       al.addAll(wins.keySet());
     return al;
+  }
+
+  /**
+   * @param page page key
+   * @return list of portlets currently added to the specified portal page
+   */
+  public List<String> getPagePortlets(String page) {
+    return pages.get(page);
+  }
+
+  /**
+   * @return list of portlets currently added to the current portal page
+   */
+  public List<String> getPagePortlets() {
+    return pages.get(getCurrentPage());
+  }
+
+  /**
+   * @param page page key
+   * @param portlets list of portlets the specified portal page to contain
+   */
+  public void setPagePortlets(String page, List<String> portlets) {
+    pages.put(page, portlets);
+  }
+
+  /**
+   * @param page page key
+   * @param portlet portlet key
+   */
+  public void addPortletToPage(String page, String portlet) {
+    if (pages.get(page) == null)
+      pages.put(page, new ArrayList<String>());
+    pages.get(page).add(portlet);
+  }
+
+  /**
+   * @param portlet portlet key
+   */
+  public void addPortletToPage(String portlet) {
+    if (pages.get(getCurrentPage()) == null)
+      pages.put(getCurrentPage(), new ArrayList<String>());
+    pages.get(getCurrentPage()).add(portlet);
+  }
+
+  /**
+   * @param id portlet window id
+   */
+  public void removePortletFromPages(String id) {
+    for (Iterator<String> i = getPortalPages(); i.hasNext(); )
+      pages.get(i.next()).remove(id);
+  }
+
+  /**
+   * @return iterator by page names
+   */
+  public Iterator<String> getPortalPages() {
+    return pages.keySet().iterator();
+  }
+
+  /**
+   * @return the currentPage
+   */
+  public String getCurrentPage() {
+    return currentPage;
+  }
+
+  /**
+   * @param currentPage the currentPage to set
+   */
+  public void setCurrentPage(String currentPage) {
+    this.currentPage = currentPage;
+  }
+
+  /**
+   * @param currentPage the currentPage to set
+   */
+  public void addPortalPage(String page) {
+    if (getPagePortlets(page) == null)
+      setPagePortlets(page, new ArrayList<String>());
+    setCurrentPage(page);
+  }
+
+  /**
+   * @param currentPage the currentPage to set
+   */
+  public void delPortalPage(String page) {
+    setPagePortlets(page, null);
+    setCurrentPage(getPortalPages().next());
   }
 
   /**
@@ -723,7 +851,9 @@ public class PortalFramework {
     resourceInput.setUserAttributes(new HashMap<String, String>());
     resourceInput.setMarkup(cntType);
     resourceInput.setPublicParamNames(getPublicNamesSet(target));
-    resourceInput.setRenderParameters(portletParams);
+    resourceInput.setRenderParameters(new HashMap<String, String[]>());
+    Helper.appendParams(resourceInput.getRenderParameters(), portletParams);
+    Helper.appendParams(resourceInput.getRenderParameters(), publicRenderParams);
     resourceInput.setPropertyParams(propertyParams);
     resourceInput.setPortletMode(win.getPortletMode());
     resourceInput.setWindowState(win.getWindowState());
@@ -747,7 +877,9 @@ public class PortalFramework {
     actionInput.setUserAttributes(new HashMap<String, String>());
     actionInput.setMarkup(cntType);
     actionInput.setPublicParamNames(getPublicNamesSet(target));
-    actionInput.setRenderParameters(portletParams);
+    actionInput.setRenderParameters(new HashMap<String, String[]>());
+    Helper.appendParams(actionInput.getRenderParameters(), portletParams);
+    Helper.appendParams(actionInput.getRenderParameters(), publicRenderParams);
     portletParams = new HashMap<String, String[]>();
     actionInput.setPortletMode(win.getPortletMode());
     actionInput.setWindowState(win.getWindowState());
@@ -776,8 +908,10 @@ public class PortalFramework {
     eventInput.setRenderParameters(new HashMap<String, String[]>());
     if (target != null && target.equals(eventTarget)) {
       Helper.appendParams(eventInput.getRenderParameters(), renderParams);
+      Helper.appendParams(eventInput.getRenderParameters(), publicRenderParams);
     } else {
       Helper.appendParams(eventInput.getRenderParameters(), win.getRenderParams());
+      Helper.appendParams(eventInput.getRenderParameters(), fillPublicParams(eventTarget, publicRenderParams));
     }
     eventInput.setPortletMode(win.getPortletMode());
     eventInput.setWindowState(win.getWindowState());
@@ -854,7 +988,7 @@ public class PortalFramework {
     }
     fixPublicRenderParams(o);
     renderParams = o.getRenderParameters();
-    if (renderParams == null) 
+    if (renderParams == null)
       renderParams = new HashMap<String, String[]>();
     addEvents(o.getEvents());
     redirect = (String) o.getProperties().get(Output.SEND_REDIRECT);
@@ -945,6 +1079,42 @@ public class PortalFramework {
   // --- ---
 
   /**
+   * The same as processRequest() but for the currently selected page.
+   *
+   * @param ctx servlet context
+   * @param httpRequest http servlet request
+   * @param httpResponse http servlet response
+   * @param markupType portal mark up type
+   * @return array of <code>PortletInfo</code> objects
+   */
+  public final ArrayList<PortletInfo> processRequestForCurrentPage(final ServletContext ctx,
+      final HttpServletRequest httpRequest,
+      final HttpServletResponse httpResponse,
+      final String markupType) {
+    return processRequestForPage(ctx, httpRequest, httpResponse, markupType, getCurrentPage());
+  }
+
+
+  /**
+   * The same as processRequest() but for a specified page.
+   *
+   * @param ctx servlet context
+   * @param httpRequest http servlet request
+   * @param httpResponse http servlet response
+   * @param markupType portal mark up type
+   * @param page page key
+   * @return array of <code>PortletInfo</code> objects
+   */
+  public final ArrayList<PortletInfo> processRequestForPage(final ServletContext ctx,
+      final HttpServletRequest httpRequest,
+      final HttpServletResponse httpResponse,
+      final String markupType,
+      final String page) {
+    return processRequest(ctx, httpRequest, httpResponse, markupType, getPagePortlets(page));
+  }
+
+
+  /**
    * Includes the full cycle of portlet container user http request processing,
    * collects data returned by portlets and returns it to a caller.
    *
@@ -952,14 +1122,14 @@ public class PortalFramework {
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
    * @param markupType portal mark up type
-   * @param requestedPortlets list of requested portlet names
+   * @param list list of requested portlet names
    * @return array of <code>PortletInfo</code> objects
    */
   public final ArrayList<PortletInfo> processRequest(final ServletContext ctx,
                                                      final HttpServletRequest httpRequest,
                                                      final HttpServletResponse httpResponse,
                                                      final String markupType,
-                                                     final ArrayList<String> requestedPortlets) {
+                                                     final List<String> list) {
 
     baseURL = httpRequest.getRequestURI() + "?" + Constants.COMPONENT_PARAMETER + "=";
 
@@ -1033,7 +1203,7 @@ public class PortalFramework {
       final String portlet = reqPlts.next();
       final PortletInfo portletinfo = Helper.createPortletInfo(this, portlet);
       portletInfos.add(portletinfo);
-      if (requestedPortlets == null || !requestedPortlets.contains(portlet))
+      if (list == null || !list.contains(portlet))
         continue;
       final RenderInput renderInput = createRenderInput(portlet);
       try {
