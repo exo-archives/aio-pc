@@ -18,6 +18,7 @@ package org.exoplatform.services.portletcontainer.plugins.pc.aop;
 
 import javax.portlet.PortletMode;
 import javax.portlet.RenderResponse;
+import javax.portlet.ResourceURL;
 import javax.portlet.WindowState;
 
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
@@ -186,16 +187,30 @@ public class PortletCacheCommand extends BaseCommandUnit {
         .getPortletApplicationName();
     String portletName = req.getPortletWindowInternal().getWindowID().getPortletName();
     String uniqueId = req.getPortletWindowInternal().getWindowID().getUniqueID();
+    
+    String resourceUID = null;
+    if ( (req.getInput().getPropertyParams() != null) && (req.getInput().getPropertyParams().containsKey(ResourceURL.SHARED)) )
+       resourceUID = (String)req.getInput().getPropertyParams().get(ResourceURL.SHARED);
 
     boolean isCacheGlobal = resolveCache(req.getPortletDatas().getGlobalCache(), portletMonitor
         .getCacheScope(portletAppName, portletName));
     log.debug("Is cache global: " + isCacheGlobal);
     String key = null;
-    if (isCacheGlobal)
-      key = req.getInput().getInternalWindowID().getOwner() + uniqueId;
-    else
-      key = generateKey(req, isCacheGlobal, "r");
-    int expirationPeriod = portletMonitor.getCacheExpirationPeriod(portletAppName, portletName);
+    
+    
+    // In case of ResourceURL.SHARED is set in the ResourceInput,
+    // cache will not expire and the key for storage will be value of this property
+    // PLT 13.7
+    int expirationPeriod = -1;
+    if (resourceUID != null)
+      key = resourceUID;
+    else {
+      if (isCacheGlobal)
+        key = req.getInput().getInternalWindowID().getOwner() + uniqueId;
+      else
+        key = generateKey(req, isCacheGlobal, "r");
+      expirationPeriod = portletMonitor.getCacheExpirationPeriod(portletAppName, portletName);
+    }
     long lastUpdateTime = 0;
     if (key != null)
       lastUpdateTime = portletMonitor.getPortletLastCacheUpdateTime(portletAppName, portletName, key,
