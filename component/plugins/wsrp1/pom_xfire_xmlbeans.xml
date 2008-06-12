@@ -1,5 +1,5 @@
 <project>
-   <parent>
+  <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
     <version>2.0</version>
@@ -47,7 +47,7 @@
       <version>${exo.platform.version}</version>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.component.cache</artifactId>
@@ -92,9 +92,9 @@
     </dependency>
 
     <dependency>
-       <groupId>org.exoplatform.portletcontainer</groupId>
-       <artifactId>exo.pc.component.core</artifactId>
-       <version>${exo.portlet-container.version}</version>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${exo.portlet-container.version}</version>
     </dependency>
 
     <dependency>
@@ -110,25 +110,25 @@
       <artifactId>xfire-maven-plugin</artifactId>
       <version>1.0-SNAPSHOT</version>
     </dependency>
-    
+
     <dependency>
       <groupId>wsdl4j</groupId>
       <artifactId>wsdl4j</artifactId>
       <version>1.4</version>
     </dependency>
-    
+
     <dependency>
       <groupId>soap</groupId>
       <artifactId>soap</artifactId>
       <version>2.3</version>
     </dependency>
-    
+
     <dependency>
       <groupId>javax.xml</groupId>
       <artifactId>saaj-api</artifactId>
       <version>1.1</version>
     </dependency>
-    
+
     <dependency>
       <groupId>commons-discovery</groupId>
       <artifactId>commons-discovery</artifactId>
@@ -146,21 +146,21 @@
       <artifactId>jtidy</artifactId>
       <version>4aug2000r7-dev</version>
     </dependency>
-    
+
 
   </dependencies>
 
-	<profiles>
-	  <profile>
-	    <id>wsrp1</id>
-	    <activation>
-	      <activeByDefault>true</activeByDefault>
-	    </activation>
-	    <properties>
-	      <src.gen.dir>${basedir}/target/generated</src.gen.dir>
-	    </properties>
-	  </profile>
-	</profiles>
+  <profiles>
+    <profile>
+      <id>wsrp1</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <src.gen.dir>${basedir}/target/generated</src.gen.dir>
+      </properties>
+    </profile>
+  </profiles>
 
   <properties>
     <war.dir>${basedir}/war_template</war.dir>
@@ -168,7 +168,7 @@
 
 
   <build>
-  
+
     <resources>
       <resource>
         <directory>target/generated</directory>
@@ -179,7 +179,7 @@
     </resources>
 
     <plugins>
-    
+
       <plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xmlbeans-maven-plugin</artifactId>
@@ -211,45 +211,44 @@
           </dependency>
         </dependencies>
       </plugin>
-    
+
       <!-- plugin>
         <groupId>org.codehaus.mojo</groupId>
         <artifactId>xfire-maven-plugin</artifactId>
         <executions>
-           <execution>
-              <goals>
-                 <goal>wsgen</goal>
-              </goals>
-           </execution>
+        <execution>
+        <goals>
+        <goal>wsgen</goal>
+        </goals>
+        </execution>
         </executions>
         <configuration>
-          <package>org.exoplatform.services.wsrp.wsdl</package>
-          <profile>org.codehaus.xfire.gen.jsr181.Jsr181Profile</profile>
-          <binding>xmlbeans</binding>
-          <externalBindings>${basedir}/wsdl/wsrp-bindings.xjb</externalBindings>
-          <outputDirectory>${src.gen.dir}</outputDirectory>
-          <wsdls>
-            <wsdl>${basedir}/wsdl/wsrp_service.wsdl</wsdl>
-          </wsdls>
+        <package>org.exoplatform.services.wsrp.wsdl</package>
+        <profile>org.codehaus.xfire.gen.jsr181.Jsr181Profile</profile>
+        <binding>xmlbeans</binding>
+        <externalBindings>${basedir}/wsdl/wsrp-bindings.xjb</externalBindings>
+        <outputDirectory>${src.gen.dir}</outputDirectory>
+        <wsdls>
+        <wsdl>${basedir}/wsdl/wsrp_service.wsdl</wsdl>
+        </wsdls>
         </configuration>
-      </plugin -->
-    
+        </plugin -->
+
       <plugin>
         <artifactId>maven-antrun-plugin</artifactId>
         <executions>
-        
+
           <execution>
-				    <id>0</id>
+            <id>0</id>
             <phase>generate-sources</phase>
             <configuration>
               <java classpathref="maven.compile.classpath" dir="${basedir}">
-                <arg line="${basedir}/src/main/binding.xml"/>
+                <arg line="${basedir}/src/main/binding.xml" />
               </java>
               <tasks>
-                <taskdef name="wsgen" classname="org.codehaus.xfire.gen.WsGenTask"  
-                	classpathref="maven.compile.classpath"/>
-                <wsgen outputDirectory="${src.gen.dir}"
-                  wsdl="${basedir}/wsdl/wsrp_service.wsdl" package="org.exoplatform.services.wsrp.wsdl" overwrite="true"/>
+                <taskdef name="wsgen" classname="org.codehaus.xfire.gen.WsGenTask" classpathref="maven.compile.classpath" />
+                <wsgen outputDirectory="${src.gen.dir}" wsdl="${basedir}/wsdl/wsrp_service.wsdl" package="org.exoplatform.services.wsrp.wsdl"
+                  overwrite="true" />
               </tasks>
               <sourceRoot>${src.gen.dir}</sourceRoot>
             </configuration>
@@ -257,22 +256,19 @@
               <goal>run</goal>
             </goals>
           </execution>
-        
+
           <execution>
             <id>1</id>
             <phase>compile</phase>
             <configuration>
               <tasks>
-                <taskdef name="hibernatedoclet"
-                  classname="xdoclet.modules.hibernate.HibernateDocletTask"
-                  classpathref="maven.compile.classpath"/>
-                <hibernatedoclet destdir="${basedir}/target/classes"
-                  excludedtags="@version,@author,@todo" mergedir="target/classes"
-                  force="true" verbose="false">
+                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="maven.compile.classpath" />
+                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
+                  verbose="false">
                   <fileset dir="${basedir}/src/main/java">
-                    <include name="**/*.java"/>
+                    <include name="**/*.java" />
                   </fileset>
-                  <hibernate version="3.0"/>
+                  <hibernate version="3.0" />
                 </hibernatedoclet>
               </tasks>
             </configuration>
@@ -285,20 +281,18 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <mkdir dir="${basedir}/target/test-classes/"/>
+                <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
                   <fileset dir="${basedir}/war_template/src">
-                    <include name="**/*.properties"/>
-                    <include name="**/*.xml"/>
+                    <include name="**/*.properties" />
+                    <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
-                           debug="${maven.compile.debug}"
-                           deprecation="${maven.compile.deprecation}"
-                           optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
-                    <path refid="maven.dependency.classpath"/>
-                    <pathelement path="${maven.build.dest}"/>
+                    <path refid="maven.dependency.classpath" />
+                    <pathelement path="${maven.build.dest}" />
                   </classpath>
                 </javac>
               </tasks>
@@ -309,7 +303,7 @@
           </execution>
         </executions>
       </plugin>
-      
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -334,18 +328,18 @@
           <skip>true</skip>
         </configuration>
       </plugin>
-      
-	    <plugin>
-	      <groupId>org.apache.maven.plugins</groupId>
-	      <artifactId>maven-compiler-plugin</artifactId>
-	      <configuration>
-	        <source>1.5</source>
-	        <target>1.5</target>
-	      </configuration>
-	    </plugin>
-	    
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
     </plugins>
-    
+
   </build>
-  
+
 </project>
