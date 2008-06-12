@@ -10,14 +10,20 @@
   </module>
   <module>
     <web>
+      <web-uri>portlets2.war</web-uri>
+      <context-root>portlets2</context-root>
+    </web>
+  </module>
+  <module>
+    <web>
       <web-uri>portlets.war</web-uri>
       <context-root>portlets</context-root>
     </web>
   </module>
   <module>
     <web>
-      <web-uri>portlets2.war</web-uri>
-      <context-root>portlets2</context-root>
+      <web-uri>demos.war</web-uri>
+      <context-root>demos</context-root>
     </web>
   </module>
 </application>
