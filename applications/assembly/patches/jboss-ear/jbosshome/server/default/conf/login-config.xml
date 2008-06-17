@@ -156,14 +156,11 @@ $Revision: 64598 $
     </application-policy>
 
     <application-policy name="exo-domain">
-	    <authentication>
-	      <login-module code="org.exoplatform.frameworks.portletcontainer.access.StandaloneJAASLoginModule" flag="required">
-	      </login-module>
-	      <login-module code="org.exoplatform.frameworks.portletcontainer.access.StandaloneBroadcastJAASLoginModule" flag="required">
-	      </login-module>
-	    </authentication>
+      <authentication>
+        <login-module code="org.exoplatform.services.security.j2ee.JbossLoginModule" flag="required">
+        </login-module>
+      </authentication>
     </application-policy>
-
 
 </policy>
 
