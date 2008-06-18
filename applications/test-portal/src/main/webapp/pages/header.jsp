@@ -26,7 +26,7 @@
                 var sel1 = document.getElementById('pName');
                 sel1.options.length = 0;
                 var pRow = pList[sel.options[sel.selectedIndex].value];
-                for (var i in pRow) {
+                for (var i=0; i< pRow.length; i++) {
                   sel1.options[sel1.options.length] = new Option(pRow[i], pRow[i]);
                 }
               }
