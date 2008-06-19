@@ -54,7 +54,8 @@ public class BaseTest extends TestCase {
 
   protected static final String CONTEXT_PATH = "/war_template";
   protected static final String PORTLET_APP_NAME = CONTEXT_PATH.substring(1);
-  protected static final String PORTLET_APP_PATH = "file:" + System.getProperty("testPath") + CONTEXT_PATH;
+  protected static final String TEST_PATH = (System.getProperty("testPath")==null?".":System.getProperty("testPath"));
+  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + CONTEXT_PATH;
   protected PortletContainerServiceImpl portletContainer;
   //protected PortletMonitor portletMonitor;
   protected PortletApp portletApp_;
