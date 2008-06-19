@@ -44,13 +44,13 @@
       <artifactId>exo.core.component.organization.api</artifactId>
       <version>${org.exoplatform.core.version}</version>
     </dependency>
-
+<!--
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.common</artifactId>
       <version>${org.exoplatform.core.version}</version>
     </dependency>
-
+-->
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.database</artifactId>
