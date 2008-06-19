@@ -55,9 +55,9 @@ public class BaseTest extends TestCase{
   protected RootContainer rootContainer;
   protected PortletContainerConf config;
   
-  
   protected static final String CONTEXT_PATH = "/src/test/java/org/exoplatform/services/portletcontainer/test/xml";
-  protected static final String PORTLET_APP_PATH = "file:" + System.getProperty("testPath") + CONTEXT_PATH;
+  protected static final String TEST_PATH = (System.getProperty("testPath")==null?".":System.getProperty("testPath"));
+  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + CONTEXT_PATH;
   
   private static Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer.test.BaseTest");
   
@@ -65,10 +65,8 @@ public class BaseTest extends TestCase{
     super(s);
   }
   
-  
   public void setUp() throws Exception {
     log.info("BaseTest.setUp");
-    
     
     portalContainer = PortalContainer.getInstance();
     
@@ -86,13 +84,10 @@ public class BaseTest extends TestCase{
     this.config =  (PortletContainerConf) container.getComponentInstanceOfType(PortletContainerConf.class);
     
   }
-
   
   public void tearDown() throws Exception {
     System.out.println("Tear down");
     //portletContainer = null;
   }
   
-  
-
 }

@@ -68,7 +68,9 @@ import org.exoplatform.test.mocks.servlet.MockServletContext;
 public class BaseTest extends TestCase {
 
   protected static final String SERVICE_URL = "http://localhost:8081/portal/services/";
-  protected static final String PORTLET_APP_PATH = "file:" + System.getProperty("testPath") + "/war_template";
+  protected static final String CONTEXT_PATH = "/war_template";
+  protected static final String TEST_PATH = (System.getProperty("testPath")==null?".":System.getProperty("testPath"));
+  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + CONTEXT_PATH;
   static boolean initService_ = true;
   protected PortletContainerService portletContainer;
   protected PortletApplicationsHolder holder;

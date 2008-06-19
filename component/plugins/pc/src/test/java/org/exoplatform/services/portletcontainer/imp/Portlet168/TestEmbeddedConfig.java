@@ -17,11 +17,11 @@
 package org.exoplatform.services.portletcontainer.imp.Portlet168;
 
 import java.util.List;
+
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.pci.CustomModeWithDescription;
 import org.exoplatform.services.portletcontainer.pci.LocalisedDescription;
-import org.exoplatform.test.BasicTestCase;
 
 /**
  * Created by The eXo Platform SAS  .
@@ -29,7 +29,7 @@ import org.exoplatform.test.BasicTestCase;
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id$
  */
-public class TestEmbeddedConfig extends BasicTestCase {
+public class TestEmbeddedConfig extends BaseTest {
 
   public TestEmbeddedConfig(String name) {
     super(name);

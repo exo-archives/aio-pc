@@ -50,7 +50,7 @@ import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 
 
-public class TestPlugin2 implements  PortletContainerPlugin {
+public class TestPlugin2 implements PortletContainerPlugin {
   
   private String name;
   private String description;

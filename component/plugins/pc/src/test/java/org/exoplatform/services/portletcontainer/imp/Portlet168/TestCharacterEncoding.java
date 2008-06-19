@@ -23,7 +23,7 @@ import java.io.UnsupportedEncodingException;
  * User: Benjamin Mestrallet
  * Date: 25 ao�t 2004
  */
-public class TestCharacterEncoding extends BaseTest{
+public class TestCharacterEncoding extends BaseTest {
   public TestCharacterEncoding(String s) {
     super(s);
   }

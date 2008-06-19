@@ -30,7 +30,7 @@ import org.exoplatform.test.BasicTestCase;
  * @since: 0.0
  * @email: tuan08@yahoo.com
  */
-public class TestPortletModelParser  extends BasicTestCase {
+public class TestPortletModelParser extends BaseTest {
 
   public TestPortletModelParser(String name) {
     super(name);
@@ -40,7 +40,7 @@ public class TestPortletModelParser  extends BasicTestCase {
 
 
   public void testPortletModelParser() throws Exception {
-    URL url = new URL("file:" + System.getProperty("testPath") + "/war_template/WEB-INF/portlet.xml");
+    URL url = new URL("file:" + TEST_PATH + "/war_template/WEB-INF/portlet.xml");
     InputStream is = url.openStream() ;
     assertNotNull(is);
     PortletApp pc = XMLParser.parse(is,false) ; //First portlet specification - JSR 168

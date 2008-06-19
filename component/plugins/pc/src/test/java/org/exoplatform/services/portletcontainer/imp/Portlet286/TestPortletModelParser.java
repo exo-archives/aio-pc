@@ -31,7 +31,7 @@ import org.exoplatform.test.BasicTestCase;
  *          alexey.zavizionov@exoplatform.com.ua
  * 24.04.2007
  */
-public class TestPortletModelParser  extends BasicTestCase {
+public class TestPortletModelParser  extends BaseTest2 {
 
   private static Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer.imp.Portlet286.TestPortletModelParser");
 
@@ -43,7 +43,7 @@ public class TestPortletModelParser  extends BasicTestCase {
 
   public void testPortletModelParser() throws Exception {
     log.info("testPortletModelParser...");
-    URL url = new URL("file:" + System.getProperty("testPath") + "/war_template2/WEB-INF/portlet.xml");
+    URL url = new URL("file:" + TEST_PATH + "/war_template2/WEB-INF/portlet.xml");
     InputStream is = url.openStream() ;
     assertNotNull(is);
     PortletApp pc = XMLParser.parse(is,true) ; //Second portlet specification - JSR 286

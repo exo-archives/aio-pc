@@ -22,7 +22,7 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 
 
-public class TestModesAndStates  extends BaseTest{
+public class TestModesAndStates extends BaseTest{
   
   private static Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer.test.TestModesAndStates");
 

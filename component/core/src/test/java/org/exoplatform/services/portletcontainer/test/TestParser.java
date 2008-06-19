@@ -28,12 +28,11 @@ import org.exoplatform.services.portletcontainer.pci.model.*;
 
 import java.util.ArrayList;
 
-public class TestParser extends BaseTest{
+public class TestParser extends BaseTest {
   
   private PortletApp portletApp;
   
-  public TestParser(String s)
-  {
+  public TestParser(String s) {
     super(s);
   }
   
