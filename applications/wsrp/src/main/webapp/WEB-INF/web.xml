@@ -16,15 +16,6 @@
     <param-value>false</param-value>
   </context-param> 
 
-  <filter>
-    <filter-name>ContainerFilter</filter-name>
-    <filter-class>org.exoplatform.services.filter.ContainerFilter</filter-class>
-    <init-param>
-      <param-name>portal-container-name</param-name>
-      <param-value>portal</param-value>
-    </init-param>
-  </filter>
-
   <!-- AXIS filter for WSRP1 -->
 
   <filter>
@@ -62,20 +53,10 @@
     <url-pattern>/services/*</url-pattern>
   </filter-mapping>
 
-  <filter-mapping>
-    <filter-name>ContainerFilter</filter-name>
-    <url-pattern>/services/*</url-pattern>
-  </filter-mapping>
-
   <!-- AXIS filter mapping for WSRP2 -->
 
   <filter-mapping>
     <filter-name>AxisFilter2</filter-name>
-    <url-pattern>/services2/*</url-pattern>
-  </filter-mapping>
-
-  <filter-mapping>
-    <filter-name>ContainerFilter</filter-name>
     <url-pattern>/services2/*</url-pattern>
   </filter-mapping>
 

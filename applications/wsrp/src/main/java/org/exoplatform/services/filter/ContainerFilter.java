@@ -34,9 +34,10 @@ import org.exoplatform.services.log.ExoLogger;
  * Created by The eXo Platform SAS .
  */
 
+@Deprecated
 public class ContainerFilter implements Filter {
 
-  private static Log log        = ExoLogger.getLogger("wsrp2.ContainerFilter");
+  private static Log log        = ExoLogger.getLogger(ContainerFilter.class);
 
   private String containerName = "portal";
 
