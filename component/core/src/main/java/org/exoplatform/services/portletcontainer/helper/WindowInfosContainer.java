@@ -34,7 +34,7 @@ public class WindowInfosContainer extends HashMap<Object, Object> {
   /**
    * Internal map of window infos.
    */
-  private static HashMap map = new HashMap();
+  private static HashMap<String, Object> map = new HashMap<String, Object>();
 
   /**
    * Id.
@@ -113,6 +113,7 @@ public class WindowInfosContainer extends HashMap<Object, Object> {
     }
   }
 
+  
   /**
    * @param cnt exo container
    * @param id id
