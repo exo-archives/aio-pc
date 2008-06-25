@@ -24,13 +24,13 @@ import javax.portlet.WindowState;
 
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
+import org.exoplatform.services.portletcontainer.pci.EventInput;
+import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
-import org.exoplatform.services.portletcontainer.pci.EventInput;
-import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
@@ -59,8 +59,6 @@ public interface PortletContainerProxy {
                                                     String userID) throws WSRPException;
 
   public Map<String, PortletData> getAllPortletMetaData();
-
-  //public Collection getWindowStates(String s);
 
   public Collection<WindowState> getSupportedWindowStates();
 

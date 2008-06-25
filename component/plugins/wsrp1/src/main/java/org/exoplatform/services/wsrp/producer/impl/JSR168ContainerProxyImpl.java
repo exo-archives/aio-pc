@@ -27,7 +27,6 @@ import java.util.MissingResourceException;
 import java.util.Set;
 
 import javax.portlet.WindowState;
-import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -51,6 +50,7 @@ import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.exceptions.Faults;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
 import org.exoplatform.services.wsrp.producer.PortletContainerProxy;
+import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp.type.LocalizedString;
@@ -378,8 +378,8 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
                                              String portletName,
                                              Locale locale) {
     try {
-      WSRPHttpServletRequest request = new WSRPHttpServletRequest((HttpSession) null);
-      WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+      WSRPHttpServletRequest request = WSRPHTTPContainer.getInstance().getRequest();
+      WSRPHttpServletResponse response = WSRPHTTPContainer.getInstance().getResponse();
       return this.pcService.getBundle(request, response, portletAppName, portletName, locale);
     } catch (PortletContainerException e) {
       e.printStackTrace();

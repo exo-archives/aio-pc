@@ -52,6 +52,7 @@ import org.exoplatform.services.wsrp.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp.producer.TransientStateManager;
 import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPConsumerRewriterPortletURLFactory;
+import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHttpSession;
@@ -217,8 +218,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WindowState windowState = processWindowState(markupParams.getWindowState());
 
     // prepare the call to the portlet proxy
-    WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
-    WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // prepare the Input object
     RenderInput input = new RenderInput();
@@ -352,8 +354,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // prepare objects for portlet proxy
     String mimeType = markupParams.getMimeTypes(0);
-    WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
-    WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
     putFormParametersInRequest(request, interactionParams);
 
     // prepare the Input object
@@ -590,8 +593,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private Integer getSessionTimePeriod() {
     try {
-      ExoContainer container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) container.getComponentInstanceOfType(WSRPHttpSession.class);
+      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance().getRequest().getSession();
       return wsrpHttpSession.getMaxInactiveInterval();
     } catch (Exception e) {
       System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());

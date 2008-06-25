@@ -23,59 +23,36 @@ import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
+ * @author  Mestrallet Benjamin
+ *          benjmestrallet@users.sourceforge.net
  */
-public class WSRPHttpServletResponse implements HttpServletResponse {
+public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
 
-  private static String WSRP_CONTAINER = "portal";
+  private String scheme;
+  private String serverName;
+  private int    serverPort;
 
-  private String        scheme;
+  public WSRPHttpServletResponse(HttpServletRequest request,
+                                 HttpServletResponse response) {
+    super(response);
+    this.init(request);
+  }
 
-  private String        serverName;
-
-  private int           serverPort;
-
-  private ExoContainer  container;
-
-  public WSRPHttpServletResponse() {
-    try {
-      container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-      this.scheme = wsrpHttpServletRequest.getScheme();
-      this.serverName = wsrpHttpServletRequest.getServerName();
-      this.serverPort = wsrpHttpServletRequest.getServerPort();
-    } catch (Exception e) {
-      System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());
+  private void init(HttpServletRequest request) {
+    if (request != null) {
+      this.scheme = request.getScheme();
+      this.serverName = request.getServerName();
+      this.serverPort = request.getServerPort();
+    } else {
+      this.scheme = null;
+      this.serverName = null;
+      this.serverPort = 0;
     }
-    // try {
-    // if ( ExoContainerContext.getTopContainer() instanceof RootContainer) {
-    // //PORTALCONTAINER
-    // PortalContainer container =
-    // RootContainer.getInstance().getPortalContainer(WSRP_CONTAINER);
-    // WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest)
-    // container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-    // this.scheme = wsrpHttpServletRequest.getScheme();
-    // this.serverName = wsrpHttpServletRequest.getServerName();
-    // this.serverPort = wsrpHttpServletRequest.getServerPort();
-    // } else {
-    // //STANDALONECONTAINER
-    // ExoContainer container = ExoContainerContext.getTopContainer();
-    // WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest)
-    // container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-    // this.scheme = wsrpHttpServletRequest.getScheme();
-    // this.serverName = wsrpHttpServletRequest.getServerName();
-    // this.serverPort = wsrpHttpServletRequest.getServerPort();
-    // }
-    // } catch (Exception e) {
-    // System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " +
-    // e.getCause());
-    // }
   }
 
   public void addCookie(Cookie arg0) {
@@ -86,7 +63,7 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
   }
 
   public String encodeURL(String url) {
-    // to absolute url
+    //to absolute url
     String result = new String();
     String schem = (scheme != null) ? scheme : "http";
     if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("ftp://") && !url.startsWith(schem + "://")) {
@@ -190,7 +167,7 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
     return null;
   }
 
-  // servlet 2.4
+  //servlet 2.4
   public void setCharacterEncoding(String enc) {
   }
 
@@ -198,17 +175,24 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
     return null;
   }
 
-  // @Deprecated
+  //deprecated methods
+  /**
+  * @Deprecated
+  */
   public String encodeUrl(String url) {
     return url;
   }
 
-  // @Deprecated
+  /**
+  *@Deprecated
+  */
   public String encodeRedirectUrl(String arg0) {
     return null;
   }
 
-  // @Deprecated
+  /**
+  *@Deprecated
+  */
   public void setStatus(int arg0,
                         String arg1) {
   }

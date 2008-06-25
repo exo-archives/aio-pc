@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.io.IOException;
@@ -23,52 +23,51 @@ import java.util.Locale;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
+import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  */
-public class WSRPHttpServletResponse implements HttpServletResponse {
-
-  private static String WSRP_CONTAINER = "portal";  
+public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
 
   private String scheme;
   private String serverName;
-  private int serverPort;
-  private ExoContainer container;
-  
-  public WSRPHttpServletResponse() {
-    try {
-      container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpServletRequest wsrpHttpServletRequest = 
-        (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-      this.scheme = wsrpHttpServletRequest.getScheme();
-      this.serverName = wsrpHttpServletRequest.getServerName();
-      this.serverPort = wsrpHttpServletRequest.getServerPort();
-    } catch (Exception e) {
-      System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());
-    }
+  private int    serverPort;
 
+  public WSRPHttpServletResponse(HttpServletRequest request,
+                                 HttpServletResponse response) {
+    super(response);
+    this.init(request);
   }
-  
+
+  private void init(HttpServletRequest request) {
+    if (request != null) {
+      this.scheme = request.getScheme();
+      this.serverName = request.getServerName();
+      this.serverPort = request.getServerPort();
+    } else {
+      this.scheme = null;
+      this.serverName = null;
+      this.serverPort = 0;
+    }
+  }
+
   public void addCookie(Cookie arg0) {
   }
 
   public boolean containsHeader(String arg0) {
     return false;
   }
-  
+
   public String encodeURL(String url) {
     //to absolute url
     String result = new String();
-    String schem = (scheme != null)?scheme:"http";
-    if (!url.startsWith("http://") && !url.startsWith("https://") 
-        && !url.startsWith("ftp://") && !url.startsWith(schem+"://")) {
-      if (serverName != null && serverName != ""){
+    String schem = (scheme != null) ? scheme : "http";
+    if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("ftp://") && !url.startsWith(schem + "://")) {
+      if (serverName != null && serverName != "") {
         result = schem + "://" + serverName;
         if (serverPort != -1 && serverPort != 0) {
           result = result + ":" + serverPort;
@@ -86,7 +85,8 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
     return null;
   }
 
-  public void sendError(int arg0, String arg1) throws IOException {
+  public void sendError(int arg0,
+                        String arg1) throws IOException {
   }
 
   public void sendError(int arg0) throws IOException {
@@ -95,22 +95,28 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
   public void sendRedirect(String arg0) throws IOException {
   }
 
-  public void setDateHeader(String arg0, long arg1) {
+  public void setDateHeader(String arg0,
+                            long arg1) {
   }
 
-  public void addDateHeader(String arg0, long arg1) {
+  public void addDateHeader(String arg0,
+                            long arg1) {
   }
 
-  public void setHeader(String arg0, String arg1) {
+  public void setHeader(String arg0,
+                        String arg1) {
   }
 
-  public void addHeader(String arg0, String arg1) {
+  public void addHeader(String arg0,
+                        String arg1) {
   }
 
-  public void setIntHeader(String arg0, int arg1) {
+  public void setIntHeader(String arg0,
+                           int arg1) {
   }
 
-  public void addIntHeader(String arg0, int arg1) {
+  public void addIntHeader(String arg0,
+                           int arg1) {
   }
 
   public void setStatus(int arg0) {
@@ -162,13 +168,13 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
   }
 
   //servlet 2.4
-  public void setCharacterEncoding(String enc){
+  public void setCharacterEncoding(String enc) {
   }
 
-  public String getContentType(){
+  public String getContentType() {
     return null;
   }
-  
+
   //deprecated methods
   /**
   * @Deprecated
@@ -187,7 +193,8 @@ public class WSRPHttpServletResponse implements HttpServletResponse {
   /**
   *@Deprecated
   */
-  public void setStatus(int arg0, String arg1) {
+  public void setStatus(int arg0,
+                        String arg1) {
   }
 
 }

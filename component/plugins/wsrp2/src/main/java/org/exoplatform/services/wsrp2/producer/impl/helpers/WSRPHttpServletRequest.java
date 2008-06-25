@@ -35,18 +35,16 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
-
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
 
 /**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  */
-public class WSRPHttpServletRequest implements HttpServletRequest {
+public class WSRPHttpServletRequest extends HttpServletRequestWrapper {
 
-  private HttpSession           session;
+  private HttpSession       wsrpSession;
 
   private Map<String, String[]> parameters;
 
@@ -66,33 +64,11 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
 
   private String                protocol;
 
-  public static String          WSRP_CONTAINER = "portal";
-
-  private ExoContainer          container;
-
-  public WSRPHttpServletRequest(HttpSession session) {
-    this.session = session;
+  public WSRPHttpServletRequest(HttpServletRequest request) {
+    super(request);
+    this.wsrpSession = new WSRPHttpSession(request.getSession());
     this.parameters = new HashMap<String, String[]>();
     this.attributes = new HashMap<String, Object>();
-
-    try {
-      container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpServletRequest wsrpHttpServletRequest = (WSRPHttpServletRequest) container
-          .getComponentInstanceOfType(WSRPHttpServletRequest.class);
-      this.scheme = wsrpHttpServletRequest.getScheme();
-      this.serverName = wsrpHttpServletRequest.getServerName();
-      this.serverPort = wsrpHttpServletRequest.getServerPort();
-      this.locale = wsrpHttpServletRequest.getLocale();
-      this.locales = wsrpHttpServletRequest.getLocales();
-      this.characterEncoding = wsrpHttpServletRequest.getCharacterEncoding();
-      this.protocol = wsrpHttpServletRequest.getProtocol();
-    } catch (Exception e) {
-      System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());
-    }
-
-  }
-
-  public WSRPHttpServletRequest(HttpServletRequest request) {
     this.scheme = request.getScheme();
     this.serverName = request.getServerName();
     this.serverPort = request.getServerPort();
@@ -178,8 +154,10 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return null;
   }
 
-  public HttpSession getSession(boolean arg0) {
-    return session;
+  public HttpSession getSession(boolean create) {
+    if (wsrpSession == null && create)
+      wsrpSession = new WSRPHttpSession();
+    return wsrpSession;
   }
 
   public HttpSession getSession() {
@@ -306,7 +284,8 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return null;
   }
 
-  public void setAttribute(String arg0, Object arg1) {
+  public void setAttribute(String arg0,
+                           Object arg1) {
     attributes.put(arg0, arg1);
   }
 
@@ -373,19 +352,23 @@ public class WSRPHttpServletRequest implements HttpServletRequest {
     return 0;
   }
 
-  public void setParameter(String key, String value) {
+  public void setParameter(String key,
+                           String value) {
     String[] valueArray = new String[1];
     valueArray[0] = value;
     parameters.put(key, valueArray);
   }
 
-  //depracated methods
   public String getRealPath(String arg0) {
     return null;
   }
 
   public boolean isRequestedSessionIdFromUrl() {
     return false;
+  }
+  
+  public void setWsrpSession(WSRPHttpSession wsrpSession) {
+    this.wsrpSession = wsrpSession;
   }
 
 }

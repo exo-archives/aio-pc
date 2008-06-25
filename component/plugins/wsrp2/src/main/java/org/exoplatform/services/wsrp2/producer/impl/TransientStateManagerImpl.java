@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import org.apache.commons.logging.Log;
@@ -47,7 +47,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
 
   private static final String USER_CONTEXT_KEY = "org.exoplatform.services.wsrp2.user.context.key";
 
-  private Log                 log;
+  private Log                 log              = ExoLogger.getLogger(this.getClass().getName());
 
   private ExoCache            cache;
 
@@ -58,12 +58,12 @@ public class TransientStateManagerImpl implements TransientStateManager {
   public TransientStateManagerImpl(ExoContainerContext ctx,
                                    CacheService cacheService,
                                    WSRPConfiguration conf) {
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     this.conf = conf;
     try {
       cache = cacheService.getCacheInstance(WSRPConstants.WSRP_CACHE_REGION);
     } catch (Exception e) {
-      log.debug("Can not lookup cache : " + WSRPConstants.WSRP_CACHE_REGION, e);
+      if (log.isDebugEnabled())
+        log.debug("Can not lookup cache : " + WSRPConstants.WSRP_CACHE_REGION, e);
     }
     cont = ctx.getContainer();
   }
@@ -74,24 +74,26 @@ public class TransientStateManagerImpl implements TransientStateManager {
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
     WSRPHttpSession session = null;
-    log.debug("Try to lookup session with ID : " + sessionID);
+    if (log.isDebugEnabled())
+      log.debug("Try to lookup session with ID : " + sessionID);
     try {
       // !!! it's a very dirty hack and it will be removed as soon as possible
-      // !!!
       session = (WSRPHttpSession) cache.get(sessionID);
       WindowInfosContainer.createInstance(cont, sessionID, user);
       if (session != null) {
-        if (session.isInvalidated()) {
+        if (sessionID != null && session.isInvalidated()) {
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         } else {
           session.setLastAccessTime(System.currentTimeMillis());
         }
-        log.debug("Lookup session success");
+        if (log.isDebugEnabled())
+          log.debug("Lookup session success");
       } else {
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
-        log.debug("Create new session with ID : " + sessionID);
+        if (log.isDebugEnabled())
+          log.debug("Create new session with ID : " + sessionID);
       }
       return session;
     } catch (Exception e) {
@@ -104,12 +106,14 @@ public class TransientStateManagerImpl implements TransientStateManager {
       cache.remove(sessionID);
       WindowInfosContainer.removeInstance(cont, sessionID);
     } catch (Exception e) {
-      log.debug("Can not release session : " + sessionID, e);
+      if (log.isDebugEnabled())
+        log.debug("Can not release session : " + sessionID, e);
     }
   }
 
   public CacheControl getCacheControl(PortletData portletDatas) throws WSRPException {
-    log.debug("Fill a CacheControl object for the portlet");
+    if (log.isDebugEnabled())
+      log.debug("Fill a CacheControl object for the portlet");
     CacheControl cacheControl = null;
     try {
       cacheControl = new CacheControl();
@@ -120,28 +124,33 @@ public class TransientStateManagerImpl implements TransientStateManager {
       } else {
         cacheControl.setUserScope(WSRPConstants.WSRP_USER_SCOPE_CACHE);
       }
-      log.debug("Use Cache key : " + key);
+      if (log.isDebugEnabled())
+        log.debug("Use Cache key : " + key);
       cacheControl.setValidateTag(key);
       CacheControlProxy cacheControlProxy = new CacheControlProxy(cacheControl);
       cache.put(key, cacheControlProxy);
     } catch (Exception e) {
-      log.debug("Unable to cache CacheControlProxy", e);
+      if (log.isDebugEnabled())
+        log.debug("Unable to cache CacheControlProxy", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     return cacheControl;
   }
 
   public boolean validateCache(String validateTag) throws WSRPException {
-    log.debug("Validate a CacheControl object : " + validateTag);
+    if (log.isDebugEnabled())
+      log.debug("Validate a CacheControl object : " + validateTag);
     // TODO find a better way to validate a cache
     try {
       CacheControlProxy cacheControlProxy = (CacheControlProxy) cache.get(validateTag);
       if (cacheControlProxy != null && cacheControlProxy.isValid()) {
-        log.debug("Consumer cache validated");
+        if (log.isDebugEnabled())
+          log.debug("Consumer cache validated");
         return true;
       }
     } catch (Exception e) {
-      log.debug("Unable to lookup CacheControlProxy", e);
+      if (log.isDebugEnabled())
+        log.debug("Unable to lookup CacheControlProxy", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     return false;
@@ -157,14 +166,17 @@ public class TransientStateManagerImpl implements TransientStateManager {
   }
 
   public UserContext resolveUserContext(UserContext userContext,
-                                       WSRPHttpSession session) {
+                                        WSRPHttpSession session) {
     if (conf.isUserContextStoredInSession()) {
-      log.debug("Optimized mode : user context store in session");
+      if (log.isDebugEnabled())
+        log.debug("Optimized mode : user context store in session");
       if (userContext == null) {
-        log.debug("Optimized mode : retrieve the user context from session");
+        if (log.isDebugEnabled())
+          log.debug("Optimized mode : retrieve the user context from session");
         return (UserContext) session.getAttribute(USER_CONTEXT_KEY);
       } else {
-        log.debug("Optimized mode : store the user context in session");
+        if (log.isDebugEnabled())
+          log.debug("Optimized mode : store the user context in session");
         session.setAttribute(USER_CONTEXT_KEY, userContext);
       }
     }

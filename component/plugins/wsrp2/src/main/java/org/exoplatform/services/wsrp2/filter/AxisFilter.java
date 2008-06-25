@@ -14,11 +14,10 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.filter;
 
 import java.io.IOException;
-import java.util.ConcurrentModificationException;
 import java.util.List;
 
 import javax.servlet.Filter;
@@ -28,16 +27,14 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-//import org.exoplatform.container.PortalContainer;
-//import org.exoplatform.container.RootContainer;
 import org.exoplatform.services.database.HibernateService;
-
-import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletRequest;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 
 /**
  * User: Benjamin Mestrallet
@@ -45,71 +42,45 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
  */
 public class AxisFilter implements Filter {
 
-  private String containerName = "portal";
-  private Integer retriesToRegister = 2;
+  private String       containerName = "portal";
   private ExoContainer container;
-  private WSRPHttpServletRequest wsrpHttpServletRequest;
-  private WSRPHttpSession wsrpHttpSession;
+  private Log          log           = ExoLogger.getLogger(getClass().getName());
 
   public void init(FilterConfig filterConfig) throws ServletException {
+    this.log = ExoLogger.getLogger(this.getClass().getName());
     String containerName = filterConfig.getInitParameter("portal-container-name");
-    if (containerName != null) 
+    if (containerName != null)
       this.containerName = containerName;
-    Integer retriesToRegister = new Integer(filterConfig.getInitParameter("retries-to-register"));
-    if (retriesToRegister != null) 
-      this.retriesToRegister = retriesToRegister;
+    if (log.isDebugEnabled())
+      log.debug("this.containerName = " + this.containerName);
   }
 
-  public synchronized void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
-    wsrpHttpServletRequest = new WSRPHttpServletRequest((HttpServletRequest)servletRequest);
-    HttpSession httpSession = ((HttpServletRequest)servletRequest).getSession();
-    wsrpHttpSession = new WSRPHttpSession( httpSession.getId(), httpSession.getMaxInactiveInterval());
-    int i = retriesToRegister;
-    while (i != 0) {
-      try {
-        register();
-        i = 0; 
-      } catch (ConcurrentModificationException e) {
-        if (i > 0) i--;
-      } 
-    }
-    i = retriesToRegister;
-    while (i != 0) {
-      try {
-        hibernateCloseSession();
-        i = 0; 
-      } catch (ConcurrentModificationException e) {
-        if (i > 0) i--;
-      } 
-    }
+  public synchronized void doFilter(ServletRequest servletRequest,
+                                    ServletResponse servletResponse,
+                                    FilterChain filterChain) throws IOException,
+                                                            ServletException {
+    setCurrentContainer();
+    WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
+
     filterChain.doFilter(servletRequest, servletResponse);
+
+    hibernateCloseSession();
   }
-  
-  private void register() {
+
+  private void hibernateCloseSession() {
+    List<HibernateService> list = container.getComponentInstancesOfType(HibernateService.class);
+    for (HibernateService hservice : list)
+      hservice.closeSession();
+  }
+
+  private void setCurrentContainer() {
     container = ExoContainerContext.getContainerByName(containerName);
     if (container == null)
       container = ExoContainerContext.getTopContainer();
     ExoContainerContext.setCurrentContainer(container);
-    
-    WSRPHttpServletRequest checkwsrpHttpServletRequest = 
-      (WSRPHttpServletRequest) container.getComponentInstanceOfType(WSRPHttpServletRequest.class);
-    if (checkwsrpHttpServletRequest == null) {
-      container.registerComponentInstance(wsrpHttpServletRequest);
-      System.out.println("StandaloneContainer: injecting " + WSRPHttpServletRequest.class);
-      container.registerComponentInstance(wsrpHttpSession);
-      System.out.println("StandaloneContainer: injecting " + WSRPHttpSession.class);
-    }
   }
-  
-  private void hibernateCloseSession() {
-    List<HibernateService> list = container.getComponentInstancesOfType(HibernateService.class) ;
-    for(HibernateService hservice : list)  
-      hservice.closeSession() ;
-    //PortalContainer.setInstance(null);
-  }
-  
+
   public void destroy() {
   }
-  
+
 }

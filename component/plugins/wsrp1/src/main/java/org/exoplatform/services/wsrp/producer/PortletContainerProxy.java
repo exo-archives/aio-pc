@@ -43,26 +43,26 @@ public interface PortletContainerProxy {
 
   public ResourceList getResourceList(String[] desiredLocales);
 
-  public PortletDescription getPortletDescription(String portletHandle, String[] desiredLocales);
+  public PortletDescription getPortletDescription(String portletHandle,
+                                                  String[] desiredLocales);
 
-  public void setPortletProperties(String portletHandle, String userID, PropertyList propertyList)
-      throws WSRPException;
+  public void setPortletProperties(String portletHandle,
+                                   String userID,
+                                   PropertyList propertyList) throws WSRPException;
 
-  public Map<String, String[]> getPortletProperties(String portletHandle, String userID)
-      throws WSRPException;
+  public Map<String, String[]> getPortletProperties(String portletHandle,
+                                                    String userID) throws WSRPException;
 
   public Map<String, PortletData> getAllPortletMetaData();
 
-  // public Collection getWindowStates(String s);
   public Collection<WindowState> getSupportedWindowStates();
 
-  public RenderOutput render(WSRPHttpServletRequest request, WSRPHttpServletResponse response,
-      RenderInput input) throws WSRPException;
+  public RenderOutput render(WSRPHttpServletRequest request,
+                             WSRPHttpServletResponse response,
+                             RenderInput input) throws WSRPException;
 
   public ActionOutput processAction(WSRPHttpServletRequest request,
-      WSRPHttpServletResponse response, ActionInput input) throws WSRPException;
-
-  // public Collection getSupportedPortletModesWithDescriptions();
-  // public Collection getSupportedWindowStatesWithDescriptions();
+                                    WSRPHttpServletResponse response,
+                                    ActionInput input) throws WSRPException;
 
 }

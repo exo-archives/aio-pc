@@ -28,14 +28,11 @@ import java.util.Map;
 import javax.portlet.PortletMode;
 import javax.portlet.ResourceURL;
 import javax.portlet.WindowState;
-import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
@@ -62,13 +59,13 @@ import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterf
 import org.exoplatform.services.wsrp2.producer.TransientStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPConsumerRewriterPortletURLFactory;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPProducerRewriterPortletURLFactory;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
-import org.exoplatform.services.wsrp2.type.ErrorCodes;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.HandleEventsFailed;
@@ -269,8 +266,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WindowState windowState = processWindowState(markupParams.getWindowState());
 
     // prepare the call to the portlet container
-    WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
-    WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // prepare the Input object
     RenderInput input = new RenderInput();
@@ -485,8 +483,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
       // prepare objects for portlet container
-      WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
-      WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+      WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
       // prepare the Input object
       ActionInput input = new ActionInput();
@@ -768,8 +767,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       WindowState windowState = processWindowState(resourceParams.getWindowState());
 
       // prepare the call to the portlet container
-      WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
-      WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+      WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
       // putFormParametersInRequest(request, resourceParams);
 
       // preparing Input object
@@ -952,8 +952,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // prepare objects for portlet container
-    WSRPHttpServletRequest request = new WSRPHttpServletRequest(session);
-    WSRPHttpServletResponse response = new WSRPHttpServletResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
     // putInteractionParameterInRequest(request, eventParams);
 
     HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
@@ -1195,6 +1196,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WSRPHttpSession session = null;
     try {
       session = transientStateManager.resolveSession(sessionID, user, sessiontimeperiod);
+      
     } catch (WSRPException e) {
       log.debug("Can not lookup or create new session, sessionID parameter : " + sessionID);
       Exception2Fault.handleException(e);
@@ -1358,8 +1360,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private Integer getSessionTimePeriod() {
     try {
-      ExoContainer container = ExoContainerContext.getCurrentContainer();
-      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) container.getComponentInstanceOfType(WSRPHttpSession.class);
+      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance().getRequest().getSession();
       return wsrpHttpSession.getMaxInactiveInterval();
     } catch (Exception e) {
       System.out.println("MarkupOperationsInterfaceImpl.getSessionTimePeriod: = " + e.getCause());
