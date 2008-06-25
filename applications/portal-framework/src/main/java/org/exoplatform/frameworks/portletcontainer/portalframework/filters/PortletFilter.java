@@ -144,14 +144,14 @@ public class PortletFilter implements Filter {
     ServletContext ctx = httpRequest.getSession().getServletContext();
 
     try {
-      StandaloneContainer portalContainer = StandaloneContainer.getInstance();
+      StandaloneContainer container = StandaloneContainer.getInstance();
       // create WindowInfosContainer instance if there's no one
-      WindowInfosContainer.createInstance(portalContainer, httpSession.getId(), httpRequest.getRemoteUser());
+      WindowInfosContainer.createInstance(container, httpSession.getId(), httpRequest.getRemoteUser());
 
       // create/get PortalFramework instance
       framework = FRAMEWORKS.get(httpSession.getId());
       if (framework == null) {
-        framework = new PortalFramework(portalContainer);
+        framework = new PortalFramework(container);
         FRAMEWORKS.put(httpSession.getId(), framework);
       }
       framework.init(httpSession);
