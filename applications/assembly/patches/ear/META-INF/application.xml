@@ -26,4 +26,10 @@
       <context-root>demos</context-root>
     </web>
   </module>
+  <module>
+    <web>
+      <web-uri>wsrp.war</web-uri>
+      <context-root>wsrp</context-root>
+    </web>
+  </module>
 </application>
