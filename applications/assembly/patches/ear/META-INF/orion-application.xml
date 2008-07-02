@@ -4,8 +4,8 @@
   <web-module id="portal" path="portal.war" />
   <web-module id="portlets" path="portlets.war" />
   <web-module id="portlets2" path="portlets2.war" />
-  <!-- web-module id="wsrp" path="wsrp.war" />
-  <web-module id="smyfacesportlet" path="smyfacesportlet.war" / -->
+  <web-module id="wsrp" path="wsrp.war" />
+  <!-- web-module id="smyfacesportlet" path="smyfacesportlet.war" / -->
   <persistence path="persistence" />
   <library path="./"/>
   <principals path="principals.xml" />

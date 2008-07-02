@@ -58,10 +58,6 @@
       <init-params>
         <values-param>
           <name>hibernate.mapping</name>
-          <value>org/exoplatform/services/wsrp/consumer/impl/WSRP1ProducerData.hbm.xml</value>
-          <value>org/exoplatform/services/wsrp/producer/impl/WSRP1StateData.hbm.xml</value>
-          <value>org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.hbm.xml</value>
-          <value>org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.hbm.xml</value>
           <value>org/exoplatform/services/organization/impl/UserImpl.hbm.xml</value>
           <value>org/exoplatform/services/organization/impl/MembershipImpl.hbm.xml</value>
           <value>org/exoplatform/services/organization/impl/GroupImpl.hbm.xml</value>
