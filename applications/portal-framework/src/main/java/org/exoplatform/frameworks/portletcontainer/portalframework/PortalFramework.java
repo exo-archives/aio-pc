@@ -207,6 +207,11 @@ public class PortalFramework {
   private String currentPage = "default";
 
   /**
+   * Current portal layout.
+   */
+  private String desktopLayout = "layout2";
+
+  /**
    * Constructor.
    *
    * @param cnt portal container
@@ -306,6 +311,20 @@ public class PortalFramework {
    */
   public final int getResourceStatus() {
     return resourceStatus;
+  }
+
+  /**
+   * @return portal layout
+   */
+  public String getDesktopLayout() {
+    return desktopLayout;
+  }
+
+  /**
+   * @param layout portal layout
+   */
+  public void setDesktopLayout(String layout) {
+    desktopLayout = layout;
   }
 
   /**
@@ -672,6 +691,8 @@ public class PortalFramework {
    * @param currentPage the currentPage to set
    */
   public void delPortalPage(String page) {
+    if (pages.size() <= 1)
+      return;
     setPagePortlets(page, null);
     setCurrentPage(getPortalPages().next());
   }

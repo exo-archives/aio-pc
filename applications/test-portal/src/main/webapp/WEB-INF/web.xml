@@ -16,22 +16,21 @@
     <param-value>false</param-value>
   </context-param> 
 
-  <filter>
+  <!-- filter>
     <filter-name>PortletFilter</filter-name>
     <filter-class>org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortletFilter</filter-class>
-  </filter>
+  </filter -->
 
   <!-- PortletFilter -->
-  <filter-mapping>
+  <!-- filter-mapping>
     <filter-name>PortletFilter</filter-name>
-    <!-- url-pattern>/portal/</url-pattern -->
     <servlet-name>PortalServlet</servlet-name>
   </filter-mapping>
 
   <filter-mapping>
     <filter-name>PortletFilter</filter-name>
     <servlet-name>TckServlet</servlet-name>
-  </filter-mapping>
+  </filter-mapping -->
 
   <listener>
     <listener-class>org.exoplatform.frameworks.portletcontainer.portalframework.listeners.AppListener</listener-class>

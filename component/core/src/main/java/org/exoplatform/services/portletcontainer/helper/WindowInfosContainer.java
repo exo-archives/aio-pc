@@ -29,12 +29,12 @@ public class WindowInfosContainer extends HashMap<Object, Object> {
   /**
    * Internal storage of containers.
    */
-  private static ThreadLocal threadLocal = new ThreadLocal();
+  private static ThreadLocal<WindowInfosContainer> threadLocal = new ThreadLocal<WindowInfosContainer>();
 
   /**
    * Internal map of window infos.
    */
-  private static HashMap<String, Object> map = new HashMap<String, Object>();
+  private static HashMap<String, WindowInfosContainer> map = new HashMap<String, WindowInfosContainer>();
 
   /**
    * Id.
@@ -88,7 +88,7 @@ public class WindowInfosContainer extends HashMap<Object, Object> {
    * @return window infos container
    */
   public static WindowInfosContainer getInstance() {
-    return (WindowInfosContainer) threadLocal.get();
+    return threadLocal.get();
   }
 
   /**

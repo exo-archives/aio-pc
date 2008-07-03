@@ -4,7 +4,7 @@
 
     <table width='100%'>
       <tr>
-        <td><img src="../img/logotestportal.png"></td>
+        <td><img src="../../img/logotestportal.png"></td>
         <td>&nbsp;</td>
         <td align="right">
           <form method='post' name='addPortlet' action='.'>
@@ -26,7 +26,7 @@
                 var sel1 = document.getElementById('pName');
                 sel1.options.length = 0;
                 var pRow = pList[sel.options[sel.selectedIndex].value];
-                for (var i=0; i< pRow.length; i++) {
+                for (var i in pRow) {
                   sel1.options[sel1.options.length] = new Option(pRow[i], pRow[i]);
                 }
               }
