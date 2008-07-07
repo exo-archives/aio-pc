@@ -51,7 +51,12 @@ LOG_OPTS="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.Simpl
 SECURITY_OPTS="-Djava.security.auth.login.config=$PRGDIR/../conf/jaas.conf"
 CATALINA_OPTS="$CATALINA_OPTS $SECURITY_OPTS" 
 export CATALINA_OPTS
-JAVA_OPTS="$LOG_OPTS $SECURITY_OPTS $JAVA_OPTS"
+
+#REMOTE_DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
+
+JAVA_OPTS="$JAVA_OPTS $LOG_OPTS $SECURITY_OPTS $REMOTE_DEBUG"
+export JAVA_OPTS
+
 ####################################################################################
 #                     END  EXO CONFIGURATION                                        #
 #####################################################################################
