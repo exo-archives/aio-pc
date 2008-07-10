@@ -128,7 +128,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     Enumeration<WindowState> e = reqCtx.getPortalContext().getSupportedWindowStates();
     while (e.hasMoreElements()) {
       WindowState supportedWindowState = e.nextElement();
-      if (supportedWindowState.equals(windowState))
+      if (supportedWindowState.toString().equalsIgnoreCase(windowState.toString()))
         return true;
     }
     return false;
@@ -145,8 +145,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     Enumeration<PortletMode> e = reqCtx.getPortalContext().getSupportedPortletModes();
     while (e.hasMoreElements()) {
       PortletMode supportedPortletMode = e.nextElement();
-      if (supportedPortletMode.toString().toLowerCase()
-          .equals(portletMode.toString().toLowerCase()))
+      if (supportedPortletMode.toString().equalsIgnoreCase(portletMode.toString()))
         return true;
     }
     return false;

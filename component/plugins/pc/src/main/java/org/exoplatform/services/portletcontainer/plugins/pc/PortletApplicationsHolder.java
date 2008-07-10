@@ -194,7 +194,7 @@ public class PortletApplicationsHolder {
       return true;
     Collection<PortletMode> modesSupported = getPortletModes(portletAppName, portletName, markup);
     for (PortletMode portletMode : modesSupported) {
-      if (portletMode.toString().equals(mode.toString()))
+      if (portletMode.toString().equalsIgnoreCase(mode.toString()))
         return true;
     }
     return false;
@@ -249,7 +249,7 @@ public class PortletApplicationsHolder {
       return true;
     Collection<WindowState> statesSupported = getWindowStates(portletAppName, portletName, markup);
     for (WindowState windowState : statesSupported) {
-      if (windowState.toString().equals(state.toString()))
+      if (windowState.toString().equalsIgnoreCase(state.toString()))
         return true;
     }
     return false;
