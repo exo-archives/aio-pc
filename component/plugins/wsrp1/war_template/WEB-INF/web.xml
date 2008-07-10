@@ -10,28 +10,27 @@
 	<description>test portlet application</description>
 
 	<context-param>
-		<param-name>test-param</param-name>
-		<param-value>test-parame-value</param-value>
+	  <param-name>test-param</param-name>
+	   <param-value>test-parame-value</param-value>
 	</context-param>
 	
 	<listener>
-	    <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
+	  <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
 	</listener>
 
 	<servlet>
-	    <servlet-name>PortletWrapper</servlet-name>
-	    <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
-	    <servlet-mapping></servlet-mapping>
+	  <servlet-name>PortletWrapper</servlet-name>
+	  <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
+	  <servlet-mapping></servlet-mapping>
            </servlet> 
-
-
+           
            <servlet-mapping>
             <servlet-name>PortletWrapper</servlet-name>
             <url-pattern>/PortletWrapper</url-pattern>
          </servlet-mapping>
  
-    <security-role> 
-        <role-name>auth-user</role-name> 
-    </security-role>     
-    
+         <security-role> 
+          <role-name>auth-user</role-name> 
+         </security-role>     
+
 </web-app>
