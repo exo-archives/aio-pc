@@ -190,7 +190,7 @@ public class PortletApplicationsHolder {
       final String markup,
       final PortletMode mode) {
     log.debug("isModeSuported() entered");
-    if (PortletMode.VIEW == mode)
+    if (PortletMode.VIEW.toString().equalsIgnoreCase(mode.toString()))
       return true;
     Collection<PortletMode> modesSupported = getPortletModes(portletAppName, portletName, markup);
     for (PortletMode portletMode : modesSupported) {
@@ -241,11 +241,11 @@ public class PortletApplicationsHolder {
       final String markup,
       final WindowState state) {
     log.debug("isStateSupported() entered");
-    if (WindowState.MINIMIZED == state)
+    if (WindowState.MINIMIZED.toString().equalsIgnoreCase(state.toString()))
       return true;
-    if (WindowState.NORMAL == state)
+    if (WindowState.NORMAL.toString().equalsIgnoreCase(state.toString()))
       return true;
-    if (WindowState.MAXIMIZED == state)
+    if (WindowState.MAXIMIZED.toString().equalsIgnoreCase(state.toString()))
       return true;
     Collection<WindowState> statesSupported = getWindowStates(portletAppName, portletName, markup);
     for (WindowState windowState : statesSupported) {
