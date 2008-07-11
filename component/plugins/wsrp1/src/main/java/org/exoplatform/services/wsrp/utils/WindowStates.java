@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp.utils;
 
+import java.util.Locale;
+
 import javax.portlet.WindowState;
 
 import org.exoplatform.services.wsrp.WSRPConstants;
@@ -28,7 +30,7 @@ public class WindowStates implements java.io.Serializable {
 
   // Constructor
   public WindowStates(java.lang.String value) {
-    _value_ = value;
+    _value_ = value.toLowerCase(Locale.ENGLISH);
     _table_.put(_value_, this);
   }
 
@@ -71,7 +73,7 @@ public class WindowStates implements java.io.Serializable {
    * @return The WSRP <code>WindowStates</code> represented by the passed string
    */
   public static WindowStates fromValue(java.lang.String value) {
-    return (WindowStates) _table_.get(value);
+    return (WindowStates) _table_.get(value.toLowerCase(Locale.ENGLISH));
   }
 
   /**
@@ -82,7 +84,7 @@ public class WindowStates implements java.io.Serializable {
    * @return The WSRP <code>WindowStates</code> represented by the passed string
    */
   public static WindowStates fromString(java.lang.String value) {
-    return fromValue(value);
+    return fromValue(value.toLowerCase(Locale.ENGLISH));
   }
 
   public boolean equals(java.lang.Object obj) {
@@ -185,13 +187,14 @@ public class WindowStates implements java.io.Serializable {
   }
 
   public static String delAllPrefixWSRP(String forDelWSRP) {
+    forDelWSRP = forDelWSRP.toLowerCase(Locale.ENGLISH);
     while (forDelWSRP.startsWith(WSRPConstants.WSRP_PREFIX))
       forDelWSRP = forDelWSRP.substring(WSRPConstants.WSRP_PREFIX.length());
     return forDelWSRP;
   }
 
   public static String addPrefixWSRP(String forAddWSRP) {
-    return WSRPConstants.WSRP_PREFIX + forAddWSRP;
+    return WSRPConstants.WSRP_PREFIX + forAddWSRP.toLowerCase(Locale.ENGLISH);
   }
 
 }

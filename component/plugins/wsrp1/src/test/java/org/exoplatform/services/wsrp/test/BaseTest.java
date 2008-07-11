@@ -264,7 +264,7 @@ public class BaseTest extends TestCase {
   protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
     ServiceDescriptionRequest serviceDescription = new ServiceDescriptionRequest();
     serviceDescription.setDesiredLocales(locales);
-//    getServiceDescription.setRegistrationContext(new RegistrationContext("", null, null));
+    serviceDescription.setRegistrationContext(new RegistrationContext("", null, null));
     return serviceDescriptionInterface.getServiceDescription(serviceDescription);
   }
 

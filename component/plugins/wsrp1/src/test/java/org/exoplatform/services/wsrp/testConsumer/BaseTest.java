@@ -32,8 +32,7 @@ import junit.framework.TestCase;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.Environment;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.PortalContainer;
+import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
@@ -119,21 +118,24 @@ public class BaseTest extends TestCase {
   private MockServletRequest         mockServletRequest;
   private MockServletResponse        mockServletResponse;
 
+  protected int                      platform                                        = 0;
+  protected ExoContainer             manager;
+
   protected void setUp() throws Exception {
 
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
     InputStream is = url.openStream();
     portletApp_ = XMLParser.parse(is, false);
 
-    Collection<String> roles = new ArrayList<String>();
-    roles.add("auth-user");
-
-    PortalContainer manager = null;
     try {
-      manager = PortalContainer.getInstance();
+//      manager = PortalContainer.getInstance();
+      manager = StandaloneContainer.getInstance();
     } catch (Throwable t) {
       t.printStackTrace();
     }
+
+    Collection<String> roles = new ArrayList<String>();
+    roles.add("auth-user");
 
     mockServletContext = new MockServletContext("hello", "./war_template");
     mockServletContext.setInitParameter("test-param", "test-parame-value");
@@ -141,9 +143,6 @@ public class BaseTest extends TestCase {
     portletApplicationRegister = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
 
     portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
-
-//    }
-    // AFTER
 
     producerRegistry = (ProducerRegistry) manager.getComponentInstanceOfType(ProducerRegistry.class);
     portletRegistry = (PortletRegistry) manager.getComponentInstanceOfType(PortletRegistry.class);
@@ -189,8 +188,6 @@ public class BaseTest extends TestCase {
 
   public void tearDown() throws Exception {
     try {
-      PortalContainer manager = PortalContainer.getInstance();
-
       portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
       HibernateService hservice = (HibernateService) manager.getComponentInstanceOfType(HibernateService.class);
       hservice.closeSession();
