@@ -108,6 +108,7 @@ public class BaseTest extends TestCase {
   protected ClientData                          clientData;
   protected MarkupParams                        markupParams;
   protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard", "minimal" };
+
   public static String[]                        localesArray             = { "en" };
   public static String[]                        markupCharacterSets      = { "UF-08", "ISO-8859-1" };
   public static String[]                        mimeTypes                = { "text/html", "text/xhtml" };
@@ -132,58 +133,63 @@ public class BaseTest extends TestCase {
   private OrganizationService                   orgService_;
   private PortletApplicationRegister            portletApplicationRegister;
 
+  protected int                                 platform                 = 0;
+  protected PortalContainer                     manager;
+
   public BaseTest(String s) {
     super(s);
   }
 
   public void setUp() throws Exception {
-
-    if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
-//    int platform = 0;
+//    //  System.clearProperty("maven.exoplatform.dir","") ;
+//    System.setProperty("catalina.home", "");
+//    platform = Environment.getInstance().getPlatform();
+////    platform = 2;
+//    System.out.println(">>> EXOMAN BaseTest.setUp() produuuuuuuuuuuuuuuuuuuuuuuuuuuuuuucer platform = " + platform);
 //    if (platform == Environment.STAND_ALONE) {
-
-      PortalContainer manager = PortalContainer.getInstance();
-//      manager.getComponentInstanceOfType(PortalConfigService.class);
-//      manager.getComponentInstanceOfType(PersistentStateManager.class);
-      orgService_ = (OrganizationService) manager.getComponentInstanceOfType(OrganizationService.class);
-      User user = orgService_.getUserHandler().findUserByName("exotest");
-      if (user == null) {
-        user = orgService_.getUserHandler().createUserInstance();
-        user.setUserName("exotest");
-        user.setPassword("exo");
-        user.setFirstName("Exo");
-        user.setLastName("Platform");
-        user.setEmail("exo@exoportal.org");
-        orgService_.getUserHandler().createUser(user, true);
-      }
-      URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
-
-      InputStream is = url.openStream();
-      portletApp_ = XMLParser.parse(is, false);
-
-      Collection<String> roles = new ArrayList<String>();
-      roles.add("auth-user");
-
-      mockServletContext = new MockServletContext("hello", "./war_template");
-      mockServletContext.setInitParameter("test-param", "test-parame-value");
-
-      portletContainer = (PortletContainerService) manager.getComponentInstanceOfType(PortletContainerService.class);
-
-      portletApplicationRegister = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
-
-      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
-
-      serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
-      registrationOperationsInterface = new WSRP_v1_Registration_Binding_SOAPImpl();
-      markupOperationsInterface = new WSRP_v1_Markup_Binding_SOAPImpl();
-      portletManagementOperationsInterface = new WSRP_v1_PortletManagement_Binding_SOAPImpl();
-    } else {
+//
+//      manager = PortalContainer.getInstance();
+////      manager.getComponentInstanceOfType(PortalConfigService.class);
+////      manager.getComponentInstanceOfType(PersistentStateManager.class);
+//      orgService_ = (OrganizationService) manager.getComponentInstanceOfType(OrganizationService.class);
+//      User user = orgService_.getUserHandler().findUserByName("exotest");
+//      if (user == null) {
+//        user = orgService_.getUserHandler().createUserInstance();
+//        user.setUserName("exotest");
+//        user.setPassword("exo");
+//        user.setFirstName("Exo");
+//        user.setLastName("Platform");
+//        user.setEmail("exo@exoportal.org");
+//        orgService_.getUserHandler().createUser(user, true);
+//      }
+//      URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
+//
+//      InputStream is = url.openStream();
+//      portletApp_ = XMLParser.parse(is, false);
+//
+//      Collection<String> roles = new ArrayList<String>();
+//      roles.add("auth-user");
+//
+//      mockServletContext = new MockServletContext("hello", "./war_template");
+//      mockServletContext.setInitParameter("test-param", "test-parame-value");
+//
+//      portletContainer = (PortletContainerService) manager.getComponentInstanceOfType(PortletContainerService.class);
+//
+//      portletApplicationRegister = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
+//
+//      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
+//
+//      serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
+//      registrationOperationsInterface = new WSRP_v1_Registration_Binding_SOAPImpl();
+//      markupOperationsInterface = new WSRP_v1_Markup_Binding_SOAPImpl();
+//      portletManagementOperationsInterface = new WSRP_v1_PortletManagement_Binding_SOAPImpl();
+//    } else {
       WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
       serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
       registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
       markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
       portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
-    }
+//    }
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
@@ -243,20 +249,23 @@ public class BaseTest extends TestCase {
   }
 
   public void tearDown() throws Exception {
-    try {
-      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
-      PortalContainer manager = PortalContainer.getInstance();
-      HibernateService hservice = (HibernateService) manager.getComponentInstanceOfType(HibernateService.class);
-      hservice.closeSession();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+//    try {
+//      if (platform == Environment.STAND_ALONE) {
+//        portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
+////        PortalContainer manager = PortalContainer.getInstance();
+//        HibernateService hservice = (HibernateService) manager.getComponentInstanceOfType(HibernateService.class);
+//        hservice.closeSession();
+//      }
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
-    getServiceDescription.setDesiredLocales(locales);
-    return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+    ServiceDescriptionRequest serviceDescription = new ServiceDescriptionRequest();
+    serviceDescription.setDesiredLocales(locales);
+//    getServiceDescription.setRegistrationContext(new RegistrationContext("", null, null));
+    return serviceDescriptionInterface.getServiceDescription(serviceDescription);
   }
 
   protected MarkupRequest getMarkup(RegistrationContext rc,
