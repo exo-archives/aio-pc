@@ -185,11 +185,11 @@ public abstract class XURLTag extends BodyTagSupport {
    * @param windowState window state
    */
   public final void setWindowState(final String windowState) {
-    if (WindowState.MAXIMIZED.toString().equals(windowState))
+    if (WindowState.MAXIMIZED.toString().equalsIgnoreCase(windowState))
       this.windowState = WindowState.MAXIMIZED;
-    else if (WindowState.MINIMIZED.toString().equals(windowState))
+    else if (WindowState.MINIMIZED.toString().equalsIgnoreCase(windowState))
       this.windowState = WindowState.MINIMIZED;
-    else if (WindowState.NORMAL.toString().equals(windowState))
+    else if (WindowState.NORMAL.toString().equalsIgnoreCase(windowState))
       this.windowState = WindowState.NORMAL;
     else
       this.windowState = new WindowState(windowState);
@@ -199,11 +199,11 @@ public abstract class XURLTag extends BodyTagSupport {
    * @param portletMode portlet mode
    */
   public final void setPortletMode(final String portletMode) {
-    if (PortletMode.EDIT.toString().equals(portletMode))
+    if (PortletMode.EDIT.toString().equalsIgnoreCase(portletMode))
       this.portletMode = PortletMode.EDIT;
-    else if (PortletMode.HELP.toString().equals(portletMode))
+    else if (PortletMode.HELP.toString().equalsIgnoreCase(portletMode))
       this.portletMode = PortletMode.HELP;
-    else if (PortletMode.VIEW.toString().equals(portletMode))
+    else if (PortletMode.VIEW.toString().equalsIgnoreCase(portletMode))
       this.portletMode = PortletMode.VIEW;
     else
       this.portletMode = new PortletMode(portletMode);
