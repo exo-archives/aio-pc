@@ -173,6 +173,7 @@ public class PortletApplicationsHolder {
             }
           }
         }
+        return modes;
       }
     }
     return modes;
@@ -224,6 +225,7 @@ public class PortletApplicationsHolder {
             }
           }
         }
+        return states;
       }
     }
     return states;

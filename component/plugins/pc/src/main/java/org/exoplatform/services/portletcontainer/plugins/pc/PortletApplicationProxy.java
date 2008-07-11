@@ -16,6 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc;
 
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -182,9 +183,11 @@ public class PortletApplicationProxy implements Startable {
   private void registerPortlet(final String key) {
     try {
       ClassLoader cl = Thread.currentThread().getContextClassLoader();
-      pico.registerComponentImplementation(portletAppName + Constants.PORTLET_ENCODER + key, cl
-          .loadClass(getPortletClassName(key)));
-    } catch (Exception e) {
+      String portletClassName = getPortletClassName(key);
+      if (log.isDebugEnabled())
+        log.debug("Load and register portlet '"+ key + "' with class '" + portletClassName + "'.");
+      pico.registerComponentImplementation(portletAppName + Constants.PORTLET_ENCODER + key, cl.loadClass(portletClassName));
+    } catch (Throwable e) {
       log.error("Can not register portlet : " + key, e);
     }
   }
@@ -299,6 +302,7 @@ public class PortletApplicationProxy implements Startable {
    * @param keys keys
    */
   private void loadAndRegisterClassesByKey(final String[] keys) {
+    log.info("Registering portlets: " + Arrays.asList(keys));
     for (String key : keys) {
       registerPortlet(key);
     }

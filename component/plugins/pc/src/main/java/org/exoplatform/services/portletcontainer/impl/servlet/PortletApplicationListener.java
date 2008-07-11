@@ -146,7 +146,7 @@ public class PortletApplicationListener implements ServletContextListener {
       PortletApplicationRegister service = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
       service.registerPortletApplication(servletContext, portletApp, roles, portletAppName);
       log.info("DEPLOYED PORTLET APPLICATION: " + portletAppName);
-    } catch (Exception e) {
+    } catch (Throwable e) {
       log.error("Cannot deploy " + portletAppName, e);
     } finally {
       if (oldParser != null)

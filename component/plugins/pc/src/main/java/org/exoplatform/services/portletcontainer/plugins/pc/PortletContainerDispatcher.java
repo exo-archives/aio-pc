@@ -17,6 +17,8 @@
 package org.exoplatform.services.portletcontainer.plugins.pc;
 
 import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,8 +47,8 @@ import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
@@ -525,8 +527,13 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       final String portletAppName,
       final String portletName,
       final Locale locale) throws PortletContainerException {
+    System.out.println(">>> EXOMAN PortletContainerDispatcher.getBundle() 1 = " + 1);
     log.debug("Try to get a bundle object for locale : " + locale);
-    if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
+    
+    System.out.println(">>> EXOMAN PortletContainerDispatcher.getBundle() Environment.getInstance().getPlatform() = "
+        + Environment.getInstance().getPlatform());
+    int platform = Environment.getInstance().getPlatform();
+    if (platform == Environment.STAND_ALONE) {
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();
       initTests();
       try {
@@ -805,19 +812,18 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * Init tests.
    */
   private void initTests() {
-    // defined for test purposes
-    // protected static final String PORTLET_APP_PATH = "file:./war_template/";
-    // String PORTLET_APP_PATH = "file:" + System.getProperty("testPath") +
-    // "/war_template";
+//     defined for test purposes
+     final String PORTLET_APP_PATH = "file:./war_template/";
+     String PORTLET_APP_PATH2 = "file:" + System.getProperty("testPath") + "/war_template";
 
-    // try {
-    // URL[] URLs = { new URL(PORTLET_APP_PATH + "WEB-INF/classes/"), new
-    // URL("file:./lib/portlet-api.jar"), new URL(PORTLET_APP_PATH +
-    // "WEB-INF/lib/") };
-    // Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs));
-    // } catch (MalformedURLException e) {
-    // log.error("Can not init tests", e);
-    // }
+     try {
+     URL[] URLs = { new URL(PORTLET_APP_PATH + "WEB-INF/classes/"), new
+     URL("file:./lib/portlet-api.jar"), new URL(PORTLET_APP_PATH +
+     "WEB-INF/lib/") };
+     Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs));
+     } catch (MalformedURLException e) {
+     log.error("Can not init tests", e);
+     }
   }
 
   /**
