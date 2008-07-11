@@ -84,8 +84,11 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
 
   public boolean isPortletOffered(String portletHandle) {
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
-    if (this.pcService.getAllPortletMetaData().get(key[0] + Constants.PORTLET_HANDLE_ENCODER + key[1]) != null) {
-      return true;
+    String pcPortletHandle = key[0] + Constants.PORTLET_HANDLE_ENCODER + key[1];
+    if (pcPortletHandle != null) {
+      if (this.pcService.getAllPortletMetaData().get(pcPortletHandle) != null) {
+        return true;
+      }
     }
     return false;
   }
@@ -251,7 +254,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       String desiredLocale = desiredLocales[i];
       for (Iterator<Description> iter = list.iterator(); iter.hasNext();) {
         Description desc = (Description) iter.next();
-        if (desc!=null && desc.getLang()!=null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (desc != null && desc.getLang() != null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(desc.getDescription(), desiredLocale);
         }
       }
@@ -265,7 +268,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       String desiredLocale = desiredLocales[i];
       for (Iterator<DisplayName> iter = list.iterator(); iter.hasNext();) {
         DisplayName displayName = (DisplayName) iter.next();
-        if (displayName!=null && displayName.getLang()!=null && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (displayName != null && displayName.getLang() != null && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(displayName.getDisplayName(), desiredLocale);
         }
       }

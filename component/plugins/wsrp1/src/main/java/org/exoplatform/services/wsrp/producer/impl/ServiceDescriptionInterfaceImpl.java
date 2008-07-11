@@ -40,8 +40,9 @@ import java.util.*;
  *  Time: 09:40:23
  * */
 public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterface {
+
   private PortletContainerProxy cont;
-  public static String[]        localesArray = {"en", "fr"};
+  public static String[]        localesArray = { "en", "fr" };
   private WSRPConfiguration     conf;
   private Log                   log;
   private ExoContainer          container;
@@ -49,8 +50,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   public ServiceDescriptionInterfaceImpl(PortletContainerProxy cont,
                                          WSRPConfiguration conf,
-                                         ExoContainerContext context
-                                         ) {
+                                         ExoContainerContext context) {
     this.cont = cont;
     this.conf = conf;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
@@ -60,13 +60,13 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
                                                   String[] desiredLocales) throws RemoteException {
-    
-	//si les locales ne sont pas d�finies, alors on les cr�er par d�faut.
-	if(desiredLocales==null){
-		desiredLocales=new String[]{"en","fr"};
-	}
-	  
-	log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
+
+    //si les locales ne sont pas d�finies, alors on les cr�er par d�faut.
+    if (desiredLocales == null) {
+      desiredLocales = new String[] { "en", "fr" };
+    }
+
+    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
     Map<String, PortletData> portletMetaDatas = cont.getAllPortletMetaData();
     Set<String> keys = portletMetaDatas.keySet();
     Set<String> iterableKeys = new HashSet<String>(keys);
@@ -91,10 +91,9 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
       String producerOfferedPortletHandle = (String) iter.next();
       log.debug("fill service description with portlet description ");
-      pdescription[i] = cont.getPortletDescription(producerOfferedPortletHandle,
-                                                       desiredLocales);
+      pdescription[i] = cont.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
     }
-    ServiceDescription sD = new ServiceDescription() ;
+    ServiceDescription sD = new ServiceDescription();
     sD.setRequiresRegistration(conf.isRegistrationRequired());
     sD.setRegistrationPropertyDescription(new ModelDescription());//extension of the WSRP specs
     sD.setRequiresInitCookie(CookieProtocol.none);
@@ -104,7 +103,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     sD.setLocales(localesArray);
     sD.setOfferedPortlets(pdescription);
     sD.setResourceList(new ResourceList());
-    return sD ;
+    return sD;
   }
 
   private ItemDescription[] getCustomWindowStateDescriptions(Collection<CustomWindowStateWithDescription> collection) {
@@ -117,8 +116,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
         LocalisedDescription d = (LocalisedDescription) iterator.next();
         iD = new ItemDescription();
         iD.setItemName(element.getWindowState().toString());
-        iD.setDescription(Utils.getLocalizedString(d.getDescription(),
-                                                   d.getLocale().getLanguage()));
+        iD.setDescription(Utils.getLocalizedString(d.getDescription(), d.getLocale().getLanguage()));
         c.add(iD);
       }
     }
@@ -140,8 +138,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
         LocalisedDescription d = (LocalisedDescription) iterator.next();
         iD = new ItemDescription();
         iD.setItemName(element.getPortletMode().toString());
-        iD.setDescription(Utils.getLocalizedString(d.getDescription(),
-                                                   d.getLocale().getLanguage()));
+        iD.setDescription(Utils.getLocalizedString(d.getDescription(), d.getLocale().getLanguage()));
         c.add(iD);
       }
     }

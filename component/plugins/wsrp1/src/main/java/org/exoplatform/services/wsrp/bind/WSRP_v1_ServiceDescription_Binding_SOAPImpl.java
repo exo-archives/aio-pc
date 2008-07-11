@@ -36,14 +36,16 @@ public class WSRP_v1_ServiceDescription_Binding_SOAPImpl implements WSRP_v1_Serv
   private ServiceDescriptionInterface serviceDescriptionInterface;
 
   public WSRP_v1_ServiceDescription_Binding_SOAPImpl() {
-    serviceDescriptionInterface = (ServiceDescriptionInterface) ExoContainerContext.getCurrentContainer().
-        getComponentInstanceOfType(ServiceDescriptionInterface.class);
+    serviceDescriptionInterface = (ServiceDescriptionInterface) ExoContainerContext.getCurrentContainer()
+                                                                                   .getComponentInstanceOfType(ServiceDescriptionInterface.class);
   }
 
-  public ServiceDescription getServiceDescription(ServiceDescriptionRequest getServiceDescription)
-      throws RemoteException, InvalidRegistrationFault, OperationFailedFault {    
-    return serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
-                                                             getServiceDescription.getDesiredLocales());
+  public ServiceDescription getServiceDescription(ServiceDescriptionRequest getServiceDescription) throws RemoteException,
+                                                                                                  InvalidRegistrationFault,
+                                                                                                  OperationFailedFault {
+      return serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
+                                                               getServiceDescription.getDesiredLocales());
+
   }
 
 }

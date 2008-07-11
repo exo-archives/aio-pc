@@ -23,6 +23,10 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
@@ -30,7 +34,6 @@ import org.exoplatform.Constants;
 import org.exoplatform.commons.Environment;
 import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.container.RootContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.organization.User;
@@ -39,6 +42,7 @@ import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
+import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp.bind.WSRP_v1_Markup_Binding_SOAPImpl;
 import org.exoplatform.services.wsrp.bind.WSRP_v1_PortletManagement_Binding_SOAPImpl;
 import org.exoplatform.services.wsrp.bind.WSRP_v1_Registration_Binding_SOAPImpl;
@@ -47,7 +51,7 @@ import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_ServiceDescription_PortType;
-import org.exoplatform.services.wsrp.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp.type.BlockingInteractionRequest;
 import org.exoplatform.services.wsrp.type.ClientData;
 import org.exoplatform.services.wsrp.type.MarkupParams;
@@ -64,7 +68,10 @@ import org.exoplatform.services.wsrp.type.Templates;
 import org.exoplatform.services.wsrp.type.UserContext;
 import org.exoplatform.services.wsrp.type.UserProfile;
 import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
+import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
+import org.exoplatform.test.mocks.servlet.MockServletRequest;
+import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
 /**
  * Author : Tuan Nguyen
@@ -74,70 +81,71 @@ import org.exoplatform.test.mocks.servlet.MockServletContext;
  */
 public class BaseTest extends TestCase {
 
-  protected static final String SERVICE_URL = "http://localhost:8081/portal/services/";
-  protected static final String CONTEXT_PATH = "/war_template";
-  protected static final String TEST_PATH = (System.getProperty("testPath")==null?".":System.getProperty("testPath"));
-  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + CONTEXT_PATH;
+  protected static final String                 SERVICE_URL              = "http://localhost:8080/wsrp/services/";
+  protected static final String                 CONTEXT_PATH             = "/war_template";
+  protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
+                                                                             : System.getProperty("testPath"));
+  protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
 
-  static boolean initService_ = true;
-  protected PortletContainerService portletContainer;
-  protected PortletApplicationsHolder holder;
-  protected PortletApp portletApp_;
-  protected Collection roles;
+  static boolean                                initService_             = true;
+  protected PortletContainerService             portletContainer;
+  protected PortletApplicationsHolder           holder;
+  protected PortletApp                          portletApp_;
+  protected Collection                          roles;
 
   protected WSRP_v1_ServiceDescription_PortType serviceDescriptionInterface;
-  protected WSRP_v1_Registration_PortType registrationOperationsInterface;
-  protected WSRP_v1_Markup_PortType markupOperationsInterface;
-  protected WSRP_v1_PortletManagement_PortType portletManagementOperationsInterface;
+  protected WSRP_v1_Registration_PortType       registrationOperationsInterface;
+  protected WSRP_v1_Markup_PortType             markupOperationsInterface;
+  protected WSRP_v1_PortletManagement_PortType  portletManagementOperationsInterface;
 
-  protected PersonName personName;
-  protected UserContext userContext;
-  protected UserProfile userProfile;
+  protected PersonName                          personName;
+  protected UserContext                         userContext;
+  protected UserProfile                         userProfile;
 
-  protected RegistrationData registrationData;
-  protected RuntimeContext runtimeContext;
-  protected Templates templates;
-  protected ClientData clientData;
-  protected MarkupParams markupParams;
-  protected static final String[] USER_CATEGORIES_ARRAY = {
-    "full", "standard", "minimal"
-  };
-  public static String[] localesArray = {"en"};
-  public static String[] markupCharacterSets = {"UF-08", "ISO-8859-1"};
-  public static String[] mimeTypes = {"text/html", "text/xhtml"};
+  protected RegistrationData                    registrationData;
+  protected RuntimeContext                      runtimeContext;
+  protected Templates                           templates;
+  protected ClientData                          clientData;
+  protected MarkupParams                        markupParams;
+  protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard", "minimal" };
+  public static String[]                        localesArray             = { "en" };
+  public static String[]                        markupCharacterSets      = { "UF-08", "ISO-8859-1" };
+  public static String[]                        mimeTypes                = { "text/html", "text/xhtml" };
 
-  public static final String BASE_URL = "/portal/faces/portal/portal.jsp?portal:ctx=" + Constants.DEFAUL_PORTAL_OWNER;
-  public static final String DEFAULT_TEMPLATE = BASE_URL + "&portal:windowState={wsrp-windowState}" +
-      "&_mode={wsrp-portletMode}" +
-      "&_isSecure={wsrp-secureURL}" +
-      "&_component={wsrp-portletHandle}";
-  public static final String RENDER_TEMPLATE = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}" +
-      "&ns={wsrp-navigationalState}";
-  public static final String BLOCKING_TEMPLATE = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}" +
-      "&ns={wsrp-navigationalState}" +
-      "&is={wsrp-interactionState}";
+  public static final String                    BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
+                                                                             + Constants.DEFAUL_PORTAL_OWNER;
+  public static final String                    DEFAULT_TEMPLATE         = BASE_URL + "&portal:windowState={wsrp-windowState}"
+                                                                             + "&_mode={wsrp-portletMode}" + "&_isSecure={wsrp-secureURL}"
+                                                                             + "&_component={wsrp-portletHandle}";
+  public static final String                    RENDER_TEMPLATE          = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}"
+                                                                             + "&ns={wsrp-navigationalState}";
+  public static final String                    BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}"
+                                                                             + "&ns={wsrp-navigationalState}" + "&is={wsrp-interactionState}";
 
-  public static final String[] CONSUMER_MODES = {"wsrp:view", "wsrp:edit"};
-  public static final String[] CONSUMER_STATES = {"wsrp:normal", "wsrp:maximized"};
-  public static final String[] CONSUMER_SCOPES = {"chunk_data"};
-  public static final String[] CONSUMER_CUSTOM_PROFILES = {"what_more"};
-  private MockServletContext mockServletContext;
-  private OrganizationService orgService_;
-  private PortletApplicationRegister portletApplicationRegister;
+  public static final String[]                  CONSUMER_MODES           = { "wsrp:view", "wsrp:edit" };
+  public static final String[]                  CONSUMER_STATES          = { "wsrp:normal", "wsrp:maximized" };
+  public static final String[]                  CONSUMER_SCOPES          = { "chunk_data" };
+  public static final String[]                  CONSUMER_CUSTOM_PROFILES = { "what_more" };
+  private MockServletContext                    mockServletContext;
+  private MockServletRequest                    mockServletRequest;
+  private MockServletResponse                   mockServletResponse;
+  private OrganizationService                   orgService_;
+  private PortletApplicationRegister            portletApplicationRegister;
 
   public BaseTest(String s) {
     super(s);
   }
-  
-  public void setUp() throws Exception {                
-    System.out.println(">>> EXOMAN test BaseTest.setUp()");
-    RootContainer.getInstance();
+
+  public void setUp() throws Exception {
+
     if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
+//    int platform = 0;
+//    if (platform == Environment.STAND_ALONE) {
+
       PortalContainer manager = PortalContainer.getInstance();
 //      manager.getComponentInstanceOfType(PortalConfigService.class);
-      manager.getComponentInstanceOfType(PersistentStateManager.class);
-      orgService_ =
-          (OrganizationService) manager.getComponentInstanceOfType(OrganizationService.class);
+//      manager.getComponentInstanceOfType(PersistentStateManager.class);
+      orgService_ = (OrganizationService) manager.getComponentInstanceOfType(OrganizationService.class);
       User user = orgService_.getUserHandler().findUserByName("exotest");
       if (user == null) {
         user = orgService_.getUserHandler().createUserInstance();
@@ -151,21 +159,18 @@ public class BaseTest extends TestCase {
       URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
 
       InputStream is = url.openStream();
-      portletApp_ = XMLParser.parse(is, false) ;
+      portletApp_ = XMLParser.parse(is, false);
 
       Collection<String> roles = new ArrayList<String>();
       roles.add("auth-user");
 
-
       mockServletContext = new MockServletContext("hello", "./war_template");
       mockServletContext.setInitParameter("test-param", "test-parame-value");
 
-      portletContainer = (PortletContainerService) manager.
-          getComponentInstanceOfType(PortletContainerService.class);
+      portletContainer = (PortletContainerService) manager.getComponentInstanceOfType(PortletContainerService.class);
 
-      portletApplicationRegister = (PortletApplicationRegister) manager.
-        getComponentInstanceOfType(PortletApplicationRegister.class); 
-      
+      portletApplicationRegister = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
+
       portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
 
       serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
@@ -174,14 +179,10 @@ public class BaseTest extends TestCase {
       portletManagementOperationsInterface = new WSRP_v1_PortletManagement_Binding_SOAPImpl();
     } else {
       WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
-      serviceDescriptionInterface = serviceLocator.
-          getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
-      registrationOperationsInterface = serviceLocator.
-          getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
-      markupOperationsInterface = serviceLocator.
-          getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
-      portletManagementOperationsInterface = serviceLocator.
-          getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
+      serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
+      registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
+      markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
+      portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
     }
 
     registrationData = new RegistrationData();
@@ -235,14 +236,17 @@ public class BaseTest extends TestCase {
     markupParams.setMimeTypes(mimeTypes);
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
+
+    mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
+    mockServletResponse = new MockServletResponse(new FakeHttpResponse());
+    WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest, (HttpServletResponse) mockServletResponse);
   }
 
   public void tearDown() throws Exception {
     try {
       portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
-      PortalContainer manager  = PortalContainer.getInstance();
-      HibernateService hservice = 
-          (HibernateService) manager.getComponentInstanceOfType(HibernateService.class) ;
+      PortalContainer manager = PortalContainer.getInstance();
+      HibernateService hservice = (HibernateService) manager.getComponentInstanceOfType(HibernateService.class);
       hservice.closeSession();
     } catch (Exception e) {
       e.printStackTrace();
@@ -255,7 +259,8 @@ public class BaseTest extends TestCase {
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
   }
 
-  protected MarkupRequest getMarkup(RegistrationContext rc, PortletContext portletContext) {
+  protected MarkupRequest getMarkup(RegistrationContext rc,
+                                    PortletContext portletContext) {
     MarkupRequest getMarkup = new MarkupRequest();
     getMarkup.setRegistrationContext(rc);
     getMarkup.setPortletContext(portletContext);
@@ -265,7 +270,8 @@ public class BaseTest extends TestCase {
     return getMarkup;
   }
 
-  protected void manageTemplatesOptimization(ServiceDescription sd, String portletHandle) {
+  protected void manageTemplatesOptimization(ServiceDescription sd,
+                                             String portletHandle) {
     PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];
@@ -279,7 +285,9 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void manageUserContextOptimization(ServiceDescription sd, String portletHandle, MarkupRequest getMarkup) {
+  protected void manageUserContextOptimization(ServiceDescription sd,
+                                               String portletHandle,
+                                               MarkupRequest getMarkup) {
     PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];
@@ -293,7 +301,8 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void manageUserContextOptimization(ServiceDescription sd, String portletHandle,
+  protected void manageUserContextOptimization(ServiceDescription sd,
+                                               String portletHandle,
                                                BlockingInteractionRequest performBlockingInteraction) {
     PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
@@ -308,8 +317,7 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void resolveRegistrationContext(RegistrationContext registrationContext)
-      throws Exception {
+  protected void resolveRegistrationContext(RegistrationContext registrationContext) throws Exception {
     byte[] registrationState = registrationContext.getRegistrationState();
     if (registrationState != null) {
       System.out.println("[test] Save registration state on consumer");

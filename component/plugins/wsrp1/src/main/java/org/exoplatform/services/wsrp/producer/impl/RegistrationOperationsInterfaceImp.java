@@ -18,6 +18,7 @@
 package org.exoplatform.services.wsrp.producer.impl;
 
 import java.rmi.RemoteException;
+
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.commons.utils.IdentifierUtil;
@@ -36,10 +37,9 @@ import org.exoplatform.services.wsrp.type.ReturnAny;
  * @author Mestrallet Benjamin
  *         benjmestrallet@users.sourceforge.net
  */
-public class RegistrationOperationsInterfaceImp
-    implements RegistrationOperationsInterface {
+public class RegistrationOperationsInterfaceImp implements RegistrationOperationsInterface {
 
-  private Log log;
+  private Log                    log;
 
   private PersistentStateManager stateManager;
 
@@ -48,14 +48,12 @@ public class RegistrationOperationsInterfaceImp
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
   }
 
-  public RegistrationContext register(RegistrationData data)
-      throws RemoteException {
-    
-	  //necessaire pour la verification de l'agent, pourquoi ?
-	  data.setConsumerAgent("exoplatform.1.0");
-	  
-	  
-	log.debug("Register method entered");
+  public RegistrationContext register(RegistrationData data) throws RemoteException {
+
+    //necessaire pour la verification de l'agent, pourquoi ?
+    data.setConsumerAgent("exoplatform.1.0");
+
+    log.debug("Register method entered");
     String registrationHandle = null;
     byte[] registrationState = null;
     try {
@@ -74,8 +72,7 @@ public class RegistrationOperationsInterfaceImp
   }
 
   public RegistrationState modifyRegistration(RegistrationContext registrationContext,
-                                              RegistrationData data)
-      throws RemoteException {
+                                              RegistrationData data) throws RemoteException {
     log.debug("Modify registrion method entered");
     try {
       if (!stateManager.isRegistered(registrationContext)) {
@@ -97,8 +94,7 @@ public class RegistrationOperationsInterfaceImp
     return new RegistrationState();//the state is kept in the producer (not send to the consumer)
   }
 
-  public ReturnAny deregister(RegistrationContext registrationContext)
-      throws RemoteException {
+  public ReturnAny deregister(RegistrationContext registrationContext) throws RemoteException {
     log.debug("Deregister method entered");
     ReturnAny any = null;
     try {
@@ -117,8 +113,7 @@ public class RegistrationOperationsInterfaceImp
     return any;
   }
 
-  private void validateRegistrationDatas(RegistrationData data)
-      throws WSRPException {
+  private void validateRegistrationDatas(RegistrationData data) throws WSRPException {
     String consumerAgent = data.getConsumerAgent();
     String[] members = StringUtils.split(consumerAgent, ".");
     if (!StringUtils.isNumeric(members[1])) {

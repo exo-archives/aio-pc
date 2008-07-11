@@ -20,6 +20,13 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp.testConsumer.TestConsumerEnvironement;
+import org.exoplatform.services.wsrp.testConsumer.TestPortletRegistry;
+import org.exoplatform.services.wsrp.testConsumer.TestProducer;
+import org.exoplatform.services.wsrp.testConsumer.TestProducerRegistry;
+import org.exoplatform.services.wsrp.testConsumer.TestURLRewriter;
+import org.exoplatform.services.wsrp.testConsumer.TestURLTemplateComposer;
+import org.exoplatform.services.wsrp.testConsumer.TestUserRegistry;
 
 /**
  * Author : Alexey Zavizionov
@@ -34,16 +41,16 @@ public class SuiteForTestConsumer extends TestSuite {
     log.info("Preparing SuiteForTestProducer tests....");
 
     String newProperty = System.getProperty("basedir") + "/war_template";
-    System.setProperty("mock.portal.dir", newProperty);
-    System.setProperty("maven.exoplatform.dir", newProperty);
+    System.setProperty("mock.portal.dir", newProperty); // = ${basedir}/war_template
+    System.setProperty("maven.exoplatform.dir", newProperty); // = ${basedir}/war_template
 
 //    addTestSuite(TestConsumerEnvironement.class);
-//    addTestSuite(TestPortletRegistry.class);
-//    addTestSuite(TestProducer.class);
-//    addTestSuite(TestProducerRegistry.class);
-//    addTestSuite(TestURLRewriter.class);
-//    addTestSuite(TestURLTemplateComposer.class);
-//    addTestSuite(TestUserRegistry.class);
+    addTestSuite(TestPortletRegistry.class);
+    addTestSuite(TestProducer.class);
+    addTestSuite(TestProducerRegistry.class);
+    addTestSuite(TestURLRewriter.class);
+    addTestSuite(TestURLTemplateComposer.class);
+    addTestSuite(TestUserRegistry.class);
 
   }
 

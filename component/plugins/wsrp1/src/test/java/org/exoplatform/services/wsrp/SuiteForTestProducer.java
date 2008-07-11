@@ -20,6 +20,15 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp.test.TestCachingMechanism;
+import org.exoplatform.services.wsrp.test.TestGetMarkup;
+import org.exoplatform.services.wsrp.test.TestGetServiceDescriptionInterface;
+import org.exoplatform.services.wsrp.test.TestPerformBlockingInteraction;
+import org.exoplatform.services.wsrp.test.TestPersistentStateManager;
+import org.exoplatform.services.wsrp.test.TestPortletManagementInterface;
+import org.exoplatform.services.wsrp.test.TestRegistrationInterface;
+import org.exoplatform.services.wsrp.test.TestSomeScenarios;
+import org.exoplatform.services.wsrp.test.TestWSRPSession;
 
 /**
  * Author : Alexey Zavizionov
@@ -34,18 +43,18 @@ public class SuiteForTestProducer extends TestSuite {
     log.info("Preparing SuiteForTestProducer tests....");
 
     String newProperty = System.getProperty("basedir") + "/war_template";
-    System.setProperty("mock.portal.dir", newProperty);
-    System.setProperty("maven.exoplatform.dir", newProperty);
+    System.setProperty("mock.portal.dir", newProperty); // = ${basedir}/war_template
+    System.setProperty("maven.exoplatform.dir", newProperty); // = ${basedir}/war_template
 
-//    addTestSuite(TestCachingMechanism.class);
-//    addTestSuite(TestGetMarkup.class);
-//    addTestSuite(TestGetServiceDescriptionInterface.class);
-//    addTestSuite(TestPerformBlockingInteraction.class);
-//    addTestSuite(TestPersistentStateManager.class);
-//    addTestSuite(TestPortletManagementInterface.class);
-//    addTestSuite(TestRegistrationInterface.class);
-//    addTestSuite(TestSomeScenarios.class);
-//    addTestSuite(TestWSRPSession.class);
+    addTestSuite(TestCachingMechanism.class);
+    addTestSuite(TestGetMarkup.class);
+    addTestSuite(TestGetServiceDescriptionInterface.class);
+    addTestSuite(TestPerformBlockingInteraction.class);
+    addTestSuite(TestPersistentStateManager.class);
+    addTestSuite(TestPortletManagementInterface.class);
+    addTestSuite(TestRegistrationInterface.class);
+    addTestSuite(TestSomeScenarios.class);
+    addTestSuite(TestWSRPSession.class);
 
   }
 

@@ -74,6 +74,7 @@ import org.exoplatform.services.wsrp.type.Templates;
 import org.exoplatform.services.wsrp.type.UpdateResponse;
 import org.exoplatform.services.wsrp.type.UserContext;
 import org.exoplatform.services.wsrp.utils.Modes;
+import org.exoplatform.services.wsrp.utils.Utils;
 import org.exoplatform.services.wsrp.utils.WindowStates;
 
 /**
@@ -287,7 +288,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // markupParams.getNavigationalState()
     // interactionParams.getInteractionState()
-
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -376,6 +376,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
+    Map<String, String[]> params = Utils.getRenderParametersFromFormParameters(interactionParams.getFormParameters());
+    input.setRenderParameters(params);
     // createUserProfile(userContext, request, session);
 
     ActionOutput output = null;

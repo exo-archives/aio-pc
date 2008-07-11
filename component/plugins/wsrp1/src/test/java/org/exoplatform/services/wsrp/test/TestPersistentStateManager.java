@@ -30,20 +30,20 @@ import org.exoplatform.services.wsrp.type.RegistrationData;
  * Time: 19:29:55
  */
 
-public class TestPersistentStateManager extends BaseTest{
-  private PersistentStateManagerImpl psmanager_ ;
+public class TestPersistentStateManager extends BaseTest {
+
+  private PersistentStateManagerImpl psmanager_;
 
   public TestPersistentStateManager(String s) {
     super(s);
   }
 
   public void setUp() throws Exception {
-    super.setUp() ;
+    super.setUp();
     PortalContainer manager = PortalContainer.getInstance();
-    psmanager_ = (PersistentStateManagerImpl) manager.
-        getComponentInstanceOfType(PersistentStateManager.class);
+    psmanager_ = (PersistentStateManagerImpl) manager.getComponentInstanceOfType(PersistentStateManager.class);
   }
-  
+
   public void testPersistentStateData() throws Exception {
     RegistrationData registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
@@ -56,13 +56,13 @@ public class TestPersistentStateManager extends BaseTest{
     registrationData.setRegistrationProperties(null);//allows extension of the specs
     registrationData.setExtensions(null);//allows extension of the specs
 
-    psmanager_.save("test" , "RegistrationData" , registrationData) ;
+    psmanager_.save("test", "RegistrationData", registrationData);
 
     WSRP1StateData data = psmanager_.load("test");
-    assertTrue("Expect data is not null", data != null ) ;
+    assertTrue("Expect data is not null", data != null);
 
     psmanager_.remove("test");
     data = psmanager_.load("test");
-    assertTrue("Expect data is null", data == null ) ;
+    assertTrue("Expect data is null", data == null);
   }
 }

@@ -51,7 +51,7 @@ public class TestPerformBlockingInteraction extends BaseTest{
     ServiceDescription sd = getServiceDescription(new String[]{"en"}) ;
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     String portletHandle = "hello/PortletToTestPerformBlockingInteraction";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -100,7 +100,7 @@ public class TestPerformBlockingInteraction extends BaseTest{
     ServiceDescription sd = getServiceDescription(new String[]{"en"}) ;
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/Portlet2TestSendRedirect");
     portletContext.setPortletState(null);//TODO
@@ -113,12 +113,11 @@ public class TestPerformBlockingInteraction extends BaseTest{
     assertEquals("/path/to/redirect/to.jsp", response.getRedirectURL());        
   }
 
-
   public void testReadOnlyStateChange() throws RemoteException {
     ServiceDescription sd = getServiceDescription(new String[]{"en"}) ;
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/Portlet2TestStateUser");
     InteractionParams params = new InteractionParams();
@@ -151,7 +150,7 @@ public class TestPerformBlockingInteraction extends BaseTest{
     ServiceDescription sd = getServiceDescription(new String[]{"en"}) ;
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     String portletHandle = "hello/Portlet2TestStateUser3";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);

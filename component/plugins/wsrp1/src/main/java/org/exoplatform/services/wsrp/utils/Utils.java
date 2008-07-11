@@ -17,6 +17,9 @@
 
 package org.exoplatform.services.wsrp.utils;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.type.LocalizedString;
@@ -77,6 +80,16 @@ public class Utils {
     if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER))
       return PCConstants.RENDER_STRING;
     return type;
+  }
+
+  public static Map<String, String[]> getRenderParametersFromFormParameters(NamedString[] params) {
+    if (params == null)
+      return null;
+    Map<String, String[]> result = new HashMap<String, String[]>();
+    for (NamedString namedString : params) {
+      result.put(namedString.getName(), new String[] { namedString.getValue() });
+    }
+    return result;
   }
 
 }

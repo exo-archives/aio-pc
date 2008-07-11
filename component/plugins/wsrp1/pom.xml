@@ -46,11 +46,11 @@
       <version>${org.exoplatform.core.version}</version>
     </dependency>
 
-    <!--    <dependency>-->
-    <!--      <groupId>org.exoplatform.core</groupId>-->
-    <!--      <artifactId>exo.core.component.common</artifactId>-->
-    <!--      <version>${org.exoplatform.core.version}</version>-->
-    <!--    </dependency>-->
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.exoplatform.core</groupId>
@@ -283,6 +283,7 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
+            <!-- include>**/TestWSRPSession.java</include -->
             <!-- include>**/Test*.java</include -->
           </includes>
         </configuration>

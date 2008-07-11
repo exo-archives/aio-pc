@@ -42,7 +42,8 @@ public class TestCachingMechanism extends BaseTest{
   public void testExistenceOfValidateTag() throws RemoteException {
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())  rc = new RegistrationContext();
+    if(sd.isRequiresRegistration()) 
+      rc = new RegistrationContext("",null,null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/HelloWorld2");
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));

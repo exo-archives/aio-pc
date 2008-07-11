@@ -89,6 +89,8 @@ public class TransientStateManagerImpl implements TransientStateManager {
         }
         if (log.isDebugEnabled())
           log.debug("Lookup session success");
+      } else if (sessionID != null && session == null) {
+        throw new Exception("Session doesn't exist anymore");
       } else {
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);

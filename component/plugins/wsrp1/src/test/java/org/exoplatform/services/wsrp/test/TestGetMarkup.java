@@ -48,7 +48,7 @@ public class TestGetMarkup extends BaseTest{
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     String portletHandle = "hello/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -70,7 +70,7 @@ public class TestGetMarkup extends BaseTest{
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     String portletHandle = "hello/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -92,7 +92,7 @@ public class TestGetMarkup extends BaseTest{
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
     RegistrationContext rc = null;
     if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
+      rc = new RegistrationContext("",null,null);
     String portletHandle = "hello/PortletToTestMarkupWithRewrittenURL";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);

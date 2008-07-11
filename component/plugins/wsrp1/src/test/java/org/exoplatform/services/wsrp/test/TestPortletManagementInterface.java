@@ -53,7 +53,7 @@ public class TestPortletManagementInterface extends BaseTest {
   }
 
   public void testClonePortletWithBadRegistrationHandle() {
-    RegistrationContext rC = new RegistrationContext();
+    RegistrationContext rC = new RegistrationContext("",null,null);
     rC.setRegistrationHandle("dummy_handle");
     PortletContext pC = fillPortletContext("hello/HelloWorld");
     try {

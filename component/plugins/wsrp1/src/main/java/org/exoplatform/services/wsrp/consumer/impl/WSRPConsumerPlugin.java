@@ -559,6 +559,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       return null;
     String appName = input.getInternalWindowID().getPortletApplicationName();
     String portletName = input.getInternalWindowID().getPortletName();
+    String uniqueID = input.getInternalWindowID().getUniqueID();
 
     String producerID = appName.substring(0, appName.indexOf(WSRPConstants.WSRP_PRODUCER_APP_ENCODER));
     String portletHandle = appName.substring(appName.indexOf(WSRPConstants.WSRP_PRODUCER_APP_ENCODER) + 1) + "/" + portletName;
@@ -590,7 +591,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           log.debug("use userID : " + userID);
         }
 
-        WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
+        WSRPPortlet portlet = getPortlet(portletKey, portletHandle);//!!!
+        // below I add the uniqueID to the portlet handle within
+        // PortletContext
+        String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+        portlet.getPortletContext().setPortletHandle(newPortletHandle);
+        
         UserSessionMgr userSession = getUserSession(request.getSession(), portletKey.getProducerId());
         PortletWindowSession windowSession = getWindowSession(portletKey, portlet, userSession, key);
         PortletDriver portletDriver = consumer.getPortletDriverRegistry().getPortletDriver(portlet);
@@ -725,7 +731,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             portlet = getPortlet(portletKey, portletHandle);
             // below I add the uniqueID to the portlet handle within
             // PortletContext
-            portlet.getPortletContext().setPortletHandle(portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID);
+            String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+            portlet.getPortletContext().setPortletHandle(newPortletHandle);
             portletDriver = consumer.getPortletDriverRegistry().getPortletDriver(portlet);
             portletWindowSession = getWindowSession(portletKey, portlet, userSession, key);
 

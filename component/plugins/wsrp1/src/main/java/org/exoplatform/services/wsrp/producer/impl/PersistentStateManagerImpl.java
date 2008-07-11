@@ -41,8 +41,8 @@ import org.hibernate.Session;
  *         benjmestrallet@users.sourceforge.net
  */
 public class PersistentStateManagerImpl implements PersistentStateManager {
-  private static final String queryStateData = "from sd in class org.exoplatform.services.wsrp.producer.impl.WSRP1StateData "
-                                                 + "where sd.id = ?";
+
+  private static final String queryStateData = "from sd in class org.exoplatform.services.wsrp.producer.impl.WSRP1StateData " + "where sd.id = ?";
 
   //private Map mapToStoreRenderParameters;
   private WSRPConfiguration   conf;
@@ -53,17 +53,17 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
 
   private HibernateService    hservice;
 
-  public PersistentStateManagerImpl(CacheService cacheService, HibernateService hservice,
-      WSRPConfiguration conf) throws Exception {
+  public PersistentStateManagerImpl(CacheService cacheService,
+                                    HibernateService hservice,
+                                    WSRPConfiguration conf) throws Exception {
     this.conf = conf;
     this.hservice = hservice;
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp");
+    this.log = ExoLogger.getLogger(getClass().getName());
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
   }
 
-  public RegistrationData getRegistrationData(RegistrationContext registrationContext)
-      throws WSRPException {
+  public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       log.debug("Lookup registration stored on the consumer");
       return resolveConsumerContext(registrationContext);
@@ -81,7 +81,8 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
-  public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException {
+  public byte[] register(String registrationHandle,
+                         RegistrationData data) throws WSRPException {
     ConsumerContext cC = new ConsumerContext(registrationHandle, data);
     if (conf.isSaveRegistrationStateOnConsumer()) {
       log.debug("Register and send the registration state to the consumer");
@@ -90,6 +91,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         try {
           save(registrationHandle, "java.util.Collection", new ArrayList());
         } catch (Exception e) {
+          e.printStackTrace();
           log.error("Persistence error");
           throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
         }
@@ -101,9 +103,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
     log.debug("Register and save the registration state in the producer");
     try {
-      save(registrationHandle,
-          "org.exoplatform.services.wsrp.producer.impl.helpers.ConsumerContext", cC);
+      save(registrationHandle, "org.exoplatform.services.wsrp.producer.impl.helpers.ConsumerContext", cC);
     } catch (Exception e) {
+      e.printStackTrace();
       log.error("Persistence error");
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
@@ -143,7 +145,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   public boolean isConsumerConfiguredPortlet(String portletHandle,
-      RegistrationContext registrationContext) throws WSRPException {
+                                             RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       Collection c = null;
       try {
@@ -177,7 +179,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   public void addConsumerConfiguredPortletHandle(String portletHandle,
-      RegistrationContext registrationContext) throws WSRPException {
+                                                 RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       Collection c = null;
       try {
@@ -208,7 +210,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   public void removeConsumerConfiguredPortletHandle(String portletHandle,
-      RegistrationContext registrationContext) throws WSRPException {
+                                                    RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       Collection c = null;
       try {
@@ -252,8 +254,8 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
-  public void putNavigationalState(String ns, Map<String, String[]> renderParameters)
-      throws WSRPException {
+  public void putNavigationalState(String ns,
+                                   Map<String, String[]> renderParameters) throws WSRPException {
     try {
       save(ns, "java.util.Map", renderParameters);
     } catch (Exception e) {
@@ -263,8 +265,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
 
   }
 
-  private RegistrationData resolveConsumerContext(RegistrationContext registrationContext)
-      throws WSRPException {
+  private RegistrationData resolveConsumerContext(RegistrationContext registrationContext) throws WSRPException {
     byte[] registrationState = registrationContext.getRegistrationState();
     if (registrationState == null) {
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
@@ -283,7 +284,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
   }
 
-  final public void save(String key, String type, Object o) throws Exception {
+  final public void save(String key,
+                         String type,
+                         Object o) throws Exception {
     Session session = this.hservice.openSession();
     WSRP1StateData data = load(key);
     if (data == null) {
@@ -291,6 +294,11 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       data.setId(key);
       data.setDataType(type);
       this.cache.put(key, data);
+    } else {
+      session.delete(data);
+      session.flush();
+      if (log.isDebugEnabled())
+        log.debug("Same data id is going to stored with: '" + data.getId() + "'");
     }
     data.setDataObject(o);
     session.save(data);
