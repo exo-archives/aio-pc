@@ -25,6 +25,15 @@
     </dependency>
 
     <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- non eXo dependencies **********************************-->
+    
+    <dependency>
       <groupId>javax.portlet</groupId>
       <artifactId>portlet-api</artifactId>
       <version>2.0</version>
@@ -56,7 +65,6 @@
         </includes>
       </resource>
     </resources>
-
 
     <plugins>
      <plugin>
