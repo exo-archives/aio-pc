@@ -40,7 +40,14 @@
       <scope>compile</scope>
     </dependency>
 
-    <!-- *************************** -->
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <!-- non eXo dependencies *************************** -->
 
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -48,7 +55,7 @@
       <version>2.0</version>
       <scope>compile</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>javax.ccpp</groupId>
       <artifactId>ccpp</artifactId>
@@ -92,9 +99,9 @@
 
   </dependencies>
 
-  <properties>
+  <!-- properties>
     <war.dir>${basedir}/war_template</war.dir>
-  </properties>
+  </properties -->
 
   <build>
     <plugins>
@@ -156,7 +163,7 @@
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
-	    <artifactId>maven-surefire-plugin</artifactId>
+        <artifactId>maven-surefire-plugin</artifactId>
         <configuration>
           <systemProperties>
             <property>
