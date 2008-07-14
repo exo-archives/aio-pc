@@ -79,9 +79,9 @@ public class SessionReplicator implements RequestHandler {
     org.jgroups.Message mess = new org.jgroups.Message(null, null, sessionInfo);
     disp.castMessage(null, mess, GroupRequest.GET_ALL, 0);
    
-    } catch (Exception ex){
+    } catch (Exception ex) {
       ex.printStackTrace();
-   }
+    }
   }
 
   /**

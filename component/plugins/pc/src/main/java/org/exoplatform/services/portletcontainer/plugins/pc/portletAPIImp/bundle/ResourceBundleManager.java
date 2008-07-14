@@ -84,7 +84,7 @@ public class ResourceBundleManager {
       final ExoContainerContext context) throws Exception {
     this.conf = conf;
     this.cache = cacheService.getCacheInstance(getClass().getName());
-    log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+    this.log = ExoLogger.getLogger(getClass().getName());
     this.cont = context.getContainer();
   }
 

@@ -110,6 +110,9 @@ public class PCConstants {
    */
   public static final String REMOVE_PUBLIC_STRING = Constants.PARAMETER_ENCODER + "removePublicParam";
 
+  /**
+   * Ampersand.
+   */
   public static final String AMPERSAND = "&";
 
 }
