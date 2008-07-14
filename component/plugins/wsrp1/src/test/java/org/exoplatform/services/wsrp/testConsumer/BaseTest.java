@@ -206,7 +206,6 @@ public class BaseTest extends TestCase {
     portletKey.setPortletHandle(portletHandle);
 
     WSRPPortlet portlet = new WSRPPortletAdapter(portletKey);
-    portlet.setPortletKey(portletKey);
     return portlet;
   }
 
