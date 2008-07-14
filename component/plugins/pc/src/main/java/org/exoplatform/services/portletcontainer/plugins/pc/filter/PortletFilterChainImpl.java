@@ -49,31 +49,26 @@ public class PortletFilterChainImpl implements FilterChain {
   /**
    * Filters.
    */
-  private final Collection filters;
+  private final Collection<PortletFilterWrapper> filters;
 
   /**
    * Filter iterator.
    */
-  private Iterator iterator;
+  private Iterator<PortletFilterWrapper> iterator;
 
-  /**
-   * Portlet object.
-   */
-  private final Portlet portlet;
 
   /**
    * @param filters filters
    * @param p portlet object
    */
-  public PortletFilterChainImpl(final Collection filters, final Portlet p) {
+  public PortletFilterChainImpl(final Collection<PortletFilterWrapper> filters) {
     this.filters = filters;
-    this.portlet = p;
   }
 
   /**
    * @return filter iterator
    */
-  public final Iterator getFiltersIterator() {
+  public final Iterator<PortletFilterWrapper> getFiltersIterator() {
     return filters.iterator();
   }
 

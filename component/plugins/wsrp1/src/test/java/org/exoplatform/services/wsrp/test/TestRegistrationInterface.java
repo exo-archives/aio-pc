@@ -29,9 +29,10 @@ import org.exoplatform.services.wsrp.type.RegistrationState;
  */
 public class TestRegistrationInterface extends BaseTest {
 
-
-  public TestRegistrationInterface(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestRegistrationInterface.setUp()");
   }
 
   public void testRegistrationHandle() throws RemoteException {

@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletURLGenerationListener;
+import javax.portlet.filter.FilterChain;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
@@ -62,11 +63,6 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
   private final PortletApplicationsHolder holder;
 
   /**
-   * Exo container.
-   */
-  protected ExoContainer cont;
-
-  /**
    * Application exo container.
    */
   protected ExoContainer appcont;
@@ -80,8 +76,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
     this.listeners = new ArrayList<PortletLifecycleListener>();
     this.holder = holder;
     this.log = ExoLogger.getLogger(getClass());
-    cont = context.getContainer(); // EXOMAN ??
-    appcont = ExoContainerContext.getTopContainer();
+    this.appcont = ExoContainerContext.getCurrentContainer();
   }
 
   /**
@@ -189,23 +184,23 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
    */
   private void createFilterChains(final PortletApp portletApp) throws PortletContainerException {
     log.debug("create filter chains entered");
-    List filterList = portletApp.getFilter();
-    Map filters = new HashMap();
+    List<Filter> filterList = portletApp.getFilter();
+    Map<String, PortletFilterWrapper> filters = new HashMap<String, PortletFilterWrapper>();
 
-    for (Iterator iterator = filterList.iterator(); iterator.hasNext();) {
+    for (Iterator<Filter> iterator = filterList.iterator(); iterator.hasNext();) {
       Filter filter = (Filter) iterator.next();
       filters.put(filter.getFilterName(), new PortletFilterWrapper(filter.getFilterName(), filter
           .getFilterClass(), filter.getInitParam(), filter.getLifecycle()));
     }
-    List portlets = portletApp.getPortlet();
-    for (Iterator iterator = portlets.iterator(); iterator.hasNext();) {
-      Collection chain = new ArrayList();
+    List<Portlet> portlets = portletApp.getPortlet();
+    for (Iterator<Portlet> iterator = portlets.iterator(); iterator.hasNext();) {
+      Collection<PortletFilterWrapper> chain = new ArrayList<PortletFilterWrapper>();
       Portlet portlet = (Portlet) iterator.next();
-      List mappings = portletApp.getFilterMapping();
-      for (Iterator iterator1 = mappings.iterator(); iterator1.hasNext();) {
+      List<FilterMapping> mappings = portletApp.getFilterMapping();
+      for (Iterator<FilterMapping> iterator1 = mappings.iterator(); iterator1.hasNext();) {
         FilterMapping mapping = (FilterMapping) iterator1.next();
-        List portletName = mapping.getPortletName();
-        Iterator iter = portletName.iterator();
+        List<String> portletName = mapping.getPortletName();
+        Iterator<String> iter = portletName.iterator();
         while (iter.hasNext()) {
           String onePortletName = (String) iter.next();
           // if portlet name in mapping is *
@@ -223,7 +218,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
           }
         }
       }
-      portlet.setFilterChain(new PortletFilterChainImpl(chain, portlet));
+      portlet.setFilterChain(new PortletFilterChainImpl(chain));
     }
     portletApp.setUrlListeners(createUrlListeners(portletApp.getUrlGenerationListener()));
   }
@@ -259,7 +254,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
     List<Portlet> portlets = portletApp.getPortlet();
     for (Portlet portlet : portlets) {
       PortletFilterChainImpl chain = (PortletFilterChainImpl) portlet.getFilterChain();
-      for (Iterator iter = chain.getFiltersIterator(); iter.hasNext();) {
+      for (Iterator<PortletFilterWrapper> iter = chain.getFiltersIterator(); iter.hasNext();) {
         PortletFilterWrapper filter = (PortletFilterWrapper) iter.next();
         filter.destroy();
       }

@@ -17,10 +17,8 @@
 
 package org.exoplatform.services.wsrp.test;
 
-import java.io.InputStream;
 import java.net.URL;
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Locale;
@@ -34,19 +32,12 @@ import org.exoplatform.Constants;
 import org.exoplatform.commons.Environment;
 import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.organization.OrganizationService;
-import org.exoplatform.services.organization.User;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
-import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_Markup_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_PortletManagement_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_Registration_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_ServiceDescription_Binding_SOAPImpl;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
@@ -136,16 +127,14 @@ public class BaseTest extends TestCase {
   protected int                                 platform                 = 0;
   protected PortalContainer                     manager;
 
-  public BaseTest(String s) {
-    super(s);
-  }
-
   public void setUp() throws Exception {
+    int platform = Environment.getInstance().getPlatform();
+    System.out.println(">>> Producer BaseTest.setUp() platform = " + platform);
+
 //    //  System.clearProperty("maven.exoplatform.dir","") ;
 //    System.setProperty("catalina.home", "");
 //    platform = Environment.getInstance().getPlatform();
 ////    platform = 2;
-//    System.out.println(">>> EXOMAN BaseTest.setUp() produuuuuuuuuuuuuuuuuuuuuuuuuuuuuuucer platform = " + platform);
 //    if (platform == Environment.STAND_ALONE) {
 //
 //      manager = PortalContainer.getInstance();
@@ -184,11 +173,11 @@ public class BaseTest extends TestCase {
 //      markupOperationsInterface = new WSRP_v1_Markup_Binding_SOAPImpl();
 //      portletManagementOperationsInterface = new WSRP_v1_PortletManagement_Binding_SOAPImpl();
 //    } else {
-      WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
-      serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
-      registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
-      markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
-      portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
+    WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
+    serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
+    registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
+    markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
+    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
 //    }
 
     registrationData = new RegistrationData();

@@ -83,12 +83,8 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   /**
    * Parameter map.
    */
-  private Map parameterMap;
+  private Map<String,String[]> parameterMap;
 
-  /**
-   * Is version 2.
-   */
-  private boolean ver2 = false;
 
   /**
    * No input.
@@ -107,14 +103,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
     super(httpServletRequest);
     this.windowId = windowId;
-    this.parameterMap = httpServletRequest.getParameterMap();
-  }
-
-  /**
-   * @param val is version 2
-   */
-  protected final void setVer2(final boolean val) {
-    ver2 = val;
+    this.parameterMap = (Map<String,String[]>)httpServletRequest.getParameterMap();
   }
 
   /**
@@ -123,9 +112,9 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
    * @return attribute names
    * @see javax.servlet.ServletRequestWrapper#getAttributeNames()
    */
-  public final Enumeration getAttributeNames() {
-    Enumeration e = super.getAttributeNames();
-    Vector v = new Vector();
+  public final Enumeration<String> getAttributeNames() {
+    Enumeration<String> e = (Enumeration<String>)super.getAttributeNames();
+    Vector<String> v = new Vector<String>();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
       s = CustomRequestWrapperUtil.decodeRequestAttribute(windowId, s);
@@ -173,12 +162,12 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
    * @return parameter map
    * @see javax.servlet.ServletRequestWrapper#getParameterMap()
    */
-  public final Map getParameterMap() {
-    Map superMap = super.getParameterMap();
+  public final Map<String,String[]> getParameterMap() {
+    Map<String,String[]> superMap = (Map<String,String[]>)super.getParameterMap();
     if (redirected) {
-      Map filteredMap = new HashMap();
-      Set keys = superMap.keySet();
-      for (Iterator iter = keys.iterator(); iter.hasNext();) {
+      Map<String,String[]> filteredMap = new HashMap<String,String[]>();
+      Set<String> keys = superMap.keySet();
+      for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
         String element = (String) iter.next();
         if (!element.startsWith(Constants.PARAMETER_ENCODER))
           filteredMap.put(element, superMap.get(element));
@@ -191,7 +180,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   /**
    * @param map parameter map
    */
-  public final void setParameterMap(final Map map) {
+  public final void setParameterMap(final Map<String,String[]> map) {
     this.parameterMap = map;
   }
 

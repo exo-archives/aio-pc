@@ -33,13 +33,11 @@ import org.exoplatform.services.wsrp.type.RegistrationData;
 public class TestPersistentStateManager extends BaseTest {
 
   private PersistentStateManagerImpl psmanager_;
-
-  public TestPersistentStateManager(String s) {
-    super(s);
-  }
-
+  
+  @Override
   public void setUp() throws Exception {
     super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestPersistentStateManager.setUp()");
     PortalContainer manager = PortalContainer.getInstance();
     psmanager_ = (PersistentStateManagerImpl) manager.getComponentInstanceOfType(PersistentStateManager.class);
   }

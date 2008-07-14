@@ -35,8 +35,10 @@ import org.exoplatform.services.wsrp.type.ServiceDescription;
 
 public class TestCachingMechanism extends BaseTest{
 
-  public TestCachingMechanism(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestCachingMechanism.setUp()");
   }
 
   public void testExistenceOfValidateTag() throws RemoteException {

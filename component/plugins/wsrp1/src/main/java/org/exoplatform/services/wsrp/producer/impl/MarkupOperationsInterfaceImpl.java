@@ -234,7 +234,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setBaseURL(baseURL);
     input.setUserAttributes(new HashMap<String, String>());
     input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
-    input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
+    input.setWindowState(windowState);
     input.setMarkup(mimeType);
     input.setRenderParameters(renderParameters);
     input.setPortletURLFactory(portletURLFactory);
@@ -370,7 +370,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setBaseURL(baseURL);
     input.setUserAttributes(new HashMap<String, String>());
     input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
-    input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
+    input.setWindowState(windowState);
     input.setMarkup(mimeType);
     input.setStateChangeAuthorized(isStateChangeAuthorized);
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());

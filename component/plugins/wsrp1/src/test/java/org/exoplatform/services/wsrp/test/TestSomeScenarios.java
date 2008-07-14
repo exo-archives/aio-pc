@@ -37,8 +37,10 @@ public class TestSomeScenarios extends BaseTest {
 
   private static final String PORTLET_HANDLE = "hello/HelloWorld2";
 
-  public TestSomeScenarios(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestSomeScenarios.setUp()");
   }
 
   public void testFirstConsumerScenario() throws Throwable, RemoteException {

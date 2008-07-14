@@ -28,7 +28,13 @@ import org.exoplatform.services.wsrp.type.PortletContext;
  * Time: 11:07:10
  */
 
-public class TestPortletRegistry extends BaseTest{
+public class TestPortletRegistry extends BaseTest {
+
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestPortletRegistry.setUp()");
+  }
 
   public void testAddPortlet() throws WSRPException {
     PortletContext portletContext = new PortletContext();

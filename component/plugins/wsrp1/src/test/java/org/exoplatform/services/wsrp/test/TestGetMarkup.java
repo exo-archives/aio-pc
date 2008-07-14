@@ -36,14 +36,12 @@ import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
  */
 public class TestGetMarkup extends BaseTest{ 
 
-  public TestGetMarkup(String s) {
-    super(s);        
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestGetMarkup.setUp()");
   }
-  
-  public void setUp() throws Exception{
-    super.setUp();    
-  }
-  
+
   public void testGetMarkupForSeveralModes() throws Exception {
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
     RegistrationContext rc = null;

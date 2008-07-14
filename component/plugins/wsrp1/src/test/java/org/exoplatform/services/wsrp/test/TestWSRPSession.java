@@ -33,8 +33,10 @@ import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
  */
 public class TestWSRPSession extends BaseTest{
 
-  public TestWSRPSession(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestWSRPSession.setUp()");
   }
 
   public void testSession() throws Exception {

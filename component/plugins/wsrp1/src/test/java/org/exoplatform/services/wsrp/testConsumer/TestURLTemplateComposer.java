@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp.testConsumer;
 
+
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
@@ -26,6 +27,12 @@ package org.exoplatform.services.wsrp.testConsumer;
 
 public class TestURLTemplateComposer extends BaseTest{
 
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestURLTemplateComposer.setUp()");
+  }
+  
   public void testBlockingGeneration(){
 /*    URLTemplateComposer composer = new URLTemplateComposerImpl();
 

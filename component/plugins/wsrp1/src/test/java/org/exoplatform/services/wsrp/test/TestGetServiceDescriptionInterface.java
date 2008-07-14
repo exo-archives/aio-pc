@@ -29,10 +29,11 @@ import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
  */
 public class TestGetServiceDescriptionInterface extends BaseTest{
 
-  public TestGetServiceDescriptionInterface(String s) {
-    super(s);    
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestGetServiceDescriptionInterface.setUp()");
   }
-  
+    
   public void testGetDescription() throws Exception {
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("Usual Hello World Portlet", ps.getDescription().getValue());

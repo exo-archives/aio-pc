@@ -90,7 +90,7 @@ public class Supports {
    * @param mode portlet mode
    */
   public final void addPortletMode(final String mode) {
-    this.portletMode.add(mode);
+    this.portletMode.add(mode.toLowerCase());
   }
 
   /**
@@ -125,7 +125,7 @@ public class Supports {
    * @param state window state
    */
   public final void addWindowState(final String state) {
-    this.windowState.add(state);
+    this.windowState.add(state.toLowerCase());
   }
 
 }

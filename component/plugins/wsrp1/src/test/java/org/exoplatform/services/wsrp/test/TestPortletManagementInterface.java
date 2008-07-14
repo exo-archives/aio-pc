@@ -36,8 +36,10 @@ import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
  */
 public class TestPortletManagementInterface extends BaseTest {
 
-  public TestPortletManagementInterface(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestPortletManagementInterface.setUp()");
   }
 
   public void testClonePortlet() throws RemoteException {

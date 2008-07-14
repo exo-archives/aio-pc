@@ -24,15 +24,21 @@ package org.exoplatform.services.wsrp.testConsumer;
  * Time: 18:31:05
  */
 
-public class TestUserRegistry extends BaseTest{
+public class TestUserRegistry extends BaseTest {
 
-  public void testAddUser(){
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestUserRegistry.setUp()");
+  }
+
+  public void testAddUser() {
     userRegistry.addUser(createUser("userID"));
     assertTrue(userRegistry.getAllUsers().hasNext());
     assertNotNull(userRegistry.getUser("userID"));
   }
 
-  public void testRemoveUser(){
+  public void testRemoveUser() {
     userRegistry.addUser(createUser("userID"));
     userRegistry.addUser(createUser("userID2"));
     userRegistry.addUser(createUser("userID3"));

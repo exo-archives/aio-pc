@@ -43,8 +43,10 @@ import org.exoplatform.services.wsrp.type.UpdateResponse;
  */
 public class TestPerformBlockingInteraction extends BaseTest{
 
-  public TestPerformBlockingInteraction(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestPerformBlockingInteraction.setUp()");
   }
 
   public void testSimplePerformBlockingInteraction() throws Exception {

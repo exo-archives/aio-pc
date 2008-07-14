@@ -527,11 +527,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       final String portletAppName,
       final String portletName,
       final Locale locale) throws PortletContainerException {
-    System.out.println(">>> EXOMAN PortletContainerDispatcher.getBundle() 1 = " + 1);
     log.debug("Try to get a bundle object for locale : " + locale);
     
-    System.out.println(">>> EXOMAN PortletContainerDispatcher.getBundle() Environment.getInstance().getPlatform() = "
-        + Environment.getInstance().getPlatform());
     int platform = Environment.getInstance().getPlatform();
     if (platform == Environment.STAND_ALONE) {
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();
@@ -657,7 +654,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         }
       }
       request.setAttribute(ATTRS, attrs);
-      if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
+      int platform = Environment.getInstance().getPlatform();
+      if (platform == Environment.STAND_ALONE) {
       } else
         dispatch(request, response, portletApplicationName);
     } catch (Exception ex) {
@@ -700,7 +698,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     request.setAttribute(WINDOW_INFO, windowInfos);
     request.setAttribute(IS_ACTION, Util.actionToString(isAction));
 
-    if (Environment.getInstance().getPlatform() == Environment.STAND_ALONE) {
+    int platform = Environment.getInstance().getPlatform();
+    if (platform == Environment.STAND_ALONE) {
       log.debug("Stand alone environement : direct call to handler");
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();
       initTests();
