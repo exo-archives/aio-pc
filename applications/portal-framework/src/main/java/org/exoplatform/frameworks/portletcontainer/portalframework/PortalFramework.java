@@ -16,6 +16,7 @@
  */
 package org.exoplatform.frameworks.portletcontainer.portalframework;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Date;
@@ -61,6 +62,11 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
  * @version $Id$
  */
 public class PortalFramework {
+
+  /**
+   * Thread local instance store.
+   */
+  private static ThreadLocal<PortalFramework> instances = new ThreadLocal<PortalFramework>();
 
   /**
    * Portal container instance.
@@ -218,6 +224,14 @@ public class PortalFramework {
    */
   public PortalFramework(final ExoContainer cnt) {
     portalContainer = cnt;
+  }
+
+  public static void setInstance(PortalFramework framework) {
+    instances.set(framework);
+  }
+
+  public static PortalFramework getInstance() {
+    return instances.get();
   }
 
   /**
@@ -1258,6 +1272,11 @@ public class PortalFramework {
       }
     }
     return portletInfos;
+  }
+
+  public HashMap<String, Serializable> getRenderedPortletInfos() {
+    // TODO Auto-generated method stub
+    return null;
   }
 
 }

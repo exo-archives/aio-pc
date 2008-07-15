@@ -17,14 +17,29 @@
   </context-param> 
 
   <filter>
-    <filter-name>PortletFilter</filter-name>
-    <filter-class>org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortletFilter</filter-class>
+    <filter-name>PortalFrameworkFilter</filter-name>
+    <filter-class>org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortalFrameworkFilter</filter-class>
   </filter>
+
+  <filter>
+    <filter-name>PortletFilter</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.filters.PortletFilter</filter-class>
+  </filter>
+
+  <!-- PortalFrameworkFilter (must be placed before anything that uses framework!) -->
+  <filter-mapping>
+    <filter-name>PortalFrameworkFilter</filter-name>
+    <servlet-name>PortalServlet</servlet-name>
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>PortalFrameworkFilter</filter-name>
+    <servlet-name>TckServlet</servlet-name>
+  </filter-mapping>
 
   <!-- PortletFilter -->
   <filter-mapping>
     <filter-name>PortletFilter</filter-name>
-    <!-- url-pattern>/portal/</url-pattern -->
     <servlet-name>PortalServlet</servlet-name>
   </filter-mapping>
 
@@ -34,7 +49,7 @@
   </filter-mapping>
 
   <listener>
-    <listener-class>org.exoplatform.frameworks.portletcontainer.portalframework.listeners.AppListener</listener-class>
+    <listener-class>org.exoplatform.services.portletcontainer.test.listeners.AppListener</listener-class>
   </listener>
 
   <listener>

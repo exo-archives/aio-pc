@@ -21,7 +21,7 @@ import javax.servlet.http.HttpSessionListener;
 
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
-import org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortletFilter;
+import org.exoplatform.frameworks.portletcontainer.portalframework.filters.PortalFrameworkFilter;
 
 /**
  * Created by The eXo Platform SAS .
@@ -50,7 +50,7 @@ public class SessionListener implements HttpSessionListener {
    */
   public final void sessionDestroyed(final HttpSessionEvent se) {
     WindowInfosContainer.removeInstance(ExoContainerContext.getCurrentContainer(), se.getSession().getId());
-    PortletFilter.FRAMEWORKS.remove(se.getSession().getId());
+    PortalFrameworkFilter.FRAMEWORKS.remove(se.getSession().getId());
   }
 
 }

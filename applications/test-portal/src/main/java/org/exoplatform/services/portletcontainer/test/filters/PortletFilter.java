@@ -14,13 +14,9 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.frameworks.portletcontainer.portalframework.filters;
+package org.exoplatform.services.portletcontainer.test.filters;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -38,15 +34,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.lang.StringUtils;
-import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
-import org.exoplatform.frameworks.portletcontainer.portalframework.Template;
-import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutItem;
-import org.exoplatform.frameworks.portletcontainer.portalframework.layout.LayoutPlt;
 import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 
 /**
  * Created by The eXo Platform SAS  .
@@ -60,40 +50,6 @@ import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
  * and invokes portlets.
  */
 public class PortletFilter implements Filter {
-
-  /**
-   * Frameworks. One per http session.
-   */
-  public static final HashMap<String, PortalFramework> FRAMEWORKS = new HashMap<String, PortalFramework>();
-
-  /**
-   * Current framework.
-   */
-  private PortalFramework framework = null;
-
-  /**
-   * Session replication info.
-   */
-  private HashMap<String, Serializable> sessionInfo = new HashMap<String, Serializable>();
-
-  /**
-   * Session identifier.
-   */
-  public static final String SESSION_IDENTIFIER = "SID";
-
-  /**
-   * Portal identifier.
-   */
-  public static final String PORTAL_IDENTIFIER = "PID";
-
-  public static final String REPLICATOR_IDENTIFIER = "RID";
-
-  private SessionReplicator sr;
-
-  /**
-   * Portal container name.
-   */
-  private String portalContainerName = "";
 
   /**
    * Portlet map for TCK tests.
@@ -125,6 +81,13 @@ public class PortletFilter implements Filter {
   public void init(final FilterConfig filterConfig) {
   }
 
+  private void createPortletWindows(PortalFramework framework, List<String> allPortlets) {
+    for (String pn : allPortlets) {
+      String[] ss = pn.split("/");
+      framework.addPortletToPage(framework.addPortlet(ss[0], ss[1]));
+    }
+  }
+
   /**
    * Actual request processing.
    *
@@ -144,32 +107,7 @@ public class PortletFilter implements Filter {
     ServletContext ctx = httpRequest.getSession().getServletContext();
 
     try {
-      StandaloneContainer container = StandaloneContainer.getInstance();
-      // create WindowInfosContainer instance if there's no one
-      WindowInfosContainer.createInstance(container, httpSession.getId(), httpRequest.getRemoteUser());
-
-      // create/get PortalFramework instance
-      framework = FRAMEWORKS.get(httpSession.getId());
-      if (framework == null) {
-        framework = new PortalFramework(container);
-        FRAMEWORKS.put(httpSession.getId(), framework);
-      }
-      framework.init(httpSession);
-
-      portalContainerName = framework.getPortalName();
-
-      if (servletRequest.getParameter("portal:page") != null)
-        framework.setCurrentPage(servletRequest.getParameter("portal:page"));
-      else if (servletRequest.getParameter("portal:newpage") != null)
-        framework.addPortalPage(servletRequest.getParameter("portal:newpage"));
-      else if (servletRequest.getParameter("portal:delpage") != null)
-        framework.delPortalPage(servletRequest.getParameter("portal:delpage"));
-      httpSession.setAttribute("portalPage", framework.getCurrentPage());
-
-      ArrayList<String> pages = new ArrayList<String>();
-      for (Iterator<String> i = framework.getPortalPages(); i.hasNext(); )
-        pages.add(i.next());
-      httpSession.setAttribute("portalPages", pages);
+      PortalFramework framework = PortalFramework.getInstance();
 
       List<String> portlets2render = null;
 
@@ -192,78 +130,29 @@ public class PortletFilter implements Filter {
 
       Map<String, String[]> servletParams = servletRequest.getParameterMap();
 
-      LayoutPlt newPlt = null;
-      String pltIdToDel = null;
-      if (servletParams.containsKey("pAction")) {
-        if (servletParams.get("pAction")[0].equals("add")) {
-          String id = framework.addPortlet(servletParams.get("pApp")[0], servletParams.get("pName")[0]);
-          if (id != null) {
-            newPlt = new LayoutPlt(servletParams.get("pApp")[0], servletParams.get("pName")[0], id);
-            framework.addPortletToPage(id);
-          }
-        } else if (servletParams.get("pAction")[0].equals("del")) {
-          pltIdToDel = servletParams.get("pId")[0];
-          framework.removePortlet(pltIdToDel);
-        }
-      }
-
-      httpSession.setAttribute("portletNames", framework.getPortletNames());
-
       // collecting portlets to render
       if (portlets2render == null) {
-        if (framework.getCurrentPage().equals(""))
-          portlets2render = framework.getAllPortlets();
-        else {
-          InputStream tmpl = null;
-          String tmplPath = "/pages/" + framework.getCurrentPage() + "_" + httpRequest.getRemoteUser().hashCode() + ".tmpl";
-          try {
-            tmpl = new FileInputStream(ctx.getRealPath(tmplPath));
-          } catch(Exception e) {
-            tmpl = ctx.getResourceAsStream("/pages/default.tmpl");
-          }
-          List<LayoutItem> layout = Template.getPortletLayout(tmpl);
-          List<LayoutPlt> plts = Template.getPortletList(layout);
-          for (Iterator<LayoutPlt> i = plts.iterator(); i.hasNext();) {
-            LayoutPlt plt = i.next();
-            String id = null;
-            if (plt.getId() != null) {
-              if (framework.getPortletWindowById(plt.getId()) == null)
-                id = framework.addPortletWithId(plt.getApp(), plt.getName(), plt.getId());
-            } else {
-              id = framework.addPortlet(plt.getApp(), plt.getName());
-              plt.setId(id);
-            }
-            if (!framework.getPagePortlets().contains(id))
-              framework.addPortletToPage(id);
-          }
-          if (newPlt != null)
-            Template.addPortletToLayout(layout, newPlt);
-          if (pltIdToDel != null)
-            Template.delLayoutPltById(layout, pltIdToDel);
-          if (servletRequest.getParameter("portal:layout") != null)
-            Template.changeLayoutWith(layout, servletRequest.getParameter("portal:layout"));
-          Template.saveLayoutAs(layout, new FileOutputStream(ctx.getRealPath(tmplPath)));
-          if (servletRequest.getParameter("portal:layout") != null)
-            return;
-          httpSession.setAttribute("pageTemplate", ctx.getRealPath(tmplPath));
+        portlets2render = framework.getPagePortlets();
+        if (portlets2render == null || portlets2render.size() < 1) {
+          createPortletWindows(framework, framework.getPortletNames());
+          portlets2render = framework.getPagePortlets();
         }
       }
 
-      if (portlets2render == null)
-        portlets2render = (ArrayList<String>) httpSession.getAttribute("portlets2render");
-      else
-        httpSession.setAttribute("portlets2render", portlets2render);
+//      if (portlets2render == null)
+//        portlets2render = (ArrayList<String>) httpSession.getAttribute("portlets2render");
+//      else
+//        httpSession.setAttribute("portlets2render", portlets2render);
 
       // --- this dummy http response is intended to avoid premature response commit on some AS-es
       HttpServletResponse dummyHttpResponse = createDummyResponse(httpResponse);
 
       // call PortalFramework to process current request to portlet container
       ArrayList<PortletInfo> portletInfos;
-      if (framework.getCurrentPage().equals(""))
+      if (ps != null)
         portletInfos = framework.processRequest(ctx, httpRequest, dummyHttpResponse, "text/html", portlets2render);
       else
         portletInfos = framework.processRequestForCurrentPage(ctx, httpRequest, dummyHttpResponse, "text/html");
-
 
       if (framework.getRedirect() != null) {
         httpResponse.sendRedirect(framework.getRedirect());
@@ -285,7 +174,6 @@ public class PortletFilter implements Filter {
             portletinfo.setToRender(true);
             //Collecting session info
             HashMap<String, Object> hm = portletinfo.getSessionMap();
-            sessionInfo.put(StringUtils.split(portletinfo.getPortlet(), "/")[0], hm);
           }
         } else {
           ArrayList<PortletInfo> newPortletInfos = new ArrayList<PortletInfo>();
@@ -307,19 +195,8 @@ public class PortletFilter implements Filter {
     }
 
     filterChain.doFilter(servletRequest, servletResponse);
-
-    // Session Replication
-    sessionInfo.put(SESSION_IDENTIFIER, httpSession.getId());
-    sessionInfo.put(PORTAL_IDENTIFIER, portalContainerName);
-    try {
-      if (sr == null)
-        sr = new SessionReplicator();
-      sessionInfo.put(REPLICATOR_IDENTIFIER, sr.toString());
-      sr.send(sessionInfo);
-    } catch (Exception e){
-      e.printStackTrace();
-    }
   }
+
 
   /**
    * Does nothing.

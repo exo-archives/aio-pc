@@ -53,6 +53,20 @@
       <scope>compile</scope>
     </dependency>
 
+    <dependency>                                                                                                                   
+      <groupId>org.exoplatform.jcr</groupId>                                                                                       
+      <artifactId>exo.jcr.component.core</artifactId>                                                                              
+      <version>${org.exoplatform.jcr.version}</version>                                                                            
+      <scope>compile</scope>                                                                                                                                                                                                                 
+    </dependency>    
+    
+    <dependency>                                                                                                                   
+      <groupId>org.exoplatform.jcr</groupId>                                                                                       
+      <artifactId>exo.jcr.component.ext</artifactId>                                                                              
+      <version>${org.exoplatform.jcr.version}</version>                                                                            
+      <scope>compile</scope>                                                                                                                                                                                                                 
+    </dependency>  
+
   </dependencies>
 
   <build>
