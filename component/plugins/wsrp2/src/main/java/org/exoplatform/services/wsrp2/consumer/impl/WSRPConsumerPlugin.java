@@ -30,6 +30,7 @@ import java.util.ResourceBundle;
 
 import javax.portlet.PortletException;
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequest;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
@@ -129,8 +130,8 @@ import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
- * Based on WSRPConsumerPortlet written by Benjamin Mestrallet 
- * Author : Roman Pedchenko 
+ * Based on WSRPConsumerPortlet written by Benjamin Mestrallet
+ * Author : Roman Pedchenko
  *          roman.pedchenko@exoplatform.com.ua
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
@@ -224,7 +225,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     consumer.setMimeTypes(mimeTypes);
     consumer.setPortletStateChange(StateChange.readWrite);
     // TODO modes and states should be getting from producer
-    // 
+    //
     // consumer.setSupportedModes(getPortletModes(Collections.list(pcConf.getSupportedPortletModes())));
     consumer.setSupportedModes(getPortletModes(pcService.getSupportedPortletModes()));
     // consumer.setSupportedWindowStates(getWindowStates(Collections.list(pcConf.getSupportedWindowStates())));
@@ -239,7 +240,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     String[] array = new String[supportedPortletModes.size()];
     int i = 0;
     for (Iterator<PortletMode> iterator = supportedPortletModes.iterator(); iterator.hasNext(); i++) {
-      PortletMode portletMode = (PortletMode) iterator.next();
+      PortletMode portletMode = iterator.next();
       array[i] = portletMode.toString();
       // was: array[i] = WSRPConstants.WSRP_PREFIX + portletMode.toString();
     }
@@ -250,7 +251,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     String[] array = new String[supportedWindowStates.size()];
     int i = 0;
     for (Iterator<WindowState> iterator = supportedWindowStates.iterator(); iterator.hasNext(); i++) {
-      WindowState windowState = (WindowState) iterator.next();
+      WindowState windowState = iterator.next();
       array[i] = windowState.toString();
       // was: array[i] = WSRPConstants.WSRP_PREFIX + windowState.toString();
     }
@@ -265,7 +266,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     Iterator<Producer> i = pregistry.getAllProducers();
     List<PortletMode> result = null;
     while (i.hasNext()) {
-      Producer producer = (Producer) i.next();
+      Producer producer = i.next();
       try {
         ServiceDescription desc = producer.getServiceDescription();
         result = new ArrayList<PortletMode>();
@@ -294,7 +295,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     Iterator<Producer> i = pregistry.getAllProducers();
     List<WindowState> result = null;
     while (i.hasNext()) {
-      Producer producer = (Producer) i.next();
+      Producer producer = i.next();
       try {
         ServiceDescription desc = producer.getServiceDescription();
         result = new ArrayList<WindowState>();
@@ -333,7 +334,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     ProducerRegistry pregistry = consumer.getProducerRegistry();
     Iterator<Producer> i = pregistry.getAllProducers();
     while (i.hasNext()) {
-      Producer producer = (Producer) i.next();
+      Producer producer = i.next();
       if (producer.getID().equalsIgnoreCase(producerID)) {
         try {
           ServiceDescription desc = producer.getServiceDescription();
@@ -408,7 +409,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     Iterator<Producer> i = pregistry.getAllProducers();
 
     while (i.hasNext()) {
-      Producer producer = (Producer) i.next();
+      Producer producer = i.next();
       if (producer.getID().equalsIgnoreCase(producerID)) {
         try {
           ServiceDescription desc = producer.getServiceDescription();
@@ -503,7 +504,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     ProducerRegistry pregistry = consumer.getProducerRegistry();
     Iterator<Producer> i = pregistry.getAllProducers();
     while (i.hasNext()) {
-      Producer producer = (Producer) i.next();
+      Producer producer = i.next();
       try {
         ServiceDescription desc = producer.getServiceDescription();
         producerId = producer.getID();
@@ -528,8 +529,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               for (MarkupType markupType : portletDescription.getMarkupTypes()) {
                 Supports supports = new Supports();
                 supports.setMimeType(markupType.getMimeType());
-                supports.setPortletMode((List<String>) Arrays.asList(markupType.getModes()));
-                supports.setWindowState((List<String>) Arrays.asList(markupType.getWindowStates()));
+                supports.setPortletMode(Arrays.asList(markupType.getModes()));
+                supports.setWindowState(Arrays.asList(markupType.getWindowStates()));
                 portlet.addSupports(supports);
               }
             }
@@ -604,6 +605,16 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   public Map<String, String[]> getPortletPreference(Input input) {
     return null;
+  }
+
+  public PortletPreferences getPortletPreferences(Input input) {
+    return null;
+  }
+
+  public void setPortletPreference2(Input input, Map<String, String[]> preferences) throws PortletContainerException {
+  }
+
+  public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
   }
 
   public ActionOutput processAction(HttpServletRequest request,
@@ -905,7 +916,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     PortletKey portletKey = null;
     Iterator<WSRPPortlet> portlets = consumer.getPortletRegistry().getAllPortlets();
     while (portlets.hasNext()) {
-      WSRPPortlet element = (WSRPPortlet) portlets.next();
+      WSRPPortlet element = portlets.next();
       if (producerID.equals(element.getPortletKey().getProducerId()) && portletHandle.equals(element.getPortletKey().getPortletHandle())) {
         portletKey = element.getPortletKey();
       }
@@ -1059,7 +1070,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return portletWindowSession.getInteractionState();
   }
 
-  // Store only params without the "wsrp-" prefix 
+  // Store only params without the "wsrp-" prefix
   private NamedString[] getRenderParametersAsNamedString(Input input) {
     Map<String, String[]> params = input.getRenderParameters();
     return Utils.getNamedStringArrayParametersFromMap(params, true);

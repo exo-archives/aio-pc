@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -162,13 +163,36 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @param preferences preferences
    * @throws PortletContainerException exception
    */
+  @Deprecated
   void setPortletPreference(Input input, Map<String, String> preferences) throws PortletContainerException;
+
+  /**
+   * @param input input
+   * @param preferences preferences
+   * @throws PortletContainerException exception
+   */
+  @Deprecated
+  void setPortletPreference2(Input input, Map<String, String[]> preferences) throws PortletContainerException;
 
   /**
    * @param input input
    * @return portlet preferences
    */
+  @Deprecated
   Map<String, String[]> getPortletPreference(Input input);
+
+  /**
+   * @param input input
+   * @param preferences preferences
+   * @throws PortletContainerException exception
+   */
+  void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException;
+
+  /**
+   * @param input input
+   * @return portlet preferences
+   */
+  PortletPreferences getPortletPreferences(Input input);
 
   /**
    * @param request request

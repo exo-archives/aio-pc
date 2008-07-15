@@ -32,6 +32,7 @@ import java.util.Set;
 import java.util.Map.Entry;
 
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.ReadOnlyException;
 import javax.portlet.WindowState;
 import javax.servlet.RequestDispatcher;
@@ -467,15 +468,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
-    preferences.setMethodCalledIsAction(/* true */PCConstants.ACTION_INT);// to
-    // allow
-    // restore
-    // of
-    // previous
-    // versions
-    // if a
-    // problem
-    // occurs
+    // to allow restore of previous versions if a problem occurs
+    preferences.setMethodCalledIsAction(/* true */PCConstants.ACTION_INT);
     Set<String> keys = preferencesMap.keySet();
     try {
       for (String key : keys) {
@@ -500,6 +494,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getPortletPreference(org.exoplatform.services.portletcontainer.pci.Input)
    */
   public final Map<String, String[]> getPortletPreference(final Input input) {
+    return getPortletPreferences(input).getMap();
+  }
+
+  public PortletPreferences getPortletPreferences(Input input) {
     log.debug("Try to get a portlet preference directly from the getPortletPreference() method ");
     WindowID windowID = input.getInternalWindowID();
     Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
@@ -507,7 +505,43 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
-    return preferences.getMap();
+    return preferences;
+  }
+
+  public void setPortletPreference2(Input input, Map<String, String[]> preferencesMap) throws PortletContainerException {
+    log.debug("try to set a portlet preference directly from the setPortletPreference2() method");
+    WindowID windowID = input.getInternalWindowID();
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+        windowID.getPortletName());
+    ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
+    PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
+    PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
+    // to allow restore of previous versions if a problem occurs
+    preferences.setMethodCalledIsAction(/* true */PCConstants.ACTION_INT);
+    Set<String> keys = preferencesMap.keySet();
+    try {
+      for (String key : keys) {
+        try {
+          preferences.setValues(key, preferencesMap.get(key));
+        } catch (ReadOnlyException e) {
+          log.error("Can not set a property that has a ReadOnly tag set to true", e);
+        }
+      }
+      preferences.store();
+    } catch (Exception e) {
+      log.error("Can not store a portlet preference", e);
+      throw new PortletContainerException(e);
+    }
+  }
+
+  public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
+    log.debug("try to set a portlet preference directly from the setPortletPreferences() method");
+    WindowID windowID = input.getInternalWindowID();
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+        windowID.getPortletName());
+    ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
+    PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
+    windowInfos.setPreferences(preferences);
   }
 
   /**
@@ -528,7 +562,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       final String portletName,
       final Locale locale) throws PortletContainerException {
     log.debug("Try to get a bundle object for locale : " + locale);
-    
+
     int platform = Environment.getInstance().getPlatform();
     if (platform == Environment.STAND_ALONE) {
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();

@@ -27,6 +27,7 @@ import java.util.ResourceBundle;
 import java.util.Set;
 
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -56,7 +57,7 @@ import org.picocontainer.Startable;
  * benjamin.mestrallet@exoplatform.com
  */
 public class PortletContainerServiceImpl implements PortletContainerService, Startable {
-  
+
   /**
    * Plugins list.
    */
@@ -359,6 +360,17 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
   }
 
   /**
+   * @param input input
+   * @param preferences preferences
+   * @throws PortletContainerException exception
+   */
+  public void setPortletPreference2(Input input, Map<String, String[]> preferences) throws PortletContainerException {
+    PortletContainerPlugin plugin = findPluginByPAPPName(input.getInternalWindowID()
+        .getPortletApplicationName());
+    plugin.setPortletPreference2(input, preferences);
+  }
+
+  /**
    * Overridden method.
    *
    * @param input input
@@ -369,6 +381,27 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
     PortletContainerPlugin plugin = findPluginByPAPPName(input.getInternalWindowID()
         .getPortletApplicationName());
     return plugin.getPortletPreference(input);
+  }
+
+  /**
+   * @param input input
+   * @param preferences preferences
+   * @throws PortletContainerException exception
+   */
+  public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
+    PortletContainerPlugin plugin = findPluginByPAPPName(input.getInternalWindowID()
+        .getPortletApplicationName());
+    plugin.setPortletPreferences(input, preferences);
+  }
+
+  /**
+   * @param input input
+   * @return portlet preferences
+   */
+  public PortletPreferences getPortletPreferences(Input input) {
+    PortletContainerPlugin plugin = findPluginByPAPPName(input.getInternalWindowID()
+        .getPortletApplicationName());
+    return plugin.getPortletPreferences(input);
   }
 
   /**
