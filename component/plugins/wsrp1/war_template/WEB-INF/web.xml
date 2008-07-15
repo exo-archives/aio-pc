@@ -11,9 +11,13 @@
 
 	<context-param>
 	  <param-name>test-param</param-name>
-	   <param-value>test-parame-value</param-value>
+	  <param-value>test-parame-value</param-value>
 	</context-param>
 	
+	<listener>
+             <listener-class>org.exoplatform.services.portletcontainer.test.listener.AppListener</listener-class>
+           </listener>
+           
 	<listener>
 	  <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
 	</listener>
