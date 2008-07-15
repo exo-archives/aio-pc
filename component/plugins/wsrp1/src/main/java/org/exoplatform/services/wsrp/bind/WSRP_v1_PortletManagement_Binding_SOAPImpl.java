@@ -42,69 +42,90 @@ import org.exoplatform.services.wsrp.type.PropertyList;
 import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRP_v1_PortletManagement_Binding_SOAPImpl 
-    implements WSRP_v1_PortletManagement_PortType{
+public class WSRP_v1_PortletManagement_Binding_SOAPImpl implements
+    WSRP_v1_PortletManagement_PortType {
 
   private PortletManagementOperationsInterface portletManagementOperationsInterface;
-  
+
   public WSRP_v1_PortletManagement_Binding_SOAPImpl() {
-    portletManagementOperationsInterface = (PortletManagementOperationsInterface) ExoContainerContext.getCurrentContainer().
-        getComponentInstanceOfType(PortletManagementOperationsInterface.class);
+    portletManagementOperationsInterface = (PortletManagementOperationsInterface) ExoContainerContext.getCurrentContainer()
+                                                                                                     .getComponentInstanceOfType(PortletManagementOperationsInterface.class);
   }
 
-  public PortletDescriptionResponse getPortletDescription(PortletDescriptionRequest getPortletDescription)
-    throws RemoteException, InvalidUserCategoryFault, InconsistentParametersFault, 
-           InvalidRegistrationFault, OperationFailedFault, MissingParametersFault, 
-           AccessDeniedFault, InvalidHandleFault {
+  public PortletDescriptionResponse getPortletDescription(PortletDescriptionRequest getPortletDescription) throws RemoteException,
+                                                                                                          InvalidUserCategoryFault,
+                                                                                                          InconsistentParametersFault,
+                                                                                                          InvalidRegistrationFault,
+                                                                                                          OperationFailedFault,
+                                                                                                          MissingParametersFault,
+                                                                                                          AccessDeniedFault,
+                                                                                                          InvalidHandleFault {
     return portletManagementOperationsInterface.getPortletDescription(getPortletDescription.getRegistrationContext(),
                                                                       getPortletDescription.getPortletContext(),
                                                                       getPortletDescription.getUserContext(),
                                                                       getPortletDescription.getDesiredLocales());
   }
 
-  public PortletContext clonePortlet(ClonePortletRequest clonePortlet)
-    throws RemoteException, InvalidUserCategoryFault, InconsistentParametersFault, 
-           InvalidRegistrationFault, OperationFailedFault, MissingParametersFault, 
-           AccessDeniedFault, InvalidHandleFault {
+  public PortletContext clonePortlet(ClonePortletRequest clonePortlet) throws RemoteException,
+                                                                      InvalidUserCategoryFault,
+                                                                      InconsistentParametersFault,
+                                                                      InvalidRegistrationFault,
+                                                                      OperationFailedFault,
+                                                                      MissingParametersFault,
+                                                                      AccessDeniedFault,
+                                                                      InvalidHandleFault {
     return portletManagementOperationsInterface.clonePortlet(clonePortlet.getRegistrationContext(),
                                                              clonePortlet.getPortletContext(),
                                                              clonePortlet.getUserContext());
   }
 
-  public DestroyPortletsResponse destroyPortlets(DestroyPortletsRequest destroyPortlets)
-    throws RemoteException, InconsistentParametersFault, InvalidRegistrationFault, 
-           OperationFailedFault, MissingParametersFault {
+  public DestroyPortletsResponse destroyPortlets(DestroyPortletsRequest destroyPortlets) throws RemoteException,
+                                                                                        InconsistentParametersFault,
+                                                                                        InvalidRegistrationFault,
+                                                                                        OperationFailedFault,
+                                                                                        MissingParametersFault {
     return portletManagementOperationsInterface.destroyPortlets(destroyPortlets.getRegistrationContext(),
                                                                 destroyPortlets.getPortletHandles());
   }
 
-  public PortletContext setPortletProperties(SetPortletPropertiesRequest setPortletProperties)
-    throws RemoteException, InvalidUserCategoryFault, InconsistentParametersFault, 
-           InvalidRegistrationFault, OperationFailedFault, MissingParametersFault, 
-           AccessDeniedFault, InvalidHandleFault {
+  public PortletContext setPortletProperties(SetPortletPropertiesRequest setPortletProperties) throws RemoteException,
+                                                                                              InvalidUserCategoryFault,
+                                                                                              InconsistentParametersFault,
+                                                                                              InvalidRegistrationFault,
+                                                                                              OperationFailedFault,
+                                                                                              MissingParametersFault,
+                                                                                              AccessDeniedFault,
+                                                                                              InvalidHandleFault {
     return portletManagementOperationsInterface.setPortletProperties(setPortletProperties.getRegistrationContext(),
                                                                      setPortletProperties.getPortletContext(),
                                                                      setPortletProperties.getUserContext(),
                                                                      setPortletProperties.getPropertyList());
   }
 
-  public PropertyList getPortletProperties(GetPortletPropertiesRequest getPortletProperties)
-    throws RemoteException, InvalidUserCategoryFault, InconsistentParametersFault, 
-           InvalidRegistrationFault, OperationFailedFault, MissingParametersFault, 
-           AccessDeniedFault, InvalidHandleFault {
+  public PropertyList getPortletProperties(GetPortletPropertiesRequest getPortletProperties) throws RemoteException,
+                                                                                            InvalidUserCategoryFault,
+                                                                                            InconsistentParametersFault,
+                                                                                            InvalidRegistrationFault,
+                                                                                            OperationFailedFault,
+                                                                                            MissingParametersFault,
+                                                                                            AccessDeniedFault,
+                                                                                            InvalidHandleFault {
     return portletManagementOperationsInterface.getPortletProperties(getPortletProperties.getRegistrationContext(),
                                                                      getPortletProperties.getPortletContext(),
                                                                      getPortletProperties.getUserContext(),
                                                                      getPortletProperties.getNames());
   }
 
-  public PortletPropertyDescriptionResponse getPortletPropertyDescription(PortletPropertyDescriptionRequest getPortletPropertyDescription)
-    throws RemoteException, InvalidUserCategoryFault, InconsistentParametersFault, 
-           InvalidRegistrationFault, OperationFailedFault, MissingParametersFault, 
-           AccessDeniedFault, InvalidHandleFault {
+  public PortletPropertyDescriptionResponse getPortletPropertyDescription(PortletPropertyDescriptionRequest getPortletPropertyDescription) throws RemoteException,
+                                                                                                                                          InvalidUserCategoryFault,
+                                                                                                                                          InconsistentParametersFault,
+                                                                                                                                          InvalidRegistrationFault,
+                                                                                                                                          OperationFailedFault,
+                                                                                                                                          MissingParametersFault,
+                                                                                                                                          AccessDeniedFault,
+                                                                                                                                          InvalidHandleFault {
     return portletManagementOperationsInterface.getPortletPropertyDescription(getPortletPropertyDescription.getRegistrationContext(),
                                                                               getPortletPropertyDescription.getPortletContext(),
                                                                               getPortletPropertyDescription.getUserContext(),

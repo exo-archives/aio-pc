@@ -20,8 +20,7 @@ package org.exoplatform.services.wsrp;
 import org.exoplatform.Constants;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class WSRPConstants {
 
@@ -86,22 +85,28 @@ public class WSRPConstants {
   public static final String PASSWORD_USER_AUTHENTIFICATION     = WSRP_PREFIX + "password";
 
   public static final String CERTIFICATE_USER_AUTHENTIFICATION  = WSRP_PREFIX + "certificate";
-  
+
   // WSRP ADMIN
 
   public static final String WSRP_PRODUCER_APP_ENCODER          = "@";
 
-  public static final String WSRP_ADMIN_PORTLET_APP             = WSRP_PRODUCER_APP_ENCODER + "WSRP1App";
+  public static final String WSRP_ADMIN_PORTLET_APP             = WSRP_PRODUCER_APP_ENCODER
+                                                                    + "WSRP1App";
 
   public static final String WSRP_ADMIN_PORTLET_NAME            = "WSRPAdminPortlet";
 
-  public static final String WSRP_ADMIN_PORTLET_CLASS           = "org.exoplatform.services.wsrp.consumer.portlets." + WSRP_ADMIN_PORTLET_NAME;
+  public static final String WSRP_ADMIN_PORTLET_CLASS           = "org.exoplatform.services.wsrp.consumer.portlets."
+                                                                    + WSRP_ADMIN_PORTLET_NAME;
 
-  public static final String WSRP_ADMIN_PORTLET_KEY             = WSRP_ADMIN_PORTLET_APP + // portletapp name 
-                                                                    Constants.PORTLET_META_DATA_ENCODER + WSRP_ADMIN_PORTLET_NAME;             //portlet name
+  public static final String WSRP_ADMIN_PORTLET_KEY             = WSRP_ADMIN_PORTLET_APP
+                                                                    + // portletapp
+                                                                      // name
+                                                                    Constants.PORTLET_META_DATA_ENCODER
+                                                                    + WSRP_ADMIN_PORTLET_NAME;     // portlet
+                                                                                                    // name
 
   // WSRP REGISTRATION PARAMS
-  
+
   public static final String WAP_portletTitle                   = "portletTitle";
 
   public static final String WAP_consumerName                   = "consumerName";

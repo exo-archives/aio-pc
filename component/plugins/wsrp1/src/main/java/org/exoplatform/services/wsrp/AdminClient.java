@@ -38,18 +38,15 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 // Referenced classes of package org.apache.axis.client:
-//            Service, Call
+// Service, Call
 
-public class AdminClient
-{
+public class AdminClient {
 
-  public static void setDefaultConfiguration(EngineConfiguration config)
-  {
+  public static void setDefaultConfiguration(EngineConfiguration config) {
     defaultConfiguration.set(config);
   }
 
-  private static String getUsageInfo()
-  {
+  private static String getUsageInfo() {
     String lSep = System.getProperty("line.separator");
     StringBuffer msg = new StringBuffer();
     msg.append(Messages.getMessage("acUsage00")).append(lSep);
@@ -82,36 +79,29 @@ public class AdminClient
     return msg.toString();
   }
 
-  public AdminClient()
-  {
-    try
-    {
-      EngineConfiguration config = (EngineConfiguration)defaultConfiguration.get();
+  public AdminClient() {
+    try {
+      EngineConfiguration config = (EngineConfiguration) defaultConfiguration.get();
       Service service;
-      if(config != null)
+      if (config != null)
         service = new Service(config);
       else
         service = new Service();
-      call = (Call)service.createCall();
-    }
-    catch(ServiceException e)
-    {
+      call = (Call) service.createCall();
+    } catch (ServiceException e) {
       System.err.println(Messages.getMessage("couldntCall00") + ": " + e);
       call = null;
     }
   }
 
-  public Call getCall()
-  {
+  public Call getCall() {
     return call;
   }
 
-  public String list(Options opts)
-    throws Exception
-    {
-      processOpts(opts);
-      return list();
-    }
+  public String list(Options opts) throws Exception {
+    processOpts(opts);
+    return list();
+  }
 
   public String list() throws Exception {
     log.debug(Messages.getMessage("doList00"));
@@ -132,141 +122,119 @@ public class AdminClient
     return process(input);
   }
 
-  public String undeployHandler(String handlerName) throws Exception
-  {
+  public String undeployHandler(String handlerName) throws Exception {
     log.debug(Messages.getMessage("doQuit00"));
-    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">" + "<handler name=\"" + handlerName + "\"/>" + "</m:" + ROOT_UNDEPLOY + ">";
+    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">"
+        + "<handler name=\"" + handlerName + "\"/>" + "</m:" + ROOT_UNDEPLOY + ">";
     ByteArrayInputStream input = new ByteArrayInputStream(str.getBytes());
     return process(input);
   }
 
-  public String undeployService(String serviceName) throws Exception
-  {
+  public String undeployService(String serviceName) throws Exception {
     log.debug(Messages.getMessage("doQuit00"));
-    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">" + "<service name=\"" + serviceName + "\"/>" + "</m:" + ROOT_UNDEPLOY + ">";
+    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">"
+        + "<service name=\"" + serviceName + "\"/>" + "</m:" + ROOT_UNDEPLOY + ">";
     ByteArrayInputStream input = new ByteArrayInputStream(str.getBytes());
     return process(input);
   }
 
-  public String process(String args[])
-    throws Exception
-    {
-      StringBuffer sb = new StringBuffer();
-      Options opts = new Options(args);
-      opts.setDefaultURL("http://localhost:8080/axis/services/AdminService");
-      if(opts.isFlagSet('d') <= 0);
-      args = opts.getRemainingArgs();
-      if(args == null || opts.isFlagSet('?') > 0)
-      {
-        System.out.println(Messages.getMessage("usage00", "AdminClient [Options] [list | <deployment-descriptor-files>]"));
-        System.out.println("");
-        System.out.println(getUsageInfo());
-        return null;
+  public String process(String args[]) throws Exception {
+    StringBuffer sb = new StringBuffer();
+    Options opts = new Options(args);
+    opts.setDefaultURL("http://localhost:8080/axis/services/AdminService");
+    if (opts.isFlagSet('d') <= 0)
+      ;
+    args = opts.getRemainingArgs();
+    if (args == null || opts.isFlagSet('?') > 0) {
+      System.out.println(Messages.getMessage("usage00",
+                                             "AdminClient [Options] [list | <deployment-descriptor-files>]"));
+      System.out.println("");
+      System.out.println(getUsageInfo());
+      return null;
+    }
+    for (int i = 0; i < args.length; i++) {
+      InputStream input = null;
+      if (args[i].equals("list"))
+        sb.append(list(opts));
+      else if (args[i].equals("quit"))
+        sb.append(quit(opts));
+      else if (args[i].equals("passwd")) {
+        System.out.println(Messages.getMessage("changePwd00"));
+        if (args[i + 1] == null) {
+          System.err.println(Messages.getMessage("needPwd00"));
+          return null;
+        }
+        String str = "<m:passwd xmlns:m=\"http://xml.apache.org/axis/wsdd/\">";
+        str = str + args[i + 1];
+        str = str + "</m:passwd>";
+        input = new ByteArrayInputStream(str.getBytes());
+        i++;
+        sb.append(process(opts, input));
+      } else if (args[i].indexOf(File.pathSeparatorChar) == -1) {
+        System.out.println(Messages.getMessage("processFile00", args[i]));
+        sb.append(process(opts, args[i]));
+      } else {
+        StringTokenizer tokenizer = null;
+        for (tokenizer = new StringTokenizer(args[i], File.pathSeparator); tokenizer.hasMoreTokens();) {
+          String file = tokenizer.nextToken();
+          System.out.println(Messages.getMessage("processFile00", file));
+          sb.append(process(opts, file));
+          if (tokenizer.hasMoreTokens())
+            sb.append("\n");
+        }
+
       }
-      for(int i = 0; i < args.length; i++)
-      {
-        InputStream input = null;
-        if(args[i].equals("list"))
-          sb.append(list(opts));
-        else
-          if(args[i].equals("quit"))
-            sb.append(quit(opts));
-          else
-            if(args[i].equals("passwd"))
-            {
-              System.out.println(Messages.getMessage("changePwd00"));
-              if(args[i + 1] == null)
-              {
-                System.err.println(Messages.getMessage("needPwd00"));
-                return null;
-              }
-              String str = "<m:passwd xmlns:m=\"http://xml.apache.org/axis/wsdd/\">";
-              str = str + args[i + 1];
-              str = str + "</m:passwd>";
-              input = new ByteArrayInputStream(str.getBytes());
-              i++;
-              sb.append(process(opts, input));
-            } else
-              if(args[i].indexOf(File.pathSeparatorChar) == -1)
-              {
-                System.out.println(Messages.getMessage("processFile00", args[i]));
-                sb.append(process(opts, args[i]));
-              } else
-              {
-                StringTokenizer tokenizer = null;
-                for(tokenizer = new StringTokenizer(args[i], File.pathSeparator); tokenizer.hasMoreTokens();)
-                {
-                  String file = tokenizer.nextToken();
-                  System.out.println(Messages.getMessage("processFile00", file));
-                  sb.append(process(opts, file));
-                  if(tokenizer.hasMoreTokens())
-                    sb.append("\n");
-                }
-
-              }
-      }
-
-      return sb.toString();
     }
 
-  public void processOpts(Options opts)
-    throws Exception
-    {
-      if(call == null)
-        throw new Exception(Messages.getMessage("nullCall00"));
-      call.setTargetEndpointAddress(new URL(opts.getURL()));
-      call.setUsername(opts.getUser());
-      call.setPassword(opts.getPassword());
-      String tName = opts.isValueSet('t');
-      if(tName != null && !tName.equals(""))
-        call.setProperty("transport_name", tName);
-    }
+    return sb.toString();
+  }
 
-  public String process(InputStream input)
-    throws Exception
-    {
-      return process(null, input);
-    }
+  public void processOpts(Options opts) throws Exception {
+    if (call == null)
+      throw new Exception(Messages.getMessage("nullCall00"));
+    call.setTargetEndpointAddress(new URL(opts.getURL()));
+    call.setUsername(opts.getUser());
+    call.setPassword(opts.getPassword());
+    String tName = opts.isValueSet('t');
+    if (tName != null && !tName.equals(""))
+      call.setProperty("transport_name", tName);
+  }
 
-  public String process(URL xmlURL)
-    throws Exception
-    {
-      return process(null, xmlURL.openStream());
-    }
+  public String process(InputStream input) throws Exception {
+    return process(null, input);
+  }
 
-  public String process(String xmlFile)
-    throws Exception
-    {
-      FileInputStream in = new FileInputStream(xmlFile);
-      String result = process(null, ((InputStream) (in)));
-      in.close();
-      return result;
-    }
+  public String process(URL xmlURL) throws Exception {
+    return process(null, xmlURL.openStream());
+  }
 
-  public String process(Options opts, String xmlFile)
-    throws Exception
-    {
-      processOpts(opts);
-      return process(xmlFile);
-    }
+  public String process(String xmlFile) throws Exception {
+    FileInputStream in = new FileInputStream(xmlFile);
+    String result = process(null, ((InputStream) (in)));
+    in.close();
+    return result;
+  }
+
+  public String process(Options opts, String xmlFile) throws Exception {
+    processOpts(opts);
+    return process(xmlFile);
+  }
 
   public String process(Options opts, InputStream input) throws Exception {
-    if(call == null)
+    if (call == null)
       throw new Exception(Messages.getMessage("nullCall00"));
-    if(opts != null)
+    if (opts != null)
       processOpts(opts);
     call.setUseSOAPAction(true);
     call.setSOAPActionURI("AdminService");
     Vector result = null;
-    Object params[] = {
-      new SOAPBodyElement(input)
-    };
-    result = (Vector)call.invoke(params);
+    Object params[] = { new SOAPBodyElement(input) };
+    result = (Vector) call.invoke(params);
     input.close();
-    if(result == null || result.isEmpty()) {
+    if (result == null || result.isEmpty()) {
       throw new AxisFault(Messages.getMessage("nullResponse00"));
     } else {
-      SOAPBodyElement body = (SOAPBodyElement)result.elementAt(0);
+      SOAPBodyElement body = (SOAPBodyElement) result.elementAt(0);
       return body.toString();
     }
   }
@@ -275,12 +243,12 @@ public class AdminClient
     try {
       AdminClient admin = new AdminClient();
       String result = admin.process(args);
-      if(result != null)
+      if (result != null)
         System.out.println(result);
       else
         System.exit(1);
-    } catch(Exception e) {
-      e.printStackTrace() ;
+    } catch (Exception e) {
+      e.printStackTrace();
       System.err.println(Messages.getMessage("exception00") + ": " + e);
       System.exit(1);
     }
@@ -290,9 +258,12 @@ public class AdminClient
     return Class.forName(x0);
   }
 
-  protected static Log log;
-  private static ThreadLocal defaultConfiguration = new ThreadLocal();
-  protected Call call;
+  protected static Log          log;
+
+  private static ThreadLocal    defaultConfiguration = new ThreadLocal();
+
+  protected Call                call;
+
   protected static final String ROOT_UNDEPLOY;
 
   static {

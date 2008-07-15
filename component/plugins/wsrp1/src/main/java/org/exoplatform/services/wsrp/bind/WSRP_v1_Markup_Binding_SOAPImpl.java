@@ -45,24 +45,31 @@ import org.exoplatform.services.wsrp.type.UnsupportedModeFault;
 import org.exoplatform.services.wsrp.type.UnsupportedWindowStateFault;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRP_v1_Markup_Binding_SOAPImpl implements WSRP_v1_Markup_PortType{
-  
-  private MarkupOperationsInterface markupOperationsInterface;
-  
-  public WSRP_v1_Markup_Binding_SOAPImpl() {
-    markupOperationsInterface = (MarkupOperationsInterface) ExoContainerContext.getCurrentContainer().
-        getComponentInstanceOfType(MarkupOperationsInterface.class);
-  }  
+public class WSRP_v1_Markup_Binding_SOAPImpl implements WSRP_v1_Markup_PortType {
 
-  public MarkupResponse getMarkup(MarkupRequest markupRequest)
-    throws RemoteException, InconsistentParametersFault, InvalidRegistrationFault, 
-           MissingParametersFault, OperationFailedFault, UnsupportedMimeTypeFault, 
-           UnsupportedModeFault, UnsupportedLocaleFault, InvalidUserCategoryFault, 
-           InvalidSessionFault, InvalidCookieFault, AccessDeniedFault, InvalidHandleFault, 
-           UnsupportedWindowStateFault {
+  private MarkupOperationsInterface markupOperationsInterface;
+
+  public WSRP_v1_Markup_Binding_SOAPImpl() {
+    markupOperationsInterface = (MarkupOperationsInterface) ExoContainerContext.getCurrentContainer()
+                                                                               .getComponentInstanceOfType(MarkupOperationsInterface.class);
+  }
+
+  public MarkupResponse getMarkup(MarkupRequest markupRequest) throws RemoteException,
+                                                              InconsistentParametersFault,
+                                                              InvalidRegistrationFault,
+                                                              MissingParametersFault,
+                                                              OperationFailedFault,
+                                                              UnsupportedMimeTypeFault,
+                                                              UnsupportedModeFault,
+                                                              UnsupportedLocaleFault,
+                                                              InvalidUserCategoryFault,
+                                                              InvalidSessionFault,
+                                                              InvalidCookieFault,
+                                                              AccessDeniedFault,
+                                                              InvalidHandleFault,
+                                                              UnsupportedWindowStateFault {
     return markupOperationsInterface.getMarkup(markupRequest.getRegistrationContext(),
                                                markupRequest.getPortletContext(),
                                                markupRequest.getRuntimeContext(),
@@ -70,14 +77,21 @@ public class WSRP_v1_Markup_Binding_SOAPImpl implements WSRP_v1_Markup_PortType{
                                                markupRequest.getMarkupParams());
   }
 
-  public BlockingInteractionResponse performBlockingInteraction(BlockingInteractionRequest blockingInteractionRequest)
-    throws RemoteException, InconsistentParametersFault, 
-           InvalidRegistrationFault, MissingParametersFault, 
-           OperationFailedFault, UnsupportedMimeTypeFault, 
-           UnsupportedModeFault, UnsupportedLocaleFault, 
-           InvalidUserCategoryFault, InvalidSessionFault, 
-           InvalidCookieFault, PortletStateChangeRequiredFault, 
-           AccessDeniedFault, InvalidHandleFault, UnsupportedWindowStateFault {
+  public BlockingInteractionResponse performBlockingInteraction(BlockingInteractionRequest blockingInteractionRequest) throws RemoteException,
+                                                                                                                      InconsistentParametersFault,
+                                                                                                                      InvalidRegistrationFault,
+                                                                                                                      MissingParametersFault,
+                                                                                                                      OperationFailedFault,
+                                                                                                                      UnsupportedMimeTypeFault,
+                                                                                                                      UnsupportedModeFault,
+                                                                                                                      UnsupportedLocaleFault,
+                                                                                                                      InvalidUserCategoryFault,
+                                                                                                                      InvalidSessionFault,
+                                                                                                                      InvalidCookieFault,
+                                                                                                                      PortletStateChangeRequiredFault,
+                                                                                                                      AccessDeniedFault,
+                                                                                                                      InvalidHandleFault,
+                                                                                                                      UnsupportedWindowStateFault {
     return markupOperationsInterface.performBlockingInteraction(blockingInteractionRequest.getRegistrationContext(),
                                                                 blockingInteractionRequest.getPortletContext(),
                                                                 blockingInteractionRequest.getRuntimeContext(),
@@ -86,16 +100,19 @@ public class WSRP_v1_Markup_Binding_SOAPImpl implements WSRP_v1_Markup_PortType{
                                                                 blockingInteractionRequest.getInteractionParams());
   }
 
-  public ReturnAny releaseSessions(ReleaseSessionsRequest releaseSessionsRequest)
-    throws RemoteException, InvalidRegistrationFault, OperationFailedFault, 
-           MissingParametersFault, AccessDeniedFault {
+  public ReturnAny releaseSessions(ReleaseSessionsRequest releaseSessionsRequest) throws RemoteException,
+                                                                                 InvalidRegistrationFault,
+                                                                                 OperationFailedFault,
+                                                                                 MissingParametersFault,
+                                                                                 AccessDeniedFault {
     return markupOperationsInterface.releaseSessions(releaseSessionsRequest.getRegistrationContext(),
                                                      releaseSessionsRequest.getSessionIDs());
   }
 
-  public ReturnAny initCookie(InitCookieRequest initCookie) 
-    throws RemoteException, InvalidRegistrationFault, 
-           OperationFailedFault, AccessDeniedFault {             
+  public ReturnAny initCookie(InitCookieRequest initCookie) throws RemoteException,
+                                                           InvalidRegistrationFault,
+                                                           OperationFailedFault,
+                                                           AccessDeniedFault {
     return markupOperationsInterface.initCookie(initCookie.getRegistrationContext());
   }
 

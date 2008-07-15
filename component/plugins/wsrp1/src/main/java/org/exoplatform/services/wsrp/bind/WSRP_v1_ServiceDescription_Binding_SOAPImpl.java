@@ -28,10 +28,10 @@ import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRP_v1_ServiceDescription_Binding_SOAPImpl implements WSRP_v1_ServiceDescription_PortType {
+public class WSRP_v1_ServiceDescription_Binding_SOAPImpl implements
+    WSRP_v1_ServiceDescription_PortType {
 
   private ServiceDescriptionInterface serviceDescriptionInterface;
 
@@ -43,19 +43,8 @@ public class WSRP_v1_ServiceDescription_Binding_SOAPImpl implements WSRP_v1_Serv
   public ServiceDescription getServiceDescription(ServiceDescriptionRequest getServiceDescription) throws RemoteException,
                                                                                                   InvalidRegistrationFault,
                                                                                                   OperationFailedFault {
-    try {
-
-      ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
-                                                                                getServiceDescription.getDesiredLocales());
-
-      return sd;
-    } catch (Exception e) {
-      e.printStackTrace();
-    } catch (Throwable t) {
-      t.printStackTrace();
-    }
-
-    return null;
+    return serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
+                                                             getServiceDescription.getDesiredLocales());
 
   }
 

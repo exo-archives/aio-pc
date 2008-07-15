@@ -135,7 +135,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionID();
-    WSRPHttpSession session = resolveSession(sessionID, userContext.getUserContextKey(), sessiontimeperiod);
+    WSRPHttpSession session = resolveSession(sessionID,
+                                             userContext.getUserContextKey(),
+                                             sessiontimeperiod);
     sessionID = session.getId();
     SessionContext sessionContext = new SessionContext();
     sessionContext.setSessionID(session.getId());
@@ -164,7 +166,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     Map portletMetaDatas = proxy.getAllPortletMetaData();
-    PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName
+        + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
     // manage navigationalState
     Map<String, String[]> renderParameters = null;
@@ -219,8 +222,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WindowState windowState = processWindowState(markupParams.getWindowState());
 
     // prepare the call to the portlet proxy
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                               .getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                  .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // prepare the Input object
@@ -300,7 +305,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionID();
-    WSRPHttpSession session = resolveSession(sessionID, userContext.getUserContextKey(), sessiontimeperiod);
+    WSRPHttpSession session = resolveSession(sessionID,
+                                             userContext.getUserContextKey(),
+                                             sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();
@@ -339,7 +346,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       isStateChangeAuthorized = true;
     } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
-      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext, portletContext, userContext);
+      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                         portletContext,
+                                                                         userContext);
       // any modification will be made on the
       isStateChangeAuthorized = true;
     } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
@@ -354,8 +363,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // prepare objects for portlet proxy
     String mimeType = markupParams.getMimeTypes(0);
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                               .getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                  .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
     putFormParametersInRequest(request, interactionParams);
 
@@ -401,14 +412,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     BlockingInteractionResponse blockingInteractionResponse = new BlockingInteractionResponse();
 
     if (output.getProperties().get(ActionOutput.SEND_REDIRECT) != null) {
-      log.debug("Redirect the response to : " + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
-      blockingInteractionResponse.setRedirectURL((String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
+      log.debug("Redirect the response to : "
+          + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
+      blockingInteractionResponse.setRedirectURL((String) output.getProperties()
+                                                                .get(ActionOutput.SEND_REDIRECT));
       blockingInteractionResponse.setUpdateResponse(null);
     } else {
       MarkupContext markupContext = null;
       if (conf.isBlockingInteractionOptimized()) {
         markupParams.setNavigationalState(ns);
-        MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
+        MarkupResponse markupResponse = getMarkup(registrationContext,
+                                                  portletContext,
+                                                  runtimeContext,
+                                                  userContext,
+                                                  markupParams);
         markupContext = markupResponse.getMarkupContext();
       }
 
@@ -418,7 +435,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
       }
       if (output.getNextState() != null) {
-        updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + output.getNextState().toString());
+        updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX
+            + output.getNextState().toString());
       }
       updateResponse.setSessionContext(sessionContext);
       updateResponse.setMarkupContext(markupContext);
@@ -440,7 +458,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       return;
     }
     for (NamedString namedString : array) {
-      log.debug("form parameters; name : " + namedString.getName() + "; value : " + namedString.getValue());
+      log.debug("form parameters; name : " + namedString.getName() + "; value : "
+          + namedString.getValue());
       request.setParameter(namedString.getName(), namedString.getValue());
     }
   }
@@ -457,8 +476,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new ReturnAny();
   }
 
-  public ReturnAny releaseSessions(RegistrationContext registrationContext,
-                                   String[] sessionIDs) throws RemoteException {
+  public ReturnAny releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws RemoteException {
     // ReturnAny any = null;
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
@@ -473,9 +491,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new ReturnAny();
   }
 
-  private WSRPHttpSession resolveSession(String sessionID,
-                                         String user,
-                                         Integer sessiontimeperiod) throws RemoteException {
+  private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws RemoteException {
     WSRPHttpSession session = null;
     try {
       session = transientStateManager.resolveSession(sessionID, user, sessiontimeperiod);
@@ -487,8 +503,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return session;
   }
 
-  private String manageRegistration(String portletHandle,
-                                    RegistrationContext registrationContext) throws RemoteException {
+  private String manageRegistration(String portletHandle, RegistrationContext registrationContext) throws RemoteException {
     log.debug("manageRegistration called for portlet handle : " + portletHandle);
     if (!proxy.isPortletOffered(portletHandle)) {
       log.debug("The latter handle is not offered by the Producer");
@@ -496,7 +511,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } else {
       String[] keys = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
       if (keys.length == 2) {
-        portletHandle += Constants.PORTLET_HANDLE_ENCODER + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
+        portletHandle += Constants.PORTLET_HANDLE_ENCODER
+            + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
       }
     }
     if (conf.isRegistrationRequired()) {
@@ -549,8 +565,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return map;
   }
 
-  private String getMimeType(String[] mimeTypes,
-                             PortletData portletData) throws WSRPException {
+  private String getMimeType(String[] mimeTypes, PortletData portletData) throws WSRPException {
     if (mimeTypes == null || mimeTypes.length == 0) {
       log.debug("the given array of MimeTypes is empty or null");
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
@@ -577,8 +592,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return null;
   }
 
-  private Templates manageTemplates(RuntimeContext runtimeContext,
-                                    WSRPHttpSession session) {
+  private Templates manageTemplates(RuntimeContext runtimeContext, WSRPHttpSession session) {
     Templates templates = runtimeContext.getTemplates();
     if (conf.isTemplatesStoredInSession()) {
       log.debug("Optimized mode : templates store in session");
@@ -595,7 +609,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private Integer getSessionTimePeriod() {
     try {
-      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance().getRequest().getSession();
+      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance()
+                                                                           .getRequest()
+                                                                           .getSession();
       return wsrpHttpSession.getMaxInactiveInterval();
     } catch (Exception e) {
       System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());

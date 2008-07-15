@@ -74,8 +74,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
 
   private WSRPPortletPreferencesPersister persister;
 
-  public JSR168ContainerProxyImpl(PortletContainerService service,
-                                  WSRPConfiguration conf) {
+  public JSR168ContainerProxyImpl(PortletContainerService service, WSRPConfiguration conf) {
     this.pcService = service;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp1");
     this.conf = conf;
@@ -99,8 +98,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
   }
 
   // Store portlet data within PortletDescription
-  public PortletDescription getPortletDescription(String portletHandle,
-                                                  String[] desiredLocales) {
+  public PortletDescription getPortletDescription(String portletHandle, String[] desiredLocales) {
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
     String portletApplicationName = k[0];
     String portletName = k[1];
@@ -109,7 +107,8 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       log.debug("get description of portlet : " + portletName);
     }
     Map<String, PortletData> portletMetaDatas = this.pcService.getAllPortletMetaData();
-    PortletData portlet = (PortletData) portletMetaDatas.get(k[0] + Constants.PORTLET_META_DATA_ENCODER + k[1]);
+    PortletData portlet = (PortletData) portletMetaDatas.get(k[0]
+        + Constants.PORTLET_META_DATA_ENCODER + k[1]);
     PortletDescription pD = new PortletDescription();
 
     // delegation to JSR 168 specs
@@ -145,9 +144,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     return pD;
   }
 
-  public void setPortletProperties(String portletHandle,
-                                   String owner,
-                                   PropertyList propertyList) throws WSRPException {
+  public void setPortletProperties(String portletHandle, String owner, PropertyList propertyList) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     log.debug("portlet handle to split in setPortletProperties : " + portletHandle);
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
@@ -179,8 +176,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
 
   }
 
-  public Map<String, String[]> getPortletProperties(String portletHandle,
-                                                    String owner) throws WSRPException {
+  public Map<String, String[]> getPortletProperties(String portletHandle, String owner) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
     try {
@@ -248,13 +244,13 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
   // return this.service.getSupportedWindowStatesWithDescriptions();
   // }
 
-  private LocalizedString getDescription(List<Description> list,
-                                         String[] desiredLocales) {
+  private LocalizedString getDescription(List<Description> list, String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
       for (Iterator<Description> iter = list.iterator(); iter.hasNext();) {
         Description desc = (Description) iter.next();
-        if (desc != null && desc.getLang() != null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (desc != null && desc.getLang() != null
+            && desc.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(desc.getDescription(), desiredLocale);
         }
       }
@@ -262,13 +258,13 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private LocalizedString getDisplayName(List<DisplayName> list,
-                                         String[] desiredLocales) {
+  private LocalizedString getDisplayName(List<DisplayName> list, String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
       for (Iterator<DisplayName> iter = list.iterator(); iter.hasNext();) {
         DisplayName displayName = (DisplayName) iter.next();
-        if (displayName != null && displayName.getLang() != null && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (displayName != null && displayName.getLang() != null
+            && displayName.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(displayName.getDisplayName(), desiredLocale);
         }
       }
@@ -281,12 +277,15 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
                                         String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      java.util.ResourceBundle resourceBundle = getBundle(portletAppName, portletName, new Locale(desiredLocale));
+      java.util.ResourceBundle resourceBundle = getBundle(portletAppName,
+                                                          portletName,
+                                                          new Locale(desiredLocale));
       System.out.println(" ---- " + portletAppName + "/" + portletName + "/" + desiredLocale);
       System.out.println(" ---- 1:" + resourceBundle);
       System.out.println(" ---- 2:" + resourceBundle.getLocale());
       System.out.println(" ---- 3:" + resourceBundle.getLocale().getLanguage());
-      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale) || i == desiredLocales.length - 1) {
+      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
+          || i == desiredLocales.length - 1) {
         try {
           String keyWords = resourceBundle.getString(PortletData.KEYWORDS);
           String[] a = StringUtils.split(keyWords, ",");
@@ -305,7 +304,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
   }
 
   private MarkupType[] setMarkupTypes(List<Supports> supports,
-                                      // Collection windowStates,
+  // Collection windowStates,
                                       String[] locales) {
     MarkupType[] array = new MarkupType[supports.size()];
     int i = 0;
@@ -341,9 +340,13 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
                                    String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      java.util.ResourceBundle resourceBundle = getBundle(portletAppName, portletName, new Locale(desiredLocale));
-      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale) || i == desiredLocales.length - 1) {
-        return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_TITLE), desiredLocale);
+      java.util.ResourceBundle resourceBundle = getBundle(portletAppName,
+                                                          portletName,
+                                                          new Locale(desiredLocale));
+      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
+          || i == desiredLocales.length - 1) {
+        return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_TITLE),
+                                        desiredLocale);
       }
     }
     return null;
@@ -354,10 +357,14 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
                                         String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      java.util.ResourceBundle resourceBundle = getBundle(portletAppName, portletName, new Locale(desiredLocale));
-      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale) || i == desiredLocales.length - 1) {
+      java.util.ResourceBundle resourceBundle = getBundle(portletAppName,
+                                                          portletName,
+                                                          new Locale(desiredLocale));
+      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
+          || i == desiredLocales.length - 1) {
         try {
-          return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_SHORT_TITLE), desiredLocale);
+          return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_SHORT_TITLE),
+                                          desiredLocale);
         } catch (MissingResourceException ex) {
           log.debug("No short title defined for the portlet " + portletAppName + "/" + portletName);
           return null;
