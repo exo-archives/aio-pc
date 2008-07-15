@@ -43,8 +43,19 @@ public class WSRP_v1_ServiceDescription_Binding_SOAPImpl implements WSRP_v1_Serv
   public ServiceDescription getServiceDescription(ServiceDescriptionRequest getServiceDescription) throws RemoteException,
                                                                                                   InvalidRegistrationFault,
                                                                                                   OperationFailedFault {
-      return serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
-                                                               getServiceDescription.getDesiredLocales());
+    try {
+
+      ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
+                                                                                getServiceDescription.getDesiredLocales());
+
+      return sd;
+    } catch (Exception e) {
+      e.printStackTrace();
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
+
+    return null;
 
   }
 
