@@ -16,24 +16,22 @@
  */
 package org.exoplatform.services.portletcontainer.test.plugins;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.Set;
-import java.util.Arrays;
-
 
 import javax.portlet.PortletMode;
-import javax.portlet.ReadOnlyException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
-import java.util.HashMap;
-import java.util.ArrayList;
-import java.util.Iterator;
 
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
@@ -50,19 +48,19 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 
 public class TestPlugin1 implements  PortletContainerPlugin {
-  
+
   private String name;
   private String description;
   private HashMap<String,PortletApp> portletApp = new HashMap();
   private Map<String,String> portletprefs;
-  
+
 public Map<String, PortletData> getAllPortletMetaData() {
-    
+
     HashMap<String, PortletData> all = new HashMap<String, PortletData>();
     PortletData pd1 = new PortletDataTestImpl();
     all.put("Test/plug1", pd1);
     return all;
-    
+
   }
 
   public ResourceBundle getBundle(HttpServletRequest request, HttpServletResponse response, String portletAppName, String portletName, Locale locale) throws PortletContainerException {
@@ -77,7 +75,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
   public void  addPortletApp(String portletAppName, PortletApp portletApp) {
      this.portletApp.put(portletAppName, portletApp);
   }
-  
+
   public Collection<PortletMode> getPortletModes(String portletAppName, String portletName, String markup) {
     // TODO Auto-generated method stub
     return null;
@@ -85,7 +83,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   public Map<String, String[]> getPortletPreference(Input input) {
     // TODO Auto-generated method stub
-    
+
     HashMap<String, String[]> out = new HashMap();
     String[] arr;
     arr = new String[5];
@@ -100,7 +98,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
       }
     }
    out.put("testKey", arr);
-   return (Map<String, String[]>) out;
+   return out;
   }
 
   public Collection<PortletMode> getSupportedPortletModes() {
@@ -114,7 +112,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
         res.addAll(ls);
       }
     }
-   return res; 
+   return res;
   }
 
   public Collection<WindowState> getSupportedWindowStates() {
@@ -128,7 +126,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
         res.addAll(ls);
       }
     }
-   return res; 
+   return res;
   }
 
   public Collection<WindowState> getWindowStates(String portletAppName, String portletName, String markup) {
@@ -152,15 +150,15 @@ public Map<String, PortletData> getAllPortletMetaData() {
   }
 
   public EventOutput processEvent(HttpServletRequest request, HttpServletResponse response, EventInput input) throws PortletContainerException {
-    
+
     EventOutput out = new EventOutput();
     out.setRenderParameter("TestParam", "TEstParamValue");
     return out;
-    
+
   }
 
   public RenderOutput render(HttpServletRequest request, HttpServletResponse response, RenderInput input) throws PortletContainerException {
-    
+
     RenderOutput out = new RenderOutput();
     System.out.println("Render Called in #1");
     out.setTitle("TEstTiTle");
@@ -169,7 +167,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   public void sendAttrs(HttpServletRequest request, HttpServletResponse response, Map<String, Object> attrs, String portletApplicationName) throws PortletContainerException {
     // TODO Auto-generated method stub
-    
+
   }
 
   public ResourceOutput serveResource(HttpServletRequest request, HttpServletResponse response, ResourceInput input) throws PortletContainerException {
@@ -183,12 +181,12 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   public void setMajorVersion(int majorVersion) {
     // TODO Auto-generated method stub
-    
+
   }
 
   public void setMinorVersion(int minorVersion) {
     // TODO Auto-generated method stub
-    
+
   }
 
   public void setName(String name) {
@@ -202,7 +200,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   public void setProperties(Map<String, String> properties) {
     // TODO Auto-generated method stub
-    
+
   }
 
   public String getDescription() {
@@ -216,8 +214,23 @@ public Map<String, PortletData> getAllPortletMetaData() {
   public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException {
     return false;
   }
-  
-  
-  
+
+  public PortletPreferences getPortletPreferences(Input input) {
+    // TODO Auto-generated method stub
+    return null;
+  }
+
+  public void setPortletPreference2(Input input, Map<String, String[]> preferences) throws PortletContainerException {
+    // TODO Auto-generated method stub
+
+  }
+
+  public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
+    // TODO Auto-generated method stub
+
+  }
+
+
+
 
 }
