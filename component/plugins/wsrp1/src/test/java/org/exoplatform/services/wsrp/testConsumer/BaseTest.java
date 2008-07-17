@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2008 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -32,9 +32,7 @@ import junit.framework.TestCase;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.Environment;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.container.RootContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
@@ -71,6 +69,7 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
  *          benjmestrallet@users.sourceforge.net
  * Date: 2 févr. 2004
  * Time: 17:39:19
+ * Revision: Max Shaposhnik 17.07.2008
  */
 
 public class BaseTest extends TestCase {
@@ -131,6 +130,7 @@ public class BaseTest extends TestCase {
     portletApp_ = XMLParser.parse(is, false);
 
     try {
+      // Leaving for compatibility reasons
       //manager = PortalContainer.getInstance();
       //manager = RootContainer.getInstance().getPortalContainer("portal");
       manager = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
