@@ -17,27 +17,32 @@
 
 package org.exoplatform.services.wsrp.test;
 
+
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import junit.framework.TestCase;
 
 import org.exoplatform.Constants;
-import org.exoplatform.commons.Environment;
 import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.organization.OrganizationService;
+import org.exoplatform.services.organization.User;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
+import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
+import org.exoplatform.services.wsrp.bind.WSRP_v1_Markup_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp.bind.WSRP_v1_PortletManagement_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp.bind.WSRP_v1_Registration_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp.bind.WSRP_v1_ServiceDescription_Binding_SOAPImpl;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
@@ -69,15 +74,16 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
  * tuan08@users.sourceforge.net
  * Date: 11 nov. 2003
  * Time: 22:08:31
+ * Revision: Max Shaposhnik 17.07.2008
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                 SERVICE_URL              = "http://localhost:8080/wsrp/services/";
-  protected static final String                 CONTEXT_PATH             = "/war_template";
+  protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services/";
+  //protected static final String                 CONTEXT_PATH             = "/war_template";
   protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
                                                                              : System.getProperty("testPath"));
-  protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
-
+  //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
+  
   static boolean                                initService_             = true;
   protected PortletContainerService             portletContainer;
   protected PortletApplicationsHolder           holder;
@@ -99,7 +105,6 @@ public class BaseTest extends TestCase {
   protected ClientData                          clientData;
   protected MarkupParams                        markupParams;
   protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard", "minimal" };
-
   public static String[]                        localesArray             = { "en" };
   public static String[]                        markupCharacterSets      = { "UF-08", "ISO-8859-1" };
   public static String[]                        mimeTypes                = { "text/html", "text/xhtml" };
@@ -118,67 +123,23 @@ public class BaseTest extends TestCase {
   public static final String[]                  CONSUMER_STATES          = { "wsrp:normal", "wsrp:maximized" };
   public static final String[]                  CONSUMER_SCOPES          = { "chunk_data" };
   public static final String[]                  CONSUMER_CUSTOM_PROFILES = { "what_more" };
-  private MockServletContext                    mockServletContext;
   private MockServletRequest                    mockServletRequest;
   private MockServletResponse                   mockServletResponse;
-  private OrganizationService                   orgService_;
-  private PortletApplicationRegister            portletApplicationRegister;
 
-  protected int                                 platform                 = 0;
-  protected PortalContainer                     manager;
+//  public BaseTest(String s) {
+//    super(s);
+//  }
 
   public void setUp() throws Exception {
-    int platform = Environment.getInstance().getPlatform();
-    System.out.println(">>> Producer BaseTest.setUp() platform = " + platform);
 
-//    //  System.clearProperty("maven.exoplatform.dir","") ;
-//    System.setProperty("catalina.home", "");
-//    platform = Environment.getInstance().getPlatform();
-////    platform = 2;
-//    if (platform == Environment.STAND_ALONE) {
-//
-//      manager = PortalContainer.getInstance();
-////      manager.getComponentInstanceOfType(PortalConfigService.class);
-////      manager.getComponentInstanceOfType(PersistentStateManager.class);
-//      orgService_ = (OrganizationService) manager.getComponentInstanceOfType(OrganizationService.class);
-//      User user = orgService_.getUserHandler().findUserByName("exotest");
-//      if (user == null) {
-//        user = orgService_.getUserHandler().createUserInstance();
-//        user.setUserName("exotest");
-//        user.setPassword("exo");
-//        user.setFirstName("Exo");
-//        user.setLastName("Platform");
-//        user.setEmail("exo@exoportal.org");
-//        orgService_.getUserHandler().createUser(user, true);
-//      }
-//      URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
-//
-//      InputStream is = url.openStream();
-//      portletApp_ = XMLParser.parse(is, false);
-//
-//      Collection<String> roles = new ArrayList<String>();
-//      roles.add("auth-user");
-//
-//      mockServletContext = new MockServletContext("hello", "./war_template");
-//      mockServletContext.setInitParameter("test-param", "test-parame-value");
-//
-//      portletContainer = (PortletContainerService) manager.getComponentInstanceOfType(PortletContainerService.class);
-//
-//      portletApplicationRegister = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
-//
-//      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
-//
-//      serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
-//      registrationOperationsInterface = new WSRP_v1_Registration_Binding_SOAPImpl();
-//      markupOperationsInterface = new WSRP_v1_Markup_Binding_SOAPImpl();
-//      portletManagementOperationsInterface = new WSRP_v1_PortletManagement_Binding_SOAPImpl();
-//    } else {
+    
+    
     WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
     serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
     registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
     markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
     portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
-//    }
+
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
@@ -238,23 +199,13 @@ public class BaseTest extends TestCase {
   }
 
   public void tearDown() throws Exception {
-//    try {
-//      if (platform == Environment.STAND_ALONE) {
-//        portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
-////        PortalContainer manager = PortalContainer.getInstance();
-//        HibernateService hservice = (HibernateService) manager.getComponentInstanceOfType(HibernateService.class);
-//        hservice.closeSession();
-//      }
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
+ 
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
-    ServiceDescriptionRequest serviceDescription = new ServiceDescriptionRequest();
-    serviceDescription.setDesiredLocales(locales);
-    serviceDescription.setRegistrationContext(new RegistrationContext("", null, null));
-    return serviceDescriptionInterface.getServiceDescription(serviceDescription);
+    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
+    getServiceDescription.setDesiredLocales(locales);
+    return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
   }
 
   protected MarkupRequest getMarkup(RegistrationContext rc,
