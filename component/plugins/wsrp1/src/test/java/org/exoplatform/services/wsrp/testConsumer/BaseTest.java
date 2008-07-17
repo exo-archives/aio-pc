@@ -32,7 +32,10 @@ import junit.framework.TestCase;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.Environment;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
+import org.exoplatform.container.RootContainer;
+import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
@@ -128,14 +131,15 @@ public class BaseTest extends TestCase {
     portletApp_ = XMLParser.parse(is, false);
 
     try {
-      manager = PortalContainer.getInstance();
+      //manager = PortalContainer.getInstance();
+      //manager = RootContainer.getInstance().getPortalContainer("portal");
+      manager = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
     } catch (Throwable t) {
       t.printStackTrace();
     }
 
     int platform = Environment.getInstance().getPlatform();
     System.out.println(">>> Consumer BaseTest.setUp() platform = " + platform);
-
     Collection<String> roles = new ArrayList<String>();
     roles.add("auth-user");
 
