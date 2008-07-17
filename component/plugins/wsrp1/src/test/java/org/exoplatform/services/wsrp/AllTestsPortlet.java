@@ -22,6 +22,7 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 
+
 /**
  * Created by The eXo Platform SAS
  * Author : Alexey Zavizionov
@@ -34,11 +35,11 @@ public class AllTestsPortlet extends TestCase {
 
   public static TestSuite suite() {
     log.info("Preparing...");
-
     System.out.println("TEST LOGGER: " + log);
-
     TestSuite suite = new TestSuite("portlet-container tests");
-
+    
+   assertTrue(ContainerStarter.start());
+    
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
 
@@ -46,6 +47,11 @@ public class AllTestsPortlet extends TestCase {
 //    suite.addTestSuite(TestFilters.class);
 
     return suite;
+  }
+  
+  
+  protected void tearDown(){
+    assertFalse(ContainerStarter.stop());
   }
 
 }
