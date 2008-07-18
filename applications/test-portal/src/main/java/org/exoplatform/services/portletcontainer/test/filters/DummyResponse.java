@@ -52,9 +52,9 @@ public class DummyResponse implements HttpServletResponse {
 
   public String encodeRedirectURL(String s) { return embedded.encodeRedirectURL(s); }
 
-  public String encodeUrl(String s) { return embedded.encodeUrl(s); }
+  public String encodeUrl(String s) { return embedded.encodeURL(s); }
 
-  public String encodeRedirectUrl(String s) { return embedded.encodeRedirectUrl(s); }
+  public String encodeRedirectUrl(String s) { return embedded.encodeRedirectURL(s); }
 
   public void sendError(int i, String s) throws IOException { }
 

@@ -46,7 +46,7 @@ public class AppListener implements ServletContextListener {
       // it's needed to switch off default behavior -- searching for /conf/portal/configuration.xml in all
       // available jars
       // StandaloneContainer.setConfigurationURL(null);
-      StandaloneContainer standaloneContainer = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
+      StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
         components);
     } catch (Exception e) {
       System.out.println(" !!! AppListener.contextInitialized exception: " + e);

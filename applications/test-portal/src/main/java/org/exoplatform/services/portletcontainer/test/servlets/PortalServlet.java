@@ -44,7 +44,7 @@ public class PortalServlet extends HttpServlet {
   /**
    * Log.
    */
-  private Log log;
+  private final Log log = ExoLogger.getLogger(getClass().getName());
 
   /**
    * Serves http request. Renders portal page.
@@ -56,7 +56,6 @@ public class PortalServlet extends HttpServlet {
    */
   public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
     try {
-      this.log = ExoLogger.getLogger(getClass());
       HttpSession session = request.getSession();
       byte[] resource = (byte[]) session.getAttribute("resource");
       if (resource != null) {
