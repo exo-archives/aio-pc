@@ -43,7 +43,7 @@ public class WSRPConstants {
   // CommonTextName
   public static final String WSRP_FRAGMENT_ID                   = "wsrp-fragmentID";
 
-  public static final String WSRP_EXTENSIONS                    = "wsrp-extensions";                                                            //
+  public static final String WSRP_EXTENSIONS                    = "wsrp-extensions";               //
 
   // CommonBooleanName
   public static final String WSRP_SECURE_URL                    = "wsrp-secureURL";
@@ -99,7 +99,7 @@ public class WSRPConstants {
   public static final String WSRP_PARENT_HANDLE                 = "wsrp-parentHandle";
 
   public static final String WSRP_PARAMETER_PREFIX              = "wsrp-";
-  
+
   public static final String WSRP_PREFIX                        = "wsrp:";
 
   public static final String WSRP_CACHE_REGION                  = "wsrp";
@@ -120,13 +120,16 @@ public class WSRPConstants {
   // WSRP ADMIN
   public static final String WSRP_PRODUCER_APP_ENCODER          = "@";
 
-  public static final String WSRP_ADMIN_PORTLET_APP             = WSRP_PRODUCER_APP_ENCODER + "WSRP2App";
+  public static final String WSRP_ADMIN_PORTLET_APP             = WSRP_PRODUCER_APP_ENCODER
+                                                                    + "WSRP2App";
 
   public static final String WSRP_ADMIN_PORTLET_NAME            = "WSRPAdminPortlet";
 
-  public static final String WSRP_ADMIN_PORTLET_CLASS           = "org.exoplatform.services.wsrp2.consumer.portlets." + WSRP_ADMIN_PORTLET_NAME;
+  public static final String WSRP_ADMIN_PORTLET_CLASS           = "org.exoplatform.services.wsrp2.consumer.portlets."
+                                                                    + WSRP_ADMIN_PORTLET_NAME;
 
-  public static final String WSRP_ADMIN_PORTLET_KEY             = WSRP_ADMIN_PORTLET_APP + Constants.PORTLET_META_DATA_ENCODER
+  public static final String WSRP_ADMIN_PORTLET_KEY             = WSRP_ADMIN_PORTLET_APP
+                                                                    + Constants.PORTLET_META_DATA_ENCODER
                                                                     + WSRP_ADMIN_PORTLET_NAME;
 
   // WSRP REGISTRATION PARAMS

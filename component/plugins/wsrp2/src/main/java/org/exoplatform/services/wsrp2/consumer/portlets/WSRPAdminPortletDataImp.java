@@ -78,8 +78,7 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
 
   public boolean isModeSuported(String markup, PortletMode mode) {
     return markup.equals("text/html")
-        && (mode.equals(PortletMode.VIEW) || mode.equals(PortletMode.EDIT) || mode
-            .equals(PortletMode.HELP));
+        && (mode.equals(PortletMode.VIEW) || mode.equals(PortletMode.EDIT) || mode.equals(PortletMode.HELP));
   }
 
   public Collection<WindowState> getWindowStates(String markup) {
@@ -95,12 +94,18 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
 
   public boolean isStateSupported(String markup, WindowState state) {
     return markup.equals("text/html")
-        && (state.equals(WindowState.NORMAL) || state.equals(WindowState.MINIMIZED) || state
-            .equals(WindowState.MAXIMIZED));
+        && (state.equals(WindowState.NORMAL) || state.equals(WindowState.MINIMIZED) || state.equals(WindowState.MAXIMIZED));
   }
 
   public boolean getEscapeXml() {
     return true;
+  }
+
+  public static boolean isOfferToProcess(String portletAppName, String portletName) {
+    if (portletAppName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_APP))
+      if (portletName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_NAME))
+        return true;
+    return false;
   }
 
 }

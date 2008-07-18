@@ -48,7 +48,6 @@ import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
-import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -95,9 +94,8 @@ import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Author :
+ *         Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua
  */
 public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface {
 
@@ -164,7 +162,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
-    WSRPHttpSession session = resolveSession(sessionID, userContext.getUserContextKey(), sessiontimeperiod);
+    WSRPHttpSession session = resolveSession(sessionID,
+                                             userContext.getUserContextKey(),
+                                             sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();
@@ -194,7 +194,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletData = getPortletMetaData(portletApplicationName
+        + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
     // PROCESS PARAMETERS    
 
@@ -205,7 +206,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // process opaque (navigational) values
     Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
+    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
 
     // create render params map for input
     Map<String, String[]> renderParameters = null;
@@ -262,12 +263,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
-    PortletMode mode = processMode(markupParams.getMode());
-    WindowState windowState = processWindowState(markupParams.getWindowState());
+    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
 
     // prepare the call to the portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                               .getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                  .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // prepare the Input object
@@ -282,8 +285,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletURLFactory(portletURLFactory);
     input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
-    input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
-    input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
+    input.setPortletMode(portletMode);
+    input.setWindowState(windowState);
     input.setMarkup(mimeType);
     input.setRenderParameters(renderParameters);
     input.setPublicParamNames(publicParamNames);
@@ -365,7 +368,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       // manage session
       String sessionID = runtimeContext.getSessionParams().getSessionID();
-      WSRPHttpSession session = resolveSession(sessionID, userContext.getUserContextKey(), sessiontimeperiod);
+      WSRPHttpSession session = resolveSession(sessionID,
+                                               userContext.getUserContextKey(),
+                                               sessiontimeperiod);
 
       // build the session context
       SessionContext sessionContext = new SessionContext();
@@ -378,7 +383,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       log.debug("Owner Context : " + owner);
 
       // get portlet data
-      PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+      PortletData portletData = getPortletMetaData(portletApplicationName
+          + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
       // manage mime type
       String mimeType = null;
@@ -429,8 +435,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       byte[] portletState = managePortletState(portletContext);
 
       // manage mode and states
-      PortletMode mode = processMode(markupParams.getMode());
-      WindowState windowState = processWindowState(markupParams.getWindowState());
+      PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+      WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
 
       // manage portlet state change
       boolean isStateChangeAuthorized = false;
@@ -441,7 +447,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         isStateChangeAuthorized = true;
       } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
         log.debug("cloneBeforWrite state change");
-        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext, portletContext, userContext);
+        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                           portletContext,
+                                                                           userContext);
         // any modification will be made on the
         isStateChangeAuthorized = true;
       } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
@@ -464,7 +472,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // process opaque (navigational) values
       Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
       // get navigational (public) values
-      Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
+      Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
       // manage form parameters
       Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
       // manage interaction state
@@ -474,17 +482,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Map<String, String[]> renderParameters = null;
       if (formParameters != null && !formParameters.isEmpty()) { // default
         renderParameters = formParameters;
-      } else if (persistentInteractionParameters != null && !persistentInteractionParameters.isEmpty()) {
+      } else if (persistentInteractionParameters != null
+          && !persistentInteractionParameters.isEmpty()) {
         renderParameters = persistentInteractionParameters;
-      } else if (persistentNavigationalParameters != null && !persistentNavigationalParameters.isEmpty()) {
+      } else if (persistentNavigationalParameters != null
+          && !persistentNavigationalParameters.isEmpty()) {
         renderParameters = persistentNavigationalParameters;
       }
 
       replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
       // prepare objects for portlet container
-      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
-      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                                 .getRequest();
+      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                    .getResponse();
       WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
       // prepare the Input object
@@ -499,8 +511,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletURLFactory(portletURLFactory);
       input.setEscapeXml(true);
       input.setUserAttributes(new HashMap<String, String>());
-      input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
-      input.setWindowState(new WindowState(WindowStates.delAllPrefixWSRP(windowState.toString())));
+      input.setPortletMode(portletMode);
+      input.setWindowState(windowState);
       input.setMarkup(mimeType);
       input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
@@ -526,23 +538,29 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       BlockingInteractionResponse blockingInteractionResponse = new BlockingInteractionResponse();
 
       if (output.getProperties().get(ActionOutput.SEND_REDIRECT) != null) {
-        log.debug("Redirect the response to : " + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
-        blockingInteractionResponse.setRedirectURL((String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
+        log.debug("Redirect the response to : "
+            + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
+        blockingInteractionResponse.setRedirectURL((String) output.getProperties()
+                                                                  .get(ActionOutput.SEND_REDIRECT));
         blockingInteractionResponse.setUpdateResponse(null);
       } else {
         MarkupContext markupContext = null;
         if (conf.isBlockingInteractionOptimized()) {
           // markupParams.setWindowState(ns);
-          MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
+          MarkupResponse markupResponse = getMarkup(registrationContext,
+                                                    portletContext,
+                                                    runtimeContext,
+                                                    userContext,
+                                                    markupParams);
           markupContext = markupResponse.getMarkupContext();
         }
 
         UpdateResponse updateResponse = new UpdateResponse();
 
         if (output.getNextMode() != null)
-          updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
+          updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
         if (output.getNextState() != null)
-          updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + output.getNextState().toString());
+          updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
         updateResponse.setSessionContext(sessionContext);
         updateResponse.setMarkupContext(markupContext);
         // fill the state to send it to consumer if allowed
@@ -618,17 +636,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
   }
 
-  private Map<String, String[]> getPublicValues(NamedString[] publicValues) {
-    Map<String, String[]> result = null;
-    if (publicValues != null) {
-      result = new HashMap<String, String[]>();
-      for (NamedString namedString : publicValues) {
-        result.put(namedString.getName(), new String[] { namedString.getValue() });
-      }
-    }
-    return result;
-  }
-
   public ResourceResponse getResource(RegistrationContext registrationContext,
                                       PortletContext portletContext,
                                       RuntimeContext runtimeContext,
@@ -656,7 +663,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       // manage session
       String sessionID = runtimeContext.getSessionParams().getSessionID();
-      WSRPHttpSession session = resolveSession(sessionID, userContext.getUserContextKey(), sessiontimeperiod);
+      WSRPHttpSession session = resolveSession(sessionID,
+                                               userContext.getUserContextKey(),
+                                               sessiontimeperiod);
 
       // build the session context
       SessionContext sessionContext = new SessionContext();
@@ -686,7 +695,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       //    }
 
       // get portlet data
-      PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+      PortletData portletData = getPortletMetaData(portletApplicationName
+          + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
       // PROCESS PARAMETERS
 
@@ -697,7 +707,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // process opaque (navigational) values
       Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
       // get navigational (public) values
-      Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
+      Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
       // manage form parameters
       Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(resourceParams.getFormParameters());
       // process resource parameters
@@ -709,7 +719,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         renderParameters = formParameters;
       } else if (persistentResourceParameters != null && !persistentResourceParameters.isEmpty()) {
         renderParameters = persistentResourceParameters;
-      } else if (persistentNavigationalParameters != null && !persistentNavigationalParameters.isEmpty()) {
+      } else if (persistentNavigationalParameters != null
+          && !persistentNavigationalParameters.isEmpty()) {
         renderParameters = persistentNavigationalParameters;
       }
 
@@ -763,12 +774,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // ---------- END CREATING FACTORY --------------
 
       // manage mode and states
-      PortletMode mode = processMode(resourceParams.getMode());
-      WindowState windowState = processWindowState(resourceParams.getWindowState());
+      PortletMode portletMode = Modes.getJsrPortletMode(resourceParams.getMode());
+      WindowState windowState = WindowStates.getJsrWindowState(resourceParams.getWindowState());
 
       // prepare the call to the portlet container
-      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
-      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                                 .getRequest();
+      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                    .getResponse();
       WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
       // putFormParametersInRequest(request, resourceParams);
 
@@ -784,7 +797,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletURLFactory(portletURLFactory);
       input.setEscapeXml(true);
       input.setUserAttributes(new HashMap<String, String>());
-      input.setPortletMode(mode);
+      input.setPortletMode(portletMode);
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
       input.setRenderParameters(renderParameters);
@@ -863,7 +876,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
-    WSRPHttpSession session = resolveSession(sessionID, userContext.getUserContextKey(), sessiontimeperiod);
+    WSRPHttpSession session = resolveSession(sessionID,
+                                             userContext.getUserContextKey(),
+                                             sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();
@@ -876,7 +891,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     log.debug("Owner Context : " + owner);
 
     // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletData = getPortletMetaData(portletApplicationName
+        + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
     // manage mime type
     String mimeType = null;
@@ -926,8 +942,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     byte[] portletState = managePortletState(portletContext);
 
     // manage mode and states
-    PortletMode mode = processMode(markupParams.getMode());
-    WindowState windowState = processWindowState(markupParams.getWindowState());
+    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
 
     // manage portlet state change
     boolean isStateChangeAuthorized = false;
@@ -938,7 +954,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       isStateChangeAuthorized = true;
     } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
-      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext, portletContext, userContext);
+      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                         portletContext,
+                                                                         userContext);
       // any modification will be made on the
       isStateChangeAuthorized = true;
     } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
@@ -952,8 +970,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // prepare objects for portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                               .getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                  .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
     // putInteractionParameterInRequest(request, eventParams);
 
@@ -974,7 +994,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // process opaque (navigational) values
     Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = getPublicValues(navigationalContext.getPublicValues());
+    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
 
     // create render params map for input
     Map<String, String[]> renderParameters = null;
@@ -990,7 +1010,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // iteration over incoming javax events
     Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
 
-    while (nativeEventsListIterator.hasNext()) {
+    EventOutput output = null;
+    
+    // was: "while (nativeEventsListIterator.hasNext()) {"
+    // but we have one "setNewMode" and "setNewWindowState" for updateResponse
+    if (nativeEventsListIterator.hasNext()) {
       javax.portlet.Event event = nativeEventsListIterator.next();
 
       // prepare the Input object
@@ -1005,7 +1029,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletURLFactory(portletURLFactory);
       input.setEscapeXml(true);
       input.setUserAttributes(new HashMap<String, String>());
-      input.setPortletMode(mode);
+      input.setPortletMode(portletMode);
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
       input.setEvent(event);
@@ -1016,16 +1040,17 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
       // createUserProfile(userContext, request, session);
-      EventOutput output = null;
+      
       try {
         /* MAIN INVOKE */
         output = proxy.processEvent(request, response, input);
         if (output.hasError())
           throw new WSRPException("processEvent output hasError");
       } catch (WSRPException e) {
-        log.debug("The call to processEvent with event: '" + event.getName() + "' method was a failure ", e);
+        log.debug("The call to processEvent with event: '" + event.getName()
+            + "' method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
-//        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
+        //        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
         handleEventsFailed.setReason(new LocalizedString(e.getLocalizedMessage(), ""));// TODO
         BigInteger indexBigInteger = new BigInteger(index.toString());
         handleEventsFailed.setIndex(new BigInteger[] { indexBigInteger });
@@ -1037,10 +1062,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       resultNativeEventsList.addAll(output.getEvents());
 
-      if (output.getNextMode() != null)
-        mode = output.getNextMode();
-      if (output.getNextState() != null)
-        windowState = output.getNextState();
+
 
       // get render parameters for next iteration of processEvent or to client
       renderParameters = output.getRenderParameters();
@@ -1058,10 +1080,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     UpdateResponse updateResponse = new UpdateResponse();
-
     updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
-    updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + mode.toString());
-    updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX + windowState.toString());
+    if (output.getNextMode() != null)
+      updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
+    if (output.getNextState() != null)
+      updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
     updateResponse.setSessionContext(sessionContext);
     MarkupContext markupContext = null;
     // call render to optimized // TODO new conf param for
@@ -1145,8 +1168,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new ReturnAny();
   }
 
-  public ReturnAny initCookie(RegistrationContext registrationContext,
-                              UserContext userContext) throws RemoteException {
+  public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws RemoteException {
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
       if (registrationContext == null) {
@@ -1159,8 +1181,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new ReturnAny();
   }
 
-  public ReturnAny releaseSessions(RegistrationContext registrationContext,
-                                   String[] sessionIDs) throws RemoteException {
+  public ReturnAny releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws RemoteException {
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
       if (registrationContext == null) {
@@ -1190,13 +1211,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new ReturnAny();
   }
 
-  private WSRPHttpSession resolveSession(String sessionID,
-                                         String user,
-                                         Integer sessiontimeperiod) throws RemoteException {
+  private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws RemoteException {
     WSRPHttpSession session = null;
     try {
       session = transientStateManager.resolveSession(sessionID, user, sessiontimeperiod);
-      
+
     } catch (WSRPException e) {
       log.debug("Can not lookup or create new session, sessionID parameter : " + sessionID);
       Exception2Fault.handleException(e);
@@ -1205,8 +1224,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return session;
   }
 
-  private String manageRegistration(String portletHandle,
-                                    RegistrationContext registrationContext) throws RemoteException {
+  private String manageRegistration(String portletHandle, RegistrationContext registrationContext) throws RemoteException {
     log.debug("manageRegistration called for portlet handle : " + portletHandle);
     if (!proxy.isPortletOffered(portletHandle)) {
       log.debug("The latter handle is not offered by the Producer");
@@ -1214,7 +1232,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } else {
       String[] keys = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
       if (keys.length == 2) {
-        portletHandle += Constants.PORTLET_HANDLE_ENCODER + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
+        portletHandle += Constants.PORTLET_HANDLE_ENCODER
+            + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
       }
     }
     if (conf.isRegistrationRequired()) {
@@ -1226,30 +1245,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       log.debug("Registration non required");
     }
     return portletHandle;
-  }
-
-  private PortletMode processMode(String mode) {
-    log.debug("Call with portlet mode : " + mode);
-    if ((WSRPConstants.WSRP_PREFIX + PortletMode.VIEW.toString()).equalsIgnoreCase(mode)) {
-      return PortletMode.VIEW;
-    } else if ((WSRPConstants.WSRP_PREFIX + PortletMode.EDIT.toString()).equalsIgnoreCase(mode)) {
-      return PortletMode.EDIT;
-    } else if ((WSRPConstants.WSRP_PREFIX + PortletMode.HELP.toString()).equalsIgnoreCase(mode)) {
-      return PortletMode.HELP;
-    }
-    return new PortletMode(mode.substring(WSRPConstants.WSRP_PREFIX.length()));
-  }
-
-  private WindowState processWindowState(String state) {
-    log.debug("Call with window state : " + state);
-    if ((WSRPConstants.WSRP_PREFIX + WindowState.NORMAL.toString()).equalsIgnoreCase(state)) {
-      return WindowState.NORMAL;
-    } else if ((WSRPConstants.WSRP_PREFIX + WindowState.MINIMIZED.toString()).equalsIgnoreCase(state)) {
-      return WindowState.MINIMIZED;
-    } else if ((WSRPConstants.WSRP_PREFIX + WindowState.MAXIMIZED.toString()).equalsIgnoreCase(state)) {
-      return WindowState.MAXIMIZED;
-    }
-    return new WindowState(state.substring(WSRPConstants.WSRP_PREFIX.length()));
   }
 
   private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws java.rmi.RemoteException {
@@ -1313,8 +1308,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return map;
   }
 
-  private String getMimeType(String[] mimeTypes,
-                             PortletData portletData) throws WSRPException {
+  private String getMimeType(String[] mimeTypes, PortletData portletData) throws WSRPException {
     if (mimeTypes == null || mimeTypes.length == 0) {
       log.debug("the given array of MimeTypes is empty or null");
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
@@ -1342,8 +1336,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return null;
   }
 
-  private Templates manageTemplates(RuntimeContext runtimeContext,
-                                    WSRPHttpSession session) {
+  private Templates manageTemplates(RuntimeContext runtimeContext, WSRPHttpSession session) {
     Templates templates = runtimeContext.getTemplates();
     if (conf.isTemplatesStoredInSession()) { // default is false
       log.debug("Optimized mode : templates store in session");
@@ -1360,7 +1353,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private Integer getSessionTimePeriod() {
     try {
-      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance().getRequest().getSession();
+      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance()
+                                                                           .getRequest()
+                                                                           .getSession();
       return wsrpHttpSession.getMaxInactiveInterval();
     } catch (Exception e) {
       System.out.println("MarkupOperationsInterfaceImpl.getSessionTimePeriod: = " + e.getCause());
@@ -1377,8 +1372,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       return "";
     for (int i = 0; i < in.length(); i++) {
       current = in.charAt(i);
-      if ((current == 0x9) || (current == 0xA) || (current == 0xD) || ((current >= 0x20) && (current <= 0xD7FF))
-          || ((current >= 0xE000) && (current <= 0xFFFD)) || ((current >= 0x10000) && (current <= 0x10FFFF)))
+      if ((current == 0x9) || (current == 0xA) || (current == 0xD)
+          || ((current >= 0x20) && (current <= 0xD7FF))
+          || ((current >= 0xE000) && (current <= 0xFFFD))
+          || ((current >= 0x10000) && (current <= 0x10FFFF)))
         out.append(current);
     }
     return out.toString();

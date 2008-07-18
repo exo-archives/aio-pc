@@ -35,8 +35,7 @@ import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.NamedString;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class Utils {
 
@@ -45,10 +44,8 @@ public class Utils {
       return ls.getValue();
     return null;
   }
-  
-  public static LocalizedString getLocalizedString(String value,
-                                                   String lang,
-                                                   String rn) {
+
+  public static LocalizedString getLocalizedString(String value, String lang, String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
@@ -56,16 +53,14 @@ public class Utils {
     return tmp;
   }
 
-  public static LocalizedString getLocalizedString(String value,
-                                                   String lang) {
+  public static LocalizedString getLocalizedString(String value, String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     //tmp.setLang(lang);
     return tmp;
   }
 
-  public static NamedString getNamesString(String name,
-                                           String value) {
+  public static NamedString getNamesString(String name, String value) {
     NamedString tmp = new NamedString();
     tmp.setName(name);
     tmp.setValue(value);
@@ -111,15 +106,17 @@ public class Utils {
   }
 
   // replace extensions for template
-  public static void fillExtensions(String temp,
-                                    Extension[] extensions) {
+  @Deprecated
+  public static void fillExtensions(String temp, Extension[] extensions) {
     if (extensions != null)
       if (extensions[0] != null)
         if (extensions[0].get_any() != null)
           if (extensions[0].get_any()[0] != null) {
             // TODO EXOMAN: need iterate foreach element of array 
             try {
-              temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
+              temp = StringUtils.replace(temp,
+                                         "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
+                                         extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
             } catch (Exception e) {
               e.printStackTrace();
             }
@@ -132,18 +129,30 @@ public class Utils {
     return getNamedStringArrayParametersFromMap(params, false);
   }
 
+  /**
+   * Convert from input.getRenderParameters() to
+   * baseRequest.setNavigationalValues(NamedString[]). Convert those parameters
+   * from output.getRenderParameters() which are public to
+   * newNavigationalContext.setPublicValues.
+   * 
+   * @param parameters Map<String, String[]>
+   * @param boolean value to store only those parameters which starting with
+   *          "wsrp-" prefix
+   * @return
+   */
   public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
                                                                    boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
     if (params.isEmpty())
-      return new NamedString[]{};
+      return new NamedString[] {};
     Set<String> keys = params.keySet();
     List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
     Iterator<String> iteratorKeys = keys.iterator();
     while (iteratorKeys.hasNext()) {
       String name = iteratorKeys.next();
-      if ((selectOnlyNonWSRP && !name.startsWith(WSRPConstants.WSRP_PARAMETER_PREFIX)) || !selectOnlyNonWSRP) {
+      if ((selectOnlyNonWSRP && !name.startsWith(WSRPConstants.WSRP_PARAMETER_PREFIX))
+          || !selectOnlyNonWSRP) {
         String[] values = params.get(name);
         for (String value : values) {
           listNamedStringParams.add(getNamesString(name, value));
@@ -153,6 +162,12 @@ public class Utils {
     return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
   }
 
+  /**
+   * Convert from NamedString[] to Map<String, String[]>.
+   * 
+   * @param NamedString[]
+   * @return Map<String, String[]>
+   */
   public static Map<String, String[]> getMapParametersFromNamedStringArray(NamedString[] array) {
     if (array == null)
       return null;

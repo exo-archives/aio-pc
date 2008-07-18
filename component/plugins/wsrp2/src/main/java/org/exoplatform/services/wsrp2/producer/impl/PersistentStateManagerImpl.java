@@ -37,16 +37,16 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.hibernate.Session;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class PersistentStateManagerImpl implements PersistentStateManager {
-  private static final String queryStateData = "from sd in class org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData " + "where sd.id = ?";
+  private static final String queryStateData = "from sd in class org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData "
+                                                 + "where sd.id = ?";
 
   //private Map mapToStoreRenderParameters;
   private WSRPConfiguration   conf;
 
-  private Log                 log;
+  private final Log           log            = ExoLogger.getLogger(getClass().getName());
 
   private ExoCache            cache;
 
@@ -57,7 +57,6 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
                                     WSRPConfiguration conf) throws Exception {
     this.conf = conf;
     this.hservice = hservice;
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
   }
@@ -80,8 +79,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
-  public byte[] register(String registrationHandle,
-                         RegistrationData data) throws WSRPException {
+  public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException {
     ConsumerContext cC = new ConsumerContext(registrationHandle, data);
     if (conf.isSaveRegistrationStateOnConsumer()) {
       log.debug("Register and send the registration state to the consumer");
@@ -90,6 +88,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         try {
           save(registrationHandle, "java.util.Collection", new ArrayList());
         } catch (Exception e) {
+          e.printStackTrace();
           log.error("Persistence error");
           throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
         }
@@ -101,7 +100,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
     log.debug("Register and save the registration state in the producer");
     try {
-      save(registrationHandle, "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext", cC);
+      save(registrationHandle,
+           "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext",
+           cC);
     } catch (Exception e) {
       e.printStackTrace();
       log.error("Persistence error");
@@ -242,8 +243,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     return getState(navigationalState);
   }
 
-  public void putNavigationalState(String navigationalState,
-                                   Map<String, String[]> renderParameters) throws WSRPException {
+  public void putNavigationalState(String navigationalState, Map<String, String[]> renderParameters) throws WSRPException {
     putState(navigationalState, renderParameters);
   }
 
@@ -266,9 +266,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
   }
 
-  final public void save(String key,
-                         String type,
-                         Object o) throws Exception {
+  final public void save(String key, String type, Object o) throws Exception {
     Session session = this.hservice.openSession();
     WSRP2StateData data = load(key);
     if (data == null) {
@@ -276,6 +274,11 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       data.setId(key);
       data.setDataType(type);
       this.cache.put(key, data);
+    } else {
+      session.delete(data);
+      session.flush();
+      if (log.isDebugEnabled())
+        log.debug("Same data id is going to stored with: '" + data.getId() + "'");
     }
     data.setDataObject(o);
     session.save(data);
@@ -328,8 +331,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     return getState(resourceState);
   }
 
-  public void putResourceState(String resourceState,
-                               Map<String, String[]> resourceParameters) throws WSRPException {
+  public void putResourceState(String resourceState, Map<String, String[]> resourceParameters) throws WSRPException {
     putState(resourceState, resourceParameters);
   }
 
@@ -346,8 +348,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
-  private void putState(String state,
-                        Map<String, String[]> parameters) throws WSRPException {
+  private void putState(String state, Map<String, String[]> parameters) throws WSRPException {
     try {
       save(state, "java.util.Map", parameters);
     } catch (Exception e) {
