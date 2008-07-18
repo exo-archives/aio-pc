@@ -853,7 +853,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
      URL[] URLs = { new URL(PORTLET_APP_PATH + "WEB-INF/classes/"), new
      URL("file:./lib/portlet-api.jar"), new URL(PORTLET_APP_PATH +
      "WEB-INF/lib/") };
-     Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs));
+//     Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs));
+     Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs, Thread.currentThread().getContextClassLoader()));
      } catch (MalformedURLException e) {
      log.error("Can not init tests", e);
      }

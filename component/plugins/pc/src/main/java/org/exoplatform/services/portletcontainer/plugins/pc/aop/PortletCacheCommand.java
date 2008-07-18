@@ -187,7 +187,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
         .getPortletApplicationName();
     String portletName = req.getPortletWindowInternal().getWindowID().getPortletName();
     String uniqueId = req.getPortletWindowInternal().getWindowID().getUniqueID();
-    
+
     String resourceUID = null;
     if ( (req.getInput().getPropertyParams() != null) && (req.getInput().getPropertyParams().containsKey(ResourceURL.SHARED)) )
        resourceUID = (String)req.getInput().getPropertyParams().get(ResourceURL.SHARED);
@@ -196,8 +196,8 @@ public class PortletCacheCommand extends BaseCommandUnit {
         .getCacheScope(portletAppName, portletName));
     log.debug("Is cache global: " + isCacheGlobal);
     String key = null;
-    
-    
+
+
     // In case of ResourceURL.SHARED is set in the ResourceInput,
     // cache will not expire and the key for storage will be value of this property
     // PLT 13.7
