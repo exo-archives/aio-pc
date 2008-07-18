@@ -46,7 +46,7 @@ public class PortletDataTestImpl implements PortletData {
   {
     DisplayName dName = new DisplayName();
     dName.setDisplayName("PortletToTestFilters");
-    ArrayList ret = new ArrayList();
+    ArrayList<DisplayName> ret = new ArrayList<DisplayName>();
     ret.add(dName);
     return ret;
     
@@ -56,7 +56,7 @@ public class PortletDataTestImpl implements PortletData {
   {
     SecurityRoleRef ref = new SecurityRoleRef();
     ref.setRoleName("TestRoleName");
-    ArrayList ret = new ArrayList();
+    ArrayList<SecurityRoleRef> ret = new ArrayList<SecurityRoleRef>();
     ret.add(ref);
     return ret;
   }

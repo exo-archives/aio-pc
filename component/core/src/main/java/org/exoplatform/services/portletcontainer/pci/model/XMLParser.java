@@ -260,10 +260,10 @@ public class XMLParser {
     xpp.mandatoryNode("window-state");
     state.setWindowState(xpp.getContent().trim());
     if (!newSpec) {
-      List portlets = portletapp.getPortlet();
+      List<Portlet> portlets = portletapp.getPortlet();
       for (int i = 0; i < portlets.toArray().length; i++) {
         Portlet portlet = (Portlet) portlets.toArray()[i];
-        List supports = portlet.getSupports();
+        List<Supports> supports = portlet.getSupports();
         for (int j = 0; j < supports.toArray().length; j++) {
           Supports support = (Supports) supports.toArray()[j];
           support.addWindowState(state.getWindowState());
@@ -365,7 +365,7 @@ public class XMLParser {
       portletMode.add(xpp.getContent().trim().toLowerCase());
     if (!portletMode.contains(PortletMode.VIEW.toString().toLowerCase()))
       portletMode.add(PortletMode.VIEW.toString().toLowerCase());
-    Iterator iterModes = portletMode.iterator();
+    Iterator<String> iterModes = portletMode.iterator();
     while (iterModes.hasNext())
       supports.addPortletMode(((String) iterModes.next()));
     if (newSpec) {
@@ -379,7 +379,7 @@ public class XMLParser {
         supports.addWindowState(WindowState.NORMAL.toString());
       if (!windowState.contains(WindowState.MAXIMIZED.toString()))
         supports.addWindowState(WindowState.MAXIMIZED.toString());
-      Iterator iterStates = windowState.iterator();
+      Iterator<String> iterStates = windowState.iterator();
       while (iterStates.hasNext())
         supports.addWindowState(((String) iterStates.next()));
     } else {

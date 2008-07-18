@@ -43,7 +43,7 @@ public class TestParser extends BaseTest {
     try {
       URL url = new URL(PORTLET_APP_PATH + "/portletmode.xml");
       InputStream is = url.openStream();
-      ArrayList<CustomPortletMode> list = new ArrayList();  
+      ArrayList<CustomPortletMode> list = new ArrayList<CustomPortletMode>();  
       
       ExoXPPParser xpp = ExoXPPParser.getInstance();
       xpp.setInput(is, "UTF8");
