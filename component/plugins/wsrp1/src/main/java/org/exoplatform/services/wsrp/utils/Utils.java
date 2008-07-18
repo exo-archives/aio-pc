@@ -17,8 +17,13 @@
 
 package org.exoplatform.services.wsrp.utils;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp.WSRPConstants;
@@ -36,9 +41,7 @@ public class Utils {
     return null;
   }
 
-  public static LocalizedString getLocalizedString(String value,
-                                                   String lang,
-                                                   String rn) {
+  public static LocalizedString getLocalizedString(String value, String lang, String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     tmp.setLang(lang);
@@ -46,16 +49,14 @@ public class Utils {
     return tmp;
   }
 
-  public static LocalizedString getLocalizedString(String value,
-                                                   String lang) {
+  public static LocalizedString getLocalizedString(String value, String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
     tmp.setLang(lang);
     return tmp;
   }
 
-  public static NamedString getNamesString(String name,
-                                           String value) {
+  public static NamedString getNamesString(String name, String value) {
     NamedString tmp = new NamedString();
     tmp.setName(name);
     tmp.setValue(value);
@@ -82,12 +83,71 @@ public class Utils {
     return type;
   }
 
-  public static Map<String, String[]> getRenderParametersFromFormParameters(NamedString[] params) {
+  /**
+   * Convert from input.getRenderParameters() to
+   * interactionRequest.setFormParameters(NamedString[]).
+   * 
+   * @param parameters Map<String, String[]>
+   * @param boolean value to store only those parameters which starting with
+   *          "wsrp-" prefix
+   * @return
+   */
+  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
+                                                                   boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
+    if (params.isEmpty())
+      return new NamedString[] {};
+    Set<String> keys = params.keySet();
+    List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
+    Iterator<String> iteratorKeys = keys.iterator();
+    while (iteratorKeys.hasNext()) {
+      String name = iteratorKeys.next();
+      if ((selectOnlyNonWSRP && !name.startsWith(WSRPConstants.WSRP_PARAMETER_PREFIX))
+          || !selectOnlyNonWSRP) {
+        String[] values = params.get(name);
+        for (String value : values) {
+          listNamedStringParams.add(getNamesString(name, value));
+        }
+      }
+    }
+    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+  }
+
+  /**
+   * Convert from NamedString[] to Map<String, String[]>.
+   * 
+   * @param NamedString[]
+   * @return Map<String, String[]>
+   */
+  public static Map<String, String[]> getMapParametersFromNamedStringArray(NamedString[] array) {
+    if (array == null)
+      return null;
     Map<String, String[]> result = new HashMap<String, String[]>();
-    for (NamedString namedString : params) {
-      result.put(namedString.getName(), new String[] { namedString.getValue() });
+    if (array != null) {
+      for (NamedString namedString : array) {
+        String name = namedString.getName();
+        String value = namedString.getValue();
+        if (value != null) {
+          if (result.get(name) == null) {
+            // new added parameter
+            result.put(name, new String[] { value });
+          } else {
+            // next added parameter
+            Arrays.asList(result.get(name)).add(value);
+//            String[] oldArray = result.get(name);
+//            String[] newArray = new String[oldArray.length + 1];
+//            int i = 0;
+//            if (oldArray != null) {
+//              for (String v : oldArray) {
+//                newArray[i++] = v;
+//              }
+//            }
+//            newArray[i] = value;
+//            result.put(name, newArray);
+          }
+        }
+      }
     }
     return result;
   }

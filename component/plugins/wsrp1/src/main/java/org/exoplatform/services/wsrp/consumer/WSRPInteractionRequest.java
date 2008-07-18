@@ -8,7 +8,7 @@ import org.exoplatform.services.wsrp.type.NamedString;
  *
  * @author Benjamin Mestrallet
  */
-public interface InteractionRequest extends WSRPBaseRequest {
+public interface WSRPInteractionRequest extends WSRPBaseRequest {
   /**
    * Get all the interaction state
    *

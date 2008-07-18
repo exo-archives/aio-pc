@@ -24,40 +24,46 @@ import javax.portlet.PortletMode;
 import org.exoplatform.services.wsrp.WSRPConstants;
 
 public class Modes implements java.io.Serializable {
+
+  /**
+   * The serialVersionUID.
+   */
+  private static final long                   serialVersionUID = -6024244156120091359L;
+
   private java.lang.String                    _value_;
 
-  private static java.util.Map<String, Modes> _table_ = new java.util.HashMap<String, Modes>();
+  private static java.util.Map<String, Modes> _table_          = new java.util.HashMap<String, Modes>();
 
-  // Constructor
+  // Constructor with String
   public Modes(java.lang.String value) {
-    _value_ = value.toLowerCase(Locale.ENGLISH);;
+    _value_ = value.toLowerCase(Locale.ENGLISH);
     _table_.put(_value_, this);
   }
 
   // define the modes we can currently handle
-  private static final java.lang.String viewString    = PortletMode.VIEW.toString();
+  private static final java.lang.String _view_jsr     = PortletMode.VIEW.toString();
 
-  private static final java.lang.String editString    = PortletMode.EDIT.toString();
+  private static final java.lang.String _edit_jsr     = PortletMode.EDIT.toString();
 
-  private static final java.lang.String helpString    = PortletMode.HELP.toString();
+  private static final java.lang.String _help_jsr     = PortletMode.HELP.toString();
 
-  private static final java.lang.String previewString = "preview";
+  private static final java.lang.String _preview_jsr  = "preview";
 
-  public static final java.lang.String  _view         = WSRPConstants.WSRP_PREFIX + viewString;
+  public static final java.lang.String  _view_wsrp    = WSRPConstants.WSRP_PREFIX + _view_jsr;
 
-  public static final java.lang.String  _edit         = WSRPConstants.WSRP_PREFIX + editString;
+  public static final java.lang.String  _edit_wsrp    = WSRPConstants.WSRP_PREFIX + _edit_jsr;
 
-  public static final java.lang.String  _help         = WSRPConstants.WSRP_PREFIX + helpString;
+  public static final java.lang.String  _help_wsrp    = WSRPConstants.WSRP_PREFIX + _help_jsr;
 
-  public static final java.lang.String  _preview      = WSRPConstants.WSRP_PREFIX + previewString;
+  public static final java.lang.String  _preview_wsrp = WSRPConstants.WSRP_PREFIX + _preview_jsr;
 
-  public static final Modes             VIEW          = new Modes(_view);
+  public static final Modes             VIEW          = new Modes(_view_wsrp);
 
-  public static final Modes             EDIT          = new Modes(_edit);
+  public static final Modes             EDIT          = new Modes(_edit_wsrp);
 
-  public static final Modes             HELP          = new Modes(_help);
+  public static final Modes             HELP          = new Modes(_help_wsrp);
 
-  public static final Modes             PREVIEW       = new Modes(_preview);
+  public static final Modes             PREVIEW       = new Modes(_preview_wsrp);
 
   public java.lang.String getValue() {
     return _value_;
@@ -110,83 +116,37 @@ public class Modes implements java.io.Serializable {
    *         the given wsrp mode.
    */
 
-  public static PortletMode getJsrPortletModeFromWsrpMode(Modes wsrpMode) {
-    // was: if (wsrpMode == null) return PortletMode.VIEW;
-    if (wsrpMode == null) {
+  public static PortletMode getJsrPortletMode(String mode) {
+    if (mode == null) {
       throw new IllegalArgumentException("WSRP portlet mode must not be null.");
     }
-    // if this wsrpMode is already a suitable PortletMode
-    if (wsrpMode.getValue().equalsIgnoreCase(viewString)) {
+
+    mode = delAllPrefixesWSRP(mode);
+
+    if (mode.equalsIgnoreCase(_view_jsr)) {
       return PortletMode.VIEW;
-    } else if (wsrpMode.getValue().equalsIgnoreCase(editString)) {
+    } else if (mode.equalsIgnoreCase(_edit_jsr)) {
       return PortletMode.EDIT;
-    } else if (wsrpMode.getValue().equalsIgnoreCase(helpString)) {
+    } else if (mode.equalsIgnoreCase(_help_jsr)) {
       return PortletMode.HELP;
-    } else if (wsrpMode.getValue().equalsIgnoreCase(previewString)) {
-      return new PortletMode(previewString);
+    } else if (mode.equalsIgnoreCase(_preview_jsr)) {
+      return new PortletMode(_preview_jsr);
     }
-    // otherwise
-    if (wsrpMode.getValue().equalsIgnoreCase(_view)) {
-      return PortletMode.VIEW;
-    } else if (wsrpMode.getValue().equalsIgnoreCase(_edit)) {
-      return PortletMode.EDIT;
-    } else if (wsrpMode.getValue().equalsIgnoreCase(_help)) {
-      return PortletMode.HELP;
-    } else if (wsrpMode.getValue().equalsIgnoreCase(_preview)) {
-      return new PortletMode(previewString);
-    }
-    System.out.println("Modes.getJsrPortletModeFromWsrpMode " + wsrpMode.getValue()
-        + " changed with '" + viewString + "' mode");
-    return PortletMode.VIEW;
+    return new PortletMode(mode);
+  }
+  
+  public static String addPrefixWSRP(String forAddWSRP) {
+    return WSRPConstants.WSRP_PREFIX + forAddWSRP;
+  }
+  
+  public static String getWSRPModeString(PortletMode jsrPortletMode) {
+    return addPrefixWSRP(jsrPortletMode.toString());
   }
 
-  /**
-   * This helper method maps portlet modes defined in tha java portlet standard
-   * (JSR-168) to modes defined in wsrp. If the passed portlet mode can not be
-   * resolved wsrp:VIEW mode is returned.
-   * 
-   * @param portletMode The <code>javax.portlet.PortletMode</code> which
-   *          should be resolved as as portlet mode defined in wsrp.
-   * @return
-   */
-
-  public static Modes getWsrpModeFromJsrPortletMode(PortletMode portletMode) {
-    if (portletMode == null) {
-      throw new IllegalArgumentException("Portlet mode must not be null.");
-    }
-    // if this portletMode is already a suitable wsrp mode
-    if (portletMode.toString().equalsIgnoreCase(_view)) {
-      return Modes.VIEW;
-    } else if (portletMode.toString().equalsIgnoreCase(_edit)) {
-      return Modes.EDIT;
-    } else if (portletMode.toString().equalsIgnoreCase(_help)) {
-      return Modes.HELP;
-    } else if (portletMode.toString().equalsIgnoreCase(_preview)) {
-      return Modes.PREVIEW;
-    }
-    // otherwise
-    if (portletMode.toString().equalsIgnoreCase(PortletMode.VIEW.toString())) {
-      return Modes.VIEW;
-    } else if (portletMode.toString().equalsIgnoreCase(PortletMode.EDIT.toString())) {
-      return Modes.EDIT;
-    } else if (portletMode.toString().equalsIgnoreCase(PortletMode.HELP.toString())) {
-      return Modes.HELP;
-    } else if (portletMode.toString().equalsIgnoreCase(previewString)) {
-      return Modes.PREVIEW;
-    }
-    System.out.println("Modes.getWsrpModeFromJsrPortletMode " + portletMode.toString()
-        + " changed with '" + _view + "' mode");
-    return Modes.VIEW;
-  }
-
-  public static String delAllPrefixWSRP(String forDelWSRP) {
+  public static String delAllPrefixesWSRP(String forDelWSRP) {
     while (forDelWSRP.startsWith(WSRPConstants.WSRP_PREFIX))
       forDelWSRP = forDelWSRP.substring(WSRPConstants.WSRP_PREFIX.length());
     return forDelWSRP;
-  }
-
-  public static String addPrefixWSRP(String forAddWSRP) {
-    return WSRPConstants.WSRP_PREFIX + forAddWSRP;
   }
 
 }

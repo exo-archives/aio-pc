@@ -34,16 +34,14 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
 import org.exoplatform.services.wsrp.WSRPConstants;
 
 /**
- * Created by The eXo Platform SAS 
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua 07.06.2007
+ * Created by The eXo Platform SAS Author : Alexey Zavizionov
+ * alexey.zavizionov@exoplatform.com.ua 07.06.2007
  */
 public class WSRPAdminPortletDataImp extends PortletDataImp {
 
   protected WSRPAdminPortlet portletObj = null;
 
-  public WSRPAdminPortletDataImp(ExoContainer cont,
-                                 Map<String, String> adminPortletParams) {
+  public WSRPAdminPortletDataImp(ExoContainer cont, Map<String, String> adminPortletParams) {
     super(cont, null, null, new ArrayList<UserAttribute>());
     portlet = new Portlet();
     portlet.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
@@ -79,9 +77,9 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
     return null;
   }
 
-  public boolean isModeSuported(String markup,
-                                PortletMode mode) {
-    return markup.equals("text/html") && (mode.equals(PortletMode.VIEW) || mode.equals(PortletMode.EDIT) || mode.equals(PortletMode.HELP));
+  public boolean isModeSuported(String markup, PortletMode mode) {
+    return markup.equals("text/html")
+        && (mode.equals(PortletMode.VIEW) || mode.equals(PortletMode.EDIT) || mode.equals(PortletMode.HELP));
   }
 
   public Collection<WindowState> getWindowStates(String markup) {
@@ -95,14 +93,20 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
     return null;
   }
 
-  public boolean isStateSupported(String markup,
-                                  WindowState state) {
+  public boolean isStateSupported(String markup, WindowState state) {
     return markup.equals("text/html")
         && (state.equals(WindowState.NORMAL) || state.equals(WindowState.MINIMIZED) || state.equals(WindowState.MAXIMIZED));
   }
 
   public boolean getEscapeXml() {
     return true;
+  }
+
+  public static boolean isOfferToProcess(String portletAppName, String portletName) {
+    if (portletAppName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_APP))
+      if (portletName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_NAME))
+        return true;
+    return false;
   }
 
 }

@@ -31,7 +31,7 @@ public interface PortletDriver {
   /**
    * This method is used to perform a blocking interaction on the portlet instance.
    */
-  public BlockingInteractionResponse performBlockingInteraction(InteractionRequest actionRequest,
+  public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
                                                                 UserSessionMgr userSession,
                                                                 String path)
       throws WSRPException;

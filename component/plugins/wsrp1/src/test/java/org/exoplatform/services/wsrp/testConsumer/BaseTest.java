@@ -32,6 +32,7 @@ import junit.framework.TestCase;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.Environment;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
@@ -137,7 +138,7 @@ public class BaseTest extends TestCase {
     } catch (Throwable t) {
       t.printStackTrace();
     }
-
+    
     int platform = Environment.getInstance().getPlatform();
     System.out.println(">>> Consumer BaseTest.setUp() platform = " + platform);
     Collection<String> roles = new ArrayList<String>();

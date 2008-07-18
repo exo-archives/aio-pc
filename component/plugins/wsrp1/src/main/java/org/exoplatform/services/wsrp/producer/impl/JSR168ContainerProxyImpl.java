@@ -46,7 +46,6 @@ import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
-import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.exceptions.Faults;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
 import org.exoplatform.services.wsrp.producer.PortletContainerProxy;
@@ -59,7 +58,9 @@ import org.exoplatform.services.wsrp.type.PortletDescription;
 import org.exoplatform.services.wsrp.type.Property;
 import org.exoplatform.services.wsrp.type.PropertyList;
 import org.exoplatform.services.wsrp.type.ResourceList;
+import org.exoplatform.services.wsrp.utils.Modes;
 import org.exoplatform.services.wsrp.utils.Utils;
+import org.exoplatform.services.wsrp.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -303,9 +304,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private MarkupType[] setMarkupTypes(List<Supports> supports,
-  // Collection windowStates,
-                                      String[] locales) {
+  private MarkupType[] setMarkupTypes(List<Supports> supports, String[] locales) {
     MarkupType[] array = new MarkupType[supports.size()];
     int i = 0;
     MarkupType mT = null;
@@ -318,7 +317,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       int j = 0;
       for (Iterator<String> iterator = portletModes.iterator(); iterator.hasNext(); j++) {
         String pM = (String) iterator.next();
-        modesInArray[j] = WSRPConstants.WSRP_PREFIX + pM.toString();
+        modesInArray[j] = Modes.addPrefixWSRP(pM);
       }
       mT.setModes(modesInArray);
       j = 0;
@@ -326,7 +325,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       String[] windowStatesInArray = new String[windowStates.size()];
       for (Iterator<String> iterator = windowStates.iterator(); iterator.hasNext(); j++) {
         String wS = (String) iterator.next();
-        windowStatesInArray[j] = WSRPConstants.WSRP_PREFIX + wS.toString();
+        windowStatesInArray[j] = WindowStates.addPrefixWSRP(wS);
       }
       mT.setWindowStates(windowStatesInArray);
       mT.setLocales(locales);

@@ -17,7 +17,7 @@
 
 package org.exoplatform.services.wsrp.consumer.adapters;
 
-import org.exoplatform.services.wsrp.consumer.InteractionRequest;
+import org.exoplatform.services.wsrp.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp.type.NamedString;
 
 /*
@@ -27,8 +27,8 @@ import org.exoplatform.services.wsrp.type.NamedString;
  * Time: 16:26:36
  */
 
-public class InteractionRequestAdapter extends WSRPBaseRequestAdapter
-    implements InteractionRequest{
+public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter
+    implements WSRPInteractionRequest{
 
   private String interactionState;
   private NamedString[] formParameters;

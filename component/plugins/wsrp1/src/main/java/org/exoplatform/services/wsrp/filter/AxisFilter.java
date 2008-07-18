@@ -62,6 +62,7 @@ public class AxisFilter implements Filter {
     setCurrentContainer();
     WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
 
+    
     filterChain.doFilter(servletRequest, servletResponse);
 
     hibernateCloseSession();
@@ -78,6 +79,7 @@ public class AxisFilter implements Filter {
     if (container == null)
       container = ExoContainerContext.getTopContainer();
     ExoContainerContext.setCurrentContainer(container);
+    
   }
 
   public void destroy() {

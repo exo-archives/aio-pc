@@ -22,7 +22,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp.consumer.GroupSessionMgr;
-import org.exoplatform.services.wsrp.consumer.InteractionRequest;
+import org.exoplatform.services.wsrp.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp.consumer.PortletDriver;
 import org.exoplatform.services.wsrp.consumer.Producer;
 import org.exoplatform.services.wsrp.consumer.URLRewriter;
@@ -251,7 +251,7 @@ public class PortletDriverImpl implements PortletDriver {
     return userContext;
   }
 
-  private InteractionParams getInteractionParams(InteractionRequest actionRequest) {
+  private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
     interactionParams.setPortletStateChange(consumerEnv.getPortletStateChange());
     if (!portlet.isConsumerConfigured() && interactionParams.getPortletStateChange().toString().equalsIgnoreCase(StateChange._readWrite)) {
@@ -316,7 +316,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public BlockingInteractionResponse performBlockingInteraction(InteractionRequest actionRequest,
+  public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
                                                                 UserSessionMgr userSession,
                                                                 String path) throws WSRPException {
     checkInitCookie(userSession);

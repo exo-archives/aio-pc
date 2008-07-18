@@ -10,7 +10,7 @@ import org.exoplatform.services.wsrp.type.ClientData;
  * @author Benjamin Mestrallet
  *
  * @see WSRPMarkupRequest
- * @see InteractionRequest
+ * @see WSRPInteractionRequest
  */
 public interface WSRPBaseRequest {
   /**

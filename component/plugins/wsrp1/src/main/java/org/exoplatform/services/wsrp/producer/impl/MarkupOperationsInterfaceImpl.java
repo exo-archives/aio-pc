@@ -30,8 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
@@ -165,7 +163,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       }
     }
 
-    Map portletMetaDatas = proxy.getAllPortletMetaData();
+    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName
         + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
@@ -218,8 +216,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // manage mode and states
-    PortletMode mode = processMode(markupParams.getMode());
-    WindowState windowState = processWindowState(markupParams.getWindowState());
+    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
 
     // prepare the call to the portlet proxy
     WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
@@ -238,7 +236,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setInternalWindowID(windowID);
     input.setBaseURL(baseURL);
     input.setUserAttributes(new HashMap<String, String>());
-    input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
+    input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
     input.setRenderParameters(renderParameters);
@@ -334,8 +332,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     byte[] portletState = managePortletState(portletContext);
 
     // manage mode and states
-    PortletMode mode = processMode(markupParams.getMode());
-    WindowState windowState = processWindowState(markupParams.getWindowState());
+    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
 
     // manage portlet state change
     boolean isStateChangeAuthorized = false;
@@ -380,14 +378,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setInternalWindowID(windowID);
     input.setBaseURL(baseURL);
     input.setUserAttributes(new HashMap<String, String>());
-    input.setPortletMode(new PortletMode(Modes.delAllPrefixWSRP(mode.toString())));
+    input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
     input.setStateChangeAuthorized(isStateChangeAuthorized);
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
-    Map<String, String[]> params = Utils.getRenderParametersFromFormParameters(interactionParams.getFormParameters());
+    Map<String, String[]> params = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
     input.setRenderParameters(params);
     // createUserProfile(userContext, request, session);
 
@@ -432,11 +430,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       UpdateResponse updateResponse = new UpdateResponse();
       updateResponse.setNavigationalState(ns);
       if (output.getNextMode() != null) {
-        updateResponse.setNewMode(WSRPConstants.WSRP_PREFIX + output.getNextMode().toString());
+        updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
       }
       if (output.getNextState() != null) {
-        updateResponse.setNewWindowState(WSRPConstants.WSRP_PREFIX
-            + output.getNextState().toString());
+        updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
       }
       updateResponse.setSessionContext(sessionContext);
       updateResponse.setMarkupContext(markupContext);
@@ -526,33 +523,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return portletHandle;
   }
 
-  private PortletMode processMode(String mode) {
-    log.debug("Call with portlet mode : " + mode);
-    if ((WSRPConstants.WSRP_PREFIX + PortletMode.VIEW.toString()).equalsIgnoreCase(mode)) {
-      return PortletMode.VIEW;
-    } else if ((WSRPConstants.WSRP_PREFIX + PortletMode.EDIT.toString()).equalsIgnoreCase(mode)) {
-      return PortletMode.EDIT;
-    } else if ((WSRPConstants.WSRP_PREFIX + PortletMode.HELP.toString()).equalsIgnoreCase(mode)) {
-      return PortletMode.HELP;
-    }
-    return new PortletMode(mode.substring(WSRPConstants.WSRP_PREFIX.length()));
-  }
-
-  private WindowState processWindowState(String state) {
-    log.debug("Call with window state : " + state);
-    if ((WSRPConstants.WSRP_PREFIX + WindowState.NORMAL.toString()).equalsIgnoreCase(state)) {
-      return WindowState.NORMAL;
-    } else if ((WSRPConstants.WSRP_PREFIX + WindowState.MINIMIZED.toString()).equalsIgnoreCase(state)) {
-      return WindowState.MINIMIZED;
-    } else if ((WSRPConstants.WSRP_PREFIX + WindowState.MAXIMIZED.toString()).equalsIgnoreCase(state)) {
-      return WindowState.MAXIMIZED;
-    }
-    return new WindowState(state.substring(WSRPConstants.WSRP_PREFIX.length()));
-  }
-
-  private Map processNavigationalState(String navigationalState) throws WSRPException {
+  private Map<String, String[]> processNavigationalState(String navigationalState) throws WSRPException {
     log.debug("Lookup navigational state : " + navigationalState);
-    Map map = persistentStateManager.getNavigationalSate(navigationalState);
+    Map<String, String[]> map = persistentStateManager.getNavigationalSate(navigationalState);
     // for debug:
     if (log.isDebugEnabled()) {
       if (map != null) {

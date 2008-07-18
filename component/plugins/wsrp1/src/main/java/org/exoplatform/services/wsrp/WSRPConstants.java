@@ -68,6 +68,8 @@ public class WSRPConstants {
 
   public static final String URL_TYPE_RESOURCE                  = "resource";
 
+  public static final String WSRP_PARAMETER_PREFIX              = "wsrp-";
+
   public static final String WSRP_PREFIX                        = "wsrp:";
 
   public static final String WSRP_CACHE_REGION                  = "wsrp";
@@ -100,10 +102,11 @@ public class WSRPConstants {
 
   public static final String WSRP_ADMIN_PORTLET_KEY             = WSRP_ADMIN_PORTLET_APP
                                                                     + // portletapp
-                                                                      // name
+                                                                    // name
                                                                     Constants.PORTLET_META_DATA_ENCODER
                                                                     + WSRP_ADMIN_PORTLET_NAME;     // portlet
-                                                                                                    // name
+
+  // name
 
   // WSRP REGISTRATION PARAMS
 
