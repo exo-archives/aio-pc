@@ -223,7 +223,7 @@
                   verbose="false">
                   <fileset dir="${basedir}/src/main/java">
                     <include name="org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java" />
-                    <include name="org/exoplatform/services/wsrp2/consumer/impl/WSRP2StateData.java" />
+                    <include name="org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java" />
                   </fileset>
                   <hibernate version="3.0" />
                 </hibernatedoclet>

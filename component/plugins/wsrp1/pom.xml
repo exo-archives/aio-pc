@@ -408,7 +408,7 @@
                 <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
                   verbose="false">
                   <fileset dir="${basedir}/src/main/java">
-                    <include name="org/exoplatform/services/wsrp/producer/impl/WSRP1ProducerData.java" />
+                    <include name="org/exoplatform/services/wsrp/consumer/impl/WSRP1ProducerData.java" />
                     <include name="org/exoplatform/services/wsrp/producer/impl/WSRP1StateData.java" />
 <!--                        <include name="**/*.java" />-->
                   </fileset>

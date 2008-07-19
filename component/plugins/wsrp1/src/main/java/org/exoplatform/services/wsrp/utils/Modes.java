@@ -136,14 +136,15 @@ public class Modes implements java.io.Serializable {
   }
   
   public static String addPrefixWSRP(String forAddWSRP) {
-    return WSRPConstants.WSRP_PREFIX + forAddWSRP;
+    return WSRPConstants.WSRP_PREFIX + forAddWSRP.toLowerCase(Locale.ENGLISH);
   }
   
   public static String getWSRPModeString(PortletMode jsrPortletMode) {
-    return addPrefixWSRP(jsrPortletMode.toString());
+    return addPrefixWSRP(jsrPortletMode.toString().toLowerCase(Locale.ENGLISH));
   }
 
   public static String delAllPrefixesWSRP(String forDelWSRP) {
+    forDelWSRP = forDelWSRP.toLowerCase(Locale.ENGLISH);
     while (forDelWSRP.startsWith(WSRPConstants.WSRP_PREFIX))
       forDelWSRP = forDelWSRP.substring(WSRPConstants.WSRP_PREFIX.length());
     return forDelWSRP;
