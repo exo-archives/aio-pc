@@ -802,6 +802,10 @@
               <name>maven.exoplatform.dir</name>
               <value>${war.dir}</value>
             </property>
+            <property>
+              <name>exo.test.cargo.skip</name>
+              <value>${exo.test.cargo.skip}</value>
+            </property>
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
