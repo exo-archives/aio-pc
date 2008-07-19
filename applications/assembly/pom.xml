@@ -128,8 +128,8 @@
         <configuration>
           <sharedDir>${basedir}/patches</sharedDir>
           <excludeProjects>
-            junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
-            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework,
+            junit, jmock, bcel, ehcache,cargo-core-api-container,cargo-core-api-generic,cargo-core-api-module,xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype, cargo-core-api-util, cargo-core-container-tomcat,velocity-dep, saxpath, exo-platform.test.framework,
             xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
             xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
             saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
