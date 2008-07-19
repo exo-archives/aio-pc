@@ -172,6 +172,7 @@ public class PortalServlet extends HttpServlet {
                 w.println("<td align='center'><b>Num</b></td>");
                 w.println("<td align='center'><b>Portlet Id</b></td>");
               w.println("<td align='center'><b>Portlet Name</b></td>");
+              w.println("<td align='center'><b>Portlet Title</b></td>");
               w.println("<td>&nbsp;</td></tr>");
           int i2 = 0;
           for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
@@ -186,6 +187,7 @@ public class PortalServlet extends HttpServlet {
                 w.println("<input type='checkbox' name='n" + i2 + "n' ID='n" + i2 + "n'" + myatr2str
                     + " onClick='checkPortlet.submit()'>");
                 w.println("</td><td align='center'>" + i2 + "</td><td valign='center' bgcolor=''>" + id2 + "</td>");
+                w.println("<td valign='center' bgcolor=''>" + pinf.getName() + "</td>");
               w.println("<td valign='center' bgcolor=''>" + title2 + "</td>");
               w.println("<td>");
                 w.println("<input type='button' value='Delete' onclick='document.getElementById(\"pId\").value = \"" + id2 + "\"; document.getElementById(\"delPortlet\").submit();'/>");

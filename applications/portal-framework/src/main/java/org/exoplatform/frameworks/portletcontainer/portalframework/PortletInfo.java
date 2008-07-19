@@ -74,6 +74,11 @@ public class PortletInfo implements Serializable {
   private ArrayList<String> states;
 
   /**
+   * Portlet name.
+   */
+  private String name;
+
+  /**
    * Session map is needed for session replication.
    */
   private HashMap<String, Object> sessionMap;
@@ -261,6 +266,20 @@ public class PortletInfo implements Serializable {
    */
   public final void setToRender(final boolean isToRender1) {
     this.isToRender = isToRender1;
+  }
+
+  /**
+   * @return the name
+   */
+  public String getName() {
+    return name;
+  }
+
+  /**
+   * @param name the name to set
+   */
+  public void setName(String name) {
+    this.name = name;
   }
 
 }

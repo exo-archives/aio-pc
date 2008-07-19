@@ -121,7 +121,7 @@ public class PortletFilter implements Filter {
             String[] ss = s.split("/");
             nn = framework.addPortlet(ss[0], ss[1]);
             tckPltMap.put(s, nn);
-          } else
+          }
           portlets2render.add(nn);
         }
         httpSession.setAttribute("portletName", portlets2render);
@@ -149,7 +149,7 @@ public class PortletFilter implements Filter {
 
       // call PortalFramework to process current request to portlet container
       ArrayList<PortletInfo> portletInfos;
-      if (ps != null)
+      if (ps != null || portlets2render != null)
         portletInfos = framework.processRequest(ctx, httpRequest, dummyHttpResponse, "text/html", portlets2render);
       else
         portletInfos = framework.processRequestForCurrentPage(ctx, httpRequest, dummyHttpResponse, "text/html");
