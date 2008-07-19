@@ -24,8 +24,7 @@ import java.util.Collection;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class ConsumerContext implements Serializable {
 

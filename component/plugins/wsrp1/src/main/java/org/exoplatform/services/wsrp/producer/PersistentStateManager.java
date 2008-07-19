@@ -24,21 +24,29 @@ import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface PersistentStateManager {
 
   public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException;
+
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException;
+
   public void deregister(RegistrationContext registrationContext) throws WSRPException;
+
   public boolean isRegistered(RegistrationContext registrationContext) throws WSRPException;
-  
-  public boolean isConsumerConfiguredPortlet(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
-  public void addConsumerConfiguredPortletHandle(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
-  public void removeConsumerConfiguredPortletHandle(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
+
+  public boolean isConsumerConfiguredPortlet(String portletHandle,
+                                             RegistrationContext registrationContext) throws WSRPException;
+
+  public void addConsumerConfiguredPortletHandle(String portletHandle,
+                                                 RegistrationContext registrationContext) throws WSRPException;
+
+  public void removeConsumerConfiguredPortletHandle(String portletHandle,
+                                                    RegistrationContext registrationContext) throws WSRPException;
 
   public Map<String, String[]> getNavigationalSate(String navigationalState) throws WSRPException;
+
   public void putNavigationalState(String ns, Map<String, String[]> renderParameters) throws WSRPException;
 
 }

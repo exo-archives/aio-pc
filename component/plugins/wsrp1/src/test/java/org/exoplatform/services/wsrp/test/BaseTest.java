@@ -17,33 +17,23 @@
 
 package org.exoplatform.services.wsrp.test;
 
-
 import java.net.URL;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import junit.framework.TestCase;
 
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IOUtil;
-import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.organization.User;
-import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
-import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_Markup_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_PortletManagement_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_Registration_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_ServiceDescription_Binding_SOAPImpl;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
@@ -66,65 +56,97 @@ import org.exoplatform.services.wsrp.type.UserContext;
 import org.exoplatform.services.wsrp.type.UserProfile;
 import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
-import org.exoplatform.test.mocks.servlet.MockServletContext;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
 /**
- * Author : Tuan Nguyen
- * tuan08@users.sourceforge.net
- * Date: 11 nov. 2003
- * Time: 22:08:31
- * Revision: Max Shaposhnik 17.07.2008
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: 11 nov. 2003 Time:
+ * 22:08:31 Revision: Max Shaposhnik 17.07.2008
  */
 public class BaseTest extends TestCase {
 
   protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services/";
+
   //protected static final String                 CONTEXT_PATH             = "/war_template";
   protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
-                                                                             : System.getProperty("testPath"));
+                                                                                                                  : System.getProperty("testPath"));
+
   //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
-  
+
   static boolean                                initService_             = true;
+
   protected PortletContainerService             portletContainer;
+
   protected PortletApplicationsHolder           holder;
+
   protected PortletApp                          portletApp_;
+
   protected Collection                          roles;
 
   protected WSRP_v1_ServiceDescription_PortType serviceDescriptionInterface;
+
   protected WSRP_v1_Registration_PortType       registrationOperationsInterface;
+
   protected WSRP_v1_Markup_PortType             markupOperationsInterface;
+
   protected WSRP_v1_PortletManagement_PortType  portletManagementOperationsInterface;
 
   protected PersonName                          personName;
+
   protected UserContext                         userContext;
+
   protected UserProfile                         userProfile;
 
   protected RegistrationData                    registrationData;
+
   protected RuntimeContext                      runtimeContext;
+
   protected Templates                           templates;
+
   protected ClientData                          clientData;
+
   protected MarkupParams                        markupParams;
-  protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard", "minimal" };
+
+  protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard",
+      "minimal"                                                         };
+
   public static String[]                        localesArray             = { "en" };
+
   public static String[]                        markupCharacterSets      = { "UF-08", "ISO-8859-1" };
-  public static String[]                        mimeTypes                = { "text/html", "text/xhtml" };
+
+  public static String[]                        mimeTypes                = { "text/html",
+      "text/xhtml"                                                      };
 
   public static final String                    BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
                                                                              + Constants.DEFAUL_PORTAL_OWNER;
-  public static final String                    DEFAULT_TEMPLATE         = BASE_URL + "&portal:windowState={wsrp-windowState}"
-                                                                             + "&_mode={wsrp-portletMode}" + "&_isSecure={wsrp-secureURL}"
-                                                                             + "&_component={wsrp-portletHandle}";
-  public static final String                    RENDER_TEMPLATE          = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}"
-                                                                             + "&ns={wsrp-navigationalState}";
-  public static final String                    BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}"
-                                                                             + "&ns={wsrp-navigationalState}" + "&is={wsrp-interactionState}";
 
-  public static final String[]                  CONSUMER_MODES           = { "wsrp:view", "wsrp:edit" };
-  public static final String[]                  CONSUMER_STATES          = { "wsrp:normal", "wsrp:maximized" };
+  public static final String                    DEFAULT_TEMPLATE         = BASE_URL
+                                                                             + "&portal:windowState={wsrp-windowState}"
+                                                                             + "&_mode={wsrp-portletMode}"
+                                                                             + "&_isSecure={wsrp-secureURL}"
+                                                                             + "&_component={wsrp-portletHandle}";
+
+  public static final String                    RENDER_TEMPLATE          = DEFAULT_TEMPLATE
+                                                                             + "&portal:type={wsrp-urlType}"
+                                                                             + "&ns={wsrp-navigationalState}";
+
+  public static final String                    BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE
+                                                                             + "&portal:type={wsrp-urlType}"
+                                                                             + "&ns={wsrp-navigationalState}"
+                                                                             + "&is={wsrp-interactionState}";
+
+  public static final String[]                  CONSUMER_MODES           = { "wsrp:view",
+      "wsrp:edit"                                                       };
+
+  public static final String[]                  CONSUMER_STATES          = { "wsrp:normal",
+      "wsrp:maximized"                                                  };
+
   public static final String[]                  CONSUMER_SCOPES          = { "chunk_data" };
+
   public static final String[]                  CONSUMER_CUSTOM_PROFILES = { "what_more" };
+
   private MockServletRequest                    mockServletRequest;
+
   private MockServletResponse                   mockServletResponse;
 
 //  public BaseTest(String s) {
@@ -133,14 +155,15 @@ public class BaseTest extends TestCase {
 
   public void setUp() throws Exception {
 
-    
-    
     WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
-    serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL + "WSRPServiceDescriptionService"));
-    registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL + "WSRPRegistrationService"));
-    markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL + "WSRPMarkupService"));
-    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL + "WSRPPortletManagementService"));
-
+    serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
+        + "WSRPServiceDescriptionService"));
+    registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL
+        + "WSRPRegistrationService"));
+    markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL
+        + "WSRPMarkupService"));
+    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
+        + "WSRPPortletManagementService"));
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
@@ -196,11 +219,12 @@ public class BaseTest extends TestCase {
 
     mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
-    WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest, (HttpServletResponse) mockServletResponse);
+    WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
+                                     (HttpServletResponse) mockServletResponse);
   }
 
   public void tearDown() throws Exception {
- 
+
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
@@ -209,8 +233,7 @@ public class BaseTest extends TestCase {
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
   }
 
-  protected MarkupRequest getMarkup(RegistrationContext rc,
-                                    PortletContext portletContext) {
+  protected MarkupRequest getMarkup(RegistrationContext rc, PortletContext portletContext) {
     MarkupRequest getMarkup = new MarkupRequest();
     getMarkup.setRegistrationContext(rc);
     getMarkup.setPortletContext(portletContext);
@@ -220,8 +243,7 @@ public class BaseTest extends TestCase {
     return getMarkup;
   }
 
-  protected void manageTemplatesOptimization(ServiceDescription sd,
-                                             String portletHandle) {
+  protected void manageTemplatesOptimization(ServiceDescription sd, String portletHandle) {
     PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];

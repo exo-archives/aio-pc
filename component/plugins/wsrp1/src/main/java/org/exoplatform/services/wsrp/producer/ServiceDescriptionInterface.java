@@ -21,11 +21,9 @@ import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.ServiceDescription;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface ServiceDescriptionInterface {
-  public ServiceDescription getServiceDescription(RegistrationContext registrationContext, 
-                                                  String[] desiredLocale) 
-    throws java.rmi.RemoteException;  
+  public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
+                                                  String[] desiredLocale) throws java.rmi.RemoteException;
 }

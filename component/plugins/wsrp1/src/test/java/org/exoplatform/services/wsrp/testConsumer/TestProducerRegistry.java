@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp.testConsumer;
 
-
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
@@ -25,15 +24,15 @@ package org.exoplatform.services.wsrp.testConsumer;
  * Time: 17:08:46
  */
 
-public class TestProducerRegistry extends BaseTest{
+public class TestProducerRegistry extends BaseTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
     System.out.println(">>>>>>>>>>>>>>> TestProducerRegistry.setUp()");
   }
-  
-  public void testAddProducer(){
+
+  public void testAddProducer() {
     producerRegistry.addProducer(producer);
     assertTrue(producerRegistry.existsProducer(producer.getID()));
     assertEquals(producer, producerRegistry.getAllProducers().next());

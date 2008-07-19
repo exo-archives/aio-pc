@@ -20,12 +20,10 @@ package org.exoplatform.services.wsrp.producer.impl;
 import org.exoplatform.commons.utils.IOUtil;
 
 /**
- * Author : Tuan Nguyen
- *          tuan08@users.sourceforge.net
- * Date: Jun 14, 2003
- * Time: 1:12:22 PM
- *
- * @hibernate.class  table="WSRP_STATE"
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
+ * 1:12:22 PM
+ * 
+ * @hibernate.class table="WSRP_STATE"
  */
 public class WSRP1StateData {
   private String           id_;
@@ -37,9 +35,9 @@ public class WSRP1StateData {
   public WSRP1StateData() {
   }
 
-  /**
-   * @hibernate.id  generator-class="assigned" unsaved-value="null"
-   ***/
+  /*****************************************************************************
+   * @hibernate.id generator-class="assigned" unsaved-value="null"
+   ****************************************************************************/
   public String getId() {
     return id_;
   }
@@ -50,7 +48,7 @@ public class WSRP1StateData {
 
   /**
    * @hibernate.property
-   **/
+   */
   public String getDataType() {
     return type_;
   }
@@ -61,7 +59,7 @@ public class WSRP1StateData {
 
   /**
    * @hibernate.property type="binary"
-   **/
+   */
   public byte[] getData() throws Exception {
     return IOUtil.serialize(object_);
   }

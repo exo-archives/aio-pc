@@ -32,11 +32,11 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
  * Time: 22:31:23
  */
 
-public class UserSessionImpl extends InitCookieImpl
-    implements UserSessionMgr {
+public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
 
   protected Map<String, GroupSession> groupSessions = new HashMap<String, GroupSession>();
-  private String userID;
+
+  private String                      userID;
 
   public UserSessionImpl(String markupInterfaceURL) {
     super(markupInterfaceURL);

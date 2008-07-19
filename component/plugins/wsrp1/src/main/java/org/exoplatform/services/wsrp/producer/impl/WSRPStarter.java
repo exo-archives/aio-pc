@@ -34,15 +34,9 @@ import org.exoplatform.services.wsrp.AdminClient;
 import org.exoplatform.services.wsrp.WSRPConstants;
 
 /**
- * Author : Roman Pedchenko
- *          roman.pedchenko@exoplatform.com.ua
- * 
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- *          
- * Date: 23 may 2006
- * Time: 11:43 am
- * 
+ * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua Author : Alexey
+ * Zavizionov alexey.zavizionov@exoplatform.com.ua Date: 23 may 2006 Time: 11:43
+ * am
  */
 public class WSRPStarter extends HttpServlet {
 
@@ -62,11 +56,10 @@ public class WSRPStarter extends HttpServlet {
 
   private String       deployWSDD          = "org/exoplatform/services/wsrp/wsdl/deploy.wsdd";
 
-  private Log          log;
+  private final Log    log                 = ExoLogger.getLogger(getClass().getName());
 
   public WSRPStarter() {
-    this.log = ExoLogger.getLogger(getClass());
-    logDebug("org.exoplatform.services.wsrp2.producer.impl.WSRPStarter.WSRPStarter() entered");
+    logDebug("WSRPStarter.WSRPStarter() entered = ");
   }
 
   @Override
@@ -131,8 +124,7 @@ public class WSRPStarter extends HttpServlet {
 
     URL     wsdd;
 
-    AxisThread(Options opts,
-               URL wsdd) {
+    AxisThread(Options opts, URL wsdd) {
       this.opts = opts;
       this.wsdd = wsdd;
     }
@@ -147,7 +139,8 @@ public class WSRPStarter extends HttpServlet {
         for (int i = 1; i <= retries; i++) {
           InputStream is = wsdd.openStream();
           System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i);
-          logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i + " at: " + new Date(System.currentTimeMillis()));
+          logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i + " at: "
+              + new Date(System.currentTimeMillis()));
           try {
             AdminClient admin = new AdminClient();
             String result = admin.process(opts, is);
@@ -156,9 +149,11 @@ public class WSRPStarter extends HttpServlet {
               break;
             }
           } catch (Exception e) {
-            System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread got an exception: " + e);
+            System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread got an exception: "
+                + e);
             e.printStackTrace();
-            System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread got an exception: cause: " + e.getCause());
+            System.out.println(" --- " + WSRPConstants.WSRP_ID
+                + ": axis thread got an exception: cause: " + e.getCause());
             if (e.getCause() != null)
               e.getCause().printStackTrace();
             if (i < retries) {

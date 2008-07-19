@@ -28,10 +28,9 @@ import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class TestWSRPSession extends BaseTest{
+public class TestWSRPSession extends BaseTest {
 
   @Override
   public void setUp() throws Exception {
@@ -41,11 +40,11 @@ public class TestWSRPSession extends BaseTest{
 
   public void testSession() throws Exception {
     ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
-    getServiceDescription.setDesiredLocales(new String[]{"en"});
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription) ;
+    getServiceDescription.setDesiredLocales(new String[] { "en" });
+    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext("",null,null);
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext("", null, null);
     String portletHandle = "hello/PortletToTestSession";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -65,31 +64,31 @@ public class TestWSRPSession extends BaseTest{
 
   public void testReleaseSession() throws RemoteException {
     ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
-    getServiceDescription.setDesiredLocales(new String[]{"en"});
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription) ;
+    getServiceDescription.setDesiredLocales(new String[] { "en" });
+    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext("",null,null);
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext("", null, null);
     PortletContext portletContext = new PortletContext();
     String portletHandle = "hello/PortletToTestSession";
     portletContext.setPortletHandle(portletHandle);
     markupParams.setMimeTypes(mimeTypes);
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
-    MarkupRequest getMarkup = getMarkup(rc,portletContext);
+    MarkupRequest getMarkup = getMarkup(rc, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String sessionID = response.getSessionContext().getSessionID();
     ReleaseSessionsRequest releaseSessions = new ReleaseSessionsRequest();
     releaseSessions.setRegistrationContext(rc);
-    releaseSessions.setSessionIDs(new String[]{sessionID});
+    releaseSessions.setSessionIDs(new String[] { sessionID });
     markupOperationsInterface.releaseSessions(releaseSessions);
     runtimeContext.setSessionID(sessionID);
     manageTemplatesOptimization(sd, portletHandle);
-    manageUserContextOptimization(sd, portletHandle, getMarkup);    
+    manageUserContextOptimization(sd, portletHandle, getMarkup);
     try {
       markupOperationsInterface.getMarkup(getMarkup);
       fail("Session should not exist anymore");
-    } catch (RemoteException e) {      
+    } catch (RemoteException e) {
     }
 
   }

@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp.testConsumer;
 
-
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net

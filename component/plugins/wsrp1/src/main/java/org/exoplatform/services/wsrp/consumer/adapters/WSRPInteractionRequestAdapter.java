@@ -27,10 +27,11 @@ import org.exoplatform.services.wsrp.type.NamedString;
  * Time: 16:26:36
  */
 
-public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter
-    implements WSRPInteractionRequest{
+public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implements
+    WSRPInteractionRequest {
 
-  private String interactionState;
+  private String        interactionState;
+
   private NamedString[] formParameters;
 
   public String getInteractionState() {
@@ -48,6 +49,5 @@ public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter
   public void setFormParameters(NamedString[] formParameters) {
     this.formParameters = formParameters;
   }
-
 
 }

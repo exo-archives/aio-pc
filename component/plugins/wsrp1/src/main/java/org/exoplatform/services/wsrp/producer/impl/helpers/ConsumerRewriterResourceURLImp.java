@@ -17,11 +17,9 @@
 
 package org.exoplatform.services.wsrp.producer.impl.helpers;
 
-import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.Set;
 
-import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp.WSRPConstants;
@@ -68,26 +66,26 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
     StringBuffer sB = new StringBuffer();
     sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
-    
+
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(getType());
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
     sB.append("=");
     sB.append(navigationalState);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SESSION_ID);
     sB.append("=");
     sB.append(sessionID);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");

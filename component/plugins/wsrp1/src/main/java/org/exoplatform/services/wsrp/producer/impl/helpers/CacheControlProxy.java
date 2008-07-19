@@ -28,7 +28,8 @@ import org.exoplatform.services.wsrp.type.CacheControl;
 public class CacheControlProxy {
 
   private CacheControl cacheControl;
-  private long creationTime;
+
+  private long         creationTime;
 
   public CacheControlProxy(CacheControl cacheControl) {
     this.cacheControl = cacheControl;
@@ -39,8 +40,8 @@ public class CacheControlProxy {
     return cacheControl;
   }
 
-  public boolean isValid(){
-    if(System.currentTimeMillis() - creationTime < cacheControl.getExpires() * 1000)
+  public boolean isValid() {
+    if (System.currentTimeMillis() - creationTime < cacheControl.getExpires() * 1000)
       return true;
     else
       return false;

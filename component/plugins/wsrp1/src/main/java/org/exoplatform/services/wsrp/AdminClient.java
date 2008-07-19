@@ -17,6 +17,16 @@
 
 package org.exoplatform.services.wsrp;
 
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+import javax.xml.rpc.ServiceException;
+
 import org.apache.axis.AxisFault;
 import org.apache.axis.EngineConfiguration;
 import org.apache.axis.client.Call;
@@ -28,24 +38,26 @@ import org.apache.axis.utils.Messages;
 import org.apache.axis.utils.Options;
 import org.apache.commons.logging.Log;
 
-import javax.xml.rpc.ServiceException;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
-// Referenced classes of package org.apache.axis.client:
-// Service, Call
-
+/**
+ * AdminClient class uses in WSRPStarter. Referenced classes of package
+ * org.apache.axis.client: Service, Call.
+ */
 public class AdminClient {
 
+  /**
+   * Set default configuration.
+   * 
+   * @param config
+   */
   public static void setDefaultConfiguration(EngineConfiguration config) {
     defaultConfiguration.set(config);
   }
 
+  /**
+   * Get usage information.
+   * 
+   * @return
+   */
   private static String getUsageInfo() {
     String lSep = System.getProperty("line.separator");
     StringBuffer msg = new StringBuffer();
@@ -227,9 +239,9 @@ public class AdminClient {
       processOpts(opts);
     call.setUseSOAPAction(true);
     call.setSOAPActionURI("AdminService");
-    Vector result = null;
+    Vector<SOAPBodyElement> result = null;
     Object params[] = { new SOAPBodyElement(input) };
-    result = (Vector) call.invoke(params);
+    result = (Vector<SOAPBodyElement>) call.invoke(params);
     input.close();
     if (result == null || result.isEmpty()) {
       throw new AxisFault(Messages.getMessage("nullResponse00"));
@@ -258,13 +270,13 @@ public class AdminClient {
     return Class.forName(x0);
   }
 
-  protected static Log          log;
+  protected static Log                            log;
 
-  private static ThreadLocal    defaultConfiguration = new ThreadLocal();
+  private static ThreadLocal<EngineConfiguration> defaultConfiguration = new ThreadLocal<EngineConfiguration>();
 
-  protected Call                call;
+  protected Call                                  call;
 
-  protected static final String ROOT_UNDEPLOY;
+  protected static final String                   ROOT_UNDEPLOY;
 
   static {
     log = LogFactory.getLog((org.apache.axis.client.AdminClient.class).getName());

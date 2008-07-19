@@ -37,8 +37,9 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
 
 public class PortletDriverRegistryImpl implements PortletDriverRegistry {
 
-  private Map<String, PortletDriver> portletDrivers = new HashMap<String, PortletDriver>();  
-  protected ExoContainer cont;
+  private Map<String, PortletDriver> portletDrivers = new HashMap<String, PortletDriver>();
+
+  protected ExoContainer             cont;
 
   public PortletDriverRegistryImpl(ExoContainerContext ctx) {
     cont = ctx.getContainer();
@@ -46,7 +47,7 @@ public class PortletDriverRegistryImpl implements PortletDriverRegistry {
 
   public PortletDriver getPortletDriver(WSRPPortlet portlet) throws WSRPException {
     PortletDriver driver = null;
-    if ((driver = (PortletDriver) portletDrivers.get(portlet.getPortletKey().toString())) == null) {      
+    if ((driver = (PortletDriver) portletDrivers.get(portlet.getPortletKey().toString())) == null) {
       driver = new PortletDriverImpl(cont, portlet);
       portletDrivers.put(portlet.getPortletKey().toString(), driver);
     }

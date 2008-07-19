@@ -27,9 +27,10 @@ import org.exoplatform.services.wsrp.type.UserContext;
  * Time: 21:25:31
  */
 
-public class UserAdapter implements User{
+public class UserAdapter implements User {
 
-  private String userID;
+  private String      userID;
+
   private UserContext userContext;
 
   public String getUserID() {
@@ -46,6 +47,6 @@ public class UserAdapter implements User{
 
   public void setUserContext(UserContext userContext) {
     this.userContext = userContext;
-  }  
+  }
 
 }

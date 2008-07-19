@@ -28,8 +28,7 @@ import org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
 
 /**
- * User: Benjamin Mestrallet
- * Date: 8 juin 2004
+ * User: Benjamin Mestrallet Date: 8 juin 2004
  */
 public class WSRPPortletPreferencesPersister implements PortletPreferencesPersister, Serializable {
 
@@ -51,8 +50,7 @@ public class WSRPPortletPreferencesPersister implements PortletPreferencesPersis
     return (ExoPortletPreferences) prefs.get(windowID.generateKey());
   }
 
-  public void savePortletPreferences(WindowID windowID,
-                                     ExoPortletPreferences preferences) throws Exception {
+  public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences) throws Exception {
     prefs.put(windowID.generateKey(), preferences);
   }
 

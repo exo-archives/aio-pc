@@ -21,14 +21,12 @@ import org.exoplatform.services.wsrp.consumer.InitCookieInfo;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
 
 /**
- * Created y the eXo platform team
- * User: Benjamin Mestrallet
- * Date: 11 mai 2004
+ * Created y the eXo platform team User: Benjamin Mestrallet Date: 11 mai 2004
  */
-public abstract class InitCookieTemplate
-    implements InitCookieInfo{
+public abstract class InitCookieTemplate implements InitCookieInfo {
 
   private boolean initCookieRequired;
+
   private boolean initCookieDone;
 
   public boolean isInitCookieRequired() {
@@ -48,7 +46,9 @@ public abstract class InitCookieTemplate
   }
 
   public abstract String getMarkupInterfaceURL();
+
   public abstract WSRP_v1_Markup_PortType getWSRPMarkupService();
+
   public abstract void setWSRPMarkupService(WSRP_v1_Markup_PortType markupPortType);
 
 }

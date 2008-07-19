@@ -69,9 +69,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
     cont = ctx.getContainer();
   }
 
-  public WSRPHttpSession resolveSession(String sessionID,
-                                        String user,
-                                        Integer sessiontimeperiod) throws WSRPException {
+  public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
     WSRPHttpSession session = null;
@@ -163,13 +161,11 @@ public class TransientStateManagerImpl implements TransientStateManager {
     return (Templates) session.getAttribute(TEMPLATE_KEY);
   }
 
-  public void storeTemplates(Templates templates,
-                             WSRPHttpSession session) {
+  public void storeTemplates(Templates templates, WSRPHttpSession session) {
     session.setAttribute(TEMPLATE_KEY, templates);
   }
 
-  public UserContext resolveUserContext(UserContext userContext,
-                                        WSRPHttpSession session) {
+  public UserContext resolveUserContext(UserContext userContext, WSRPHttpSession session) {
     if (conf.isUserContextStoredInSession()) {
       if (log.isDebugEnabled())
         log.debug("Optimized mode : user context store in session");

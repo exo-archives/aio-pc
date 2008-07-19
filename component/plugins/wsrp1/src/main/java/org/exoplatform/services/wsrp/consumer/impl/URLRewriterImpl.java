@@ -44,7 +44,8 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
 public class URLRewriterImpl implements URLRewriter {
 
   private URLGenerator urlGenerator;
-  private Log log;
+
+  private Log          log;
 
   public URLRewriterImpl(URLGenerator urlGenerator) {
     this.urlGenerator = urlGenerator;
@@ -61,8 +62,7 @@ public class URLRewriterImpl implements URLRewriter {
       rewriteStartPos = -1;
       rewriteEndPos = -1;
       rewriteStartPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_PREFIX, markupIndex);
-      if (!(rewriteStartPos == -1 ||
-          (rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length() - 1) > (markup.length() - 2))) {
+      if (!(rewriteStartPos == -1 || (rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length() - 1) > (markup.length() - 2))) {
         rewriteEndPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_SUFFFIX, markupIndex);
         if (rewriteEndPos != -1) {
           rewriteEndPos = rewriteEndPos + WSRPConstants.WSRP_REWRITE_SUFFFIX.length();
@@ -89,7 +89,7 @@ public class URLRewriterImpl implements URLRewriter {
     } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RENDER) != -1) {
       markup.append(urlGenerator.getRenderURL(baseURL, params));
     } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RESOURCE) != -1) {
-      markup.append(urlGenerator.getResourceURL(baseURL,params));
+      markup.append(urlGenerator.getResourceURL(baseURL, params));
     }
   }
 
@@ -121,15 +121,16 @@ public class URLRewriterImpl implements URLRewriter {
       next = rewriteURL.indexOf(WSRPConstants.NEXT_PARAM, equals);
       if (equals != -1) {
         if (next != -1) {
-          params.put(rewriteURL.substring(index + lengthNext, equals), rewriteURL.substring(equals + 1, next));
+          params.put(rewriteURL.substring(index + lengthNext, equals),
+                     rewriteURL.substring(equals + 1, next));
         } else {
-          params.put(rewriteURL.substring(index + lengthNext, equals), rewriteURL.substring(equals + 1, end));
+          params.put(rewriteURL.substring(index + lengthNext, equals),
+                     rewriteURL.substring(equals + 1, end));
         }
       }
       index = next;
     }
     return params;
   }
-
 
 }

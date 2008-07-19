@@ -108,47 +108,44 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
 
   // /not necessary to implement
 
-  public Remote getPort(QName qName,
-                        Class aClass) throws ServiceException {
+  public Remote getPort(QName qName, Class aClass) throws ServiceException {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   public Remote getPort(Class aClass) throws ServiceException {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   public Call[] getCalls(QName qName) throws ServiceException {
     return new Call[0]; // To change body of implemented methods use File |
-                        // Settings | File Templates.
+    // Settings | File Templates.
   }
 
   public Call createCall(QName qName) throws ServiceException {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
-  public Call createCall(QName qName,
-                         QName qName1) throws ServiceException {
+  public Call createCall(QName qName, QName qName1) throws ServiceException {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
-  public Call createCall(QName qName,
-                         String string) throws ServiceException {
+  public Call createCall(QName qName, String string) throws ServiceException {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   public Call createCall() throws ServiceException {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   public QName getServiceName() {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   /*
@@ -158,16 +155,16 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
 
   public URL getWSDLDocumentLocation() {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   public TypeMappingRegistry getTypeMappingRegistry() {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 
   public HandlerRegistry getHandlerRegistry() {
     return null; // To change body of implemented methods use File | Settings |
-                  // File Templates.
+    // File Templates.
   }
 }

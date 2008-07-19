@@ -27,8 +27,7 @@ import org.exoplatform.services.wsrp.type.MarkupContext;
  * Time: 17:46:06
  */
 
-public class WSRPMarkupRequestAdapter extends WSRPBaseRequestAdapter
-    implements WSRPMarkupRequest{
+public class WSRPMarkupRequestAdapter extends WSRPBaseRequestAdapter implements WSRPMarkupRequest {
 
   private MarkupContext cachedMarkup;
 

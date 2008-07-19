@@ -28,43 +28,35 @@ import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.UserContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface PortletManagementOperationsInterface {
-  
+
   public PortletDescriptionResponse getPortletDescription(RegistrationContext registrationContext,
                                                           PortletContext portletContext,
                                                           UserContext userContext,
-                                                          String[] desiredLocales) 
-    throws RemoteException;
+                                                          String[] desiredLocales) throws RemoteException;
 
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
-                                                 String[] portletHandles) 
-    throws RemoteException;
+                                                 String[] portletHandles) throws RemoteException;
 
   public PortletContext setPortletProperties(RegistrationContext registrationContext,
                                              PortletContext portletContext,
                                              UserContext userContext,
-                                             PropertyList propertyList) 
-    throws RemoteException;
+                                             PropertyList propertyList) throws RemoteException;
 
   public PropertyList getPortletProperties(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            UserContext userContext,
-                                           String[] names) 
-    throws RemoteException;
+                                           String[] names) throws RemoteException;
 
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(RegistrationContext registrationContext,
                                                                           PortletContext portletContext,
                                                                           UserContext userContext,
-                                                                          String[] desiredLocales) 
-    throws RemoteException;
+                                                                          String[] desiredLocales) throws RemoteException;
 
-
-  public PortletContext clonePortlet(RegistrationContext registrationContext, 
-                                     PortletContext portletContext, 
-                                     UserContext userContext)
-    throws RemoteException;                                 
+  public PortletContext clonePortlet(RegistrationContext registrationContext,
+                                     PortletContext portletContext,
+                                     UserContext userContext) throws RemoteException;
 
 }

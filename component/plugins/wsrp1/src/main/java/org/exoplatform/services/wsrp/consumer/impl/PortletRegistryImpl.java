@@ -33,7 +33,7 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
  * Time: 20:40:23
  */
 
-public class PortletRegistryImpl implements PortletRegistry{
+public class PortletRegistryImpl implements PortletRegistry {
 
   private Map<PortletKey, WSRPPortlet> portlets = new HashMap<PortletKey, WSRPPortlet>();
 

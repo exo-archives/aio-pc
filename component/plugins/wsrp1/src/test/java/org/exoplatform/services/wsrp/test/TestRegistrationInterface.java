@@ -24,8 +24,7 @@ import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationState;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class TestRegistrationInterface extends BaseTest {
 
@@ -77,7 +76,7 @@ public class TestRegistrationInterface extends BaseTest {
     returnedContext.getRegistrationHandle();
     resolveRegistrationContext(returnedContext);
     registrationOperationsInterface.deregister(returnedContext);
-    if (returnedContext.getRegistrationState() == null) {      
+    if (returnedContext.getRegistrationState() == null) {
       ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
       try {
         registrationOperationsInterface.modifyRegistration(modifyRegistration);

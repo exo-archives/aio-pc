@@ -32,27 +32,33 @@ import org.exoplatform.services.wsrp.type.RegistrationState;
 import org.exoplatform.services.wsrp.type.ReturnAny;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRP_v1_Registration_Binding_SOAPImpl implements WSRP_v1_Registration_PortType{
+public class WSRP_v1_Registration_Binding_SOAPImpl implements WSRP_v1_Registration_PortType {
 
   private RegistrationOperationsInterface registrationOperationsInterface;
 
   public WSRP_v1_Registration_Binding_SOAPImpl() {
-    registrationOperationsInterface = (RegistrationOperationsInterface) ExoContainerContext.getCurrentContainer().
-        getComponentInstanceOfType(RegistrationOperationsInterface.class);
+    registrationOperationsInterface = (RegistrationOperationsInterface) ExoContainerContext.getCurrentContainer()
+                                                                                           .getComponentInstanceOfType(RegistrationOperationsInterface.class);
   }
 
-  public RegistrationContext register(RegistrationData data) throws RemoteException, OperationFailedFault, MissingParametersFault {
+  public RegistrationContext register(RegistrationData data) throws RemoteException,
+                                                            OperationFailedFault,
+                                                            MissingParametersFault {
     return registrationOperationsInterface.register(data);
   }
 
-  public ReturnAny deregister(RegistrationContext context) throws RemoteException, InvalidRegistrationFault, OperationFailedFault {
-    return registrationOperationsInterface.deregister(context);    
+  public ReturnAny deregister(RegistrationContext context) throws RemoteException,
+                                                          InvalidRegistrationFault,
+                                                          OperationFailedFault {
+    return registrationOperationsInterface.deregister(context);
   }
 
-  public RegistrationState modifyRegistration(ModifyRegistrationRequest modifyRegistration) throws RemoteException, InvalidRegistrationFault, OperationFailedFault, MissingParametersFault {
+  public RegistrationState modifyRegistration(ModifyRegistrationRequest modifyRegistration) throws RemoteException,
+                                                                                           InvalidRegistrationFault,
+                                                                                           OperationFailedFault,
+                                                                                           MissingParametersFault {
     return registrationOperationsInterface.modifyRegistration(modifyRegistration.getRegistrationContext(),
                                                               modifyRegistration.getRegistrationData());
   }

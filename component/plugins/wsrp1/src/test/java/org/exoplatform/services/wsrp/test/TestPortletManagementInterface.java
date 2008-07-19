@@ -31,8 +31,7 @@ import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class TestPortletManagementInterface extends BaseTest {
 
@@ -49,13 +48,14 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
+    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
+                                                            .getPortletHandle();
     String[] keys = StringUtils.split(returnedPH, "/");
     assertTrue(keys.length == 3);
   }
 
   public void testClonePortletWithBadRegistrationHandle() {
-    RegistrationContext rC = new RegistrationContext("",null,null);
+    RegistrationContext rC = new RegistrationContext("", null, null);
     rC.setRegistrationHandle("dummy_handle");
     PortletContext pC = fillPortletContext("hello/HelloWorld");
     try {
@@ -92,7 +92,8 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
+    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
+                                                            .getPortletHandle();
     pC.setPortletHandle(returnedPH);
     pC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
     assertNotSame(returnedPH, pC.getPortletHandle());
@@ -101,9 +102,8 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setRegistrationContext(rC);
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
-    getPortletProperties.setNames(new String[]{"time-format"});
-    PropertyList list = portletManagementOperationsInterface.
-        getPortletProperties(getPortletProperties);
+    getPortletProperties.setNames(new String[] { "time-format" });
+    PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
     Property[] propArray = list.getProperties();
     assertEquals(1, propArray.length);
     Property property = propArray[0];
@@ -117,8 +117,9 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
-    String[] array = {returnedPH};
+    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
+                                                            .getPortletHandle();
+    String[] array = { returnedPH };
     DestroyPortletsRequest destroyPortlets = new DestroyPortletsRequest();
     destroyPortlets.setRegistrationContext(rC);
     destroyPortlets.setPortletHandles(array);
@@ -128,7 +129,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testDestroyNonClonedPortlet() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(registrationData);
-    String[] array = {"hello/HelloWorld/dummy"};
+    String[] array = { "hello/HelloWorld/dummy" };
     DestroyPortletsRequest destroyPortlets = new DestroyPortletsRequest();
     destroyPortlets.setRegistrationContext(rC);
     destroyPortlets.setPortletHandles(array);
@@ -143,7 +144,8 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
+    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
+                                                            .getPortletHandle();
     pC.setPortletHandle(returnedPH);
     GetPortletPropertiesRequest getPortletProperties = new GetPortletPropertiesRequest();
     getPortletProperties.setRegistrationContext(rC);
@@ -168,13 +170,14 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
+    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
+                                                            .getPortletHandle();
     pC.setPortletHandle(returnedPH);
     GetPortletPropertiesRequest getPortletProperties = new GetPortletPropertiesRequest();
     getPortletProperties.setRegistrationContext(rC);
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
-    getPortletProperties.setNames(new String[]{"time-format"});
+    getPortletProperties.setNames(new String[] { "time-format" });
     PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
     Property[] propArray = list.getProperties();
     assertEquals(1, propArray.length);
@@ -189,7 +192,8 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
+    String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
+                                                            .getPortletHandle();
     pC.setPortletHandle(returnedPH);
 
     Property property = new Property();
@@ -198,7 +202,7 @@ public class TestPortletManagementInterface extends BaseTest {
     property.setStringValue("test-value");
 
     PropertyList list = new PropertyList();
-    list.setProperties(new Property[]{property});
+    list.setProperties(new Property[] { property });
 
     SetPortletPropertiesRequest setPortletProperties = new SetPortletPropertiesRequest();
     setPortletProperties.setRegistrationContext(rC);
@@ -216,7 +220,7 @@ public class TestPortletManagementInterface extends BaseTest {
     Property[] propArray = list.getProperties();
     for (int i = 0; i < propArray.length; i++) {
       property = propArray[i];
-      System.out.println("prop : "+property.getName());
+      System.out.println("prop : " + property.getName());
       if ("test-prop".equals(property.getName())) {
         assertEquals("test-value", property.getStringValue());
         return;
@@ -224,7 +228,6 @@ public class TestPortletManagementInterface extends BaseTest {
     }
     fail("A property should have been found!!!");
   }
-
 
   private PortletContext fillPortletContext(String portletHandle) {
     PortletContext portletContext = new PortletContext();

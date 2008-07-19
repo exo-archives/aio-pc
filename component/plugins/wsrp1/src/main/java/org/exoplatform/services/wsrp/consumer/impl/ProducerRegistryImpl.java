@@ -53,8 +53,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
 
   protected ExoContainer        cont;
 
-  public ProducerRegistryImpl(ExoContainerContext ctx,
-                              HibernateService dbService) throws ConfigurationException {
+  public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService) throws ConfigurationException {
     hservice_ = dbService;
     log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp");
     cont = ctx.getContainer();
@@ -152,8 +151,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return data;
   }
 
-  final public WSRP1ProducerData load(String id,
-                                      Session session) throws Exception {
+  final public WSRP1ProducerData load(String id, Session session) throws Exception {
     WSRP1ProducerData data = null;
     List<WSRP1ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
     if (l.size() > 1) {

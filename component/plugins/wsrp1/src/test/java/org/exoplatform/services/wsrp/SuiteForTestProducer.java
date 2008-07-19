@@ -24,9 +24,7 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.test.*;
 
 /**
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 4.02.2008
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008
  */
 public class SuiteForTestProducer extends TestSuite {
 
@@ -34,7 +32,7 @@ public class SuiteForTestProducer extends TestSuite {
 
   public SuiteForTestProducer() {
     log.info("Preparing SuiteForTestProducer tests....");
- 
+
     String newProperty = System.getProperty("basedir") + "/war_template";
     System.setProperty("mock.portal.dir", newProperty);
 
@@ -52,5 +50,5 @@ public class SuiteForTestProducer extends TestSuite {
 
   public void testVoid() throws Exception {
   }
-  
+
 }

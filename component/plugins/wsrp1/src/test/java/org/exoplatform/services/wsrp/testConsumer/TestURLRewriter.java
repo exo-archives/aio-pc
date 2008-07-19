@@ -28,9 +28,9 @@ import org.exoplatform.services.wsrp.exceptions.WSRPException;
 
 public class TestURLRewriter extends BaseTest {
 
-  String      s = "wsrp_rewrite?wsrp-urlType=render&amp;wsrp-portletMode=wsrp:help&amp;"
-                    + "wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**"
-                    + "&amp;wsrp-windowState=wsrp:normal&amp;amp;wsrp-secureURL=false/wsrp_rewrite";
+  String s = "wsrp_rewrite?wsrp-urlType=render&amp;wsrp-portletMode=wsrp:help&amp;"
+               + "wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**"
+               + "&amp;wsrp-windowState=wsrp:normal&amp;amp;wsrp-secureURL=false/wsrp_rewrite";
 
   @Override
   protected void setUp() throws Exception {

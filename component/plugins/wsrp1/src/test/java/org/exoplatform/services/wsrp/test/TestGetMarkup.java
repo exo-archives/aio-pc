@@ -31,10 +31,9 @@ import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class TestGetMarkup extends BaseTest{ 
+public class TestGetMarkup extends BaseTest {
 
   @Override
   public void setUp() throws Exception {
@@ -43,10 +42,10 @@ public class TestGetMarkup extends BaseTest{
   }
 
   public void testGetMarkupForSeveralModes() throws Exception {
-    ServiceDescription sd = getServiceDescription(new String[]{"en"});
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext("",null,null);
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext("", null, null);
     String portletHandle = "hello/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -65,10 +64,10 @@ public class TestGetMarkup extends BaseTest{
   }
 
   public void testGetMarkupForSeveralWindowStates() throws Exception {
-    ServiceDescription sd = getServiceDescription(new String[]{"en"});
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext("",null,null);
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext("", null, null);
     String portletHandle = "hello/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -83,23 +82,24 @@ public class TestGetMarkup extends BaseTest{
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     response = markupOperationsInterface.getMarkup(getMarkup);
     assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
-    assertEquals("Everything is ok in Maximized state", response.getMarkupContext().getMarkupString());
-  }      
-  
-  public void testGetMarkupWithRewrittenURLInIt() throws RemoteException{
-    ServiceDescription sd = getServiceDescription(new String[]{"en"});
+    assertEquals("Everything is ok in Maximized state", response.getMarkupContext()
+                                                                .getMarkupString());
+  }
+
+  public void testGetMarkupWithRewrittenURLInIt() throws RemoteException {
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext("",null,null);
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext("", null, null);
     String portletHandle = "hello/PortletToTestMarkupWithRewrittenURL";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     MarkupRequest getMarkup = getMarkup(rc, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-    String s = response.getMarkupContext().getMarkupString();                                             
+    String s = response.getMarkupContext().getMarkupString();
     int index = s.indexOf("&ns=");
-    s = s.substring(index + "&ns=".length()); 
+    s = s.substring(index + "&ns=".length());
     index = s.indexOf("&is=");
     s = StringUtils.left(s, index);
     markupParams.setMode("wsrp:view");
@@ -109,7 +109,7 @@ public class TestGetMarkup extends BaseTest{
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     response = markupOperationsInterface.getMarkup(getMarkup);
-    assertEquals("value", response.getMarkupContext().getMarkupString());       
+    assertEquals("value", response.getMarkupContext().getMarkupString());
   }
 
   public void testGetMarkupOfAClonedPortlet() throws Exception {
@@ -130,7 +130,7 @@ public class TestGetMarkup extends BaseTest{
     property.setName("test-prop");
     property.setStringValue("test-value");
     PropertyList list = new PropertyList();
-    list.setProperties(new Property[]{property});
+    list.setProperties(new Property[] { property });
     SetPortletPropertiesRequest setPortletProperties = new SetPortletPropertiesRequest();
     setPortletProperties.setRegistrationContext(rC);
     setPortletProperties.setPortletContext(returnedPC);

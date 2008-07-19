@@ -17,20 +17,16 @@
 
 package org.exoplatform.services.wsrp.producer.impl.helpers;
 
-import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
-import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
 import org.exoplatform.services.wsrp.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -72,26 +68,26 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
     StringBuffer sB = new StringBuffer();
     sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
-    
+
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(getType());
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
     sB.append("=");
     sB.append(navigationalState);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SESSION_ID);
     sB.append("=");
     sB.append(sessionID);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_SECURE_URL);
     sB.append("=");
@@ -110,7 +106,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
       sB.append("=");
       sB.append(requiredWindowState);
     }
-    
+
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Set names = parameters.keySet();

@@ -45,11 +45,14 @@ import org.exoplatform.services.wsrp.wsdl.WSRPService;
  */
 
 public class MockWSRPService implements WSRPService {
-  
+
   private WSRP_v1_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
-  private WSRP_v1_Registration_Binding_SOAPImpl registrationOperationsInterface;
-  private WSRP_v1_Markup_Binding_SOAPImpl markupOperationsInterface;
-  private WSRP_v1_PortletManagement_Binding_SOAPImpl portletManagementOperationsInterface;
+
+  private WSRP_v1_Registration_Binding_SOAPImpl       registrationOperationsInterface;
+
+  private WSRP_v1_Markup_Binding_SOAPImpl             markupOperationsInterface;
+
+  private WSRP_v1_PortletManagement_Binding_SOAPImpl  portletManagementOperationsInterface;
 
   public MockWSRPService() {
     serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
@@ -106,56 +109,53 @@ public class MockWSRPService implements WSRPService {
     return serviceDescriptionInterface;
   }
 
-
-
   ///not necessary to implement
 
-
   public Remote getPort(QName qName, Class aClass) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Remote getPort(Class aClass) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call[] getCalls(QName qName) throws ServiceException {
-    return new Call[0];  //To change body of implemented methods use File | Settings | File Templates.
+    return new Call[0]; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall(QName qName) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall(QName qName, QName qName1) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall(QName qName, String string) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall() throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public QName getServiceName() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Iterator getPorts() throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public URL getWSDLDocumentLocation() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public TypeMappingRegistry getTypeMappingRegistry() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public HandlerRegistry getHandlerRegistry() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 }

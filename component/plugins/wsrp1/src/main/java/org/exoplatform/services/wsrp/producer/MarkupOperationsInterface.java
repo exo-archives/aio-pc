@@ -28,29 +28,23 @@ import org.exoplatform.services.wsrp.type.RuntimeContext;
 import org.exoplatform.services.wsrp.type.UserContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface MarkupOperationsInterface {
-  public MarkupResponse getMarkup(RegistrationContext registrationContext, 
-                                  PortletContext portletContext, 
-                                  RuntimeContext runtimeContext, 
-                                  UserContext userContext, 
-                                  MarkupParams markupParams) 
-    throws java.rmi.RemoteException;
-    
-  public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext, 
-                                                                PortletContext portletContext, 
-                                                                RuntimeContext runtimeContext, 
-                                                                UserContext userContext, 
-                                                                MarkupParams markupParams, 
-                                                                InteractionParams interactionParams) 
-    throws java.rmi.RemoteException;
-    
-  public ReturnAny initCookie(RegistrationContext registrationContext) 
-    throws java.rmi.RemoteException;
-    
-  public ReturnAny releaseSessions(RegistrationContext registrationContext, 
-                                   String[] sessionIDs) 
-    throws java.rmi.RemoteException;
+  public MarkupResponse getMarkup(RegistrationContext registrationContext,
+                                  PortletContext portletContext,
+                                  RuntimeContext runtimeContext,
+                                  UserContext userContext,
+                                  MarkupParams markupParams) throws java.rmi.RemoteException;
+
+  public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext,
+                                                                PortletContext portletContext,
+                                                                RuntimeContext runtimeContext,
+                                                                UserContext userContext,
+                                                                MarkupParams markupParams,
+                                                                InteractionParams interactionParams) throws java.rmi.RemoteException;
+
+  public ReturnAny initCookie(RegistrationContext registrationContext) throws java.rmi.RemoteException;
+
+  public ReturnAny releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws java.rmi.RemoteException;
 }

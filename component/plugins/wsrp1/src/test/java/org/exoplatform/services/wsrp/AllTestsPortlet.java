@@ -22,12 +22,9 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 
-
 /**
- * Created by The eXo Platform SAS
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 4.02.2008
+ * Created by The eXo Platform SAS Author : Alexey Zavizionov
+ * alexey.zavizionov@exoplatform.com.ua 4.02.2008
  */
 public class AllTestsPortlet extends TestCase {
 
@@ -38,9 +35,10 @@ public class AllTestsPortlet extends TestCase {
     System.out.println("TEST LOGGER: " + log);
     TestSuite suite = new TestSuite("portlet-container tests");
 
-    if (System.getProperty("exo.test.cargo.skip") == null || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
-       assertTrue(ContainerStarter.start());
-    
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
+      assertTrue(ContainerStarter.start());
+
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
 
@@ -49,9 +47,8 @@ public class AllTestsPortlet extends TestCase {
 
     return suite;
   }
-  
-  
-  protected void tearDown(){
+
+  protected void tearDown() {
     assertFalse(ContainerStarter.stop());
   }
 

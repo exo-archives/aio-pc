@@ -28,17 +28,17 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
 
   private String scheme;
+
   private String serverName;
+
   private int    serverPort;
 
-  public WSRPHttpServletResponse(HttpServletRequest request,
-                                 HttpServletResponse response) {
+  public WSRPHttpServletResponse(HttpServletRequest request, HttpServletResponse response) {
     super(response);
     this.init(request);
   }
@@ -66,7 +66,8 @@ public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
     //to absolute url
     String result = new String();
     String schem = (scheme != null) ? scheme : "http";
-    if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("ftp://") && !url.startsWith(schem + "://")) {
+    if (!url.startsWith("http://") && !url.startsWith("https://") && !url.startsWith("ftp://")
+        && !url.startsWith(schem + "://")) {
       if (serverName != null && serverName != "") {
         result = schem + "://" + serverName;
         if (serverPort != -1 && serverPort != 0) {
@@ -85,8 +86,7 @@ public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
     return null;
   }
 
-  public void sendError(int arg0,
-                        String arg1) throws IOException {
+  public void sendError(int arg0, String arg1) throws IOException {
   }
 
   public void sendError(int arg0) throws IOException {
@@ -95,28 +95,22 @@ public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
   public void sendRedirect(String arg0) throws IOException {
   }
 
-  public void setDateHeader(String arg0,
-                            long arg1) {
+  public void setDateHeader(String arg0, long arg1) {
   }
 
-  public void addDateHeader(String arg0,
-                            long arg1) {
+  public void addDateHeader(String arg0, long arg1) {
   }
 
-  public void setHeader(String arg0,
-                        String arg1) {
+  public void setHeader(String arg0, String arg1) {
   }
 
-  public void addHeader(String arg0,
-                        String arg1) {
+  public void addHeader(String arg0, String arg1) {
   }
 
-  public void setIntHeader(String arg0,
-                           int arg1) {
+  public void setIntHeader(String arg0, int arg1) {
   }
 
-  public void addIntHeader(String arg0,
-                           int arg1) {
+  public void addIntHeader(String arg0, int arg1) {
   }
 
   public void setStatus(int arg0) {
@@ -177,24 +171,23 @@ public class WSRPHttpServletResponse extends HttpServletResponseWrapper {
 
   //deprecated methods
   /**
-  * @Deprecated
-  */
+   * @Deprecated
+   */
   public String encodeUrl(String url) {
     return url;
   }
 
   /**
-  *@Deprecated
-  */
+   * @Deprecated
+   */
   public String encodeRedirectUrl(String arg0) {
     return null;
   }
 
   /**
-  *@Deprecated
-  */
-  public void setStatus(int arg0,
-                        String arg1) {
+   * @Deprecated
+   */
+  public void setStatus(int arg0, String arg1) {
   }
 
 }

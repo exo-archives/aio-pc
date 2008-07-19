@@ -33,23 +33,35 @@ import org.exoplatform.services.wsrp.type.StateChange;
  * Time: 17:13:04
  */
 
-public class ConsumerEnvironmentImpl implements ConsumerEnvironment{
+public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
 
-  private String consumerAgent = "exoplatform.1.0";
-  private String userAuthentication;
+  private String                consumerAgent = "exoplatform.1.0";
 
-  private PortletRegistry portletRegistry;
+  private String                userAuthentication;
+
+  private PortletRegistry       portletRegistry;
+
   private PortletDriverRegistry portletDriverRegistry;
-  private ProducerRegistry producerRegistry;
-  private UserRegistry userRegistry;
-  private URLTemplateComposer urlTemplateComposer;
-  private URLRewriter urlRewriter;
-  private String[] supportedLocales;
-  private String[] supportedModes;
-  private String[] windowStates;
-  private StateChange stateChange;
-  private String[] characterEncodingSet;
-  private String[] mimeTypes;
+
+  private ProducerRegistry      producerRegistry;
+
+  private UserRegistry          userRegistry;
+
+  private URLTemplateComposer   urlTemplateComposer;
+
+  private URLRewriter           urlRewriter;
+
+  private String[]              supportedLocales;
+
+  private String[]              supportedModes;
+
+  private String[]              windowStates;
+
+  private StateChange           stateChange;
+
+  private String[]              characterEncodingSet;
+
+  private String[]              mimeTypes;
 
   public ConsumerEnvironmentImpl(PortletRegistry portletRegistry,
                                  PortletDriverRegistry portletDriverRegistry,

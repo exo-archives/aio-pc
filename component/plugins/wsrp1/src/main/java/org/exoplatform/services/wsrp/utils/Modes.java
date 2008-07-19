@@ -134,11 +134,11 @@ public class Modes implements java.io.Serializable {
     }
     return new PortletMode(mode);
   }
-  
+
   public static String addPrefixWSRP(String forAddWSRP) {
     return WSRPConstants.WSRP_PREFIX + forAddWSRP.toLowerCase(Locale.ENGLISH);
   }
-  
+
   public static String getWSRPModeString(PortletMode jsrPortletMode) {
     return addPrefixWSRP(jsrPortletMode.toString().toLowerCase(Locale.ENGLISH));
   }

@@ -23,17 +23,12 @@ import org.exoplatform.services.wsrp.type.RegistrationState;
 import org.exoplatform.services.wsrp.type.ReturnAny;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface RegistrationOperationsInterface {
-  public RegistrationContext register(RegistrationData data) 
-    throws java.rmi.RemoteException;
-    
-  public RegistrationState modifyRegistration(RegistrationContext context, 
-                                              RegistrationData data) 
-    throws java.rmi.RemoteException;
-    
-  public ReturnAny deregister(RegistrationContext context) 
-    throws java.rmi.RemoteException;
+  public RegistrationContext register(RegistrationData data) throws java.rmi.RemoteException;
+
+  public RegistrationState modifyRegistration(RegistrationContext context, RegistrationData data) throws java.rmi.RemoteException;
+
+  public ReturnAny deregister(RegistrationContext context) throws java.rmi.RemoteException;
 }

@@ -34,8 +34,7 @@ import org.exoplatform.services.wsrp.type.RegistrationState;
 import org.exoplatform.services.wsrp.type.ReturnAny;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class RegistrationOperationsInterfaceImp implements RegistrationOperationsInterface {
 

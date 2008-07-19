@@ -17,20 +17,17 @@
 
 package org.exoplatform.services.wsrp.producer.impl.helpers;
 
-import java.net.URLEncoder;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
-import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
 import org.exoplatform.services.wsrp.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -63,32 +60,42 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
       setSecure(true);
       secureInfo = "true";
     }
-    
+
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    
+
     String template = baseURL;
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     if (requiredPortletMode != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_MODE + "}",
+                                     requiredPortletMode.toString());
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
     }
     if (requiredWindowState != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", requiredWindowState.toString());
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_WINDOW_STATE + "}",
+                                     requiredWindowState.toString());
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
+                                   portletHandle);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}",
+                                   navigationalState);
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
+                                   "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");

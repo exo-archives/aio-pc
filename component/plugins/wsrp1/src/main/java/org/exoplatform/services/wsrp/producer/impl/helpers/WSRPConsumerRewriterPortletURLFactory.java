@@ -28,10 +28,8 @@ import org.exoplatform.services.wsrp.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp.utils.Utils;
 
 /**
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 23 janv. 2004
- * Time: 18:20:54
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 23
+ * janv. 2004 Time: 18:20:54
  */
 public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory {
 

@@ -87,12 +87,12 @@ public class PortletDriverImpl implements PortletDriver {
 
   private Log                                log;
 
-  public PortletDriverImpl(ExoContainer cont,
-                           WSRPPortlet portlet) throws WSRPException {
+  public PortletDriverImpl(ExoContainer cont, WSRPPortlet portlet) throws WSRPException {
     this.consumerEnv = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp.consumer");
     this.portlet = portlet;
-    this.producer = consumerEnv.getProducerRegistry().getProducer(portlet.getPortletKey().getProducerId());
+    this.producer = consumerEnv.getProducerRegistry().getProducer(portlet.getPortletKey()
+                                                                         .getProducerId());
     portletPort = producer.getPortletManagementInterface();
     ServiceDescription serviceDescription = producer.getServiceDescription(false);
     if (serviceDescription != null) {
@@ -190,8 +190,7 @@ public class PortletDriverImpl implements PortletDriver {
     return markupParams;
   }
 
-  private RuntimeContext getRuntimeContext(WSRPBaseRequest request,
-                                           String baseURL) throws WSRPException {
+  private RuntimeContext getRuntimeContext(WSRPBaseRequest request, String baseURL) throws WSRPException {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumerEnv.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
@@ -254,7 +253,10 @@ public class PortletDriverImpl implements PortletDriver {
   private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
     interactionParams.setPortletStateChange(consumerEnv.getPortletStateChange());
-    if (!portlet.isConsumerConfigured() && interactionParams.getPortletStateChange().toString().equalsIgnoreCase(StateChange._readWrite)) {
+    if (!portlet.isConsumerConfigured()
+        && interactionParams.getPortletStateChange()
+                            .toString()
+                            .equalsIgnoreCase(StateChange._readWrite)) {
       interactionParams.setPortletStateChange(StateChange.cloneBeforeWrite);
     }
     interactionParams.setInteractionState(actionRequest.getInteractionState());
@@ -294,11 +296,13 @@ public class PortletDriverImpl implements PortletDriver {
         response.setMarkupContext(markupContext);
       }
       Boolean requiresRewriting = response.getMarkupContext().getRequiresUrlRewriting();
-      log.debug("response.getMarkupContext().getMarkupString() = " + response.getMarkupContext().getMarkupString());
+      log.debug("response.getMarkupContext().getMarkupString() = "
+          + response.getMarkupContext().getMarkupString());
       log.debug("requires URL rewriting : " + requiresRewriting);
       if (!Boolean.TRUE.equals(requiresRewriting)) {
         URLRewriter urlRewriter = consumerEnv.getURLRewriter();
-        String rewrittenMarkup = urlRewriter.rewriteURLs(path, response.getMarkupContext().getMarkupString());
+        String rewrittenMarkup = urlRewriter.rewriteURLs(path, response.getMarkupContext()
+                                                                       .getMarkupString());
         if (rewrittenMarkup != null) {
           response.getMarkupContext().setMarkupString(rewrittenMarkup);
         }
@@ -365,8 +369,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public DestroyPortletsResponse destroyPortlets(String[] portletHandles,
-                                                 UserSessionMgr userSession) throws WSRPException {
+  public DestroyPortletsResponse destroyPortlets(String[] portletHandles, UserSessionMgr userSession) throws WSRPException {
     DestroyPortletsRequest request = new DestroyPortletsRequest();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {
@@ -382,8 +385,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public ReturnAny releaseSessions(String[] sessionIDs,
-                                   UserSessionMgr userSession) throws WSRPException {
+  public ReturnAny releaseSessions(String[] sessionIDs, UserSessionMgr userSession) throws WSRPException {
     checkInitCookie(userSession);
     ReleaseSessionsRequest request = new ReleaseSessionsRequest();
     RegistrationContext regCtx = producer.getRegistrationContext();
@@ -459,8 +461,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public PropertyList getPortletProperties(String[] names,
-                                           UserSessionMgr userSession) throws WSRPException {
+  public PropertyList getPortletProperties(String[] names, UserSessionMgr userSession) throws WSRPException {
     GetPortletPropertiesRequest request = new GetPortletPropertiesRequest();
     request.setPortletContext(getPortlet().getPortletContext());
     request.setNames(names);
@@ -481,8 +482,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public PortletContext setPortletProperties(PropertyList properties,
-                                             UserSessionMgr userSession) throws WSRPException {
+  public PortletContext setPortletProperties(PropertyList properties, UserSessionMgr userSession) throws WSRPException {
     SetPortletPropertiesRequest request = new SetPortletPropertiesRequest();
     request.setPortletContext(getPortlet().getPortletContext());
     RegistrationContext regCtx = producer.getRegistrationContext();

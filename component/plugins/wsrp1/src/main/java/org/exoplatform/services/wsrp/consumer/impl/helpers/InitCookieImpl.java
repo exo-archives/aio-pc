@@ -17,28 +17,30 @@
 
 package org.exoplatform.services.wsrp.consumer.impl.helpers;
 
+import java.net.MalformedURLException;
+import java.net.URL;
+
 import javax.xml.rpc.ServiceException;
+
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.wsrp.consumer.templates.InitCookieTemplate;
 import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
 import org.exoplatform.services.wsrp.wsdl.WSRPService;
 import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
-import java.net.URL;
-import java.net.MalformedURLException;
-import org.exoplatform.container.*;
 
 /**
- * Created y the eXo platform team
- * User: Benjamin Mestrallet
- * Date: 11 mai 2004
+ * Created y the eXo platform team User: Benjamin Mestrallet Date: 11 mai 2004
  */
-public class InitCookieImpl extends InitCookieTemplate{
-  private WSRPService service;
-  private String markupInterfaceURL;
+public class InitCookieImpl extends InitCookieTemplate {
+  private WSRPService             service;
+
+  private String                  markupInterfaceURL;
+
   private WSRP_v1_Markup_PortType markupInterface;
 
   public InitCookieImpl(String markupInterfaceURL) {
-    service = (WSRPService)(ExoContainerContext.getCurrentContainer().getComponentInstanceOfType(WSRPService.class));
-    ((WSRPServiceLocator)service).setMaintainSession(true);
+    service = (WSRPService) (ExoContainerContext.getCurrentContainer().getComponentInstanceOfType(WSRPService.class));
+    ((WSRPServiceLocator) service).setMaintainSession(true);
     this.markupInterfaceURL = markupInterfaceURL;
     try {
       this.markupInterface = service.getWSRPMarkupService(new URL(markupInterfaceURL));

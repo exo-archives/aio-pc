@@ -39,12 +39,11 @@ import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class WSRPHttpServletRequest extends HttpServletRequestWrapper {
 
-  private HttpSession       wsrpSession;
+  private HttpSession           wsrpSession;
 
   private Map<String, String[]> parameters;
 
@@ -284,8 +283,7 @@ public class WSRPHttpServletRequest extends HttpServletRequestWrapper {
     return null;
   }
 
-  public void setAttribute(String arg0,
-                           Object arg1) {
+  public void setAttribute(String arg0, Object arg1) {
     attributes.put(arg0, arg1);
   }
 
@@ -352,8 +350,7 @@ public class WSRPHttpServletRequest extends HttpServletRequestWrapper {
     return 0;
   }
 
-  public void setParameter(String key,
-                           String value) {
+  public void setParameter(String key, String value) {
     String[] valueArray = new String[1];
     valueArray[0] = value;
     parameters.put(key, valueArray);
@@ -366,7 +363,7 @@ public class WSRPHttpServletRequest extends HttpServletRequestWrapper {
   public boolean isRequestedSessionIdFromUrl() {
     return false;
   }
-  
+
   public void setWsrpSession(WSRPHttpSession wsrpSession) {
     this.wsrpSession = wsrpSession;
   }

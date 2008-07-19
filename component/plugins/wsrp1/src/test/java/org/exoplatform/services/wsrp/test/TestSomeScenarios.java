@@ -28,10 +28,8 @@ import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
 
 /**
- * Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net
- * Date: 24 janv. 2004
- * Time: 11:43:58
+ * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 24
+ * janv. 2004 Time: 11:43:58
  */
 public class TestSomeScenarios extends BaseTest {
 
@@ -46,7 +44,7 @@ public class TestSomeScenarios extends BaseTest {
   public void testFirstConsumerScenario() throws Throwable, RemoteException {
     //get the service description through a monitor that listen on port 8081
     ServiceDescriptionRequest request = new ServiceDescriptionRequest();
-    request.setDesiredLocales(new String[]{"en"});
+    request.setDesiredLocales(new String[] { "en" });
     ServiceDescription serviceDescription = null;
     serviceDescription = serviceDescriptionInterface.getServiceDescription(request);
 
@@ -65,12 +63,12 @@ public class TestSomeScenarios extends BaseTest {
     PortletDescription[] array = serviceDescription.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];
-      if(PORTLET_HANDLE.equals(portletDescription.getPortletHandle())){
+      if (PORTLET_HANDLE.equals(portletDescription.getPortletHandle())) {
         go_on = true;
         break;
       }
     }
-    if(!go_on)
+    if (!go_on)
       fail("The portlet " + PORTLET_HANDLE + " is not deployed");
 
     //prepare the request arguments

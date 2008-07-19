@@ -43,15 +43,11 @@ public interface PortletContainerProxy {
 
   public ResourceList getResourceList(String[] desiredLocales);
 
-  public PortletDescription getPortletDescription(String portletHandle,
-                                                  String[] desiredLocales);
+  public PortletDescription getPortletDescription(String portletHandle, String[] desiredLocales);
 
-  public void setPortletProperties(String portletHandle,
-                                   String userID,
-                                   PropertyList propertyList) throws WSRPException;
+  public void setPortletProperties(String portletHandle, String userID, PropertyList propertyList) throws WSRPException;
 
-  public Map<String, String[]> getPortletProperties(String portletHandle,
-                                                    String userID) throws WSRPException;
+  public Map<String, String[]> getPortletProperties(String portletHandle, String userID) throws WSRPException;
 
   public Map<String, PortletData> getAllPortletMetaData();
 

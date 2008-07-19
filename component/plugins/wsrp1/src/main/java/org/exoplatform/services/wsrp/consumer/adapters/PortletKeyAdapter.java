@@ -26,9 +26,10 @@ import org.exoplatform.services.wsrp.consumer.PortletKey;
  * Time: 22:56:54
  */
 
-public class PortletKeyAdapter implements PortletKey{
+public class PortletKeyAdapter implements PortletKey {
 
   private String portletHandle;
+
   private String producerId;
 
   public String getPortletHandle() {
@@ -46,5 +47,5 @@ public class PortletKeyAdapter implements PortletKey{
   public void setProducerId(String producerId) {
     this.producerId = producerId;
   }
-  
+
 }

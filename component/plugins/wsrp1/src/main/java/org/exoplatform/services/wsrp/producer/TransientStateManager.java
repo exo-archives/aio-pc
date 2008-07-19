@@ -34,9 +34,7 @@ public interface TransientStateManager {
 
   public static int SESSION_TIME_PERIOD = 900; // seconds
 
-  public WSRPHttpSession resolveSession(String sessionID,
-                                        String user,
-                                        Integer sessiontimeperiod) throws WSRPException;
+  public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException;
 
   public void releaseSession(String sessionID);
 
@@ -46,9 +44,7 @@ public interface TransientStateManager {
 
   public Templates getTemplates(WSRPHttpSession session);
 
-  public void storeTemplates(Templates templates,
-                             WSRPHttpSession session);
+  public void storeTemplates(Templates templates, WSRPHttpSession session);
 
-  public UserContext resolveUserContext(UserContext userContext,
-                                        WSRPHttpSession session);
+  public UserContext resolveUserContext(UserContext userContext, WSRPHttpSession session);
 }

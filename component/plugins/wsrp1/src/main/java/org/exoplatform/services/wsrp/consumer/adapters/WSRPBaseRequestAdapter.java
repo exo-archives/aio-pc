@@ -27,20 +27,31 @@ import org.exoplatform.services.wsrp.type.ClientData;
  * Time: 16:25:12
  */
 
-public class WSRPBaseRequestAdapter implements WSRPBaseRequest{
+public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
-  private String sessionID;
-  private String portletInstanceKey;
-  private String navigationalState;
-  private String windowState;
-  private String mode;
+  private String     sessionID;
+
+  private String     portletInstanceKey;
+
+  private String     navigationalState;
+
+  private String     windowState;
+
+  private String     mode;
+
   private ClientData clientData;
-  private String[] locales;
-  private String[] modes;
-  private String[] windowStates;
-  private String[] mimeTypes;
-  private String[] characterEncodingSet;
-  private String userAuthentication;
+
+  private String[]   locales;
+
+  private String[]   modes;
+
+  private String[]   windowStates;
+
+  private String[]   mimeTypes;
+
+  private String[]   characterEncodingSet;
+
+  private String     userAuthentication;
 
   public String getSessionID() {
     return sessionID;
@@ -163,7 +174,5 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest{
     }
     return false;
   }
-  
-
 
 }

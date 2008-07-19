@@ -30,9 +30,11 @@ import org.exoplatform.services.wsrp.type.PortletContext;
 
 public class WSRPPortletAdapter implements WSRPPortlet {
 
-  private PortletKey portletKey = null;
+  private PortletKey     portletKey     = null;
+
   private PortletContext portletContext = null;
-  private String parentHandle = null;
+
+  private String         parentHandle   = null;
 
   public WSRPPortletAdapter(PortletKey portletKey) {
     this.portletKey = portletKey;

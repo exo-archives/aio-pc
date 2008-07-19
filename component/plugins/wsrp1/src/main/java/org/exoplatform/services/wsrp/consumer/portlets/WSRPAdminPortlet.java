@@ -119,8 +119,7 @@ public class WSRPAdminPortlet {
     reset();
   }
 
-  public void render(RenderInput input,
-                     RenderOutput output) throws PortletContainerException {
+  public void render(RenderInput input, RenderOutput output) throws PortletContainerException {
     try {
 
       output.setTitle(this.portletTitle);
@@ -134,36 +133,48 @@ public class WSRPAdminPortlet {
       if (input.getPortletURLFactory() != null) {
         actionURL = input.getPortletURLFactory().createPortletURL(PCConstants.ACTION_STRING);
       }
-      actionURL = new PortletURLImp(PCConstants.ACTION_STRING, input.getBaseURL(), input.getMarkup(), null, true, input.getEscapeXml(), null);
+      actionURL = new PortletURLImp(PCConstants.ACTION_STRING,
+                                    input.getBaseURL(),
+                                    input.getMarkup(),
+                                    null,
+                                    true,
+                                    input.getEscapeXml(),
+                                    null);
 
       // actionURL.setSecure(true);
       actionURL.setWindowState(WindowState.NORMAL);
       actionURL.setPortletMode(PortletMode.VIEW);
 
-      w.println("<center><b>Register remote producer for " + WSRPConstants.WSRP_ID + " plugin.</b></center><br>");
-      w.println("<form name=\"producer_wsrp1_form\" method=\"post\" action=\"" + actionURL.toString() + "\">");
+      w.println("<center><b>Register remote producer for " + WSRPConstants.WSRP_ID
+          + " plugin.</b></center><br>");
+      w.println("<form name=\"producer_wsrp1_form\" method=\"post\" action=\""
+          + actionURL.toString() + "\">");
       w.println("  <input type=\"hidden\" name=\"op\" value=\"\"/>");
       w.println("    <table>");
       w.println("    <tr><td><label>Producer Name</label></td>");
-      w.println("      <td><input name=\"" + WSRPConstants.WAP_producerName + "\" value=\"" + producerName
-          + "\" type=\"text\" size=\"45\"></td></tr>");
+      w.println("      <td><input name=\"" + WSRPConstants.WAP_producerName + "\" value=\""
+          + producerName + "\" type=\"text\" size=\"45\"></td></tr>");
       w.println("    <tr><td><label>Producer URL</label></td>");
-      w.println("      <td><input name=\"" + WSRPConstants.WAP_producerURL + "\" value=\"" + producerURL + "\" type=\"text\" size=\"45\"></td></tr>");
+      w.println("      <td><input name=\"" + WSRPConstants.WAP_producerURL + "\" value=\""
+          + producerURL + "\" type=\"text\" size=\"45\"></td></tr>");
       w.println("    <tr><td><label>Markup Interface End Point</label></td>");
-      w.println("      <td><input name=\"" + WSRPConstants.WAP_markupIntfEndpoint + "\" value=\"" + markupIntfEndpoint
-          + "\" type=\"text\" size=\"45\"></td></tr>");
+      w.println("      <td><input name=\"" + WSRPConstants.WAP_markupIntfEndpoint + "\" value=\""
+          + markupIntfEndpoint + "\" type=\"text\" size=\"45\"></td></tr>");
       w.println("    <tr><td><label>Portlet Management Interface End Point</label></td>");
-      w.println("      <td><input name=\"" + WSRPConstants.WAP_portletManagementIntfEndpoint + "\" value=\"" + portletManagementIntfEndpoint
+      w.println("      <td><input name=\"" + WSRPConstants.WAP_portletManagementIntfEndpoint
+          + "\" value=\"" + portletManagementIntfEndpoint
           + "\" type=\"text\" size=\"45\"></td></tr>");
       w.println("    <tr><td><label>Registration Interface End Point</label></td>");
-      w.println("      <td><input name=\"" + WSRPConstants.WAP_registrationIntfEndpoint + "\" value=\"" + registrationIntfEndpoint
-          + "\" type=\"text\" size=\"45\"></td></tr>");
+      w.println("      <td><input name=\"" + WSRPConstants.WAP_registrationIntfEndpoint
+          + "\" value=\"" + registrationIntfEndpoint + "\" type=\"text\" size=\"45\"></td></tr>");
       w.println("    <tr><td><label>Service Description Interface End Point</label></td>");
-      w.println("      <td><input name=\"" + WSRPConstants.WAP_serviceDescriptionIntfEndpoint + "\" value=\"" + serviceDescriptionIntfEndpoint
+      w.println("      <td><input name=\"" + WSRPConstants.WAP_serviceDescriptionIntfEndpoint
+          + "\" value=\"" + serviceDescriptionIntfEndpoint
           + "\" type=\"text\" size=\"45\"></td></tr>");
       w.println("    <tr><td><label>Description</label></td>");
-      w.println("      <td><textarea id=\"" + WSRPConstants.WAP_description + "\" name=\"" + WSRPConstants.WAP_description
-          + "\" cols=\"35\" rows=\"5\">" + description + "</textarea></td></tr>");
+      w.println("      <td><textarea id=\"" + WSRPConstants.WAP_description + "\" name=\""
+          + WSRPConstants.WAP_description + "\" cols=\"35\" rows=\"5\">" + description
+          + "</textarea></td></tr>");
       w.println("    <tr><td colspan='2' align='center'>");
       w.println("      <a href=\"javascript:submit_producer_wsrp1_form('save');\">Save</a>");
       w.println("      <a href=\"javascript:submit_producer_wsrp1_form('reset');\">Reset</a>");
@@ -193,7 +204,8 @@ public class WSRPAdminPortlet {
         w.println("<tr>");
         w.println("<td colspan='2'>");
         w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
-        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint() + "<br>");
+        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint()
+            + "<br>");
         //        w.println("Description - " + producer.getDescription() + "<br>");
         //        RegistrationContext regCtx = producer.getRegistrationContext();
         //        if (regCtx != null) {
@@ -227,12 +239,18 @@ public class WSRPAdminPortlet {
           if (portletDescriptions != null) {
             for (int k = 0; k < portletDescriptions.length; k++) {
               PortletDescription portletDescription = portletDescriptions[k];
-              w.println("<tr><td colspan='2'><b><br>" + getValue(portletDescription.getDisplayName()) + "</b></td></tr>");
-              w.println("<tr><td>" + "portletHandle" + "</td><td>" + portletDescription.getPortletHandle().toString() + "</td></tr>");
-              w.println("<tr><td>" + "groupId" + "</td><td>" + portletDescription.getGroupID().toString() + "</td></tr>");
-              w.println("<tr><td>" + "title" + "</td><td>" + getValue(portletDescription.getTitle()) + "</td></tr>");
-              w.println("<tr><td>" + "shortTitle" + "</td><td>" + getValue(portletDescription.getShortTitle()) + "</td></tr>");
-              w.println("<tr><td>" + "displayName" + "</td><td>" + getValue(portletDescription.getDisplayName()) + "</td></tr>");
+              w.println("<tr><td colspan='2'><b><br>"
+                  + getValue(portletDescription.getDisplayName()) + "</b></td></tr>");
+              w.println("<tr><td>" + "portletHandle" + "</td><td>"
+                  + portletDescription.getPortletHandle().toString() + "</td></tr>");
+              w.println("<tr><td>" + "groupId" + "</td><td>"
+                  + portletDescription.getGroupID().toString() + "</td></tr>");
+              w.println("<tr><td>" + "title" + "</td><td>"
+                  + getValue(portletDescription.getTitle()) + "</td></tr>");
+              w.println("<tr><td>" + "shortTitle" + "</td><td>"
+                  + getValue(portletDescription.getShortTitle()) + "</td></tr>");
+              w.println("<tr><td>" + "displayName" + "</td><td>"
+                  + getValue(portletDescription.getDisplayName()) + "</td></tr>");
               StringBuffer value = new StringBuffer();
               LocalizedString[] keywords = portletDescription.getKeywords();
               if (keywords != null) {
@@ -266,23 +284,28 @@ public class WSRPAdminPortlet {
                 }
                 valueProfileItem = value.toString();
               }
-              w.println("<tr><td>" + "userProfileItem" + "</td><td>" + valueProfileItem + "</td></tr>");
-              w.println("<tr><td>" + "usesMethodGet" + "</td><td>" + portletDescription.getUsesMethodGet().toString() + "</td></tr>");
+              w.println("<tr><td>" + "userProfileItem" + "</td><td>" + valueProfileItem
+                  + "</td></tr>");
+              w.println("<tr><td>" + "usesMethodGet" + "</td><td>"
+                  + portletDescription.getUsesMethodGet().toString() + "</td></tr>");
               if (portletDescription.getDefaultMarkupSecure() != null)
-                w.println("<tr><td>" + "defaultMarkupSecure" + "</td><td>" + portletDescription.getDefaultMarkupSecure().toString() + "</td></tr>");
+                w.println("<tr><td>" + "defaultMarkupSecure" + "</td><td>"
+                    + portletDescription.getDefaultMarkupSecure().toString() + "</td></tr>");
               if (portletDescription.getOnlySecure() != null)
-                w.println("<tr><td>" + "onlySecure" + "</td><td>" + portletDescription.getOnlySecure().toString() + "</td></tr>");
+                w.println("<tr><td>" + "onlySecure" + "</td><td>"
+                    + portletDescription.getOnlySecure().toString() + "</td></tr>");
               if (portletDescription.getUserContextStoredInSession() != null)
-                w.println("<tr><td>" + "userContextStoredInSession" + "</td><td>" + portletDescription.getUserContextStoredInSession().toString()
-                    + "</td></tr>");
+                w.println("<tr><td>" + "userContextStoredInSession" + "</td><td>"
+                    + portletDescription.getUserContextStoredInSession().toString() + "</td></tr>");
               if (portletDescription.getTemplatesStoredInSession() != null)
-                w.println("<tr><td>" + "templatesStoredInSession" + "</td><td>" + portletDescription.getTemplatesStoredInSession().toString()
-                    + "</td></tr>");
+                w.println("<tr><td>" + "templatesStoredInSession" + "</td><td>"
+                    + portletDescription.getTemplatesStoredInSession().toString() + "</td></tr>");
               if (portletDescription.getHasUserSpecificState() != null)
-                w.println("<tr><td>" + "hasUserSpecificState" + "</td><td>" + portletDescription.getHasUserSpecificState().toString() + "</td></tr>");
+                w.println("<tr><td>" + "hasUserSpecificState" + "</td><td>"
+                    + portletDescription.getHasUserSpecificState().toString() + "</td></tr>");
               if (portletDescription.getDoesUrlTemplateProcessing() != null)
-                w.println("<tr><td>" + "doesUrlTemplateProcessing" + "</td><td>" + portletDescription.getDoesUrlTemplateProcessing().toString()
-                    + "</td></tr>");
+                w.println("<tr><td>" + "doesUrlTemplateProcessing" + "</td><td>"
+                    + portletDescription.getDoesUrlTemplateProcessing().toString() + "</td></tr>");
               w.println("<tr><td>" + "extensions" + "</td><td>" + "N/A" + "</td></tr>");
             }
           }
@@ -304,9 +327,7 @@ public class WSRPAdminPortlet {
 
   }
 
-  public void processAction(ActionInput input,
-                            ActionOutput output,
-                            HttpServletRequest request) {
+  public void processAction(ActionInput input, ActionOutput output, HttpServletRequest request) {
     try {
       String action = request.getParameter("op");
       if (action.equals("reset")) {
@@ -363,10 +384,14 @@ public class WSRPAdminPortlet {
         consumerAgent = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_consumerAgent);
         producerName = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_producerName);
         producerURL = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_producerURL);
-        markupIntfEndpoint = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_markupIntfEndpoint);
-        portletManagementIntfEndpoint = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_portletManagementIntfEndpoint);
-        registrationIntfEndpoint = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_registrationIntfEndpoint);
-        serviceDescriptionIntfEndpoint = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
+        markupIntfEndpoint = (String) conf.getAdminPortletParams()
+                                          .get(WSRPConstants.WAP_markupIntfEndpoint);
+        portletManagementIntfEndpoint = (String) conf.getAdminPortletParams()
+                                                     .get(WSRPConstants.WAP_portletManagementIntfEndpoint);
+        registrationIntfEndpoint = (String) conf.getAdminPortletParams()
+                                                .get(WSRPConstants.WAP_registrationIntfEndpoint);
+        serviceDescriptionIntfEndpoint = (String) conf.getAdminPortletParams()
+                                                      .get(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
         description = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_description);
         return;
       }

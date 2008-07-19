@@ -33,8 +33,7 @@ import org.exoplatform.services.wsrp.type.RegistrationContext;
 
 public class Utils {
   public static void testRegistration(RegistrationContext registrationContext,
-                                      org.exoplatform.services.wsrp.producer.PersistentStateManager stateManager)
-      throws RemoteException {
+                                      org.exoplatform.services.wsrp.producer.PersistentStateManager stateManager) throws RemoteException {
     try {
       if (!stateManager.isRegistered(registrationContext)) {
         Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));

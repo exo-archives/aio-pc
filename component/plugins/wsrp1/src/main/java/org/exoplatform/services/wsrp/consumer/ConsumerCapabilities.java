@@ -12,22 +12,22 @@ public interface ConsumerCapabilities {
 
   /**
    * Get the name of the consumer
-   *
+   * 
    * @return The name of the consumer
    */
   public String getConsumerAgent();
 
   /**
    * Get the method which is used by the consumer to authenticate its users.
-   *
+   * 
    * @return String indicating how end-users were authenticated by the consumer.
    */
   public String getUserAuthentication();
 
   /**
-   * Get the locales which are supported by the consumer.
-   * (ISO-639 + "_" + ISO-3166)
-   *
+   * Get the locales which are supported by the consumer. (ISO-639 + "_" +
+   * ISO-3166)
+   * 
    * @return Array with string representations of the locales which are
    *         supported by the consumer
    */
@@ -35,7 +35,7 @@ public interface ConsumerCapabilities {
 
   /**
    * Get the portlet modes the consumer is willing to manage.
-   *
+   * 
    * @return Array with string representations of the portlet modes which are
    *         supported by the consumer
    */
@@ -43,39 +43,40 @@ public interface ConsumerCapabilities {
 
   /**
    * Get the window states the consumer is willing to manage.
-   *
+   * 
    * @return Array with string representations of the window states which are
    *         supported by the consumer
    */
   public String[] getSupportedWindowStates();
 
   /**
-   * Returns a flag which is used to indicate the producer wether or not
-   * the processing of portlets is allowed to modify the portlet state.
-   *
+   * Returns a flag which is used to indicate the producer wether or not the
+   * processing of portlets is allowed to modify the portlet state.
+   * 
    * @return A flag
    */
   public StateChange getPortletStateChange();
 
   /**
-   * Get the character sets the consumer wants the remote portlet to use for encoding the markup.
-   * Valid character sets are defined <a href='http://www.iana.org/assignments/character-sets'>here</a>
-   *
+   * Get the character sets the consumer wants the remote portlet to use for
+   * encoding the markup. Valid character sets are defined <a
+   * href='http://www.iana.org/assignments/character-sets'>here</a>
+   * 
    * @return Array of string representations of the character encoding.
    */
   public String[] getCharacterEncodingSet();
 
   /**
-   * Get an array of mime types which are supported by the consumer.
-   * The order in the array defines the order of preference of the consumer.
-   *
+   * Get an array of mime types which are supported by the consumer. The order
+   * in the array defines the order of preference of the consumer.
+   * 
    * @return An array of mimes types the consumer supports.
    */
   public String[] getMimeTypes();
 
   /**
    * Set the name of the consumer
-   *
+   * 
    * @param name The new name of the consumer
    */
   public void setConsumerAgent(String name);
@@ -86,22 +87,22 @@ public interface ConsumerCapabilities {
   public void setUserAuthentication(String authMethod);
 
   /**
-   * Set the mime types the consumer supports
-   * The order in the array defines the order of preference of the consumer.
+   * Set the mime types the consumer supports The order in the array defines the
+   * order of preference of the consumer.
    */
   public void setMimeTypes(String[] mimeTypes);
 
   /**
-   * Set the locales which are supported by the consumer.
-   * Pattern: ISO-639 + "_" + ISO-3166
-   *
+   * Set the locales which are supported by the consumer. Pattern: ISO-639 + "_" +
+   * ISO-3166
+   * 
    * @param locales Array of string representations of supported locales
    */
   public void setSupportedLocales(String[] locales);
 
   /**
    * Set the portlet modes which are supported by the consumer.
-   *
+   * 
    * @param modes Array of string representations of portlet modes
    */
   public void setSupportedModes(String[] modes);
@@ -112,21 +113,22 @@ public interface ConsumerCapabilities {
   public void setSupportedWindowStates(String[] states);
 
   /**
-   * Set a flag which is used to indicate the producer wether or not
-   * the processing of portlets is allowed to modify the portlet state.
-   *
+   * Set a flag which is used to indicate the producer wether or not the
+   * processing of portlets is allowed to modify the portlet state.
+   * 
    * @param portletStateChange A flag with one of the following values:
-   *                           StateChange.OK, StateChange.Clone, StateChange.Fault
+   *          StateChange.OK, StateChange.Clone, StateChange.Fault
    */
   public void setPortletStateChange(StateChange portletStateChange);
 
   /**
-   * Set the character set the consumer wants the remote portlet to use for encoding the markup.
-   * Valid character sets are defined <a href='http://www.iana.org/assignments/character-sets'>here</a>
-   *
-   * @param charEncoding Array of string representations of the character encoding.
+   * Set the character set the consumer wants the remote portlet to use for
+   * encoding the markup. Valid character sets are defined <a
+   * href='http://www.iana.org/assignments/character-sets'>here</a>
+   * 
+   * @param charEncoding Array of string representations of the character
+   *          encoding.
    */
   public void setCharacterEncodingSet(String[] charEncoding);
 
 }
-

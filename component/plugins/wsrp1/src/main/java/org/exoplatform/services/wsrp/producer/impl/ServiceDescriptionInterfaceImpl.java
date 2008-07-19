@@ -17,35 +17,52 @@
 
 package org.exoplatform.services.wsrp.producer.impl;
 
+import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
-import org.exoplatform.services.portletcontainer.pci.*;
+import org.exoplatform.services.portletcontainer.pci.CustomModeWithDescription;
+import org.exoplatform.services.portletcontainer.pci.CustomWindowStateWithDescription;
+import org.exoplatform.services.portletcontainer.pci.LocalisedDescription;
+import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp.producer.ServiceDescriptionInterface;
-import org.exoplatform.services.wsrp.type.*;
+import org.exoplatform.services.wsrp.type.CookieProtocol;
+import org.exoplatform.services.wsrp.type.ItemDescription;
+import org.exoplatform.services.wsrp.type.ModelDescription;
+import org.exoplatform.services.wsrp.type.PortletDescription;
+import org.exoplatform.services.wsrp.type.RegistrationContext;
+import org.exoplatform.services.wsrp.type.ResourceList;
+import org.exoplatform.services.wsrp.type.ServiceDescription;
 import org.exoplatform.services.wsrp.utils.Utils;
 
-import java.rmi.RemoteException;
-import java.util.*;
-
 /**
- *  Author : Tuan Nguyen
- *           tuan08@users.sourceforge.net
- *  Author : Mestrallet Benjamin
- *           benjmestrallet@users.sourceforge.net
- *  Date: 10 Dec. 2003
- *  Time: 09:40:23
- * */
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net Author : Mestrallet
+ * Benjamin benjmestrallet@users.sourceforge.net Date: 10 Dec. 2003 Time:
+ * 09:40:23
+ */
 public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterface {
 
   private PortletContainerProxy cont;
+
   public static String[]        localesArray = { "en", "fr" };
+
   private WSRPConfiguration     conf;
+
   private Log                   log;
+
   private ExoContainer          container;
+
   private PortletContainerConf  config;
 
   public ServiceDescriptionInterfaceImpl(PortletContainerProxy cont,

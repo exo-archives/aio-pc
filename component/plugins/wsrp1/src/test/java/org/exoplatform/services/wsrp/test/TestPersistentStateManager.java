@@ -33,7 +33,7 @@ import org.exoplatform.services.wsrp.type.RegistrationData;
 public class TestPersistentStateManager extends BaseTest {
 
   private PersistentStateManagerImpl psmanager_;
-  
+
   @Override
   public void setUp() throws Exception {
     super.setUp();
