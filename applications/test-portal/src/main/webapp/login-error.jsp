@@ -10,7 +10,7 @@
   <title>eXo Platform Test Portal - Authorisation error</title>
   <link rel="stylesheet" type='text/css' href="<%=contextPath%>/exopcstyle.css" />
 </head>
-<body bgcolor='#FFFFFF'>
+<body bgcolor='#FFFFFF' onLoad="document.getElementById('j_username').focus()">
    <!--  h1>eXo Platform Test Portal - Authorisation required </h1  -->
     <table>
     <tr>
