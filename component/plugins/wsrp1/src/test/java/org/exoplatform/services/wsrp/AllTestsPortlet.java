@@ -38,7 +38,8 @@ public class AllTestsPortlet extends TestCase {
     System.out.println("TEST LOGGER: " + log);
     TestSuite suite = new TestSuite("portlet-container tests");
     
-   assertTrue(ContainerStarter.start());
+    if (System.getProperty("exo.test.cargo.skip") == null || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
+       assertTrue(ContainerStarter.start());
     
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
