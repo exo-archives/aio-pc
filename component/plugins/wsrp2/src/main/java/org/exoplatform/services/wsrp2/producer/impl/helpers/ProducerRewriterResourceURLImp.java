@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
@@ -53,7 +52,8 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
                                         String sessionID,
                                         boolean defaultEscapeXml,
                                         String cacheLevel,
-                                        List<String> supportedPublicRenderParameter, Portlet portlet) {
+                                        List<String> supportedPublicRenderParameter,
+                                        Portlet portlet) {
     super(type, template, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
@@ -62,7 +62,7 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
   }
 
   public String toString() {
-    
+
     invokeFilterResourceURL();
 
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
@@ -110,7 +110,9 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     //process resource params 
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     if (resourceID != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", resourceID);
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_ID + "}",
+                                     resourceID);
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     }
@@ -122,21 +124,31 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", resourceState);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}",
+                                   resourceState);
 
     if (cacheLevel != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", cacheLevel);
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
+                                     cacheLevel);
     } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
+                                     "");
     }
 
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
 
     // other parameters
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
+                                   portletHandle);
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
+                                   "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");

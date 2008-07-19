@@ -37,13 +37,14 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 
 /**
- * User: Benjamin Mestrallet
- * Date: 26 juil. 2004
+ * User: Benjamin Mestrallet Date: 26 juil. 2004
  */
 public class AxisFilter implements Filter {
 
   private String       containerName = "portal";
+
   private ExoContainer container;
+
   private Log          log           = ExoLogger.getLogger(getClass().getName());
 
   public void init(FilterConfig filterConfig) throws ServletException {
@@ -57,10 +58,10 @@ public class AxisFilter implements Filter {
 
   public synchronized void doFilter(ServletRequest servletRequest,
                                     ServletResponse servletResponse,
-                                    FilterChain filterChain) throws IOException,
-                                                            ServletException {
+                                    FilterChain filterChain) throws IOException, ServletException {
     setCurrentContainer();
-    WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
+    WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest,
+                                     (HttpServletResponse) servletResponse);
 
     filterChain.doFilter(servletRequest, servletResponse);
 

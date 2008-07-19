@@ -1,124 +1,192 @@
 /*
-* Copyright 2001-2007 The eXo platform SAS  All rights reserved.
-* Please look at license.txt in info directory for more license detail.
-*/
+ * Copyright (C) 2003-2008 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
 
-package org.exoplatform.services.wsrp2.testConsumer;
-
-
+package org.exoplatform.services.wsrp.testConsumer;
 
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
 import org.exoplatform.Constants;
-import org.exoplatform.container.PortalContainer;
+import org.exoplatform.commons.Environment;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
-import org.exoplatform.services.portletcontainer.impl.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
-import org.exoplatform.services.wsrp2.consumer.PortletKey;
-import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
-import org.exoplatform.services.wsrp2.consumer.Producer;
-import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
-import org.exoplatform.services.wsrp2.consumer.URLGenerator;
-import org.exoplatform.services.wsrp2.consumer.URLRewriter;
-import org.exoplatform.services.wsrp2.consumer.User;
-import org.exoplatform.services.wsrp2.consumer.UserRegistry;
-import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
-import org.exoplatform.services.wsrp2.consumer.adapters.PortletKeyAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.UserAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.WSRPPortletAdapter;
-import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
-import org.exoplatform.services.wsrp2.type.PersonName;
-import org.exoplatform.services.wsrp2.type.PortletContext;
-import org.exoplatform.services.wsrp2.type.RegistrationData;
-import org.exoplatform.services.wsrp2.type.UserContext;
-import org.exoplatform.services.wsrp2.type.UserProfile;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
+import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
+import org.exoplatform.services.wsrp.consumer.PortletKey;
+import org.exoplatform.services.wsrp.consumer.PortletRegistry;
+import org.exoplatform.services.wsrp.consumer.Producer;
+import org.exoplatform.services.wsrp.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp.consumer.URLGenerator;
+import org.exoplatform.services.wsrp.consumer.URLRewriter;
+import org.exoplatform.services.wsrp.consumer.User;
+import org.exoplatform.services.wsrp.consumer.UserRegistry;
+import org.exoplatform.services.wsrp.consumer.WSRPPortlet;
+import org.exoplatform.services.wsrp.consumer.adapters.PortletKeyAdapter;
+import org.exoplatform.services.wsrp.consumer.adapters.UserAdapter;
+import org.exoplatform.services.wsrp.consumer.adapters.WSRPPortletAdapter;
+import org.exoplatform.services.wsrp.consumer.impl.ProducerImpl;
+import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp.type.PersonName;
+import org.exoplatform.services.wsrp.type.PortletContext;
+import org.exoplatform.services.wsrp.type.RegistrationData;
+import org.exoplatform.services.wsrp.type.UserContext;
+import org.exoplatform.services.wsrp.type.UserProfile;
+import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
+import org.exoplatform.test.mocks.servlet.MockServletRequest;
+import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 2 févr. 2004
  * Time: 17:39:19
+ * Revision: Max Shaposhnik 17.07.2008
  */
 
 public class BaseTest extends TestCase {
-  protected static final String CONTEXT_PATH = "/war_template";
-  protected static final String TEST_PATH = (System.getProperty("testPath")==null?".":System.getProperty("testPath"));
-  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + CONTEXT_PATH;
 
-  protected ProducerRegistry producerRegistry;
-  protected Producer producer;
-  protected RegistrationData registrationData;
+  protected static final String      CONTEXT_PATH                                    = "/war_template";
 
-  protected static final String[] USER_CATEGORIES_ARRAY = {
-    "full", "standard", "minimal"
-  };
+  protected static final String      TEST_PATH                                       = (System.getProperty("testPath") == null ? "."
+                                                                                                                              : System.getProperty("testPath"));
 
-  public static final String[] CONSUMER_MODES = {"wsrp:view", "wsrp:edit"};
-  public static final String[] CONSUMER_STATES = {"wsrp:normal", "wsrp:maximized"};
-  public static final String[] CONSUMER_SCOPES = {"chunk_data"};
-  public static final String[] CONSUMER_CUSTOM_PROFILES = {"what_more"};
+  protected static final String      PORTLET_APP_PATH                                = "file:"
+                                                                                         + TEST_PATH
+                                                                                         + CONTEXT_PATH;
 
-  public static final String PRODUCER_ID = "producerID";
-  public static final String PRODUCER_DESCRIPTION = "producerDescription";
-  public static final String PRODUCER_NAME = "producerName";
-  public static final String PRODUCER_MARKUP_INTERFACE_ENDPOINT = "markupInterfaceEndpoint";
-  public static final String PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT = "PortletManagementInterfaceEndpoint";
-  public static final String PRODUCER_REGISTRATION_INTERFACE_ENDPOINT = "RegistrationInterfaceEndpoint";
-  public static final String PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT = "ServiceDescriptionInterfaceEndpoint";
+  protected ProducerRegistry         producerRegistry;
 
-  public static final String[] desiredLocales = {"en"};
-  protected PortletRegistry portletRegistry;
-  protected UserRegistry userRegistry;
-  protected UserContext userContext;
-  protected PersonName personName;
-  protected UserProfile userProfile;
+  protected Producer                 producer;
 
-  public static final String BASE_URL = "/portal/faces/portal/portal.jsp?portal:ctx=" + Constants.DEFAUL_PORTAL_OWNER;
-  protected URLGenerator urlGenerator;
-  protected URLRewriter urlRewriter;
-  private MockServletContext mockServletContext;
-  private PortletApp portletApp_;
-  private PortletApplicationsHolder holder;
+  protected RegistrationData         registrationData;
+
+//  protected PortalContainer          container;
+
+  protected static final String[]    USER_CATEGORIES_ARRAY                           = { "full",
+      "standard", "minimal"                                                         };
+
+  public static final String[]       CONSUMER_MODES                                  = {
+      "wsrp:view", "wsrp:edit"                                                      };
+
+  public static final String[]       CONSUMER_STATES                                 = {
+      "wsrp:normal", "wsrp:maximized"                                               };
+
+  public static final String[]       CONSUMER_SCOPES                                 = { "chunk_data" };
+
+  public static final String[]       CONSUMER_CUSTOM_PROFILES                        = { "what_more" };
+
+  public static final String         PRODUCER_ID                                     = "producerID";
+
+  public static final String         PRODUCER_DESCRIPTION                            = "producerDescription";
+
+  public static final String         PRODUCER_NAME                                   = "producerName";
+
+  public static final String         PRODUCER_MARKUP_INTERFACE_ENDPOINT              = "markupInterfaceEndpoint";
+
+  public static final String         PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT  = "PortletManagementInterfaceEndpoint";
+
+  public static final String         PRODUCER_REGISTRATION_INTERFACE_ENDPOINT        = "RegistrationInterfaceEndpoint";
+
+  public static final String         PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT = "ServiceDescriptionInterfaceEndpoint";
+
+  public static final String[]       desiredLocales                                  = { "en" };
+
+  protected PortletRegistry          portletRegistry;
+
+  protected UserRegistry             userRegistry;
+
+  protected UserContext              userContext;
+
+  protected PersonName               personName;
+
+  protected UserProfile              userProfile;
+
+  public static final String         BASE_URL                                        = "/portal/faces/portal/portal.jsp?portal:ctx="
+                                                                                         + Constants.DEFAUL_PORTAL_OWNER;
+
+  protected URLGenerator             urlGenerator;
+
+  protected URLRewriter              urlRewriter;
+
+  private MockServletContext         mockServletContext;
+
+  private PortletApp                 portletApp_;
+
+  private PortletApplicationsHolder  holder;
 
   private PortletApplicationRegister portletApplicationRegister;
 
-  protected void setUp() throws Exception { 
+  private MockServletRequest         mockServletRequest;
+
+  private MockServletResponse        mockServletResponse;
+
+  protected int                      platform                                        = 0;
+
+  protected ExoContainer             container;
+
+  protected void setUp() throws Exception {
+
+    URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
+    InputStream is = url.openStream();
+    portletApp_ = XMLParser.parse(is, false);
+
     try {
-
-      URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
-      InputStream is = url.openStream();
-      portletApp_ = XMLParser.parse(is,false);
-
-      Collection<String> roles = new ArrayList<String>();
-      roles.add("auth-user");
-
-      PortalContainer manager = PortalContainer.getInstance();
-
-      mockServletContext = new MockServletContext("hello", "./war_template");
-      mockServletContext.setInitParameter("test-param", "test-parame-value");
-
-      portletApplicationRegister = (PortletApplicationRegister) manager.
-        getComponentInstanceOfType(PortletApplicationRegister.class); 
-    
-      portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
-
-    } catch (Exception ex) {
-      ex.printStackTrace();
+      // Leaving for compatibility reasons
+      //container = PortalContainer.getInstance();
+      //container = RootContainer.getInstance().getPortalContainer("portal");
+      container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
+    } catch (Throwable t) {
+      t.printStackTrace();
     }
 
-    PortalContainer manager = PortalContainer.getInstance();
-    producerRegistry = (ProducerRegistry) manager.getComponentInstanceOfType(ProducerRegistry.class);
-    portletRegistry = (PortletRegistry) manager.getComponentInstanceOfType(PortletRegistry.class);
-    userRegistry = (UserRegistry) manager.getComponentInstanceOfType(UserRegistry.class);
+    System.out.println(">>> EXOMAN testConsumer BaseTest.setUp() container = " + container);
+
+    int platform = Environment.getInstance().getPlatform();
+    System.out.println(">>> Consumer BaseTest.setUp() platform = " + platform);
+    Collection<String> roles = new ArrayList<String>();
+    roles.add("auth-user");
+
+    mockServletContext = new MockServletContext("hello", "./war_template");
+    mockServletContext.setInitParameter("test-param", "test-parame-value");
+
+    portletApplicationRegister = (PortletApplicationRegister) container.getComponentInstanceOfType(PortletApplicationRegister.class);
+
+    portletApplicationRegister.registerPortletApplication(mockServletContext,
+                                                          portletApp_,
+                                                          roles,
+                                                          "war_template");
+
+    producerRegistry = (ProducerRegistry) container.getComponentInstanceOfType(ProducerRegistry.class);
+    portletRegistry = (PortletRegistry) container.getComponentInstanceOfType(PortletRegistry.class);
+    userRegistry = (UserRegistry) container.getComponentInstanceOfType(UserRegistry.class);
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
@@ -129,7 +197,7 @@ public class BaseTest extends TestCase {
     registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
     registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
 
-    producer = new ProducerImpl(manager);
+    producer = new ProducerImpl(container);
     producer.setID(PRODUCER_ID);
     producer.setDescription(PRODUCER_DESCRIPTION);
     producer.setName(PRODUCER_NAME);
@@ -151,16 +219,18 @@ public class BaseTest extends TestCase {
     userContext.setProfile(userProfile);
     userContext.setUserContextKey("exotest");
 
-    urlRewriter = (URLRewriter) manager.getComponentInstanceOfType(URLRewriter.class);
+    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
+
+    mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
+    mockServletResponse = new MockServletResponse(new FakeHttpResponse());
+    WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
+                                     (HttpServletResponse) mockServletResponse);
   }
 
   public void tearDown() throws Exception {
     try {
-      PortalContainer manager  = PortalContainer.getInstance();
-      
-      portletApplicationRegister.removePortletApplication(mockServletContext, PORTLET_APP_NAME);
-      HibernateService hservice = 
-          (HibernateService) manager.getComponentInstanceOfType(HibernateService.class) ;
+      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
+      HibernateService hservice = (HibernateService) container.getComponentInstanceOfType(HibernateService.class);
       hservice.closeSession();
     } catch (Exception e) {
       e.printStackTrace();

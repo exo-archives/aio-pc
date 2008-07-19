@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import org.exoplatform.services.wsrp2.type.CacheControl;
@@ -29,7 +29,8 @@ import org.exoplatform.services.wsrp2.type.CacheControl;
 public class CacheControlProxy {
 
   private CacheControl cacheControl;
-  private long creationTime;
+
+  private long         creationTime;
 
   public CacheControlProxy(CacheControl cacheControl) {
     this.cacheControl = cacheControl;
@@ -40,8 +41,8 @@ public class CacheControlProxy {
     return cacheControl;
   }
 
-  public boolean isValid(){
-    if(System.currentTimeMillis() - creationTime < cacheControl.getExpires() * 1000)
+  public boolean isValid() {
+    if (System.currentTimeMillis() - creationTime < cacheControl.getExpires() * 1000)
       return true;
     else
       return false;

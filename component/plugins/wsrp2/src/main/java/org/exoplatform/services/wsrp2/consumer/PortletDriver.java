@@ -60,26 +60,22 @@ public interface PortletDriver {
   /**
    * Destroy the producer portlets specified in the entiyHandles array.
    */
-  public DestroyPortletsResponse destroyPortlets(String[] portletHandles,
-                                                 UserSessionMgr userSession) throws WSRPException;
+  public DestroyPortletsResponse destroyPortlets(String[] portletHandles, UserSessionMgr userSession) throws WSRPException;
 
   /**
    * Inform the producer that the sessions specified in the sessionIDs array
    * will no longer be used by the consumer and can therefor be released.
    */
-  public ReturnAny releaseSessions(String[] sessionIDs,
-                                   UserSessionMgr userSession) throws WSRPException;
+  public ReturnAny releaseSessions(String[] sessionIDs, UserSessionMgr userSession) throws WSRPException;
 
   public PortletDescriptionResponse getPortletDescription(UserSessionMgr userSession,
                                                           String[] desiredLocales) throws WSRPException;
 
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(UserSessionMgr userSession) throws WSRPException;
 
-  public PropertyList getPortletProperties(String[] names,
-                                           UserSessionMgr userSession) throws WSRPException;
+  public PropertyList getPortletProperties(String[] names, UserSessionMgr userSession) throws WSRPException;
 
-  public PortletContext setPortletProperties(PropertyList properties,
-                                             UserSessionMgr userSession) throws WSRPException;
+  public PortletContext setPortletProperties(PropertyList properties, UserSessionMgr userSession) throws WSRPException;
 
   // Below changes of WSRP2 spec
 

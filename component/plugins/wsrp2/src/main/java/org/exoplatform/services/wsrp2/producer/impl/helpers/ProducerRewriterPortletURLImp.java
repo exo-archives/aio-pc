@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
-import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
@@ -36,7 +35,9 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ProducerRewriterPortletURLImp extends org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp {
+public class ProducerRewriterPortletURLImp
+                                          extends
+                                          org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp {
 
   private String                 sessionID;
 
@@ -55,7 +56,8 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
                                        PersistentStateManager stateManager,
                                        String sessionID,
                                        boolean defaultEscapeXml,
-                                       List<String> supportedPublicRenderParameter, Portlet portlet) {
+                                       List<String> supportedPublicRenderParameter,
+                                       Portlet portlet) {
     super(type, template, markup, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
@@ -69,7 +71,7 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();
-    
+
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
     Map<String, String[]> privateParams = new HashMap<String, String[]>();
     String navigationalValuesString = new String();
@@ -106,12 +108,16 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
 
     if (requiredPortletMode != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", requiredPortletMode.toString());
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_MODE + "}",
+                                     requiredPortletMode.toString());
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
     }
     if (requiredWindowState != null) {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", requiredWindowState.toString());
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_WINDOW_STATE + "}",
+                                     requiredWindowState.toString());
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
     }
@@ -123,9 +129,13 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", navigationalState);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}",
+                                   navigationalState);
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", encode(navigationalValuesString));
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}",
+                                   encode(navigationalValuesString));
 
     // process interaction state
     if (getType().equalsIgnoreCase(PCConstants.ACTION_STRING)) {
@@ -135,7 +145,9 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
       } catch (WSRPException e) {
         e.printStackTrace();
       }
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", interactionState);
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}",
+                                     interactionState);
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
     }
@@ -144,14 +156,20 @@ public class ProducerRewriterPortletURLImp extends org.exoplatform.services.port
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
+                                   "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
 
     // other parameters
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}", portletHandle);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
+                                   portletHandle);
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
+                                   "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");

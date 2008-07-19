@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.WSRPMarkupRequest;
@@ -27,7 +27,7 @@ import org.exoplatform.services.wsrp2.type.MarkupContext;
  * Time: 17:46:06
  */
 
-public class WSRPMarkupRequestAdapter extends WSRPBaseRequestAdapter implements WSRPMarkupRequest{
+public class WSRPMarkupRequestAdapter extends WSRPBaseRequestAdapter implements WSRPMarkupRequest {
 
   private MarkupContext cachedMarkup;
 
@@ -38,5 +38,5 @@ public class WSRPMarkupRequestAdapter extends WSRPBaseRequestAdapter implements 
   public void setCachedMarkup(MarkupContext cachedMarkup) {
     this.cachedMarkup = cachedMarkup;
   }
-  
+
 }

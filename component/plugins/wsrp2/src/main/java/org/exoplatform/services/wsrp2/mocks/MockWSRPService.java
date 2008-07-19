@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.mocks;
 
 import java.net.URL;
@@ -46,9 +46,12 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 
 public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
   private WSRP_v2_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
-  private WSRP_v2_Registration_Binding_SOAPImpl registrationOperationsInterface;
-  private WSRP_v2_Markup_Binding_SOAPImpl markupOperationsInterface;
-  private WSRP_v2_PortletManagement_Binding_SOAPImpl portletManagementOperationsInterface;
+
+  private WSRP_v2_Registration_Binding_SOAPImpl       registrationOperationsInterface;
+
+  private WSRP_v2_Markup_Binding_SOAPImpl             markupOperationsInterface;
+
+  private WSRP_v2_PortletManagement_Binding_SOAPImpl  portletManagementOperationsInterface;
 
   public MockWSRPService() {
     serviceDescriptionInterface = new WSRP_v2_ServiceDescription_Binding_SOAPImpl();
@@ -105,56 +108,53 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
     return serviceDescriptionInterface;
   }
 
-
-
   ///not necessary to implement
 
-
   public Remote getPort(QName qName, Class aClass) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Remote getPort(Class aClass) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call[] getCalls(QName qName) throws ServiceException {
-    return new Call[0];  //To change body of implemented methods use File | Settings | File Templates.
+    return new Call[0]; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall(QName qName) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall(QName qName, QName qName1) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall(QName qName, String string) throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public Call createCall() throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public QName getServiceName() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
-/*  public Iterator getPorts() throws ServiceException {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
-  }*/
+  /*  public Iterator getPorts() throws ServiceException {
+      return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }*/
 
   public URL getWSDLDocumentLocation() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public TypeMappingRegistry getTypeMappingRegistry() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
   public HandlerRegistry getHandlerRegistry() {
-    return null;  //To change body of implemented methods use File | Settings | File Templates.
+    return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 }

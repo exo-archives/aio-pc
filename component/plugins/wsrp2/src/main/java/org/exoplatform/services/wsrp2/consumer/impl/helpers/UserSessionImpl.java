@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
 import java.util.Map;
@@ -33,11 +33,11 @@ import org.exoplatform.services.wsrp2.exceptions.WSRPException;
  * Time: 22:31:23
  */
 
-public class UserSessionImpl extends InitCookieImpl
-    implements UserSessionMgr {
+public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
 
   protected Map<String, GroupSession> groupSessions = new HashMap<String, GroupSession>();
-  private String userID;
+
+  private String                      userID;
 
   public UserSessionImpl(String markupInterfaceURL) {
     super(markupInterfaceURL);

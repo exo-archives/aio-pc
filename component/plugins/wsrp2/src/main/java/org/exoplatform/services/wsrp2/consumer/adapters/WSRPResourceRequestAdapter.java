@@ -24,11 +24,10 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.UploadContext;
 
 /**
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 10.09.2007  
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 10.09.2007
  */
-public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implements WSRPResourceRequest {
+public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implements
+    WSRPResourceRequest {
 
   private NamedString[]   formParameters;
 

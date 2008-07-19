@@ -137,7 +137,8 @@ public class WSRP_v2_Markup_Binding_SOAPImpl implements WSRP_v2_Markup_PortType 
                                                                           OperationFailedFault,
                                                                           MissingParametersFault,
                                                                           AccessDeniedFault {
-    return markupOperationsInterface.releaseSessions(releaseSessionsRequest.getRegistrationContext(), releaseSessionsRequest.getSessionIDs());
+    return markupOperationsInterface.releaseSessions(releaseSessionsRequest.getRegistrationContext(),
+                                                     releaseSessionsRequest.getSessionIDs());
   }
 
   public ReturnAny initCookie(InitCookie initCookie) throws RemoteException,

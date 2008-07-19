@@ -21,8 +21,7 @@ public class WSRPHTTPContainer extends HashMap<Object, Object> {
     return (WSRPHttpServletResponse) response;
   }
 
-  public WSRPHTTPContainer(HttpServletRequest request,
-                           HttpServletResponse response) {
+  public WSRPHTTPContainer(HttpServletRequest request, HttpServletResponse response) {
     this.request = new WSRPHttpServletRequest(request);
     this.response = new WSRPHttpServletResponse(request, response);
   }

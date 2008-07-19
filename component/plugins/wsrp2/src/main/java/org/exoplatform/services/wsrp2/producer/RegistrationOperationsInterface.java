@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer;
 
 import org.exoplatform.services.wsrp2.type.Lifetime;
@@ -25,47 +25,33 @@ import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface RegistrationOperationsInterface {
   public RegistrationContext register(RegistrationData data,
                                       Lifetime lifetime,
-                                      UserContext userContext) 
-    throws java.rmi.RemoteException;
-  
-  
-  public RegistrationContext register(RegistrationData data) 
-  throws java.rmi.RemoteException;
-  
-    
-  public RegistrationState modifyRegistration(RegistrationContext context, 
+                                      UserContext userContext) throws java.rmi.RemoteException;
+
+  public RegistrationContext register(RegistrationData data) throws java.rmi.RemoteException;
+
+  public RegistrationState modifyRegistration(RegistrationContext context,
                                               RegistrationData data,
-                                              UserContext userContext) 
-    throws java.rmi.RemoteException;
-  
-  
-  public RegistrationState modifyRegistration(RegistrationContext context, 
-                                              RegistrationData data)
-  
-    throws java.rmi.RemoteException;
-  
-    
-  public ReturnAny deregister(RegistrationContext context,
-                              UserContext userContext) 
-    throws java.rmi.RemoteException;
-  
-  public ReturnAny deregister(RegistrationContext context)
-  
-    throws java.rmi.RemoteException;
-  
-  
-  public Lifetime getRegistrationLifetime (RegistrationContext registrationContext, 
-                                           UserContext userContext)
+                                              UserContext userContext) throws java.rmi.RemoteException;
+
+  public RegistrationState modifyRegistration(RegistrationContext context, RegistrationData data)
+
   throws java.rmi.RemoteException;
-  
-  public Lifetime setRegistrationLifetime (RegistrationContext registrationContext, 
-                                             UserContext userContext, 
-                                             Lifetime lifetime)
-   throws java.rmi.RemoteException;
+
+  public ReturnAny deregister(RegistrationContext context, UserContext userContext) throws java.rmi.RemoteException;
+
+  public ReturnAny deregister(RegistrationContext context)
+
+  throws java.rmi.RemoteException;
+
+  public Lifetime getRegistrationLifetime(RegistrationContext registrationContext,
+                                          UserContext userContext) throws java.rmi.RemoteException;
+
+  public Lifetime setRegistrationLifetime(RegistrationContext registrationContext,
+                                          UserContext userContext,
+                                          Lifetime lifetime) throws java.rmi.RemoteException;
 }

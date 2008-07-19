@@ -1,19 +1,30 @@
 /*
- * Copyright 2001-2007 The eXo platform SAS  All rights reserved.
- * Please look at license.txt in info directory for more license detail.
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.test;
+package org.exoplatform.services.wsrp.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp2.WSRPConstants;
-import org.exoplatform.services.wsrp2.type.CacheControl;
-import org.exoplatform.services.wsrp2.type.MarkupResponse;
-import org.exoplatform.services.wsrp2.type.PortletContext;
-import org.exoplatform.services.wsrp2.type.RegistrationContext;
-import org.exoplatform.services.wsrp2.type.ServiceDescription;
-
+import org.exoplatform.services.wsrp.WSRPConstants;
+import org.exoplatform.services.wsrp.type.CacheControl;
+import org.exoplatform.services.wsrp.type.MarkupResponse;
+import org.exoplatform.services.wsrp.type.PortletContext;
+import org.exoplatform.services.wsrp.type.RegistrationContext;
+import org.exoplatform.services.wsrp.type.ServiceDescription;
 
 /*
  * @author  Mestrallet Benjamin
@@ -22,16 +33,19 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  * Time: 19:29:55
  */
 
-public class TestCachingMechanism extends BaseTest{
+public class TestCachingMechanism extends BaseTest {
 
-  public TestCachingMechanism(String s) {
-    super(s);
+  @Override
+  public void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestCachingMechanism.setUp()");
   }
 
   public void testExistenceOfValidateTag() throws RemoteException {
-    ServiceDescription sd = getServiceDescription(new String[]{"en"});
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())  rc = new RegistrationContext();
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext("", null, null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/HelloWorld2");
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));

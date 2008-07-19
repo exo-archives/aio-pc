@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
 import org.exoplatform.services.wsrp2.consumer.PortletWindowSession;
@@ -28,7 +28,7 @@ import org.exoplatform.services.wsrp2.consumer.templates.PortletSessionTemplate;
  * Time: 22:39:52
  */
 
-public class PortletSessionImpl extends PortletSessionTemplate implements java.io.Serializable{
+public class PortletSessionImpl extends PortletSessionTemplate implements java.io.Serializable {
 
   public PortletSessionImpl(String portletHandle) {
     super.portletHandle = portletHandle;
@@ -38,8 +38,8 @@ public class PortletSessionImpl extends PortletSessionTemplate implements java.i
     PortletWindowSession session = (PortletWindowSession) this.portletWindowSessions.get(windowID);
     if (session == null) {
       session = new PortletWindowSessionAdapter();
-      ((PortletWindowSessionAdapter)session).setWindowID(windowID);
-      ((PortletWindowSessionAdapter)session).setPortletSession(this);
+      ((PortletWindowSessionAdapter) session).setWindowID(windowID);
+      ((PortletWindowSessionAdapter) session).setPortletSession(this);
       this.portletWindowSessions.put(windowID, session);
     }
     return session;

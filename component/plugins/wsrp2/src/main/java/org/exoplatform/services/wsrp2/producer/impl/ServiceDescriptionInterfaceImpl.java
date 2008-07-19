@@ -55,9 +55,9 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
- * Author : Tuan Nguyen
- * tuan08@users.sourceforge.net Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: 10 Dec. 2003 Time: 09:40:23
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net Author : Mestrallet
+ * Benjamin benjmestrallet@users.sourceforge.net Date: 10 Dec. 2003 Time:
+ * 09:40:23
  */
 public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterface {
 
@@ -118,7 +118,8 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     int i = 0;
     for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
       String producerOfferedPortletHandle = (String) iter.next();
-      log.debug("fill service description with portlet description: " + producerOfferedPortletHandle);
+      log.debug("fill service description with portlet description: "
+          + producerOfferedPortletHandle);
       pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
     }
     ServiceDescription sD = new ServiceDescription();
@@ -135,7 +136,8 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     // WSRP v2 spec
     sD.setExtensionDescriptions(null);
     sD.setEventDescriptions(getEventDescriptions());
-    sD.setSupportedOptions(new String[] { "wsrp:events", "wsrp:leasing", "wsrp:copyPortlets", "wsrp:import", "wsrp:export" });
+    sD.setSupportedOptions(new String[] { "wsrp:events", "wsrp:leasing", "wsrp:copyPortlets",
+        "wsrp:import", "wsrp:export" });
     sD.setExportDescription(null);
     sD.setMayReturnRegistrationState(null);
     sD.setSchemaType(null);

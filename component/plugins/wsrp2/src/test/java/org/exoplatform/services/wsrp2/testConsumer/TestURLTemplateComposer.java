@@ -1,10 +1,21 @@
 /*
-* Copyright 2001-2007 The eXo platform SAS  All rights reserved.
-* Please look at license.txt in info directory for more license detail.
-*/
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
 
-package org.exoplatform.services.wsrp2.testConsumer;
-
+package org.exoplatform.services.wsrp.testConsumer;
 
 /*
  * @author  Mestrallet Benjamin
@@ -13,21 +24,27 @@ package org.exoplatform.services.wsrp2.testConsumer;
  * Time: 17:23:44
  */
 
-public class TestURLTemplateComposer extends BaseTest{
+public class TestURLTemplateComposer extends BaseTest {
 
-  public void testBlockingGeneration(){
-/*    URLTemplateComposer composer = new URLTemplateComposerImpl();
+  @Override
+  protected void setUp() throws Exception {
+    super.setUp();
+    System.out.println(">>>>>>>>>>>>>>> TestURLTemplateComposer.setUp()");
+  }
 
-    String path = "/portal/faces/public/portal.jsp?portal:ctx=community&portal:component=wsrp/wsrpportlet/44rc74";
-    String returnedS = "http://localhost:8080/portal/faces/public/portal.jsp?portal:ctx=community&portal:co" +
-        "mponent=wsrp/wsrpportlet/44rc74&portal:type={wsrp-urlType}&portal:mode={wsrp-mode}&portal:windowSt" +
-        "ate={wsrp-windowState}&portal:isSecure={wsrp-secureURL}&wsrp-portletHandle={wsrp-portl" +
-        "etHandle}&portal:wsrp-portletInstanceKey={wsrp-portletInstanceKey}&wsrp-navigationalSt" +
-        "ate={wsrp-navigationalState}&wsrp-sessionID={wsrp-sessionID}&wsrp-userContextKey" +
-        "={wsrp-userContextKey}&wsrp-url={wsrp-url}&wsrp-requiresRewrite={wsrp-requiresRe" +
-        "write}&wsrp-interactionState={wsrp-interactionState}&wsrp-fragmentID={wsrp-fragm" +
-        "entID}";
-    assertEquals(returnedS, composer.createDefaultTemplate(path));*/
+  public void testBlockingGeneration() {
+    /*    URLTemplateComposer composer = new URLTemplateComposerImpl();
+
+        String path = "/portal/faces/public/portal.jsp?portal:ctx=community&portal:component=wsrp/wsrpportlet/44rc74";
+        String returnedS = "http://localhost:8080/portal/faces/public/portal.jsp?portal:ctx=community&portal:co" +
+            "mponent=wsrp/wsrpportlet/44rc74&portal:type={wsrp-urlType}&portal:mode={wsrp-portletMode}&portal:windowSt" +
+            "ate={wsrp-windowState}&portal:isSecure={wsrp-secureURL}&wsrp-portletHandle={wsrp-portl" +
+            "etHandle}&portal:wsrp-portletInstanceKey={wsrp-portletInstanceKey}&wsrp-navigationalSt" +
+            "ate={wsrp-navigationalState}&wsrp-sessionID={wsrp-sessionID}&wsrp-userContextKey" +
+            "={wsrp-userContextKey}&wsrp-url={wsrp-url}&wsrp-requiresRewrite={wsrp-requiresRe" +
+            "write}&wsrp-interactionState={wsrp-interactionState}&wsrp-fragmentID={wsrp-fragm" +
+            "entID}";
+        assertEquals(returnedS, composer.createDefaultTemplate(path));*/
   }
 
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.WSRPEventsRequest;
@@ -22,15 +22,14 @@ import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.StateChange;
 
 /**
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 14.09.2007  
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 14.09.2007
  */
 public class WSRPEventsRequestAdapter extends WSRPBaseRequestAdapter implements WSRPEventsRequest {
 
-  private Event[] events;
+  private Event[]     events;
+
   private StateChange portletStateChange; //WSRP2
-  
+
   public org.exoplatform.services.wsrp2.type.Event[] getEvents() {
     return events;
   }
@@ -50,9 +49,9 @@ public class WSRPEventsRequestAdapter extends WSRPBaseRequestAdapter implements 
   public StateChange getPortletStateChange() {
     return portletStateChange;
   }
-  
+
   public void setPortletStateChange(StateChange portletStateChange) {
     this.portletStateChange = portletStateChange;
   }
-  
+
 }

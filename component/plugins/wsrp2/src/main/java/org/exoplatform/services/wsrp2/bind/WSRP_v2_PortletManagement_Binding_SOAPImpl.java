@@ -63,7 +63,8 @@ import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements WSRP_v2_PortletManagement_PortType {
+public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements
+    WSRP_v2_PortletManagement_PortType {
 
   private PortletManagementOperationsInterface portletManagementOperationsInterface;
 
@@ -104,7 +105,8 @@ public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements WSRP_v2_Portl
                                                                                  InvalidRegistrationFault,
                                                                                  OperationFailedFault,
                                                                                  MissingParametersFault {
-    return portletManagementOperationsInterface.destroyPortlets(destroyPortlets.getRegistrationContext(), destroyPortlets.getPortletHandles());
+    return portletManagementOperationsInterface.destroyPortlets(destroyPortlets.getRegistrationContext(),
+                                                                destroyPortlets.getPortletHandles());
   }
 
   public PortletContext setPortletProperties(SetPortletProperties setPortletProperties) throws RemoteException,
@@ -175,7 +177,8 @@ public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements WSRP_v2_Portl
   }
 
   public ReturnAny releaseExport(ReleaseExport releaseExport) throws java.rmi.RemoteException {
-    return portletManagementOperationsInterface.releaseExport(releaseExport.getExportContext(), releaseExport.getUserContext());
+    return portletManagementOperationsInterface.releaseExport(releaseExport.getExportContext(),
+                                                              releaseExport.getUserContext());
 
   }
 

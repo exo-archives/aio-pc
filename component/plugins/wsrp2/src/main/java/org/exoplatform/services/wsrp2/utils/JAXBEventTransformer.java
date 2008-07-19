@@ -32,9 +32,7 @@ import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.EventPayload;
 
 /**
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * Oct 15, 2007  
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua Oct 15, 2007
  */
 public class JAXBEventTransformer {
 
@@ -63,7 +61,9 @@ public class JAXBEventTransformer {
       EventPayload eventPayload = null;
       try {
         eventPayload = new EventPayload();
-        org.w3c.dom.Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        org.w3c.dom.Document doc = DocumentBuilderFactory.newInstance()
+                                                         .newDocumentBuilder()
+                                                         .newDocument();
         Serializable o = event.getValue();
         JAXBContext jaxbContext = JAXBContext.newInstance(o.getClass());
         jaxbContext.createMarshaller().marshal(o, doc);

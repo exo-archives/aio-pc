@@ -33,7 +33,8 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 
-public class WSRP_v2_ServiceDescription_Binding_SOAPImpl implements WSRP_v2_ServiceDescription_PortType {
+public class WSRP_v2_ServiceDescription_Binding_SOAPImpl implements
+    WSRP_v2_ServiceDescription_PortType {
 
   private ServiceDescriptionInterface serviceDescriptionInterface;
 

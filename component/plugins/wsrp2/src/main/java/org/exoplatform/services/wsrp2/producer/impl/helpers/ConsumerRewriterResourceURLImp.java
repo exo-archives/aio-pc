@@ -23,7 +23,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
@@ -52,7 +51,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
                                         String sessionID,
                                         boolean defaultEscapeXml,
                                         String cacheLevel,
-                                        List<String> supportedPublicRenderParameter, Portlet portlet) {
+                                        List<String> supportedPublicRenderParameter,
+                                        Portlet portlet) {
     super(type, baseURL, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
@@ -61,7 +61,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
   }
 
   public String toString() {
-    
+
     invokeFilterResourceURL();
 
     Map<String, String[]> publicParams = new HashMap<String, String[]>();

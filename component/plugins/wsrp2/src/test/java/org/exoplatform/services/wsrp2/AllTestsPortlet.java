@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2008 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -23,29 +23,33 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 4.02.2008
+ * Created by The eXo Platform SAS Author : Alexey Zavizionov
+ * alexey.zavizionov@exoplatform.com.ua 4.02.2008
  */
 public class AllTestsPortlet extends TestCase {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp2.AllTestsPortlet");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp.AllTestsPortlet");
 
   public static TestSuite suite() {
     log.info("Preparing...");
-
     System.out.println("TEST LOGGER: " + log);
-
     TestSuite suite = new TestSuite("portlet-container tests");
 
-//    suite.addTestSuite(SuiteForTestProducer.class);
-//    suite.addTestSuite(SuiteForTestConsumer.class);
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
+      assertTrue(ContainerStarter.start());
+
+    suite.addTestSuite(SuiteForTestProducer.class);
+    suite.addTestSuite(SuiteForTestConsumer.class);
 
 //    suite.addTestSuite(TestPublicRenderParameters.class);
 //    suite.addTestSuite(TestFilters.class);
 
     return suite;
+  }
+
+  protected void tearDown() {
+    assertFalse(ContainerStarter.stop());
   }
 
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.User;
@@ -27,9 +27,10 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  * Time: 21:25:31
  */
 
-public class UserAdapter implements User{
+public class UserAdapter implements User {
 
-  private String userID;
+  private String      userID;
+
   private UserContext userContext;
 
   public String getUserID() {
@@ -46,6 +47,6 @@ public class UserAdapter implements User{
 
   public void setUserContext(UserContext userContext) {
     this.userContext = userContext;
-  }  
+  }
 
 }

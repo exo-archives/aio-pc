@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.PortletKey;
@@ -30,9 +30,11 @@ import org.exoplatform.services.wsrp2.type.PortletContext;
 
 public class WSRPPortletAdapter implements WSRPPortlet {
 
-  private PortletKey portletKey = null;
+  private PortletKey     portletKey     = null;
+
   private PortletContext portletContext = null;
-  private String parentHandle = null;
+
+  private String         parentHandle   = null;
 
   public WSRPPortletAdapter(PortletKey portletKey) {
     this.portletKey = portletKey;

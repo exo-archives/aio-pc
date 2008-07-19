@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.util.Collection;
@@ -40,7 +40,8 @@ import org.hibernate.Session;
 public class ProducerRegistryImpl implements ProducerRegistry {
   private static final String   queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
 
-  private static final String   queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData " + "where pd.id = ?";
+  private static final String   queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
+                                                     + "where pd.id = ?";
 
   private long                  lastModifiedTime_;
 
@@ -52,8 +53,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
 
   protected ExoContainer        cont;
 
-  public ProducerRegistryImpl(ExoContainerContext ctx,
-                              HibernateService dbService) throws ConfigurationException {
+  public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService) throws ConfigurationException {
     hservice_ = dbService;
     log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     cont = ctx.getContainer();
@@ -151,8 +151,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return data;
   }
 
-  final public WSRP2ProducerData load(String id,
-                                  Session session) throws Exception {
+  final public WSRP2ProducerData load(String id, Session session) throws Exception {
     WSRP2ProducerData data = null;
     List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
     if (l.size() > 1) {

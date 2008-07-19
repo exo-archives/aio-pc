@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.util.HashMap;
@@ -37,8 +37,9 @@ import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
 public class PortletDriverRegistryImpl implements PortletDriverRegistry {
 
-  private Map<String, PortletDriver> portletDrivers = new HashMap<String, PortletDriver>();  
-  protected ExoContainer cont;
+  private Map<String, PortletDriver> portletDrivers = new HashMap<String, PortletDriver>();
+
+  protected ExoContainer             cont;
 
   public PortletDriverRegistryImpl(ExoContainerContext ctx) {
     cont = ctx.getContainer();
@@ -46,7 +47,7 @@ public class PortletDriverRegistryImpl implements PortletDriverRegistry {
 
   public PortletDriver getPortletDriver(WSRPPortlet portlet) throws WSRPException {
     PortletDriver driver = null;
-    if ((driver = (PortletDriver) portletDrivers.get(portlet.getPortletKey().toString())) == null) {      
+    if ((driver = (PortletDriver) portletDrivers.get(portlet.getPortletKey().toString())) == null) {
       driver = new PortletDriverImpl(cont, portlet);
       portletDrivers.put(portlet.getPortletKey().toString(), driver);
     }

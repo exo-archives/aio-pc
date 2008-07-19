@@ -23,24 +23,22 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.UploadContext;
 
 /**
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
- * 10.09.2007  
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 10.09.2007
  */
 public interface WSRPResourceRequest extends WSRPBaseRequest {
 
   public ResourceContext getCachedResource();
-  
+
   public String getResourceState();
 
   public NamedString[] getFormParameters();
-  
+
   public String getResourceID();
-  
+
   public UploadContext[] getUploadContexts();
 
   public StateChange getPortletStateChange();
 
   public java.lang.String getResourceCacheability();
-  
+
 }

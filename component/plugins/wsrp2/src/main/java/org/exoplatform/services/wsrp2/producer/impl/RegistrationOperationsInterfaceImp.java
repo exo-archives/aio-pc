@@ -35,8 +35,7 @@ import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
- * @author Mestrallet Benjamin
- *         benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class RegistrationOperationsInterfaceImp implements RegistrationOperationsInterface {
 
@@ -161,8 +160,7 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     return new ReturnAny();
   }
 
-  public ReturnAny deregister(RegistrationContext registrationContext,
-                              UserContext userContext) throws RemoteException {
+  public ReturnAny deregister(RegistrationContext registrationContext, UserContext userContext) throws RemoteException {
     String owner = userContext.getUserContextKey();
     log.debug("Deregister method entered for owner:" + owner);
     try {

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl.utils;
 
 import java.rmi.RemoteException;
@@ -33,8 +33,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationContext;
 
 public class Utils {
   public static void testRegistration(RegistrationContext registrationContext,
-                                      org.exoplatform.services.wsrp2.producer.PersistentStateManager stateManager)
-      throws RemoteException {
+                                      org.exoplatform.services.wsrp2.producer.PersistentStateManager stateManager) throws RemoteException {
     try {
       if (!stateManager.isRegistered(registrationContext)) {
         Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));

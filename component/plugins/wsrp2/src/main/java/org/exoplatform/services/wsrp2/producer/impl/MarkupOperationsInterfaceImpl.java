@@ -74,7 +74,6 @@ import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
-import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
@@ -1011,7 +1010,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
 
     EventOutput output = null;
-    
+
     // was: "while (nativeEventsListIterator.hasNext()) {"
     // but we have one "setNewMode" and "setNewWindowState" for updateResponse
     if (nativeEventsListIterator.hasNext()) {
@@ -1040,7 +1039,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
       // createUserProfile(userContext, request, session);
-      
+
       try {
         /* MAIN INVOKE */
         output = proxy.processEvent(request, response, input);
@@ -1061,8 +1060,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       }
 
       resultNativeEventsList.addAll(output.getEvents());
-
-
 
       // get render parameters for next iteration of processEvent or to client
       renderParameters = output.getRenderParameters();

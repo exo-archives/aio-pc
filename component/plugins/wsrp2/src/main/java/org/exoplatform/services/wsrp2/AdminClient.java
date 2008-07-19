@@ -38,15 +38,26 @@ import org.apache.axis.utils.Messages;
 import org.apache.axis.utils.Options;
 import org.apache.commons.logging.Log;
 
-// Referenced classes of package org.apache.axis.client:
-// Service, Call
-
+/**
+ * AdminClient class uses in WSRPStarter. Referenced classes of package
+ * org.apache.axis.client: Service, Call.
+ */
 public class AdminClient {
 
+  /**
+   * Set default configuration.
+   * 
+   * @param config
+   */
   public static void setDefaultConfiguration(EngineConfiguration config) {
     defaultConfiguration.set(config);
   }
 
+  /**
+   * Get usage information.
+   * 
+   * @return
+   */
   private static String getUsageInfo() {
     String lSep = System.getProperty("line.separator");
     StringBuffer msg = new StringBuffer();
@@ -125,16 +136,16 @@ public class AdminClient {
 
   public String undeployHandler(String handlerName) throws Exception {
     log.debug(Messages.getMessage("doQuit00"));
-    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">" + "<handler name=\"" + handlerName + "\"/>"
-        + "</m:" + ROOT_UNDEPLOY + ">";
+    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">"
+        + "<handler name=\"" + handlerName + "\"/>" + "</m:" + ROOT_UNDEPLOY + ">";
     ByteArrayInputStream input = new ByteArrayInputStream(str.getBytes());
     return process(input);
   }
 
   public String undeployService(String serviceName) throws Exception {
     log.debug(Messages.getMessage("doQuit00"));
-    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">" + "<service name=\"" + serviceName + "\"/>"
-        + "</m:" + ROOT_UNDEPLOY + ">";
+    String str = "<m:" + ROOT_UNDEPLOY + " xmlns:m=\"" + "http://xml.apache.org/axis/wsdd/" + "\">"
+        + "<service name=\"" + serviceName + "\"/>" + "</m:" + ROOT_UNDEPLOY + ">";
     ByteArrayInputStream input = new ByteArrayInputStream(str.getBytes());
     return process(input);
   }
@@ -147,7 +158,8 @@ public class AdminClient {
       ;
     args = opts.getRemainingArgs();
     if (args == null || opts.isFlagSet('?') > 0) {
-      System.out.println(Messages.getMessage("usage00", "AdminClient [Options] [list | <deployment-descriptor-files>]"));
+      System.out.println(Messages.getMessage("usage00",
+                                             "AdminClient [Options] [list | <deployment-descriptor-files>]"));
       System.out.println("");
       System.out.println(getUsageInfo());
       return null;
@@ -215,23 +227,21 @@ public class AdminClient {
     return result;
   }
 
-  public String process(Options opts,
-                        String xmlFile) throws Exception {
+  public String process(Options opts, String xmlFile) throws Exception {
     processOpts(opts);
     return process(xmlFile);
   }
 
-  public String process(Options opts,
-                        InputStream input) throws Exception {
+  public String process(Options opts, InputStream input) throws Exception {
     if (call == null)
       throw new Exception(Messages.getMessage("nullCall00"));
     if (opts != null)
       processOpts(opts);
     call.setUseSOAPAction(true);
     call.setSOAPActionURI("AdminService");
-    Vector result = null;
+    Vector<SOAPBodyElement> result = null;
     Object params[] = { new SOAPBodyElement(input) };
-    result = (Vector) call.invoke(params);
+    result = (Vector<SOAPBodyElement>) call.invoke(params);
     input.close();
     if (result == null || result.isEmpty()) {
       throw new AxisFault(Messages.getMessage("nullResponse00"));
@@ -260,13 +270,13 @@ public class AdminClient {
     return Class.forName(x0);
   }
 
-  protected static Log          log;
+  protected static Log                            log;
 
-  private static ThreadLocal    defaultConfiguration = new ThreadLocal();
+  private static ThreadLocal<EngineConfiguration> defaultConfiguration = new ThreadLocal<EngineConfiguration>();
 
-  protected Call                call;
+  protected Call                                  call;
 
-  protected static final String ROOT_UNDEPLOY;
+  protected static final String                   ROOT_UNDEPLOY;
 
   static {
     log = LogFactory.getLog((org.apache.axis.client.AdminClient.class).getName());

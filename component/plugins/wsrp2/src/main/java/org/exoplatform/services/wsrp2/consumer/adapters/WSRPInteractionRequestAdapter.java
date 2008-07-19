@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.WSRPInteractionRequest;
@@ -29,13 +29,16 @@ import org.exoplatform.services.wsrp2.type.UploadContext;
  * Time: 16:26:36
  */
 
-public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implements WSRPInteractionRequest{
+public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implements
+    WSRPInteractionRequest {
 
-  private StateChange portletStateChange; //WSRP2
-  private String interactionState;
-  private NamedString[] formParameters;
-  private UploadContext[] uploadContexts; //WSRP2
-  
+  private StateChange     portletStateChange; //WSRP2
+
+  private String          interactionState;
+
+  private NamedString[]   formParameters;
+
+  private UploadContext[] uploadContexts;    //WSRP2
 
   public String getInteractionState() {
     return interactionState;
@@ -52,19 +55,19 @@ public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implem
   public void setFormParameters(NamedString[] formParameters) {
     this.formParameters = formParameters;
   }
-  
+
   public StateChange getPortletStateChange() {
     return portletStateChange;
   }
-  
+
   public void setPortletStateChange(StateChange portletStateChange) {
     this.portletStateChange = portletStateChange;
   }
-  
+
   public UploadContext[] getUploadContexts() {
     return uploadContexts;
   }
-  
+
   public void setUploadContexts(UploadContext[] uploadContexts) {
     this.uploadContexts = uploadContexts;
   }

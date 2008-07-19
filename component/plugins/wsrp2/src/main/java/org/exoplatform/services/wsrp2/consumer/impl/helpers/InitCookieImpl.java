@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
 import java.net.MalformedURLException;
@@ -29,17 +29,18 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 
 /**
- * User: Benjamin Mestrallet
- * Date: 11 mai 2004
+ * User: Benjamin Mestrallet Date: 11 mai 2004
  */
-public class InitCookieImpl extends InitCookieTemplate{
-  private WSRPService service;
-  private String markupInterfaceURL;
+public class InitCookieImpl extends InitCookieTemplate {
+  private WSRPService             service;
+
+  private String                  markupInterfaceURL;
+
   private WSRP_v2_Markup_PortType markupPort;
 
   public InitCookieImpl(String markupInterfaceURL) {
-    service = (WSRPService)(ExoContainerContext.getCurrentContainer().getComponentInstanceOfType(WSRPService.class));
-    ((WSRPServiceLocator)service).setMaintainSession(true);
+    service = (WSRPService) (ExoContainerContext.getCurrentContainer().getComponentInstanceOfType(WSRPService.class));
+    ((WSRPServiceLocator) service).setMaintainSession(true);
     this.markupInterfaceURL = markupInterfaceURL;
     try {
       this.markupPort = service.getWSRPMarkupService(new URL(markupInterfaceURL));

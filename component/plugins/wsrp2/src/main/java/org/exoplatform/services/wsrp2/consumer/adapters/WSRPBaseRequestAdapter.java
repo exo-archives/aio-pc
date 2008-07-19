@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.WSRPBaseRequest;
@@ -29,32 +29,44 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  * Time: 16:25:12
  */
 
-public class WSRPBaseRequestAdapter implements WSRPBaseRequest{
+public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   // For RuntimeContext
-  private String sessionID;
-  private String portletInstanceKey;
-  
+  private String        sessionID;
+
+  private String        portletInstanceKey;
+
   // For NavigationalContext
-  private String navigationalState;
-  private NamedString[] navigationalValues;//WSRP2
-  
+  private String        navigationalState;
+
+  private NamedString[] navigationalValues;       //WSRP2
+
   // For MimeRequest (There are MarkupParams and ResourceParams which extends MimeRequest)
-  private boolean secureClientCommunication;//WSRP2
-  private String[] locales;
-  private String[] mimeTypes;
-  private String mode;
-  private String windowState;
-  private ClientData clientData;
-  private String[] markupCharacterSets;//modified
-  private String validateTag;//WSRP2
-  private String[] validNewModes;//modified
-  private String[] validNewWindowStates;//modified
-  private Extension[] extensions;//WSRP2
+  private boolean       secureClientCommunication; //WSRP2
+
+  private String[]      locales;
+
+  private String[]      mimeTypes;
+
+  private String        mode;
+
+  private String        windowState;
+
+  private ClientData    clientData;
+
+  private String[]      markupCharacterSets;      //modified
+
+  private String        validateTag;              //WSRP2
+
+  private String[]      validNewModes;            //modified
+
+  private String[]      validNewWindowStates;     //modified
+
+  private Extension[]   extensions;               //WSRP2
 
   // UNKNOWN
-  private String userAuthentication;
-  
+  private String        userAuthentication;
+
   public String getSessionID() {
     return sessionID;
   }
@@ -168,9 +180,9 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest{
     }
     return false;
   }
-  
+
   // WSRP2
-  
+
   public NamedString[] getNavigationalValues() {
     return navigationalValues;
   }
@@ -178,27 +190,27 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest{
   public void setNavigationalValues(NamedString[] navigationalValues) {
     this.navigationalValues = navigationalValues;
   }
-  
+
   public String getValidateTag() {
     return validateTag;
   }
-  
+
   public void setValidateTag(String validateTag) {
     this.validateTag = validateTag;
   }
-  
+
   public Extension[] getExtensions() {
     return extensions;
   }
-  
+
   public void setExtensions(Extension[] extensions) {
     this.extensions = extensions;
   }
-  
+
   public boolean isSecureClientCommunication() {
     return secureClientCommunication;
   }
-  
+
   public void setSecureClientCommunication(boolean secureClientCommunication) {
     this.secureClientCommunication = secureClientCommunication;
   }

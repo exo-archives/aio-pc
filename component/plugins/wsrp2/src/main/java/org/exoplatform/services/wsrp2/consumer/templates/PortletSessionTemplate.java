@@ -34,11 +34,11 @@ import org.exoplatform.services.wsrp2.type.SessionContext;
 
 public abstract class PortletSessionTemplate implements PortletSession {
 
-  protected String       portletHandle;
+  protected String                            portletHandle;
 
-  private SessionContext sessionContext;
+  private SessionContext                      sessionContext;
 
-  protected Map<String, PortletWindowSession>          portletWindowSessions = new HashMap<String, PortletWindowSession>();
+  protected Map<String, PortletWindowSession> portletWindowSessions = new HashMap<String, PortletWindowSession>();
 
   public String getPortletHandle() {
     return portletHandle;

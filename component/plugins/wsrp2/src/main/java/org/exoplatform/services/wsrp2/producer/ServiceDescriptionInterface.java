@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer;
 
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
@@ -22,23 +22,17 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface ServiceDescriptionInterface {
-  public ServiceDescription getServiceDescription(RegistrationContext registrationContext, 
+  public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
                                                   String[] desiredLocales,
-                                                  String[] portletHandles, 
-                                                  UserContext userContext) 
-    throws java.rmi.RemoteException;
-  
-  
-  
-  public ServiceDescription getServiceDescription(RegistrationContext registrationContext, 
-                                                  String[] desiredLocales)                          
-                                                   
-  throws java.rmi.RemoteException;  
+                                                  String[] portletHandles,
+                                                  UserContext userContext) throws java.rmi.RemoteException;
 
-  
-  
+  public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
+                                                  String[] desiredLocales)
+
+  throws java.rmi.RemoteException;
+
 }

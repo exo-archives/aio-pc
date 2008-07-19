@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
 import org.exoplatform.services.wsrp2.consumer.PortletKey;
@@ -26,9 +26,10 @@ import org.exoplatform.services.wsrp2.consumer.PortletKey;
  * Time: 22:56:54
  */
 
-public class PortletKeyAdapter implements PortletKey{
+public class PortletKeyAdapter implements PortletKey {
 
   private String portletHandle;
+
   private String producerId;
 
   public String getPortletHandle() {
@@ -46,5 +47,5 @@ public class PortletKeyAdapter implements PortletKey{
   public void setProducerId(String producerId) {
     this.producerId = producerId;
   }
-  
+
 }

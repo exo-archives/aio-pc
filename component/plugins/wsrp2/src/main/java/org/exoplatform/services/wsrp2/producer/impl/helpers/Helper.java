@@ -51,29 +51,30 @@ public class Helper {
     }
     return true;
   }
-  
-  
+
   public static boolean checkPortletLifetime(RegistrationContext registrationContext,
                                              PortletContext[] portletContexts,
                                              UserContext userContext,
                                              PortletManagementOperationsInterface poi) {
     //ExoContainer cont = ExoContainerContext.getCurrentContainer();
-    
-   // PortletManagementOperationsInterface poi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
+
+    // PortletManagementOperationsInterface poi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
     try {
-      GetPortletsLifetimeResponse resp = poi.getPortletsLifetime(registrationContext, portletContexts, userContext);
+      GetPortletsLifetimeResponse resp = poi.getPortletsLifetime(registrationContext,
+                                                                 portletContexts,
+                                                                 userContext);
       PortletLifetime plf = resp.getPortletLifetime(0);
       Lifetime lf = plf.getScheduledDestruction();
       if (lf != null) {
         if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
           String portletHandle = portletContexts[0].getPortletHandle();
-          poi.destroyPortlets(registrationContext, new String[]{portletHandle});
+          poi.destroyPortlets(registrationContext, new String[] { portletHandle });
           return false;
         }
       }
     } catch (RemoteException e) {
     }
     return true;
-}
+  }
 
 }

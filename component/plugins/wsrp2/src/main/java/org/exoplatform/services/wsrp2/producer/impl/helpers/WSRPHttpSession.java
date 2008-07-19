@@ -29,8 +29,7 @@ import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class WSRPHttpSession implements HttpSession {
 
@@ -50,7 +49,7 @@ public class WSRPHttpSession implements HttpSession {
 
   public WSRPHttpSession() {
   }
-  
+
   public WSRPHttpSession(HttpSession httpSession) {
     this.creationTime = System.currentTimeMillis();
     this.sessionID = httpSession.getId();
@@ -58,8 +57,7 @@ public class WSRPHttpSession implements HttpSession {
     this.isNew = true;
   }
 
-  public WSRPHttpSession(String sessionID,
-                         int maxInactiveInterval) {
+  public WSRPHttpSession(String sessionID, int maxInactiveInterval) {
     creationTime = System.currentTimeMillis();
     this.sessionID = sessionID;
     this.maxInactiveInterval = maxInactiveInterval;
@@ -118,8 +116,7 @@ public class WSRPHttpSession implements HttpSession {
     return Collections.enumeration(attributsMap.keySet());
   }
 
-  public void setAttribute(String arg0,
-                           Object arg1) {
+  public void setAttribute(String arg0, Object arg1) {
     if (invalidated)
       throw new IllegalStateException();
     attributsMap.put(arg0, arg1);
@@ -157,8 +154,7 @@ public class WSRPHttpSession implements HttpSession {
   public void removeValue(String arg0) {
   }
 
-  public void putValue(String arg0,
-                       Object arg1) {
+  public void putValue(String arg0, Object arg1) {
   }
 
   public String[] getValueNames() {

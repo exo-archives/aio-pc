@@ -85,9 +85,8 @@ import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
- * The implementation of this class is based on the WSRP4J project
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
+ * The implementation of this class is based on the WSRP4J project Author :
+ * Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua
  */
 public class PortletDriverImpl implements PortletDriver {
 
@@ -105,12 +104,12 @@ public class PortletDriverImpl implements PortletDriver {
 
   private Log                                log;
 
-  public PortletDriverImpl(ExoContainer cont,
-                           WSRPPortlet portlet) throws WSRPException {
+  public PortletDriverImpl(ExoContainer cont, WSRPPortlet portlet) throws WSRPException {
     this.consumer = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer");
     this.portlet = portlet;
-    this.producer = consumer.getProducerRegistry().getProducer(portlet.getPortletKey().getProducerId());
+    this.producer = consumer.getProducerRegistry().getProducer(portlet.getPortletKey()
+                                                                      .getProducerId());
     portletManagementPort = producer.getPortletManagementInterface();
     ServiceDescription serviceDescription = producer.getServiceDescription(false);
     if (serviceDescription != null) {
@@ -190,8 +189,7 @@ public class PortletDriverImpl implements PortletDriver {
     return markupParams;
   }
 
-  private RuntimeContext getRuntimeContext(WSRPBaseRequest request,
-                                           String baseURL) throws WSRPException {
+  private RuntimeContext getRuntimeContext(WSRPBaseRequest request, String baseURL) throws WSRPException {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
@@ -255,7 +253,10 @@ public class PortletDriverImpl implements PortletDriver {
   private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
     interactionParams.setPortletStateChange(consumer.getPortletStateChange());
-    if (!portlet.isConsumerConfigured() && interactionParams.getPortletStateChange().toString().equalsIgnoreCase(StateChange._readWrite)) {
+    if (!portlet.isConsumerConfigured()
+        && interactionParams.getPortletStateChange()
+                            .toString()
+                            .equalsIgnoreCase(StateChange._readWrite)) {
       interactionParams.setPortletStateChange(StateChange.cloneBeforeWrite);
     }
     interactionParams.setInteractionState(actionRequest.getInteractionState());
@@ -314,8 +315,10 @@ public class PortletDriverImpl implements PortletDriver {
             }
           }
         } else {
-          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + WSRPConstants.URL_TYPE_BLOCKINGACTION;
-          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.ACTION_STRING;
+          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+              + WSRPConstants.URL_TYPE_BLOCKINGACTION;
+          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+              + PCConstants.ACTION_STRING;
           rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
           markupContext.setItemString(rewrittenMarkup);
           try {
@@ -387,8 +390,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public DestroyPortletsResponse destroyPortlets(String[] portletHandles,
-                                                 UserSessionMgr userSession) throws WSRPException {
+  public DestroyPortletsResponse destroyPortlets(String[] portletHandles, UserSessionMgr userSession) throws WSRPException {
     DestroyPortlets request = new DestroyPortlets();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {
@@ -404,8 +406,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public ReturnAny releaseSessions(String[] sessionIDs,
-                                   UserSessionMgr userSession) throws WSRPException {
+  public ReturnAny releaseSessions(String[] sessionIDs, UserSessionMgr userSession) throws WSRPException {
     checkInitCookie(userSession);
     ReleaseSessions request = new ReleaseSessions();
     RegistrationContext regCtx = producer.getRegistrationContext();
@@ -483,8 +484,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public PropertyList getPortletProperties(String[] names,
-                                           UserSessionMgr userSession) throws WSRPException {
+  public PropertyList getPortletProperties(String[] names, UserSessionMgr userSession) throws WSRPException {
     GetPortletProperties request = new GetPortletProperties();
     request.setPortletContext(getPortlet().getPortletContext());
     request.setNames(names);
@@ -505,8 +505,7 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public PortletContext setPortletProperties(PropertyList properties,
-                                             UserSessionMgr userSession) throws WSRPException {
+  public PortletContext setPortletProperties(PropertyList properties, UserSessionMgr userSession) throws WSRPException {
     SetPortletProperties request = new SetPortletProperties();
     request.setPortletContext(getPortlet().getPortletContext());
     RegistrationContext regCtx = producer.getRegistrationContext();
@@ -578,8 +577,10 @@ public class PortletDriverImpl implements PortletDriver {
             }
           }
         } else {
-          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + WSRPConstants.URL_TYPE_BLOCKINGACTION;
-          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "=" + PCConstants.ACTION_STRING;
+          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+              + WSRPConstants.URL_TYPE_BLOCKINGACTION;
+          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+              + PCConstants.ACTION_STRING;
           rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
           resourceContext.setItemString(rewrittenMarkup);
           try {
@@ -626,15 +627,14 @@ public class PortletDriverImpl implements PortletDriver {
     return resourceParams;
   }
 
-  private void fillMimeRequestParams(MimeRequest params,
-                                     WSRPBaseRequest request) {
+  private void fillMimeRequestParams(MimeRequest params, WSRPBaseRequest request) {
     ClientData clientData = new ClientData();
     // lets just set this to the consumer agent for now
     if (producer.getRegistrationData() != null)
       clientData.setUserAgent(producer.getRegistrationData().getConsumerAgent());
     clientData.setCcppHeaders(null);
     clientData.setClientAttributes(null);
-    
+
     params.setClientData(clientData);
     params.setSecureClientCommunication(request.isSecureClientCommunication());
     params.setLocales(request.getLocales());//consumer.getSupportedLocales());
@@ -696,7 +696,8 @@ public class PortletDriverImpl implements PortletDriver {
     EventParams eventParams = new EventParams();
     eventParams.setEvents(eventRequest.getEvents());
     eventParams.setPortletStateChange(consumer.getPortletStateChange());
-    if (!portlet.isConsumerConfigured() && eventParams.getPortletStateChange().toString().equalsIgnoreCase(StateChange._readWrite)) {
+    if (!portlet.isConsumerConfigured()
+        && eventParams.getPortletStateChange().toString().equalsIgnoreCase(StateChange._readWrite)) {
       eventParams.setPortletStateChange(StateChange.cloneBeforeWrite);
     }
     eventParams.setExtensions(null);

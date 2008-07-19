@@ -51,8 +51,7 @@ public class URLRewriterImpl implements URLRewriter {
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer");
   }
 
-  public String rewriteURLs(String baseURL,
-                            String markup) throws WSRPException {
+  public String rewriteURLs(String baseURL, String markup) throws WSRPException {
     log.debug("Rewrite URL : " + markup);
     StringBuffer resultMarkup = new StringBuffer();
     int processIndex = 0;
@@ -64,12 +63,14 @@ public class URLRewriterImpl implements URLRewriter {
       rewriteStartPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_PREFIX, processIndex);
       if (rewriteStartPos == -1)
         break; // no index to start rewrite -> exits the loop
-      rewriteEndPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_SUFFFIX, rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length());
+      rewriteEndPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_SUFFFIX, rewriteStartPos
+          + WSRPConstants.WSRP_REWRITE_PREFIX.length());
       if (rewriteEndPos == -1)
         break; // no index to stop rewrite -> exits the loop
       rewriteEndPos += WSRPConstants.WSRP_REWRITE_SUFFFIX.length();
       resultMarkup.append(markup.substring(processIndex, rewriteStartPos));
-      String toRewriteURL = markup.substring(rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length(), rewriteEndPos
+      String toRewriteURL = markup.substring(rewriteStartPos
+          + WSRPConstants.WSRP_REWRITE_PREFIX.length(), rewriteEndPos
           - WSRPConstants.WSRP_REWRITE_SUFFFIX.length());
 
       resultMarkup.append(getRewrittenURL(baseURL, toRewriteURL));
@@ -80,8 +81,7 @@ public class URLRewriterImpl implements URLRewriter {
     return resultMarkup.toString();
   }
 
-  private String getRewrittenURL(String baseURL,
-                                 String toRewriteURL) throws WSRPException {
+  private String getRewrittenURL(String baseURL, String toRewriteURL) throws WSRPException {
     if (!(toRewriteURL.startsWith(WSRPConstants.WSRP_URL_TYPE + "="))) {
       return toRewriteURL;
     }
@@ -107,15 +107,15 @@ public class URLRewriterImpl implements URLRewriter {
       return urlGenerator.getResourceURL(baseURL, params);
     } else {
       // extension
-      params.put(Constants.TYPE_PARAMETER, toRewriteURL.substring(0, toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM) - 1));
-      toRewriteURL = toRewriteURL.substring(toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM) );
+      params.put(Constants.TYPE_PARAMETER,
+                 toRewriteURL.substring(0, toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM) - 1));
+      toRewriteURL = toRewriteURL.substring(toRewriteURL.indexOf(WSRPConstants.NEXT_PARAM));
       fillParameterMap(params, toRewriteURL);
       return urlGenerator.getExtensionURL(baseURL, params);
     }
   }
 
-  private void fillParameterMap(Map<String, String> params,
-                                String toRewriteURL) throws WSRPException {
+  private void fillParameterMap(Map<String, String> params, String toRewriteURL) throws WSRPException {
     String[] parameterPairs = toRewriteURL.split(WSRPConstants.NEXT_PARAM);
     for (String string : parameterPairs) {
       String[] nameAndValue = string.split("=");

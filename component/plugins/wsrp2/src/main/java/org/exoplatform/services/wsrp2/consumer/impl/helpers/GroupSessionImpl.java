@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
 import java.util.HashMap;
@@ -31,9 +31,11 @@ import org.exoplatform.services.wsrp2.consumer.PortletSession;
  * Time: 22:34:33
  */
 
-public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr, java.io.Serializable {
+public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
+    java.io.Serializable {
 
-  protected String groupID;
+  protected String                      groupID;
+
   protected Map<String, PortletSession> portletSessions = new HashMap<String, PortletSession>();
 
   public GroupSessionImpl(String groupID, String markupURL) {
@@ -80,7 +82,5 @@ public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
   public void removeAllPortletSessions() {
     portletSessions.clear();
   }
-
-
 
 }

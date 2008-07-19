@@ -36,11 +36,9 @@ public class Events implements java.io.Serializable {
 
   public static final java.lang.String _newNavigationalContextScope = "wsrp:newNavigationalContextScope";
 
-  public static final Events           eventHandlingFailed          = new Events(
-                                                                        _eventHandlingFailed);
+  public static final Events           eventHandlingFailed          = new Events(_eventHandlingFailed);
 
-  public static final Events           newNavigationalContextScope  = new Events(
-                                                                        _newNavigationalContextScope);
+  public static final Events           newNavigationalContextScope  = new Events(_newNavigationalContextScope);
 
   public java.lang.String getValue() {
     return _value_;

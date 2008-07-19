@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.util.HashMap;
@@ -31,7 +31,7 @@ import org.exoplatform.services.wsrp2.consumer.UserRegistry;
  * Time: 13:47:56
  */
 
-public class UserRegistryImpl implements UserRegistry{
+public class UserRegistryImpl implements UserRegistry {
 
   private Map<String, User> users = new HashMap<String, User>();
 

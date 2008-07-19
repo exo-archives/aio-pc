@@ -14,12 +14,11 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.exceptions;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class WSRPException extends Exception {
 
@@ -33,11 +32,11 @@ public class WSRPException extends Exception {
     this(fault, null);
   }
 
-  public WSRPException(String fault, Throwable t){      
+  public WSRPException(String fault, Throwable t) {
     super("fault : " + fault, t);
-    this.fault = fault;      
+    this.fault = fault;
   }
-  
+
   public String getFault() {
     return fault;
   }

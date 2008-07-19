@@ -14,20 +14,19 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.consumer.templates;
 
 import org.exoplatform.services.wsrp2.consumer.InitCookieInfo;
 import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
 
 /**
- * User: Benjamin Mestrallet
- * Date: 11 mai 2004
+ * User: Benjamin Mestrallet Date: 11 mai 2004
  */
-public abstract class InitCookieTemplate
-    implements InitCookieInfo{
+public abstract class InitCookieTemplate implements InitCookieInfo {
 
   private boolean initCookieRequired;
+
   private boolean initCookieDone;
 
   public boolean isInitCookieRequired() {
@@ -47,7 +46,9 @@ public abstract class InitCookieTemplate
   }
 
   public abstract String getMarkupInterfaceURL();
+
   public abstract WSRP_v2_Markup_PortType getWSRPMarkupService();
+
   public abstract void setWSRPMarkupService(WSRP_v2_Markup_PortType markupPortType);
 
 }

@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer;
 
 import java.util.Map;
@@ -24,27 +24,38 @@ import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface PersistentStateManager {
 
   public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException;
+
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException;
+
   public void deregister(RegistrationContext registrationContext) throws WSRPException;
+
   public boolean isRegistered(RegistrationContext registrationContext) throws WSRPException;
-  
-  public boolean isConsumerConfiguredPortlet(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
-  public void addConsumerConfiguredPortletHandle(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
-  public void removeConsumerConfiguredPortletHandle(String portletHandle, RegistrationContext registrationContext) throws WSRPException;
+
+  public boolean isConsumerConfiguredPortlet(String portletHandle,
+                                             RegistrationContext registrationContext) throws WSRPException;
+
+  public void addConsumerConfiguredPortletHandle(String portletHandle,
+                                                 RegistrationContext registrationContext) throws WSRPException;
+
+  public void removeConsumerConfiguredPortletHandle(String portletHandle,
+                                                    RegistrationContext registrationContext) throws WSRPException;
 
   public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException;
+
   public void putNavigationalState(String navigationalState, Map<String, String[]> renderParameters) throws WSRPException;
 
   public Map<String, String[]> getInteractionSate(String interactionState) throws WSRPException;
-  public void putInteractionState(String interactionState, Map<String, String[]> interactionParameters) throws WSRPException;
-  
+
+  public void putInteractionState(String interactionState,
+                                  Map<String, String[]> interactionParameters) throws WSRPException;
+
   public Map<String, String[]> getResourceState(String resourceState) throws WSRPException;
+
   public void putResourceState(String resourceState, Map<String, String[]> resourceParameters) throws WSRPException;
 
 }

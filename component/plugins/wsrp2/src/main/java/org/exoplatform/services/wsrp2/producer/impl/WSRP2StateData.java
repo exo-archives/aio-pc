@@ -14,51 +14,67 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
- 
+
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import org.exoplatform.commons.utils.IOUtil;
 
 /**
- * Author : Tuan Nguyen
- *          tuan08@users.sourceforge.net
- * Date: Jun 14, 2003
- * Time: 1:12:22 PM
- *
- * @hibernate.class  table="WSRP_STATE"
+ * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
+ * 1:12:22 PM
+ * 
+ * @hibernate.class table="WSRP_STATE"
  */
 
 public class WSRP2StateData {
-  private String id_ ;
-  private String type_ ;
-  transient private Object object_ ;
-  
-  public WSRP2StateData() {
-  }    
+  private String           id_;
 
-  /**
-   * @hibernate.id  generator-class="assigned" unsaved-value="null"
-   ***/
-  public String   getId() { return id_ ; }
-  public void     setId(String s) { id_ = s ; }
+  private String           type_;
+
+  transient private Object object_;
+
+  public WSRP2StateData() {
+  }
+
+  /*****************************************************************************
+   * @hibernate.id generator-class="assigned" unsaved-value="null"
+   ****************************************************************************/
+  public String getId() {
+    return id_;
+  }
+
+  public void setId(String s) {
+    id_ = s;
+  }
 
   /**
    * @hibernate.property
-   **/
-  public String   getDataType() { return type_ ; }
-  public void     setDataType(String s) { type_ = s ; }
+   */
+  public String getDataType() {
+    return type_;
+  }
+
+  public void setDataType(String s) {
+    type_ = s;
+  }
 
   /**
    * @hibernate.property type="binary"
-   **/
-  public byte[] getData() throws Exception { 
-    return IOUtil.serialize(object_) ; 
-  }   
-  public void setData(byte[] data) throws Exception { 
-    object_ = IOUtil.deserialize(data) ; 
+   */
+  public byte[] getData() throws Exception {
+    return IOUtil.serialize(object_);
   }
 
-  public Object getDataObject() { return object_  ; }
-  public void setDataObject(Object o) { object_ = o ; }
+  public void setData(byte[] data) throws Exception {
+    object_ = IOUtil.deserialize(data);
+  }
+
+  public Object getDataObject() {
+    return object_;
+  }
+
+  public void setDataObject(Object o) {
+    object_ = o;
+  }
 
 }

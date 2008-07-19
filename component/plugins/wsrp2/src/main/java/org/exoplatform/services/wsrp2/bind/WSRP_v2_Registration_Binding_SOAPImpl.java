@@ -67,7 +67,8 @@ public class WSRP_v2_Registration_Binding_SOAPImpl implements WSRP_v2_Registrati
                                                                                     OperationFailedFault,
                                                                                     MissingParametersFault,
                                                                                     OperationNotSupportedFault {
-    return registrationOperationsInterface.modifyRegistration(modifyRegistration.getRegistrationContext(), modifyRegistration.getRegistrationData());
+    return registrationOperationsInterface.modifyRegistration(modifyRegistration.getRegistrationContext(),
+                                                              modifyRegistration.getRegistrationData());
   }
 
   public Lifetime getRegistrationLifetime(GetRegistrationLifetime getRegistrationLifetime) throws RemoteException,
@@ -88,7 +89,8 @@ public class WSRP_v2_Registration_Binding_SOAPImpl implements WSRP_v2_Registrati
   public ReturnAny deregister(Deregister deregister) throws RemoteException,
                                                     InvalidRegistrationFault,
                                                     OperationFailedFault {
-    return registrationOperationsInterface.deregister(deregister.getRegistrationContext(), deregister.getUserContext());
+    return registrationOperationsInterface.deregister(deregister.getRegistrationContext(),
+                                                      deregister.getUserContext());
 
   }
 
