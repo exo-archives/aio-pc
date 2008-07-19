@@ -428,11 +428,10 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
    * @return does it need security constraint
    */
   public final boolean needsSecurityContraints(final String portletName) {
-    for (Object element : reqCtx.getSecurityContraints()) {
-      SecurityConstraint securityConstraint = (SecurityConstraint) element;
-      List l = securityConstraint.getPortletCollection().getPortletName();
-      for (Iterator iterator2 = l.iterator(); iterator2.hasNext();) {
-        String portletN = (String) iterator2.next();
+    for (SecurityConstraint securityConstraint : reqCtx.getSecurityContraints()) {
+      List<String> portletsNamesList = securityConstraint.getPortletCollection().getPortletName();
+      for (Iterator<String> portletsNamesIter = portletsNamesList.iterator(); portletsNamesIter.hasNext();) {
+        String portletN = (String) portletsNamesIter.next();
         if (portletN.equals(portletName))
           return true;
       }
