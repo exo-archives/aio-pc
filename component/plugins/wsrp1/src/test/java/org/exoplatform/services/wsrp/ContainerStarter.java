@@ -28,17 +28,16 @@ import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.container.Container;
 import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.installer.ZipURLInstaller;
-import org.codehaus.cargo.container.installer.Installer;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
 import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.container.configuration.ConfigurationType;
+import org.codehaus.cargo.container.configuration.LocalConfiguration;
 import org.codehaus.cargo.container.deployable.WAR;
+import org.codehaus.cargo.container.installer.Installer;
+import org.codehaus.cargo.container.installer.ZipURLInstaller;
+import org.codehaus.cargo.container.property.ServletPropertySet;
+import org.codehaus.cargo.generic.DefaultContainerFactory;
+import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
 
 public class ContainerStarter {
 

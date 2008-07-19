@@ -20,7 +20,11 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.testConsumer.*;
+import org.exoplatform.services.wsrp.testConsumer.TestPortletRegistry;
+import org.exoplatform.services.wsrp.testConsumer.TestProducerRegistry;
+import org.exoplatform.services.wsrp.testConsumer.TestURLRewriter;
+import org.exoplatform.services.wsrp.testConsumer.TestURLTemplateComposer;
+import org.exoplatform.services.wsrp.testConsumer.TestUserRegistry;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008
