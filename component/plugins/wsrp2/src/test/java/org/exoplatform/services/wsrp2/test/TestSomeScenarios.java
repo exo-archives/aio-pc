@@ -15,17 +15,18 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.Register;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /**
  * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 24
@@ -43,7 +44,7 @@ public class TestSomeScenarios extends BaseTest {
 
   public void testFirstConsumerScenario() throws Throwable, RemoteException {
     //get the service description through a monitor that listen on port 8081
-    ServiceDescriptionRequest request = new ServiceDescriptionRequest();
+    GetServiceDescription request = new GetServiceDescription();
     request.setDesiredLocales(new String[] { "en" });
     ServiceDescription serviceDescription = null;
     serviceDescription = serviceDescriptionInterface.getServiceDescription(request);
@@ -52,7 +53,7 @@ public class TestSomeScenarios extends BaseTest {
     RegistrationContext rC = null;
     if (serviceDescription.isRequiresRegistration()) {
       System.out.println("[test] Registration required");
-      rC = registrationOperationsInterface.register(registrationData);
+      rC = registrationOperationsInterface.register(register);
       resolveRegistrationContext(rC);
     } else {
       System.out.println("[test] Registration non required");
@@ -74,7 +75,7 @@ public class TestSomeScenarios extends BaseTest {
     //prepare the request arguments
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(PORTLET_HANDLE);
-    MarkupRequest getMarkup = getMarkup(rC, portletContext);
+    GetMarkup getMarkup = getMarkup(rC, portletContext);
 
     //get the markup
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);

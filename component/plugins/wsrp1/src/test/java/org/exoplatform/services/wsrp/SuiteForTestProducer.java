@@ -34,7 +34,7 @@ import org.exoplatform.services.wsrp.test.TestWSRPSession;
  */
 public class SuiteForTestProducer extends TestSuite {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer..wsrp.SuiteForTestProducer");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp.SuiteForTestProducer");
 
   public SuiteForTestProducer() {
     log.info("Preparing SuiteForTestProducer tests....");

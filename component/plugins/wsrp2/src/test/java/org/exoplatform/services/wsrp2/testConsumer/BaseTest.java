@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp2.testConsumer;
 
 import java.io.InputStream;
 import java.net.URL;
@@ -39,25 +39,26 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.consumer.PortletKey;
-import org.exoplatform.services.wsrp.consumer.PortletRegistry;
-import org.exoplatform.services.wsrp.consumer.Producer;
-import org.exoplatform.services.wsrp.consumer.ProducerRegistry;
-import org.exoplatform.services.wsrp.consumer.URLGenerator;
-import org.exoplatform.services.wsrp.consumer.URLRewriter;
-import org.exoplatform.services.wsrp.consumer.User;
-import org.exoplatform.services.wsrp.consumer.UserRegistry;
-import org.exoplatform.services.wsrp.consumer.WSRPPortlet;
-import org.exoplatform.services.wsrp.consumer.adapters.PortletKeyAdapter;
-import org.exoplatform.services.wsrp.consumer.adapters.UserAdapter;
-import org.exoplatform.services.wsrp.consumer.adapters.WSRPPortletAdapter;
-import org.exoplatform.services.wsrp.consumer.impl.ProducerImpl;
-import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
-import org.exoplatform.services.wsrp.type.PersonName;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationData;
-import org.exoplatform.services.wsrp.type.UserContext;
-import org.exoplatform.services.wsrp.type.UserProfile;
+import org.exoplatform.services.wsrp2.consumer.PortletKey;
+import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
+import org.exoplatform.services.wsrp2.consumer.Producer;
+import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp2.consumer.URLGenerator;
+import org.exoplatform.services.wsrp2.consumer.URLRewriter;
+import org.exoplatform.services.wsrp2.consumer.User;
+import org.exoplatform.services.wsrp2.consumer.UserRegistry;
+import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
+import org.exoplatform.services.wsrp2.consumer.adapters.PortletKeyAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.UserAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.WSRPPortletAdapter;
+import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp2.type.PersonName;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.Register;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
+import org.exoplatform.services.wsrp2.type.UserContext;
+import org.exoplatform.services.wsrp2.type.UserProfile;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
@@ -87,6 +88,8 @@ public class BaseTest extends TestCase {
   protected Producer                 producer;
 
   protected RegistrationData         registrationData;
+
+  protected Register                 register;
 
 //  protected PortalContainer          container;
 
@@ -195,7 +198,9 @@ public class BaseTest extends TestCase {
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
     registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
-    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
+//    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
+
+    register = new Register(registrationData, null, userContext);
 
     producer = new ProducerImpl(container);
     producer.setID(PRODUCER_ID);

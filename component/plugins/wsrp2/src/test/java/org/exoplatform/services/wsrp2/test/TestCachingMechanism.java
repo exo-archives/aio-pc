@@ -15,16 +15,16 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.WSRPConstants;
-import org.exoplatform.services.wsrp.type.CacheControl;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.WSRPConstants;
+import org.exoplatform.services.wsrp2.type.CacheControl;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /*
  * @author  Mestrallet Benjamin
@@ -45,7 +45,7 @@ public class TestCachingMechanism extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/HelloWorld2");
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
@@ -65,12 +65,14 @@ public class TestCachingMechanism extends BaseTest {
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
 
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     System.out.println("[test] validate tag key : " + cacheControl.getValidateTag());
     markupParams.setValidateTag(cacheControl.getValidateTag());
-    runtimeContext.setSessionID(response.getSessionContext().getSessionID());
+    sessionParams.setSessionID(response.getSessionContext().getSessionID());
+    runtimeContext = new RuntimeContext();
+    runtimeContext.setSessionParams(sessionParams);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     response = markupOperationsInterface.getMarkup(getMarkup);

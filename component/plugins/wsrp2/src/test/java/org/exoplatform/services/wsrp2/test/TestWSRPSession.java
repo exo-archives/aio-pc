@@ -15,17 +15,18 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ReleaseSessionsRequest;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ReleaseSessions;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -39,12 +40,12 @@ public class TestWSRPSession extends BaseTest {
   }
 
   public void testSession() throws Exception {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
+    GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     String portletHandle = "hello/PortletToTestSession";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -52,37 +53,41 @@ public class TestWSRPSession extends BaseTest {
     markupParams.setMimeTypes(mimeTypes);
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String sessionID = response.getSessionContext().getSessionID();
-    runtimeContext.setSessionID(sessionID);
+    sessionParams.setSessionID(sessionID);
+    runtimeContext = new RuntimeContext();
+    runtimeContext.setSessionParams(sessionParams);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     response = markupOperationsInterface.getMarkup(getMarkup);
-    assertEquals("attribute set in first call", response.getMarkupContext().getMarkupString());
+    assertEquals("attribute set in first call", response.getMarkupContext().getItemString());
   }
 
   public void testReleaseSession() throws RemoteException {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
+    GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     PortletContext portletContext = new PortletContext();
     String portletHandle = "hello/PortletToTestSession";
     portletContext.setPortletHandle(portletHandle);
     markupParams.setMimeTypes(mimeTypes);
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String sessionID = response.getSessionContext().getSessionID();
-    ReleaseSessionsRequest releaseSessions = new ReleaseSessionsRequest();
+    ReleaseSessions releaseSessions = new ReleaseSessions();
     releaseSessions.setRegistrationContext(rc);
     releaseSessions.setSessionIDs(new String[] { sessionID });
     markupOperationsInterface.releaseSessions(releaseSessions);
-    runtimeContext.setSessionID(sessionID);
+    sessionParams.setSessionID(sessionID);
+    runtimeContext = new RuntimeContext();
+    runtimeContext.setSessionParams(sessionParams);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     try {

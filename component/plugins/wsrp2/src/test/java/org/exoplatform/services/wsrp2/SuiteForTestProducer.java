@@ -14,21 +14,27 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp2;
 
 import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-
-import org.exoplatform.services.wsrp.test.*;
+import org.exoplatform.services.wsrp2.test.TestCachingMechanism;
+import org.exoplatform.services.wsrp2.test.TestGetMarkup;
+import org.exoplatform.services.wsrp2.test.TestGetServiceDescriptionInterface;
+import org.exoplatform.services.wsrp2.test.TestPerformBlockingInteraction;
+import org.exoplatform.services.wsrp2.test.TestPortletManagementInterface;
+import org.exoplatform.services.wsrp2.test.TestRegistrationInterface;
+import org.exoplatform.services.wsrp2.test.TestSomeScenarios;
+import org.exoplatform.services.wsrp2.test.TestWSRPSession;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008
  */
 public class SuiteForTestProducer extends TestSuite {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer..wsrp.SuiteForTestProducer");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp2.SuiteForTestProducer");
 
   public SuiteForTestProducer() {
     log.info("Preparing SuiteForTestProducer tests....");

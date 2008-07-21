@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp2;
 
 /**
  * Created by The eXo Platform SAS Author : Max Shaposhnik
@@ -24,32 +24,19 @@ package org.exoplatform.services.wsrp;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.net.MalformedURLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.codehaus.cargo.container.Container;
-import org.codehaus.cargo.container.ContainerType;
-import org.codehaus.cargo.container.installer.ZipURLInstaller;
-import org.codehaus.cargo.container.installer.Installer;
-import org.codehaus.cargo.container.configuration.LocalConfiguration;
-import org.codehaus.cargo.container.configuration.ConfigurationType;
-import org.codehaus.cargo.generic.configuration.DefaultConfigurationFactory;
-import org.codehaus.cargo.generic.DefaultContainerFactory;
-import org.codehaus.cargo.container.InstalledLocalContainer;
-import org.codehaus.cargo.container.property.ServletPropertySet;
-import org.codehaus.cargo.container.deployable.WAR;
-
 public class ContainerStarter {
 
-  private static InstalledLocalContainer container;
+//  private static InstalledLocalContainer container;
 
   protected static final String          TEST_PATH        = (System.getProperty("testPath") == null ? "."
                                                                                                    : System.getProperty("testPath"));
 
   protected static final String          PORTLET_WAR_PATH = TEST_PATH + "/target/hello.war";
 
-  //protected static final String                 WSRP_STARTER_PATH        =  TEST_PATH + "/../../../applications/wsrp1-starter/target/wsrp1.war";
+  //protected static final String                 WSRP_STARTER_PATH        =  TEST_PATH + "/../../../applications/wsrp2-starter/target/wsrp2.war";
   protected static final String          WSRP_LIB_PATH    = TEST_PATH + "/target/test";
 
   protected static boolean               isStarted;
@@ -57,30 +44,30 @@ public class ContainerStarter {
   static boolean start() {
 
     //Configuring & starting an Tomcat5x container
-    try {
-      Installer installer = new ZipURLInstaller(new java.net.URL("http://www.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip"),
-                                                System.getProperty("java.io.tmpdir"));
-      installer.install();
-
-      LocalConfiguration configuration = (LocalConfiguration) new DefaultConfigurationFactory().createConfiguration("tomcat5x",
-                                                                                                                    ContainerType.INSTALLED,
-                                                                                                                    ConfigurationType.STANDALONE);
-
-      configuration.setProperty(ServletPropertySet.PORT, "8080");
-      System.setProperty("catalina.home", installer.getHome());
-
-      configuration.addDeployable(new WAR(PORTLET_WAR_PATH));
-      // configuration.addDeployable(new WAR(WSRP_STARTER_PATH));
-
-      container = (InstalledLocalContainer) new DefaultContainerFactory().createContainer("tomcat5x",
-                                                                                          ContainerType.INSTALLED,
-                                                                                          configuration);
-
-      container.setHome(installer.getHome());
-
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    }
+//    try {
+//      Installer installer = new ZipURLInstaller(new java.net.URL("http://www.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip"),
+//                                                System.getProperty("java.io.tmpdir"));
+//      installer.install();
+//
+//      LocalConfiguration configuration = (LocalConfiguration) new DefaultConfigurationFactory().createConfiguration("tomcat5x",
+//                                                                                                                    ContainerType.INSTALLED,
+//                                                                                                                    ConfigurationType.STANDALONE);
+//
+//      configuration.setProperty(ServletPropertySet.PORT, "8080");
+//      System.setProperty("catalina.home", installer.getHome());
+//
+//      configuration.addDeployable(new WAR(PORTLET_WAR_PATH));
+//      // configuration.addDeployable(new WAR(WSRP_STARTER_PATH));
+//
+//      container = (InstalledLocalContainer) new DefaultContainerFactory().createContainer("tomcat5x",
+//                                                                                          ContainerType.INSTALLED,
+//                                                                                          configuration);
+//
+//      container.setHome(installer.getHome());
+//
+//    } CATCH (MALFORMEDURLEXCEPTION E) {
+//      E.PRINTSTACKTRACE();
+//    }
 
     // Looking for dependencies
     String[] arr;
@@ -97,18 +84,18 @@ public class ContainerStarter {
 
     String[] arr2 = new String[lst.size()];
     lst.toArray(arr2);
-    container.setExtraClasspath(arr2);
+//    container.setExtraClasspath(arr2);
 
-    container.start();
-    isStarted = container.getState().isStarted();
+//    container.start();
+//    isStarted = container.getState().isStarted();
     System.out.println("Container is started : " + isStarted);
     return isStarted;
   }
 
   static boolean stop() {
     try {
-      container.stop();
-      isStarted = container.getState().isStarted();
+//      container.stop();
+//      isStarted = container.getState().isStarted();
     } catch (Exception e) {
       e.printStackTrace();
     }

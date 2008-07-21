@@ -14,20 +14,24 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp2;
 
 import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.testConsumer.*;
+import org.exoplatform.services.wsrp2.testConsumer.TestPortletRegistry;
+import org.exoplatform.services.wsrp2.testConsumer.TestProducerRegistry;
+import org.exoplatform.services.wsrp2.testConsumer.TestURLRewriter;
+import org.exoplatform.services.wsrp2.testConsumer.TestURLTemplateComposer;
+import org.exoplatform.services.wsrp2.testConsumer.TestUserRegistry;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008
  */
 public class SuiteForTestConsumer extends TestSuite {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer..wsrp.SuiteForTestConsumer");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp2.SuiteForTestConsumer");
 
   public SuiteForTestConsumer() {
     log.info("Preparing SuiteForTestProducer tests....");

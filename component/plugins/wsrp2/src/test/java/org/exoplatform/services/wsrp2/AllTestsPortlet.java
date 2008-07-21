@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp2;
 
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
@@ -28,16 +28,16 @@ import org.exoplatform.services.log.ExoLogger;
  */
 public class AllTestsPortlet extends TestCase {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp.AllTestsPortlet");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp2.AllTestsPortlet");
 
   public static TestSuite suite() {
     log.info("Preparing...");
     System.out.println("TEST LOGGER: " + log);
     TestSuite suite = new TestSuite("portlet-container tests");
 
-    if (System.getProperty("exo.test.cargo.skip") == null
-        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
-      assertTrue(ContainerStarter.start());
+//    if (System.getProperty("exo.test.cargo.skip") == null
+//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
+//      assertTrue(ContainerStarter.start());
 
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
@@ -49,7 +49,7 @@ public class AllTestsPortlet extends TestCase {
   }
 
   protected void tearDown() {
-    assertFalse(ContainerStarter.stop());
+//    assertFalse(ContainerStarter.stop());
   }
 
 }

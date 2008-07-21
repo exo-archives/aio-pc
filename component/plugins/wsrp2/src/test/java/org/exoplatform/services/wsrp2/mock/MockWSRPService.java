@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.mock;
+package org.exoplatform.services.wsrp2.mock;
 
 import java.net.URL;
 import java.rmi.Remote;
@@ -27,15 +27,15 @@ import javax.xml.rpc.ServiceException;
 import javax.xml.rpc.encoding.TypeMappingRegistry;
 import javax.xml.rpc.handler.HandlerRegistry;
 
-import org.exoplatform.services.wsrp.bind.WSRP_v1_Markup_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_PortletManagement_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_Registration_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.bind.WSRP_v1_ServiceDescription_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_ServiceDescription_PortType;
-import org.exoplatform.services.wsrp.wsdl.WSRPService;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_Markup_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_PortletManagement_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_Registration_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.bind.WSRP_v2_ServiceDescription_Binding_SOAPImpl;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 /*
  * @author  Mestrallet Benjamin
@@ -46,30 +46,30 @@ import org.exoplatform.services.wsrp.wsdl.WSRPService;
 
 public class MockWSRPService implements WSRPService {
 
-  private WSRP_v1_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
+  private WSRP_v2_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
 
-  private WSRP_v1_Registration_Binding_SOAPImpl       registrationOperationsInterface;
+  private WSRP_v2_Registration_Binding_SOAPImpl       registrationOperationsInterface;
 
-  private WSRP_v1_Markup_Binding_SOAPImpl             markupOperationsInterface;
+  private WSRP_v2_Markup_Binding_SOAPImpl             markupOperationsInterface;
 
-  private WSRP_v1_PortletManagement_Binding_SOAPImpl  portletManagementOperationsInterface;
+  private WSRP_v2_PortletManagement_Binding_SOAPImpl  portletManagementOperationsInterface;
 
   public MockWSRPService() {
-    serviceDescriptionInterface = new WSRP_v1_ServiceDescription_Binding_SOAPImpl();
-    registrationOperationsInterface = new WSRP_v1_Registration_Binding_SOAPImpl();
-    markupOperationsInterface = new WSRP_v1_Markup_Binding_SOAPImpl();
-    portletManagementOperationsInterface = new WSRP_v1_PortletManagement_Binding_SOAPImpl();
+    serviceDescriptionInterface = new WSRP_v2_ServiceDescription_Binding_SOAPImpl();
+    registrationOperationsInterface = new WSRP_v2_Registration_Binding_SOAPImpl();
+    markupOperationsInterface = new WSRP_v2_Markup_Binding_SOAPImpl();
+    portletManagementOperationsInterface = new WSRP_v2_PortletManagement_Binding_SOAPImpl();
   }
 
   public String getWSRPPortletManagementServiceAddress() {
     return "Mock";
   }
 
-  public WSRP_v1_PortletManagement_PortType getWSRPPortletManagementService() throws ServiceException {
+  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService() throws ServiceException {
     return portletManagementOperationsInterface;
   }
 
-  public WSRP_v1_PortletManagement_PortType getWSRPPortletManagementService(URL portAddress) throws ServiceException {
+  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService(URL portAddress) throws ServiceException {
     return portletManagementOperationsInterface;
   }
 
@@ -77,11 +77,11 @@ public class MockWSRPService implements WSRPService {
     return "Mock";
   }
 
-  public WSRP_v1_Registration_PortType getWSRPRegistrationService() throws ServiceException {
+  public WSRP_v2_Registration_PortType getWSRPRegistrationService() throws ServiceException {
     return registrationOperationsInterface;
   }
 
-  public WSRP_v1_Registration_PortType getWSRPRegistrationService(URL portAddress) throws ServiceException {
+  public WSRP_v2_Registration_PortType getWSRPRegistrationService(URL portAddress) throws ServiceException {
     return registrationOperationsInterface;
   }
 
@@ -89,11 +89,11 @@ public class MockWSRPService implements WSRPService {
     return "Mock";
   }
 
-  public WSRP_v1_Markup_PortType getWSRPMarkupService() throws ServiceException {
+  public WSRP_v2_Markup_PortType getWSRPMarkupService() throws ServiceException {
     return markupOperationsInterface;
   }
 
-  public WSRP_v1_Markup_PortType getWSRPMarkupService(URL portAddress) throws ServiceException {
+  public WSRP_v2_Markup_PortType getWSRPMarkupService(URL portAddress) throws ServiceException {
     return markupOperationsInterface;
   }
 
@@ -101,11 +101,11 @@ public class MockWSRPService implements WSRPService {
     return "Mock";
   }
 
-  public WSRP_v1_ServiceDescription_PortType getWSRPServiceDescriptionService() throws ServiceException {
+  public WSRP_v2_ServiceDescription_PortType getWSRPServiceDescriptionService() throws ServiceException {
     return serviceDescriptionInterface;
   }
 
-  public WSRP_v1_ServiceDescription_PortType getWSRPServiceDescriptionService(URL portAddress) throws ServiceException {
+  public WSRP_v2_ServiceDescription_PortType getWSRPServiceDescriptionService(URL portAddress) throws ServiceException {
     return serviceDescriptionInterface;
   }
 

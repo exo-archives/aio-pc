@@ -15,26 +15,29 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
 
 import javax.portlet.PortletPreferences;
 
 import org.exoplatform.commons.utils.IOUtil;
-import org.exoplatform.services.wsrp.type.BlockingInteractionRequest;
-import org.exoplatform.services.wsrp.type.BlockingInteractionResponse;
-import org.exoplatform.services.wsrp.type.InteractionParams;
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.NamedString;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.StateChange;
-import org.exoplatform.services.wsrp.type.UpdateResponse;
-import org.exoplatform.services.wsrp.utils.Modes;
-import org.exoplatform.services.wsrp.utils.WindowStates;
+import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
+import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.InteractionParams;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.NamedString;
+import org.exoplatform.services.wsrp2.type.NavigationalContext;
+import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.Register;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.SessionParams;
+import org.exoplatform.services.wsrp2.type.StateChange;
+import org.exoplatform.services.wsrp2.type.UpdateResponse;
+import org.exoplatform.services.wsrp2.utils.Modes;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -51,7 +54,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     String portletHandle = "hello/PortletToTestPerformBlockingInteraction";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -67,44 +70,46 @@ public class TestPerformBlockingInteraction extends BaseTest {
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.readWrite);
     params.setFormParameters(array);
-    BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rc,
                                                                                           portletContext,
                                                                                           params);
     BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
     UpdateResponse updateResponse = response.getUpdateResponse();
     assertEquals(WindowStates._maximized_wsrp, updateResponse.getNewWindowState());
     assertEquals(Modes._edit_wsrp, updateResponse.getNewMode());
-    String navigationalState = updateResponse.getNavigationalState();
-    markupParams.setNavigationalState(navigationalState);
+    NavigationalContext navigationalContext = updateResponse.getNavigationalContext();
+    markupParams.setNavigationalContext(navigationalContext);
     //look if we obtain the portlet state (case of consumer save state)
     byte[] portletState = updateResponse.getPortletContext().getPortletState();
     if (portletState != null) {
       System.out.println("[test] consumer save state");
       portletContext.setPortletState(portletState);
     }
-    runtimeContext.setSessionID(updateResponse.getSessionContext().getSessionID());
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    SessionParams sessionParams = new SessionParams();
+    sessionParams.setSessionID(updateResponse.getSessionContext().getSessionID());
+    runtimeContext.setSessionParams(sessionParams);
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     MarkupResponse responseMarkup = markupOperationsInterface.getMarkup(getMarkup);
-    assertEquals("value1", responseMarkup.getMarkupContext().getMarkupString());
+    assertEquals("value1", responseMarkup.getMarkupContext().getItemString());
     //test optimization cases
     if (updateResponse.getMarkupContext() != null)
-      assertEquals(responseMarkup.getMarkupContext().getMarkupString(),
-                   updateResponse.getMarkupContext().getMarkupString());
+      assertEquals(responseMarkup.getMarkupContext().getItemString(),
+                   updateResponse.getMarkupContext().getItemString());
   }
 
   public void testSendRedirect() throws RemoteException {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/Portlet2TestSendRedirect");
     portletContext.setPortletState(null);//TODO
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.readWrite);
-    BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rc,
                                                                                           portletContext,
                                                                                           params);
     BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
@@ -115,12 +120,12 @@ public class TestPerformBlockingInteraction extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/Portlet2TestStateUser");
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.readOnly);
-    BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rc,
                                                                                           portletContext,
                                                                                           params);
     try {
@@ -132,12 +137,12 @@ public class TestPerformBlockingInteraction extends BaseTest {
   }
 
   public void testCloneBeforeWriteStateChange() throws RemoteException {
-    RegistrationContext rc = registrationOperationsInterface.register(registrationData);
+    RegistrationContext rC = registrationOperationsInterface.register(register);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/Portlet2TestStateUser2");
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.cloneBeforeWrite);
-    BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rC,
                                                                                           portletContext,
                                                                                           params);
     BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
@@ -150,13 +155,13 @@ public class TestPerformBlockingInteraction extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new RegistrationContext(null, null, null, null);
     String portletHandle = "hello/Portlet2TestStateUser3";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.readWrite);
-    BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rc,
                                                                                           portletContext,
                                                                                           params);
     UpdateResponse updateResponse = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction)
@@ -179,7 +184,8 @@ public class TestPerformBlockingInteraction extends BaseTest {
     String element = (String) pref.getNames().nextElement();
     assertEquals("attName", element);
     assertEquals("attValue", pref.getValue(element, "default"));
-    runtimeContext.setSessionID(updateResponse.getSessionContext().getSessionID());
+    sessionParams.setSessionID(updateResponse.getSessionContext().getSessionID());
+    runtimeContext.setSessionParams(sessionParams);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, performBlockingInteraction);
     portletContext.setPortletState(portletState);
@@ -195,10 +201,10 @@ public class TestPerformBlockingInteraction extends BaseTest {
     assertEquals("attValue2", ((PortletPreferences) o).getValue("attName2", "default"));
   }
 
-  private BlockingInteractionRequest getPerformBlockingInteraction(RegistrationContext rc,
+  private PerformBlockingInteraction getPerformBlockingInteraction(RegistrationContext rc,
                                                                    PortletContext portletContext,
                                                                    InteractionParams params) {
-    BlockingInteractionRequest performBlockingInteraction = new BlockingInteractionRequest();
+    PerformBlockingInteraction performBlockingInteraction = new PerformBlockingInteraction();
     performBlockingInteraction.setRegistrationContext(rc);
     performBlockingInteraction.setPortletContext(portletContext);
     performBlockingInteraction.setRuntimeContext(runtimeContext);

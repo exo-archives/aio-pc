@@ -15,11 +15,13 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp2.testConsumer;
 
-import org.exoplatform.services.wsrp.exceptions.WSRPException;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.type.Deregister;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.Register;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /*
  * @author  Mestrallet Benjamin
@@ -68,10 +70,11 @@ public class TestProducer extends BaseTest {
     ServiceDescription serviceDescription = producer.getServiceDescription();
     assertEquals(producer.isRegistrationRequired(), serviceDescription.isRequiresRegistration());
     assertNull(producer.getRegistrationData());
-    assertNotNull(producer.register(registrationData));
+    assertNotNull(producer.register(register));
     assertNotNull(producer.getRegistrationData());
     assertNotNull(producer.getRegistrationContext());
-    producer.deregister();
+    Deregister deregister = new Deregister(producer.getRegistrationContext(), userContext);
+    producer.deregister(deregister);
   }
 
   public void testPortletManagement() {

@@ -261,7 +261,6 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       log.error("Can not save Render Parameters Map from persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
-
   }
 
   private RegistrationData resolveConsumerContext(RegistrationContext registrationContext) throws WSRPException {

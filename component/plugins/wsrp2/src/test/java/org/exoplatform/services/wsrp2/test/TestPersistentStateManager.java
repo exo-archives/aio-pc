@@ -15,13 +15,13 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.wsrp.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp.producer.impl.PersistentStateManagerImpl;
-import org.exoplatform.services.wsrp.producer.impl.WSRP1StateData;
-import org.exoplatform.services.wsrp.type.RegistrationData;
+import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
+import org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 /*
  * @author  Mestrallet Benjamin
@@ -50,13 +50,13 @@ public class TestPersistentStateManager extends BaseTest {
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
     registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
-    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
+//    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
     registrationData.setRegistrationProperties(null);//allows extension of the specs
     registrationData.setExtensions(null);//allows extension of the specs
 
     psmanager_.save("test", "RegistrationData", registrationData);
 
-    WSRP1StateData data = psmanager_.load("test");
+    WSRP2StateData data = psmanager_.load("test");
     assertTrue("Expect data is not null", data != null);
 
     psmanager_.remove("test");

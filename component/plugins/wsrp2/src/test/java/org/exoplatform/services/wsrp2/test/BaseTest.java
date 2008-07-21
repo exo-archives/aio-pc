@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.net.URL;
 import java.rmi.RemoteException;
@@ -34,27 +34,30 @@ import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_ServiceDescription_PortType;
-import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
-import org.exoplatform.services.wsrp.type.BlockingInteractionRequest;
-import org.exoplatform.services.wsrp.type.ClientData;
-import org.exoplatform.services.wsrp.type.MarkupParams;
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.PersonName;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.RegistrationData;
-import org.exoplatform.services.wsrp.type.RuntimeContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
-import org.exoplatform.services.wsrp.type.Templates;
-import org.exoplatform.services.wsrp.type.UserContext;
-import org.exoplatform.services.wsrp.type.UserProfile;
-import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp2.type.ClientData;
+import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.services.wsrp2.type.MarkupParams;
+import org.exoplatform.services.wsrp2.type.NavigationalContext;
+import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
+import org.exoplatform.services.wsrp2.type.PersonName;
+import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.Register;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.SessionParams;
+import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.type.UserContext;
+import org.exoplatform.services.wsrp2.type.UserProfile;
+import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
@@ -65,7 +68,7 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services/";
+  protected static final String                 SERVICE_URL              = "http://localhost:8080/wsrp/services2/";
 
   //protected static final String                 CONTEXT_PATH             = "/war_template";
   protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
@@ -83,13 +86,13 @@ public class BaseTest extends TestCase {
 
   protected Collection                          roles;
 
-  protected WSRP_v1_ServiceDescription_PortType serviceDescriptionInterface;
+  protected WSRP_v2_ServiceDescription_PortType serviceDescriptionInterface;
 
-  protected WSRP_v1_Registration_PortType       registrationOperationsInterface;
+  protected WSRP_v2_Registration_PortType       registrationOperationsInterface;
 
-  protected WSRP_v1_Markup_PortType             markupOperationsInterface;
+  protected WSRP_v2_Markup_PortType             markupOperationsInterface;
 
-  protected WSRP_v1_PortletManagement_PortType  portletManagementOperationsInterface;
+  protected WSRP_v2_PortletManagement_PortType  portletManagementOperationsInterface;
 
   protected PersonName                          personName;
 
@@ -106,6 +109,12 @@ public class BaseTest extends TestCase {
   protected ClientData                          clientData;
 
   protected MarkupParams                        markupParams;
+
+  protected NavigationalContext                 navigationalContext;
+
+  protected SessionParams                       sessionParams;
+
+  protected Register                            register;
 
   protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard",
       "minimal"                                                         };
@@ -172,9 +181,11 @@ public class BaseTest extends TestCase {
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
     registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
-    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
+//    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
     registrationData.setRegistrationProperties(null);//allows extension of the specs
     registrationData.setExtensions(null);//allows extension of the specs
+
+    register = new Register(registrationData, null, userContext);
 
     personName = new PersonName();
     personName.setNickname("exotest");
@@ -194,21 +205,27 @@ public class BaseTest extends TestCase {
     templates.setRenderTemplate(RENDER_TEMPLATE);
     templates.setRenderTemplate(BLOCKING_TEMPLATE);
 
+    sessionParams = new SessionParams();
+    sessionParams.setSessionID(null);
+
     runtimeContext = new RuntimeContext();
     runtimeContext.setNamespacePrefix("NamespacePrefix");
 //runtimeContext.setPortletInstanceKey("windowID");
-    runtimeContext.setSessionID(null);
+    runtimeContext.setSessionParams(sessionParams);
     runtimeContext.setTemplates(templates);
     runtimeContext.setUserAuthentication("none");
 
     clientData = new ClientData();
     clientData.setUserAgent("PC");
 
+    navigationalContext = new NavigationalContext();
+    navigationalContext.setOpaqueValue("");
+
     markupParams = new MarkupParams();
     markupParams.setClientData(clientData);
     markupParams.setLocales(localesArray);
     markupParams.setMarkupCharacterSets(markupCharacterSets);
-    markupParams.setNavigationalState("");
+    markupParams.setNavigationalContext(navigationalContext);
     markupParams.setSecureClientCommunication(false);
     markupParams.setValidateTag(null);
     markupParams.setValidNewModes(null);
@@ -228,13 +245,13 @@ public class BaseTest extends TestCase {
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
+    GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(locales);
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
   }
 
-  protected MarkupRequest getMarkup(RegistrationContext rc, PortletContext portletContext) {
-    MarkupRequest getMarkup = new MarkupRequest();
+  protected GetMarkup getMarkup(RegistrationContext rc, PortletContext portletContext) {
+    GetMarkup getMarkup = new GetMarkup();
     getMarkup.setRegistrationContext(rc);
     getMarkup.setPortletContext(portletContext);
     getMarkup.setRuntimeContext(runtimeContext);
@@ -259,7 +276,7 @@ public class BaseTest extends TestCase {
 
   protected void manageUserContextOptimization(ServiceDescription sd,
                                                String portletHandle,
-                                               MarkupRequest getMarkup) {
+                                               GetMarkup getMarkup) {
     PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];
@@ -275,7 +292,7 @@ public class BaseTest extends TestCase {
 
   protected void manageUserContextOptimization(ServiceDescription sd,
                                                String portletHandle,
-                                               BlockingInteractionRequest performBlockingInteraction) {
+                                               PerformBlockingInteraction performBlockingInteraction) {
     PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
       PortletDescription portletDescription = array[i];

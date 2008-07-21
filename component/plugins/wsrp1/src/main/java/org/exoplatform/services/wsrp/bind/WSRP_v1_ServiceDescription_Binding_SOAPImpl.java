@@ -45,7 +45,6 @@ public class WSRP_v1_ServiceDescription_Binding_SOAPImpl implements
                                                                                                   OperationFailedFault {
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
                                                              getServiceDescription.getDesiredLocales());
-
   }
 
 }

@@ -31,7 +31,7 @@ import org.exoplatform.services.wsrp.testConsumer.TestUserRegistry;
  */
 public class SuiteForTestConsumer extends TestSuite {
 
-  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer..wsrp.SuiteForTestConsumer");
+  private static Log log = ExoLogger.getLogger("org.exoplatform.portletcontainer.wsrp.SuiteForTestConsumer");
 
   public SuiteForTestConsumer() {
     log.info("Preparing SuiteForTestProducer tests....");

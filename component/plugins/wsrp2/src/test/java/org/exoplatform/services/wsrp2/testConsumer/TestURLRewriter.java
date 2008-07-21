@@ -15,9 +15,9 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp2.testConsumer;
 
-import org.exoplatform.services.wsrp.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
 /*
  * @author  Mestrallet Benjamin

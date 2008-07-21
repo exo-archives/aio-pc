@@ -44,13 +44,13 @@
       <artifactId>exo.core.component.organization.api</artifactId>
       <version>${org.exoplatform.core.version}</version>
     </dependency>
-<!--
-    <dependency>
+    <!--
+      <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.common</artifactId>
       <version>${org.exoplatform.core.version}</version>
-    </dependency>
--->
+      </dependency>
+    -->
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.database</artifactId>
@@ -79,6 +79,26 @@
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <!-- ************************ cargo ************************ -->
+
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-container</artifactId>
+      <version>0.9-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-api-generic</artifactId>
+      <version>0.9-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.cargo</groupId>
+      <artifactId>cargo-core-container-tomcat</artifactId>
+      <version>0.9-SNAPSHOT</version>
     </dependency>
 
     <!-- ************************ soap ************************ -->
@@ -157,7 +177,7 @@
     </resources>
 
 
-    <testSourceDirectory>src/notest</testSourceDirectory>
+    <!-- testSourceDirectory>src/notest</testSourceDirectory -->
 
     <plugins>
 
@@ -282,6 +302,10 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
+            <!--            <include>**/SuiteForTestProducer.java</include>-->
+            <!--            <include>**/SuiteForTestConsumer.java</include>-->
+            <!--            <include>**/TestCachingMechanism.java</include>-->
+            <!-- include>**/Test*.java</include -->
           </includes>
         </configuration>
       </plugin>

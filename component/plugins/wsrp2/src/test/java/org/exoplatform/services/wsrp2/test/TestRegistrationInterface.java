@@ -15,13 +15,14 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.type.ModifyRegistrationRequest;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.RegistrationState;
+import org.exoplatform.services.wsrp2.type.Deregister;
+import org.exoplatform.services.wsrp2.type.ModifyRegistration;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.RegistrationState;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -35,14 +36,14 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testRegistrationHandle() throws RemoteException {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
-    assertNotNull(returnedContext.getRegistrationHandle());
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+    assertNotNull(rC.getRegistrationHandle());
   }
 
   public void testIncorrectRegistrationData() throws RemoteException {
     registrationData.setConsumerAgent("exoplatform.1a.0b");
     try {
-      registrationOperationsInterface.register(registrationData);
+      registrationOperationsInterface.register(register);
 //      fail("the registration of the consumer should return a WS Fault");
 //   patch by Pascal LEMOINE avoids exception here
     } catch (RemoteException e) {
@@ -51,19 +52,19 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testModifyRegistration() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     assertNotNull(returnedContext.getRegistrationHandle());
     resolveRegistrationContext(returnedContext);
-    ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
+    ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
     assertNull(rS.getRegistrationState());
   }
 
   public void testIncorrectModifyRegistration() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     registrationData.setConsumerAgent("exoplatform.1a.0b");
     resolveRegistrationContext(returnedContext);
-    ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
+    ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     try {
       registrationOperationsInterface.modifyRegistration(modifyRegistration);
       fail("the modify registration of the consumer should return a WS Fault");
@@ -72,12 +73,13 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testDeregister() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     returnedContext.getRegistrationHandle();
     resolveRegistrationContext(returnedContext);
-    registrationOperationsInterface.deregister(returnedContext);
+    Deregister deregister = new Deregister(returnedContext, userContext);
+    registrationOperationsInterface.deregister(deregister);
     if (returnedContext.getRegistrationState() == null) {
-      ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
+      ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
       try {
         registrationOperationsInterface.modifyRegistration(modifyRegistration);
         fail("the modify registration of the consumer should return a WS Fault");
@@ -89,18 +91,19 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testIncorrectDeregister() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     resolveRegistrationContext(returnedContext);
     returnedContext.setRegistrationHandle("chunkHandle");
+    Deregister deregister = new Deregister(returnedContext, userContext);
     try {
-      registrationOperationsInterface.deregister(returnedContext);
+      registrationOperationsInterface.deregister(deregister);
       fail("the deregistration of the consumer should return a WS Fault");
     } catch (RemoteException e) {
     }
   }
 
-  private ModifyRegistrationRequest getModifyRegistration(RegistrationContext registrationContext) {
-    ModifyRegistrationRequest modifyRegistration = new ModifyRegistrationRequest();
+  private ModifyRegistration getModifyRegistration(RegistrationContext registrationContext) {
+    ModifyRegistration modifyRegistration = new ModifyRegistration();
     modifyRegistration.setRegistrationContext(registrationContext);
     modifyRegistration.setRegistrationData(registrationData);
     return modifyRegistration;
