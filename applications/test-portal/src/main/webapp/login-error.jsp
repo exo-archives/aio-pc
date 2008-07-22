@@ -17,8 +17,8 @@
         <td><img src="<%=contextPath%>/img/SigninPaper162x207.jpg"></td>
         <td><font color="#F9747E"> Login error : <br>
              <form name="loginForm" method="post" action="<%=loginAction%>">
-             <input name="j_username" value="admin"/>
-             <input type="password" name="j_password" value="admin"/>
+             <input name="j_username" id="j_username" value="admin"/>
+             <input type="password" name="j_password" id="j_password" value="admin"/>
              <input name="submit" type="submit" value="Login">
            </form>
         </td>
