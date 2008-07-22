@@ -28,7 +28,6 @@ import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.Property;
 import org.exoplatform.services.wsrp2.type.PropertyList;
-import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
@@ -49,7 +48,7 @@ public class TestGetMarkup extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, null);
+      rc = new RegistrationContext(null, null, null, "");
     String portletHandle = "hello/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -73,7 +72,7 @@ public class TestGetMarkup extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, null);
+      rc = new RegistrationContext(null, null, null, "");
     String portletHandle = "hello/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -97,7 +96,7 @@ public class TestGetMarkup extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, null);
+      rc = new RegistrationContext(null, null, null, "");
     String portletHandle = "hello/PortletToTestMarkupWithRewrittenURL";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);

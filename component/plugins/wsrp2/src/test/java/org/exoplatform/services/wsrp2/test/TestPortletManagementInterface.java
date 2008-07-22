@@ -157,7 +157,7 @@ public class TestPortletManagementInterface extends BaseTest {
     Property[] propArray = list.getProperties();
     for (int i = 0; i < propArray.length; i++) {
       Property property = propArray[i];
-      if ("time-format".equals(property.getName())) {
+      if ("time-format".equals(property.getName().toString())) {
         assertEquals("HH", property.getStringValue());
         return;
       }
@@ -222,8 +222,8 @@ public class TestPortletManagementInterface extends BaseTest {
     Property[] propArray = list.getProperties();
     for (int i = 0; i < propArray.length; i++) {
       property = propArray[i];
-      System.out.println("prop : " + property.getName());
-      if ("test-prop".equals(property.getName())) {
+      System.out.println("prop : " + property.getName().toString());
+      if ("test-prop".equals(property.getName().toString())) {
         assertEquals("test-value", property.getStringValue());
         return;
       }

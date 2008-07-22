@@ -20,14 +20,14 @@ import java.rmi.RemoteException;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
 import org.exoplatform.services.wsrp2.type.Lifetime;
-import org.exoplatform.services.wsrp2.type.RegistrationContext;
-import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletLifetime;
-import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
-import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
@@ -57,19 +57,23 @@ public class Helper {
                                              UserContext userContext,
                                              PortletManagementOperationsInterface poi) {
     //ExoContainer cont = ExoContainerContext.getCurrentContainer();
-
     // PortletManagementOperationsInterface poi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
+
     try {
       GetPortletsLifetimeResponse resp = poi.getPortletsLifetime(registrationContext,
                                                                  portletContexts,
                                                                  userContext);
-      PortletLifetime plf = resp.getPortletLifetime(0);
-      Lifetime lf = plf.getScheduledDestruction();
-      if (lf != null) {
-        if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
-          String portletHandle = portletContexts[0].getPortletHandle();
-          poi.destroyPortlets(registrationContext, new String[] { portletHandle });
-          return false;
+      if (resp != null) {
+        if (resp.getPortletLifetime() != null && resp.getPortletLifetime().length != 0) {
+          PortletLifetime plf = resp.getPortletLifetime(0);
+          Lifetime lf = plf.getScheduledDestruction();
+          if (lf != null) {
+            if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
+              String portletHandle = portletContexts[0].getPortletHandle();
+              poi.destroyPortlets(registrationContext, new String[] { portletHandle });
+              return false;
+            }
+          }
         }
       }
     } catch (RemoteException e) {

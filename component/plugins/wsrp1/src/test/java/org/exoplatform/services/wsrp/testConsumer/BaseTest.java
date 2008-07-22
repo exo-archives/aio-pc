@@ -167,8 +167,6 @@ public class BaseTest extends TestCase {
       t.printStackTrace();
     }
 
-    System.out.println(">>> EXOMAN testConsumer BaseTest.setUp() container = " + container);
-
     int platform = Environment.getInstance().getPlatform();
     System.out.println(">>> Consumer BaseTest.setUp() platform = " + platform);
     Collection<String> roles = new ArrayList<String>();

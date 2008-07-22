@@ -354,7 +354,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
                                                                               stateManager);
 
-    //    Collection<DestroyFailed> fails = new ArrayList<DestroyFailed>();
+    Collection<FailedPortlets> fails = new ArrayList<FailedPortlets>();
     for (int i = 0; i < portletHandles.length; i++) {
       String portletHandle = portletHandles[i];
       try {
@@ -363,21 +363,21 @@ public class PortletManagementOperationsInterfaceImpl implements
           stateManager.removeConsumerConfiguredPortletHandle(portletHandle, registrationContext);
         } else {
           log.debug("Can't destroy a portlet that did not exist : " + portletHandle);
-          // DestroyFailed destroyFailed = new DestroyFailed();
-          // destroyFailed.setPortletHandle(portletHandle);
-          // destroyFailed.setReason("Can't destroy a portlet that did not
-          // exist");
-          // fails.add(destroyFailed);
+          FailedPortlets failedPortlets = new FailedPortlets();
+          failedPortlets.setPortletHandles(new String[] { portletHandle });
+          failedPortlets.setReason(new LocalizedString("Can't destroy a portlet that did not exist",
+                                                       ""));
+          fails.add(failedPortlets);
         }
       } catch (WSRPException e) {
         Exception2Fault.handleException(e);
       }
     }
     DestroyPortletsResponse response = new DestroyPortletsResponse();
-    // DestroyFailed[] array = (DestroyFailed[]) fails.toArray(new
-    // DestroyFailed[fails.size()]);
-    // if(array != null)
-    // response.setDestroyFailed(array);
+    // Convert from Collection<FailedPortlets> to array FailedPortlets[]
+    FailedPortlets[] array = (FailedPortlets[]) fails.toArray(new FailedPortlets[fails.size()]);
+    if (array != null)
+      response.setFailedPortlets(array);
     return response;
   }
 

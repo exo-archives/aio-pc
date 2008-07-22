@@ -45,7 +45,7 @@ public class TestCachingMechanism extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, null);
+      rc = new RegistrationContext(null, null, null, "");
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/HelloWorld2");
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));

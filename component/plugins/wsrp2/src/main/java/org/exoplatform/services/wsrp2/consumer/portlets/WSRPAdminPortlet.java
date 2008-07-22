@@ -384,6 +384,8 @@ public class WSRPAdminPortlet {
 
           Register register = new Register();
           register.setRegistrationData(registrationData);
+//          register.setUserContext(userContext);
+//          register.setLifetime(lifetime);
           producer.register(register);
         }
         pregistry.addProducer(producer);

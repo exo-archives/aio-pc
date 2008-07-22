@@ -210,7 +210,7 @@ public class BaseTest extends TestCase {
 
     runtimeContext = new RuntimeContext();
     runtimeContext.setNamespacePrefix("NamespacePrefix");
-//runtimeContext.setPortletInstanceKey("windowID");
+    runtimeContext.setPortletInstanceKey("windowID");
     runtimeContext.setSessionParams(sessionParams);
     runtimeContext.setTemplates(templates);
     runtimeContext.setUserAuthentication("none");

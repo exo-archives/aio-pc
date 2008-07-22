@@ -48,35 +48,15 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
   }
 
-  public RegistrationContext register(RegistrationData data) throws RemoteException {
-
-    //necessaire pour la verification de l'agent, pourquoi ?
-    data.setConsumerAgent("exoplatform.1.0");
-    log.debug("Register method entered");
-    String registrationHandle = null;
-    byte[] registrationState = null;
-    try {
-      validateRegistrationDatas(data);
-      registrationHandle = IdentifierUtil.generateUUID(data);
-      registrationState = stateManager.register(registrationHandle, data);//may be null
-    } catch (WSRPException e) {
-      log.debug("Registration failed", e);
-      Exception2Fault.handleException(e);
-    }
-    RegistrationContext rC = new RegistrationContext();
-    rC.setRegistrationHandle(registrationHandle);
-    rC.setRegistrationState(registrationState);
-    log.debug("Registration done with handle : " + registrationHandle);
-    return rC;
-  }
-
   public RegistrationContext register(RegistrationData data,
-                                      Lifetime lifetime,
-                                      UserContext userContext) throws RemoteException {
+                                      UserContext userContext,
+                                      Lifetime lifetime) throws RemoteException {
 
     // necessaire pour la verification de l'agent, pourquoi ?
     data.setConsumerAgent("exoplatform.1.0");
-    String owner = userContext.getUserContextKey();
+    String owner = null;
+    if (userContext != null)
+      owner = userContext.getUserContextKey();
     log.debug("Register method entered for user:" + owner);
     String registrationHandle = null;
     byte[] registrationState = null;
@@ -94,28 +74,6 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     rC.setScheduledDestruction(lifetime);
     log.debug("Registration done with handle : " + registrationHandle + " for owner : " + owner);
     return rC;
-  }
-
-  public RegistrationState modifyRegistration(RegistrationContext registrationContext,
-                                              RegistrationData data) throws RemoteException {
-    log.debug("Modify registrion method entered");
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
-      }
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-
-    String registrationHandle = registrationContext.getRegistrationHandle();
-    try {
-      validateRegistrationDatas(data);
-      stateManager.register(registrationHandle, data);
-    } catch (WSRPException e) {
-      log.debug("Registration failed", e);
-      Exception2Fault.handleException(e);
-    }
-    return new RegistrationState();//the state is kept in the producer (not send to the consumer)
   }
 
   public RegistrationState modifyRegistration(RegistrationContext registrationContext,
@@ -140,24 +98,6 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
       Exception2Fault.handleException(e);
     }
     return new RegistrationState();//the state is kept in the producer (not send to the consumer)
-  }
-
-  public ReturnAny deregister(RegistrationContext registrationContext) throws RemoteException {
-    log.debug("Deregister method entered");
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
-      }
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-    try {
-      stateManager.deregister(registrationContext);
-    } catch (WSRPException e) {
-      log.debug("Registration failed", e);
-      Exception2Fault.handleException(e);
-    }
-    return new ReturnAny();
   }
 
   public ReturnAny deregister(RegistrationContext registrationContext, UserContext userContext) throws RemoteException {

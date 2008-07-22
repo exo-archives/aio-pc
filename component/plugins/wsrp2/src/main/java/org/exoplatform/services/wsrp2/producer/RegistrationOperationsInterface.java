@@ -28,25 +28,16 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface RegistrationOperationsInterface {
-  public RegistrationContext register(RegistrationData data,
-                                      Lifetime lifetime,
-                                      UserContext userContext) throws java.rmi.RemoteException;
 
-  public RegistrationContext register(RegistrationData data) throws java.rmi.RemoteException;
+  public RegistrationContext register(RegistrationData data,
+                                      UserContext userContext,
+                                      Lifetime lifetime) throws java.rmi.RemoteException;
 
   public RegistrationState modifyRegistration(RegistrationContext context,
                                               RegistrationData data,
                                               UserContext userContext) throws java.rmi.RemoteException;
 
-  public RegistrationState modifyRegistration(RegistrationContext context, RegistrationData data)
-
-  throws java.rmi.RemoteException;
-
   public ReturnAny deregister(RegistrationContext context, UserContext userContext) throws java.rmi.RemoteException;
-
-  public ReturnAny deregister(RegistrationContext context)
-
-  throws java.rmi.RemoteException;
 
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext,
                                           UserContext userContext) throws java.rmi.RemoteException;
