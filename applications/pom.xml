@@ -18,6 +18,8 @@
     <module>demos</module>
     <module>wsrp</module>
 
+    <module>tck-tests</module>
+
     <!--module>portlet-jaxb</module-->
     
     <!--module>util-jsf</module-->
