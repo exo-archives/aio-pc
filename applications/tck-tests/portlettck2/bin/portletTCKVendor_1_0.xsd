@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- Schema that must be followed by the vendors to write the file that has mapping from a portlet TCK -->
+<!-- test case to a url. -->
+<xs:schema targetNamespace="http://java.sun.com/xml/ns/portlet/portletTCKVendor_1_0.xsd" xmlns:pct="http://java.sun.com/xml/ns/portlet/portletTCKVendor_1_0.xsd" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xs:element name="test_case_urls">
+		<xs:annotation>
+			<xs:documentation>Mapping of Test Cases defined in Portlet Compatibility Kit to vendor specific URLs</xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pct:test_case_url" minOccurs="1" maxOccurs="unbounded"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test_case_url">
+		<xs:annotation>
+			<xs:documentation>Test Case to URL map entry </xs:documentation>
+		</xs:annotation>
+		<xs:complexType>
+			<xs:sequence>
+				<xs:element ref="pct:test_name"/>
+				<xs:element ref="pct:test_url"/>
+			</xs:sequence>
+		</xs:complexType>
+	</xs:element>
+	<xs:element name="test_name" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>Unique name for a test case from the portletTCKTestCases.xml published by TCK</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+	<xs:element name="test_url" type="xs:string">
+		<xs:annotation>
+			<xs:documentation>Complete URL that would result in a page containing contents of portlets defined for this test case.</xs:documentation>
+		</xs:annotation>
+	</xs:element>
+</xs:schema>

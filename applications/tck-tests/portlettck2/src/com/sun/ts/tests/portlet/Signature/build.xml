@@ -1,0 +1,12 @@
+<!DOCTYPE project [
+  <!ENTITY Common SYSTEM "file:../common/subProject.xml">
+]>
+<project name="portlet_jp_sig" basedir="." default="usage" >
+
+    <!-- Properties to be defined before including Common -->
+	<property name="app.name"  value="portlet_jp_sig" />
+	<property name="pkg.name"   value="Signature" />
+
+    <!-- import common defs -->
+    &Common;
+</project>
