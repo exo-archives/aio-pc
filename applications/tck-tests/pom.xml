@@ -313,6 +313,12 @@
     </dependency>
 
     <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>5.5.15</version>
+    </dependency>
+
+    <dependency>
       <groupId>javax.transaction</groupId>
       <artifactId>jta</artifactId>
       <version>1.0.1B</version>
@@ -323,6 +329,19 @@
       <artifactId>jtidy</artifactId>
       <version>4aug2000r7-dev</version>
     </dependency>
+
+    <dependency>
+      <groupId>org.apache.jasper</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>5.5.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.jasper</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>5.5.15</version>
+    </dependency>
+
 
     <dependency>
       <groupId>javax.mail</groupId>
@@ -676,6 +695,22 @@
                 <artifactId>jcr</artifactId>
               </dependency>
 
+
+              <dependency>
+                <groupId>org.apache.jasper</groupId>
+               <artifactId>jasper-compiler</artifactId>
+            </dependency>
+            
+             <dependency>
+              <groupId>javax.servlet</groupId>
+              <artifactId>jsp-api</artifactId>
+            </dependency>
+
+              <dependency>
+                <groupId>org.apache.jasper</groupId>
+               <artifactId>jasper-runtime</artifactId>
+            </dependency>
+
               <dependency>
                 <groupId>javagroups</groupId>
                 <artifactId>jgroups-all</artifactId>
@@ -784,6 +819,7 @@
           <home>${basedir}/configuration/conf</home>
             <properties>
               <cargo.logging>high</cargo.logging>
+              <cargo.jvmargs>-Xmx1000m</cargo.jvmargs>
             </properties>
 
             <deployables>
@@ -1109,7 +1145,6 @@
           </execution>
         </executions>
       </plugin>
-      
       <plugin>
         <groupId>org.codehaus.cargo</groupId>
         <artifactId>cargo-maven2-plugin</artifactId>
