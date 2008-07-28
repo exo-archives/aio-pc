@@ -831,9 +831,6 @@
 
             <deployables>
               <deployable>
-              <!--
-                <location>${basedir}/../test-portal/target/portal.war</location>
-              -->
                 <groupId>org.exoplatform.portletcontainer</groupId>
                 <artifactId>portal</artifactId>
                 <type>war</type>
@@ -1127,7 +1124,7 @@
             </goals>
             <configuration>
               <tasks>
-                <sleep />
+                <sleep minutes="1"/>
               </tasks>
             </configuration>
           </execution>
