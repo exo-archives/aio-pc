@@ -204,6 +204,13 @@
       <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
+ <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>portal</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+    </dependency>
+
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
@@ -824,7 +831,11 @@
 
             <deployables>
               <deployable>
+              <!--
                 <location>${basedir}/../test-portal/target/portal.war</location>
+              -->
+                <groupId>org.exoplatform.portletcontainer</groupId>
+                <artifactId>portal</artifactId>
                 <type>war</type>
               </deployable>
             </deployables>
@@ -1116,7 +1127,7 @@
             </goals>
             <configuration>
               <tasks>
-                <sleep minutes="2" />
+                <sleep />
               </tasks>
             </configuration>
           </execution>
