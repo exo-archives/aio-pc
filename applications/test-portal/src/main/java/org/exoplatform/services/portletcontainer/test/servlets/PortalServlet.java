@@ -91,7 +91,7 @@ public class PortalServlet extends HttpServlet {
       w.println("<body width='100%' style='font-family: Arial' bgcolor='#FFFFFF'>");
       w.println("<table width='100%'>");
         w.println("<tr>");
-          w.println("<td><img src=\"../img/logotestportal.png\"></td>");
+          w.println("<td><a href='" + request.getContextPath() + "'><img src=\"../img/logotestportal.png\" style='border:0px none;'></a></td>");
           w.println("<td>&nbsp;</td>");
           w.println("<td align=\"right\">");
             w.println("<form method='post' name='addPortlet' action='.'>");
