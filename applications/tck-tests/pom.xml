@@ -1124,7 +1124,50 @@
           </execution>
 
           <execution>
-            <id>1</id>
+           <id>1</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+              <property environment="env"/>
+              <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.bat">
+              <env key="TS_HOME" value="${basedir}/portlettck2"/>
+              <arg line="clean"/>
+              </exec>
+              <exec os="Unix, Linux, Mac Os X" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.sh">
+              <env key="TS_HOME" value="${basedir}/portlettck2"/>
+              <arg line="clean"/>
+              </exec>
+             </tasks>
+            </configuration>
+          </execution>
+
+         <execution>
+           <id>2</id>
+            <phase>integration-test</phase>
+            <goals>
+              <goal>run</goal>
+            </goals>
+            <configuration>
+              <tasks>
+              <property environment="env"/>
+              <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.bat">
+              <env key="TS_HOME" value="${basedir}/portlettck2"/>
+              <arg line="build"/>
+              </exec>
+              <exec os="Unix, Linux, Mac Os X" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.sh">
+              <env key="TS_HOME" value="${basedir}/portlettck2"/>
+              <arg line="build"/>
+              </exec>
+             </tasks>
+            </configuration>
+          </execution>
+
+          
+          <execution>
+            <id>3</id>
             <phase>integration-test</phase>
             <goals>
               <goal>run</goal>
