@@ -828,7 +828,6 @@
               <cargo.logging>high</cargo.logging>
               <cargo.jvmargs>-Xmx1000m</cargo.jvmargs>
             </properties>
-
             <deployables>
               <deployable>
                 <groupId>org.exoplatform.portletcontainer</groupId>
