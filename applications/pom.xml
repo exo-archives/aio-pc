@@ -18,15 +18,15 @@
     <module>demos</module>
     <module>wsrp</module>
 
-    <module>tck-tests</module>
+    <!-- module>tck-tests</module -->
 
-    <!--module>portlet-jaxb</module-->
+    <module>portlet-jaxb</module>
     
-    <!--module>util-jsf</module-->
-    <!--module>jsf</module-->    
+    <module>util-jsf</module>
+    <module>jsf</module>    
     
-    <!--module>util-bridge</module-->
-    <!--module>bridges</module-->
+    <module>util-bridge</module>
+    <module>bridges</module>
     
   </modules>
 

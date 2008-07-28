@@ -13,7 +13,7 @@
     <module>jsf</module>
     <!-- module>perl</module -->
     <!-- module>php</module -->
-    <!-- module>struts</module -->
+    <module>struts</module>
   </modules>
 
   <profiles>
