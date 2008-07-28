@@ -1166,6 +1166,41 @@ public class PortalFramework {
                                                      final String markupType,
                                                      final List<String> list) {
 
+    preRenderRequest(ctx, httpRequest, httpResponse, markupType);
+
+    if (getAction() == PCConstants.RESOURCE_INT)
+      return null;
+
+    if (getRedirect() != null)
+      return null;
+
+    // collecting portlets to render
+
+//    final Iterator<String> totalPlts = getPortletNames().iterator();
+
+    final ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
+    for (Iterator<String> reqPlts = wins.keySet().iterator(); reqPlts.hasNext(); ) {
+      final String portlet = reqPlts.next();
+      if (list == null || !list.contains(portlet))
+        continue;
+      portletInfos.add(renderPortlet(portlet));
+    }
+    return portletInfos;
+  }
+
+  private HttpServletRequest presavedHttpRequest;
+  private HttpServletResponse presavedHttpResponse;
+
+  /**
+   * @param ctx
+   * @param httpRequest
+   * @param httpResponse
+   * @param markupType
+   */
+  public void preRenderRequest(final ServletContext ctx,
+      final HttpServletRequest httpRequest,
+      final HttpServletResponse httpResponse,
+      final String markupType) {
     baseURL = httpRequest.getRequestURI() + "?" + Constants.COMPONENT_PARAMETER + "=";
 
     setParams(httpRequest, markupType);
@@ -1199,7 +1234,7 @@ public class PortalFramework {
         System.out.println(" !!!!!!!!!!!! trying to continue...");
       }
       // if resource is requested we must render nothing
-      return null;
+      return;
     }
 
     if (getAction() == PCConstants.ACTION_INT) {
@@ -1217,7 +1252,7 @@ public class PortalFramework {
 
       // if redirect is requested we must render nothing
       if (getRedirect() != null)
-        return null;
+        return;
     }
 
     // processing events
@@ -1229,49 +1264,50 @@ public class PortalFramework {
     // recollecting portlets
     initMaps();
 
-    // collecting portlets to render
+    // presave current request/response objects
+    presavedHttpRequest = httpRequest;
+    presavedHttpResponse = httpResponse;
+  }
 
-//    final Iterator<String> totalPlts = getPortletNames().iterator();
+  /**
+   * @param httpRequest
+   * @param httpResponse
+   * @param portlet
+   * @return
+   */
+  public PortletInfo renderPortlet(final String portlet) {
+    final PortletInfo portletinfo = Helper.createPortletInfo(this, portlet);
+    final RenderInput renderInput = createRenderInput(portlet);
+    try {
+      final RenderOutput o = render(presavedHttpRequest, presavedHttpResponse, renderInput);
 
-    final ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
-    for (Iterator<String> reqPlts = wins.keySet().iterator(); reqPlts.hasNext(); ) {
-      final String portlet = reqPlts.next();
-      final PortletInfo portletinfo = Helper.createPortletInfo(this, portlet);
-      portletInfos.add(portletinfo);
-      if (list == null || !list.contains(portlet))
-        continue;
-      final RenderInput renderInput = createRenderInput(portlet);
-      try {
-        final RenderOutput o = render(httpRequest, httpResponse, renderInput);
-
-        if (o.getNextPossiblePortletModes() != null) {
-          // TODO Do not delete it!
-          ArrayList<String> modes = new ArrayList<String>();
-          Collection<PortletMode> portletModes = o.getNextPossiblePortletModes();
-          for (PortletMode portletMode : portletModes) {
-            modes.add(portletMode.toString());
-          }
-          portletinfo.setModes(modes);
+      if (o.getNextPossiblePortletModes() != null) {
+        // TODO Do not delete it!
+        ArrayList<String> modes = new ArrayList<String>();
+        Collection<PortletMode> portletModes = o.getNextPossiblePortletModes();
+        for (PortletMode portletMode : portletModes) {
+          modes.add(portletMode.toString());
         }
-
-        portletinfo.setSessionMap(o.getSessionMap());
-        try {
-          final char[] cnt = o.getContent();
-          if (cnt != null)
-            portletinfo.setOut(new String(cnt));
-          else
-            portletinfo.setOut("");
-        } catch (final Exception oe) {
-          portletinfo.setOut("");
-          System.out.println(" !!!!!!!!!!!! error getContent portlet " + portlet + ": " + oe);
-        }
-      } catch (final Exception e1) {
-        System.out.println(" !!!!!!!!!!!! error rendering portlet " + portlet + ": " + e1);
-        e1.printStackTrace();
-        System.out.println(" !!!!!!!!!!!! trying to continue...");
+        portletinfo.setModes(modes);
       }
+
+      portletinfo.setSessionMap(o.getSessionMap());
+      try {
+        final char[] cnt = o.getContent();
+        if (cnt != null)
+          portletinfo.setOut(new String(cnt));
+        else
+          portletinfo.setOut("");
+      } catch (final Exception oe) {
+        portletinfo.setOut("");
+        System.out.println(" !!!!!!!!!!!! error getContent portlet " + portlet + ": " + oe);
+      }
+    } catch (final Exception e1) {
+      System.out.println(" !!!!!!!!!!!! error rendering portlet " + portlet + ": " + e1);
+      e1.printStackTrace();
+      System.out.println(" !!!!!!!!!!!! trying to continue...");
     }
-    return portletInfos;
+    return portletinfo;
   }
 
   public HashMap<String, Serializable> getRenderedPortletInfos() {

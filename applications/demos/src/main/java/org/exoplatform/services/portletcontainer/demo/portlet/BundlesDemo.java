@@ -44,7 +44,7 @@ public class BundlesDemo extends GenericPortlet {
   throws PortletException, IOException {
     renderResponse.setContentType("text/html; charset=utf-8");
     PrintWriter w = renderResponse.getWriter();
-    w.println("<br/><font align='center' size='3'><b><i>This portlet shows getting resources from resource bundles for different locales.</i></b></font><br>");
+    w.println("<br/><font align='center' size='3'><b><i>This portlet shows getting resources from resource bundles for different locales.</i></b></font><br/>");
     PortletConfig portletConfig = getPortletConfig();
     Locale defaultLocale = Locale.getDefault();
     w.println("<br/>Default system locale: <b><font color='green'>" + defaultLocale + "</font></b><br/>");

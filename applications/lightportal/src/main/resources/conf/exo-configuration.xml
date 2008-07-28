@@ -1,10 +1,31 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<configuration> 
+<configuration>
+
+  <component>
+    <type>org.exoplatform.lightportal.navigation.DefaultPageIdentifierProvider</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.lightportal.impl.jcr.JCRNamespaceContext</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.lightportal.impl.jcr.JCRPageProvider</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.lightportal.ui.PageElementFactoryBuilder</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.lightportal.impl.jcr.ExoPageTemplateNodeRepresentationFactory</type>
+  </component>
 
   <component>
     <key>org.exoplatform.services.organization.OrganizationService</key>
     <type>org.exoplatform.services.organization.impl.mock.DummyOrganizationService</type>
   </component>
+
   <component>
     <key>org.exoplatform.services.resources.LocaleConfigService</key>
     <type>org.exoplatform.services.resources.impl.LocaleConfigServiceImpl</type>
@@ -47,7 +68,6 @@
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
   </component> 
   
-
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
     <component-plugin>
@@ -70,6 +90,21 @@
     </component-plugin>
   </external-component-plugins>
   
+  <external-component-plugins>
+    <target-component>org.exoplatform.services.jcr.RepositoryService</target-component>
+  
+    <component-plugin>
+      <name>add.namespaces</name>
+      <set-method>addPlugin</set-method>
+      <type>org.exoplatform.services.jcr.impl.AddNamespacesPlugin</type>
+      <init-params>
+        <properties-param>
+          <name>namespaces</name>
+          <property name="xhtml" value="http://www.w3.org/1999/xhtml"/>
+        </properties-param>
+      </init-params>
+    </component-plugin>   
+  </external-component-plugins>
   
   <external-component-plugins>
     <target-component>org.exoplatform.services.listener.ListenerService</target-component>
@@ -79,6 +114,7 @@
       <type>org.exoplatform.services.organization.auth.TomcatAuthenticationListener</type>
     </component-plugin>
   </external-component-plugins>
+
   <external-component-plugins>
     <target-component>org.exoplatform.services.command.impl.CommandService</target-component>
     <component-plugin>
@@ -93,7 +129,8 @@
       </init-params>
     </component-plugin>
   </external-component-plugins>
+
   <remove-configuration>org.exoplatform.services.scheduler.JobSchedulerService</remove-configuration>
   <remove-configuration>org.exoplatform.services.transaction.ExoTransactionService</remove-configuration>
-</configuration> 
 
+</configuration> 
