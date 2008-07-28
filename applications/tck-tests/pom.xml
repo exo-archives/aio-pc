@@ -825,7 +825,7 @@
             <deployables>
               <deployable>
                 <location>
-                  ${basedir}/../test-portal/target/portal.war
+                  ../test-portal/target/portal.war
                 </location>
                 <type>war</type>
               </deployable>
