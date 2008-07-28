@@ -824,9 +824,7 @@
 
             <deployables>
               <deployable>
-                <location>
-                  ../test-portal/target/portal.war
-                </location>
+                <location>/../test-portal/target/portal.war</location>
                 <type>war</type>
               </deployable>
             </deployables>
