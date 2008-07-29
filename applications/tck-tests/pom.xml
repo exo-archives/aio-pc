@@ -830,8 +830,8 @@
             </properties>
             <deployables>
               <deployable>
-                <groupId>org.exoplatform.portletcontainer</groupId>
-                <artifactId>portal</artifactId>
+                 <location>${basedir}/../test-portal/target/portal.war
+                </location>
                 <type>war</type>
               </deployable>
             </deployables>
