@@ -1123,7 +1123,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <tasks unless="exo.test.skip">
                 <sleep minutes="1"/>
               </tasks>
             </configuration>
@@ -1136,7 +1136,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <tasks unless="exo.test.skip">
               <property environment="env"/>
               <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.bat">
               <env key="TS_HOME" value="${basedir}/portlettck2"/>
@@ -1157,7 +1157,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <tasks unless="exo.test.skip">
               <property environment="env"/>
               <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.bat">
               <env key="TS_HOME" value="${basedir}/portlettck2"/>
@@ -1179,7 +1179,7 @@
               <goal>run</goal>
             </goals>
             <configuration>
-              <tasks>
+              <tasks unless="exo.test.skip">
               <property environment="env"/>
               <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts/tests" executable="${basedir}/portlettck2/bin/tsant.bat">
               <env key="TS_HOME" value="${basedir}/portlettck2"/>
