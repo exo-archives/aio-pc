@@ -163,6 +163,7 @@ public final class Helper {
     portletinfo.setWid(win.getUniqueID());
     portletinfo.setName(win.getPortletApplicationName() + "/" + win.getPortletName());
     portletinfo.setTitle(framework.getPortletDisplayName(plt));
+    portletinfo.setToRender(false);
     if (portletinfo.getTitle() == null)
       portletinfo.setTitle(win.getPortletName());
 

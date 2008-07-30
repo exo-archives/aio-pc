@@ -93,38 +93,6 @@ public class PortalServlet extends HttpServlet {
         w.println("<tr>");
           w.println("<td><a href='" + request.getContextPath() + "'><img src=\"../img/logotestportal.png\" style='border:0px none;'></a></td>");
           w.println("<td>&nbsp;</td>");
-          w.println("<td align=\"right\">");
-            w.println("<form method='post' name='addPortlet' action='.'>");
-            w.println("<input type='hidden' name='pAction' value='add'/>");
-            w.println("<select name='pApp' id='pApp' onchange='pltListSelectApp();'>");
-            w.println("</select>");
-            w.println("<select name='pName' id='pName'>");
-            w.println("</select>");
-            w.println("<input type='submit' value='Add portlet'/>");
-            w.println("</form>");
-            w.println("<form method='post' name='delPortlet' id='delPortlet' action='.'>");
-            w.println("<input type='hidden' name='pAction' value='del'/>");
-            w.println("<input type='hidden' name='pId' id='pId' value=''/>");
-            w.println("</form>");
-            w.println("<script language='JavaScript'>");
-            w.println("function pltListSelectApp() {");
-            w.println("  var sel = document.getElementById('pApp');");
-            w.println("  if (sel.selectedIndex != -1) {");
-            w.println("    var sel1 = document.getElementById('pName');");
-            w.println("    sel1.options.length = 0;");
-            w.println("    var pRow = pList[sel.options[sel.selectedIndex].value];");
-            w.println("    for (var i in pRow) {");
-            w.println("      sel1.options[sel1.options.length] = new Option(pRow[i], pRow[i]);");
-            w.println("    }");
-            w.println("  }");
-            w.println("}");
-            w.println(session.getAttribute("portletNames"));
-            w.println("var sel = document.getElementById('pApp');");
-            w.println("for (var i in pList) {");
-            w.println("  sel.options[sel.options.length] = new Option(i, i);");
-            w.println("}");
-            w.println("pltListSelectApp();");
-            w.println("</script>");
         w.println("</tr>");
       w.println("</table>");
 
@@ -173,7 +141,7 @@ public class PortalServlet extends HttpServlet {
                 w.println("<td align='center'><b>Portlet Id</b></td>");
               w.println("<td align='center'><b>Portlet Name</b></td>");
               w.println("<td align='center'><b>Portlet Title</b></td>");
-              w.println("<td>&nbsp;</td></tr>");
+              w.println("</tr>");
           int i2 = 0;
           for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
             PortletInfo pinf = i.next();
@@ -189,9 +157,6 @@ public class PortalServlet extends HttpServlet {
                 w.println("</td><td align='center'>" + i2 + "</td><td valign='center' bgcolor=''>" + id2 + "</td>");
                 w.println("<td valign='center' bgcolor=''>" + pinf.getName() + "</td>");
               w.println("<td valign='center' bgcolor=''>" + title2 + "</td>");
-              w.println("<td>");
-                w.println("<input type='button' value='Delete' onclick='document.getElementById(\"pId\").value = \"" + id2 + "\"; document.getElementById(\"delPortlet\").submit();'/>");
-              w.println("</td>");
               w.println("</tr>");
             }
             w.println("</table>");
@@ -219,7 +184,7 @@ public class PortalServlet extends HttpServlet {
               String portlet = pinf.getPortlet();
               w.println("<table width='100%' border='1' STYLE='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
                 w.println("<tr><th valign='center' bgcolor='#A3A7F6'><font size='4' face='Verdana,Arial'><div id=\"p" + pinf.getWid() + "title\">"
-                    + title + " (" + portlet + ")"+ "</div></font>");
+                    + title + " (" + pinf.getName() + ")"+ "</div></font>");
               String resMode = reqURL;
               resMode += reqContextPath + "componentId=" + portlet;
 //              resMode += "&" + reqContextPath + "type=action";

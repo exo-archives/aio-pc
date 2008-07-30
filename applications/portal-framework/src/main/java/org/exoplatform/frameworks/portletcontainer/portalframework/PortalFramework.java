@@ -1275,11 +1275,12 @@ public class PortalFramework {
    * @param portlet
    * @return
    */
-  public PortletInfo renderPortlet(final String portlet) {
-    final PortletInfo portletinfo = Helper.createPortletInfo(this, portlet);
-    final RenderInput renderInput = createRenderInput(portlet);
+  public PortletInfo renderPortlet(String portlet) {
+    PortletInfo portletinfo = Helper.createPortletInfo(this, portlet);
+    portletinfo.setToRender(true);
+    RenderInput renderInput = createRenderInput(portlet);
     try {
-      final RenderOutput o = render(presavedHttpRequest, presavedHttpResponse, renderInput);
+      RenderOutput o = render(presavedHttpRequest, presavedHttpResponse, renderInput);
 
       if (o.getNextPossiblePortletModes() != null) {
         // TODO Do not delete it!
@@ -1293,16 +1294,16 @@ public class PortalFramework {
 
       portletinfo.setSessionMap(o.getSessionMap());
       try {
-        final char[] cnt = o.getContent();
+        char[] cnt = o.getContent();
         if (cnt != null)
           portletinfo.setOut(new String(cnt));
         else
           portletinfo.setOut("");
-      } catch (final Exception oe) {
+      } catch (Throwable oe) {
         portletinfo.setOut("");
         System.out.println(" !!!!!!!!!!!! error getContent portlet " + portlet + ": " + oe);
       }
-    } catch (final Exception e1) {
+    } catch (Throwable e1) {
       System.out.println(" !!!!!!!!!!!! error rendering portlet " + portlet + ": " + e1);
       e1.printStackTrace();
       System.out.println(" !!!!!!!!!!!! trying to continue...");
