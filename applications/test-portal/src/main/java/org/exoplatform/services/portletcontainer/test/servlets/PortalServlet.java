@@ -122,6 +122,12 @@ public class PortalServlet extends HttpServlet {
           w.println("  checkPortlet.listCollapsed.value = 'true';");
           w.println("  checkPortlet.submit();");
           w.println("}");
+          w.println("function checkAll() {");
+          w.println("  for (var i = 0; i < checkPortlet.elements.length; i++)");
+          w.println("    if (checkPortlet.elements[i].name.charAt(0) == 'n')");
+          w.println("      checkPortlet.elements[i].checked = true;");
+          w.println("  checkPortlet.submit();");
+          w.println("}");
           w.println("</script>");
           w.println("<form method='POST' name='checkPortlet' action='.'>");
           w.println("<input type='hidden' name='fis' id='fis' value='yes'>");
@@ -136,8 +142,10 @@ public class PortalServlet extends HttpServlet {
             w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
               w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='5'>"
                   + "<img src=\"../img/opentriangle.gif\" onclick='listClose()' /> <font size='4' face='Verdana,Arial'>Please, select some of the following portlets :</font></th></tr>");
-              w.println("<tr><td align='center'><b>Checked</b></td>");
-                w.println("<td align='center'><b>Num</b></td>");
+              w.println("<tr><td align='center'>");
+              w.println("<input type='button' value='Check All' onClick='checkAll();'>");
+              w.println("</td>");
+              w.println("<td align='center'><b>Num</b></td>");
                 w.println("<td align='center'><b>Portlet Id</b></td>");
               w.println("<td align='center'><b>Portlet Name</b></td>");
               w.println("<td align='center'><b>Portlet Title</b></td>");

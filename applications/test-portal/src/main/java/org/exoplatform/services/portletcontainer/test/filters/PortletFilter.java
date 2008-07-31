@@ -37,6 +37,7 @@ import javax.servlet.http.HttpSession;
 import org.exoplatform.frameworks.portletcontainer.portalframework.Helper;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
+import org.exoplatform.frameworks.portletcontainer.portalframework.WindowID2;
 import org.exoplatform.services.portletcontainer.PCConstants;
 
 /**
@@ -82,11 +83,21 @@ public class PortletFilter implements Filter {
   public void init(final FilterConfig filterConfig) {
   }
 
-  private void createPortletWindows(PortalFramework framework, List<String> allPortlets) {
+  private void createOrUpdatePortletWindows(PortalFramework framework, List<String> allPortlets) {
     for (String pn : allPortlets) {
       String[] ss = pn.split("/");
-      framework.addPortletToPage(framework.addPortlet(ss[0], ss[1]));
+      if (!foundInPortlets(framework, ss[0], ss[1]))
+        framework.addPortletToPage(framework.addPortlet(ss[0], ss[1]));
     }
+  }
+
+  private boolean foundInPortlets(PortalFramework framework, String app, String plt) {
+    for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
+      WindowID2 win = framework.getPortletWindowById(i.next());
+      if (win.getPortletApplicationName().equals(app) && win.getPortletName().equals(plt))
+        return true;
+    }
+    return false;
   }
 
   /**
@@ -110,8 +121,7 @@ public class PortletFilter implements Filter {
     try {
       PortalFramework framework = PortalFramework.getInstance();
 
-      if (framework.getPagePortlets() == null || framework.getPagePortlets().size() < 1)
-        createPortletWindows(framework, framework.getPortletNames());
+      createOrUpdatePortletWindows(framework, framework.getPortletNames());
 
       List<String> portlets2render = null;
 
@@ -177,6 +187,7 @@ public class PortletFilter implements Filter {
         httpSession.setAttribute("resourceHeaders", framework.getResourceHeaders());
         httpSession.setAttribute("resourceStatus", new Integer(framework.getResourceStatus()));
       } else {
+        createOrUpdatePortletWindows(framework, framework.getPortletNames());
         ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
         for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
           String plt = i.next();
