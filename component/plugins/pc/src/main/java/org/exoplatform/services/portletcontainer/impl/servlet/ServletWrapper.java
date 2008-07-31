@@ -124,6 +124,11 @@ public class ServletWrapper extends HttpServlet {
     Output output = (Output) servletRequest.getAttribute(PortletContainerDispatcher.OUTPUT);
     int isAction = Util.actionToInt((String) servletRequest
         .getAttribute(PortletContainerDispatcher.IS_ACTION));
+    servletRequest.removeAttribute(PortletContainerDispatcher.IS_ACTION);
+    servletRequest.removeAttribute(PortletContainerDispatcher.INPUT);
+    servletRequest.removeAttribute(PortletContainerDispatcher.OUTPUT);
+    servletRequest.removeAttribute(PortletContainerDispatcher.WINDOW_INFO);
+    servletRequest.removeAttribute(PortletContainerDispatcher.CONTAINER);
     try {
       handler.process(getServletContext(), servletRequest, servletResponse, input, output,
           windowInfo, isAction);
