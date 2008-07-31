@@ -180,7 +180,7 @@ public class PortletFilter implements Filter {
         ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
         for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
           String plt = i.next();
-          if (portlets2render.contains(plt))
+          if (portlets2render != null && portlets2render.contains(plt))
             portletInfos.add(framework.renderPortlet(plt));
           else
             if (ps == null)
