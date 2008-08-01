@@ -18,6 +18,7 @@ package org.exoplatform.services.portletcontainer.test.filters;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
@@ -33,7 +34,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.exoplatform.frameworks.portletcontainer.portalframework.Helper;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
 import org.exoplatform.frameworks.portletcontainer.portalframework.WindowID2;
@@ -50,7 +50,12 @@ import org.exoplatform.services.portletcontainer.PCConstants;
  * PortletFilter class does portal's work using portal-framework it processes user http requests
  * and invokes portlets.
  */
-public class PortletFilter implements Filter {
+public class TckFilter implements Filter {
+
+  /**
+   * Portlet map for TCK tests.
+   */
+  private Map<String, String> tckPltMap = new HashMap<String, String>();
 
   /**
    * Some ASs commit ServletResponse's that they get with include() method so we have to
@@ -75,14 +80,6 @@ public class PortletFilter implements Filter {
    * @param filterConfig filter config
    */
   public void init(final FilterConfig filterConfig) {
-  }
-
-  private void createOrUpdatePortletWindows(PortalFramework framework, List<String> allPortlets) {
-    for (String pn : allPortlets) {
-      String[] ss = pn.split("/");
-      if (!foundInPortlets(framework, ss[0], ss[1]))
-        framework.addPortletToPage(framework.addPortlet(ss[0], ss[1]));
-    }
   }
 
   private boolean foundInPortlets(PortalFramework framework, String app, String plt) {
@@ -115,34 +112,24 @@ public class PortletFilter implements Filter {
     try {
       PortalFramework framework = PortalFramework.getInstance();
 
-      createOrUpdatePortletWindows(framework, framework.getPortletNames());
-
       List<String> portlets2render = null;
 
-      Map<String, String[]> servletParams = servletRequest.getParameterMap();
-
-      // collecting portlets to render
-      if (servletParams.containsKey("fis")) {
-        Iterator<String> plts = framework.getPagePortlets().iterator();
+      // collecting portlets to render -- especially for TCK tests
+      String[] ps = servletRequest.getParameterValues("portletName");
+      if (ps != null) {
         portlets2render = new ArrayList<String>();
-
-        int count = 0;
-        while (plts.hasNext()) {
-          count++;
-          String portlet = plts.next();
-          if ((servletParams.containsKey("fis") &&
-              (servletParams.containsKey("n" + count + "n") &&
-                  servletParams.get("n" + count + "n")[0].equals("on"))))
-            portlets2render.add(portlet);
+        for (String s : ps) {
+          String nn = tckPltMap.get(s);
+          if (nn == null) {
+            String[] ss = s.split("/");
+            nn = framework.addPortlet(ss[0], ss[1]);
+            tckPltMap.put(s, nn);
+          }
+          portlets2render.add(nn);
         }
-        httpSession.setAttribute("listCollapsed", new Boolean(servletParams.containsKey("listCollapsed") &&
-            servletParams.get("listCollapsed")[0].equals("true")));
-      }
-
-      if (portlets2render == null)
-        portlets2render = (ArrayList<String>) httpSession.getAttribute("portlets2render");
-      else
-        httpSession.setAttribute("portlets2render", portlets2render);
+        httpSession.setAttribute("portletName", portlets2render);
+      } else
+        portlets2render = (ArrayList<String>) httpSession.getAttribute("portletName");
 
       // --- this dummy http response is intended to avoid premature response commit on some AS-es
       HttpServletResponse dummyHttpResponse = createDummyResponse(httpResponse);
@@ -162,14 +149,10 @@ public class PortletFilter implements Filter {
         httpSession.setAttribute("resourceHeaders", framework.getResourceHeaders());
         httpSession.setAttribute("resourceStatus", new Integer(framework.getResourceStatus()));
       } else {
-        createOrUpdatePortletWindows(framework, framework.getPortletNames());
         ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
-        for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
+        for (Iterator<String> i = portlets2render.iterator(); i.hasNext(); ) {
           String plt = i.next();
-          if (portlets2render != null && portlets2render.contains(plt))
-            portletInfos.add(framework.renderPortlet(plt));
-          else
-            portletInfos.add(Helper.createPortletInfo(framework, plt));
+          portletInfos.add(framework.renderPortlet(plt));
         }
         httpSession.removeAttribute("portletinfos");
         httpSession.setAttribute("portletinfos", portletInfos);
