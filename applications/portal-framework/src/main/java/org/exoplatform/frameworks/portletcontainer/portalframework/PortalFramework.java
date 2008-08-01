@@ -645,6 +645,13 @@ public class PortalFramework {
   }
 
   /**
+   * @param portlets list of portlets the current portal page to contain
+   */
+  public void setPagePortlets(List<String> portlets) {
+    pages.put(getCurrentPage(), portlets);
+  }
+
+  /**
    * @param page page key
    * @param portlet portlet key
    */

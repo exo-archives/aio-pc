@@ -18,10 +18,8 @@ package org.exoplatform.services.portletcontainer.test.filters;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -53,11 +51,6 @@ import org.exoplatform.services.portletcontainer.PCConstants;
 public class TckFilter implements Filter {
 
   /**
-   * Portlet map for TCK tests.
-   */
-  private Map<String, String> tckPltMap = new HashMap<String, String>();
-
-  /**
    * Some ASs commit ServletResponse's that they get with include() method so we have to
    * construct dummy responses to be committed :).
    *
@@ -82,13 +75,13 @@ public class TckFilter implements Filter {
   public void init(final FilterConfig filterConfig) {
   }
 
-  private boolean foundInPortlets(PortalFramework framework, String app, String plt) {
-    for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
+  private String foundInPortlets(PortalFramework framework, String app, String plt) {
+    for (Iterator<String> i = framework.getAllPortlets().iterator(); i.hasNext(); ) {
       WindowID2 win = framework.getPortletWindowById(i.next());
       if (win.getPortletApplicationName().equals(app) && win.getPortletName().equals(plt))
-        return true;
+        return win.getUniqueID();
     }
-    return false;
+    return null;
   }
 
   /**
@@ -119,12 +112,10 @@ public class TckFilter implements Filter {
       if (ps != null) {
         portlets2render = new ArrayList<String>();
         for (String s : ps) {
-          String nn = tckPltMap.get(s);
-          if (nn == null) {
-            String[] ss = s.split("/");
+          String[] ss = s.split("/");
+          String nn = foundInPortlets(framework, ss[0], ss[1]);
+          if (nn == null)
             nn = framework.addPortlet(ss[0], ss[1]);
-            tckPltMap.put(s, nn);
-          }
           portlets2render.add(nn);
         }
         httpSession.setAttribute("portletName", portlets2render);
