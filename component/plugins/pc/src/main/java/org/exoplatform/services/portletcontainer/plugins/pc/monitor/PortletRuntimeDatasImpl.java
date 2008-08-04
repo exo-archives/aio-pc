@@ -77,7 +77,7 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   private long lastInitFailureAccessTime;
 
   /**
-   * Unavailability period.
+   * Unavailability period in milliseconds.
    */
   private long unavailabilityPeriod = 0;
 
@@ -257,7 +257,7 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   /**
    * Overridden method.
    *
-   * @return time
+   * @return time in milliseconds
    * @see org.exoplatform.services.portletcontainer.monitor.PortletRuntimeData#getUnavailabilityPeriod()
    */
   public final long getUnavailabilityPeriod() {
@@ -265,7 +265,7 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   }
 
   /**
-   * @param l time
+   * @param l time in milliseconds
    */
   public final synchronized void setUnavailabilityPeriod(final long l) {
     unavailabilityPeriod = l;
