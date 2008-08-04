@@ -49,64 +49,56 @@ public class URLTemplateComposerImpl implements URLTemplateComposer {
 
   public String createBlockingActionTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(NON_SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, false);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createSecureBlockingActionTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, true);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createRenderTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(NON_SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, false);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createSecureRenderTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, true);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createResourceTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(NON_SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, false);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createSecureResourceTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, true);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createDefaultTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(NON_SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, false);
     appendParameters(sB, path);
     return sB.toString();
   }
 
   public String createSecureDefaultTemplate(String path) {
     StringBuffer sB = new StringBuffer();
-    sB.append(SECURE_PROTOCOL);
-    manageServerPath(sB, path);
+    manageServerPath(sB, path, true);
     appendParameters(sB, path);
     return sB.toString();
   }
@@ -115,20 +107,9 @@ public class URLTemplateComposerImpl implements URLTemplateComposer {
     return "";
   }
 
-  private void manageServerPath(StringBuffer stringBuffer, String path) {
-    String newPath = null;
-    try {
-      URL url = new URL(path);
-      host = url.getHost();
-      port = url.getPort();
-      newPath = url.getFile();
-    } catch (MalformedURLException e) {
-      newPath = path;
-    }
-    stringBuffer.append(host);
-    if (port > 0)
-      stringBuffer.append(":").append(port);
-    stringBuffer.append(newPath);
+  private void manageServerPath(StringBuffer sB, String path, Boolean isSecure) {
+//    manageServerProtocol(sB,isSecure);
+    sB.append(path);
   }
 
   private void appendParameters(StringBuffer stringBuffer, String path) {
@@ -188,6 +169,31 @@ public class URLTemplateComposerImpl implements URLTemplateComposer {
     stringBuffer.append("&" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "={"
         + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}");
 
+  }
+
+  private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
+    if (isSecure != null && isSecure) {
+      sB.append(SECURE_PROTOCOL);
+    } else {
+      sB.append(NON_SECURE_PROTOCOL);
+    }
+  }
+  
+  @Deprecated
+  private void manageServerPath(StringBuffer sB, String path) {
+    String newPath = null;
+    try {
+      URL url = new URL(path);
+      host = url.getHost();
+      port = url.getPort();
+      newPath = url.getFile();
+    } catch (MalformedURLException e) {
+      newPath = path;
+    }
+    sB.append(host);
+    if (port > 0)
+      sB.append(":").append(port);
+    sB.append(newPath);
   }
 
 }

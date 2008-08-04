@@ -190,6 +190,8 @@ public class PortletDriverImpl implements PortletDriver {
   }
 
   private RuntimeContext getRuntimeContext(WSRPBaseRequest request, String baseURL) throws WSRPException {
+    if (log.isDebugEnabled())
+      log.debug("PortletDriverImpl.getRuntimeContext() baseURL = " + baseURL);
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());

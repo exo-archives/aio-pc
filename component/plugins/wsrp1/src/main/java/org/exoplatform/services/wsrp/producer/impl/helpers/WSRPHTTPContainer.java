@@ -7,11 +7,11 @@ import javax.servlet.http.HttpServletResponse;
 
 public class WSRPHTTPContainer extends HashMap<Object, Object> {
 
-  private static ThreadLocal  threadLocal = new ThreadLocal();
+  private static ThreadLocal<WSRPHTTPContainer> threadLocal = new ThreadLocal<WSRPHTTPContainer>();
 
-  private HttpServletRequest  request;
+  private HttpServletRequest                    request;
 
-  private HttpServletResponse response;
+  private HttpServletResponse                   response;
 
   public WSRPHttpServletRequest getRequest() {
     return (WSRPHttpServletRequest) request;

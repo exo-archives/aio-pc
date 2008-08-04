@@ -272,6 +272,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                   .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
+    // for get params within included jsp struts
+    request.setParameters(renderParameters);
+    
     // prepare the Input object
     RenderInput input = new RenderInput();
     ExoWindowID windowID = new ExoWindowID();

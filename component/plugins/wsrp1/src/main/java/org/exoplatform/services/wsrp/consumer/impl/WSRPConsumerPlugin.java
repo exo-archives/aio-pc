@@ -964,7 +964,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     log.debug("getInteractionRequest entered");
     WSRPInteractionRequestAdapter interactionRequest = new WSRPInteractionRequestAdapter();
     fillMarkupRequest(interactionRequest, request, portletWindowSession, input);
-    interactionRequest.setNavigationalState(getNavigationalState(request, portletWindowSession));
+    interactionRequest.setNavigationalState(getNavigationalState(request,
+                                                                 portletWindowSession,
+                                                                 input));
     interactionRequest.setInteractionState(getInteractionState(request, portletWindowSession));
     interactionRequest.setFormParameters(getRenderParametersAsNamedString(input));
     // interactionRequest.setInteractionState();
@@ -1026,13 +1028,20 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   }
 
   private String getNavigationalState(HttpServletRequest request,
-                                      PortletWindowSession portletWindowSession) {
-    String ns = request.getParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
-    if (ns != null) {
-      log.debug("user navigational state : " + ns);
-      portletWindowSession.setNavigationalState(ns);
+                                      PortletWindowSession portletWindowSession,
+                                      Input input) {
+    if (input != null && input.getRenderParameters() != null) {
+      String[] navigationalState = input.getRenderParameters()
+                                        .get(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+      if (navigationalState != null && navigationalState.length != 0) {
+        log.debug("user navigational state : " + navigationalState[0]);
+
+        portletWindowSession.setNavigationalState(navigationalState[0]);
+      } else {
+        log.debug("Navigational state is null or empty");
+      }
     } else {
-      log.debug("Navigational state null");
+      log.debug("Input input is null or input.getRenderParameters() is null");
     }
     return portletWindowSession.getNavigationalState();
   }
@@ -1069,7 +1078,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                              RenderInput input) {
     WSRPMarkupRequestAdapter markupRequest = new WSRPMarkupRequestAdapter();
     fillMarkupRequest(markupRequest, request, portletWindowSession, input);
-    markupRequest.setNavigationalState(getNavigationalState(request, portletWindowSession));
+    markupRequest.setNavigationalState(getNavigationalState(request, portletWindowSession, input));
     markupRequest.setCachedMarkup(portletWindowSession.getCachedMarkup());
     return markupRequest;
   }

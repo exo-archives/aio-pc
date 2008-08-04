@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2008 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -63,7 +63,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ProducerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+    return new ProducerRewriterPortletURLImp(type,
                                              template,
                                              markup,
                                              supports,
@@ -74,7 +74,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public ResourceURL createResourceURL(String type) {
-    return new ProducerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+    return new ProducerRewriterResourceURLImp(type,
                                               template,
                                               isCurrentlySecured,
                                               portletHandle,

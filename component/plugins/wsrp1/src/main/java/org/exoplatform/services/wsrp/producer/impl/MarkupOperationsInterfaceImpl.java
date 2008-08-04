@@ -120,166 +120,177 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   RuntimeContext runtimeContext,
                                   UserContext userContext,
                                   MarkupParams markupParams) throws RemoteException {
-    // manage the portlet handle
-    String portletHandle = portletContext.getPortletHandle();
-    portletHandle = manageRegistration(portletHandle, registrationContext);
-    log.debug("Portlet handle : " + portletHandle);
-    String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
-    String portletApplicationName = k[0];
-    String portletName = k[1];
-    String uniqueID = k[2];
+    try {
 
-    Integer sessiontimeperiod = getSessionTimePeriod();
+      // manage the portlet handle
+      String portletHandle = portletContext.getPortletHandle();
+      portletHandle = manageRegistration(portletHandle, registrationContext);
+      log.debug("Portlet handle : " + portletHandle);
+      String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
+      String portletApplicationName = k[0];
+      String portletName = k[1];
+      String uniqueID = k[2];
 
-    // manage session
-    String sessionID = runtimeContext.getSessionID();
-    WSRPHttpSession session = resolveSession(sessionID,
-                                             userContext.getUserContextKey(),
-                                             sessiontimeperiod);
-    sessionID = session.getId();
-    SessionContext sessionContext = new SessionContext();
-    sessionContext.setSessionID(session.getId());
-    sessionContext.setExpires(sessiontimeperiod);
+      Integer sessiontimeperiod = getSessionTimePeriod();
 
-    // manage user
-    userContext = transientStateManager.resolveUserContext(userContext, session);
-    String owner = userContext.getUserContextKey();
-    log.debug("Owner Context : " + owner);
+      // manage session
+      String sessionID = runtimeContext.getSessionID();
+      WSRPHttpSession session = resolveSession(sessionID,
+                                               userContext.getUserContextKey(),
+                                               sessiontimeperiod);
+      sessionID = session.getId();
+      SessionContext sessionContext = new SessionContext();
+      sessionContext.setSessionID(session.getId());
+      sessionContext.setExpires(sessiontimeperiod);
 
-    // manage cache ???
-    if (markupParams.getValidateTag() != null) {
-      try {
-        if (transientStateManager.validateCache(markupParams.getValidateTag())) {
-          MarkupContext markupContext = new MarkupContext();
-          markupContext.setUseCachedMarkup(Boolean.TRUE);
-          MarkupResponse markup = new MarkupResponse();
-          markup.setMarkupContext(markupContext);
-          markup.setSessionContext(sessionContext);
-          return markup;
+      // manage user
+      userContext = transientStateManager.resolveUserContext(userContext, session);
+      String owner = userContext.getUserContextKey();
+      log.debug("Owner Context : " + owner);
+
+      // manage cache ???
+      if (markupParams.getValidateTag() != null) {
+        try {
+          if (transientStateManager.validateCache(markupParams.getValidateTag())) {
+            MarkupContext markupContext = new MarkupContext();
+            markupContext.setUseCachedMarkup(Boolean.TRUE);
+            MarkupResponse markup = new MarkupResponse();
+            markup.setMarkupContext(markupContext);
+            markup.setSessionContext(sessionContext);
+            return markup;
+          }
+        } catch (WSRPException e) {
+          log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
+          Exception2Fault.handleException(e);
         }
+      }
+
+      Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
+      PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName
+          + Constants.PORTLET_META_DATA_ENCODER + portletName);
+
+      // manage navigationalState
+      Map<String, String[]> renderParameters = null;
+      try {
+        renderParameters = (Map<String, String[]>) processNavigationalState(markupParams.getNavigationalState());
       } catch (WSRPException e) {
-        log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
         Exception2Fault.handleException(e);
       }
+      if (renderParameters == null) {
+        renderParameters = new HashMap<String, String[]>();
+        log.debug("No navigational state exists");
+      }
+
+      // manage portlet state
+      byte[] portletState = managePortletState(portletContext);
+
+      // manage mime type
+      String mimeType = null;
+      try {
+        mimeType = getMimeType(markupParams.getMimeTypes(), portletDatas);
+      } catch (WSRPException e) {
+        Exception2Fault.handleException(e);
+      }
+
+      String baseURL = null;
+      PortletURLFactory portletURLFactory = null;
+
+      if (conf.isDoesUrlTemplateProcessing()) {
+        log.debug("Producer URL rewriting");
+        Templates templates = manageTemplates(runtimeContext, session);
+        baseURL = templates.getRenderTemplate();
+        if (log.isDebugEnabled())
+          log.debug("MarkupOperationsInterfaceImpl.getMarkup() baseURL = " + baseURL);
+        portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
+                                                                      baseURL,
+                                                                      portletDatas.getSupports(),
+                                                                      markupParams.isSecureClientCommunication(),
+                                                                      portletHandle,
+                                                                      persistentStateManager,
+                                                                      sessionID);
+      } else {
+        log.debug("Consumer URL rewriting");
+        portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
+                                                                      baseURL,
+                                                                      portletDatas.getSupports(),
+                                                                      markupParams.isSecureClientCommunication(),
+                                                                      portletHandle,
+                                                                      persistentStateManager,
+                                                                      sessionID);
+      }
+
+      // manage mode and states
+      PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+      WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
+
+      // prepare the call to the portlet proxy
+      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                                 .getRequest();
+      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                    .getResponse();
+      WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
+
+      // for get params within included jsp struts
+      request.setParameters(renderParameters);
+      
+      // prepare the Input object
+      RenderInput input = new RenderInput();
+      ExoWindowID windowID = new ExoWindowID();
+      windowID.setOwner(owner);
+      windowID.setPortletApplicationName(portletApplicationName);
+      windowID.setPortletName(portletName);
+      windowID.setUniqueID(uniqueID);
+      input.setInternalWindowID(windowID);
+      input.setBaseURL(baseURL);
+      input.setUserAttributes(new HashMap<String, String>());
+      input.setPortletMode(portletMode);
+      input.setWindowState(windowState);
+      input.setMarkup(mimeType);
+      input.setRenderParameters(renderParameters);
+      input.setPortletURLFactory(portletURLFactory);
+      input.setPortletState(portletState);
+      input.setPortletPreferencesPersister(persister);
+      // createUserProfile(userContext, request, session);
+
+      RenderOutput output = null;
+      try {
+        /* MAIN INVOKE */
+        output = proxy.render(request, response, input);
+      } catch (WSRPException e) {
+        log.debug("The call to render method was a failure ", e);
+        Exception2Fault.handleException(e);
+      }
+
+      // prepare the cache control object
+      CacheControl cacheControl = null;
+      try {
+        cacheControl = transientStateManager.getCacheControl(portletDatas);
+      } catch (WSRPException e) {
+        Exception2Fault.handleException(e);
+      }
+
+      // build markup context
+      MarkupContext markupContext = new MarkupContext();
+      markupContext.setMimeType(mimeType);
+      markupContext.setCacheControl(cacheControl);
+      markupContext.setMarkupString(new String(output.getContent()));
+      markupContext.setPreferredTitle(output.getTitle());
+      markupContext.setRequiresUrlRewriting(new Boolean(conf.isDoesUrlTemplateProcessing()));
+      markupContext.setUseCachedMarkup(Boolean.TRUE);
+      // markupContext.setMarkupBinary(null);//TODO
+      // markupContext.setLocale(null);
+
+      // ajoute une locale au markupcontext
+      markupContext.setLocale("en");
+
+      MarkupResponse markup = new MarkupResponse();
+      markup.setSessionContext(sessionContext);
+      markup.setMarkupContext(markupContext);
+      return markup;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
-    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-    PortletData portletDatas = (PortletData) portletMetaDatas.get(portletApplicationName
-        + Constants.PORTLET_META_DATA_ENCODER + portletName);
-
-    // manage navigationalState
-    Map<String, String[]> renderParameters = null;
-    try {
-      renderParameters = (Map<String, String[]>) processNavigationalState(markupParams.getNavigationalState());
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-    if (renderParameters == null) {
-      renderParameters = new HashMap<String, String[]>();
-      log.debug("No navigational state exists");
-    }
-
-    // manage portlet state
-    byte[] portletState = managePortletState(portletContext);
-
-    // manage mime type
-    String mimeType = null;
-    try {
-      mimeType = getMimeType(markupParams.getMimeTypes(), portletDatas);
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-
-    String baseURL = null;
-    PortletURLFactory portletURLFactory = null;
-
-    if (conf.isDoesUrlTemplateProcessing()) {
-      log.debug("Producer URL rewriting");
-      Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getRenderTemplate();
-      portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletDatas.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID);
-    } else {
-      log.debug("Consumer URL rewriting");
-      portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletDatas.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID);
-    }
-
-    // manage mode and states
-    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
-    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
-
-    // prepare the call to the portlet proxy
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
-    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
-
-    // prepare the Input object
-    RenderInput input = new RenderInput();
-    ExoWindowID windowID = new ExoWindowID();
-    windowID.setOwner(owner);
-    windowID.setPortletApplicationName(portletApplicationName);
-    windowID.setPortletName(portletName);
-    windowID.setUniqueID(uniqueID);
-    input.setInternalWindowID(windowID);
-    input.setBaseURL(baseURL);
-    input.setUserAttributes(new HashMap<String, String>());
-    input.setPortletMode(portletMode);
-    input.setWindowState(windowState);
-    input.setMarkup(mimeType);
-    input.setRenderParameters(renderParameters);
-    input.setPortletURLFactory(portletURLFactory);
-    input.setPortletState(portletState);
-    input.setPortletPreferencesPersister(persister);
-    // createUserProfile(userContext, request, session);
-
-    RenderOutput output = null;
-    try {
-      /* MAIN INVOKE */
-      output = proxy.render(request, response, input);
-    } catch (WSRPException e) {
-      log.debug("The call to render method was a failure ", e);
-      Exception2Fault.handleException(e);
-    }
-
-    // prepare the cache control object
-    CacheControl cacheControl = null;
-    try {
-      cacheControl = transientStateManager.getCacheControl(portletDatas);
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-
-    // build markup context
-    MarkupContext markupContext = new MarkupContext();
-    markupContext.setMimeType(mimeType);
-    markupContext.setCacheControl(cacheControl);
-    markupContext.setMarkupString(new String(output.getContent()));
-    markupContext.setPreferredTitle(output.getTitle());
-    markupContext.setRequiresUrlRewriting(new Boolean(conf.isDoesUrlTemplateProcessing()));
-    markupContext.setUseCachedMarkup(Boolean.TRUE);
-    // markupContext.setMarkupBinary(null);//TODO
-    // markupContext.setLocale(null);
-
-    // ajoute une locale au markupcontext
-    markupContext.setLocale("en");
-
-    MarkupResponse markup = new MarkupResponse();
-    markup.setSessionContext(sessionContext);
-    markup.setMarkupContext(markupContext);
-    return markup;
+    return null;
   }
 
   public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext,
@@ -366,7 +377,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
                                                                                   .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
+    
     putFormParametersInRequest(request, interactionParams);
+    Map<String, String[]> renderParameters = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
+    
+    request.setParameters(renderParameters);
 
     // prepare the Input object
     ActionInput input = new ActionInput();
@@ -385,8 +400,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
-    Map<String, String[]> params = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
-    input.setRenderParameters(params);
+    input.setRenderParameters(renderParameters);
     // createUserProfile(userContext, request, session);
 
     ActionOutput output = null;
@@ -577,6 +591,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         transientStateManager.storeTemplates(templates, session);
       }
     }
+    if (log.isDebugEnabled())
+      log.debug("MarkupOperationsInterfaceImpl.manageTemplates() templates.getRenderTemplate() = "
+          + templates.getRenderTemplate());
     return templates;
   }
 

@@ -80,7 +80,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ProducerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+    return new ProducerRewriterPortletURLImp(type,
                                              template,
                                              markup,
                                              supports,
@@ -94,7 +94,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   }
 
   public ResourceURL createResourceURL(String type) {
-    return new ProducerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+    return new ProducerRewriterResourceURLImp(type,
                                               template,
                                               isCurrentlySecured,
                                               portletHandle,
