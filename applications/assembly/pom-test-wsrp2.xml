@@ -1,0 +1,118 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>trunk</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>assembly</artifactId>
+  <packaging>ear</packaging>
+  <name>eXo Portlet Container Manual Test WSRP2 Assembly</name>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.1.2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
+  </dependencies>
+
+  <build>
+    <finalName>portlet-container</finalName>
+    <plugins>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.2-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>1</id>
+            <phase>clean</phase>
+            <configuration>
+              <tasks>
+ 
+		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
+		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
+		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/hello.war</echo>
+        		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/">
+				<include name="**/hello.war" />
+			</fileset>
+			</copy>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+	</plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-exopc-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <sharedDir>${basedir}/patches</sharedDir>
+          <excludeProjects>
+            junit, jmock, bcel, ehcache,cargo-core-api-container,cargo-core-api-generic,cargo-core-api-module,xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype, cargo-core-api-util, cargo-core-container-tomcat,velocity-dep, saxpath, exo-platform.test.framework,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
+            xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
+            saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            carol, commons-fileupload, commons-io, drools-base, drools-core, drools-java,
+            drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
+            exo-platform.services.ldap.impl, exo-platform.services.remote.api,
+            exo-platform.services.remote.impl, exo-platform.services.templates.api,
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
+            jotm, jotm_jrmp_stubs, log4j, soap, velocity, naming-core, naming-java, jsf-api, xerces
+          </excludeProjects>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+</project>
