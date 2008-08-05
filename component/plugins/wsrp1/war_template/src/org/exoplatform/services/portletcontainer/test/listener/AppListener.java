@@ -22,32 +22,33 @@ import javax.servlet.ServletContextListener;
 import org.exoplatform.container.StandaloneContainer;
 
 /**
- * Created by The eXo Platform SAS  .
- *
+ * Created by The eXo Platform SAS .
+ * 
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id$
  */
 
 /**
- * Servlet context listener class is intended to catch context initialization and to set up
- * StandaloneContainer.
+ * Servlet context listener class is intended to catch context initialization
+ * and to set up StandaloneContainer.
  */
 public class AppListener implements ServletContextListener {
 
   /**
    * Creates stand-alone container when context have just been initialized.
-   *
+   * 
    * @param sce servlet context event
    */
   public final void contextInitialized(final ServletContextEvent sce) {
     try {
       ServletContext ctx = sce.getServletContext();
-      Object[][] components = {{ServletContext.class.getName(), ctx}};
+      Object[][] components = { { ServletContext.class.getName(), ctx } };
       // it's needed to switch off default behavior -- searching for /conf/portal/configuration.xml in all
       // available jars
-     // StandaloneContainer.setConfigurationURL(null);
-      StandaloneContainer standaloneContainer = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
-        components);
+      // StandaloneContainer.setConfigurationURL(null);
+      StandaloneContainer.getInstance(
+          Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
+          components);
     } catch (Exception e) {
       System.out.println(" !!! AppListener.contextInitialized exception: " + e);
       e.printStackTrace();
@@ -56,9 +57,10 @@ public class AppListener implements ServletContextListener {
 
   /**
    * Does nothing. Just an empty interface implementation.
-   *
+   * 
    * @param sce servlet context event
    */
-  public final void contextDestroyed(final ServletContextEvent sce) { }
+  public final void contextDestroyed(final ServletContextEvent sce) {
+  }
 
 }
