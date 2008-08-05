@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>test-wsrp2</artifactId>
   <packaging>war</packaging>
-  <name>eXo Portlet Container 2 WSRP 1 test application</name>
+  <name>eXo Portlet Container 2 WSRP 2 test application</name>
 
   <dependencies>
 
