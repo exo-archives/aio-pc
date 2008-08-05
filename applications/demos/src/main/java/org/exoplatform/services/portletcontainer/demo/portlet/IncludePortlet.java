@@ -36,7 +36,7 @@ public class IncludePortlet extends GenericPortlet {
   /**
    * JSP to include.
    */
-  private static final String TEMPLATE_JSP = "/demo.jsp";
+  private static final String TEMPLATE_JSP  = "/demo.jsp";
 
   /**
    * HTML to include.
@@ -46,18 +46,19 @@ public class IncludePortlet extends GenericPortlet {
   /**
    * Servlet to include.
    */
-  private static final String TEMPLATE_SRV = "/demo";
+  private static final String TEMPLATE_SRV  = "/demo";
 
   /**
    * Just a doView method.
-   *
+   * 
    * @param request portlet request
-   * @param response portlet response
+   * @param response portlet response"org.exoplatform.services.portletcontainer"
    * @throws PortletException something may go wrong
    * @throws IOException something may go wrong
+   *           "org.exoplatform.services.portletcontainer"
    */
-  protected void doView(RenderRequest request, RenderResponse response)
-    throws PortletException, IOException {
+  protected void doView(RenderRequest request, RenderResponse response) throws PortletException,
+                                                                       IOException {
 
     response.setContentType("text/html; charset=utf-8");
     PrintWriter w = response.getWriter();
@@ -84,7 +85,8 @@ public class IncludePortlet extends GenericPortlet {
     w.println("<br/>");
   }
 
-  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException, IOException {
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+                                                                                       IOException {
   }
 
 }
