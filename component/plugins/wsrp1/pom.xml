@@ -455,8 +455,8 @@
                   <classes dir="target/test-classes">
                     <exclude name="wsrp/**/*" />
                   </classes>
-                  <zipfileset dir="war_template/WEB-INF" includes="portlet.xml" prefix="WEB-INF" />
-                  <zipfileset dir="war_template/WEB-INF" includes="conf**/*" prefix="WEB-INF/classes" />
+                  <zipfileset dir="war_template/WEB-INF" includes="**/*" prefix="WEB-INF" />
+                  <!-- zipfileset dir="war_template/WEB-INF" includes="conf**/*" prefix="WEB-INF/classes" / -->
                 </war>
               </tasks>
             </configuration>
