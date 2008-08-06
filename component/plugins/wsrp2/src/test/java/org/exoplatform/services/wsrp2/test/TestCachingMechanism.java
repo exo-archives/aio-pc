@@ -47,7 +47,7 @@ public class TestCachingMechanism extends BaseTest {
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/HelloWorld2");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(4, cacheControl.getExpires());
@@ -61,7 +61,7 @@ public class TestCachingMechanism extends BaseTest {
     if(sd.isRequiresRegistration())
       rc = new RegistrationContext();
 
-    String portletHandle = "hello/HelloWorld2";
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
 

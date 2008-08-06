@@ -70,7 +70,8 @@ public class BaseTest extends TestCase {
 
   protected static final String                 SERVICE_URL              = "http://localhost:8080/wsrp/services2/";
 
-  //protected static final String                 CONTEXT_PATH             = "/war_template";
+  protected static final String                 CONTEXT_PATH             = "hello";
+
   protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
                                                                                                                   : System.getProperty("testPath"));
 

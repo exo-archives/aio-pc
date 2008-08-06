@@ -120,7 +120,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   RuntimeContext runtimeContext,
                                   UserContext userContext,
                                   MarkupParams markupParams) throws RemoteException {
-    try {
 
       // manage the portlet handle
       String portletHandle = portletContext.getPortletHandle();
@@ -170,14 +169,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
           + Constants.PORTLET_META_DATA_ENCODER + portletName);
 
       // manage navigationalState
-      Map<String, String[]> renderParameters = null;
-      try {
-        renderParameters = (Map<String, String[]>) processNavigationalState(markupParams.getNavigationalState());
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
-      }
-      if (renderParameters == null) {
-        renderParameters = new HashMap<String, String[]>();
+      Map<String, String[]> renderParameters = new HashMap<String, String[]>();
+      Map<String, String[]> persistentNavigationalParameters = (Map<String, String[]>) processNavigationalState(markupParams.getNavigationalState());
+      
+      if (persistentNavigationalParameters != null
+          && !persistentNavigationalParameters.isEmpty()) {
+        renderParameters = persistentNavigationalParameters;
+      } else {
         log.debug("No navigational state exists");
       }
 
@@ -287,10 +285,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       markup.setSessionContext(sessionContext);
       markup.setMarkupContext(markupContext);
       return markup;
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
   }
 
   public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext,
@@ -378,10 +372,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                   .getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
     
-    putFormParametersInRequest(request, interactionParams);
-    Map<String, String[]> renderParameters = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
+//    putFormParametersInRequest(request, interactionParams);
     
-    request.setParameters(renderParameters);
+    // manage form parameters
+    Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
+    // create render params map for input
+    Map<String, String[]> renderParameters = new HashMap<String, String[]>();
+    
+    if (formParameters != null && !formParameters.isEmpty()) {
+      renderParameters = formParameters;
+    }
+    
+    if (renderParameters != null) {
+      request.setParameters(renderParameters);
+    }
 
     // prepare the Input object
     ActionInput input = new ActionInput();
@@ -461,20 +465,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return blockingInteractionResponse;
   }
 
-  private void putFormParametersInRequest(WSRPHttpServletRequest request,
-                                          InteractionParams interactionParams) {
-    NamedString[] array = interactionParams.getFormParameters();
-    if (array == null) {
-      log.debug("no form parameters");
-      return;
-    }
-    for (NamedString namedString : array) {
-      log.debug("form parameters; name : " + namedString.getName() + "; value : "
-          + namedString.getValue());
-      request.setParameter(namedString.getName(), namedString.getValue());
-    }
-  }
-
   public ReturnAny initCookie(RegistrationContext registrationContext) throws RemoteException {
     // ReturnAny any = null;
     if (conf.isRegistrationRequired()) {
@@ -537,17 +527,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return portletHandle;
   }
 
-  private Map<String, String[]> processNavigationalState(String navigationalState) throws WSRPException {
+  private Map<String, String[]> processNavigationalState(String navigationalState) throws java.rmi.RemoteException {
     log.debug("Lookup navigational state : " + navigationalState);
-    Map<String, String[]> map = persistentStateManager.getNavigationalSate(navigationalState);
-    // for debug:
-    if (log.isDebugEnabled()) {
-      if (map != null) {
-        for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
-          String s = (String) iterator.next();
-          log.debug("attribute in map referenced by ns : " + s);
+    Map<String, String[]> map = null;
+    try {
+      map = persistentStateManager.getNavigationalSate(navigationalState);
+      // for debug:
+      if (log.isDebugEnabled()) {
+        if (map != null) {
+          for (Iterator<String> iterator = map.keySet().iterator(); iterator.hasNext();) {
+            String s = (String) iterator.next();
+            log.debug("attribute in map referenced by ns : " + s);
+          }
         }
       }
+    } catch (WSRPException e) {
+      Exception2Fault.handleException(e);
     }
     return map;
   }

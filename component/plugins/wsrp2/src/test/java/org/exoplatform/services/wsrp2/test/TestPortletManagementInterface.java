@@ -45,7 +45,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testClonePortlet() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
@@ -59,7 +59,7 @@ public class TestPortletManagementInterface extends BaseTest {
   public void testClonePortletWithBadRegistrationHandle() {
     RegistrationContext rC = new RegistrationContext(null, null, null, null);
     rC.setRegistrationHandle("dummy_handle");
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     try {
       ClonePortlet clonePortlet = new ClonePortlet();
       clonePortlet.setRegistrationContext(rC);
@@ -74,7 +74,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testClonePortletWithBadPortletHandle() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/dummy");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/dummy");
     try {
       ClonePortlet clonePortlet = new ClonePortlet();
       clonePortlet.setRegistrationContext(rC);
@@ -89,7 +89,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testCloneAlreadyClonedPortlet() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
@@ -114,7 +114,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testDestroyPortlet() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
@@ -131,17 +131,17 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testDestroyNonClonedPortlet() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    String[] array = { "hello/HelloWorld/dummy" };
+    String[] array = { CONTEXT_PATH + "/HelloWorld/dummy" };
     DestroyPortlets destroyPortlets = new DestroyPortlets();
     destroyPortlets.setRegistrationContext(rC);
     destroyPortlets.setPortletHandles(array);
     DestroyPortletsResponse response = portletManagementOperationsInterface.destroyPortlets(destroyPortlets);
-    assertEquals("hello/HelloWorld/dummy", response.getFailedPortlets(0).getPortletHandles(0));
+    assertEquals(CONTEXT_PATH + "/HelloWorld/dummy", response.getFailedPortlets(0).getPortletHandles(0));
   }
 
   public void testGetPortletProperty() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
@@ -167,7 +167,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testWellKnownGetPortletProperty() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
@@ -189,7 +189,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testSetPortletProperty() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
-    PortletContext pC = fillPortletContext("hello/HelloWorld");
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);

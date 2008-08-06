@@ -55,7 +55,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
-    String portletHandle = "hello/PortletToTestPerformBlockingInteraction";
+    String portletHandle = CONTEXT_PATH + "/PortletToTestPerformBlockingInteraction";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     NamedString nS1 = new NamedString();
@@ -105,7 +105,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/Portlet2TestSendRedirect");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestSendRedirect");
     portletContext.setPortletState(null);//TODO
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.readWrite);
@@ -122,7 +122,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/Portlet2TestStateUser");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser");
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.readOnly);
     PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rc,
@@ -139,14 +139,14 @@ public class TestPerformBlockingInteraction extends BaseTest {
   public void testCloneBeforeWriteStateChange() throws RemoteException {
     RegistrationContext rC = registrationOperationsInterface.register(register);
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/Portlet2TestStateUser2");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser2");
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.cloneBeforeWrite);
     PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rC,
                                                                                           portletContext,
                                                                                           params);
     BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
-    assertNotSame("hello/Portlet2TestStateUser/windowID", response.getUpdateResponse()
+    assertNotSame(CONTEXT_PATH + "/Portlet2TestStateUser/windowID", response.getUpdateResponse()
                                                                   .getPortletContext()
                                                                   .getPortletHandle());
   }
@@ -156,7 +156,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
-    String portletHandle = "hello/Portlet2TestStateUser3";
+    String portletHandle = CONTEXT_PATH + "/Portlet2TestStateUser3";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     InteractionParams params = new InteractionParams();

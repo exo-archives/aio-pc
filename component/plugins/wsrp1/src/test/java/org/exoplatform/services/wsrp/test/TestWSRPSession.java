@@ -45,7 +45,7 @@ public class TestWSRPSession extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext("", null, null);
-    String portletHandle = "hello/PortletToTestSession";
+    String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
@@ -70,7 +70,7 @@ public class TestWSRPSession extends BaseTest {
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext("", null, null);
     PortletContext portletContext = new PortletContext();
-    String portletHandle = "hello/PortletToTestSession";
+    String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     portletContext.setPortletHandle(portletHandle);
     markupParams.setMimeTypes(mimeTypes);
     markupParams.setMode("wsrp:view");

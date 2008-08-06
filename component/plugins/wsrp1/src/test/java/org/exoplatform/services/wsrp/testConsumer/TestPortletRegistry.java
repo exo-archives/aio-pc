@@ -38,8 +38,8 @@ public class TestPortletRegistry extends BaseTest {
 
   public void testAddPortlet() throws WSRPException {
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/AppletClient");
-    WSRPPortlet p = createPortlet("hello/AppletClient", null, portletContext);
+    portletContext.setPortletHandle(CONTEXT_PATH.substring(1) + "/AppletClient");
+    WSRPPortlet p = createPortlet(CONTEXT_PATH.substring(1) + "/AppletClient", null, portletContext);
     portletRegistry.addPortlet(p);
     assertTrue(portletRegistry.existsPortlet(p.getPortletKey()));
     assertTrue(portletRegistry.getAllPortlets().hasNext());
@@ -49,8 +49,8 @@ public class TestPortletRegistry extends BaseTest {
 
   public void testRemoveAll() throws WSRPException {
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/AppletClient");
-    WSRPPortlet p = createPortlet("hello/AppletClient", null, portletContext);
+    portletContext.setPortletHandle(CONTEXT_PATH.substring(1) + "/AppletClient");
+    WSRPPortlet p = createPortlet(CONTEXT_PATH.substring(1) + "/AppletClient", null, portletContext);
     portletRegistry.addPortlet(p);
     portletRegistry.removeAllPortlets();
     assertFalse(portletRegistry.getAllPortlets().hasNext());

@@ -34,7 +34,7 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  */
 public class TestSomeScenarios extends BaseTest {
 
-  private static final String PORTLET_HANDLE = "hello/HelloWorld2";
+  private static final String PORTLET_HANDLE = CONTEXT_PATH + "/HelloWorld2";
 
   @Override
   public void setUp() throws Exception {

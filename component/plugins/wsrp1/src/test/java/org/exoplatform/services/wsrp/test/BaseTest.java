@@ -64,10 +64,11 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
  * 22:08:31 Revision: Max Shaposhnik 17.07.2008
  */
 public class BaseTest extends TestCase {
-
+  
+  protected static final String                 CONTEXT_PATH             = "hello";
+  
   protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services/";
 
-  //protected static final String                 CONTEXT_PATH             = "/war_template";
   protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
                                                                                                                   : System.getProperty("testPath"));
 

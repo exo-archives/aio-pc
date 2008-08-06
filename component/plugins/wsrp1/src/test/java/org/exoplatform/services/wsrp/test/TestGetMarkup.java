@@ -46,7 +46,7 @@ public class TestGetMarkup extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext("", null, null);
-    String portletHandle = "hello/HelloWorld2";
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
@@ -68,7 +68,7 @@ public class TestGetMarkup extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext("", null, null);
-    String portletHandle = "hello/HelloWorld2";
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
@@ -91,7 +91,7 @@ public class TestGetMarkup extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext("", null, null);
-    String portletHandle = "hello/PortletToTestMarkupWithRewrittenURL";
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
@@ -117,7 +117,7 @@ public class TestGetMarkup extends BaseTest {
     RegistrationContext rC = registrationOperationsInterface.register(registrationData);
     resolveRegistrationContext(rC);
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle("hello/HelloWorld2");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
     ClonePortletRequest clonePortlet = new ClonePortletRequest();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(portletContext);

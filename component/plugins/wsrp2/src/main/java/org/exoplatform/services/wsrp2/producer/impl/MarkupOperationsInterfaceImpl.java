@@ -208,8 +208,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
 
     // create render params map for input
-    Map<String, String[]> renderParameters = null;
-    renderParameters = persistentNavigationalParameters;
+    Map<String, String[]> renderParameters = new HashMap<String, String[]>();
+    
+    if (persistentNavigationalParameters != null
+        && !persistentNavigationalParameters.isEmpty()) {
+      renderParameters = persistentNavigationalParameters;
+    }
 
     replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
@@ -357,7 +361,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                         userContext,
                                         portletManagementOperationsInterface))
       return null;
-    try {
       // manage the portlet handle
       String portletHandle = portletContext.getPortletHandle();
       portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -481,7 +484,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Map<String, String[]> persistentInteractionParameters = processInteractionState(interactionParams.getInteractionState());
 
       // create render params map for input
-      Map<String, String[]> renderParameters = null;
+      Map<String, String[]> renderParameters = new HashMap<String, String[]>();
       if (formParameters != null && !formParameters.isEmpty()) { // default
         renderParameters = formParameters;
       } else if (persistentInteractionParameters != null
@@ -501,6 +504,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                     .getResponse();
       WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
+      // for get params within included jsp struts
+      request.setParameters(renderParameters);
+      
       // prepare the Input object
       ActionInput input = new ActionInput();
       ExoWindowID windowID = new ExoWindowID();
@@ -610,18 +616,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
       return blockingInteractionResponse;
 
-    } catch (Exception e) {
-      // TODO: handle exception
-      e.printStackTrace();
-    }
-
-    return null;
   }
 
+//delete all public and put new public from input
   private void replacePublicParams(Map<String, String[]> renderParameters,
                                    List<String> publicParamNames,
                                    Map<String, String[]> navigationalParameters) {
-    // delete all public and put new public from input
+    // delete all public 
     if (publicParamNames != null) {
       for (String param : publicParamNames) {
         if (renderParameters.containsKey(param)) {
@@ -629,11 +630,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         }
       }
     }
-    // add public params
+    // put new public params
     if (navigationalParameters != null) {
-      if (renderParameters == null) {
-        renderParameters = new HashMap<String, String[]>();
-      }
       renderParameters.putAll(navigationalParameters);
     }
   }
@@ -648,9 +646,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         || !Helper.checkPortletLifetime(registrationContext,
                                         new PortletContext[] { portletContext },
                                         userContext,
-                                        portletManagementOperationsInterface))
+                                        portletManagementOperationsInterface)) {
       return null;
-    try {
+    }
 
       // manage the portlet handle
       String portletHandle = portletContext.getPortletHandle();
@@ -716,7 +714,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Map<String, String[]> persistentResourceParameters = processResourceState(resourceParams.getResourceState());
 
       // create render params map for input
-      Map<String, String[]> renderParameters = null;
+      Map<String, String[]> renderParameters = new HashMap<String, String[]>();;
       if (formParameters != null && !formParameters.isEmpty()) { // default
         renderParameters = formParameters;
       } else if (persistentResourceParameters != null && !persistentResourceParameters.isEmpty()) {
@@ -785,6 +783,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
                                                                                     .getResponse();
       WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
+      
+      // for get params within included jsp struts
+      request.setParameters(renderParameters);
+      
       // putFormParametersInRequest(request, resourceParams);
 
       // preparing Input object
@@ -846,10 +848,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       resourceResponse.setResourceContext(resourceContext);
       resourceResponse.setSessionContext(sessionContext);
       return resourceResponse;
-    } catch (Exception e) {
-      e.printStackTrace();
-      return null;
-    }
   }
 
   public HandleEventsResponse processEvent(RegistrationContext registrationContext,
@@ -971,14 +969,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
     }
 
-    // prepare objects for portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
-    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
-    // putInteractionParameterInRequest(request, eventParams);
-
     HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
 
     List<HandleEventsFailed> failedEventsList = new ArrayList<HandleEventsFailed>();
@@ -999,11 +989,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
 
     // create render params map for input
-    Map<String, String[]> renderParameters = null;
+    Map<String, String[]> renderParameters = new HashMap<String, String[]>();
     renderParameters = persistentNavigationalParameters;
 
     replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
+    // prepare objects for portlet container
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                               .getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                  .getResponse();
+    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
+    // putInteractionParameterInRequest(request, eventParams);
+
+    // for get params within included jsp struts
+    request.setParameters(renderParameters);
+    
     String navigationalState = null;
 
     Integer index = 0;
@@ -1263,8 +1264,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
-    if (map == null)
-      map = new HashMap<String, String[]>();
     return map;
   }
 

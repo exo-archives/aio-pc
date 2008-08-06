@@ -77,7 +77,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
 
   public void testGetPortletHandle() throws Exception {
     PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("hello/HelloWorld", ps.getPortletHandle());
+    assertEquals(CONTEXT_PATH + "/HelloWorld", ps.getPortletHandle());
   }
 
   public void testGetGroupId() throws Exception {
@@ -173,7 +173,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     PortletDescription[] psArray = sd.getOfferedPortlets();
     for (int i = 0; i < psArray.length; i++) {
-      if ("hello/HelloWorld".equals(psArray[i].getPortletHandle()))
+      if (CONTEXT_PATH.concat("/HelloWorld").equals(psArray[i].getPortletHandle()))
         return psArray[i];
     }
     return null;
