@@ -30,9 +30,4 @@ public interface ServiceDescriptionInterface {
                                                   String[] portletHandles,
                                                   UserContext userContext) throws java.rmi.RemoteException;
 
-  public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
-                                                  String[] desiredLocales)
-
-  throws java.rmi.RemoteException;
-
 }

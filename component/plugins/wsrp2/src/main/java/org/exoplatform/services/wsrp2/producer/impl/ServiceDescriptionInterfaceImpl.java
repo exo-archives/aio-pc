@@ -86,64 +86,6 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     this.pcHolder = (PortletApplicationsHolder) container.getComponentInstanceOfType(PortletApplicationsHolder.class);
   }
 
-  // Store portlet application within ServiceDescription
-  public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
-                                                  String[] desiredLocales) throws RemoteException {
-
-    if (desiredLocales == null) {
-      desiredLocales = new String[] { "en", "fr" };
-    }
-
-    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
-    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-    Set<String> keys = portletMetaDatas.keySet();
-    Set<String> iterableKeys = new HashSet<String>(keys);
-    if (conf.getExcludeList() != null) {
-      //remove exclude portlets from portletMetaDatas
-      for (Iterator<String> excludeIter = conf.getExcludeList().iterator(); excludeIter.hasNext();) {
-        String excludeHandle = (String) excludeIter.next();
-        if (excludeHandle.endsWith("*")) {
-          for (String iterKey : iterableKeys) {
-            if (iterKey.startsWith(excludeHandle.substring(0, excludeHandle.length() - 1))) {
-              keys.remove(iterKey);
-            }
-          }
-        } else {
-          if (keys.contains(excludeHandle))
-            keys.remove(excludeHandle);
-        }
-      }
-    }
-    PortletDescription[] pdescription = new PortletDescription[keys.size()];
-    int i = 0;
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
-      String producerOfferedPortletHandle = (String) iter.next();
-      log.debug("fill service description with portlet description: "
-          + producerOfferedPortletHandle);
-      pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
-    }
-    ServiceDescription sD = new ServiceDescription();
-    sD.setRequiresRegistration(conf.isRegistrationRequired());
-    sD.setRegistrationPropertyDescription(new ModelDescription());// extension of the WSRP specs
-    sD.setRequiresInitCookie(CookieProtocol.none);
-    sD.setCustomModeDescriptions(getCustomModeDescriptions(pcConf.getSupportedPortletModesWithDescriptions()));
-    //sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);
-    sD.setCustomWindowStateDescriptions(getCustomWindowStateDescriptions(pcConf.getSupportedWindowStatesWithDescriptions()));
-    sD.setLocales(localesArray);
-    sD.setOfferedPortlets(pdescription);
-    sD.setResourceList(new ResourceList());
-
-    // WSRP v2 spec
-    sD.setExtensionDescriptions(null);
-    sD.setEventDescriptions(getEventDescriptions());
-    sD.setSupportedOptions(new String[] { "wsrp:events", "wsrp:leasing", "wsrp:copyPortlets",
-        "wsrp:import", "wsrp:export" });
-    sD.setExportDescription(null);
-    sD.setMayReturnRegistrationState(null);
-    sD.setSchemaType(null);
-    return sD;
-  }
-
   private EventDescription[] getEventDescriptions() {
     List<EventDescription> eventDescriptions = new ArrayList<EventDescription>();
     List<PortletApp> portletApps = pcHolder.getPortletAppList();
@@ -177,74 +119,83 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
                                                   String[] desiredLocales,
                                                   String[] portletHandles,
                                                   UserContext userContext) throws RemoteException {
+      if (desiredLocales == null) {
+        desiredLocales = new String[] { "en", "fr" };
+      }
 
-    if (desiredLocales == null) {
-      desiredLocales = new String[] { "en", "fr" };
-    }
+      log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
 
-    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
+      Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
+      Set<String> keys = portletMetaDatas.keySet();
+      Set<String> iterableKeys = new HashSet<String>(keys);
+      if (conf.getExcludeList() != null) {
+        //remove exclude portlets from portletMetaDatas
+        for (Iterator<String> excludeIter = conf.getExcludeList().iterator(); excludeIter.hasNext();) {
+          String excludeHandle = (String) excludeIter.next();
+          if (excludeHandle.endsWith("*")) {
+            for (String iterKey : iterableKeys) {
+              if (iterKey.startsWith(excludeHandle.substring(0, excludeHandle.length() - 1))) {
+                keys.remove(iterKey);
+              }
+            }
+          } else {
+            if (keys.contains(excludeHandle))
+              keys.remove(excludeHandle);
+          }
+        }
+      }
 
-    Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-    Set<String> keys = portletMetaDatas.keySet();
-    Set<String> iterableKeys = new HashSet<String>(keys);
-    if (conf.getExcludeList() != null) {
-      //remove exclude portlets from portletMetaDatas
-      for (Iterator<String> excludeIter = conf.getExcludeList().iterator(); excludeIter.hasNext();) {
-        String excludeHandle = (String) excludeIter.next();
-        if (excludeHandle.endsWith("*")) {
-          for (String iterKey : iterableKeys) {
-            if (iterKey.startsWith(excludeHandle.substring(0, excludeHandle.length() - 1))) {
-              keys.remove(iterKey);
+      if (portletHandles != null) {
+        int n = 0;
+        for (Iterator<String> iter = keys.iterator(); iter.hasNext(); n++) {
+          String keysHandle = (String) iter.next();
+          boolean found = false;
+          for (int k = 0; k < portletHandles.length; k++) {
+            if (portletHandles[k].equals(keysHandle)) {
+              found = true;
+              break;
             }
           }
-        } else {
-          if (keys.contains(excludeHandle))
-            keys.remove(excludeHandle);
+          if (found == false) {
+            keys.remove(keysHandle);
+          }
         }
       }
-    }
 
-    int n = 0;
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext(); n++) {
-      String keysHandle = (String) iter.next();
-      boolean found = false;
-      for (int k = 0; k < portletHandles.length; k++) {
-        if (portletHandles[k].equals(keysHandle)) {
-          found = true;
-          break;
-        }
+      // manage user
+      if (userContext != null) {
+        String owner = userContext.getUserContextKey();
+        log.debug("Owner Context : " + owner);
       }
-      if (found == false) {
-        keys.remove(keysHandle);
+
+      PortletDescription[] pdescription = new PortletDescription[keys.size()];
+      int i = 0;
+      for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
+        String producerOfferedPortletHandle = (String) iter.next();
+        log.debug("fill service description with portlet description: "
+            + producerOfferedPortletHandle);
+        pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
       }
-    }
+      ServiceDescription sD = new ServiceDescription();
+      sD.setRequiresRegistration(conf.isRegistrationRequired());
+      sD.setRegistrationPropertyDescription(new ModelDescription());// extension of the WSRP specs
+      sD.setRequiresInitCookie(CookieProtocol.none);
+      sD.setCustomModeDescriptions(getCustomModeDescriptions(pcConf.getSupportedPortletModesWithDescriptions()));
+      //sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);
+      sD.setCustomWindowStateDescriptions(getCustomWindowStateDescriptions(pcConf.getSupportedWindowStatesWithDescriptions()));
+      sD.setLocales(localesArray);
+      sD.setOfferedPortlets(pdescription);
+      sD.setResourceList(new ResourceList());
 
-    // manage user
-    String owner = userContext.getUserContextKey();
-    log.debug("Owner Context : " + owner);
-
-    PortletDescription[] pdescription = new PortletDescription[keys.size()];
-    int i = 0;
-    for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
-      String producerOfferedPortletHandle = (String) iter.next();
-      log.debug("fill service description with portlet description ");
-      pdescription[i] = proxy.getPortletDescription(producerOfferedPortletHandle, desiredLocales);
-    }
-    ServiceDescription sD = new ServiceDescription();
-    sD.setRequiresRegistration(conf.isRegistrationRequired());
-    sD.setRegistrationPropertyDescription(new ModelDescription());// extension
-    // of the WSRP
-    // specs
-    sD.setRequiresInitCookie(CookieProtocol.none);
-    sD.setCustomModeDescriptions(getCustomModeDescriptions(pcConf.getSupportedPortletModesWithDescriptions()));
-    //    sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);
-    sD.setCustomWindowStateDescriptions(getCustomWindowStateDescriptions(pcConf.getSupportedWindowStatesWithDescriptions()));
-    sD.setLocales(localesArray);
-    sD.setOfferedPortlets(pdescription);
-    sD.setResourceList(new ResourceList());
-    sD.setSchemaType(null);
-    return sD;
-
+      // WSRP v2 spec
+      sD.setExtensionDescriptions(null);
+      sD.setEventDescriptions(getEventDescriptions());
+      sD.setSupportedOptions(new String[] { "wsrp:events", "wsrp:leasing", "wsrp:copyPortlets",
+          "wsrp:import", "wsrp:export" });
+      sD.setExportDescription(null);
+      sD.setMayReturnRegistrationState(null);
+      sD.setSchemaType(null);
+      return sD;
   }
 
   private ItemDescription[] getCustomWindowStateDescriptions(Collection<CustomWindowStateWithDescription> collection) {

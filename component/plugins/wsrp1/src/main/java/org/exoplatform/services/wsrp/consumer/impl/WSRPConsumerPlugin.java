@@ -369,6 +369,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       return adminPortlet.isModeSuported(markup, mode);
     return false;
   }
+  
+  public final String[] getPortalManagedPortletModes(final String portletAppName,
+                                                     final String portletName) {
+//    throw new UnsupportedOperationException("Unsupported operation 'getPortalManagedPortletModes' for WSRP1 plugin");
+    return new String[]{};
+  }
 
   public Collection<WindowState> getWindowStates(String portletAppName,
                                                  String portletName,

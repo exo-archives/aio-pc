@@ -145,25 +145,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setUserProfileItems(getUserProfileItems(portlet.getUserAttributes()));
     pD.setUserCategories(null);
 
-    PortletApp portletApp = pcService.getPortletApp(portletApplicationName);
-    List<Supports> supports = portlet.getSupports();
-    List<CustomPortletMode> customPortletModes = portletApp.getCustomPortletMode();
-    List<String> resultManagedModes = new ArrayList<String>();
-    for (Supports support : supports) {
-      List<String> portletModes = support.getPortletMode();
-      for (String mode : portletModes) {
-        for (CustomPortletMode customPortletMode : customPortletModes) {
-          if (mode.equalsIgnoreCase(customPortletMode.getPortletMode())) {
-            if (customPortletMode.isPortalManaged()) {
-              resultManagedModes.add(customPortletMode.getPortletMode());
-            }
-          }
-        }
-      }
-    }
-
-    pD.setPortletManagedModes((String[]) resultManagedModes.toArray(new String[resultManagedModes.size()]));
-
+    pD.setPortletManagedModes(pcService.getPortalManagedPortletModes(portletApplicationName, portletName));
+    
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
     pD.setDoesUrlTemplateProcessing(new Boolean(conf.isDoesUrlTemplateProcessing()));

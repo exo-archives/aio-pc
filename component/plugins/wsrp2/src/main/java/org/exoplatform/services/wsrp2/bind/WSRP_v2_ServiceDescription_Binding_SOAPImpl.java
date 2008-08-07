@@ -49,7 +49,9 @@ public class WSRP_v2_ServiceDescription_Binding_SOAPImpl implements
                                                                                               InvalidRegistrationFault,
                                                                                               OperationFailedFault {
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
-                                                             getServiceDescription.getDesiredLocales());
+                                                             getServiceDescription.getDesiredLocales(),
+                                                             getServiceDescription.getPortletHandles(),
+                                                             getServiceDescription.getUserContext());
   }
 
 }

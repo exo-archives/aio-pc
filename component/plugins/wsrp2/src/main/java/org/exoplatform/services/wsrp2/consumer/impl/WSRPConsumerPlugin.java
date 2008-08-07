@@ -335,9 +335,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       Producer producer = i.next();
       if (producer.getID().equalsIgnoreCase(producerID)) {
         try {
-          ServiceDescription desc = producer.getServiceDescription();
+          ServiceDescription sD = producer.getServiceDescription();
           result = new ArrayList<PortletMode>();
-          PortletDescription[] portletDescriptions = desc.getOfferedPortlets();
+          PortletDescription[] portletDescriptions = sD.getOfferedPortlets();
           if (portletDescriptions != null) {
             for (int k = 0; k < portletDescriptions.length; k++) {
               PortletDescription portletDescription = portletDescriptions[k];
@@ -365,10 +365,47 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return result;
   }
 
+  public final String[] getPortalManagedPortletModes(final String portletAppName,
+                                                     final String portletName) {
+    /* for WSRP Admin Portlet */
+    if (WSRPAdminPortletDataImp.isOfferToProcess(portletAppName, portletName))
+      return new String[]{};
+
+    String producerID = getProducerID(portletAppName);
+    String portletHandle = getPortletHandle(portletAppName, portletName);
+
+    if (!init)
+      return null;
+
+    ProducerRegistry pregistry = consumer.getProducerRegistry();
+    Iterator<Producer> producers = pregistry.getAllProducers();
+
+    while (producers.hasNext()) {
+      Producer producer = producers.next();
+      if (producer.getID().equalsIgnoreCase(producerID)) {
+        try {
+          ServiceDescription sD = producer.getServiceDescription();
+          PortletDescription[] portletDescriptions = sD.getOfferedPortlets();
+          if (portletDescriptions != null) {
+            for (int iPD = 0; iPD < portletDescriptions.length; iPD++) {
+              PortletDescription portletDescription = portletDescriptions[iPD];
+              if (portletDescription.getPortletHandle().equalsIgnoreCase(portletAppName + Constants.PORTLET_HANDLE_ENCODER + portletName)) {
+                return portletDescription.getPortletManagedModes();
+              }
+            }
+          }
+        } catch (WSRPException e) {
+          e.printStackTrace();
+        }
+      }
+    }
+    return null;
+  }
+
   private String getPortletHandle(String portletAppName, String portletName) {
     if (portletAppName == null || portletName == null)
       return null;
-    String result;
+    String result = null;
     if (!portletAppName.contains(WSRPConstants.WSRP_PRODUCER_APP_ENCODER))
       result = portletAppName;
     else
@@ -409,9 +446,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       Producer producer = i.next();
       if (producer.getID().equalsIgnoreCase(producerID)) {
         try {
-          ServiceDescription desc = producer.getServiceDescription();
+          ServiceDescription sD = producer.getServiceDescription();
           result = new ArrayList<WindowState>();
-          PortletDescription[] portletDescriptions = desc.getOfferedPortlets();
+          PortletDescription[] portletDescriptions = sD.getOfferedPortlets();
           if (portletDescriptions != null) {
             for (int k = 0; k < portletDescriptions.length; k++) {
               PortletDescription portletDescription = portletDescriptions[k];
