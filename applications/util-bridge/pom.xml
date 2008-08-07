@@ -32,8 +32,15 @@
       <version>1.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.portals.bridges</groupId>
+      <artifactId>portals-bridges-struts-1.2.7</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+ 
   </dependencies>
 
   <build>
   </build>
+
 </project>
