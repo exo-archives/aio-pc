@@ -52,7 +52,7 @@ public class TestPlugin2 implements PortletContainerPlugin {
 
   private String name;
   private String description;
-  private HashMap<String,PortletApp> portletApp = new HashMap();
+  private HashMap<String,PortletApp> portletApp = new HashMap<String,PortletApp>();
   private Map<String,String> portletprefs;
 
 
@@ -232,4 +232,9 @@ public class TestPlugin2 implements PortletContainerPlugin {
 
   }
 
+  public final String[] getPortalManagedPortletModes(final String portletAppName,
+                                                     final String portletName) {
+    return null;
+  }
+  
 }

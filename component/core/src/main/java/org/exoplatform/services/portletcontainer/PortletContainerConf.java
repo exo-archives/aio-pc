@@ -292,9 +292,9 @@ public class PortletContainerConf {
               .getDescription());
           toBeReturned.add(d);
         }
-        CustomModeWithDescription cMWD = new CustomModeWithDescription(new PortletMode(customMode
+        CustomModeWithDescription cModeWD = new CustomModeWithDescription(new PortletMode(customMode
             .getName()), toBeReturned);
-        v.add(cMWD);
+        v.add(cModeWD);
       }
       customModesWithDescriptions = v;
     }
@@ -316,10 +316,10 @@ public class PortletContainerConf {
               .getDescription());
           toBeReturned.add(d);
         }
-        CustomWindowStateWithDescription cMWD = new CustomWindowStateWithDescription(new WindowState(customState
+        CustomWindowStateWithDescription cWindowStateWD = new CustomWindowStateWithDescription(new WindowState(customState
             .getName()),
             toBeReturned);
-        v.add(cMWD);
+        v.add(cWindowStateWD);
       }
       customStatesWithDescriptions = v;
     }

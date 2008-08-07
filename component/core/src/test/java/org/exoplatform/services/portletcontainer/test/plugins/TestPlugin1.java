@@ -47,14 +47,17 @@ import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 
-public class TestPlugin1 implements  PortletContainerPlugin {
+public class TestPlugin1 implements PortletContainerPlugin {
 
-  private String name;
-  private String description;
-  private HashMap<String,PortletApp> portletApp = new HashMap();
-  private Map<String,String> portletprefs;
+  private String                      name;
 
-public Map<String, PortletData> getAllPortletMetaData() {
+  private String                      description;
+
+  private HashMap<String, PortletApp> portletApp = new HashMap<String, PortletApp>();
+
+  private Map<String, String>         portletprefs;
+
+  public Map<String, PortletData> getAllPortletMetaData() {
 
     HashMap<String, PortletData> all = new HashMap<String, PortletData>();
     PortletData pd1 = new PortletDataTestImpl();
@@ -63,7 +66,11 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   }
 
-  public ResourceBundle getBundle(HttpServletRequest request, HttpServletResponse response, String portletAppName, String portletName, Locale locale) throws PortletContainerException {
+  public ResourceBundle getBundle(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  String portletAppName,
+                                  String portletName,
+                                  Locale locale) throws PortletContainerException {
     // TODO Auto-generated method stub
     return null;
   }
@@ -72,11 +79,13 @@ public Map<String, PortletData> getAllPortletMetaData() {
     return portletApp.get(portletAppName);
   }
 
-  public void  addPortletApp(String portletAppName, PortletApp portletApp) {
-     this.portletApp.put(portletAppName, portletApp);
+  public void addPortletApp(String portletAppName, PortletApp portletApp) {
+    this.portletApp.put(portletAppName, portletApp);
   }
 
-  public Collection<PortletMode> getPortletModes(String portletAppName, String portletName, String markup) {
+  public Collection<PortletMode> getPortletModes(String portletAppName,
+                                                 String portletName,
+                                                 String markup) {
     // TODO Auto-generated method stub
     return null;
   }
@@ -84,7 +93,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
   public Map<String, String[]> getPortletPreference(Input input) {
     // TODO Auto-generated method stub
 
-    HashMap<String, String[]> out = new HashMap();
+    HashMap<String, String[]> out = new HashMap<String, String[]>();
     String[] arr;
     arr = new String[5];
     Set<String> keys = portletprefs.keySet();
@@ -97,8 +106,8 @@ public Map<String, PortletData> getAllPortletMetaData() {
         e.printStackTrace();
       }
     }
-   out.put("testKey", arr);
-   return out;
+    out.put("testKey", arr);
+    return out;
   }
 
   public Collection<PortletMode> getSupportedPortletModes() {
@@ -106,13 +115,13 @@ public Map<String, PortletData> getAllPortletMetaData() {
     ArrayList res = new ArrayList();
     Iterator it = portletApp.values().iterator();
     while (it.hasNext()) {
-      PortletApp app = (PortletApp)it.next();
+      PortletApp app = (PortletApp) it.next();
       if (app != null) {
         List ls = app.getCustomPortletMode();
         res.addAll(ls);
       }
     }
-   return res;
+    return res;
   }
 
   public Collection<WindowState> getSupportedWindowStates() {
@@ -120,36 +129,48 @@ public Map<String, PortletData> getAllPortletMetaData() {
     ArrayList res = new ArrayList();
     Iterator it = portletApp.values().iterator();
     while (it.hasNext()) {
-      PortletApp app = (PortletApp)it.next();
+      PortletApp app = (PortletApp) it.next();
       if (app != null) {
         List ls = app.getCustomWindowState();
         res.addAll(ls);
       }
     }
-   return res;
+    return res;
   }
 
-  public Collection<WindowState> getWindowStates(String portletAppName, String portletName, String markup) {
+  public Collection<WindowState> getWindowStates(String portletAppName,
+                                                 String portletName,
+                                                 String markup) {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public boolean isModeSuported(String portletAppName, String portletName, String markup, PortletMode mode) {
+  public boolean isModeSuported(String portletAppName,
+                                String portletName,
+                                String markup,
+                                PortletMode mode) {
     // TODO Auto-generated method stub
     return false;
   }
 
-  public boolean isStateSupported(String portletAppName, String portletName, String markup, WindowState state) {
+  public boolean isStateSupported(String portletAppName,
+                                  String portletName,
+                                  String markup,
+                                  WindowState state) {
     // TODO Auto-generated method stub
     return false;
   }
 
-  public ActionOutput processAction(HttpServletRequest request, HttpServletResponse response, ActionInput input) throws PortletContainerException {
+  public ActionOutput processAction(HttpServletRequest request,
+                                    HttpServletResponse response,
+                                    ActionInput input) throws PortletContainerException {
     // TODO Auto-generated method stub
     return null;
   }
 
-  public EventOutput processEvent(HttpServletRequest request, HttpServletResponse response, EventInput input) throws PortletContainerException {
+  public EventOutput processEvent(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  EventInput input) throws PortletContainerException {
 
     EventOutput out = new EventOutput();
     out.setRenderParameter("TestParam", "TEstParamValue");
@@ -157,7 +178,9 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   }
 
-  public RenderOutput render(HttpServletRequest request, HttpServletResponse response, RenderInput input) throws PortletContainerException {
+  public RenderOutput render(HttpServletRequest request,
+                             HttpServletResponse response,
+                             RenderInput input) throws PortletContainerException {
 
     RenderOutput out = new RenderOutput();
     System.out.println("Render Called in #1");
@@ -165,18 +188,23 @@ public Map<String, PortletData> getAllPortletMetaData() {
     return out;
   }
 
-  public void sendAttrs(HttpServletRequest request, HttpServletResponse response, Map<String, Object> attrs, String portletApplicationName) throws PortletContainerException {
+  public void sendAttrs(HttpServletRequest request,
+                        HttpServletResponse response,
+                        Map<String, Object> attrs,
+                        String portletApplicationName) throws PortletContainerException {
     // TODO Auto-generated method stub
 
   }
 
-  public ResourceOutput serveResource(HttpServletRequest request, HttpServletResponse response, ResourceInput input) throws PortletContainerException {
+  public ResourceOutput serveResource(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      ResourceInput input) throws PortletContainerException {
     // TODO Auto-generated method stub
     return null;
   }
 
   public void setDescription(String description) {
-   this.description = description;
+    this.description = description;
   }
 
   public void setMajorVersion(int majorVersion) {
@@ -204,7 +232,7 @@ public Map<String, PortletData> getAllPortletMetaData() {
   }
 
   public String getDescription() {
-    return  description;
+    return description;
   }
 
   public String getName() {
@@ -230,7 +258,9 @@ public Map<String, PortletData> getAllPortletMetaData() {
 
   }
 
-
-
+  public final String[] getPortalManagedPortletModes(final String portletAppName,
+                                                     final String portletName) {
+    return null;
+  }
 
 }

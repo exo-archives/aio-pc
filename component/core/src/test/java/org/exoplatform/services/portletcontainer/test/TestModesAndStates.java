@@ -16,39 +16,40 @@
  */
 package org.exoplatform.services.portletcontainer.test;
 
-import org.apache.commons.logging.Log;
 import java.util.Collection;
+
+import javax.portlet.PortletMode;
+import javax.portlet.WindowState;
+
+import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 
+public class TestModesAndStates extends BaseTest {
 
-public class TestModesAndStates extends BaseTest{
-  
   private static Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer.test.TestModesAndStates");
 
   public TestModesAndStates(String s) {
     super(s);
   }
 
-   public void testStates() throws PortletContainerException {
-     log.info("org.exoplatform.services.portletcontainer.test.testStates");
-     try {
-       Collection coll = portletContainer.getSupportedWindowStates();
-       assertTrue(coll.size() > 0);
-     }
-     catch (Exception ex) {
-       ex.printStackTrace();
-     }
-   }
-   
-   public void testModes() throws PortletContainerException {
-     log.info("org.exoplatform.services.portletcontainer.test.testModes");
-     try {
-       Collection coll = portletContainer.getSupportedPortletModes();
-       assertTrue(coll.size() > 0);
-     }
-     catch (Exception ex) {
-       ex.printStackTrace();
-     }
-   }
+  public void testStates() throws PortletContainerException {
+    log.info("org.exoplatform.services.portletcontainer.test.testStates");
+    try {
+      Collection<WindowState> coll = portletContainer.getSupportedWindowStates();
+      assertTrue(coll.size() > 0);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
+
+  public void testModes() throws PortletContainerException {
+    log.info("org.exoplatform.services.portletcontainer.test.testModes");
+    try {
+      Collection<PortletMode> coll = portletContainer.getSupportedPortletModes();
+      assertTrue(coll.size() > 0);
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+  }
 }

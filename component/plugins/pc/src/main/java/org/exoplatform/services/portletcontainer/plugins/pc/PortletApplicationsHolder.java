@@ -18,6 +18,7 @@ package org.exoplatform.services.portletcontainer.plugins.pc;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -29,6 +30,7 @@ import javax.portlet.WindowState;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
@@ -46,6 +48,11 @@ import org.exoplatform.services.portletcontainer.pci.model.UserDataConstraint;
 public class PortletApplicationsHolder {
 
   /**
+   * Exo container.
+   */
+  protected ExoContainer container;
+  
+  /**
    * Portlet application map.
    */
   private final Map<String, PortletApplicationHelper> portletApps;
@@ -58,7 +65,8 @@ public class PortletApplicationsHolder {
   /**
    * Simple constructor.
    */
-  public PortletApplicationsHolder() {
+  public PortletApplicationsHolder(final ExoContainerContext context) {
+    this.container = context.getContainer();
     this.portletApps = new HashMap<String, PortletApplicationHelper>();
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
@@ -115,7 +123,7 @@ public class PortletApplicationsHolder {
    * @param container exo container
    * @return all portlet metadata
    */
-  public final Map<String, PortletData> getAllPortletMetaData(final ExoContainer container) {
+  public final Map<String, PortletData> getAllPortletMetaData() {
     log.debug("getAllPortletMetaData() entered");
     HashMap<String, PortletData> all = new HashMap<String, PortletData>();
     Collection<String> applicationsKeys = portletApps.keySet();
@@ -178,6 +186,8 @@ public class PortletApplicationsHolder {
     }
     return modes;
   }
+  
+  
 
   /**
    * @param portletAppName portlet app name

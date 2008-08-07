@@ -210,6 +210,20 @@ public class PortletApp {
   }
 
   /**
+   * @return portlet
+   */
+  public final Portlet getPortlet(String portletName) {
+    // for each portlet
+    for (int i = 0; i < this.portlet.size(); i++) {
+      Portlet portletItem = this.portlet.get(i);
+      if (portletItem.getPortletName().equalsIgnoreCase(portletName)){
+        return portletItem;
+      }
+    }
+    return null;
+  }
+  
+  /**
    * @param p portlet definition
    */
   public final void addPortlet(final Portlet p) {

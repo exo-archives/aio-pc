@@ -41,8 +41,7 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
  * benjmestrallet@users.sourceforge.net Date: 10 nov. 2003 Time: 09:40:23
  */
 public interface PortletContainerService {
@@ -93,9 +92,9 @@ public interface PortletContainerService {
    * @param markup markup
    * @return portlet modes
    */
-  Collection<PortletMode> getPortletModes(String portletAppName,
-                                                 String portletName,
-                                                 String markup);
+  Collection<PortletMode> getPortletModes(String portletAppName, String portletName, String markup);
+
+  String[] getPortalManagedPortletModes(String portletAppName, String portletName);
 
   /**
    * @param portletAppName app name
@@ -104,10 +103,7 @@ public interface PortletContainerService {
    * @param mode mode
    * @return either it is supported
    */
-  boolean isModeSuported(String portletAppName,
-                                String portletName,
-                                String markup,
-                                PortletMode mode);
+  boolean isModeSuported(String portletAppName, String portletName, String markup, PortletMode mode);
 
   /**
    * @param portletAppName app name
@@ -115,9 +111,7 @@ public interface PortletContainerService {
    * @param markup markup
    * @return window states
    */
-  Collection<WindowState> getWindowStates(String portletAppName,
-                                                 String portletName,
-                                                 String markup);
+  Collection<WindowState> getWindowStates(String portletAppName, String portletName, String markup);
 
   /**
    * @param portletAppName app name
@@ -127,9 +121,9 @@ public interface PortletContainerService {
    * @return either it is supported
    */
   boolean isStateSupported(String portletAppName,
-                                  String portletName,
-                                  String markup,
-                                  WindowState state);
+                           String portletName,
+                           String markup,
+                           WindowState state);
 
   /**
    * @return all portlet metadata
@@ -152,10 +146,10 @@ public interface PortletContainerService {
    * @throws PortletContainerException exception
    */
   ResourceBundle getBundle(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  String portletAppName,
-                                  String portletName,
-                                  Locale locale) throws PortletContainerException;
+                           HttpServletResponse response,
+                           String portletAppName,
+                           String portletName,
+                           Locale locale) throws PortletContainerException;
 
   /**
    * @param input input
@@ -163,8 +157,7 @@ public interface PortletContainerService {
    * @throws PortletContainerException exception
    */
   @Deprecated
-  void setPortletPreference(Input input,
-                                   Map<String, String> preferences) throws PortletContainerException;
+  void setPortletPreference(Input input, Map<String, String> preferences) throws PortletContainerException;
 
   /**
    * @param input input
@@ -202,8 +195,8 @@ public interface PortletContainerService {
    * @throws PortletContainerException exception
    */
   ActionOutput processAction(HttpServletRequest request,
-                                    HttpServletResponse response,
-                                    ActionInput input) throws PortletContainerException;
+                             HttpServletResponse response,
+                             ActionInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -212,9 +205,7 @@ public interface PortletContainerService {
    * @return output
    * @throws PortletContainerException exception
    */
-  RenderOutput render(HttpServletRequest request,
-                             HttpServletResponse response,
-                             RenderInput input) throws PortletContainerException;
+  RenderOutput render(HttpServletRequest request, HttpServletResponse response, RenderInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -224,8 +215,8 @@ public interface PortletContainerService {
    * @throws PortletContainerException exception
    */
   ResourceOutput serveResource(HttpServletRequest request,
-                                      HttpServletResponse response,
-                                      ResourceInput input) throws PortletContainerException;
+                               HttpServletResponse response,
+                               ResourceInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -235,8 +226,8 @@ public interface PortletContainerService {
    * @throws PortletContainerException exception
    */
   EventOutput processEvent(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  EventInput input) throws PortletContainerException;
+                           HttpServletResponse response,
+                           EventInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -246,9 +237,9 @@ public interface PortletContainerService {
    * @throws PortletContainerException exception
    */
   void sendAttrs(HttpServletRequest request,
-                        HttpServletResponse response,
-                        Map<String, Object> attrs,
-                        String portletApplicationName) throws PortletContainerException;
+                 HttpServletResponse response,
+                 Map<String, Object> attrs,
+                 String portletApplicationName) throws PortletContainerException;
 
   /**
    * @param portletAppName app name
@@ -257,8 +248,6 @@ public interface PortletContainerService {
    * @return either payload type matches
    * @throws PortletContainerException exception
    */
-  boolean isEventPayloadTypeMatches(String portletAppName,
-                                           QName eventName,
-                                           Object payload) throws PortletContainerException;
+  boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException;
 
 }

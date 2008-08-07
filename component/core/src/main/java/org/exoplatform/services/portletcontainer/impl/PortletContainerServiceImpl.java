@@ -214,6 +214,11 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
     }
     return null;
   }
+  
+  public final String[] getPortalManagedPortletModes(final String portletAppName,
+                                                     final String portletName) {
+    return findPluginByPAPPName(portletAppName).getPortalManagedPortletModes(portletAppName, portletName);
+  }
 
   /**
    * Overridden method.

@@ -42,14 +42,14 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 
 /**
- * Created by The eXo Platform SAS.
- * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua
+ * Created by The eXo Platform SAS. Author : Roman Pedchenko
+ * roman.pedchenko@exoplatform.com.ua
  */
 public interface PortletContainerPlugin extends ComponentPlugin {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param name name
    * @see org.exoplatform.container.component.ComponentPlugin#setName(java.lang.String)
    */
@@ -57,7 +57,7 @@ public interface PortletContainerPlugin extends ComponentPlugin {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param description description
    * @see org.exoplatform.container.component.ComponentPlugin#setDescription(java.lang.String)
    */
@@ -94,9 +94,7 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @param markup markup
    * @return supported portlet modes
    */
-  Collection<PortletMode> getPortletModes(String portletAppName,
-      String portletName,
-      String markup);
+  Collection<PortletMode> getPortletModes(String portletAppName, String portletName, String markup);
 
   /**
    * @param portletAppName app name
@@ -105,10 +103,9 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @param mode portlet mode
    * @return either the mode supported
    */
-  boolean isModeSuported(String portletAppName,
-      String portletName,
-      String markup,
-      PortletMode mode);
+  boolean isModeSuported(String portletAppName, String portletName, String markup, PortletMode mode);
+
+  String[] getPortalManagedPortletModes(final String portletAppName, final String portletName);
 
   /**
    * @param portletAppName app name
@@ -116,9 +113,7 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @param markup markup
    * @return supported window states
    */
-  Collection<WindowState> getWindowStates(String portletAppName,
-      String portletName,
-      String markup);
+  Collection<WindowState> getWindowStates(String portletAppName, String portletName, String markup);
 
   /**
    * @param portletAppName app name
@@ -128,9 +123,9 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @return either the state supported
    */
   boolean isStateSupported(String portletAppName,
-      String portletName,
-      String markup,
-      WindowState state);
+                           String portletName,
+                           String markup,
+                           WindowState state);
 
   /**
    * @return all portlet metadata
@@ -153,10 +148,10 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @throws PortletContainerException exception
    */
   ResourceBundle getBundle(HttpServletRequest request,
-      HttpServletResponse response,
-      String portletAppName,
-      String portletName,
-      Locale locale) throws PortletContainerException;
+                           HttpServletResponse response,
+                           String portletAppName,
+                           String portletName,
+                           Locale locale) throws PortletContainerException;
 
   /**
    * @param input input
@@ -202,8 +197,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @throws PortletContainerException exception
    */
   ActionOutput processAction(HttpServletRequest request,
-      HttpServletResponse response,
-      ActionInput input) throws PortletContainerException;
+                             HttpServletResponse response,
+                             ActionInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -213,8 +208,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @throws PortletContainerException exception
    */
   EventOutput processEvent(HttpServletRequest request,
-      HttpServletResponse response,
-      EventInput input) throws PortletContainerException;
+                           HttpServletResponse response,
+                           EventInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -224,8 +219,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @throws PortletContainerException exception
    */
   ResourceOutput serveResource(HttpServletRequest request,
-      HttpServletResponse response,
-      ResourceInput input) throws PortletContainerException;
+                               HttpServletResponse response,
+                               ResourceInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -234,9 +229,7 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @return output
    * @throws PortletContainerException exception
    */
-  RenderOutput render(HttpServletRequest request,
-      HttpServletResponse response,
-      RenderInput input) throws PortletContainerException;
+  RenderOutput render(HttpServletRequest request, HttpServletResponse response, RenderInput input) throws PortletContainerException;
 
   /**
    * @param request request
@@ -246,9 +239,9 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @throws PortletContainerException exception
    */
   void sendAttrs(HttpServletRequest request,
-      HttpServletResponse response,
-      Map<String, Object> attrs,
-      String portletApplicationName) throws PortletContainerException;
+                 HttpServletResponse response,
+                 Map<String, Object> attrs,
+                 String portletApplicationName) throws PortletContainerException;
 
   /**
    * @param portletAppName app name
