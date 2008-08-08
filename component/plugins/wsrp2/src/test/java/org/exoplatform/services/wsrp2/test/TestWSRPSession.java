@@ -45,7 +45,7 @@ public class TestWSRPSession extends BaseTest {
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, null);
+      rc = new RegistrationContext(null, null, null, "");
     String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -71,7 +71,7 @@ public class TestWSRPSession extends BaseTest {
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, null);
+      rc = new RegistrationContext(null, null, null, "");
     PortletContext portletContext = new PortletContext();
     String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     portletContext.setPortletHandle(portletHandle);
