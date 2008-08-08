@@ -43,8 +43,7 @@ public class AllTestsPortlet extends TestCase {
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
 
-//    suite.addTestSuite(TestPublicRenderParameters.class);
-//    suite.addTestSuite(TestFilters.class);
+//    suite.addTestSuite(TestRegistrationInterface.class);
 
     return suite;
   }

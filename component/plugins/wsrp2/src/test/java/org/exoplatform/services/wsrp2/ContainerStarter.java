@@ -43,15 +43,14 @@ public class ContainerStarter {
 
   private static InstalledLocalContainer container;
 
-  protected static final String          TEST_PATH         = (System.getProperty("testPath") == null ? "."
-                                                                                                    : System.getProperty("testPath"));
+  protected static final String          TEST_PATH        = (System.getProperty("testPath") == null ? "."
+                                                                                                   : System.getProperty("testPath"));
 
-  protected static final String          PORTLET_WAR_PATH  = TEST_PATH + "/target/hello.war";
+  protected static final String          PORTLET_WAR_PATH = TEST_PATH + "/target/hello.war";
 
-  protected static final String          WSRP_STARTER_PATH = TEST_PATH
-                                                               + "/../../../applications/wsrp2-starter/target/wsrp2.war";
+//  protected static final String          WSRP_STARTER_PATH = TEST_PATH + "/../../../applications/wsrp2-starter/target/wsrp2.war";
 
-  protected static final String          WSRP_LIB_PATH     = TEST_PATH + "/target/test";
+  protected static final String          WSRP_LIB_PATH    = TEST_PATH + "/target/test";
 
   protected static boolean               isStarted;
 

@@ -6,7 +6,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assembly</artifactId>
-  <packaging>ear</packaging>
+  <packaging>exopc</packaging>
+  <!-- packaging>ear</packaging -->
   <name>eXo Portlet Container Manual Test WSRP2 Assembly</name>
 
   <dependencies>
@@ -51,33 +52,7 @@
     <finalName>portlet-container</finalName>
     <plugins>
 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.2-SNAPSHOT</version>
-        <executions>
-          <execution>
-            <id>1</id>
-            <phase>clean</phase>
-            <configuration>
-              <tasks>
- 
-		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
-		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
-		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/hello.war</echo>
-        		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
-			<fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/">
-				<include name="**/hello.war" />
-			</fileset>
-			</copy>
-              </tasks>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
-        </executions>
-	</plugin>
-
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
@@ -89,6 +64,7 @@
           </archive>
         </configuration>
       </plugin>
+-->
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -111,6 +87,34 @@
           </excludeProjects>
         </configuration>
       </plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.2-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>1</id>
+            <phase>deploy</phase>
+            <configuration>
+              <tasks>
+ 		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
+		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
+		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/hello.war</echo>
+        		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/">
+				<include name="**/hello.war" />
+			</fileset>
+			</copy>
+		  <echo>=== To remove the portal.xml in /conf/Catalina/localhost, which came as exopc-war patch</echo>
+                  <delete file="${exo.projects.directory.working}/exo-tomcat/conf/Catalina/localhost/portal.xml" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+	</plugin>
 
     </plugins>
   </build>
