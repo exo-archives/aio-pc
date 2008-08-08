@@ -51,14 +51,14 @@ public class TestRegistrationInterface extends BaseTest {
     }
   }
 
-  public void testModifyRegistration() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
-    assertNotNull(returnedContext.getRegistrationHandle());
-    resolveRegistrationContext(returnedContext);
-    ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
-    RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
-    assertNull(rS.getRegistrationState());
-  }
+//  public void testModifyRegistration() throws Exception {
+//    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
+//    assertNotNull(returnedContext.getRegistrationHandle());
+//    resolveRegistrationContext(returnedContext);
+//    ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
+//    RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
+//    assertNull(rS.getRegistrationState());
+//  }
 
   public void testIncorrectModifyRegistration() throws Exception {
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
