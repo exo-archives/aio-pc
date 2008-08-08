@@ -56,7 +56,7 @@
 
   <filter-mapping>
     <filter-name>AxisFilter</filter-name>
-    <url-pattern>/services/*</url-pattern>
+    <url-pattern>/services2/*</url-pattern>
   </filter-mapping>
 
   <!-- WSRPStarter servlet for WSRP2 -->
@@ -73,7 +73,7 @@
     </init-param>
     <init-param>
       <param-name>path</param-name>
-      <param-value>hello/services</param-value>
+      <param-value>hello/services2</param-value>
     </init-param>
     <init-param>
       <param-name>deploy-wsdd</param-name>
@@ -149,7 +149,7 @@
 
   <servlet-mapping>
     <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>/services/*</url-pattern>
+    <url-pattern>/services2/*</url-pattern>
   </servlet-mapping>
 
   <servlet-mapping>

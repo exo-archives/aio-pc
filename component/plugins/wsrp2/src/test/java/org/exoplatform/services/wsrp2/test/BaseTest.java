@@ -68,7 +68,7 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                 SERVICE_URL              = "http://localhost:8080/wsrp/services2/";
+  protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services2/";
 
   protected static final String                 CONTEXT_PATH             = "hello";
 
