@@ -1158,6 +1158,8 @@
                 <configuration>
                   <tasks>
                     <property environment="env" />
+                    <chmod file="${basedir}/portlettck2/bin/tsant.sh" perm="ugo+rx"/>
+                    <chmod file="${basedir}/portlettck2/tools/ant/bin/ant.sh" perm="ugo+rx"/>
                     <exec
                       os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
                       dir="${basedir}/portlettck2/src/com/sun/ts"
