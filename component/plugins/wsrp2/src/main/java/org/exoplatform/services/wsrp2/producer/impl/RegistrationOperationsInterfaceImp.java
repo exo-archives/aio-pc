@@ -79,8 +79,11 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
   public RegistrationState modifyRegistration(RegistrationContext registrationContext,
                                               RegistrationData data,
                                               UserContext userContext) throws RemoteException {
-    String owner = userContext.getUserContextKey();
-    log.debug("Modify registrion method entered for owner " + owner);
+    if (userContext!=null) {
+      String owner = userContext.getUserContextKey();
+      log.debug("Modify registrion method entered for owner " + owner);
+    }
+    
     try {
       if (!stateManager.isRegistered(registrationContext)) {
         Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
