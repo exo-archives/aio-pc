@@ -18,6 +18,7 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.net.URL;
+import java.net.URLConnection;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -34,6 +35,7 @@ import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
+import org.exoplatform.services.wsrp2.ContainerStarter;
 import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
 import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
 import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
@@ -41,6 +43,7 @@ import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
@@ -51,6 +54,7 @@ import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
+import org.exoplatform.services.wsrp2.type.ResourceParams;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SessionParams;
@@ -111,6 +115,8 @@ public class BaseTest extends TestCase {
 
   protected MarkupParams                        markupParams;
 
+  protected ResourceParams                      resourceParams;
+
   protected NavigationalContext                 navigationalContext;
 
   protected SessionParams                       sessionParams;
@@ -159,11 +165,34 @@ public class BaseTest extends TestCase {
 
   private MockServletResponse                   mockServletResponse;
 
-//  public BaseTest(String s) {
-//    super(s);
-//  }
+  public static boolean                         cargoCustomStatus        = false;
+
+  private String                                serviceUrlString         = SERVICE_URL.substring(0,
+                                                                                                 SERVICE_URL.length() - 1);
 
   public void setUp() throws Exception {
+
+    String propertyExoTestCargo = System.getProperty("exo.test.cargo.skip");
+    System.out.println("BaseTest.setUp() - propertyExoTestCargo = " + propertyExoTestCargo);
+
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+      URL serviceUrl = new URL(serviceUrlString);
+      URLConnection servletConnect = null;
+      Object content = null;
+      try {
+        servletConnect = serviceUrl.openConnection();
+        content = servletConnect.getContent();
+        System.out.println("BaseTest.setUp() Service is up - OK");
+      } catch (java.net.ConnectException e) {
+        System.out.println("BaseTest.setUp() - going to start Cargo container.");
+      }
+      if (content == null) {
+        cargoCustomStatus = ContainerStarter.start();
+        assertTrue(cargoCustomStatus);
+        System.out.println("BaseTest.setUp() cargoCustomStatus = " + cargoCustomStatus);
+      }
+    }
 
     WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
     serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
@@ -235,6 +264,19 @@ public class BaseTest extends TestCase {
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
 
+    resourceParams = new ResourceParams();
+    resourceParams.setClientData(clientData);
+    resourceParams.setLocales(localesArray);
+    resourceParams.setMarkupCharacterSets(markupCharacterSets);
+    resourceParams.setNavigationalContext(navigationalContext);
+    resourceParams.setSecureClientCommunication(false);
+    resourceParams.setValidateTag(null);
+    resourceParams.setValidNewModes(null);
+    resourceParams.setValidNewWindowStates(null);
+    resourceParams.setMimeTypes(mimeTypes);
+    resourceParams.setMode("wsrp:view");
+    resourceParams.setWindowState("wsrp:normal");
+
     mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
     WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
@@ -242,7 +284,9 @@ public class BaseTest extends TestCase {
   }
 
   public void tearDown() throws Exception {
-
+    if (cargoCustomStatus) {
+      assertFalse(ContainerStarter.stop());
+    }
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
@@ -259,6 +303,16 @@ public class BaseTest extends TestCase {
     getMarkup.setUserContext(userContext);
     getMarkup.setMarkupParams(markupParams);
     return getMarkup;
+  }
+
+  protected GetResource getResource(RegistrationContext rc, PortletContext portletContext) {
+    GetResource getResource = new GetResource();
+    getResource.setRegistrationContext(rc);
+    getResource.setPortletContext(portletContext);
+    getResource.setRuntimeContext(runtimeContext);
+    getResource.setUserContext(userContext);
+    getResource.setResourceParams(resourceParams);
+    return getResource;
   }
 
   protected void manageTemplatesOptimization(ServiceDescription sd, String portletHandle) {

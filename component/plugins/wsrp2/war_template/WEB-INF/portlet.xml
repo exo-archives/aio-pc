@@ -1,8 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<portlet-app version="1.0" xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
-  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0">
 
   <portlet>
     <description xml:lang="EN">Usual Hello World Portlet</description>
@@ -155,6 +154,7 @@
     <display-name xml:lang="en">EmptyPortletWithGlobalCache</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.EmptyPortletWithGlobalCache</portlet-class>
     <expiration-cache>-1</expiration-cache>
+    <cache-scope>global</cache-scope>
     <supports>
       <mime-type>text/html</mime-type>
       <portlet-mode>config</portlet-mode>
@@ -167,7 +167,6 @@
       <short-title>TimeZone</short-title>
       <keywords>Time, Zone, World, Clock</keywords>
     </portlet-info>
-    <global-cache>true</global-cache>
   </portlet>
 
   <portlet>
@@ -243,6 +242,31 @@
         <read-only>false</read-only>
       </preference>
     </portlet-preferences>
+  </portlet>
+
+<!-- 286 -->
+
+  <portlet>
+    <description xml:lang="en">ResourceDemo</description>
+    <portlet-name>ResourceDemo</portlet-name>
+    <display-name xml:lang="en">ResourceDemo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.ResourceDemo</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <cache-scope>PRIVATE</cache-scope>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supports>
+      <mime-type>image/jpeg</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>ResourceDemo</title>
+      <short-title>ResourceDemo</short-title>
+      <keywords>ResourceDemo</keywords>
+    </portlet-info>
   </portlet>
 
   <custom-portlet-mode>

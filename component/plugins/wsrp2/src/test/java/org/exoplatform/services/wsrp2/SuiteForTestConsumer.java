@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.testConsumer.TestPortletRegistry;
+import org.exoplatform.services.wsrp2.testConsumer.TestProducer;
 import org.exoplatform.services.wsrp2.testConsumer.TestProducerRegistry;
 import org.exoplatform.services.wsrp2.testConsumer.TestURLRewriter;
 import org.exoplatform.services.wsrp2.testConsumer.TestURLTemplateComposer;
@@ -39,14 +40,14 @@ public class SuiteForTestConsumer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/war_template";
     System.setProperty("mock.portal.dir", newProperty);
 
-//    addTestSuite(TestConsumerEnvironement.class); //does nothing
     addTestSuite(TestPortletRegistry.class);
-//    addTestSuite(TestProducer.class);
     addTestSuite(TestProducerRegistry.class);
     addTestSuite(TestURLRewriter.class);
     addTestSuite(TestURLTemplateComposer.class);
     addTestSuite(TestUserRegistry.class);
 
+    addTestSuite(TestProducer.class);
+//  addTestSuite(TestConsumerEnvironement.class); //does nothing
   }
 
   public void testVoid() throws Exception {

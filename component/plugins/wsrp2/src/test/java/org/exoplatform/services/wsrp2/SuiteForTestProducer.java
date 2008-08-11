@@ -46,11 +46,11 @@ public class SuiteForTestProducer extends TestSuite {
     addTestSuite(TestGetMarkup.class);
     addTestSuite(TestGetServiceDescriptionInterface.class);
     addTestSuite(TestPerformBlockingInteraction.class);
-    //addTestSuite(TestPersistentStateManager.class);
     addTestSuite(TestPortletManagementInterface.class);
     addTestSuite(TestRegistrationInterface.class);
     addTestSuite(TestSomeScenarios.class);
     addTestSuite(TestWSRPSession.class);
+////addTestSuite(TestPersistentStateManager.class);
 
   }
 

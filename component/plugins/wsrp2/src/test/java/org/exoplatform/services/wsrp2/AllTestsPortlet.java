@@ -43,13 +43,11 @@ public class AllTestsPortlet extends TestCase {
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
 
-//    suite.addTestSuite(TestRegistrationInterface.class);
-
     return suite;
   }
 
   protected void tearDown() {
-//    assertFalse(ContainerStarter.stop());
+    assertFalse(ContainerStarter.stop());
   }
 
 }

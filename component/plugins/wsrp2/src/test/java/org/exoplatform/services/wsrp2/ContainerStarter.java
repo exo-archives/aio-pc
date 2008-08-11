@@ -54,7 +54,7 @@ public class ContainerStarter {
 
   protected static boolean               isStarted;
 
-  static boolean start() {
+  public static boolean start() {
 
     //Configuring & starting an Tomcat5x container
     try {
@@ -75,6 +75,7 @@ public class ContainerStarter {
       container = (InstalledLocalContainer) new DefaultContainerFactory().createContainer("tomcat5x",
                                                                                           ContainerType.INSTALLED,
                                                                                           configuration);
+
 
       container.setHome(installer.getHome());
 
@@ -101,18 +102,17 @@ public class ContainerStarter {
     container.setExtraClasspath(arr2);
 
     container.start();
+    
     isStarted = container.getState().isStarted();
 
     System.out.println("Container is started : " + isStarted);
     return isStarted;
   }
 
-  static boolean stop() {
+  public static boolean stop() {
     try {
-
       container.stop();
       isStarted = container.getState().isStarted();
-
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -121,6 +121,12 @@ public class ContainerStarter {
 
   public boolean isStarted() {
     return isStarted;
+  }
+  
+  public static String getState() {
+    if (container == null || container.getState() == null)
+      return null;
+    return container.getState().toString();
   }
 
 }

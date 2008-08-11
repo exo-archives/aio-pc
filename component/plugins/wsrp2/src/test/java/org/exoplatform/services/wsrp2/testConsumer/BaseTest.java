@@ -159,7 +159,7 @@ public class BaseTest extends TestCase {
 
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
     InputStream is = url.openStream();
-    portletApp_ = XMLParser.parse(is, false);
+    portletApp_ = XMLParser.parse(is, true);
 
     try {
       // Leaving for compatibility reasons

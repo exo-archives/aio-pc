@@ -24,11 +24,14 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.Property;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
@@ -152,4 +155,26 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("Everything is more than ok", response.getMarkupContext().getItemString());
   }
 
+  
+  public void testGetResource() throws Exception {
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    RegistrationContext rc = null;
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext(null, null, null, "");
+    String portletHandle = CONTEXT_PATH + "/ResourceDemo";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    GetResource getResource = getResource(rc, portletContext);
+    ResourceResponse response = markupOperationsInterface.getResource(getResource);
+    assertEquals("Everything is ok", response.getResourceContext().getItemString());
+    
+    resourceParams.setFormParameters(new NamedString[]{new NamedString("goal","image")});
+    response = markupOperationsInterface.getResource(getResource);
+    
+    System.out.println(">>> EXOMAN TestGetMarkup.testGetResource() response.getResourceContext().getMimeType() = "
+        + response.getResourceContext().getMimeType());
+    
+  }
+  
 }

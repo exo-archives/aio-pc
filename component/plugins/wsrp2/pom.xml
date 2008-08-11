@@ -98,7 +98,6 @@
       <version>0.9-SNAPSHOT</version>
     </dependency>
 
-
     <!-- ************************ soap ************************ -->
 
     <dependency>
@@ -138,7 +137,6 @@
       <artifactId>commons-lang</artifactId>
       <version>2.1</version>
     </dependency>
-
 
     <!--    <dependency>-->
     <!--      <groupId>soap</groupId>-->
@@ -235,7 +233,7 @@
       <groupId>javax.xml.bind</groupId>
       <artifactId>jaxb-api</artifactId>
       <version>2.0</version>
-<!--      <scope>runtime</scope>-->
+      <!--      <scope>runtime</scope>-->
     </dependency>
 
     <dependency>
@@ -364,17 +362,13 @@
                   <sysproperty key="proxySet" value="" />
                   <sysproperty key="proxyHost" value="${exo.proxy.host}" />
                   <sysproperty key="proxyPort" value="${exo.proxy.port}" />
-                  <arg
-                    line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
+                  <arg line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
                   <classpath refid="maven.dependency.classpath" />
                 </java>
-                <delete
-                  file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
-                <delete
-                  file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
                 <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />
-                <delete
-                  file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
               </tasks>
               <sourceRoot>${src.gen.dir}</sourceRoot>
             </configuration>
@@ -390,17 +384,13 @@
                 <echo>=== NON-PROXY ===</echo>
                 <mkdir dir="${src.gen.dir}" />
                 <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
-                  <arg
-                    line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
+                  <arg line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
                   <classpath refid="maven.dependency.classpath" />
                 </java>
-                <delete
-                  file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
-                <delete
-                  file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
                 <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />
-                <delete
-                  file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
               </tasks>
               <sourceRoot>${src.gen.dir}</sourceRoot>
             </configuration>
@@ -413,10 +403,9 @@
             <phase>compile</phase>
             <configuration>
               <tasks>
-                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask"
-                  classpathref="maven.compile.classpath" />
-                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo"
-                  mergedir="target/classes" force="true" verbose="false">
+                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="maven.compile.classpath" />
+                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
+                  verbose="false">
                   <fileset dir="${basedir}/src/main/java">
                     <include name="org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java" />
                     <include name="org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java" />
@@ -441,9 +430,8 @@
                     <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
-                  debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}"
-                  optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
@@ -480,8 +468,7 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar"
-                  basedir="target/classes" />
+                <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar" basedir="target/classes" />
               </tasks>
             </configuration>
             <goals>
