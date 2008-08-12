@@ -1229,6 +1229,26 @@
                   </tasks>
                 </configuration>
               </execution>
+
+              <execution>
+                <id>4</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                        <loadfile property="result.log"  srcFile="${basedir}/portlettck2/tmp/JTwork/jtData/harness.trace"  failonerror="false"/>
+                        <fail message="There are TCK tests error(s)!">
+                           <condition>
+                              <contains string="${result.log}" substring="failed" casesensitive="false"/>
+                           </condition>
+                       </fail>
+                  </tasks>
+                </configuration>
+              </execution>
+
+              
             </executions>
           </plugin>
           <plugin>
