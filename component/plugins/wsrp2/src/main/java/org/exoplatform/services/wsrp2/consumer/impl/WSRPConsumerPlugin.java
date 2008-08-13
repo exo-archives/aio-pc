@@ -18,6 +18,8 @@
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.io.Writer;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -739,6 +741,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             UpdateResponse updateResponse = iResponse.getUpdateResponse();
 
             if (updateResponse != null) {
+              // set events
+              output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
               if (windowSession != null) {
                 updateSessionContext(updateResponse.getSessionContext(),
                                      windowSession.getPortletSession());
@@ -758,8 +762,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 log.debug("set new required window state : " + newWindowState);
                 output.setNextState(WindowStates.getJsrWindowState(newWindowState));
               }
-              // set events
-              output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
               //              output.setPortletState(portletState);
               //              output.setSessionMap(map);
             }
@@ -783,19 +785,36 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         log.debug("set new navigational state : " + navState);
         output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE, navState);
       }
+      
       // process public params from array of NamedString to plain string
       NamedString[] namedStrings = navigationalContext.getPublicValues();
+      String navigationalValues = "";
       if (namedStrings != null) {
-        String navigationalValues = new String();
         for (NamedString namedString : namedStrings) {
-          if (navigationalValues != null) {
+          if (navigationalValues != "") {
             navigationalValues += WSRPConstants.NEXT_PARAM;
           }
           navigationalValues += namedString.getName() + "=" + namedString.getValue();
         }
-        output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
-        output.setRenderParameters(Utils.getMapParametersFromNamedStringArray(namedStrings));
       }
+      try {
+        navigationalValues = URLEncoder.encode(navigationalValues, "utf-8");  
+      } catch (Exception e) {
+        e.printStackTrace();
+      }
+      System.out.println(">>> EXOMAN WSRPConsumerPlugin.processNavigationalContext() navigationalValues = "
+          + navigationalValues);
+      output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
+      
+      Map<String,String[]> params = Utils.getMapParametersFromNamedStringArray(namedStrings);
+      if (params!=null) {
+        Iterator<String> paramsIter = params.keySet().iterator();
+        while (paramsIter.hasNext()) {
+          String key = paramsIter.next();
+          output.setRenderParameters(key, params.get(key));
+        }
+      }
+        
     }
   }
 
@@ -1206,19 +1225,30 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   private NamedString[] getNavigationalValues(Input input, PortletWindowSession portletWindowSession) {
     NamedString[] resultArray = null;
+    
     if (input.getRenderParameters() != null
         && input.getRenderParameters().get(WSRPConstants.WSRP_NAVIGATIONAL_VALUES) != null) {
       String parameterNavigationalValues = input.getRenderParameters()
                                                 .get(WSRPConstants.WSRP_NAVIGATIONAL_VALUES)[0];
       if (parameterNavigationalValues != null && parameterNavigationalValues != "") {
-        String[] navigationalValues = parameterNavigationalValues.split(WSRPConstants.NEXT_PARAM);
-        // from String[] to NamedString[] converting navigational values
-        if (navigationalValues != null) {
-          List<NamedString> navigationalValuesList = new ArrayList<NamedString>(navigationalValues.length);
-          for (String navigationalValue : navigationalValues) {
-            navigationalValuesList.add(new NamedString(navigationalValue, null));
+        String parameterNavigationalValuesDec = null;
+        try {
+          parameterNavigationalValuesDec = URLDecoder.decode(parameterNavigationalValues, "utf-8");
+        } catch (Exception e) {
+          e.printStackTrace();
+        }
+        if (parameterNavigationalValuesDec!=null) {
+          System.out.println(">>> EXOMAN WSRPConsumerPlugin.getNavigationalValues() parameterNavigationalValuesDec = "
+              + parameterNavigationalValuesDec);
+          String[] navigationalValues = parameterNavigationalValuesDec.split(WSRPConstants.NEXT_PARAM);
+          // from String[] to NamedString[] converting navigational values
+          if (navigationalValues != null) {
+            List<NamedString> navigationalValuesList = new ArrayList<NamedString>(navigationalValues.length);
+            for (String navigationalValue : navigationalValues) {
+              navigationalValuesList.add(new NamedString(navigationalValue, null));
+            }
+            resultArray = navigationalValuesList.toArray(new NamedString[navigationalValues.length]);
           }
-          resultArray = navigationalValuesList.toArray(new NamedString[navigationalValues.length]);
         }
       }
     }
@@ -1565,6 +1595,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           log.debug("manage BlockingInteractionResponse object content");
           UpdateResponse updateResponse = iResponse.getUpdateResponse();
           if (updateResponse != null) {
+            // set events
             output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
             if (windowSession != null) {
               updateSessionContext(updateResponse.getSessionContext(),
@@ -1572,26 +1603,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               windowSession.updateMarkupCache(updateResponse.getMarkupContext());
             }
             updatePortletContext(updateResponse.getPortletContext(), portlet);
-            NavigationalContext navigationalContext = updateResponse.getNavigationalContext();
-            if (navigationalContext != null) {
-              String navState = navigationalContext.getOpaqueValue();
-              if (navState != null) {
-                log.debug("set new navigational state : " + navState);
-                output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_STATE, navState);
-              }
-              NamedString[] namedStrings = navigationalContext.getPublicValues();
-              String navigationalValues = new String();
-              if (namedStrings != null) {
-                for (NamedString namedString : namedStrings) {
-                  log.debug("set new navigational values : " + namedStrings);
-                  if (navigationalValues != "") {
-                    navigationalValues += WSRPConstants.NEXT_PARAM;
-                  }
-                  navigationalValues += namedString.getName() + "=" + namedString.getValue();
-                }
-              }
-              output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
-            }
+            
+            processNavigationalContext(output, updateResponse.getNavigationalContext());
+            
             String newMode = updateResponse.getNewMode();
             if (newMode != null) {
               log.debug("set Mode required : " + newMode);
@@ -1606,6 +1620,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         }
         return output;
       } catch (WSRPException e) {
+        e.printStackTrace();
         throw new PortletContainerException("exception in WSRPConsumerPlugin.processEvent method",
                                             e);
       }

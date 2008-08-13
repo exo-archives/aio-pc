@@ -166,7 +166,7 @@ public class WSRP_v2_Markup_Binding_SOAPImpl implements WSRP_v2_Markup_PortType 
                                                                      AccessDeniedFault,
                                                                      InvalidHandleFault,
                                                                      UnsupportedWindowStateFault {
-    return markupOperationsInterface.processEvent(handleEvents.getRegistrationContext(),
+    return markupOperationsInterface.handleEvents(handleEvents.getRegistrationContext(),
                                                   handleEvents.getPortletContext(),
                                                   handleEvents.getRuntimeContext(),
                                                   handleEvents.getUserContext(),

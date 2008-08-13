@@ -325,7 +325,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     //markupContext.setCcppProfileWarning(ccppProfileWarning);
     //markupContext.setClientAttributes(clientAttributes);
     markupContext.setItemBinary(output.getBinContent());
-    markupContext.setItemString(new String(output.getContent()));
+    markupContext.setItemString(removeNonValidXMLCharacters(new String(output.getContent())));
     markupContext.setLocale("en");
     markupContext.setMimeType(mimeType);
     markupContext.setPreferredTitle(output.getTitle());
@@ -850,314 +850,290 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       return resourceResponse;
   }
 
-  public HandleEventsResponse processEvent(RegistrationContext registrationContext,
+  public HandleEventsResponse handleEvents(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            RuntimeContext runtimeContext,
                                            UserContext userContext,
                                            MarkupParams markupParams,
                                            EventParams eventParams) throws java.rmi.RemoteException {
-
-    //if (!Helper.checkLifetime(registrationContext, userContext))
-    if (!Helper.checkLifetime(registrationContext, userContext)
-        || !Helper.checkPortletLifetime(registrationContext,
-                                        new PortletContext[] { portletContext },
-                                        userContext,
-                                        portletManagementOperationsInterface))
-      return null;
-    // manage the portlet handle
-    String portletHandle = portletContext.getPortletHandle();
-    portletHandle = manageRegistration(portletHandle, registrationContext);
-    String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
-    String portletApplicationName = k[0];
-    String portletName = k[1];
-    String uniqueID = k[2];
-
-    Integer sessiontimeperiod = getSessionTimePeriod();
-
-    // manage session
-    String sessionID = runtimeContext.getSessionParams().getSessionID();
-    WSRPHttpSession session = resolveSession(sessionID,
-                                             userContext.getUserContextKey(),
-                                             sessiontimeperiod);
-
-    // build the session context
-    SessionContext sessionContext = new SessionContext();
-    sessionContext.setSessionID(session.getId());
-    sessionContext.setExpires(sessiontimeperiod);
-
-    // manage user
-    userContext = transientStateManager.resolveUserContext(userContext, session);
-    String owner = userContext.getUserContextKey();
-    log.debug("Owner Context : " + owner);
-
-    // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName
-        + Constants.PORTLET_META_DATA_ENCODER + portletName);
-
-    // manage mime type
-    String mimeType = null;
     try {
-      mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
-    }
-
-    // ---------- BEGIN CREATING FACTORY --------------
-    // manage rewriting mechanism
-    String baseURL = null;
-    PortletURLFactory portletURLFactory = null;
-    // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {// default is true
-      log.debug("Producer URL rewriting");
-      Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getRenderTemplate();
-      portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    } else {
-      log.debug("Consumer URL rewriting");
-      portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    }
-    // ---------- END CREATING FACTORY --------------
-
-    // manage portlet state
-    byte[] portletState = managePortletState(portletContext);
-
-    // manage mode and states
-    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
-    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
-
-    // manage portlet state change
-    boolean isStateChangeAuthorized = false;
-    String stateChange = eventParams.getPortletStateChange().getValue();
-    if (StateChange.readWrite.getValue().equalsIgnoreCase(stateChange)) {
-      log.debug("readWrite state change");
-      // every modification is allowed on the portlet
-      isStateChangeAuthorized = true;
-    } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
-      log.debug("cloneBeforWrite state change");
-      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
-                                                                         portletContext,
-                                                                         userContext);
-      // any modification will be made on the
-      isStateChangeAuthorized = true;
-    } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
-      log.debug("readOnly state change");
-      // if an attempt to change the state is done (means change the portlet
-      // pref in JSR 168)
-      // then a fault will be launched
-    } else {
-      log.debug("The submited portlet state change value : " + stateChange + " is not supported");
-      Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
-    }
-
-    HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
-
-    List<HandleEventsFailed> failedEventsList = new ArrayList<HandleEventsFailed>();
-
-    Event[] events = eventParams.getEvents();
-    List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
-    List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
-
-    // PROCESS PARAMETERS
-
-    // get public param names from config
-    List<String> publicParamNames = portletData.getSupportedPublicRenderParameter();
-    // manage navigational context
-    NavigationalContext navigationalContext = markupParams.getNavigationalContext();
-    // process opaque (navigational) values
-    Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
-    // get navigational (public) values
-    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
-
-    // create render params map for input
-    Map<String, String[]> renderParameters = new HashMap<String, String[]>();
-    renderParameters = persistentNavigationalParameters;
-
-    replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
-
-    // prepare objects for portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
-    WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
-    // putInteractionParameterInRequest(request, eventParams);
-
-    // for get params within included jsp struts
-    request.setParameters(renderParameters);
-    
-    String navigationalState = null;
-
-    Integer index = 0;
-    int eventsLength = events.length;
-
-    // iteration over incoming javax events
-    Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
-
-    EventOutput output = null;
-
-    // was: "while (nativeEventsListIterator.hasNext()) {"
-    // but we have one "setNewMode" and "setNewWindowState" for updateResponse
-    if (nativeEventsListIterator.hasNext()) {
-      javax.portlet.Event event = nativeEventsListIterator.next();
-
-      // prepare the Input object
-      EventInput input = new EventInput();
-      ExoWindowID windowID = new ExoWindowID();
-      windowID.setOwner(owner);
-      windowID.setPortletApplicationName(portletApplicationName);
-      windowID.setPortletName(portletName);
-      windowID.setUniqueID(uniqueID);
-      input.setInternalWindowID(windowID);
-      input.setBaseURL(baseURL);
-      input.setPortletURLFactory(portletURLFactory);
-      input.setEscapeXml(true);
-      input.setUserAttributes(new HashMap<String, String>());
-      input.setPortletMode(portletMode);
-      input.setWindowState(windowState);
-      input.setMarkup(mimeType);
-      input.setEvent(event);
-      input.setRenderParameters(renderParameters);
-      input.setPublicParamNames(publicParamNames);
-      //      input.setStateChangeAuthorized(isStateChangeAuthorized);
-      input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
-      input.setPortletState(portletState);
-      input.setPortletPreferencesPersister(persister);
-      // createUserProfile(userContext, request, session);
-
+  
+      //if (!Helper.checkLifetime(registrationContext, userContext))
+      if (!Helper.checkLifetime(registrationContext, userContext)
+          || !Helper.checkPortletLifetime(registrationContext,
+                                          new PortletContext[] { portletContext },
+                                          userContext,
+                                          portletManagementOperationsInterface))
+        return null;
+      
+      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.handleEvents() eventParams.getEvents()[0].getName() = "
+          + eventParams.getEvents()[0].getName());
+      
+      // manage the portlet handle
+      String portletHandle = portletContext.getPortletHandle();
+      portletHandle = manageRegistration(portletHandle, registrationContext);
+      String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
+      String portletApplicationName = k[0];
+      String portletName = k[1];
+      String uniqueID = k[2];
+  
+      Integer sessiontimeperiod = getSessionTimePeriod();
+  
+      // manage session
+      String sessionID = runtimeContext.getSessionParams().getSessionID();
+      WSRPHttpSession session = resolveSession(sessionID,
+                                               userContext.getUserContextKey(),
+                                               sessiontimeperiod);
+  
+      // build the session context
+      SessionContext sessionContext = new SessionContext();
+      sessionContext.setSessionID(session.getId());
+      sessionContext.setExpires(sessiontimeperiod);
+  
+      // manage user
+      userContext = transientStateManager.resolveUserContext(userContext, session);
+      String owner = userContext.getUserContextKey();
+      log.debug("Owner Context : " + owner);
+  
+      // get portlet data
+      PortletData portletData = getPortletMetaData(portletApplicationName
+          + Constants.PORTLET_META_DATA_ENCODER + portletName);
+  
+      // manage mime type
+      String mimeType = null;
       try {
-        /* MAIN INVOKE */
-        output = proxy.processEvent(request, response, input);
-        if (output.hasError())
-          throw new WSRPException("processEvent output hasError");
-      } catch (WSRPException e) {
-        log.debug("The call to processEvent with event: '" + event.getName()
-            + "' method was a failure ", e);
-        HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
-        //        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
-        handleEventsFailed.setReason(new LocalizedString(e.getLocalizedMessage(), ""));// TODO
-        BigInteger indexBigInteger = new BigInteger(index.toString());
-        handleEventsFailed.setIndex(new BigInteger[] { indexBigInteger });
-        failedEventsList.add(handleEventsFailed);
-        Exception2Fault.handleException(e);
-      } finally {
-        index++;
-      }
-
-      resultNativeEventsList.addAll(output.getEvents());
-
-      // get render parameters for next iteration of processEvent or to client
-      renderParameters = output.getRenderParameters();
-
-      // unnecessary manage navigational state for each process event
-      //      if (eventsLength == 1) {
-      navigationalState = IdentifierUtil.generateUUID(output);
-      try {
-        log.debug("set new navigational state : " + navigationalState);
-        persistentStateManager.putNavigationalState(navigationalState, renderParameters);
+        mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
       } catch (WSRPException e) {
         Exception2Fault.handleException(e);
       }
-      //      }
-    }
-
-    UpdateResponse updateResponse = new UpdateResponse();
-    updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
-    if (output.getNextMode() != null)
-      updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
-    if (output.getNextState() != null)
-      updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
-    updateResponse.setSessionContext(sessionContext);
-    MarkupContext markupContext = null;
-    // call render to optimized // TODO new conf param for
-    //    if (conf.isHandleEventsOptimized()) {
-    //      // markupParams.setWindowState(ns);
-    //      MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
-    //      markupContext = markupResponse.getMarkupContext();
-    //    }
-    updateResponse.setMarkupContext(markupContext);
-    updateResponse.setPortletContext(portletContext);
-    updateResponse.setExtensions(null);
-
-    // get public parameters
-    Map<String, String[]> publicParameters = new HashMap<String, String[]>();
-    // put all public params from output
-    if (publicParamNames != null) {
-      for (String name : publicParamNames) {
-        if (renderParameters.containsKey(name)) {
-          publicParameters.put(name, renderParameters.get(name));
+  
+      // ---------- BEGIN CREATING FACTORY --------------
+      // manage rewriting mechanism
+      String baseURL = null;
+      PortletURLFactory portletURLFactory = null;
+      // creating Portlet URL Factory
+      if (conf.isDoesUrlTemplateProcessing()) {// default is true
+        log.debug("Producer URL rewriting");
+        Templates templates = manageTemplates(runtimeContext, session);
+        baseURL = templates.getRenderTemplate();
+        portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
+                                                                      baseURL,
+                                                                      portletData.getSupports(),
+                                                                      markupParams.isSecureClientCommunication(),
+                                                                      portletHandle,
+                                                                      persistentStateManager,
+                                                                      sessionID,
+                                                                      portletData.getEscapeXml(),
+                                                                      ResourceURL.PAGE,
+                                                                      portletData.getSupportedPublicRenderParameter(),
+                                                                      ((PortletDataImp) portletData).getWrappedPortletTyped());
+      } else {
+        log.debug("Consumer URL rewriting");
+        portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
+                                                                      baseURL,
+                                                                      portletData.getSupports(),
+                                                                      markupParams.isSecureClientCommunication(),
+                                                                      portletHandle,
+                                                                      persistentStateManager,
+                                                                      sessionID,
+                                                                      portletData.getEscapeXml(),
+                                                                      ResourceURL.PAGE,
+                                                                      portletData.getSupportedPublicRenderParameter(),
+                                                                      ((PortletDataImp) portletData).getWrappedPortletTyped());
+      }
+      // ---------- END CREATING FACTORY --------------
+  
+      // manage portlet state
+      byte[] portletState = managePortletState(portletContext);
+  
+      // manage mode and states
+      PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+      WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
+  
+      // manage portlet state change
+      boolean isStateChangeAuthorized = false;
+      String stateChange = eventParams.getPortletStateChange().getValue();
+      if (StateChange.readWrite.getValue().equalsIgnoreCase(stateChange)) {
+        log.debug("readWrite state change");
+        // every modification is allowed on the portlet
+        isStateChangeAuthorized = true;
+      } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
+        log.debug("cloneBeforWrite state change");
+        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                           portletContext,
+                                                                           userContext);
+        // any modification will be made on the
+        isStateChangeAuthorized = true;
+      } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
+        log.debug("readOnly state change");
+        // if an attempt to change the state is done (means change the portlet
+        // pref in JSR 168)
+        // then a fault will be launched
+      } else {
+        log.debug("The submited portlet state change value : " + stateChange + " is not supported");
+        Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
+      }
+  
+      HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
+  
+      List<HandleEventsFailed> failedEventsList = new ArrayList<HandleEventsFailed>();
+  
+      Event[] events = eventParams.getEvents();
+      List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
+      List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
+  
+      // PROCESS PARAMETERS
+  
+      // get public param names from config
+      List<String> publicParamNames = portletData.getSupportedPublicRenderParameter();
+      // manage navigational context
+      NavigationalContext navigationalContext = markupParams.getNavigationalContext();
+      // process opaque (navigational) values
+      Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
+      // get navigational (public) values
+      Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
+  
+      // create render params map for input
+      Map<String, String[]> renderParameters = new HashMap<String, String[]>();
+      
+      if (persistentNavigationalParameters != null
+          && !persistentNavigationalParameters.isEmpty()) {
+        renderParameters = persistentNavigationalParameters;
+      }
+      
+      replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
+  
+      // prepare objects for portlet container
+      WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
+                                                                                 .getRequest();
+      WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
+                                                                                    .getResponse();
+      WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
+      // putInteractionParameterInRequest(request, eventParams);
+  
+      // for get params within included jsp struts
+      request.setParameters(renderParameters);
+      
+      String navigationalState = null;
+  
+      Integer index = 0;
+      int eventsLength = events.length;
+  
+      // iteration over incoming javax events
+      Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
+  
+      EventOutput output = null;
+  
+      // was: "while (nativeEventsListIterator.hasNext()) {"
+      // but we have one "setNewMode" and "setNewWindowState" for updateResponse
+      if (nativeEventsListIterator.hasNext()) {
+        javax.portlet.Event event = nativeEventsListIterator.next();
+  
+        // prepare the Input object
+        EventInput input = new EventInput();
+        ExoWindowID windowID = new ExoWindowID();
+        windowID.setOwner(owner);
+        windowID.setPortletApplicationName(portletApplicationName);
+        windowID.setPortletName(portletName);
+        windowID.setUniqueID(uniqueID);
+        input.setInternalWindowID(windowID);
+        input.setBaseURL(baseURL);
+        input.setPortletURLFactory(portletURLFactory);
+        input.setEscapeXml(true);
+        input.setUserAttributes(new HashMap<String, String>());
+        input.setPortletMode(portletMode);
+        input.setWindowState(windowState);
+        input.setMarkup(mimeType);
+        input.setEvent(event);
+        input.setRenderParameters(renderParameters);
+        input.setPublicParamNames(publicParamNames);
+        //      input.setStateChangeAuthorized(isStateChangeAuthorized);
+        input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
+        input.setPortletState(portletState);
+        input.setPortletPreferencesPersister(persister);
+        // createUserProfile(userContext, request, session);
+  
+        try {
+          /* MAIN INVOKE */
+          output = proxy.processEvent(request, response, input);
+          if (output.hasError())
+            throw new WSRPException("processEvent output hasError");
+        } catch (WSRPException e) {
+          log.debug("The call to processEvent with event: '" + event.getName()
+              + "' method was a failure ", e);
+          HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
+          //        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
+          handleEventsFailed.setReason(new LocalizedString(e.getLocalizedMessage(), ""));// TODO
+          BigInteger indexBigInteger = new BigInteger(index.toString());
+          handleEventsFailed.setIndex(new BigInteger[] { indexBigInteger });
+          failedEventsList.add(handleEventsFailed);
+          Exception2Fault.handleException(e);
+        } finally {
+          index++;
+        }
+  
+        resultNativeEventsList.addAll(output.getEvents());
+  
+        // get render parameters for next iteration of processEvent or to client
+        renderParameters = output.getRenderParameters();
+  
+        // unnecessary manage navigational state for each process event
+        //      if (eventsLength == 1) {
+        navigationalState = IdentifierUtil.generateUUID(output);
+        try {
+          log.debug("set new navigational state : " + navigationalState);
+          persistentStateManager.putNavigationalState(navigationalState, renderParameters);
+        } catch (WSRPException e) {
+          Exception2Fault.handleException(e);
+        }
+        //      }
+      }
+  
+      UpdateResponse updateResponse = new UpdateResponse();
+      updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
+      if (output.getNextMode() != null)
+        updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
+      if (output.getNextState() != null)
+        updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
+      updateResponse.setSessionContext(sessionContext);
+      MarkupContext markupContext = null;
+      // call render to optimized // TODO new conf param for
+      //    if (conf.isHandleEventsOptimized()) {
+      //      // markupParams.setWindowState(ns);
+      //      MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
+      //      markupContext = markupResponse.getMarkupContext();
+      //    }
+      updateResponse.setMarkupContext(markupContext);
+      updateResponse.setPortletContext(portletContext);
+      updateResponse.setExtensions(null);
+  
+      // get public parameters
+      Map<String, String[]> publicParameters = new HashMap<String, String[]>();
+      // put all public params from output
+      if (publicParamNames != null) {
+        for (String name : publicParamNames) {
+          if (renderParameters.containsKey(name)) {
+            publicParameters.put(name, renderParameters.get(name));
+          }
         }
       }
+  
+      // create navigational context
+      NavigationalContext newNavigationalContext = new NavigationalContext();
+      newNavigationalContext.setOpaqueValue(navigationalState);
+      newNavigationalContext.setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
+      updateResponse.setNavigationalContext(navigationalContext);
+  
+      handleEventsResponse.setUpdateResponse(updateResponse);
+      // converting failed events from list to array and set that
+      handleEventsResponse.setFailedEvents(failedEventsList.toArray(new HandleEventsFailed[failedEventsList.size()]));
+  
+      return handleEventsResponse;
+    } catch (Exception e) {
+      e.printStackTrace();
     }
-
-    // create navigational context
-    NavigationalContext newNavigationalContext = new NavigationalContext();
-    newNavigationalContext.setOpaqueValue(navigationalState);
-    newNavigationalContext.setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
-    updateResponse.setNavigationalContext(navigationalContext);
-
-    handleEventsResponse.setUpdateResponse(updateResponse);
-    // converting failed events from list to array and set that
-    handleEventsResponse.setFailedEvents(failedEventsList.toArray(new HandleEventsFailed[failedEventsList.size()]));
-
-    return handleEventsResponse;
+    return null;
   }
-
-  //  private Map<String, String[]> getFormParameters(NamedString[] array) {
-  //    Map<String, String[]> result = null;
-  //    if (array == null) {
-  //      log.debug("no form parameters");
-  //      return result;
-  //    }
-  //    result = new HashMap<String, String[]>();
-  //    if (array != null) {
-  //      for (NamedString namedString : array) {
-  //        if (log.isDebugEnabled()) {
-  //          log.debug("InteractionParams: form parameters; name : " + namedString.getName() + "; value : " + namedString.getValue());
-  //        }
-  //        String name = namedString.getName();
-  //        String value = namedString.getValue();
-  //        if (value != null) {
-  //          if (result.get(name) == null) {
-  //            // new added parameter
-  //            result.put(name, new String[] { value });
-  //          } else {
-  //            // next added parameter
-  //            String[] oldArray = result.get(name);
-  //            String[] newArray = new String[oldArray.length + 1];
-  //            int i = 0;
-  //            if (oldArray != null) {
-  //              for (String v : oldArray) {
-  //                newArray[i++] = v;
-  //              }
-  //            }
-  //            newArray[i] = value;
-  //            result.put(name, newArray);
-  //          }
-  //        }
-  //      }
-  //    }
-  //    return result;
-  //  }
 
   public ReturnAny initCookie(RegistrationContext registrationContext) throws RemoteException {
     if (conf.isRegistrationRequired()) {

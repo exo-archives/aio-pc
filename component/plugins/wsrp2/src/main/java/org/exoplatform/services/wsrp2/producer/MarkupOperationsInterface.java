@@ -54,7 +54,7 @@ public interface MarkupOperationsInterface {
                                                                 MarkupParams markupParams,
                                                                 InteractionParams interactionParams) throws java.rmi.RemoteException;
 
-  public HandleEventsResponse processEvent(RegistrationContext registrationContext,
+  public HandleEventsResponse handleEvents(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            RuntimeContext runtimeContext,
                                            UserContext userContext,
