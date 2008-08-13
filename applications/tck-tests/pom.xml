@@ -1239,7 +1239,7 @@
                 </goals>
                 <configuration>
                   <tasks>
-                        <loadfile property="result.log"  srcFile="/tmp/JTwork/jtData/harness.trace"  failonerror="false"/>
+                        <loadfile property="result.log"  srcFile="${basedir}/portlettck2/tmp/JTwork/jtData/harness.trace"  failonerror="false"/>
                         <fail message="There are TCK tests error(s)!">
                            <condition>
                               <contains string="${result.log}" substring="failed" casesensitive="false"/>
