@@ -1241,7 +1241,7 @@
                         <loadfile property="result.log"  srcFile="/tmp/JTwork/jtData/harness.trace"  failonerror="false"/>
                         <fail message="There are TCK tests error(s)!">
                            <condition>
-                              <contains string="${result.log}" substring="failed" casesensitive="false"/>
+                              <contains string="${result.log}" substring="Some tests did not pass" casesensitive="false"/>
                            </condition>
                        </fail>
                   </tasks>
