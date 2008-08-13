@@ -122,12 +122,10 @@
 	<target name="prepare.work.dir">
 		<!-- /tmp works for both platforms -->
 		<property name="work.dir" value="${ts.home}/tmp/JTwork"/>
-		<delete failonerror="false" dir="${work.dir}"/>
+		<delete failonerror="true" dir="${work.dir}"/>
 		<available file="${work.dir}" type="dir" property="work.dir.present"/>
 		<antcall target="move.work.dir"/>
-		<mkdir dir="${work.dir}/jtData"/>
-		<echo file="${work.dir}/jtData/harness.trace"></echo>
-		<chmod file="${work.dir}/jtData/harness.trace" perm="ugo+rx"/>
+		<mkdir dir="${work.dir}"/>
 	</target>
 
 
