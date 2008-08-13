@@ -120,7 +120,7 @@
 	</target>
    
 	<target name="prepare.work.dir">
-		<!-- /tmp works for both platforms -->
+		<!-- /tmp work for both platforms -->
 		<property name="work.dir" value="/tmp/JTwork"/>
 		<delete failonerror="true" dir="${work.dir}"/>
 		<available file="${work.dir}" type="dir" property="work.dir.present"/>
