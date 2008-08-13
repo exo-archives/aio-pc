@@ -1222,7 +1222,7 @@
                       <arg line="runclient" />
                     </exec>
                     <exec os="Unix, Linux, Mac Os X"
-                      dir="${basedir}/portlettck2/src/com/sun/ts/tests"
+                      dir="${basedir}/portlettck2/src/com/sun/ts/tests/portlet/api/javax_portlet/Portlet"
                       executable="${basedir}/portlettck2/bin/tsant.sh">
                       <env key="TS_HOME" value="${basedir}/portlettck2" />
                       <arg line="runclient" />
