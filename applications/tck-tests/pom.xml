@@ -798,7 +798,7 @@
                     <groupId>quartz</groupId>
                     <artifactId>quartz</artifactId>
                   </dependency>
-<!--
+
                   <dependency>
                     <groupId>taglibs</groupId>
                     <artifactId>standard</artifactId>
@@ -838,7 +838,6 @@
                     <groupId>xstream</groupId>
                     <artifactId>xstream</artifactId>
                   </dependency>
--->                 
                 </dependencies>
 
               </container>
@@ -1216,13 +1215,13 @@
                     <property environment="env" />
                     <exec
                       os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
-                      dir="${basedir}/portlettck2/src/com/sun/ts/tests/portlet/api/javax_portlet/Portlet"
+                      dir="${basedir}/portlettck2/src/com/sun/ts/tests"
                       executable="${basedir}/portlettck2/bin/tsant.bat">
                       <env key="TS_HOME" value="${basedir}/portlettck2" />
                       <arg line="runclient" />
                     </exec>
                     <exec os="Unix, Linux, Mac Os X"
-                      dir="${basedir}/portlettck2/src/com/sun/ts/tests/portlet/api/javax_portlet/Portlet"
+                      dir="${basedir}/portlettck2/src/com/sun/ts/tests"
                       executable="${basedir}/portlettck2/bin/tsant.sh">
                       <env key="TS_HOME" value="${basedir}/portlettck2" />
                       <arg line="runclient" />
