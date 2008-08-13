@@ -18,7 +18,6 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.net.URL;
-import java.net.URLConnection;
 import java.rmi.RemoteException;
 import java.util.Collection;
 import java.util.GregorianCalendar;
@@ -42,9 +41,11 @@ import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
 import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.ClientData;
+import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.services.wsrp2.type.HandleEvents;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
@@ -58,6 +59,7 @@ import org.exoplatform.services.wsrp2.type.ResourceParams;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SessionParams;
+import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
@@ -117,6 +119,8 @@ public class BaseTest extends TestCase {
 
   protected ResourceParams                      resourceParams;
 
+  protected EventParams                         eventParams;
+
   protected NavigationalContext                 navigationalContext;
 
   protected SessionParams                       sessionParams;
@@ -172,27 +176,29 @@ public class BaseTest extends TestCase {
 
   public void setUp() throws Exception {
 
-    String propertyExoTestCargo = System.getProperty("exo.test.cargo.skip");
-    System.out.println("BaseTest.setUp() - propertyExoTestCargo = " + propertyExoTestCargo);
+    /*
+        String propertyExoTestCargo = System.getProperty("exo.test.cargo.skip");
+        System.out.println("BaseTest.setUp() - propertyExoTestCargo = " + propertyExoTestCargo);
 
-    if (System.getProperty("exo.test.cargo.skip") == null
-        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
-      URL serviceUrl = new URL(serviceUrlString);
-      URLConnection servletConnect = null;
-      Object content = null;
-      try {
-        servletConnect = serviceUrl.openConnection();
-        content = servletConnect.getContent();
-        System.out.println("BaseTest.setUp() Service is up - OK");
-      } catch (java.net.ConnectException e) {
-        System.out.println("BaseTest.setUp() - going to start Cargo container.");
-      }
-      if (content == null) {
-        cargoCustomStatus = ContainerStarter.start();
-        assertTrue(cargoCustomStatus);
-        System.out.println("BaseTest.setUp() cargoCustomStatus = " + cargoCustomStatus);
-      }
-    }
+        if (System.getProperty("exo.test.cargo.skip") == null
+            || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+          URL serviceUrl = new URL(serviceUrlString);
+          URLConnection servletConnect = null;
+          Object content = null;
+          try {
+            servletConnect = serviceUrl.openConnection();
+            content = servletConnect.getContent();
+            System.out.println("BaseTest.setUp() Service is up - OK");
+          } catch (java.net.ConnectException e) {
+            System.out.println("BaseTest.setUp() - going to start Cargo container.");
+          }
+          if (content == null) {
+            cargoCustomStatus = ContainerStarter.start();
+            assertTrue(cargoCustomStatus);
+            System.out.println("BaseTest.setUp() cargoCustomStatus = " + cargoCustomStatus);
+          }
+        }
+    */
 
     WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
     serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
@@ -276,6 +282,9 @@ public class BaseTest extends TestCase {
     resourceParams.setMimeTypes(mimeTypes);
     resourceParams.setMode("wsrp:view");
     resourceParams.setWindowState("wsrp:normal");
+    
+    eventParams = new EventParams();
+    eventParams.setEvents(null);
 
     mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
@@ -313,6 +322,18 @@ public class BaseTest extends TestCase {
     getResource.setUserContext(userContext);
     getResource.setResourceParams(resourceParams);
     return getResource;
+  }
+
+  protected HandleEvents handleEvents(RegistrationContext rc, PortletContext portletContext) {
+    eventParams.setPortletStateChange(StateChange.readOnly);
+    HandleEvents handleEvents = new HandleEvents();
+    handleEvents.setRegistrationContext(rc);
+    handleEvents.setPortletContext(portletContext);
+    handleEvents.setRuntimeContext(runtimeContext);
+    handleEvents.setUserContext(userContext);
+    handleEvents.setMarkupParams(markupParams);
+    handleEvents.setEventParams(eventParams);
+    return handleEvents;
   }
 
   protected void manageTemplatesOptimization(ServiceDescription sd, String portletHandle) {

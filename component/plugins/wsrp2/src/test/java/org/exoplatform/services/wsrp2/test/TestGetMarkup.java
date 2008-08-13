@@ -22,9 +22,14 @@ import java.rmi.RemoteException;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.exoplatform.services.portletcontainer.pci.EventImpl;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
+import org.exoplatform.services.wsrp2.type.Event;
+import org.exoplatform.services.wsrp2.type.EventPayload;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetResource;
+import org.exoplatform.services.wsrp2.type.HandleEvents;
+import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -35,6 +40,8 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
+import org.exoplatform.services.wsrp2.type.UpdateResponse;
+import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -155,7 +162,6 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("Everything is more than ok", response.getMarkupContext().getItemString());
   }
 
-  
   public void testGetResource() throws Exception {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
@@ -169,12 +175,36 @@ public class TestGetMarkup extends BaseTest {
     ResourceResponse response = markupOperationsInterface.getResource(getResource);
     assertEquals("Everything is ok", response.getResourceContext().getItemString());
     
-    resourceParams.setFormParameters(new NamedString[]{new NamedString("goal","image")});
+    NamedString formParameter = new NamedString();
+    formParameter.setName("goal");
+    formParameter.setValue("image");
+    resourceParams.setFormParameters(new NamedString[]{formParameter});
     response = markupOperationsInterface.getResource(getResource);
-    
-    System.out.println(">>> EXOMAN TestGetMarkup.testGetResource() response.getResourceContext().getMimeType() = "
-        + response.getResourceContext().getMimeType());
-    
+    assertEquals("image/jpeg", response.getResourceContext().getMimeType());
+  }
+  
+  public void testProcessEvent() throws Exception {
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    RegistrationContext rc = null;
+    if (sd.isRequiresRegistration())
+      rc = new RegistrationContext(null, null, null, "");
+    String portletHandle = CONTEXT_PATH + "/EventDemo";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+//    Event event = new Event();
+//    event.setName(new QName("MyEventPub"));
+//    event.setType(new QName("org.exoplatform.services.portletcontainer.test.events.MyEventPub"));
+    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"), new String("event-value"));
+    Event event = JAXBEventTransformer.getEventMarshal(event286);
+    eventParams.setEvents(new Event[]{event});
+    HandleEvents handleEvents = handleEvents(rc, portletContext);
+    HandleEventsResponse response = markupOperationsInterface.handleEvents(handleEvents);
+    UpdateResponse updateResponse = response.getUpdateResponse();
+    assertNotNull(updateResponse);
+//    assertNotNull(updateResponse.getEvents());
+//    assertEquals(1,updateResponse.getEvents().length);
+//    assertEquals("MyEventPub", updateResponse.getEvents()[0].getName());
   }
   
 }
