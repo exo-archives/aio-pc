@@ -1216,7 +1216,7 @@
                     <property environment="env" />
                     <exec
                       os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
-                      dir="${basedir}/portlettck2/src/com/sun/ts/tests"
+                      dir="${basedir}/portlettck2/src/com/sun/ts/tests/portlet/api/javax_portlet/Portlet"
                       executable="${basedir}/portlettck2/bin/tsant.bat">
                       <env key="TS_HOME" value="${basedir}/portlettck2" />
                       <arg line="runclient" />
