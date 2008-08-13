@@ -269,6 +269,35 @@
     </portlet-info>
   </portlet>
 
+  <portlet>
+    <description xml:lang="EN">EventDemo</description>
+    <portlet-name>EventDemo</portlet-name>
+    <display-name xml:lang="EN">EventDemo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.EventDemo</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <cache-scope>PRIVATE</cache-scope>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>EventDemo</title>
+      <short-title>EventDemo</short-title>
+    </portlet-info>
+    <supported-processing-event>
+      <name>MyEventProc</name>
+    </supported-processing-event>
+    <supported-processing-event>
+      <name>MyEventPub</name>
+    </supported-processing-event>
+<!--    <supported-publishing-event>-->
+<!--      <name>MyEventPub</name>-->
+<!--    </supported-publishing-event>-->
+  </portlet>
+
   <custom-portlet-mode>
     <description xml:lang="EN">Pre-defined custom portlet mode CONFIG</description>
     <portlet-mode>CONFIG</portlet-mode>
@@ -291,4 +320,14 @@
       <transport-guarantee>CONFIDENTIAL</transport-guarantee>
     </user-data-constraint>
   </security-constraint>
+  
+  <event-definition>
+    <name>MyEventPub</name>
+    <value-type>org.exoplatform.services.portletcontainer.test.events.MyEventPub</value-type>
+  </event-definition>
+  <event-definition>
+    <name>MyEventProc</name>
+    <value-type>java.lang.String</value-type>
+  </event-definition>
+  
 </portlet-app>
