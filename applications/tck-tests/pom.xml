@@ -1214,7 +1214,6 @@
                 <configuration>
                   <tasks>
                     <property environment="env" />
-                    <chmod dir="${basedir}/portlettck2/tmp" perm="ugo+rx"/>
                     <exec
                       os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
                       dir="${basedir}/portlettck2/src/com/sun/ts/tests"
