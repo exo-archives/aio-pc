@@ -125,7 +125,9 @@
 		<delete failonerror="false" dir="${work.dir}"/>
 		<available file="${work.dir}" type="dir" property="work.dir.present"/>
 		<antcall target="move.work.dir"/>
-		<mkdir dir="${work.dir}"/>
+		<mkdir dir="${work.dir}/jtData"/>
+		<mkfile path="${work.dir}/jtData/harness.trace" failonerror="true">
+		<chmod file="${work.dir}/jtData/harness.trace" perm="ugo+rx"/>
 	</target>
 
 
