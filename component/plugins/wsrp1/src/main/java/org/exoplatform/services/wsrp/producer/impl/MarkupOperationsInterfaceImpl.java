@@ -271,7 +271,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       MarkupContext markupContext = new MarkupContext();
       markupContext.setMimeType(mimeType);
       markupContext.setCacheControl(cacheControl);
-      markupContext.setMarkupString(new String(output.getContent()));
+      markupContext.setMarkupString(removeNonValidXMLCharacters(new String(output.getContent())));
       markupContext.setPreferredTitle(output.getTitle());
       markupContext.setRequiresUrlRewriting(new Boolean(conf.isDoesUrlTemplateProcessing()));
       markupContext.setUseCachedMarkup(Boolean.TRUE);
@@ -602,6 +602,23 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       System.out.println("Exception: WSRPHttpServletRequest e.getCause() = " + e.getCause());
     }
     return 900;
+  }
+  
+  private String removeNonValidXMLCharacters(String in) {
+    StringBuffer out = new StringBuffer();
+    char current;
+
+    if (in == null || ("".equals(in)))
+      return "";
+    for (int i = 0; i < in.length(); i++) {
+      current = in.charAt(i);
+      if ((current == 0x9) || (current == 0xA) || (current == 0xD)
+          || ((current >= 0x20) && (current <= 0xD7FF))
+          || ((current >= 0xE000) && (current <= 0xFFFD))
+          || ((current >= 0x10000) && (current <= 0x10FFFF)))
+        out.append(current);
+    }
+    return out.toString();
   }
 
 }
