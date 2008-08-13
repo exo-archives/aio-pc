@@ -122,7 +122,7 @@
 	<target name="prepare.work.dir">
 		<!-- /tmp work for both platforms -->
 		<property name="work.dir" value="/tmp/JTwork"/>
-		<delete failonerror="true" dir="${work.dir}"/>
+		<delete failonerror="false" dir="${work.dir}"/>
 		<available file="${work.dir}" type="dir" property="work.dir.present"/>
 		<antcall target="move.work.dir"/>
 		<mkdir dir="${work.dir}"/>
