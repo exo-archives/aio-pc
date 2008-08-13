@@ -798,7 +798,7 @@
                     <groupId>quartz</groupId>
                     <artifactId>quartz</artifactId>
                   </dependency>
-
+<!--
                   <dependency>
                     <groupId>taglibs</groupId>
                     <artifactId>standard</artifactId>
@@ -838,6 +838,7 @@
                     <groupId>xstream</groupId>
                     <artifactId>xstream</artifactId>
                   </dependency>
+-->                 
                 </dependencies>
 
               </container>
