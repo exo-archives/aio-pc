@@ -25,7 +25,6 @@ import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Event;
-import org.exoplatform.services.wsrp2.type.EventPayload;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.HandleEvents;
@@ -174,15 +173,15 @@ public class TestGetMarkup extends BaseTest {
     GetResource getResource = getResource(rc, portletContext);
     ResourceResponse response = markupOperationsInterface.getResource(getResource);
     assertEquals("Everything is ok", response.getResourceContext().getItemString());
-    
+
     NamedString formParameter = new NamedString();
     formParameter.setName("goal");
     formParameter.setValue("image");
-    resourceParams.setFormParameters(new NamedString[]{formParameter});
+    resourceParams.setFormParameters(new NamedString[] { formParameter });
     response = markupOperationsInterface.getResource(getResource);
     assertEquals("image/jpeg", response.getResourceContext().getMimeType());
   }
-  
+
   public void testProcessEvent() throws Exception {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
@@ -192,19 +191,26 @@ public class TestGetMarkup extends BaseTest {
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
-//    Event event = new Event();
-//    event.setName(new QName("MyEventPub"));
-//    event.setType(new QName("org.exoplatform.services.portletcontainer.test.events.MyEventPub"));
-    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"), new String("event-value"));
+
+    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
+                                                 new String("event-value"));
     Event event = JAXBEventTransformer.getEventMarshal(event286);
-    eventParams.setEvents(new Event[]{event});
+    eventParams.setEvents(new Event[] { event });
     HandleEvents handleEvents = handleEvents(rc, portletContext);
     HandleEventsResponse response = markupOperationsInterface.handleEvents(handleEvents);
+
+    assertNotNull(response);
     UpdateResponse updateResponse = response.getUpdateResponse();
     assertNotNull(updateResponse);
-//    assertNotNull(updateResponse.getEvents());
-//    assertEquals(1,updateResponse.getEvents().length);
-//    assertEquals("MyEventPub", updateResponse.getEvents()[0].getName());
+
+    Event[] events = updateResponse.getEvents();
+    assertNotNull(events);
+    assertEquals(1,events.length);
+    
+    Event event1 = events[0];
+    assertEquals("MyEventPub", event1.getName().getLocalPart());
+    assertEquals("org.exoplatform.services.portletcontainer.test.events.MyEventPub", event1.getType().getLocalPart());
+    
   }
-  
+
 }

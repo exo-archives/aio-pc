@@ -76,8 +76,9 @@ public class ContainerStarter {
                                                                                           ContainerType.INSTALLED,
                                                                                           configuration);
 
-
       container.setHome(installer.getHome());
+
+      container.setOutput(TEST_PATH + "/target/container.log");
 
     } catch (MalformedURLException e) {
       e.printStackTrace();
@@ -102,7 +103,7 @@ public class ContainerStarter {
     container.setExtraClasspath(arr2);
 
     container.start();
-    
+
     isStarted = container.getState().isStarted();
 
     System.out.println("Container is started : " + isStarted);
@@ -122,7 +123,7 @@ public class ContainerStarter {
   public boolean isStarted() {
     return isStarted;
   }
-  
+
   public static String getState() {
     if (container == null || container.getState() == null)
       return null;

@@ -293,9 +293,9 @@
     <supported-processing-event>
       <name>MyEventPub</name>
     </supported-processing-event>
-<!--    <supported-publishing-event>-->
-<!--      <name>MyEventPub</name>-->
-<!--    </supported-publishing-event>-->
+    <supported-publishing-event>
+      <name>MyEventPub</name>
+    </supported-publishing-event>
   </portlet>
 
   <custom-portlet-mode>

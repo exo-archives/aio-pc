@@ -51,10 +51,9 @@ public class EventDemo extends GenericPortlet {
   public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
                                                                                        IOException {
     System.out.println("In processAction method of TestPortletNEW...");
-//    MyEventPub sampleAddress = new MyEventPub();
-//    sampleAddress.setStreet("myStreet");
-//    sampleAddress.setCity("myCity");
-//    actionResponse.setEvent(new QName("MyEventPub"), sampleAddress);
+    MyEventPub sampleAddress = new MyEventPub();
+    sampleAddress.setCity("myCity");
+    actionResponse.setEvent(new QName("MyEventPub"), sampleAddress);
   }
 
   public void processEvent(EventRequest req, EventResponse resp) throws PortletException,
@@ -64,22 +63,24 @@ public class EventDemo extends GenericPortlet {
     System.out.println(">>> EXOMAN EventDemo.processEvent() event = " + event);
     System.out.println("  -- name: " + event.getName());
     System.out.println("  -- value: " + event.getValue());
-    String sample = new String();
-    sample = (String) event.getValue();
-    
+    String sample = null;
+    MyEventPub sampleAddress = null;
+    if (event.getValue() instanceof String) {
+      sample = (String) event.getValue();
+      sampleAddress = new MyEventPub();
+      sampleAddress.setCity(sample);
+      resp.setEvent("MyEventPub", sampleAddress);
+    } else if (event.getValue() instanceof MyEventPub) {
+      sampleAddress = (MyEventPub) event.getValue();
+      System.out.println(">>> EXOMAN EventDemo.processEvent() sampleAddress.getCity() = "
+          + sampleAddress.getCity());
+    }
+
     System.out.println(">>> EXOMAN EventDemo.processEvent() sample = " + sample);
-    
-//    MyEventPub sampleAddress = new MyEventPub();
-//    sampleAddress = (MyEventPub) event.getValue();
+    System.out.println(">>> EXOMAN EventDemo.processEvent() sampleAddress = " + sampleAddress);
 
-//    resp.setPortletMode(PortletMode.EDIT);
+    resp.setPortletMode(PortletMode.EDIT);
 
-    /*  
-    MyEventPub sampleAddress = new MyEventPub();
-    sampleAddress.setStreet("myStreet");
-    sampleAddress.setCity("myCity");
-    resp.setEvent("MyEventPub", sampleAddress);
-    */
   }
 
 }

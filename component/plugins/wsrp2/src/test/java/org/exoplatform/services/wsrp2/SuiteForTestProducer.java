@@ -50,7 +50,7 @@ public class SuiteForTestProducer extends TestSuite {
     addTestSuite(TestRegistrationInterface.class);
     addTestSuite(TestSomeScenarios.class);
     addTestSuite(TestWSRPSession.class);
-////addTestSuite(TestPersistentStateManager.class);
+//addTestSuite(TestPersistentStateManager.class);
 
   }
 
