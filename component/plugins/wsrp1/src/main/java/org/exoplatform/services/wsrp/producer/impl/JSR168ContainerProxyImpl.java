@@ -284,7 +284,6 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       System.out.println(" ---- " + portletAppName + "/" + portletName + "/" + desiredLocale);
       System.out.println(" ---- 1:" + resourceBundle);
       System.out.println(" ---- 2:" + resourceBundle.getLocale());
-      System.out.println(" ---- 3:" + resourceBundle.getLocale().getLanguage());
       if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
           || i == desiredLocales.length - 1) {
         try {

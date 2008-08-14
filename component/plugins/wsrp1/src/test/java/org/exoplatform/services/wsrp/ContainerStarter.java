@@ -76,6 +76,8 @@ public class ContainerStarter {
                                                                                           configuration);
 
       container.setHome(installer.getHome());
+      
+      container.setOutput(TEST_PATH + "/target/container.log");
 
     } catch (MalformedURLException e) {
       e.printStackTrace();
