@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>trunk</version>
+    <version>2.0.2</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
@@ -717,14 +717,14 @@
                 <artifactItem>
                   <groupId>org.exoplatform.portletcontainer</groupId>
                   <artifactId>exo.pc.component.core</artifactId>
-                  <version>trunk</version>
+                  <version>2.0.2</version>
                   <type>jar</type>
                 </artifactItem>
 
                 <artifactItem>
                   <groupId>org.exoplatform.portletcontainer</groupId>
                   <artifactId>exo.pc.component.plugins.pc</artifactId>
-                  <version>trunk</version>
+                  <version>2.0.2</version>
                   <type>jar</type>
                 </artifactItem>
 
