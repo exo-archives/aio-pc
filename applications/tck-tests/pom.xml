@@ -446,6 +446,16 @@
       </activation>
       <build>
         <plugins>
+
+<!-- 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+            </executions>
+          </plugin>
+
+-->
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
@@ -1136,6 +1146,23 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
+               <execution>
+                <id>cleaning</id>
+                <phase>clean</phase>
+                <configuration>
+                  <tasks>
+                    <delete includeEmptyDirs="true" failonerror="false">
+                      <fileset
+                        dir="${basedir}/configuration/conf/webapps"
+                        includes="**/*" />
+                    </delete>
+                  </tasks>
+                </configuration>
+                 <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            
               <execution>
                 <id>0</id>
                 <phase>integration-test</phase>
@@ -1158,8 +1185,11 @@
                 <configuration>
                   <tasks>
                     <property environment="env" />
-                    <chmod file="${basedir}/portlettck2/bin/tsant.sh" perm="ugo+rx"/>
-                    <chmod file="${basedir}/portlettck2/tools/ant/bin/ant" perm="ugo+rx"/>
+                    <chmod file="${basedir}/portlettck2/bin/tsant.sh"
+                      perm="ugo+rx" />
+                    <chmod
+                      file="${basedir}/portlettck2/tools/ant/bin/ant"
+                      perm="ugo+rx" />
                     <exec
                       os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
                       dir="${basedir}/portlettck2/src/com/sun/ts"
@@ -1238,17 +1268,21 @@
                 </goals>
                 <configuration>
                   <tasks>
-                        <loadfile property="result.log"  srcFile="/tmp/JTwork/jtData/harness.trace"  failonerror="false"/>
-                        <fail message="There are TCK tests error(s)!">
-                           <condition>
-                              <contains string="${result.log}" substring="Some tests did not pass" casesensitive="false"/>
-                           </condition>
-                       </fail>
+                    <loadfile property="result.log"
+                      srcFile="/tmp/JTwork/jtData/harness.trace"
+                      failonerror="false" />
+                    <fail message="There are TCK tests error(s)!">
+                      <condition>
+                        <contains string="${result.log}"
+                          substring="Some tests did not pass"
+                          casesensitive="false" />
+                      </condition>
+                    </fail>
                   </tasks>
                 </configuration>
               </execution>
 
-              
+
             </executions>
           </plugin>
           <plugin>
