@@ -47,6 +47,13 @@
       <scope>test</scope>
     </dependency>
 
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.xml-processing</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
     <!-- non eXo dependencies *************************** -->
 
     <dependency>
@@ -103,7 +110,7 @@
 
   <!-- properties>
     <war.dir>${basedir}/war_template</war.dir>
-  </properties -->
+    </properties -->
 
   <build>
     <plugins>
@@ -123,13 +130,8 @@
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac
-                  fork="true"
-                  srcdir="${basedir}/war_template/src"
-                  destdir="${basedir}/target/test-classes/"
-                  debug="${maven.compile.debug}"
-                  deprecation="${maven.compile.deprecation}"
-                  optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
@@ -142,13 +144,8 @@
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac
-                  fork="true"
-                  srcdir="${basedir}/war_template2/src"
-                  destdir="${basedir}/target/test-classes/"
-                  debug="${maven.compile.debug}"
-                  deprecation="${maven.compile.deprecation}"
-                  optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
