@@ -27,7 +27,9 @@ import javax.portlet.PortletURL;
 import javax.portlet.WindowState;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
@@ -47,8 +49,10 @@ import org.exoplatform.services.wsrp.type.CookieProtocol;
 import org.exoplatform.services.wsrp.type.LocalizedString;
 import org.exoplatform.services.wsrp.type.MarkupType;
 import org.exoplatform.services.wsrp.type.PortletDescription;
+import org.exoplatform.services.wsrp.type.RegistrationContext;
 import org.exoplatform.services.wsrp.type.RegistrationData;
 import org.exoplatform.services.wsrp.type.ServiceDescription;
+import org.exoplatform.services.wsrp.type.UserContext;
 
 public class WSRPAdminPortlet {
 
@@ -83,6 +87,8 @@ public class WSRPAdminPortlet {
   private PortletContainerConf    pcConf;
 
   private PortletContainerService pcService;
+  
+  private final Log log = ExoLogger.getLogger(getClass().getName());
 
   public void init(ExoContainer cont) {
 
@@ -138,7 +144,7 @@ public class WSRPAdminPortlet {
                                     input.getMarkup(),
                                     null,
                                     true,
-                                    input.getEscapeXml(),
+                                    false,//input.getEscapeXml(),
                                     null);
 
       // actionURL.setSecure(true);
@@ -192,8 +198,38 @@ public class WSRPAdminPortlet {
 
       w.println("<table>");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
+      
+      // a form for unregister producers
       Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription serviceDescr = null;
+      while (i.hasNext()) {
+        Producer producer = (Producer) i.next();
+        try {
+          serviceDescr = producer.getServiceDescription();
+        } catch (WSRPException e) {
+          e.printStackTrace(w);
+        }
+        w.println("<tr>");
+        w.println("<td>");
+        w.println("Name (ID)");
+        w.println("</td>");
+        w.println("<td>");
+        w.println("Action");
+        w.println("</td>");
+        w.println("</tr>");
+        w.println("<td>");
+        w.println(producer.getName() + " ( " + producer.getID() + " )");
+        w.println("</td>");
+        w.println("<td>");
+        w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
+            + producer.getID() + "\">Deregister</a><br>");
+        w.println("</td>");
+        w.println("</tr>");
+      }
+      w.println("<br><br><br>");
+      
+      i = pregistry.getAllProducers();
+      serviceDescr = null;
       while (i.hasNext()) {
         Producer producer = (Producer) i.next();
         try {
@@ -265,6 +301,7 @@ public class WSRPAdminPortlet {
                 value.append(types[j].getMimeType()).append(" ");
               }
               w.println("<tr><td>" + "markupType" + "</td><td>" + value.toString() + "</td></tr>");
+              /*
               String[] userCategories = portletDescription.getUserCategories();
               String valueCategories = "";
               if (userCategories != null) {
@@ -307,6 +344,7 @@ public class WSRPAdminPortlet {
                 w.println("<tr><td>" + "doesUrlTemplateProcessing" + "</td><td>"
                     + portletDescription.getDoesUrlTemplateProcessing().toString() + "</td></tr>");
               w.println("<tr><td>" + "extensions" + "</td><td>" + "N/A" + "</td></tr>");
+              */
             }
           }
         }
@@ -332,6 +370,26 @@ public class WSRPAdminPortlet {
       String action = request.getParameter("op");
       if (action.equals("reset")) {
         reset();
+      }
+      if (action.equals("deregister")) {
+        String producerid = request.getParameter("producerid");
+        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() producerid = " + producerid);
+
+        ProducerRegistry pregistry = consumer.getProducerRegistry();
+        Producer producer = pregistry.getProducer(producerid);
+        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() producer = " + producer);
+        RegistrationContext registrationContext = producer.getRegistrationContext();
+        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() registrationContext = "
+            + registrationContext);
+        
+        UserContext userContext = new UserContext();
+        userContext.setUserCategories(null);
+        userContext.setProfile(null);
+        userContext.setUserContextKey("");
+        
+        producer.deregister();
+        
+        pregistry.removeProducer(producerid);
       }
       if (action.equals("save")) {
         producerName = request.getParameter(WSRPConstants.WAP_producerName);
@@ -368,7 +426,13 @@ public class WSRPAdminPortlet {
           registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
           registrationData.setRegistrationProperties(null);
           registrationData.setExtensions(null);
-          producer.register(registrationData);
+          RegistrationContext registrationContext = producer.register(registrationData);
+          if (log.isDebugEnabled())
+            log.debug("WSRPAdminPortlet.processAction() registrationContext = "
+                + registrationContext);
+          if (log.isDebugEnabled())
+            log.debug("WSRPAdminPortlet.processAction() registrationContext.getRegistrationHandle() = "
+                + registrationContext.getRegistrationHandle());
         }
         pregistry.addProducer(producer);
       }

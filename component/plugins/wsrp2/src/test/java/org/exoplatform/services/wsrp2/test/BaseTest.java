@@ -19,7 +19,9 @@ package org.exoplatform.services.wsrp2.test;
 
 import java.net.URL;
 import java.rmi.RemoteException;
+import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.Locale;
 
@@ -46,6 +48,7 @@ import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.HandleEvents;
+import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
@@ -67,6 +70,8 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
+
+import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: 11 nov. 2003 Time:
@@ -126,6 +131,8 @@ public class BaseTest extends TestCase {
   protected SessionParams                       sessionParams;
 
   protected Register                            register;
+
+  protected Lifetime                            lifetime;
 
   protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard",
       "minimal"                                                         };
@@ -221,7 +228,17 @@ public class BaseTest extends TestCase {
     registrationData.setRegistrationProperties(null);//allows extension of the specs
     registrationData.setExtensions(null);//allows extension of the specs
 
-    register = new Register(registrationData, null, userContext);
+    Calendar currentTime = new GregorianCalendar();
+    currentTime.setTime(new Date(System.currentTimeMillis()));
+    
+    Calendar terminationTime = new GregorianCalendar();
+    terminationTime.setTime(new Date(System.currentTimeMillis()+1));
+    
+//    lifetime = new Lifetime();
+//    lifetime.setCurrentTime(currentTime);
+//    lifetime.setTerminationTime(terminationTime);
+
+    register = new Register(registrationData, lifetime, userContext);
 
     personName = new PersonName();
     personName.setNickname("exotest");
@@ -282,7 +299,7 @@ public class BaseTest extends TestCase {
     resourceParams.setMimeTypes(mimeTypes);
     resourceParams.setMode("wsrp:view");
     resourceParams.setWindowState("wsrp:normal");
-    
+
     eventParams = new EventParams();
     eventParams.setEvents(null);
 
