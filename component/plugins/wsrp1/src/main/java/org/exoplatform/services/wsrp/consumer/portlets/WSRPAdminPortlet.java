@@ -199,7 +199,7 @@ public class WSRPAdminPortlet {
       w.println("<table>");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
       
-      // a form for unregister producers
+      // a form for unregister producer
       Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription serviceDescr = null;
       while (i.hasNext()) {
@@ -226,7 +226,7 @@ public class WSRPAdminPortlet {
         w.println("</td>");
         w.println("</tr>");
       }
-      w.println("<br><br><br>");
+      w.println("<tr><td colspan='2'>&nbsp;<br></td></tr>");
       
       i = pregistry.getAllProducers();
       serviceDescr = null;

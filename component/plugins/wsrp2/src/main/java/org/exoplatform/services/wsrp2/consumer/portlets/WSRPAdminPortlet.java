@@ -205,6 +205,7 @@ public class WSRPAdminPortlet {
       w.println("<table>");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
       
+      // a form for unregister producer
       Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription serviceDescr = null;
       while (i.hasNext()) {
@@ -222,7 +223,6 @@ public class WSRPAdminPortlet {
         w.println("Action");
         w.println("</td>");
         w.println("</tr>");
-
         w.println("<td>");
         w.println(producer.getName() + " ( " + producer.getID() + " )");
         w.println("</td>");
@@ -232,7 +232,7 @@ public class WSRPAdminPortlet {
         w.println("</td>");
         w.println("</tr>");
       }
-      w.println("<br><br><br>");
+      w.println("<tr><td colspan='2'>&nbsp;<br></td></tr>");
       
       i = pregistry.getAllProducers();
       serviceDescr = null;
@@ -246,10 +246,6 @@ public class WSRPAdminPortlet {
         w.println("<tr>");
         w.println("<td colspan='2'>");
         w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
-
-        w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
-            + producer.getID() + "\">Reset " + producer.getID() + " </a><br>");
-
         w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint()
             + "<br>");
 //        w.println("Description - " + producer.getDescription() + "<br>");
