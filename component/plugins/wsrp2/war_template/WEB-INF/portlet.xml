@@ -247,10 +247,10 @@
 <!-- 286 -->
 
   <portlet>
-    <description xml:lang="en">ResourceDemo</description>
-    <portlet-name>ResourceDemo</portlet-name>
-    <display-name xml:lang="en">ResourceDemo</display-name>
-    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.ResourceDemo</portlet-class>
+    <description xml:lang="en">PortletToTestResource</description>
+    <portlet-name>PortletToTestResource</portlet-name>
+    <display-name xml:lang="en">PortletToTestResource</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestResource</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -263,17 +263,17 @@
     </supports>
     <supported-locale>en</supported-locale>
     <portlet-info>
-      <title>ResourceDemo</title>
-      <short-title>ResourceDemo</short-title>
-      <keywords>ResourceDemo</keywords>
+      <title>PortletToTestResource</title>
+      <short-title>PortletToTestResource</short-title>
+      <keywords>PortletToTestResource</keywords>
     </portlet-info>
   </portlet>
 
   <portlet>
-    <description xml:lang="EN">EventDemo</description>
-    <portlet-name>EventDemo</portlet-name>
-    <display-name xml:lang="EN">EventDemo</display-name>
-    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.EventDemo</portlet-class>
+    <description xml:lang="EN">PortletToTestEvent</description>
+    <portlet-name>PortletToTestEvent</portlet-name>
+    <display-name xml:lang="EN">PortletToTestEvent</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestEvent</portlet-class>
     <expiration-cache>0</expiration-cache>
     <cache-scope>PRIVATE</cache-scope>
     <supports>
@@ -284,8 +284,8 @@
     </supports>
     <supported-locale>EN</supported-locale>
     <portlet-info>
-      <title>EventDemo</title>
-      <short-title>EventDemo</short-title>
+      <title>PortletToTestEvent</title>
+      <short-title>PortletToTestEvent</short-title>
     </portlet-info>
     <supported-processing-event>
       <name>MyEventProc</name>

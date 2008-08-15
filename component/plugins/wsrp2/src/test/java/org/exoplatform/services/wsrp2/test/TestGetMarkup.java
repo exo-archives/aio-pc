@@ -166,7 +166,7 @@ public class TestGetMarkup extends BaseTest {
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
-    String portletHandle = CONTEXT_PATH + "/ResourceDemo";
+    String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
@@ -182,12 +182,12 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("image/jpeg", response.getResourceContext().getMimeType());
   }
 
-  public void testProcessEvent() throws Exception {
+  public void testHandleEvents() throws Exception {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
       rc = new RegistrationContext(null, null, null, "");
-    String portletHandle = CONTEXT_PATH + "/EventDemo";
+    String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);

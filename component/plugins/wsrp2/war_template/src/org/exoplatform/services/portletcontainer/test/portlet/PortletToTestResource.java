@@ -41,7 +41,7 @@ import com.sun.image.codec.jpeg.JPEGImageEncoder;
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
  * alexey.zavizionov@exoplatform.com.ua
  */
-public class ResourceDemo extends GenericPortlet {
+public class PortletToTestResource extends GenericPortlet {
 
   protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
                                                                                    IOException {
