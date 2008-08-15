@@ -735,11 +735,7 @@ public class PortalFramework {
     final Iterator<String> i = portlets.keySet().iterator();
     while (i.hasNext()) {
       final String pname = i.next();
-      System.out.println(">>> EXOMAN PortalFramework.buildEventDeliveryAndPublicParamsMaps() pname = "
-          + pname);
       final WindowID2 win = portlets.get(pname);
-      System.out.println(">>> EXOMAN PortalFramework.buildEventDeliveryAndPublicParamsMaps() win = "
-          + win);
       final PortletData portlet = allPortletMetaData.get(win.getPortletApplicationName() + "/"
           + win.getPortletName());
       // public params

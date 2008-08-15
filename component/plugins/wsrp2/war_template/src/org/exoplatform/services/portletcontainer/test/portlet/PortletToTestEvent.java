@@ -60,7 +60,7 @@ public class PortletToTestEvent extends GenericPortlet {
                                                                 IOException {
     System.out.println("In processEvent method of PortletToTestEvent... !!!!!!!!!!!!!");
     Event event = req.getEvent();
-    System.out.println(">>> EXOMAN PortletToTestEvent.processEvent() event = " + event);
+    System.out.println(">>> PortletToTestEvent.processEvent() event = " + event);
     System.out.println("  -- name: " + event.getName());
     System.out.println("  -- value: " + event.getValue());
     String sample = null;
@@ -72,12 +72,12 @@ public class PortletToTestEvent extends GenericPortlet {
       resp.setEvent("MyEventPub", sampleAddress);
     } else if (event.getValue() instanceof MyEventPub) {
       sampleAddress = (MyEventPub) event.getValue();
-      System.out.println(">>> EXOMAN PortletToTestEvent.processEvent() sampleAddress.getCity() = "
+      System.out.println(">>> PortletToTestEvent.processEvent() sampleAddress.getCity() = "
           + sampleAddress.getCity());
     }
 
-    System.out.println(">>> EXOMAN PortletToTestEvent.processEvent() sample = " + sample);
-    System.out.println(">>> EXOMAN PortletToTestEvent.processEvent() sampleAddress = " + sampleAddress);
+    System.out.println(">>> PortletToTestEvent.processEvent() sample = " + sample);
+    System.out.println(">>> PortletToTestEvent.processEvent() sampleAddress = " + sampleAddress);
 
     resp.setPortletMode(PortletMode.EDIT);
 
