@@ -8,6 +8,12 @@
   <artifactId>tck-tests</artifactId>
   <name>TCK tests por portlet container</name>
   <description>TCK tests por portlet container</description>
+  <repositories>
+    <repository>
+      <id>Codehaus snapshot repository</id>
+      <url>http://snapshots.repository.codehaus.org</url>
+    </repository>
+  </repositories>
 
   <dependencies>
     <dependency>
