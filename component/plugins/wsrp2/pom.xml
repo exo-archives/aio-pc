@@ -10,6 +10,13 @@
   <name>eXo Portlet Container 2 Plugins WSRP2</name>
   <description>eXo Portlet Container 2 wsrp2 plugin</description>
 
+    <repositories>
+    <repository>
+      <id>Codehaus snapshot repository</id>
+      <url>http://snapshots.repository.codehaus.org</url>
+    </repository>
+  </repositories>
+
   <dependencies>
 
     <dependency>
