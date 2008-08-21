@@ -471,25 +471,29 @@ public class PortalFramework {
 
     if (target != null) {
       final WindowID2 win = wins.get(target);
-      // set MODE
-      final PortletMode portletMode = Helper.getPortletMode(Helper.string0(portalParams.get(Constants.PORTLET_MODE_PARAMETER)),
-                                                            getPortletModes(win.getPortletApplicationName(),
-                                                                            win.getPortletName()));
+      if (win != null) {
 
-      // set STATE
-      final WindowState windowState = Helper.getWindowState(Helper.string0(portalParams.get(Constants.WINDOW_STATE_PARAMETER)),
-                                                            getWindowStates(win.getPortletApplicationName(),
-                                                                            win.getPortletName()));
+        // set MODE
+        final PortletMode portletMode = Helper.getPortletMode(Helper.string0(portalParams.get(Constants.PORTLET_MODE_PARAMETER)),
+                                                              getPortletModes(win.getPortletApplicationName(),
+                                                                              win.getPortletName()));
 
-      if (portletMode != null) {
-        changes.add(target);
-        win.setPortletMode(portletMode);
-      }
+        // set STATE
+        final WindowState windowState = Helper.getWindowState(Helper.string0(portalParams.get(Constants.WINDOW_STATE_PARAMETER)),
+                                                              getWindowStates(win.getPortletApplicationName(),
+                                                                              win.getPortletName()));
 
-      if (windowState != null) {
-        changes.add(target);
-        win.setWindowState(windowState);
-      }
+        if (portletMode != null) {
+          changes.add(target);
+          win.setPortletMode(portletMode);
+        }
+
+        if (windowState != null) {
+          changes.add(target);
+          win.setWindowState(windowState);
+        }
+      } else
+        target = null;
     }
   }
 
