@@ -49,11 +49,16 @@ public class ResourceBundleDelegateImpl implements ResourceBundleDelegate {
    * @see org.exoplatform.services.portletcontainer.bundle.ResourceBundleDelegate#lookupBundle(java.lang.String, java.util.Locale)
    */
   public final ResourceBundle lookupBundle(final String portletBundleName, final Locale locale) {
-    //    String[] bundles = { portletBundleName };
-    //    return resourceBundleService.getResourceBundle(bundles, locale);
-    ResourceBundle rB = ResourceBundle.getBundle(portletBundleName, locale, Thread.currentThread()
-        .getContextClassLoader());
-    return new MapResourceBundle(rB, locale);
+        String[] bundles = { portletBundleName };
+        
+        ResourceBundle rb = resourceBundleService.getResourceBundle(bundles, locale);
+        //System.out.println("Keys count: "+rb.keySet().size()+"\n");
+        return rb;
+        
+        
+//    ResourceBundle rB = ResourceBundle.getBundle(portletBundleName, locale, Thread.currentThread()
+//        .getContextClassLoader());
+//    return new MapResourceBundle(rB, locale);
   }
 
 }
