@@ -357,21 +357,21 @@
               <tasks if="settings.activeProxy.host">
                 <echo>=== PROXY === ${settings.activeProxy.host}:${settings.activeProxy.port}</echo>
 
-                <property name="activeProxy.host" value="${settings.activeProxy.host}" />
-                <property name="activeProxy.port" value="${settings.activeProxy.port}" />
-                <property name="activeProxy.user" value="${settings.activeProxy.username}" />
-                <property name="activeProxy.password" value="${settings.activeProxy.password}" />
-                <property name="activeProxy.nonProxyHosts" value="${settings.activeProxy.nonProxyHosts}" />
-
-                <taskdef name="setproxy" classname="org.apache.tools.ant.taskdefs.optional.net.SetProxy" />
-                <setproxy proxyhost="${settings.activeProxy.host}" proxyport="${settings.activeProxy.port}" proxypassword="${settings.activeProxy.password}" proxyuser="${settings.activeProxy.username}"
-                  nonproxyhosts="${settings.activeProxy.nonProxyHosts}" />
+<!--                <property name="activeProxy.host" value="${settings.activeProxy.host}" />-->
+<!--                <property name="activeProxy.port" value="${settings.activeProxy.port}" />-->
+<!--                <property name="activeProxy.user" value="${settings.activeProxy.username}" />-->
+<!--                <property name="activeProxy.password" value="${settings.activeProxy.password}" />-->
+<!--                <property name="activeProxy.nonProxyHosts" value="${settings.activeProxy.nonProxyHosts}" />-->
+<!---->
+<!--                <taskdef name="setproxy" classname="org.apache.tools.ant.taskdefs.optional.net.SetProxy" />-->
+<!--                <setproxy proxyhost="${settings.activeProxy.host}" proxyport="${settings.activeProxy.port}" proxypassword="${settings.activeProxy.password}" proxyuser="${settings.activeProxy.username}"-->
+<!--                  nonproxyhosts="${settings.activeProxy.nonProxyHosts}" />-->
                                                   
                 <mkdir dir="${src.gen.dir}" />
                 <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
-<!--                  <sysproperty key="proxySet" value="" />-->
-<!--                  <sysproperty key="proxyHost" value="${exo.proxy.host}" />-->
-<!--                  <sysproperty key="proxyPort" value="${exo.proxy.port}" />-->
+                  <sysproperty key="proxySet" value="" />
+                  <sysproperty key="proxyHost" value="${settings.activeProxy.host}" />
+                  <sysproperty key="proxyPort" value="${settings.activeProxy.port}" />
                   <arg
                     line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
                   <classpath refid="maven.dependency.classpath" />
@@ -498,13 +498,13 @@
             </goals>
           </execution>
         </executions>
-        <dependencies>
-          <dependency>
-            <groupId>ant</groupId>
-            <artifactId>ant-nodeps</artifactId>
-            <version>1.6.5</version>
-          </dependency>
-        </dependencies>
+<!--        <dependencies>-->
+<!--          <dependency>-->
+<!--            <groupId>ant</groupId>-->
+<!--            <artifactId>ant-nodeps</artifactId>-->
+<!--            <version>1.6.5</version>-->
+<!--          </dependency>-->
+<!--        </dependencies>-->
       </plugin>
 
 
