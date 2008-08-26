@@ -168,7 +168,7 @@
             <phase>generate-sources</phase>
             <configuration>
               <tasks if="settings.activeProxy.host">
-                <echo>=== PROXY === ${settings.activeProxy.host}:${settings.activeProxy.port}</echo>
+                <echo>=== PROXY === [${settings.activeProxy.host}:${settings.activeProxy.port}] ===</echo>
 
                 <property name="activeProxy.host" value="${settings.activeProxy.host}" />
                 <property name="activeProxy.port" value="${settings.activeProxy.port}" />
