@@ -139,18 +139,20 @@ public class ResourceBundleServiceImpl extends BaseResourceBundleService {
       final ResourceBundle parent,
       final Locale locale) throws Exception {
     
-//    Session session = hService.openSession();
-//    ResourceBundleData data = (ResourceBundleData) session.get(ResourceBundleData.class, id);
-//    if (data != null) {
-//      ResourceBundle res = new ExoResourceBundle(data.getData(), parent);
-//      MapResourceBundle mres = new MapResourceBundle(res, locale);
-//      return mres;
-//    }
-//    return null;
-    System.out.println("INPUT LOCALE:" + locale);
+    Session session = hService.openSession();
+    ResourceBundleData data = (ResourceBundleData) session.get(ResourceBundleData.class, id);
+    if (data != null) {
+      ResourceBundle res = new ExoResourceBundle(data.getData(), parent);
+      MapResourceBundle mres = new MapResourceBundle(res, locale);
+      return mres;
+    }
+////    return null;
+    
     ResourceBundle rB = ResourceBundle.getBundle(id, locale,
                                                  Thread.currentThread().getContextClassLoader());
-    System.out.println("OUTPUT LOCALE:" + rB.getLocale());
+    if (rB != null) 
     return new MapResourceBundle(rB, locale);
+    else 
+      return null;
   }
  }

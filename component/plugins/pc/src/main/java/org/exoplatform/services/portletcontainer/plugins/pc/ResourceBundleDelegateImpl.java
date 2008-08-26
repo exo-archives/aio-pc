@@ -50,12 +50,7 @@ public class ResourceBundleDelegateImpl implements ResourceBundleDelegate {
    */
   public final ResourceBundle lookupBundle(final String portletBundleName, final Locale locale) {
         String[] bundles = { portletBundleName };
-        
-        System.out.println("INPUT TYT:" + locale);
-        
         ResourceBundle rb = resourceBundleService.getResourceBundle(bundles, locale);
-        //System.out.println("Keys count: "+rb.keySet().size()+"\n");
-        System.out.println("OUTPUT TYT:" + rb.getLocale() + "!!");
         return rb;
         
         
