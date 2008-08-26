@@ -147,10 +147,10 @@ public class ResourceBundleServiceImpl extends BaseResourceBundleService {
 //      return mres;
 //    }
 //    return null;
-    
+    System.out.println("INPUT LOCALE:" + locale);
     ResourceBundle rB = ResourceBundle.getBundle(id, locale,
                                                  Thread.currentThread().getContextClassLoader());
-    
+    System.out.println("OUTPUT LOCALE:" + rB.getLocale());
     return new MapResourceBundle(rB, locale);
   }
  }
