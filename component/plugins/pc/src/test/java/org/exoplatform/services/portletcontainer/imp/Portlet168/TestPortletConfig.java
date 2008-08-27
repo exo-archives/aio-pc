@@ -62,6 +62,7 @@ public class TestPortletConfig extends BaseTest{
 	 *
 	 * PLT.6.1
 	 */
+  
 	public void testInitializationParam(){
 		Enumeration e = config.getInitParameterNames();
 		assertEquals("initName", e.nextElement());
@@ -80,7 +81,7 @@ public class TestPortletConfig extends BaseTest{
 	 * PLT.6.2
 	 */
   public void testResourceBundleCreation(){
-		Locale l = Locale.ENGLISH ;
+		Locale l = Locale.ENGLISH;
 		ResourceBundle rB = config.getResourceBundle(l);
 
     assertEquals("HelloWorld title",rB.getString("javax.portlet.title"));
@@ -88,7 +89,7 @@ public class TestPortletConfig extends BaseTest{
 		assertEquals("sample, hello",rB.getString("javax.portlet.keywords"));
     //assertTrue(rB.getStringArray("key") instanceof String[]);
 		assertEquals(l, rB.getLocale());
-
+    
 		l = Locale.FRENCH ;
 		rB = config.getResourceBundle(l);
     assertEquals("Bonjour le monde Portlet",rB.getString("javax.portlet.title"));
@@ -106,6 +107,7 @@ public class TestPortletConfig extends BaseTest{
 	 *
 	 * PLT.6.2
 	 */
+  
 	public void testInlineResourceBundleCreation(){
     PortletDataImp portletDatas = (PortletDataImp) portletContainer.
                  getAllPortletMetaData().get("war_template" + Constants.PORTLET_META_DATA_ENCODER
