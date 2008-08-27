@@ -69,6 +69,7 @@ public class TestSuitePortlet168 extends TestSuite {
     addTestSuite(TestPortletRequests.class);
     addTestSuite(TestPortletURL.class);
     addTestSuite(TestWindowState.class);
+
   }
 
   public void testVoid() throws Exception {
