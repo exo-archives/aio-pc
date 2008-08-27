@@ -150,8 +150,10 @@ public class ResourceBundleServiceImpl extends BaseResourceBundleService {
     
     ResourceBundle rB = ResourceBundle.getBundle(id, locale,
                                                  Thread.currentThread().getContextClassLoader());
-    if (rB != null) 
+    if (rB != null) {
     return new MapResourceBundle(rB, locale);
+    
+    }
     else 
       return null;
   }
