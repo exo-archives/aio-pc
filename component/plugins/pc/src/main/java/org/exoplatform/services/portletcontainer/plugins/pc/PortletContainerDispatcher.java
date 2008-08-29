@@ -44,7 +44,6 @@ import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.commons.Environment;
-import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
@@ -52,6 +51,7 @@ import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
@@ -164,7 +164,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * Logger.
    */
-  private final Log                       log;
+  private static final Log                log                      = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
   /**
    * Exo container.
@@ -193,7 +193,6 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     this.manager = manager;
     this.standAloneHandler = standAloneHandler;
     this.container = context.getContainer();
-    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
   }
 
   /**
@@ -426,7 +425,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getAllPortletMetaData()
    */
   public final Map<String, PortletData> getAllPortletMetaData() {
-    return portletApplications.getAllPortletMetaData();// EXOMAN : container);
+    return portletApplications.getAllPortletMetaData();
   }
 
   /**
@@ -455,6 +454,12 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                                  final Object payload) {
     PortletApp portletApp = portletApplications.getPortletApplication(portletAppName);
     List<EventDefinition> eds = portletApp.getEventDefinition();
+    return isEventPayloadTypeMatches(eds, payload, eventName);
+  }
+
+  public static boolean isEventPayloadTypeMatches(final List<EventDefinition> eds,
+                                                  final Object payload,
+                                                  final QName eventName) {
     for (EventDefinition ed : eds) {
       if (!ed.getPrefferedName().equals(eventName) && !ed.getAliases().contains(eventName))
         continue;
@@ -462,20 +467,22 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         return false;
       Class jc;
       try {
-        jc = Thread.currentThread().getContextClassLoader().loadClass(ed.getJavaClass());
+        jc = payload.getClass().getClassLoader().loadClass(ed.getJavaClass());
       } catch (Exception e) {
         jc = null;
       }
-      if (jc == null)
+      if (jc == null) {
         try {
           jc = Class.forName(ed.getJavaClass(), true, payload.getClass().getClassLoader());
         } catch (Exception e) {
           jc = null;
         }
+      }
       if (log.isDebugEnabled())
         log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
-      if (jc != null)
+      if (jc != null) {
         return jc.isInstance(payload); // just here we would return TRUE
+      }
       return false;
     }
     return false;

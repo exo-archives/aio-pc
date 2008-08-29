@@ -21,7 +21,7 @@ import java.rmi.RemoteException;
 
 import javax.portlet.PortletPreferences;
 
-import org.exoplatform.commons.utils.IOUtil;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
@@ -30,7 +30,6 @@ import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
 import org.exoplatform.services.wsrp2.type.PortletContext;
-import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SessionParams;

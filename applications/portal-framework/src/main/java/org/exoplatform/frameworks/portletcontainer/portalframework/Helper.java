@@ -241,19 +241,19 @@ public final class Helper {
    * Distinguishes public parameters from within all public ones basing on public parameter
    * list.
    *
-   * @param portletParams all params
+   * @param portletRenderParams all params
    * @param publicRenderParams destination map for public params
-   * @param list public parameters names list
+   * @param publicParams public parameters names list
    */
-  public static void separatePublicParams(final Map<String, String[]> portletParams,
+  public static void separatePublicParams(final Map<String, String[]> portletRenderParams,
       final Map<String, String[]> publicRenderParams,
-      final List<String> list) {
-    if (list == null)
+      final List<String> publicParams) {
+    if (publicParams == null)
       return;
-    for (Iterator<String> i = portletParams.keySet().iterator(); i.hasNext();) {
+    for (Iterator<String> i = portletRenderParams.keySet().iterator(); i.hasNext();) {
       String name = i.next();
-      if (list.contains(name)) {
-        publicRenderParams.put(name, portletParams.get(name));
+      if (publicParams.contains(name)) {
+        publicRenderParams.put(name, portletRenderParams.get(name));
         i.remove();
       }
     }

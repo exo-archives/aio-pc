@@ -384,14 +384,10 @@ public class WSRPAdminPortlet {
       }
       if (action.equals("deregister")) {
         String producerid = request.getParameter("producerid");
-        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() producerid = " + producerid);
 
         ProducerRegistry pregistry = consumer.getProducerRegistry();
         Producer producer = pregistry.getProducer(producerid);
-        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() producer = " + producer);
         RegistrationContext registrationContext = producer.getRegistrationContext();
-        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() registrationContext = "
-            + registrationContext);
         
         UserContext userContext = new UserContext();
         userContext.setUserCategories(null);

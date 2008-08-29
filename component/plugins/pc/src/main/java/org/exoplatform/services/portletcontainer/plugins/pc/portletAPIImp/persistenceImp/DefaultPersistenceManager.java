@@ -20,10 +20,10 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PreferencesValidator;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.WindowID;

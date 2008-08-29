@@ -802,8 +802,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       } catch (Exception e) {
         e.printStackTrace();
       }
-      System.out.println(">>> EXOMAN WSRPConsumerPlugin.processNavigationalContext() navigationalValues = "
-          + navigationalValues);
       output.setRenderParameter(WSRPConstants.WSRP_NAVIGATIONAL_VALUES, navigationalValues);
       
       Map<String,String[]> params = Utils.getMapParametersFromNamedStringArray(namedStrings);
@@ -1238,8 +1236,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           e.printStackTrace();
         }
         if (parameterNavigationalValuesDec!=null) {
-          System.out.println(">>> EXOMAN WSRPConsumerPlugin.getNavigationalValues() parameterNavigationalValuesDec = "
-              + parameterNavigationalValuesDec);
           String[] navigationalValues = parameterNavigationalValuesDec.split(WSRPConstants.NEXT_PARAM);
           // from String[] to NamedString[] converting navigational values
           if (navigationalValues != null) {

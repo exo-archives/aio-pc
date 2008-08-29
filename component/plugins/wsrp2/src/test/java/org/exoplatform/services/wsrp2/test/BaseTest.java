@@ -31,8 +31,8 @@ import javax.servlet.http.HttpServletResponse;
 import junit.framework.TestCase;
 
 import org.exoplatform.Constants;
-import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
@@ -70,8 +70,6 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
-
-import com.sun.org.apache.bcel.internal.generic.NEW;
 
 /**
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: 11 nov. 2003 Time:

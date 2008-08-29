@@ -23,11 +23,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.commons.utils.IOUtil;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;

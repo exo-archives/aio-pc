@@ -17,7 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
-import org.exoplatform.commons.utils.IOUtil;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 
 /**

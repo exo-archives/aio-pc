@@ -17,7 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
-import org.exoplatform.commons.utils.IOUtil;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 
 /**
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:

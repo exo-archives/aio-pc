@@ -21,7 +21,7 @@ import java.rmi.RemoteException;
 
 import javax.portlet.PortletPreferences;
 
-import org.exoplatform.commons.utils.IOUtil;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp.type.BlockingInteractionRequest;
 import org.exoplatform.services.wsrp.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp.type.InteractionParams;

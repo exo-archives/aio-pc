@@ -16,7 +16,10 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
+import java.io.Serializable;
+import java.util.Arrays;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -32,8 +35,11 @@ import javax.xml.bind.JAXBContext;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
+import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.EventOutput;
+import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 25.05.2007.
@@ -49,7 +55,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @param windowState window state
    * @throws WindowStateException exception
    * @see javax.portlet.StateAwareResponse#setWindowState(javax.portlet.WindowState)
@@ -66,8 +72,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       return;
     }
     ExoContainer manager = getCont();
-    Enumeration<WindowState> e = ((PortletContainerConf) manager
-        .getComponentInstanceOfType(PortletContainerConf.class)).getSupportedWindowStates();
+    Enumeration<WindowState> e = ((PortletContainerConf) manager.getComponentInstanceOfType(PortletContainerConf.class)).getSupportedWindowStates();
     while (e.hasMoreElements()) {
       WindowState state = e.nextElement();
       if (state.toString().equals(windowState.toString())) {
@@ -82,7 +87,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @param portletMode portlet mode
    * @throws PortletModeException exception
    * @see javax.portlet.StateAwareResponse#setPortletMode(javax.portlet.PortletMode)
@@ -116,7 +121,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @param map map
    * @see javax.portlet.StateAwareResponse#setRenderParameters(java.util.Map)
    */
@@ -141,10 +146,11 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @param s1 value
-   * @see javax.portlet.StateAwareResponse#setRenderParameter(java.lang.String, java.lang.String)
+   * @see javax.portlet.StateAwareResponse#setRenderParameter(java.lang.String,
+   *      java.lang.String)
    */
   public final void setRenderParameter(final String s, final String s1) {
     if (s == null)
@@ -159,10 +165,11 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @param strings values
-   * @see javax.portlet.StateAwareResponse#setRenderParameter(java.lang.String, java.lang.String[])
+   * @see javax.portlet.StateAwareResponse#setRenderParameter(java.lang.String,
+   *      java.lang.String[])
    */
   public final void setRenderParameter(final String s, final String[] strings) {
     if (s == null)
@@ -177,7 +184,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @return portlet mode
    * @see javax.portlet.StateAwareResponse#getPortletMode()
    */
@@ -187,7 +194,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @return render parameters
    * @see javax.portlet.StateAwareResponse#getRenderParameterMap()
    */
@@ -198,7 +205,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @return window state
    * @see javax.portlet.StateAwareResponse#getWindowState()
    */
@@ -210,68 +217,79 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       "java.math.BigDecimal", "java.util.Calendar", "java.util.Date", "javax.xml.namespace.QName",
       "java.net.URI", "javax.xml.datatype.XMLGregorianCalendar", "javax.xml.datatype.Duration",
       "java.awt.Image", "javax.activation.DataHandler", "javax.xml.transform.Source",
-      "java.util.UUID" };
+      "java.util.UUID"                };
 
   /**
-   * @param o event payload
+   * @param payload event payload
    * @return is it default JAXB serializable object
    */
-  protected boolean validateByJAXB8_5_2List(final Object o) {
-    return java.util.Arrays.asList(jaxb8_5_2List).contains(o.getClass().getName());
+  protected boolean validateByJAXB8_5_2List(final Object payload) {
+    return java.util.Arrays.asList(jaxb8_5_2List).contains(payload.getClass().getName());
   }
 
   /**
-   * @param o event payload
-   * @return is it JAXB serializable object
+   * @param payload event payload
+   * @return is it JAXB serializable object. Return <code>false</code> if the
+   *         value is not serializable, the value does not have a valid JAXB
+   *         binding, the object type of the value is not the same as specified
+   *         in the portlet deployment descriptor for this event name.
    */
-  protected boolean validateWithJAXB(final Object o) {
-    if (o == null)
+  protected boolean validateWithJAXB(final QName name, final java.io.Serializable payload) {
+    if (payload == null)
       return true;
-    if (validateByJAXB8_5_2List(o))
+    if (validateByJAXB8_5_2List(payload))
       return true;
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(o.getClass());
-      jaxbContext.createMarshaller().marshal(o, new NullOutputStream());
+      JAXBContext jaxbContext = JAXBContext.newInstance(payload.getClass());
+      jaxbContext.createMarshaller().marshal(payload, new NullOutputStream());
     } catch (Exception e) {
       return false;
     }
-    return true;
+    List<EventDefinition> eds = getPortletDatas().getApplication().getEventDefinition();
+    return PortletContainerDispatcher.isEventPayloadTypeMatches(eds, payload, name);
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param name name
-   * @param event event payload
-   * @see javax.portlet.StateAwareResponse#setEvent(javax.xml.namespace.QName, java.io.Serializable)
+   * @param value event payload
+   * @see javax.portlet.StateAwareResponse#setEvent(javax.xml.namespace.QName,
+   *      java.io.Serializable)
    */
-  public final void setEvent(final QName name, final java.io.Serializable event) {
-    if (!validateWithJAXB(event))
-      throw new java.lang.IllegalArgumentException("setEvent(): can't get binding of "
-          + event.getClass().getName());
-    ((EventOutput) getOutput()).setEvent(name, event);
+  public final void setEvent(final QName name, final java.io.Serializable value) {
+    if (name == null || !validateWithJAXB(name, value))
+      throw new java.lang.IllegalArgumentException("setEvent(): can't get binding of " + value == null ? null
+                                                                                                      : value.getClass()
+                                                                                                             .getName());
+    
+    ((EventOutput) getOutput()).setEvent(name, value);
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param name name
-   * @param event event payload
-   * @see javax.portlet.StateAwareResponse#setEvent(java.lang.String, java.io.Serializable)
+   * @param value event payload
+   * @see javax.portlet.StateAwareResponse#setEvent(java.lang.String,
+   *      java.io.Serializable)
    */
-  public final void setEvent(final String name, final java.io.Serializable event) {
-    ((EventOutput) getOutput()).setEvent(new QName(getPortletDatas().getApplication()
-        .getDefaultNamespace(), name), event);
+  public final void setEvent(final String name, final java.io.Serializable value) {
+    if (name == null)
+      throw new java.lang.IllegalArgumentException("setEvent(): can't get binding of " + value == null ? null
+                                                                                                      : value.getClass()
+                                                                                                             .getName());
+    QName qName = new QName(getPortletDatas().getApplication().getDefaultNamespace(), name);
+    setEvent(qName, value);
   }
 
   /**
-   * @author Roman Pedchenko
-   * Null output stream
+   * @author Roman Pedchenko Null output stream
    */
   private class NullOutputStream extends java.io.OutputStream {
     /**
      * Overridden method.
-     *
+     * 
      * @param b data byte
      * @see java.io.OutputStream#write(int)
      */
@@ -281,7 +299,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
 
   /**
    * Overridden method.
-   *
+   * 
    * @param param param
    * @see javax.portlet.StateAwareResponse#removePublicRenderParameter(java.lang.String)
    */

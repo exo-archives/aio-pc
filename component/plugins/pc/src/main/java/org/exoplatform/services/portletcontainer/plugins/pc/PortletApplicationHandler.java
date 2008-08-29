@@ -289,13 +289,13 @@ public class PortletApplicationHandler {
               log.debug("need to redirect to " + location);
               output.addProperty(Output.SEND_REDIRECT, location);
             }
-          } else if (isAction == PCConstants.EVENT_INT)
+          } else if (isAction == PCConstants.EVENT_INT) {
             chain.doProcessEvent(portlet, (EventRequest) portletRequest,
                 (EventResponse) portletResponse);
-          else if (isAction == PCConstants.RESOURCE_INT)
+          } else if (isAction == PCConstants.RESOURCE_INT) {
             chain.doServeResource(portlet, (ResourceRequest) portletRequest,
                 (ResourceResponse) portletResponse);
-          else {
+          } else {
             chain.doRender(portlet, (RenderRequest) portletRequest,
                 (RenderResponse) portletResponse);
             if (((RenderInput) input).getTitle() != null) {

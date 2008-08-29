@@ -866,9 +866,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                           portletManagementOperationsInterface))
         return null;
       
-      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.handleEvents() eventParams.getEvents()[0].getName() = "
-          + eventParams.getEvents()[0].getName());
-      
       // manage the portlet handle
       String portletHandle = portletContext.getPortletHandle();
       portletHandle = manageRegistration(portletHandle, registrationContext);

@@ -16,9 +16,13 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
+import java.io.Serializable;
+
 import javax.portlet.Event;
 import javax.portlet.EventRequest;
 
+import org.exoplatform.services.portletcontainer.helper.EventUtil;
+import org.exoplatform.services.portletcontainer.pci.EventImpl;
 import org.exoplatform.services.portletcontainer.pci.EventInput;
 
 /**
@@ -32,11 +36,42 @@ public class EventRequestImp extends PortletRequestImp implements EventRequest {
   }
 
   public Event getEvent() {
-    return ((EventInput) getInput()).getEvent();
+    Event event = ((EventInput) getInput()).getEvent();
+    Serializable payload = event.getValue();
+    if (isNotSerialize(payload)) {
+      return event;
+    } else {
+      Serializable newPayload = getSerializeDeserialize(payload);
+      Event newEvent = new EventImpl(event.getQName(), newPayload);
+      return newEvent;
+    }
   }
 
   public String getLifecyclePhase() {
     return EVENT_PHASE;
+  }
+
+  private boolean isNotSerialize(Serializable payload) {
+    boolean doNotSerialize = true;
+    String fqn = payload.getClass().getCanonicalName();
+    try {
+      Class clazz = Thread.currentThread().getContextClassLoader().loadClass(fqn);
+      doNotSerialize = clazz.isInstance(payload);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return doNotSerialize;
+  }
+
+  private Serializable getSerializeDeserialize(Serializable payload) {
+    Serializable newPayload = null;
+    try {
+      byte[] bytes = EventUtil.serialize(payload);
+      newPayload = (Serializable) EventUtil.deserializeInContextClassloader(bytes);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return newPayload;
   }
 
 }
