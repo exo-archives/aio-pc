@@ -16,6 +16,9 @@
  */
 package org.exoplatform.services.portletcontainer.test.servlets;
 
+import static org.exoplatform.frameworks.portletcontainer.portalframework.PFConstants.LIST_COLLAPSED;
+import static org.exoplatform.frameworks.portletcontainer.portalframework.PFConstants.PORTLET_INFOS;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -34,8 +37,8 @@ import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
 import org.exoplatform.services.log.ExoLogger;
 
 /**
- * Created by The eXo Platform SAS  .
- *
+ * Created by The eXo Platform SAS .
+ * 
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id$
  */
@@ -44,17 +47,18 @@ public class PortalServlet extends HttpServlet {
   /**
    * Log.
    */
-  private final Log log = ExoLogger.getLogger(getClass().getName());
+  private final Log log = ExoLogger.getLogger(getClass());
 
   /**
    * Serves http request. Renders portal page.
-   *
+   * 
    * @param request http request
    * @param response http response
    * @throws IOException declared by superclass
    * @throws ServletException declared by superclass
    */
-  public void service(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
+  public void service(HttpServletRequest request, HttpServletResponse response) throws IOException,
+                                                                               ServletException {
     try {
       HttpSession session = request.getSession();
       byte[] resource = (byte[]) session.getAttribute("resource");
@@ -84,23 +88,24 @@ public class PortalServlet extends HttpServlet {
       PrintWriter w = response.getWriter();
 
       w.println("<html>");
-        w.println("<head>");
-          w.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\">");
-          w.println("<title>Portlet rendering</title>");
-        w.println("</head>");
+      w.println("<head>");
+      w.println("<meta http-equiv=\"Content-Type\" content=\"text/html;charset=UTF-8\">");
+      w.println("<title>Portlet rendering</title>");
+      w.println("</head>");
       w.println("<body width='100%' style='font-family: Arial' bgcolor='#FFFFFF'>");
       w.println("<table width='100%'>");
-        w.println("<tr>");
-          w.println("<td><a href='" + request.getContextPath() + "'><img src=\"../img/logotestportal.png\" style='border:0px none;'></a></td>");
-          w.println("<td>&nbsp;</td>");
-        w.println("</tr>");
+      w.println("<tr>");
+      w.println("<td><a href='" + request.getContextPath()
+          + "'><img src=\"../img/logotestportal.png\" style='border:0px none;'></a></td>");
+      w.println("<td>&nbsp;</td>");
+      w.println("</tr>");
       w.println("</table>");
 
-      ArrayList<PortletInfo> portletinfos = (ArrayList<PortletInfo>) session.getAttribute("portletinfos");
+      ArrayList<PortletInfo> portletinfos = (ArrayList<PortletInfo>) session.getAttribute(PORTLET_INFOS);
 
       try {
         if (portletinfos != null) {
-          Boolean collapsed = (Boolean) session.getAttribute("listCollapsed");
+          Boolean collapsed = (Boolean) session.getAttribute(LIST_COLLAPSED);
           if (collapsed == null)
             collapsed = new Boolean(false);
           String displayOpen = "";
@@ -131,44 +136,46 @@ public class PortalServlet extends HttpServlet {
           w.println("</script>");
           w.println("<form method='POST' name='checkPortlet' action='.'>");
           w.println("<input type='hidden' name='fis' id='fis' value='yes'>");
-          w.println("<input type='hidden' name='listCollapsed' id='fis' value='" + collapsed.toString() + "'>");
-            w.println("<div id='elCollapsed'" + displayClosed + ">");
-              w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-                w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6'><img src=\"../img/triangle.gif\" onclick='listOpen()' />" +
-                    " <font size='4' face='Verdana,Arial'>Collapsed portlet list</font></th></tr>");
-              w.println("</table>");
-            w.println("</div>");
-            w.println("<div id='elList'" + displayOpen + ">");
-            w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-              w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='5'>"
-                  + "<img src=\"../img/opentriangle.gif\" onclick='listClose()' /> <font size='4' face='Verdana,Arial'>Please, select some of the following portlets :</font></th></tr>");
-              w.println("<tr><td align='center'>");
-              w.println("<input type='button' value='Check All' onClick='checkAll();'>");
-              w.println("</td>");
-              w.println("<td align='center'><b>Num</b></td>");
-                w.println("<td align='center'><b>Portlet Id</b></td>");
-              w.println("<td align='center'><b>Portlet Name</b></td>");
-              w.println("<td align='center'><b>Portlet Title</b></td>");
-              w.println("</tr>");
+          w.println("<input type='hidden' name='listCollapsed' id='fis' value='"
+              + collapsed.toString() + "'>");
+          w.println("<div id='elCollapsed'" + displayClosed + ">");
+          w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
+          w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6'><img src=\"../img/triangle.gif\" onclick='listOpen()' />"
+              + " <font size='4' face='Verdana,Arial'>Collapsed portlet list</font></th></tr>");
+          w.println("</table>");
+          w.println("</div>");
+          w.println("<div id='elList'" + displayOpen + ">");
+          w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
+          w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='5'>"
+              + "<img src=\"../img/opentriangle.gif\" onclick='listClose()' /> <font size='4' face='Verdana,Arial'>Please, select some of the following portlets :</font></th></tr>");
+          w.println("<tr><td align='center'>");
+          w.println("<input type='button' value='Check All' onClick='checkAll();'>");
+          w.println("</td>");
+          w.println("<td align='center'><b>Num</b></td>");
+          w.println("<td align='center'><b>Portlet Id</b></td>");
+          w.println("<td align='center'><b>Portlet Name</b></td>");
+          w.println("<td align='center'><b>Portlet Title</b></td>");
+          w.println("</tr>");
           int i2 = 0;
           for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
             PortletInfo pinf = i.next();
-              String title2 = pinf.getTitle();
-              String id2 = pinf.getPortlet();
-              String myatr2str = "";
-              if (pinf.isToRender())
-                myatr2str = " checked";
-              i2++;
-              w.println("<tr><td align='center'>");
-                w.println("<input type='checkbox' name='n" + i2 + "n' ID='n" + i2 + "n'" + myatr2str
-                    + " onClick='checkPortlet.submit()'>");
-                w.println("</td><td align='center'>" + i2 + "</td><td valign='center' bgcolor=''>" + id2 + "</td>");
-                w.println("<td valign='center' bgcolor=''>" + pinf.getName() + "</td>");
-              w.println("<td valign='center' bgcolor=''>" + title2 + "</td>");
-              w.println("</tr>");
-            }
-            w.println("</table>");
-            w.println("</div>");
+            String title2 = pinf.getTitle();
+            String id2 = pinf.getPortlet();
+            String myatr2str = "";
+            if (pinf.isToRender())
+              myatr2str = " checked";
+            i2++;
+            w.println("<tr><td align='center'>");
+            w.println("<input type='checkbox' name='n" + i2 + "n' ID='n" + i2 + "n'" + myatr2str
+                + " onClick='checkPortlet.submit()'>");
+            w.println("</td><td align='center'>" + i2 + "</td><td valign='center' bgcolor=''>"
+                + id2 + "</td>");
+            w.println("<td valign='center' bgcolor=''>" + pinf.getName() + "</td>");
+            w.println("<td valign='center' bgcolor=''>" + title2 + "</td>");
+            w.println("</tr>");
+          }
+          w.println("</table>");
+          w.println("</div>");
           w.println("</form>");
         } else {
           w.println("<table width='100%' border='1'><tr><td>There's no portlet data to show</td></tr></table>");
@@ -178,38 +185,47 @@ public class PortalServlet extends HttpServlet {
       }
 
       String reqURL = new String(request.getRequestURL() + "?");
-      String reqContextPath = new String(request.getContextPath().substring(1, request.getContextPath().length()) + ":");
+      String reqContextPath = new String(request.getContextPath()
+                                                .substring(1, request.getContextPath().length())
+          + ":");
 
       try {
         if (portletinfos != null) {
-          for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
-            PortletInfo pinf = i.next();
-            if (pinf.isToRender()) {
-              String title = pinf.getTitle();
-              String hs = pinf.getOut();
-              ArrayList<String> mymodes = pinf.getModes();
-              ArrayList<String> mystates = pinf.getStates();
-              String portlet = pinf.getPortlet();
+          for (Iterator<PortletInfo> portletinfosIterator = portletinfos.iterator(); portletinfosIterator.hasNext();) {
+            PortletInfo pinfo = portletinfosIterator.next();
+            if (pinfo.isToRender()) {
+              String title = pinfo.getTitle();
+              String hs = pinfo.getOut();
+              ArrayList<String> mymodes = pinfo.getModes();
+              ArrayList<String> mystates = pinfo.getStates();
+              String portlet = pinfo.getPortlet();
               w.println("<table width='100%' border='1' STYLE='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
-                w.println("<tr><th valign='center' bgcolor='#A3A7F6'><font size='4' face='Verdana,Arial'><div id=\"p" + pinf.getWid() + "title\">"
-                    + title + " (" + pinf.getName() + ")"+ "</div></font>");
+              w.println("<tr><th valign='center' bgcolor='#A3A7F6'><font size='4' face='Verdana,Arial'><div id=\"p"
+                  + pinfo.getWid()
+                  + "title\">"
+                  + title
+                  + " ("
+                  + pinfo.getName()
+                  + ")"
+                  + "</div></font>");
               String resMode = reqURL;
               resMode += reqContextPath + "componentId=" + portlet;
 //              resMode += "&" + reqContextPath + "type=action";
               resMode += "&" + reqContextPath + "isSecure=true";
-              if (mymodes!= null)
-              for (int j = 0; j < mymodes.size(); j++) {
-                w.println("<a href='" + resMode + "&" + reqContextPath + "portletMode=" + mymodes.get(j) + "'>"
-                    + mymodes.get(j) + "</a>");
-              }
-                w.println("<br>");
-              if (mystates!= null)
-                for (int k = 0; k < mystates.size(); k++) {
-                  w.println("<a href='" + resMode + "&" + reqContextPath + "windowState=" + mystates.get(k) + "'>"
-                      + mystates.get(k) + "</a>");
+              if (mymodes != null)
+                for (int j = 0; j < mymodes.size(); j++) {
+                  w.println("<a href='" + resMode + "&" + reqContextPath + "portletMode="
+                      + mymodes.get(j) + "'>" + mymodes.get(j) + "</a>");
                 }
-                w.println("</th></tr>");
-                w.println("<tr><td><div id=\"p" + pinf.getWid() + "content\">" + hs + "</div></td></tr>");
+              w.println("<br>");
+              if (mystates != null)
+                for (int k = 0; k < mystates.size(); k++) {
+                  w.println("<a href='" + resMode + "&" + reqContextPath + "windowState="
+                      + mystates.get(k) + "'>" + mystates.get(k) + "</a>");
+                }
+              w.println("</th></tr>");
+              w.println("<tr><td><div id=\"p" + pinfo.getWid() + "content\">" + hs
+                  + "</div></td></tr>");
               w.println("</table>");
             }
           }

@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.portletcontainer.test.servlets;
 
+import static org.exoplatform.frameworks.portletcontainer.portalframework.PFConstants.PORTLET_INFOS;
+
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
@@ -39,15 +41,16 @@ public class TckServlet extends HttpServlet {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param request request
    * @param response response
    * @throws ServletException exception
    * @throws IOException exception
-   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
+   *      javax.servlet.http.HttpServletResponse)
    */
   protected void service(HttpServletRequest request, HttpServletResponse response) throws ServletException,
-      IOException {
+                                                                                  IOException {
     HttpSession session = request.getSession();
     byte[] resource = (byte[]) session.getAttribute("resource");
     if (resource != null) {
@@ -75,7 +78,7 @@ public class TckServlet extends HttpServlet {
     PrintWriter w = response.getWriter();
     if (session.getAttribute("portletName") != null) {
       // especially for TCK tests
-      ArrayList<PortletInfo> portletinfos = (ArrayList) session.getAttribute("portletinfos");
+      ArrayList<PortletInfo> portletinfos = (ArrayList) session.getAttribute(PORTLET_INFOS);
       for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
         PortletInfo pinf = i.next();
         w.println(pinf.getOut());

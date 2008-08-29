@@ -16,6 +16,10 @@
  */
 package org.exoplatform.services.portletcontainer.test.filters;
 
+import static org.exoplatform.frameworks.portletcontainer.portalframework.PFConstants.LIST_COLLAPSED;
+import static org.exoplatform.frameworks.portletcontainer.portalframework.PFConstants.PORTLETS_2_RENDER;
+import static org.exoplatform.frameworks.portletcontainer.portalframework.PFConstants.PORTLET_INFOS;
+
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -33,37 +37,34 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import org.exoplatform.frameworks.portletcontainer.portalframework.Helper;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
-import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
-import org.exoplatform.frameworks.portletcontainer.portalframework.WindowID2;
 import org.exoplatform.services.portletcontainer.PCConstants;
 
 /**
- * Created by The eXo Platform SAS  .
- *
+ * Created by The eXo Platform SAS .
+ * 
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id: PortletFilter.java 8554 2006-09-04 15:28:35Z sunman $
  */
 
 /**
- * PortletFilter class does portal's work using portal-framework it processes user http requests
- * and invokes portlets.
+ * PortletFilter class does portal's work using portal-framework it processes
+ * user http requests and invokes portlets.
  */
 public class PortletFilter implements Filter {
 
   /**
-   * Some ASs commit ServletResponse's that they get with include() method so we have to
-   * construct dummy responses to be committed :).
-   *
+   * Some ASs commit ServletResponse's that they get with include() method so we
+   * have to construct dummy responses to be committed :).
+   * 
    * @param original original http servlet response
    * @return dummy response if it's need, otherwise original one
    */
-  public final HttpServletResponse createDummyResponse(final HttpServletResponse original) {
+  private final HttpServletResponse createDummyResponse(final HttpServletResponse original) {
     if (original.getClass().getName().equals("weblogic.servlet.internal.ServletResponseImpl")
         || original.getClass().getName().equals("com.ibm.ws.webcontainer.srt.SRTServletResponse")
 //        || original.getClass().getName().equals("com.evermind.server.http.EvermindHttpServletResponse")
-        ) {
+    ) {
       return new DummyResponse(original);
     } else
       return original;
@@ -71,32 +72,15 @@ public class PortletFilter implements Filter {
 
   /**
    * Does nothing.
-   *
+   * 
    * @param filterConfig filter config
    */
   public void init(final FilterConfig filterConfig) {
   }
 
-  private void createOrUpdatePortletWindows(PortalFramework framework, List<String> allPortlets) {
-    for (String pn : allPortlets) {
-      String[] ss = pn.split("/");
-      if (!foundInPortlets(framework, ss[0], ss[1]))
-        framework.addPortletToPage(framework.addPortlet(ss[0], ss[1]));
-    }
-  }
-
-  private boolean foundInPortlets(PortalFramework framework, String app, String plt) {
-    for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
-      WindowID2 win = framework.getPortletWindowById(i.next());
-      if (win.getPortletApplicationName().equals(app) && win.getPortletName().equals(plt))
-        return true;
-    }
-    return false;
-  }
-
   /**
    * Actual request processing.
-   *
+   * 
    * @param servletRequest servlet request
    * @param servletResponse servlet respnse
    * @param filterChain filter chain
@@ -104,51 +88,25 @@ public class PortletFilter implements Filter {
    * @throws ServletException something may go wrong
    */
   public synchronized void doFilter(ServletRequest servletRequest,
-      ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
+                                    ServletResponse servletResponse,
+                                    FilterChain filterChain) throws IOException, ServletException {
 
     HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
     HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
     HttpSession httpSession = httpRequest.getSession();
-    ServletContext ctx = httpRequest.getSession().getServletContext();
+    ServletContext ctx = httpSession.getServletContext();
+    String markupType = "text/html";
 
     try {
       PortalFramework framework = PortalFramework.getInstance();
 
-      createOrUpdatePortletWindows(framework, framework.getPortletNames());
-
-      List<String> portlets2render = null;
-
-      Map<String, String[]> servletParams = servletRequest.getParameterMap();
-
-      // collecting portlets to render
-      if (servletParams.containsKey("fis")) {
-        Iterator<String> plts = framework.getPagePortlets().iterator();
-        portlets2render = new ArrayList<String>();
-
-        int count = 0;
-        while (plts.hasNext()) {
-          count++;
-          String portlet = plts.next();
-          if ((servletParams.containsKey("fis") &&
-              (servletParams.containsKey("n" + count + "n") &&
-                  servletParams.get("n" + count + "n")[0].equals("on"))))
-            portlets2render.add(portlet);
-        }
-        httpSession.setAttribute("listCollapsed", new Boolean(servletParams.containsKey("listCollapsed") &&
-            servletParams.get("listCollapsed")[0].equals("true")));
-      }
-
-      if (portlets2render == null)
-        portlets2render = (ArrayList<String>) httpSession.getAttribute("portlets2render");
-      else
-        httpSession.setAttribute("portlets2render", portlets2render);
+      framework.createOrUpdatePortletWindows();
 
       // --- this dummy http response is intended to avoid premature response commit on some AS-es
       HttpServletResponse dummyHttpResponse = createDummyResponse(httpResponse);
 
       // call PortalFramework to process current request to portlet container
-      framework.preRenderRequest(ctx, httpRequest, dummyHttpResponse, "text/html");
+      framework.preRenderRequest(ctx, httpRequest, dummyHttpResponse, markupType);
 
       if (framework.getRedirect() != null) {
         httpResponse.sendRedirect(framework.getRedirect());
@@ -160,35 +118,67 @@ public class PortletFilter implements Filter {
         httpSession.setAttribute("resourceType", framework.getResourceContentType());
         httpSession.setAttribute("resource", framework.getResourceContent());
         httpSession.setAttribute("resourceHeaders", framework.getResourceHeaders());
-        httpSession.setAttribute("resourceStatus", new Integer(framework.getResourceStatus()));
+        httpSession.setAttribute("resourceStatus", framework.getResourceStatus());
       } else {
-        createOrUpdatePortletWindows(framework, framework.getPortletNames());
-        ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
-        for (Iterator<String> i = framework.getPagePortlets().iterator(); i.hasNext(); ) {
-          String plt = i.next();
-          if (portlets2render != null && portlets2render.contains(plt))
-            portletInfos.add(framework.renderPortlet(plt));
-          else
-            portletInfos.add(Helper.createPortletInfo(framework, plt));
-        }
-        httpSession.removeAttribute("portletinfos");
-        httpSession.setAttribute("portletinfos", portletInfos);
+        framework.createOrUpdatePortletWindows();
+
+        List<String> portlets2render = getPortlets2Render(servletRequest.getParameterMap(),
+                                                          httpSession,
+                                                          framework.getPagePortlets());
+
+        // call PortalFramework to process rendering all portlets
+        framework.processRender(portlets2render);
+
+        httpSession.removeAttribute(PORTLET_INFOS);
+        httpSession.setAttribute(PORTLET_INFOS, framework.getPortletInfos());
       }
 
     } catch (Exception e) {
       e.printStackTrace();
-      httpSession.setAttribute("portletinfos", null);
+      httpSession.setAttribute(PORTLET_INFOS, null);
       return;
     }
 
     filterChain.doFilter(servletRequest, servletResponse);
   }
 
-
   /**
    * Does nothing.
    */
   public void destroy() {
+  }
+
+  private List<String> getPortlets2Render(Map<String, String[]> servletParams,
+                                          HttpSession httpSession,
+                                          List<String> pagePortlets) {
+    List<String> portlets2render = null;
+
+    // collecting portlets to render
+    if (servletParams.containsKey("fis")) {
+      Iterator<String> plts = pagePortlets.iterator();
+      portlets2render = new ArrayList<String>();
+
+      int count = 0;
+      while (plts.hasNext()) {
+        count++;
+        String portlet = plts.next();
+        if ((servletParams.containsKey("fis") && (servletParams.containsKey("n" + count + "n") && servletParams.get("n"
+            + count + "n")[0].equals("on")))) {
+          portlets2render.add(portlet);
+        }
+      }
+      Boolean listCollapsedAttr = new Boolean(servletParams.containsKey(LIST_COLLAPSED)
+          && servletParams.get(LIST_COLLAPSED)[0].equals("true"));
+      httpSession.setAttribute(LIST_COLLAPSED, listCollapsedAttr);
+    }
+
+    if (portlets2render == null) {
+      portlets2render = (ArrayList<String>) httpSession.getAttribute(PORTLETS_2_RENDER);
+    } else {
+      httpSession.setAttribute(PORTLETS_2_RENDER, portlets2render);
+    }
+
+    return portlets2render;
   }
 
 }
