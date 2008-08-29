@@ -47,17 +47,17 @@ public class SessionReplicator implements RequestHandler {
   /**
    * Session identifier.
    */
-  public static final String SESSION_IDENTIFIER = "SID";
+  public static final String       SESSION_IDENTIFIER    = "SID";
 
   /**
    * Portal identifier.
    */
-  public static final String PORTAL_IDENTIFIER = "PID";
+  public static final String       PORTAL_IDENTIFIER     = "PID";
 
   /**
    * Portal identifier.
    */
-  public static final String REPLICATOR_IDENTIFIER = "RID";
+  public static final String       REPLICATOR_IDENTIFIER = "RID";
 
   /**
    * Channel.
@@ -71,12 +71,15 @@ public class SessionReplicator implements RequestHandler {
 
   /**
    * Sends session info to other nodes.
+   * 
    * @param sessionId http session id
    * @param portalContainerName portal container name
    * @param sessionInfo session info
    * @throws Exception something may go wrong
    */
-  public final void send(String sessionId, String portalContainerName, final HashMap<String, Serializable> sessionInfo) throws Exception {
+  public final void send(String sessionId,
+                         String portalContainerName,
+                         final HashMap<String, Serializable> sessionInfo) throws Exception {
     if (sessionInfo == null)
       return;
     sessionInfo.put(SESSION_IDENTIFIER, sessionId);
@@ -84,13 +87,7 @@ public class SessionReplicator implements RequestHandler {
     sessionInfo.put(REPLICATOR_IDENTIFIER, this.toString());
     try {
       if (channel == null || disp == null) {
-        InputStream stream = this.getClass().getClassLoader().getResourceAsStream("jgroups-configuration.conf");
-        byte[] b;
-        b = new byte[stream.available()];
-        stream.read(b, 0, stream.available());
-        String props = new String(b);
-
-        channel = new JChannel(props);
+        channel = createJChannel();
         disp = new MessageDispatcher(channel, null, null, this);
         channel.connect("TestGroup");
       }
@@ -104,7 +101,7 @@ public class SessionReplicator implements RequestHandler {
 
   /**
    * Receives remote session infos and updates local data.
-   *
+   * 
    * @param msg message received
    * @return reply
    */
@@ -134,9 +131,9 @@ public class SessionReplicator implements RequestHandler {
         String appName = i.next();
         if (sessionInfo.get(appName) != null) {
           service.sendAttrs((HttpServletRequest) httpRequest,
-              (HttpServletResponse) httpResponse,
-              (Map<String, Object>) sessionInfo.get(appName),
-              appName);
+                            (HttpServletResponse) httpResponse,
+                            (Map<String, Object>) sessionInfo.get(appName),
+                            appName);
         }
       }
     } catch (Exception exc) {
@@ -144,4 +141,16 @@ public class SessionReplicator implements RequestHandler {
     }
     return new String("Ok");
   }
+
+  private JChannel createJChannel() throws Exception {
+    InputStream stream = this.getClass()
+                             .getClassLoader()
+                             .getResourceAsStream("jgroups-configuration.conf");
+    byte[] b;
+    b = new byte[stream.available()];
+    stream.read(b, 0, stream.available());
+    String props = new String(b);
+    return new JChannel(props);
+  }
+
 }
