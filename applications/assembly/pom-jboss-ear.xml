@@ -93,9 +93,10 @@
 							</fileset>	
 						</copy>
 
-
+<!-- EXOMAN due to removed jboss-app.xml
 					             <delete
 						           file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/jtidy-4aug2000r7-dev.jar" />
+-->
 
 <!--
 						<delete
