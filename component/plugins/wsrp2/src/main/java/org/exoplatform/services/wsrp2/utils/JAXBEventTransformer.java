@@ -164,7 +164,12 @@ public class JAXBEventTransformer {
       String toenum = value.getClass().getSimpleName();
       if (log.isDebugEnabled())
         log.debug("JAXBEventTransformer.getMarshalledDocument() toenum = " + toenum);
-      StandardClasses t = StandardClasses.valueOf(toenum.toUpperCase());
+      StandardClasses t = null;
+      try {
+        t = StandardClasses.valueOf(toenum.toUpperCase());
+      } catch (java.lang.IllegalArgumentException e) {
+        return null;
+      }
       if (log.isDebugEnabled())
         log.debug("JAXBEventTransformer.getMarshalledDocument() t = " + t);
       return t.getMarshalledDocument(value, name);
@@ -180,7 +185,12 @@ public class JAXBEventTransformer {
       String toenum = source.substring(source.lastIndexOf(".") + 1);
       if (log.isDebugEnabled())
         log.debug("JAXBEventTransformer.getUnmarshalledObject() toenum = " + toenum);
-      StandardClasses t = StandardClasses.valueOf(toenum.toUpperCase());
+      StandardClasses t = null;
+      try {
+        t = StandardClasses.valueOf(toenum.toUpperCase());
+      } catch (java.lang.IllegalArgumentException e) {
+        return null;
+      }
       if (log.isDebugEnabled())
         log.debug("JAXBEventTransformer.getUnmarshalledObject() t = " + t);
       return t.getUnmarshalledObject(type, payload);
