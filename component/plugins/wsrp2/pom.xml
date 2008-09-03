@@ -660,9 +660,9 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
-            <!--            <include>**/SuiteForTestProducer.java</include>-->
+<!--                        <include>**/SuiteForTestProducer.java</include>-->
             <!--            <include>**/SuiteForTestConsumer.java</include>-->
-            <!--            <include>**/TestPerformBlockingInteraction.java</include>-->
+            <!--            <include>**/TestRegistrationInterface.java</include>-->
             <!-- include>**/Test*.java</include -->
           </includes>
         </configuration>

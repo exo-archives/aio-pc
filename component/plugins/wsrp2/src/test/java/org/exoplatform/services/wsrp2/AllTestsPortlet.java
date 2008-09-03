@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.wsdl.WSRPServiceTestCase;
 
 /**
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
@@ -42,6 +43,7 @@ public class AllTestsPortlet extends TestCase {
 
     suite.addTestSuite(SuiteForTestProducer.class);
     suite.addTestSuite(SuiteForTestConsumer.class);
+//    suite.addTestSuite(WSRPServiceTestCase.class);
 
     return suite;
   }

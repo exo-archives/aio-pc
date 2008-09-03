@@ -21,6 +21,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
+import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 /**
@@ -28,16 +29,24 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
  */
 public class ConsumerContext implements Serializable {
 
+  /**
+   * 
+   */
+  private static final long  serialVersionUID = -7301320553261412108L;
+
   private String             registrationHandle;
 
   private RegistrationData   datas;
 
+  private Lifetime           lifetime;
+
   private Collection<String> clonedPortletHandles;
 
-  public ConsumerContext(String registrationHandle, RegistrationData datas) {
+  public ConsumerContext(String registrationHandle, RegistrationData datas, Lifetime lifetime) {
     this.registrationHandle = registrationHandle;
     this.datas = datas;
-    clonedPortletHandles = new ArrayList<String>();
+    this.lifetime = lifetime;
+    this.clonedPortletHandles = new ArrayList<String>();
   }
 
   public void addPortletHandle(String portletHandle) {
@@ -58,6 +67,10 @@ public class ConsumerContext implements Serializable {
 
   public boolean isPortletHandleRegistered(String portletHandle) {
     return clonedPortletHandles.contains(portletHandle);
+  }
+
+  public Lifetime getLifetime() {
+    return lifetime;
   }
 
 }

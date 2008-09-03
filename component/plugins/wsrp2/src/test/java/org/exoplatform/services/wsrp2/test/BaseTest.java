@@ -86,6 +86,11 @@ public class BaseTest extends TestCase {
 
   //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
 
+  protected static final String                 serviceUrlString         = SERVICE_URL.substring(0,
+                                                                                                 SERVICE_URL.length() - 1);
+
+  protected static final String                 consumerAgent            = "exoplatform.2.0";
+
   static boolean                                initService_             = true;
 
   protected PortletContainerService             portletContainer;
@@ -176,11 +181,9 @@ public class BaseTest extends TestCase {
 
   public static boolean                         cargoCustomStatus        = false;
 
-  private String                                serviceUrlString         = SERVICE_URL.substring(0,
-                                                                                                 SERVICE_URL.length() - 1);
-
   public void setUp() throws Exception {
 
+    // To use cargo container for dedicated test case. Note: it takes more time than run all tests. 
     /*
         String propertyExoTestCargo = System.getProperty("exo.test.cargo.skip");
         System.out.println("BaseTest.setUp() - propertyExoTestCargo = " + propertyExoTestCargo);
@@ -217,7 +220,7 @@ public class BaseTest extends TestCase {
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
-    registrationData.setConsumerAgent("exoplatform.1.0");
+    registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
@@ -228,13 +231,11 @@ public class BaseTest extends TestCase {
 
     Calendar currentTime = new GregorianCalendar();
     currentTime.setTime(new Date(System.currentTimeMillis()));
-    
+
     Calendar terminationTime = new GregorianCalendar();
-    terminationTime.setTime(new Date(System.currentTimeMillis()+1));
-    
-//    lifetime = new Lifetime();
-//    lifetime.setCurrentTime(currentTime);
-//    lifetime.setTerminationTime(terminationTime);
+    terminationTime.setTime(new Date(System.currentTimeMillis() + 1));
+
+    lifetime = null;
 
     register = new Register(registrationData, lifetime, userContext);
 
@@ -406,6 +407,11 @@ public class BaseTest extends TestCase {
         fail("The deserialized object should be of type RegistrationData");
       assertEquals(((RegistrationData) o).getConsumerName(), registrationData.getConsumerName());
     }
+  }
+
+  protected void log() {
+    StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+    System.out.println(">>>>>>>>>>>>>>> >>> " + ste.getClassName() + " - " + ste.getMethodName());
   }
 
 }

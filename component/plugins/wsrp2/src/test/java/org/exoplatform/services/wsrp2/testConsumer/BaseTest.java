@@ -155,6 +155,8 @@ public class BaseTest extends TestCase {
 
   protected ExoContainer             container;
 
+  public String                      consumerAgent                                   = "exoplatform.2.0";
+
   protected void setUp() throws Exception {
 
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
@@ -191,7 +193,7 @@ public class BaseTest extends TestCase {
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
-    registrationData.setConsumerAgent("exoplatform.1.0");
+    registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);

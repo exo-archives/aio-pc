@@ -20,6 +20,7 @@ package org.exoplatform.services.wsrp2.producer;
 import java.util.Map;
 
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 
@@ -28,7 +29,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
  */
 public interface PersistentStateManager {
 
-  public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException;
+  public byte[] register(String registrationHandle, RegistrationData data, Lifetime lifetime) throws WSRPException;
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException;
 
@@ -57,5 +58,9 @@ public interface PersistentStateManager {
   public Map<String, String[]> getResourceState(String resourceState) throws WSRPException;
 
   public void putResourceState(String resourceState, Map<String, String[]> resourceParameters) throws WSRPException;
+
+  public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException;
+
+  public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException;
 
 }

@@ -14,16 +14,16 @@
   <!-- A service definition encapsulating the WSRP v2 support of this Producer -->
   <wsdl:service name="WSRPService">
     <wsdl:port binding="v2bind:WSRP_v2_Markup_Binding_SOAP" name="WSRPMarkupService">
-      <soap:address location="http://localhost:8080/WSRPService"/>
+      <soap:address location="http://localhost:8080/hello/services2"/>
     </wsdl:port>
     <wsdl:port binding="v2bind:WSRP_v2_ServiceDescription_Binding_SOAP" name="WSRPServiceDescriptionService">
-      <soap:address location="http://localhost:8080/WSRPService"/>
+      <soap:address location="http://localhost:8080/hello/services2"/>
     </wsdl:port>
     <wsdl:port binding="v2bind:WSRP_v2_Registration_Binding_SOAP" name="WSRPRegistrationService">
-      <soap:address location="http://localhost:8080/WSRPService"/>
+      <soap:address location="http://localhost:8080/hello/services2"/>
     </wsdl:port>
     <wsdl:port binding="v2bind:WSRP_v2_PortletManagement_Binding_SOAP" name="WSRPPortletManagementService">
-      <soap:address location="http://localhost:8080/WSRPService"/>
+      <soap:address location="http://localhost:8080/hello/services2"/>
     </wsdl:port>
   </wsdl:service>
 </wsdl:definitions>

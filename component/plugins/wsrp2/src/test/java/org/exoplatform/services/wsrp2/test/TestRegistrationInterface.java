@@ -18,30 +18,38 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
+import java.util.Calendar;
 
 import org.exoplatform.services.wsrp2.type.Deregister;
+import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
+import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
+import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class TestRegistrationInterface extends BaseTest {
 
+  private final String incorrectConsumerAgent = "exoplatform.2a.0b";
+  
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestRegistrationInterface.setUp()");
+    log();
   }
 
   public void testRegistrationHandle() throws RemoteException {
+    log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
   }
 
   public void testIncorrectRegistrationData() throws RemoteException {
-    registrationData.setConsumerAgent("exoplatform.1a.0b");
+    log();
+    registrationData.setConsumerAgent(incorrectConsumerAgent);
     try {
       registrationOperationsInterface.register(register);
 //      fail("the registration of the consumer should return a WS Fault");
@@ -52,6 +60,7 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testModifyRegistration() throws Exception {
+    log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     assertNotNull(returnedContext.getRegistrationHandle());
     resolveRegistrationContext(returnedContext);
@@ -61,8 +70,9 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testIncorrectModifyRegistration() throws Exception {
+    log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
-    registrationData.setConsumerAgent("exoplatform.1a.0b");
+    registrationData.setConsumerAgent(incorrectConsumerAgent);
     resolveRegistrationContext(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     try {
@@ -73,6 +83,7 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testDeregister() throws Exception {
+    log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     returnedContext.getRegistrationHandle();
     resolveRegistrationContext(returnedContext);
@@ -91,6 +102,7 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testIncorrectDeregister() throws Exception {
+    log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     resolveRegistrationContext(returnedContext);
     returnedContext.setRegistrationHandle("chunkHandle");
@@ -109,4 +121,28 @@ public class TestRegistrationInterface extends BaseTest {
     return modifyRegistration;
   }
 
+  public void testLifetimeRegistrationHandle() throws RemoteException {
+    log();
+    Calendar calendar1 = Calendar.getInstance();
+    Calendar calendar2 = Calendar.getInstance();
+    calendar2.add(Calendar.SECOND, 5);
+    lifetime = new Lifetime();
+    lifetime.setCurrentTime(calendar1);
+    lifetime.setTerminationTime(calendar2);
+    register.setLifetime(lifetime);
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+    assertNotNull(rC.getRegistrationHandle());
+    GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(rC);
+    Lifetime lifetime2 =  registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+    assertNotNull(lifetime2);
+    assertNotNull(lifetime2.getTerminationTime());
+    assertNotNull(lifetime2.getCurrentTime());
+    
+    SetRegistrationLifetime setRegistrationLifetime = null;
+//    Lifetime lifetime3 =  registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
+    
+    lifetime = null;
+  }
+  
 }

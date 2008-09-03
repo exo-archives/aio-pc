@@ -32,6 +32,7 @@ import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext;
+import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.hibernate.Session;
@@ -63,60 +64,73 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
+      // If registration state on CONSUMER
       log.debug("Lookup registration stored on the consumer");
-      return resolveConsumerContext(registrationContext);
-    }
-    log.debug("Lookup registration data stored on the producer");
-    try {
-      WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
-      if (sD == null) {
-        return null;
+      return resolveRegistrationData(registrationContext);
+    } else {
+      // If registration state on PRODUCER
+      log.debug("Lookup registration data stored on the producer");
+      try {
+        WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
+        if (sD == null) {
+          return null;
+        }
+        return ((ConsumerContext) sD.getDataObject()).getRegistationData();
+      } catch (Exception e) {
+        log.error("Can not extract Registration data from persistent store");
+        throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
-      return ((ConsumerContext) sD.getDataObject()).getRegistationData();
-    } catch (Exception e) {
-      log.error("Can not extract Registration data from persistent store");
-      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
 
-  public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException {
-    ConsumerContext cC = new ConsumerContext(registrationHandle, data);
+  public byte[] register(String registrationHandle, RegistrationData data, Lifetime lifetime) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
+      // If registration state on CONSUMER
       log.debug("Register and send the registration state to the consumer");
       try {
         byte[] bytes = IOUtil.serialize(data);
         try {
           save(registrationHandle, "java.util.Collection", new ArrayList());
         } catch (Exception e) {
-          e.printStackTrace();
           log.error("Persistence error");
           throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
         }
+        if (lifetime != null) {
+          putRegistrationLifetime(registrationHandle, lifetime);
+        }
         return bytes;
       } catch (Exception e) {
-        log.error("Can not serialize ConsumerContext", e);
+        log.error("Can not serialize RegistrationData", e);
+        throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+      }
+    } else {
+      // If registration state on PRODUCER
+      log.debug("Register and save the registration state in the producer");
+      ConsumerContext cC = new ConsumerContext(registrationHandle, data, lifetime);
+      try {
+        save(registrationHandle,
+             "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext",
+             cC);
+        if (lifetime != null) {
+          putRegistrationLifetime(registrationHandle, lifetime);
+        }
+        return null;
+      } catch (Exception e) {
+        log.error("Persistence error");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
     }
-    log.debug("Register and save the registration state in the producer");
-    try {
-      save(registrationHandle,
-           "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext",
-           cC);
-    } catch (Exception e) {
-      e.printStackTrace();
-      log.error("Persistence error");
-      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
-    }
-    return null;
+
   }
 
   public void deregister(RegistrationContext registrationContext) throws WSRPException {
     try {
       if (!conf.isSaveRegistrationStateOnConsumer()) {
+        // If registration state on CONSUMER
         log.debug("Deregister the consumer (state save on producer)");
         remove(registrationContext.getRegistrationHandle());
       } else {
+        // If registration state on PRODUCER
         log.debug("Deregister the consumer (state save on consumer)");
         remove(registrationContext.getRegistrationHandle());
       }
@@ -146,6 +160,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   public boolean isConsumerConfiguredPortlet(String portletHandle,
                                              RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
+      // If registration state on CONSUMER
       Collection c = null;
       try {
         WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
@@ -161,25 +176,28 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         return true;
       }
       return false;
-    }
+    } else {
+      // If registration state on PRODUCER
 
-    ConsumerContext consumerContext = null;
-    try {
-      WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
-      if (sD == null) {
-        return false;
+      ConsumerContext consumerContext = null;
+      try {
+        WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
+        if (sD == null) {
+          return false;
+        }
+        consumerContext = (ConsumerContext) sD.getDataObject();
+      } catch (Exception e) {
+        log.error("Can not extract Registration data from persistent store");
+        throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
-      consumerContext = (ConsumerContext) sD.getDataObject();
-    } catch (Exception e) {
-      log.error("Can not extract Registration data from persistent store");
-      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+      return consumerContext.isPortletHandleRegistered(portletHandle);
     }
-    return consumerContext.isPortletHandleRegistered(portletHandle);
   }
 
   public void addConsumerConfiguredPortletHandle(String portletHandle,
                                                  RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
+      // If registration state on CONSUMER
       Collection c = null;
       try {
         WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
@@ -193,6 +211,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       }
       c.add(portletHandle);
     } else {
+      // If registration state on PRODUCER
       ConsumerContext consumerContext = null;
       try {
         WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
@@ -211,6 +230,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   public void removeConsumerConfiguredPortletHandle(String portletHandle,
                                                     RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
+      // If registration state on CONSUMER
       Collection c = null;
       try {
         WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
@@ -224,6 +244,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       }
       c.remove(portletHandle);
     } else {
+      // If registration state on PRODUCER
       ConsumerContext consumerContext = null;
       try {
         WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
@@ -239,15 +260,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
-  public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException {
-    return getState(navigationalState);
-  }
-
-  public void putNavigationalState(String navigationalState, Map<String, String[]> renderParameters) throws WSRPException {
-    putState(navigationalState, renderParameters);
-  }
-
-  private RegistrationData resolveConsumerContext(RegistrationContext registrationContext) throws WSRPException {
+  private RegistrationData resolveRegistrationData(RegistrationContext registrationContext) throws WSRPException {
     byte[] registrationState = registrationContext.getRegistrationState();
     if (registrationState == null) {
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
@@ -277,8 +290,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     } else {
       session.delete(data);
       session.flush();
-      if (log.isDebugEnabled())
+      if (log.isDebugEnabled()) {
         log.debug("Same data id is going to stored with: '" + data.getId() + "'");
+      }
     }
     data.setDataObject(o);
     session.save(data);
@@ -289,7 +303,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     WSRP2StateData data = (WSRP2StateData) this.cache.get(key);
     if (data == null) {
       Session session = this.hservice.openSession();
-      List l = session.createQuery(queryStateData).setString(0, key).list();
+      List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();
       if (l.size() > 1) {
         throw new Exception("Expect only one configuration but found" + l.size());
       } else if (l.size() == 1) {
@@ -305,7 +319,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     WSRP2StateData data = (WSRP2StateData) this.cache.remove(key);
     if (data == null) {
       //  		List l = session.find(queryStateData, key, Hibernate.STRING);
-      List l = session.createQuery(queryStateData).setString(0, key).list();
+      List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();
       if (l.size() > 1) {
         throw new Exception("Expect only one configuration but found" + l.size());
       } else if (l.size() == 1) {
@@ -316,6 +330,14 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       session.delete(data);
       session.flush();
     }
+  }
+
+  public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException {
+    return getState(navigationalState);
+  }
+
+  public void putNavigationalState(String navigationalState, Map<String, String[]> renderParameters) throws WSRPException {
+    putState(navigationalState, renderParameters);
   }
 
   public Map<String, String[]> getInteractionSate(String interactionState) throws WSRPException {
@@ -352,9 +374,43 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     try {
       save(state, "java.util.Map", parameters);
     } catch (Exception e) {
-      log.error("Can not save Render Parameters Map from persistent store", e);
+      log.error("Can not save Render Parameters Map to persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
+  }
+
+  public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException {
+    log.debug("Look up getRegistrationLifetime");
+    try {
+      WSRP2StateData sD = load(registrationContext.getRegistrationHandle() + "lifetime");
+      if (sD == null) {
+        return null;
+      }
+      return (Lifetime) sD.getDataObject();
+    } catch (Exception e) {
+      log.error("Can not extract Registration Lifetime from persistent store", e);
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
+  }
+
+  public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException {
+    if (lifetime == null) {
+      try {
+        remove(registrationHandle + "lifetime");
+      } catch (Exception e) {
+        throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+      }
+      return null;
+    }
+    try {
+      save(registrationHandle + "lifetime",
+           "org.exoplatform.services.wsrp2.type.Lifetime",
+           lifetime);
+    } catch (Exception e) {
+      log.error("Can not save Registration Lifetime to persistent store", e);
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
+    return lifetime;
   }
 
 }

@@ -45,7 +45,7 @@ public class TestPersistentStateManager extends BaseTest {
   public void testPersistentStateData() throws Exception {
     RegistrationData registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
-    registrationData.setConsumerAgent("exoplatform.1.0");
+    registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
