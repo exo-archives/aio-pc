@@ -20,6 +20,8 @@ import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
@@ -34,13 +36,15 @@ import org.exoplatform.services.log.ExoLogger;
 public class IOUtil {
   private Log log = ExoLogger.getLogger(getClass().getName());
 
-  static public byte[] serialize(Object obj) throws Exception {
+  static public byte[] serialize(Object... obj) throws Exception {
     ByteArrayOutputStream bytes = new ByteArrayOutputStream();
     ObjectOutputStream out = new ObjectOutputStream(bytes);
-    out.writeObject(obj);
+    for (Object object : obj) {
+      out.writeObject(object);
+    }
     out.close();
-    byte[] ret = bytes.toByteArray();
-    return ret;
+    byte[] result = bytes.toByteArray();
+    return result;
   }
 
   static public Object deserialize(byte[] bytes) throws Exception {
@@ -49,6 +53,33 @@ public class IOUtil {
     ByteArrayInputStream is = new ByteArrayInputStream(bytes);
     ObjectInputStream in = new ObjectInputStream(is);
     Object obj = in.readObject();
+    in.close();
+    return obj;
+  }
+
+  static public Object[] deserializeAll(byte[] bytes, int count) throws Exception {
+    if (bytes == null)
+      return null;
+    List<Object> result = new ArrayList<Object>();
+    ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+    ObjectInputStream in = new ObjectInputStream(is);
+    for (int j = 0; j < count; j++) {
+      Object obj = in.readObject();
+      result.add(obj);
+    }
+    in.close();
+    return result.toArray();
+  }
+  
+  static public Object deserializeMore(byte[] bytes, int index) throws Exception {
+    if (bytes == null)
+      return null;
+    ByteArrayInputStream is = new ByteArrayInputStream(bytes);
+    ObjectInputStream in = new ObjectInputStream(is);
+    Object obj = null;
+    for (int j = 0; j <= index; j++) {
+      obj = in.readObject();
+    }
     in.close();
     return obj;
   }
