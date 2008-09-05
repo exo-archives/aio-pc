@@ -151,7 +151,7 @@ public class PortletDriverImpl implements PortletDriver {
         log.debug("Init cookies : " + userSession);
         this.markupPort = userSession.getWSRPMarkupService();
         userSession.setInitCookieRequired(true);
-        initCookie();
+        initCookie(userSession);
         userSession.setInitCookieDone(true);
       }
     } else if (initCookie.getValue().equalsIgnoreCase(CookieProtocol._perGroup)) {
@@ -168,7 +168,7 @@ public class PortletDriverImpl implements PortletDriver {
         if (!groupSession.isInitCookieDone()) {
           log.debug("Group session in init cookies : " + groupSession);
           groupSession.setInitCookieRequired(true);
-          initCookie();
+          initCookie(userSession);
           groupSession.setInitCookieDone(true);
         }
       } else {
@@ -426,12 +426,13 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  public void initCookie() throws WSRPException {
+  public void initCookie(UserSessionMgr userSession) throws WSRPException {
     InitCookie request = new InitCookie();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {
       log.debug("Registration context used in initCookie : " + regCtx.getRegistrationHandle());
       request.setRegistrationContext(regCtx);
+      request.setUserContext(getUserContext(userSession));
     }
     try {
       log.debug("Call initCookie on Markup Port");

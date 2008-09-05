@@ -49,11 +49,6 @@ public interface PortletManagementOperationsInterface {
                                                  String[] portletHandles,
                                                  UserContext userContext) throws RemoteException;
 
-  public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
-                                                 String[] portletHandles)
-
-  throws RemoteException;
-
   public PortletContext setPortletProperties(RegistrationContext registrationContext,
                                              PortletContext portletContext,
                                              UserContext userContext,
@@ -73,10 +68,6 @@ public interface PortletManagementOperationsInterface {
                                      PortletContext portletContext,
                                      UserContext userContext,
                                      Lifetime lifetime) throws RemoteException;
-
-  public PortletContext clonePortlet(RegistrationContext registrationContext,
-                                     PortletContext portletContext,
-                                     UserContext userContext) throws RemoteException;
 
   public GetPortletsLifetimeResponse getPortletsLifetime(RegistrationContext registrationContext,
                                                          PortletContext[] portletContext,
@@ -106,7 +97,9 @@ public interface PortletManagementOperationsInterface {
                                                UserContext userContext,
                                                Lifetime lifetime) throws RemoteException;
 
-  public ReturnAny releaseExport(byte[] exportContext, UserContext userContext);
+  public ReturnAny releaseExport(byte[] exportContext,
+                                 UserContext userContext,
+                                 RegistrationContext registrationContext);
 
   public Lifetime setExportLifetime(RegistrationContext registrationContext,
                                     byte[] exportContext,

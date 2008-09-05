@@ -35,10 +35,11 @@ public class TestProducer extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestProducer.setUp()");
+    log();
   }
 
   public void testBasicProperties() {
+    log();
     assertEquals(PRODUCER_ID, producer.getID());
     assertEquals(PRODUCER_NAME, producer.getName());
     assertEquals(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT,
@@ -78,11 +79,13 @@ public class TestProducer extends BaseTest {
 //  }
 
   public void testPortletManagement() {
+    log();
     assertTrue(producer.isPortletManagementInferfaceSupported());
     assertNotNull(producer.getPortletManagementInterface());
   }
 
   private PortletDescription getHelloWorldPortlet(PortletDescription[] psArray) throws Exception {
+    log();
     for (int i = 0; i < psArray.length; i++) {
       if (CONTEXT_PATH.substring(1).concat("/HelloWorld").equals(psArray[i].getPortletHandle()))
         return psArray[i];

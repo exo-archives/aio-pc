@@ -30,10 +30,11 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
 
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestGetServiceDescriptionInterface.setUp()");
+    log();
   }
 
   public void testGetDescription() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("Usual Hello World Portlet", ps.getDescription().getValue());
 
@@ -42,6 +43,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetDisplayName() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("HelloWorldPortlet", ps.getDisplayName().getValue());
 
@@ -50,6 +52,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetTitle() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("HelloWorld title", ps.getTitle().getValue());
 
@@ -58,6 +61,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetShortTitle() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("Hello World", ps.getShortTitle().getValue());
 
@@ -66,6 +70,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetKeyWords() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("sample", ps.getKeywords(0).getValue());
     assertEquals("hello", ps.getKeywords(1).getValue());
@@ -76,16 +81,19 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetPortletHandle() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals(CONTEXT_PATH + "/HelloWorld", ps.getPortletHandle());
   }
 
   public void testGetGroupId() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("hello", ps.getGroupID());
   }
 
   public void testGetMarkup() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     MarkupType mT = ps.getMarkupTypes(0);
 
@@ -100,6 +108,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testPortletNeedsSecureTransportation() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
 //    assertEquals(false, ps.getDefaultMarkupSecure().booleanValue());
 //    assertEquals(false, ps.getOnlySecure().booleanValue());
@@ -109,6 +118,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testRequiresRegistration() throws Exception {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
@@ -116,6 +126,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetCustomModes() throws Exception {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
@@ -132,6 +143,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetCustomWindowStates() throws Exception {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
@@ -154,6 +166,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetSupportedLocales() throws Exception {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
@@ -163,11 +176,13 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testGetUserAttributes() throws Exception {
+    log();
     PortletDescription ps = getHelloWorldPortlet("en");
     assertEquals("workInfo/telephone", ps.getUserProfileItems(0));
   }
 
   private PortletDescription getHelloWorldPortlet(String locale) throws Exception {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { locale });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);

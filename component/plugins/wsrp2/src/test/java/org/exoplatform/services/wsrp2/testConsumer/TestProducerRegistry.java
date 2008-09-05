@@ -29,16 +29,18 @@ public class TestProducerRegistry extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestProducerRegistry.setUp()");
+    log();
   }
 
   public void testAddProducer() {
+    log();
     producerRegistry.addProducer(producer);
     assertTrue(producerRegistry.existsProducer(producer.getID()));
     assertEquals(producer, producerRegistry.getAllProducers().next());
   }
 
   public void testRemoveProducer() throws Exception {
+    log();
     producerRegistry.removeAllProducers();
 
     producerRegistry.addProducer(producer);

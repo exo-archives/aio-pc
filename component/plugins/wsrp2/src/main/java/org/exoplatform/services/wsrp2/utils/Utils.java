@@ -112,11 +112,11 @@ public class Utils {
       if (extensions[0] != null)
         if (extensions[0].get_any() != null)
           if (extensions[0].get_any()[0] != null) {
-            // TODO EXOMAN: need iterate foreach element of array 
+            // TODO iterate foreach element of array 
             try {
               temp = StringUtils.replace(temp,
                                          "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
-                                         extensions[0].get_any()[0].getAsString()); // TODO EXOMAN
+                                         extensions[0].get_any()[0].getAsString());
             } catch (Exception e) {
               e.printStackTrace();
             }

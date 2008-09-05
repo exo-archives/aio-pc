@@ -33,10 +33,11 @@ public class TestPortletRegistry extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestPortletRegistry.setUp()");
+    log();
   }
 
   public void testAddPortlet() throws WSRPException {
+    log();
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH.substring(1) + "/AppletClient");
     WSRPPortlet p = createPortlet(CONTEXT_PATH.substring(1) + "/AppletClient", null, portletContext);
@@ -48,6 +49,7 @@ public class TestPortletRegistry extends BaseTest {
   }
 
   public void testRemoveAll() throws WSRPException {
+    log();
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH.substring(1) + "/AppletClient");
     WSRPPortlet p = createPortlet(CONTEXT_PATH.substring(1) + "/AppletClient", null, portletContext);

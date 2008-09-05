@@ -97,7 +97,8 @@ public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements
                                                                InvalidHandleFault {
     return portletManagementOperationsInterface.clonePortlet(clonePortlet.getRegistrationContext(),
                                                              clonePortlet.getPortletContext(),
-                                                             clonePortlet.getUserContext());
+                                                             clonePortlet.getUserContext(),
+                                                             clonePortlet.getLifetime());
   }
 
   public DestroyPortletsResponse destroyPortlets(DestroyPortlets destroyPortlets) throws RemoteException,
@@ -106,7 +107,8 @@ public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements
                                                                                  OperationFailedFault,
                                                                                  MissingParametersFault {
     return portletManagementOperationsInterface.destroyPortlets(destroyPortlets.getRegistrationContext(),
-                                                                destroyPortlets.getPortletHandles());
+                                                                destroyPortlets.getPortletHandles(),
+                                                                destroyPortlets.getUserContext());
   }
 
   public PortletContext setPortletProperties(SetPortletProperties setPortletProperties) throws RemoteException,
@@ -178,7 +180,8 @@ public class WSRP_v2_PortletManagement_Binding_SOAPImpl implements
 
   public ReturnAny releaseExport(ReleaseExport releaseExport) throws java.rmi.RemoteException {
     return portletManagementOperationsInterface.releaseExport(releaseExport.getExportContext(),
-                                                              releaseExport.getUserContext());
+                                                              releaseExport.getUserContext(),
+                                                              releaseExport.getRegistrationContext());
 
   }
 

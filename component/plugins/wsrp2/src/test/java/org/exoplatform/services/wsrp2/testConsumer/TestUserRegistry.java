@@ -29,16 +29,18 @@ public class TestUserRegistry extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestUserRegistry.setUp()");
+    log();
   }
 
   public void testAddUser() {
+    log();
     userRegistry.addUser(createUser("userID"));
     assertTrue(userRegistry.getAllUsers().hasNext());
     assertNotNull(userRegistry.getUser("userID"));
   }
 
   public void testRemoveUser() {
+    log();
     userRegistry.addUser(createUser("userID"));
     userRegistry.addUser(createUser("userID2"));
     userRegistry.addUser(createUser("userID3"));

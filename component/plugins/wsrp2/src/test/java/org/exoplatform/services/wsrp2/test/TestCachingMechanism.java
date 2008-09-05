@@ -38,10 +38,11 @@ public class TestCachingMechanism extends BaseTest {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestCachingMechanism.setUp()");
+    log();
   }
 
   public void testExistenceOfValidateTag() throws RemoteException {
+    log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())

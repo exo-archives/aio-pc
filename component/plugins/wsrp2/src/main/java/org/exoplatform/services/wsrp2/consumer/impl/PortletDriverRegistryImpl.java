@@ -46,8 +46,8 @@ public class PortletDriverRegistryImpl implements PortletDriverRegistry {
   }
 
   public PortletDriver getPortletDriver(WSRPPortlet portlet) throws WSRPException {
-    PortletDriver driver = null;
-    if ((driver = (PortletDriver) portletDrivers.get(portlet.getPortletKey().toString())) == null) {
+    PortletDriver driver = (PortletDriver) portletDrivers.get(portlet.getPortletKey().toString());
+    if (driver == null) {
       driver = new PortletDriverImpl(cont, portlet);
       portletDrivers.put(portlet.getPortletKey().toString(), driver);
     }

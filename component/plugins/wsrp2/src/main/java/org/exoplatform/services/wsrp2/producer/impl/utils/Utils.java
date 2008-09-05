@@ -32,7 +32,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationContext;
  */
 
 public class Utils {
-  public static void testRegistration(RegistrationContext registrationContext,
+  public static void checkRegistration(RegistrationContext registrationContext,
                                       org.exoplatform.services.wsrp2.producer.PersistentStateManager stateManager) throws RemoteException {
     try {
       if (!stateManager.isRegistered(registrationContext)) {

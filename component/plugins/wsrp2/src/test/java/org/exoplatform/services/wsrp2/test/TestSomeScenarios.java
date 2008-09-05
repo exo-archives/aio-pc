@@ -39,10 +39,11 @@ public class TestSomeScenarios extends BaseTest {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestSomeScenarios.setUp()");
+    log();
   }
 
   public void testFirstConsumerScenario() throws Throwable, RemoteException {
+    log();
     //get the service description through a monitor that listen on port 8081
     GetServiceDescription request = new GetServiceDescription();
     request.setDesiredLocales(new String[] { "en" });

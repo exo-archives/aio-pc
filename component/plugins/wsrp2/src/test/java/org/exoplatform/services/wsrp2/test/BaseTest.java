@@ -413,5 +413,15 @@ public class BaseTest extends TestCase {
     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
     System.out.println(">>>>>>>>>>>>>>> >>> " + ste.getClassName() + " - " + ste.getMethodName());
   }
-
+  
+  protected Lifetime getLifetimeInSec(int i){
+    Calendar calendar1 = Calendar.getInstance();
+    Calendar calendar2 = Calendar.getInstance();
+    calendar2.add(Calendar.SECOND, i);
+    Lifetime lf = new Lifetime();
+    lf.setCurrentTime(calendar1);
+    lf.setTerminationTime(calendar2);
+    return lf;
+  }
+  
 }

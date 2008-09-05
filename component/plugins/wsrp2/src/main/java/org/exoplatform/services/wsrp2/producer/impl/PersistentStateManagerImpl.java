@@ -18,6 +18,7 @@
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
@@ -83,7 +84,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
-  public byte[] register(String registrationHandle, RegistrationData data, Lifetime lifetime) throws WSRPException {
+  public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       // If registration state on CONSUMER
       log.debug("Register and send the registration state to the consumer");
@@ -95,9 +96,6 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
           log.error("Persistence error");
           throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
         }
-        if (lifetime != null) {
-          putRegistrationLifetime(registrationHandle, lifetime);
-        }
         return bytes;
       } catch (Exception e) {
         log.error("Can not serialize RegistrationData", e);
@@ -106,14 +104,11 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     } else {
       // If registration state on PRODUCER
       log.debug("Register and save the registration state in the producer");
-      ConsumerContext cC = new ConsumerContext(registrationHandle, data, lifetime);
+      ConsumerContext cC = new ConsumerContext(registrationHandle, data);
       try {
         save(registrationHandle,
              "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext",
              cC);
-        if (lifetime != null) {
-          putRegistrationLifetime(registrationHandle, lifetime);
-        }
         return null;
       } catch (Exception e) {
         log.error("Persistence error");
@@ -178,7 +173,6 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       return false;
     } else {
       // If registration state on PRODUCER
-
       ConsumerContext consumerContext = null;
       try {
         WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
@@ -299,13 +293,16 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     session.flush();
   }
 
+  // if present in cache return it
+  // else look in hservice, if one obj put into cache and return it
+  //   if more exception
+  //   if none return null 
   final public WSRP2StateData load(String key) throws Exception {
     WSRP2StateData data = (WSRP2StateData) this.cache.get(key);
     if (data == null) {
       Session session = this.hservice.openSession();
       List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();
       if (l.size() > 1) {
-        throw new Exception("Expect only one configuration but found" + l.size());
       } else if (l.size() == 1) {
         data = (WSRP2StateData) l.get(0);
         this.cache.put(key, data);
@@ -314,6 +311,11 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     return data;
   }
 
+  // get and remove from cache
+  // if null get from hservice
+  //  if more than one result throw exception
+  //  if one result: get from DB and put into cache
+  // else delete from DB
   final public void remove(String key) throws Exception {
     Session session = this.hservice.openSession();
     WSRP2StateData data = (WSRP2StateData) this.cache.remove(key);
@@ -379,38 +381,59 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     }
   }
 
+  public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException {
+    return putLifetime(registrationHandle + "lifetime", lifetime);
+  }
+
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException {
     log.debug("Look up getRegistrationLifetime");
+    return getLifetime(registrationContext.getRegistrationHandle() + "lifetime");
+  }
+
+  public Lifetime putPortletLifetime(String portletHandle, Lifetime lifetime) throws WSRPException {
+    return putLifetime(portletHandle + "lifetime", lifetime);
+  }
+
+  public Lifetime getPortletLifetime(String portletHandle) throws WSRPException {
+    return getLifetime(portletHandle + "lifetime");
+  }
+
+  private Lifetime getLifetime(String key) throws WSRPException {
+    log.debug("Look up getRegistrationLifetime");
     try {
-      WSRP2StateData sD = load(registrationContext.getRegistrationHandle() + "lifetime");
+      WSRP2StateData sD = load(key);
       if (sD == null) {
         return null;
       }
-      return (Lifetime) sD.getDataObject();
+      Lifetime lf = (Lifetime) sD.getDataObject();
+      lf.setCurrentTime(Calendar.getInstance());
+      return lf;
     } catch (Exception e) {
       log.error("Can not extract Registration Lifetime from persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
 
-  public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException {
+  private Lifetime putLifetime(String key, Lifetime lifetime) throws WSRPException {
     if (lifetime == null) {
-      try {
-        remove(registrationHandle + "lifetime");
-      } catch (Exception e) {
-        throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
-      }
+      removeLifetime(key);
       return null;
     }
     try {
-      save(registrationHandle + "lifetime",
-           "org.exoplatform.services.wsrp2.type.Lifetime",
-           lifetime);
+      save(key, "org.exoplatform.services.wsrp2.type.Lifetime", lifetime);
     } catch (Exception e) {
       log.error("Can not save Registration Lifetime to persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     return lifetime;
+  }
+
+  private void removeLifetime(String key) throws WSRPException {
+    try {
+      remove(key);
+    } catch (Exception e) {
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
   }
 
 }

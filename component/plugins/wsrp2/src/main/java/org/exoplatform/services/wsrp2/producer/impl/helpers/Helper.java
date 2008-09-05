@@ -20,8 +20,12 @@ import java.rmi.RemoteException;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
+import org.exoplatform.services.wsrp2.exceptions.Faults;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -35,50 +39,74 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public class Helper {
 
+  static private ExoContainer      cont = ExoContainerContext.getCurrentContainer();
+
+  static private WSRPConfiguration conf = (WSRPConfiguration) cont.getComponentInstanceOfType(WSRPConfiguration.class);
+
   public static boolean checkLifetime(RegistrationContext registrationContext,
                                       UserContext userContext) {
-    ExoContainer cont = ExoContainerContext.getCurrentContainer();
+    if (registrationContext == null)
+      return true;
     RegistrationOperationsInterface roi = (RegistrationOperationsInterface) cont.getComponentInstanceOfType(RegistrationOperationsInterface.class);
     try {
       Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
       if (lf != null) {
-        if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
+        if (lifetimeExpired(lf)) {
           roi.deregister(registrationContext, userContext);
           return false;
         }
       }
     } catch (RemoteException e) {
+      e.printStackTrace();
     }
     return true;
+  }
+
+  public static boolean lifetimeExpired(Lifetime lf) {
+    if (lf != null)
+      return lf.getTerminationTime().getTimeInMillis() < lf.getCurrentTime().getTimeInMillis();
+    else
+      return false;
   }
 
   public static boolean checkPortletLifetime(RegistrationContext registrationContext,
                                              PortletContext[] portletContexts,
                                              UserContext userContext,
-                                             PortletManagementOperationsInterface poi) {
+                                             PortletManagementOperationsInterface pmoi) {
     //ExoContainer cont = ExoContainerContext.getCurrentContainer();
     // PortletManagementOperationsInterface poi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
 
+    if (registrationContext == null)
+      return true;
     try {
-      GetPortletsLifetimeResponse resp = poi.getPortletsLifetime(registrationContext,
-                                                                 portletContexts,
-                                                                 userContext);
+      GetPortletsLifetimeResponse resp = pmoi.getPortletsLifetime(registrationContext,
+                                                                  portletContexts,
+                                                                  userContext);
       if (resp != null) {
         if (resp.getPortletLifetime() != null && resp.getPortletLifetime().length != 0) {
           PortletLifetime plf = resp.getPortletLifetime(0);
           Lifetime lf = plf.getScheduledDestruction();
           if (lf != null) {
-            if (lf.getTerminationTime().getTimeInMillis() > lf.getCurrentTime().getTimeInMillis()) {
+            if (lifetimeExpired(lf)) {
               String portletHandle = portletContexts[0].getPortletHandle();
-              poi.destroyPortlets(registrationContext, new String[] { portletHandle });
+              pmoi.destroyPortlets(registrationContext, new String[] { portletHandle }, userContext);
               return false;
             }
           }
         }
       }
     } catch (RemoteException e) {
+      e.printStackTrace();
     }
     return true;
+  }
+
+  private void checkRegistrationContext(RegistrationContext registrationContext) throws RemoteException {
+    if (conf.isRegistrationRequired()) {
+      if (registrationContext == null) {
+        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+      }
+    }
   }
 
 }

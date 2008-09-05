@@ -36,10 +36,11 @@ public class TestWSRPSession extends BaseTest {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestWSRPSession.setUp()");
+    log();
   }
 
   public void testSession() throws Exception {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
@@ -66,6 +67,7 @@ public class TestWSRPSession extends BaseTest {
   }
 
   public void testReleaseSession() throws RemoteException {
+    log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setDesiredLocales(new String[] { "en" });
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);

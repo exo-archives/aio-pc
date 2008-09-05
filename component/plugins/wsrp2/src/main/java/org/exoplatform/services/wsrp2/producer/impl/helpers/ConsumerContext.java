@@ -38,14 +38,11 @@ public class ConsumerContext implements Serializable {
 
   private RegistrationData   datas;
 
-  private Lifetime           lifetime;
-
   private Collection<String> clonedPortletHandles;
 
-  public ConsumerContext(String registrationHandle, RegistrationData datas, Lifetime lifetime) {
+  public ConsumerContext(String registrationHandle, RegistrationData datas) {
     this.registrationHandle = registrationHandle;
     this.datas = datas;
-    this.lifetime = lifetime;
     this.clonedPortletHandles = new ArrayList<String>();
   }
 
@@ -67,10 +64,6 @@ public class ConsumerContext implements Serializable {
 
   public boolean isPortletHandleRegistered(String portletHandle) {
     return clonedPortletHandles.contains(portletHandle);
-  }
-
-  public Lifetime getLifetime() {
-    return lifetime;
   }
 
 }

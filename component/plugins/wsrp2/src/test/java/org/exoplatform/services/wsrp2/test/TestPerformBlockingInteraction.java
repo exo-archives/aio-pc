@@ -46,10 +46,11 @@ public class TestPerformBlockingInteraction extends BaseTest {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestPerformBlockingInteraction.setUp()");
+    log();
   }
 
   public void testSimplePerformBlockingInteraction() throws Exception {
+    log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
@@ -99,6 +100,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   }
 
   public void testSendRedirect() throws RemoteException {
+    log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
@@ -116,6 +118,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   }
 
   public void testReadOnlyStateChange() throws RemoteException {
+    log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
@@ -136,6 +139,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   }
 
   public void testCloneBeforeWriteStateChange() throws RemoteException {
+    log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser2");
@@ -151,6 +155,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   }
 
   public void testStateSaveOnConsumer() throws RemoteException {
+    log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
@@ -203,6 +208,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   private PerformBlockingInteraction getPerformBlockingInteraction(RegistrationContext rc,
                                                                    PortletContext portletContext,
                                                                    InteractionParams params) {
+    log();
     PerformBlockingInteraction performBlockingInteraction = new PerformBlockingInteraction();
     performBlockingInteraction.setRegistrationContext(rc);
     performBlockingInteraction.setPortletContext(portletContext);

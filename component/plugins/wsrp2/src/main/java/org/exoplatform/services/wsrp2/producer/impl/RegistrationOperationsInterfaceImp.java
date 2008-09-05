@@ -29,6 +29,7 @@ import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
@@ -53,6 +54,10 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
   public RegistrationContext register(RegistrationData data,
                                       UserContext userContext,
                                       Lifetime lifetime) throws RemoteException {
+    if (Helper.lifetimeExpired(lifetime)) {
+      Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+    }
+
     String owner = null;
     if (userContext != null) {
       owner = userContext.getUserContextKey();
@@ -64,7 +69,8 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     try {
       validateRegistrationDatas(data);
       registrationHandle = IdentifierUtil.generateUUID(data);
-      registrationState = stateManager.register(registrationHandle, data, lifetime);
+      registrationState = stateManager.register(registrationHandle, data);
+      stateManager.putRegistrationLifetime(registrationHandle, lifetime);
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
@@ -98,7 +104,7 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     String registrationHandle = registrationContext.getRegistrationHandle();
     try {
       validateRegistrationDatas(data);
-      stateManager.register(registrationHandle, data, registrationContext.getScheduledDestruction());
+      byte[] registrationState = stateManager.register(registrationHandle, data);
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
@@ -172,7 +178,8 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     }
     Lifetime resultLifetime = null;
     try {
-      resultLifetime = stateManager.putRegistrationLifetime(registrationContext.getRegistrationHandle(), lifetime);
+      resultLifetime = stateManager.putRegistrationLifetime(registrationContext.getRegistrationHandle(),
+                                                            lifetime);
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Get registration lifetime failed", e);

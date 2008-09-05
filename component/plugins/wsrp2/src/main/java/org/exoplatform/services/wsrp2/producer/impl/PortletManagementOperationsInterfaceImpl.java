@@ -48,6 +48,7 @@ import org.exoplatform.services.wsrp2.type.ImportPortlet;
 import org.exoplatform.services.wsrp2.type.ImportPortletsResponse;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
+import org.exoplatform.services.wsrp2.type.ModelDescription;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.PortletDescriptionResponse;
@@ -67,58 +68,17 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 public class PortletManagementOperationsInterfaceImpl implements
     PortletManagementOperationsInterface {
 
-  private PortletContainerProxy  container;
+  private PortletContainerProxy  proxy;
 
   private Log                    log;
 
   private PersistentStateManager stateManager;
 
   public PortletManagementOperationsInterfaceImpl(PersistentStateManager stateManager,
-                                                  PortletContainerProxy container) {
-    this.container = container;
+                                                  PortletContainerProxy portletContainerProxy) {
+    this.proxy = portletContainerProxy;
     this.stateManager = stateManager;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
-  }
-
-  public PortletContext clonePortlet(RegistrationContext registrationContext,
-                                     PortletContext portletContext,
-                                     UserContext userContext) throws RemoteException {
-    // TODO verify the userContext content
-    String registrationHandle = registrationContext.getRegistrationHandle();
-    log.debug("Clone a portlet for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
-
-    String portletHandle = portletContext.getPortletHandle();
-    String newPortletHandle = null;
-    try {
-      if (stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-        log.debug("Clone a Consumer Configured Portlet with handle : " + portletHandle);
-        PropertyList list = getPortletProperties(registrationContext,
-                                                 portletContext,
-                                                 userContext,
-                                                 null);
-        newPortletHandle = createNewPortletHandle(portletHandle);
-        stateManager.addConsumerConfiguredPortletHandle(newPortletHandle, registrationContext);
-        portletContext.setPortletHandle(newPortletHandle);
-        setPortletProperties(registrationContext, portletContext, userContext, list);
-      } else {
-        log.debug("Clone a Producer Offered Portlet with handle : " + portletHandle);
-        if (!container.isPortletOffered(portletHandle)) {
-          log.debug("The latter handle is not offered by the Producer");
-          Exception2Fault.handleException(new WSRPException(Faults.INVALID_HANDLE_FAULT));
-        }
-        newPortletHandle = createNewPortletHandle(portletHandle);
-        stateManager.addConsumerConfiguredPortletHandle(newPortletHandle, registrationContext);
-      }
-    } catch (WSRPException e) {
-      log.error("Can not clone portlet", e);
-      Exception2Fault.handleException(e);
-    }
-    log.debug("New portlet handle : " + newPortletHandle);
-    PortletContext clonedPortletContext = new PortletContext();
-    clonedPortletContext.setPortletHandle(newPortletHandle);
-    return clonedPortletContext;
   }
 
   public PortletContext clonePortlet(RegistrationContext registrationContext,
@@ -128,8 +88,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Clone a portlet for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
 
     String portletHandle = portletContext.getPortletHandle();
     String newPortletHandle = null;
@@ -146,12 +106,15 @@ public class PortletManagementOperationsInterfaceImpl implements
         setPortletProperties(registrationContext, portletContext, userContext, list);
       } else {
         log.debug("Clone a Producer Offered Portlet with handle : " + portletHandle);
-        if (!container.isPortletOffered(portletHandle)) {
+        if (!proxy.isPortletOffered(portletHandle)) {
           log.debug("The latter handle is not offered by the Producer");
           Exception2Fault.handleException(new WSRPException(Faults.INVALID_HANDLE_FAULT));
         }
         newPortletHandle = createNewPortletHandle(portletHandle);
         stateManager.addConsumerConfiguredPortletHandle(newPortletHandle, registrationContext);
+      }
+      if (lifetime != null) {
+        stateManager.putPortletLifetime(newPortletHandle, lifetime);
       }
     } catch (WSRPException e) {
       log.error("Can not clone portlet", e);
@@ -160,8 +123,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     log.debug("New portlet handle : " + newPortletHandle);
     PortletContext clonedPortletContext = new PortletContext();
     clonedPortletContext.setPortletHandle(newPortletHandle);
-    if (lifetime != null)
-      clonedPortletContext.setScheduledDestruction(lifetime);
+    clonedPortletContext.setScheduledDestruction(lifetime);
     return clonedPortletContext;
   }
 
@@ -175,8 +137,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = fromRegistrationContext.getRegistrationHandle();
     log.debug("Copying portlets for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(fromRegistrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(fromRegistrationContext,
+                                                                               stateManager);
     Collection<CopiedPortlet> copiedPortlets = new ArrayList<CopiedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
@@ -241,8 +203,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
     Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
@@ -293,11 +255,10 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                Lifetime lifetime)
 
   throws RemoteException {
-
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
     Collection<ImportPortlet> importedPortlets = new ArrayList<ImportPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
@@ -306,7 +267,6 @@ public class PortletManagementOperationsInterfaceImpl implements
       ImportPortlet importPortlet = importPortlets[i];
 
       try {
-
         // PortletHandle portletHandle = importPortlet.
         //        byte[] importData = importPortlet.getExportData();
         importedPortlets.add(importPortlet);
@@ -332,7 +292,9 @@ public class PortletManagementOperationsInterfaceImpl implements
 
   }
 
-  public ReturnAny releaseExport(byte[] exportContext, UserContext userContext) {
+  public ReturnAny releaseExport(byte[] exportContext,
+                                 UserContext userContext,
+                                 RegistrationContext registrationContext) {
     return new ReturnAny();
 
   }
@@ -347,14 +309,16 @@ public class PortletManagementOperationsInterfaceImpl implements
   }
 
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
-                                                 String[] portletHandles) throws RemoteException {
+                                                 String[] portletHandles,
+                                                 UserContext userContext) throws RemoteException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Destroy portlet for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
 
     Collection<FailedPortlets> fails = new ArrayList<FailedPortlets>();
+
     for (int i = 0; i < portletHandles.length; i++) {
       String portletHandle = portletHandles[i];
       try {
@@ -373,44 +337,9 @@ public class PortletManagementOperationsInterfaceImpl implements
         Exception2Fault.handleException(e);
       }
     }
+
     DestroyPortletsResponse response = new DestroyPortletsResponse();
     // Convert from Collection<FailedPortlets> to array FailedPortlets[]
-    FailedPortlets[] array = (FailedPortlets[]) fails.toArray(new FailedPortlets[fails.size()]);
-    if (array != null)
-      response.setFailedPortlets(array);
-    return response;
-  }
-
-  public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
-                                                 String[] portletHandles,
-                                                 UserContext userContext) throws RemoteException {
-    // TODO verify the userContext content
-    String registrationHandle = registrationContext.getRegistrationHandle();
-    log.debug("Destroy portlet for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
-
-    Collection<FailedPortlets> fails = new ArrayList<FailedPortlets>();
-
-    for (int i = 0; i < portletHandles.length; i++) {
-      String portletHandle = portletHandles[i];
-      try {
-        if (stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-          log.debug("Destroy a consumer configured portlet : " + portletHandle);
-          stateManager.removeConsumerConfiguredPortletHandle(portletHandle, registrationContext);
-        } else {
-          log.debug("Can't destroy a portlet that did not exist : " + portletHandle);
-          FailedPortlets failedPortlets = new FailedPortlets();
-          // failedPortlets.setPortletHandles(i, portletHandle);
-          fails.add(failedPortlets);
-
-        }
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
-      }
-    }
-
-    DestroyPortletsResponse response = new DestroyPortletsResponse();
     FailedPortlets[] array = (FailedPortlets[]) fails.toArray(new FailedPortlets[fails.size()]);
     if (array != null)
       response.setFailedPortlets(array);
@@ -424,44 +353,31 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
-    GetPortletsLifetimeResponse lfResponse = new GetPortletsLifetimeResponse();
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
 
-    Collection<PortletLifetime> portletsLifetimes = new ArrayList<PortletLifetime>();
+    Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
     for (int i = 0; i < portletContexts.length; i++) {
       PortletContext portletContext = portletContexts[i];
-
       String portletHandle = portletContext.getPortletHandle();
-
       try {
-        if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-          log.debug("This portlet handle " + portletHandle
-              + " is not valid in the scope of that registration ");
-          Exception2Fault.handleException(new WSRPException(Faults.ACCESS_DENIED_FAULT));
-        }
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
-      }
-
-      Lifetime lifetime = portletContext.getScheduledDestruction();
-      if (lifetime == null) {
-        FailedPortlets fPortlets = new FailedPortlets();
-        // fPortlets.setPortletHandles(portletHandle);
-        failedPortlets.add(fPortlets);
-      } else {
+        Lifetime lifetimeResult = stateManager.getPortletLifetime(portletHandle);
         PortletLifetime portletLifetime = new PortletLifetime();
         portletLifetime.setPortletContext(portletContext);
-        portletLifetime.setScheduledDestruction(lifetime);
-        portletsLifetimes.add(portletLifetime);
+        portletLifetime.setScheduledDestruction(lifetimeResult);
+        portletLifetimes.add(portletLifetime);
+      } catch (Exception e) {
+        FailedPortlets fPortlet = new FailedPortlets();
+        failedPortlets.add(fPortlet);
       }
-
     }
-    //
-    PortletLifetime[] arrayLifetime = (PortletLifetime[]) portletsLifetimes.toArray(new PortletLifetime[portletsLifetimes.size()]);
+    
+    PortletLifetime[] arrayLifetime = (PortletLifetime[]) portletLifetimes.toArray(new PortletLifetime[portletLifetimes.size()]);
     FailedPortlets[] arrayFailed = (FailedPortlets[]) failedPortlets.toArray(new FailedPortlets[failedPortlets.size()]);
+    
+    GetPortletsLifetimeResponse lfResponse = new GetPortletsLifetimeResponse();
     lfResponse.setFailedPortlets(arrayFailed);
     lfResponse.setPortletLifetime(arrayLifetime);
     return lfResponse;
@@ -476,48 +392,33 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
-    SetPortletsLifetimeResponse setLifetimeResponse = new SetPortletsLifetimeResponse();
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
 
-    Collection<PortletLifetime> portletsLifetimes = new ArrayList<PortletLifetime>();
+    Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
     for (int i = 0; i < portletContexts.length; i++) {
       PortletContext portletContext = portletContexts[i];
       String portletHandle = portletContext.getPortletHandle();
-
       try {
-        if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-          log.debug("This portlet handle " + portletHandle
-              + " is not valid in the scope of that registration ");
-          Exception2Fault.handleException(new WSRPException(Faults.ACCESS_DENIED_FAULT));
-        }
-      } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
-      }
-
-      try {
-        portletContext.setScheduledDestruction(lifetime);
+        Lifetime lifetimeResult = stateManager.putPortletLifetime(portletHandle, lifetime);
         PortletLifetime portletLifetime = new PortletLifetime();
         portletLifetime.setPortletContext(portletContext);
-        portletsLifetimes.add(portletLifetime);
+        portletLifetime.setScheduledDestruction(lifetimeResult);
+        portletLifetimes.add(portletLifetime);
       } catch (Exception e) {
-
-        FailedPortlets fPortlets = new FailedPortlets();
-        // fPortlets.setPortletHandles(portletHandle);
-        failedPortlets.add(fPortlets);
-        e.printStackTrace();
+        FailedPortlets fPortlet = new FailedPortlets();
+        failedPortlets.add(fPortlet);
       }
-
     }
-    //
-    PortletLifetime[] arrayLifetime = (PortletLifetime[]) portletsLifetimes.toArray(new PortletLifetime[portletsLifetimes.size()]);
+    PortletLifetime[] arrayUpdated = (PortletLifetime[]) portletLifetimes.toArray(new PortletLifetime[portletLifetimes.size()]);
     FailedPortlets[] arrayFailed = (FailedPortlets[]) failedPortlets.toArray(new FailedPortlets[failedPortlets.size()]);
+    
+    SetPortletsLifetimeResponse setLifetimeResponse = new SetPortletsLifetimeResponse();
+    setLifetimeResponse.setUpdatedPortlet(arrayUpdated);
     setLifetimeResponse.setFailedPortlets(arrayFailed);
-    setLifetimeResponse.setUpdatedPortlet(arrayLifetime);
     return setLifetimeResponse;
-
   }
 
   public PortletDescriptionResponse getPortletDescription(RegistrationContext registrationContext,
@@ -527,8 +428,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Get portlet description for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
 
     String portletHandle = portletContext.getPortletHandle();
 
@@ -542,8 +443,8 @@ public class PortletManagementOperationsInterfaceImpl implements
       Exception2Fault.handleException(e);
     }
 
-    PortletDescription pD = container.getPortletDescription(portletHandle, desiredLocales);
-    ResourceList resourceList = container.getResourceList(desiredLocales);
+    PortletDescription pD = proxy.getPortletDescription(portletHandle, desiredLocales);
+    ResourceList resourceList = proxy.getResourceList(desiredLocales);
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
     response.setPortletDescription(pD);
@@ -559,8 +460,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
     String portletHandle = portletContext.getPortletHandle();
 
     try {
@@ -576,7 +477,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     String userID = userContext.getUserContextKey();
 
     try {
-      container.setPortletProperties(portletHandle, userID, propertyList);
+      proxy.setPortletProperties(portletHandle, userID, propertyList);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
@@ -590,8 +491,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("get portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.testRegistration(registrationContext,
-                                                                              stateManager);
+    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
+                                                                               stateManager);
     String portletHandle = portletContext.getPortletHandle();
     try {
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
@@ -605,7 +506,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     String userID = userContext.getUserContextKey();
     Map<String, String[]> properties = null;
     try {
-      properties = container.getPortletProperties(portletHandle, userID);
+      properties = proxy.getPortletProperties(portletHandle, userID);
     } catch (WSRPException e) {
       Exception2Fault.handleException(e);
     }
@@ -631,7 +532,14 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                           PortletContext portletContext,
                                                                           UserContext userContext,
                                                                           String[] desiredLocales) throws RemoteException {
-    return new PortletPropertyDescriptionResponse();
+    PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
+    ModelDescription modelDescription = new ModelDescription();
+    modelDescription.setPropertyDescriptions(null);
+    ResourceList resourceList = new ResourceList();
+    resourceList.setResources(null);
+    portletPropertyDescriptionResponse.setModelDescription(null);
+    portletPropertyDescriptionResponse.setResourceList(null);
+    return portletPropertyDescriptionResponse;
   }
 
   private boolean arrayContainsKey(String[] array, String key) {

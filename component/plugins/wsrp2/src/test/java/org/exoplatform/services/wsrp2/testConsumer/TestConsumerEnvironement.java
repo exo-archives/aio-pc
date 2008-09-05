@@ -29,10 +29,11 @@ public class TestConsumerEnvironement extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestConsumerEnvironement.setUp()");
+    log();
   }
 
   public void testInit() {
+    log();
 
   }
 

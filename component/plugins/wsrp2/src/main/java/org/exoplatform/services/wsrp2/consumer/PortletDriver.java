@@ -55,7 +55,7 @@ public interface PortletDriver {
   /**
    *
    **/
-  public void initCookie() throws WSRPException;
+  public void initCookie(UserSessionMgr userSession) throws WSRPException;
 
   /**
    * Destroy the producer portlets specified in the entiyHandles array.

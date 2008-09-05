@@ -138,14 +138,16 @@ public class WSRP_v2_Markup_Binding_SOAPImpl implements WSRP_v2_Markup_PortType 
                                                                           MissingParametersFault,
                                                                           AccessDeniedFault {
     return markupOperationsInterface.releaseSessions(releaseSessionsRequest.getRegistrationContext(),
-                                                     releaseSessionsRequest.getSessionIDs());
+                                                     releaseSessionsRequest.getSessionIDs(),
+                                                     releaseSessionsRequest.getUserContext());
   }
 
   public ReturnAny initCookie(InitCookie initCookie) throws RemoteException,
                                                     InvalidRegistrationFault,
                                                     OperationFailedFault,
                                                     AccessDeniedFault {
-    return markupOperationsInterface.initCookie(initCookie.getRegistrationContext());
+    return markupOperationsInterface.initCookie(initCookie.getRegistrationContext(),
+                                                initCookie.getUserContext());
   }
 
   public HandleEventsResponse handleEvents(HandleEvents handleEvents) throws java.rmi.RemoteException,

@@ -29,10 +29,11 @@ public class TestURLTemplateComposer extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestURLTemplateComposer.setUp()");
+    log();
   }
 
   public void testBlockingGeneration() {
+    log();
     /*    URLTemplateComposer composer = new URLTemplateComposerImpl();
 
         String path = "/portal/faces/public/portal.jsp?portal:ctx=community&portal:component=wsrp/wsrpportlet/44rc74";

@@ -18,7 +18,6 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
-import java.util.Calendar;
 
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
@@ -34,7 +33,7 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
 public class TestRegistrationInterface extends BaseTest {
 
   private final String incorrectConsumerAgent = "exoplatform.2a.0b";
-  
+
   @Override
   public void setUp() throws Exception {
     super.setUp();
@@ -52,10 +51,9 @@ public class TestRegistrationInterface extends BaseTest {
     registrationData.setConsumerAgent(incorrectConsumerAgent);
     try {
       registrationOperationsInterface.register(register);
-//      fail("the registration of the consumer should return a WS Fault");
+      fail("the registration of the consumer should return a WS Fault");
 //   patch by Pascal LEMOINE avoids exception here
     } catch (RemoteException e) {
-      //e.printStackTrace();
     }
   }
 
@@ -121,28 +119,94 @@ public class TestRegistrationInterface extends BaseTest {
     return modifyRegistration;
   }
 
-  public void testLifetimeRegistrationHandle() throws RemoteException {
+  public void testRegistrationHandleWithLifetime() throws RemoteException {
     log();
-    Calendar calendar1 = Calendar.getInstance();
-    Calendar calendar2 = Calendar.getInstance();
-    calendar2.add(Calendar.SECOND, 5);
-    lifetime = new Lifetime();
-    lifetime.setCurrentTime(calendar1);
-    lifetime.setTerminationTime(calendar2);
-    register.setLifetime(lifetime);
+    register.setLifetime(getLifetimeInSec(5));
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+    assertNotNull(rC.getRegistrationHandle());
+    register.setLifetime(null);
+    
+    register.setLifetime(getLifetimeInSec(-5));
+    try {
+      registrationOperationsInterface.register(register);
+      fail("the registration of the consumer should return a WS Fault");
+    } catch (RemoteException e) {
+    }
+    register.setLifetime(null);
+  }
+
+  public void testGetRegistrationLifetime() throws RemoteException {
+    log();
+    register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
-    Lifetime lifetime2 =  registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+    Lifetime lifetime2 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
     assertNotNull(lifetime2);
     assertNotNull(lifetime2.getTerminationTime());
     assertNotNull(lifetime2.getCurrentTime());
-    
-    SetRegistrationLifetime setRegistrationLifetime = null;
-//    Lifetime lifetime3 =  registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
-    
-    lifetime = null;
+    register.setLifetime(null);
   }
-  
+
+  public void testGetRegistrationLifetimeNull() throws RemoteException {
+    log();
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+    assertNotNull(rC.getRegistrationHandle());
+    GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(rC);
+    Lifetime lifetime2 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+    assertNull(lifetime2);
+    register.setLifetime(null);
+  }
+
+  public void testSetRegistrationLifetime() throws RemoteException {
+    log();
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+    assertNotNull(rC.getRegistrationHandle());
+    SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
+    setRegistrationLifetime.setRegistrationContext(rC);
+    setRegistrationLifetime.setUserContext(userContext);
+    setRegistrationLifetime.setLifetime(getLifetimeInSec(5));
+    Lifetime lifetime2 = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
+    assertNotNull(lifetime2);
+    GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(rC);
+    Lifetime lifetime3 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+    assertNotNull(lifetime3);
+    register.setLifetime(null);
+  }
+
+  public void testSetRegistrationLifetimeNull() throws RemoteException {
+    log();
+    register.setLifetime(getLifetimeInSec(5));
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+    assertNotNull(rC.getRegistrationHandle());
+    assertNotNull(rC.getScheduledDestruction());
+    SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
+    setRegistrationLifetime.setRegistrationContext(rC);
+    setRegistrationLifetime.setUserContext(userContext);
+    setRegistrationLifetime.setLifetime(null);
+    Lifetime lifetime2 = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
+    assertNull(lifetime2);
+    GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(rC);
+    Lifetime lifetime3 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+    assertNull(lifetime3);
+    register.setLifetime(null);
+  }
+
+  public void testModifyRegistrationWithLifetime() throws Exception {
+    log();
+    register.setLifetime(getLifetimeInSec(5));
+    RegistrationContext returnedContext = registrationOperationsInterface.register(register);
+    assertNotNull(returnedContext.getRegistrationHandle());
+    resolveRegistrationContext(returnedContext);
+    assertNotNull(returnedContext.getScheduledDestruction());
+    ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
+    RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
+    assertNull(rS.getScheduledDestruction());
+    register.setLifetime(null);
+  }
+
 }

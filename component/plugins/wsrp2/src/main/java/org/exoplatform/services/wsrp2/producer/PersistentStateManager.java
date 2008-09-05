@@ -29,7 +29,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
  */
 public interface PersistentStateManager {
 
-  public byte[] register(String registrationHandle, RegistrationData data, Lifetime lifetime) throws WSRPException;
+  public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException;
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException;
 
@@ -62,5 +62,9 @@ public interface PersistentStateManager {
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException;
 
   public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException;
+
+  public Lifetime putPortletLifetime(String portletHandle, Lifetime lifetime) throws WSRPException;
+
+  public Lifetime getPortletLifetime(String portletHandle) throws WSRPException;
 
 }

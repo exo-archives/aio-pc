@@ -17,7 +17,8 @@
 
 package org.exoplatform.services.wsrp2.test;
 
-import org.exoplatform.container.PortalContainer;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
 import org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData;
@@ -32,17 +33,27 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 public class TestPersistentStateManager extends BaseTest {
 
+  protected ExoContainer             container;
+
   private PersistentStateManagerImpl psmanager_;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestPersistentStateManager.setUp()");
-    PortalContainer manager = PortalContainer.getInstance();
-    psmanager_ = (PersistentStateManagerImpl) manager.getComponentInstanceOfType(PersistentStateManager.class);
+    log();
+    try {
+      // Leaving for compatibility reasons
+//      container = PortalContainer.getInstance(); // was that: null
+//      container = RootContainer.getInstance().getPortalContainer("portal"); // null
+      container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()); //OK
+    } catch (Throwable t) {
+      t.printStackTrace();
+    }
+    psmanager_ = (PersistentStateManagerImpl) container.getComponentInstanceOfType(PersistentStateManager.class);
   }
 
   public void testPersistentStateData() throws Exception {
+    log();
     RegistrationData registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
     registrationData.setConsumerAgent(consumerAgent);

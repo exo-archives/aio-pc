@@ -63,12 +63,8 @@ public interface MarkupOperationsInterface {
 
   public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws java.rmi.RemoteException;
 
-  public ReturnAny initCookie(RegistrationContext registrationContext) throws java.rmi.RemoteException;
-
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
                                    String[] sessionIDs,
                                    UserContext userContext) throws java.rmi.RemoteException;
-
-  public ReturnAny releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws java.rmi.RemoteException;
 
 }

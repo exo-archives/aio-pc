@@ -259,4 +259,10 @@ public class BaseTest extends TestCase {
     user.setUserContext(userContext);
     return user;
   }
+  
+  protected void log() {
+    StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
+    System.out.println(">>>>>>>>>>>>>>> >>> " + ste.getClassName() + " - " + ste.getMethodName());
+  }
+  
 }

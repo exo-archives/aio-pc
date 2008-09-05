@@ -35,10 +35,11 @@ public class TestURLRewriter extends BaseTest {
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestURLRewriter.setUp()");
+    log();
   }
 
   public void testRewrite() throws WSRPException {
+    log();
     System.out.println("Rewritten : " + urlRewriter.rewriteURLs("baseURL", s));
     //assertEquals(returned, urlRewriter.rewriteURLs(s));
   }
