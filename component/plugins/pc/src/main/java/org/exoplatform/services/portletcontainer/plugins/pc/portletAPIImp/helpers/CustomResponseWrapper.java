@@ -164,7 +164,7 @@ public class CustomResponseWrapper extends HttpServletResponseWrapper {
    * @see javax.servlet.ServletResponseWrapper#getWriter()
    */
   public final PrintWriter getWriter() throws IOException {
-    //!!!!!!!!!!! EXOMAN - should be commented .for.directly.call.include.with.CustomResponseWrapper.
+    //!!!!!!!!!!! - should be commented .for.directly.call.include.with.CustomResponseWrapper.
     if (outputStreamAlreadyCalled)
       throw new IllegalStateException("the output streamobject has already been called");
     writerAlreadyCalled = true;

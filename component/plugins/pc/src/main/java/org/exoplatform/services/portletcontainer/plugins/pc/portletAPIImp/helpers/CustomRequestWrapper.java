@@ -132,7 +132,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
    * @see javax.servlet.ServletRequestWrapper#getAttribute(java.lang.String)
    */
   public final Object getAttribute(final String s) {
-    //!!! EXOMAN - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
+    //!!! - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
     return super.getAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
   }
 

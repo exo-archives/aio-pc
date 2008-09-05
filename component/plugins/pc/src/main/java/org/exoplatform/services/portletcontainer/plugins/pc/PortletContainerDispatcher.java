@@ -119,12 +119,12 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * Portlet app name attribute.
    */
-  public static String                    PORTLET_APPLICATION_NAME = "org.exoplatform.services.portletcontainer.plugins.pc.PortletAppName";
+  public static final String              PORTLET_APPLICATION_NAME = "org.exoplatform.services.portletcontainer.plugins.pc.PortletAppName";
 
   /**
    * Portlet name attribute.
    */
-  public static String                    PORTLET_NAME             = "org.exoplatform.services.portletcontainer.plugins.pc.PortletName";
+  public static final String              PORTLET_NAME             = "org.exoplatform.services.portletcontainer.plugins.pc.PortletName";
 
   /**
    * Container attribute.
@@ -164,7 +164,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * Logger.
    */
-  private static final Log                log                      = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+  private final Log                       log                      = ExoLogger.getLogger(getClass());
 
   /**
    * Exo container.
@@ -460,6 +460,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public static boolean isEventPayloadTypeMatches(final List<EventDefinition> eds,
                                                   final Object payload,
                                                   final QName eventName) {
+//    Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     for (EventDefinition ed : eds) {
       if (!ed.getPrefferedName().equals(eventName) && !ed.getAliases().contains(eventName))
         continue;
@@ -478,8 +479,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
           jc = null;
         }
       }
-      if (log.isDebugEnabled())
-        log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
+//      if (log.isDebugEnabled())
+//        log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
       if (jc != null) {
         return jc.isInstance(payload); // just here we would return TRUE
       }
@@ -613,19 +614,19 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       }
     }
 
-    request.setAttribute(CONTAINER, container.getContext().getName());
-    request.setAttribute(IS_TO_GET_BUNDLE, new Boolean(true));
-    request.setAttribute(LOCALE_FOR_BUNDLE, locale);
-    request.setAttribute(PORTLET_APPLICATION_NAME, portletAppName);
-    request.setAttribute(PORTLET_NAME, portletName);
+    request.setAttribute(PortletContainerDispatcher.CONTAINER, container.getContext().getName());
+    request.setAttribute(PortletContainerDispatcher.IS_TO_GET_BUNDLE, new Boolean(true));
+    request.setAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE, locale);
+    request.setAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME, portletAppName);
+    request.setAttribute(PortletContainerDispatcher.PORTLET_NAME, portletName);
     dispatch(request, response, portletAppName);
-    java.util.ResourceBundle bundle = (java.util.ResourceBundle) request.getAttribute(BUNDLE);
-    request.removeAttribute(CONTAINER);
-    request.removeAttribute(IS_TO_GET_BUNDLE);
-    request.removeAttribute(LOCALE_FOR_BUNDLE);
-    request.removeAttribute(PORTLET_APPLICATION_NAME);
-    request.removeAttribute(PORTLET_NAME);
-    request.removeAttribute(BUNDLE);
+    java.util.ResourceBundle bundle = (java.util.ResourceBundle) request.getAttribute(PortletContainerDispatcher.BUNDLE);
+    request.removeAttribute(PortletContainerDispatcher.CONTAINER);
+    request.removeAttribute(PortletContainerDispatcher.IS_TO_GET_BUNDLE);
+    request.removeAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE);
+    request.removeAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME);
+    request.removeAttribute(PortletContainerDispatcher.PORTLET_NAME);
+    request.removeAttribute(PortletContainerDispatcher.BUNDLE);
     return bundle;
   }
 
@@ -733,7 +734,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                               final HttpServletResponse response,
                               final Map<String, Object> attrs,
                               final String portletApplicationName) throws PortletContainerException {
-    request.setAttribute(CONTAINER, container.getContext().getName());
+    request.setAttribute(PortletContainerDispatcher.CONTAINER, container.getContext().getName());
     try {
       Set<Entry<String, Object>> s = attrs.entrySet();
       Iterator<Entry<String, Object>> it = s.iterator();
@@ -744,7 +745,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
           request.removeAttribute(entry.getKey());
         }
       }
-      request.setAttribute(ATTRS, attrs);
+      request.setAttribute(PortletContainerDispatcher.ATTRS, attrs);
       int platform = Environment.getInstance().getPlatform();
       if (platform == Environment.STAND_ALONE) {
       } else
@@ -783,11 +784,11 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     PortletWindowInternal windowInfos = getWindowInfos(request, input, isAction);
     String portletApplicationName = windowInfos.getWindowID().getPortletApplicationName();
 
-    request.setAttribute(CONTAINER, container.getContext().getName());
-    request.setAttribute(INPUT, input);
-    request.setAttribute(OUTPUT, output);
-    request.setAttribute(WINDOW_INFO, windowInfos);
-    request.setAttribute(IS_ACTION, Util.actionToString(isAction));
+    request.setAttribute(PortletContainerDispatcher.CONTAINER, container.getContext().getName());
+    request.setAttribute(PortletContainerDispatcher.INPUT, input);
+    request.setAttribute(PortletContainerDispatcher.OUTPUT, output);
+    request.setAttribute(PortletContainerDispatcher.WINDOW_INFO, windowInfos);
+    request.setAttribute(PortletContainerDispatcher.IS_ACTION, Util.actionToString(isAction));
 
     int platform = Environment.getInstance().getPlatform();
     if (platform == Environment.STAND_ALONE) {
@@ -884,7 +885,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
           + "]. May be it's caused "
           + "by difference between context name (usually WAR file name) and content of tag <display-name/> in your "
           + "WEB-INF/web.xml");
-    RequestDispatcher dispatcher = portletContext.getRequestDispatcher(SERVLET_MAPPING);
+    RequestDispatcher dispatcher = portletContext.getRequestDispatcher(PortletContainerDispatcher.SERVLET_MAPPING);
     try {
       log.debug("Dispatch request to the portlet application : " + portletApplicationName);
 
