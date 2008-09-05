@@ -242,7 +242,8 @@ public class PortletManagementOperationsInterfaceImpl implements
       }
     }
     PropertyList list = new PropertyList();
-    list.setProperties((Property[]) properties2return.toArray(new Property[properties2return.size()]));
+    Property[] propertiesResult = properties2return.toArray(new Property[properties2return.size()]);
+    list.setProperties(propertiesResult);
     list.setResetProperties(null);
     return list;
   }
