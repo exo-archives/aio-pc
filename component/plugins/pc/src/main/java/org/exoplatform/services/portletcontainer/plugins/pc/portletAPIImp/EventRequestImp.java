@@ -35,10 +35,14 @@ public class EventRequestImp extends PortletRequestImp implements EventRequest {
     super(reqCtx);
   }
 
+  /**
+   * The event must always have a name and may optionally have a value.
+   * PLT.15.2.2.
+   */
   public Event getEvent() {
     Event event = ((EventInput) getInput()).getEvent();
     Serializable payload = event.getValue();
-    if (isNotSerialize(payload)) {
+    if (payload == null || isCurrentClassLoader(payload)) {
       return event;
     } else {
       Serializable newPayload = getSerializeDeserialize(payload);
@@ -51,7 +55,7 @@ public class EventRequestImp extends PortletRequestImp implements EventRequest {
     return EVENT_PHASE;
   }
 
-  private boolean isNotSerialize(Serializable payload) {
+  private boolean isCurrentClassLoader(Serializable payload) {
     boolean doNotSerialize = true;
     String fqn = payload.getClass().getCanonicalName();
     try {
