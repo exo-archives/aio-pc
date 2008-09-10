@@ -16,40 +16,47 @@
  */
 package org.exoplatform.services.portletcontainer.test.filter;
 
-import javax.portlet.filter.RenderFilter;
+import javax.portlet.filter.ActionFilter;
 import javax.portlet.filter.FilterConfig;
 import javax.portlet.filter.FilterChain;
 
-import javax.portlet.RenderRequest;
-import javax.portlet.RenderResponse;
+import javax.portlet.ActionRequest;
+import javax.portlet.ActionResponse;
 import javax.portlet.PortletException;
 import java.io.IOException;
 
 import org.apache.commons.logging.Log;
 
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 17 nov. 2003
- * Time: 19:06:35
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: 17 nov. 2003 Time: 18:55:31
  */
-public class LoggerFilter2 implements RenderFilter {
+public class ActionLoggerFilter implements ActionFilter {
 
-  public LoggerFilter2() {
+  private String param;
+
+  public ActionLoggerFilter() {
   }
 
   public void init(FilterConfig filterConfig) throws PortletException {
+    if (!"default-param-value".equals(filterConfig.getInitParameter("default-param")))
+      throw new PortletException();
+    param = filterConfig.getInitParameter("default-param");
   }
 
-  public void doFilter(RenderRequest portletRequest,
-                       RenderResponse portletResponse,
-                       FilterChain filterChain)
-          throws IOException, PortletException {
-    portletRequest.setAttribute("param","default-param-value");
+  public void doFilter(ActionRequest portletRequest,
+                       ActionResponse portletResponse,
+                       FilterChain filterChain) throws IOException, PortletException {
+
+    portletRequest.setAttribute("param", param);
+    portletRequest.setAttribute("filterID", this.toString());
+    if (portletRequest.getParameter("EXO_FAIL_CHAIN") == null) {
+      filterChain.doFilter(portletRequest, portletResponse);
+    }
   }
 
   public void destroy() {
+    System.out.println("destroy() method called - OK");
   }
-  
+
 }

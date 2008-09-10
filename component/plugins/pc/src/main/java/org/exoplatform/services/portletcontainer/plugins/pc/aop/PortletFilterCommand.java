@@ -19,6 +19,7 @@ package org.exoplatform.services.portletcontainer.plugins.pc.aop;
 import java.util.Iterator;
 
 import javax.portlet.PortletContext;
+import javax.portlet.filter.FilterConfig;
 
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterChainImpl;
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterConfigImpl;
@@ -41,7 +42,7 @@ public class PortletFilterCommand extends BaseCommandUnit {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param rcontext context
    * @return object
    * @throws Throwable throwable
@@ -56,17 +57,21 @@ public class PortletFilterCommand extends BaseCommandUnit {
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
-          .getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(),
+                                                     portletFilter.getInitParam(),
+                                                     portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);
-    return rcontext.executeNextUnit();
+    if (chain.isGoodFinished())
+      return rcontext.executeNextUnit();
+    else
+      return null;
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param acontext context
    * @return object
    * @throws Throwable throwable
@@ -81,17 +86,21 @@ public class PortletFilterCommand extends BaseCommandUnit {
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
-          .getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(),
+                                                     portletFilter.getInitParam(),
+                                                     portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);
-    return acontext.executeNextUnit();
+    if (chain.isGoodFinished())
+      return acontext.executeNextUnit();
+    else
+      return null;
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param rcontext context
    * @return object
    * @throws Throwable throwable
@@ -105,17 +114,21 @@ public class PortletFilterCommand extends BaseCommandUnit {
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
     for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
       PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
-          .getInitParam(), portletContext));
+      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(),
+                                                     portletFilter.getInitParam(),
+                                                     portletContext));
     }
     chain.restart();
     chain.doFilter(req, res);
-    return rcontext.executeNextUnit();
+    if (chain.isGoodFinished())
+      return rcontext.executeNextUnit();
+    else
+      return null;
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param econtext context
    * @return object
    * @throws Throwable throwable
@@ -128,14 +141,19 @@ public class PortletFilterCommand extends BaseCommandUnit {
     EventResponseImp res = (EventResponseImp) econtext.getResponse();
     PortletContext portletContext = req.getPortletConfig().getPortletContext();
     PortletFilterChainImpl chain = (PortletFilterChainImpl) req.getPortletDatas().getFilterChain();
-    for (Iterator iterator = chain.getFiltersIterator(); iterator.hasNext();) {
-      PortletFilterWrapper portletFilter = (PortletFilterWrapper) iterator.next();
-      portletFilter.init(new PortletFilterConfigImpl(portletFilter.getFilterName(), portletFilter
-          .getInitParam(), portletContext));
+    for (Iterator<PortletFilterWrapper> iterator = chain.getFiltersIterator(); iterator.hasNext();) {
+      PortletFilterWrapper portletFilter = iterator.next();
+      FilterConfig fc = new PortletFilterConfigImpl(portletFilter.getFilterName(),
+                                                    portletFilter.getInitParam(),
+                                                    portletContext);
+      portletFilter.init(fc);
     }
     chain.restart();
     chain.doFilter(req, res);
-    return econtext.executeNextUnit();
+    if (chain.isGoodFinished())
+      return econtext.executeNextUnit();
+    else
+      return null;
   }
 
 }

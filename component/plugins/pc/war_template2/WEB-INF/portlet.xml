@@ -380,8 +380,8 @@
   </custom-window-state>
 
   <filter>
-    <filter-name>LoggerFilter1</filter-name>
-    <filter-class>org.exoplatform.services.portletcontainer.test.filter.LoggerFilter1</filter-class>
+    <filter-name>ActionLoggerFilter</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.filter.ActionLoggerFilter</filter-class>
     <lifecycle>ACTION_PHASE</lifecycle>
     <init-param>
       <name>default-param</name>
@@ -390,19 +390,19 @@
   </filter>
 
   <filter>
-    <filter-name>LoggerFilter2</filter-name>
-    <filter-class>org.exoplatform.services.portletcontainer.test.filter.LoggerFilter2</filter-class>
+    <filter-name>RenderLoggerFilter</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.filter.RenderLoggerFilter</filter-class>
     <lifecycle>RENDER_PHASE</lifecycle>
   </filter>
 
   <filter-mapping>
-    <filter-name>LoggerFilter1</filter-name>
+    <filter-name>ActionLoggerFilter</filter-name>
     <portlet-name>PortletToTestFilter*</portlet-name>
 <!--    <portlet-name>PortletToTestFilter</portlet-name> -->
   </filter-mapping>
 
   <filter-mapping>
-    <filter-name>LoggerFilter2</filter-name>
+    <filter-name>RenderLoggerFilter</filter-name>
     <portlet-name>PortletToTestFilters</portlet-name>
   </filter-mapping>
   

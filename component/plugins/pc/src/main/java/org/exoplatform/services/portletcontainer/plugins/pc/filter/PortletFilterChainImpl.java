@@ -35,14 +35,9 @@ import javax.portlet.filter.FilterChain;
 import javax.portlet.filter.RenderFilter;
 import javax.portlet.filter.ResourceFilter;
 
-import org.exoplatform.services.portletcontainer.pci.model.Portlet;
-
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 17 nov. 2003
- * Time: 21:21:35
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: 17 nov. 2003 Time: 21:21:35
  */
 public class PortletFilterChainImpl implements FilterChain {
 
@@ -54,8 +49,12 @@ public class PortletFilterChainImpl implements FilterChain {
   /**
    * Filter iterator.
    */
-  private Iterator<PortletFilterWrapper> iterator;
+  private Iterator<PortletFilterWrapper>         iterator;
 
+  /**
+   * Is chain goodFinished normal.
+   */
+  private boolean                                goodFinished;
 
   /**
    * @param filters filters
@@ -63,6 +62,7 @@ public class PortletFilterChainImpl implements FilterChain {
    */
   public PortletFilterChainImpl(final Collection<PortletFilterWrapper> filters) {
     this.filters = filters;
+    this.goodFinished = false;
   }
 
   /**
@@ -77,74 +77,95 @@ public class PortletFilterChainImpl implements FilterChain {
    */
   public final void restart() {
     this.iterator = filters.iterator();
+    this.goodFinished = false;
+  }
+
+  public Iterator<PortletFilterWrapper> getIterator() {
+    return iterator;
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param request request
    * @param response response
    * @throws IOException exception
    * @throws PortletException exception
-   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.ActionRequest, javax.portlet.ActionResponse)
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.ActionRequest,
+   *      javax.portlet.ActionResponse)
    */
   public final void doFilter(final ActionRequest request, final ActionResponse response) throws IOException,
-      PortletException {
+                                                                                        PortletException {
     if (iterator.hasNext()) {
       ActionFilter portletFilter = (ActionFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
+    } else {
+      this.goodFinished = true;
     }
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param request request
    * @param response response
    * @throws IOException exception
    * @throws PortletException exception
-   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.EventRequest, javax.portlet.EventResponse)
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.EventRequest,
+   *      javax.portlet.EventResponse)
    */
   public final void doFilter(final EventRequest request, final EventResponse response) throws IOException,
-      PortletException {
+                                                                                      PortletException {
     if (iterator.hasNext()) {
       EventFilter portletFilter = (EventFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
+    } else {
+      this.goodFinished = true;
     }
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param request request
    * @param response response
    * @throws IOException exception
    * @throws PortletException exception
-   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.RenderRequest,
+   *      javax.portlet.RenderResponse)
    */
   public final void doFilter(final RenderRequest request, final RenderResponse response) throws IOException,
-      PortletException {
+                                                                                        PortletException {
     if (iterator.hasNext()) {
       RenderFilter portletFilter = (RenderFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
+    } else {
+      this.goodFinished = true;
     }
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param request request
    * @param response response
    * @throws IOException exception
    * @throws PortletException exception
-   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.ResourceRequest, javax.portlet.ResourceResponse)
+   * @see javax.portlet.filter.FilterChain#doFilter(javax.portlet.ResourceRequest,
+   *      javax.portlet.ResourceResponse)
    */
   public final void doFilter(final ResourceRequest request, final ResourceResponse response) throws IOException,
-      PortletException {
+                                                                                            PortletException {
     if (iterator.hasNext()) {
       ResourceFilter portletFilter = (ResourceFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
+    } else {
+      this.goodFinished = true;
     }
+  }
+  
+  public boolean isGoodFinished() {
+    return goodFinished;
   }
 
 }

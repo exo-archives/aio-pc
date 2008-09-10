@@ -22,39 +22,35 @@ import java.io.PrintWriter;
 import java.util.Map;
 
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 17 nov. 2003
- * Time: 22:23:43
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: 17 nov. 2003 Time: 22:23:43
  * Revision: Max Shaposhnik Sep'07
  */
-public class PortletToTestFilters extends GenericPortlet{
+public class PortletToTestFilters extends GenericPortlet {
 
-	public void init(PortletConfig portletConfig) throws PortletException {
-	}
+  public void init(PortletConfig portletConfig) throws PortletException {
+  }
 
-	public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-					throws PortletException, IOException {
-		actionResponse.setRenderParameter("status", "Everything is ok");
-    
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+                                                                                       IOException {
+    actionResponse.setRenderParameter("status", "Everything is ok");
+
     if (actionRequest.getAttribute("filterID") != null) {
-      actionResponse.setRenderParameter("filterID", (String)actionRequest.getAttribute("filterID"));
+      actionResponse.setRenderParameter("filterID", (String) actionRequest.getAttribute("filterID"));
     }
-    
-	}
 
-	public void render(RenderRequest renderRequest, RenderResponse renderResponse)
-					throws PortletException, IOException {
-    renderResponse.setContentType("text/html");        
-		PrintWriter w = renderResponse.getWriter();
-    
+  }
+
+  public void render(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+                                                                                IOException {
+    renderResponse.setContentType("text/html");
+    PrintWriter w = renderResponse.getWriter();
+
     if ("default-param-value".equalsIgnoreCase(renderRequest.getAttribute("param").toString()))
       w.println("Everything is ok");
-	}
+  }
 
-	public void destroy() {
-    
-    
-	}
+  public void destroy() {
+
+  }
 }

@@ -184,7 +184,7 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
-            <!-- include>**/Test*.java</include -->
+<!--             <include>**/TestFilters.java</include> -->
           </includes>
         </configuration>
       </plugin>
