@@ -132,6 +132,7 @@
       <name>wsrp2.plugin</name>
       <set-method>addPlugin</set-method>
       <type>org.exoplatform.services.wsrp2.consumer.impl.WSRPConsumerPlugin</type>
+      <description>wsrp2 plugin</description>
     </component-plugin>
   </external-component-plugins>
 

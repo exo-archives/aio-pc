@@ -427,6 +427,15 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final Map<String, PortletData> getAllPortletMetaData() {
     return portletApplications.getAllPortletMetaData();
   }
+  
+  /**
+   * Get portlet app names.
+   * 
+   * @return collection of string
+   */
+  public final Collection<String> getPortletAppNames() {
+    return portletApplications.getPortletAppNames();
+  }
 
   /**
    * Overridden method.

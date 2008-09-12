@@ -94,9 +94,9 @@ public class PortletApplicationProxy implements Startable {
       final PortletContainerMonitorImpl monitor) {
     this.holder = holder;
     this.monitor = monitor;
-    configs = new HashMap<String, PortletConfig>();
+    this.configs = new HashMap<String, PortletConfig>();
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
-    pico = new DefaultPicoContainer(context.getContainer());
+    this.pico = new DefaultPicoContainer(context.getContainer());
   }
 
   /**

@@ -18,6 +18,7 @@ package org.exoplatform.services.portletcontainer.test.plugins;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -261,6 +262,15 @@ public class TestPlugin1 implements PortletContainerPlugin {
   public final String[] getPortalManagedPortletModes(final String portletAppName,
                                                      final String portletName) {
     return null;
+  }
+
+  /**
+   * Get portlet app names.
+   * 
+   * @return collection of string
+   */
+  public final Collection<String> getPortletAppNames() {
+    return Collections.unmodifiableSet(portletApp.keySet());
   }
 
 }

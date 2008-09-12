@@ -46,6 +46,7 @@ import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
+import org.exoplatform.services.wsrp.WSRPConstants;
 import org.exoplatform.services.wsrp.exceptions.Faults;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
 import org.exoplatform.services.wsrp.producer.PortletContainerProxy;
@@ -86,7 +87,7 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
     String pcPortletHandle = key[0] + Constants.PORTLET_HANDLE_ENCODER + key[1];
     if (pcPortletHandle != null) {
-      if (this.pcService.getAllPortletMetaData().get(pcPortletHandle) != null) {
+      if (this.pcService.getAllPortletMetaData(WSRPConstants.WSRP_ID.toLowerCase()).get(pcPortletHandle) != null) {
         return true;
       }
     }
@@ -107,7 +108,9 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
       log.debug("get description of portlet in application : " + portletApplicationName);
       log.debug("get description of portlet : " + portletName);
     }
-    Map<String, PortletData> portletMetaDatas = this.pcService.getAllPortletMetaData();
+    Map<String, PortletData> portletMetaDatas = this.pcService.getAllPortletMetaData("jsr");
+    portletMetaDatas.putAll(this.pcService.getAllPortletMetaData(WSRPConstants.WSRP_ID.toLowerCase()));
+    
     PortletData portlet = (PortletData) portletMetaDatas.get(k[0]
         + Constants.PORTLET_META_DATA_ENCODER + k[1]);
     PortletDescription pD = new PortletDescription();
@@ -196,7 +199,10 @@ public class JSR168ContainerProxyImpl implements PortletContainerProxy {
   }
 
   public Map<String, PortletData> getAllPortletMetaData() {
-    return this.pcService.getAllPortletMetaData();
+    HashMap<String, PortletData> result = new HashMap<String, PortletData>();
+    result.putAll(this.pcService.getAllPortletMetaData("jsr"));
+    result.putAll(this.pcService.getAllPortletMetaData(WSRPConstants.WSRP_ID.toLowerCase()));
+    return result;
   }
 
   // public Collection getWindowStates(String s) {

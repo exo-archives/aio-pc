@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import javax.portlet.PortletURLGenerationListener;
-import javax.portlet.filter.FilterChain;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;

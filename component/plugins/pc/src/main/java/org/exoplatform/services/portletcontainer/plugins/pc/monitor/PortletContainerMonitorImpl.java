@@ -49,22 +49,22 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
   /**
    * Version numbers.
    */
-  public static Map versionNumberMap = new HashMap();
+  public static Map<String, Long> versionNumberMap = new HashMap<String, Long>();
 
   /**
    * Runtime metadatas.
    */
-  private final Map runtimeDatas;
+  private final Map<String, PortletRuntimeData> runtimeDatas;
 
   /**
    * Destroyed portlets.
    */
-  private final Map destroyedPortlets;
+  private final Map<String, PortletRuntimeData> destroyedPortlets;
 
   /**
    * Broken portlets.
    */
-  private final Map brokenPortlets;
+  private final Map<String, PortletRuntimeData> brokenPortlets;
 
   /**
    * Logger.
@@ -89,9 +89,9 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cacheService = cacheService;
     globalCache = cacheService.getCacheInstance(PCConstants.GLOBAL_SCOPE_CACHE);
-    runtimeDatas = Collections.synchronizedMap(new HashMap());
-    brokenPortlets = Collections.synchronizedMap(new HashMap());
-    destroyedPortlets = Collections.synchronizedMap(new HashMap());
+    runtimeDatas = Collections.synchronizedMap(new HashMap<String, PortletRuntimeData>());
+    brokenPortlets = Collections.synchronizedMap(new HashMap<String, PortletRuntimeData>());
+    destroyedPortlets = Collections.synchronizedMap(new HashMap<String, PortletRuntimeData>());
   }
 
   /**
@@ -100,7 +100,7 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
    * @return runtime datas
    * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getPortletRuntimeDataMap()
    */
-  public final Map getPortletRuntimeDataMap() {
+  public final Map<String, PortletRuntimeData> getPortletRuntimeDataMap() {
     return runtimeDatas;
   }
 

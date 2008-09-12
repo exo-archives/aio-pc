@@ -42,7 +42,7 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
   protected WSRPAdminPortlet portletObj = null;
 
   public WSRPAdminPortletDataImp(ExoContainer cont, Map<String, String> adminPortletParams) {
-    super(cont, null, null, new ArrayList<UserAttribute>());
+    super(cont, null, null, new ArrayList<UserAttribute>(), false);
     portlet = new Portlet();
     portlet.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
     portlet.setPortletClass(WSRPConstants.WSRP_ADMIN_PORTLET_CLASS);

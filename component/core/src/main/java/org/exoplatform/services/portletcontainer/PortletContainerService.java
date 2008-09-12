@@ -47,26 +47,36 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 public interface PortletContainerService {
 
   /**
+   * Add plugin.
+   * 
    * @param plugin plugin object
    */
   void addPlugin(PortletContainerPlugin plugin);
 
   /**
+   * Set name.
+   * 
    * @param name name
    */
   void setName(String name);
 
   /**
+   * Set description.
+   * 
    * @param description description
    */
   void setDescription(String description);
 
   /**
+   * Set major version.
+   * 
    * @param majorVersion major version
    */
   void setMajorVersion(int majorVersion);
 
   /**
+   * Set minor version.
+   * 
    * @param minorVersion minor version
    */
   void setMinorVersion(int minorVersion);
@@ -87,6 +97,8 @@ public interface PortletContainerService {
   Collection<WindowState> getSupportedWindowStates();
 
   /**
+   * Get portlet modes.
+   * 
    * @param portletAppName app name
    * @param portletName portlet name
    * @param markup markup
@@ -94,6 +106,13 @@ public interface PortletContainerService {
    */
   Collection<PortletMode> getPortletModes(String portletAppName, String portletName, String markup);
 
+  /**
+   * Get portal managed portlet modes.
+   * 
+   * @param portletAppName
+   * @param portletName
+   * @return string array
+   */
   String[] getPortalManagedPortletModes(String portletAppName, String portletName);
 
   /**
@@ -131,6 +150,43 @@ public interface PortletContainerService {
   Map<String, PortletData> getAllPortletMetaData();
 
   /**
+   * @return all portlet metadata with boolean option which indicate should we
+   *         return local or remote portlets
+   */
+  Map<String, PortletData> getAllPortletMetaData(boolean localPortlet);
+
+  /**
+   * @return all portlet metadata with string option which indicate the plugin's
+   *         prefix or the exact name
+   */
+  Map<String, PortletData> getAllPortletMetaData(String pluginName);
+
+  /**
+   * Get portlet app names.
+   * 
+   * @return collection of string
+   */
+  Collection<String> getPortletAppNames();
+
+  /**
+   * Get portlet app names with boolean option which indicate should we return
+   * local or remote portlets.
+   * 
+   * @return collection of string
+   */
+  Collection<String> getPortletAppNames(boolean localPortlet);
+
+  /**
+   * Get portlet app names with string option which indicate the plugin's prefix
+   * or the exact name.
+   * 
+   * @return collection of string
+   */
+  Collection<String> getPortletAppNames(String pluginName);
+
+  /**
+   * Get portlet application with app name.
+   * 
    * @param portletAppName app name
    * @return app object
    */

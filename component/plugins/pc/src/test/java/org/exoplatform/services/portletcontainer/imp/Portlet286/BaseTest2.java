@@ -36,15 +36,15 @@ import org.exoplatform.container.RootContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.organization.OrganizationService;
-import org.exoplatform.services.organization.User;
-import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.EventInput;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
+import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
@@ -72,7 +72,7 @@ public class BaseTest2 extends TestCase {
   //protected PortletMonitor portletMonitor;
   protected PortletApp portletApp_;
   protected OrganizationService orgService_ ;
-  protected Collection roles;
+  protected Collection<String> roles;
   protected URLClassLoader cl;
   protected URLClassLoader cl2;
   protected MockServletContext mockServletContext;
@@ -85,7 +85,7 @@ public class BaseTest2 extends TestCase {
   protected PortletPreferencesPersister persister;
   protected PortletApplicationRegister portletApplicationRegister;
   protected PortalContainer portalContainer;
-  protected Map allPortletMetaData = null;
+  protected Map<String, PortletData> allPortletMetaData = null;
 //  protected PortletContext portletContext;
 //  protected PortletDataImp portletDatas;
 
@@ -115,7 +115,7 @@ public class BaseTest2 extends TestCase {
     InputStream is = url.openStream();
     portletApp_ = XMLParser.parse(is,true); //Second portlet specification - JSR 286
 
-    roles = new java.util.ArrayList() ;
+    roles = new java.util.ArrayList<String>() ;
     roles.add("auth-user");
 
     mockServletContext = new MockServletContext(PORTLET_APP_NAME, System.getProperty("testPath") + CONTEXT_PATH);

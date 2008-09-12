@@ -64,31 +64,43 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   void setDescription(String description);
 
   /**
+   * Set major version.
+   * 
    * @param majorVersion major version
    */
   void setMajorVersion(int majorVersion);
 
   /**
+   * Set minor version.
+   * 
    * @param minorVersion minor vesrion
    */
   void setMinorVersion(int minorVersion);
 
   /**
+   * Set properties.
+   * 
    * @param properties properties
    */
   void setProperties(Map<String, String> properties);
 
   /**
+   * Get supported portlet modes.
+   * 
    * @return app supported portlet modes
    */
   Collection<PortletMode> getSupportedPortletModes();
 
   /**
+   * Get supported window states.
+   * 
    * @return all supported window states
    */
   Collection<WindowState> getSupportedWindowStates();
 
   /**
+   * Get portlet modes.
+   * 
    * @param portletAppName app name
    * @param portletName portlet name
    * @param markup markup
@@ -97,6 +109,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   Collection<PortletMode> getPortletModes(String portletAppName, String portletName, String markup);
 
   /**
+   * Is mode suported.
+   * 
    * @param portletAppName app name
    * @param portletName portlet name
    * @param markup markup
@@ -105,9 +119,18 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    */
   boolean isModeSuported(String portletAppName, String portletName, String markup, PortletMode mode);
 
+  /**
+   * Get portal managed portlet modes.
+   * 
+   * @param portletAppName
+   * @param portletName
+   * @return
+   */
   String[] getPortalManagedPortletModes(final String portletAppName, final String portletName);
 
   /**
+   * Get window states.
+   * 
    * @param portletAppName app name
    * @param portletName portlet name
    * @param markup markup
@@ -116,6 +139,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   Collection<WindowState> getWindowStates(String portletAppName, String portletName, String markup);
 
   /**
+   * Is state supported.
+   * 
    * @param portletAppName app name
    * @param portletName portlet name
    * @param markup markup
@@ -128,17 +153,23 @@ public interface PortletContainerPlugin extends ComponentPlugin {
                            WindowState state);
 
   /**
+   * Get all portlet metadata.
+   * 
    * @return all portlet metadata
    */
   Map<String, PortletData> getAllPortletMetaData();
 
   /**
+   * Get portlet app.
+   * 
    * @param portletAppName app name
    * @return app object
    */
   PortletApp getPortletApp(String portletAppName);
 
   /**
+   * Get bundle.
+   * 
    * @param request request
    * @param response response
    * @param portletAppName app name
@@ -154,6 +185,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
                            Locale locale) throws PortletContainerException;
 
   /**
+   * Set portlet preference.
+   * 
    * @param input input
    * @param preferences preferences
    * @throws PortletContainerException exception
@@ -162,6 +195,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   void setPortletPreference(Input input, Map<String, String> preferences) throws PortletContainerException;
 
   /**
+   * Set portlet preference with string array.
+   * 
    * @param input input
    * @param preferences preferences
    * @throws PortletContainerException exception
@@ -170,6 +205,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   void setPortletPreference2(Input input, Map<String, String[]> preferences) throws PortletContainerException;
 
   /**
+   * Get portlet preference.
+   * 
    * @param input input
    * @return portlet preferences
    */
@@ -177,6 +214,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   Map<String, String[]> getPortletPreference(Input input);
 
   /**
+   * Set portlet preferences.
+   * 
    * @param input input
    * @param preferences preferences
    * @throws PortletContainerException exception
@@ -184,12 +223,16 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException;
 
   /**
+   * Get portlet preferences.
+   * 
    * @param input input
    * @return portlet preferences
    */
   PortletPreferences getPortletPreferences(Input input);
 
   /**
+   * Process action.
+   * 
    * @param request request
    * @param response response
    * @param input input
@@ -201,6 +244,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
                              ActionInput input) throws PortletContainerException;
 
   /**
+   * Process event.
+   * 
    * @param request request
    * @param response response
    * @param input input
@@ -212,6 +257,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
                            EventInput input) throws PortletContainerException;
 
   /**
+   * Serve resource.
+   * 
    * @param request request
    * @param response response
    * @param input input
@@ -223,6 +270,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
                                ResourceInput input) throws PortletContainerException;
 
   /**
+   * Render.
+   * 
    * @param request request
    * @param response response
    * @param input input
@@ -232,6 +281,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
   RenderOutput render(HttpServletRequest request, HttpServletResponse response, RenderInput input) throws PortletContainerException;
 
   /**
+   * Send attrs.
+   * 
    * @param request request
    * @param response response
    * @param attrs attrs
@@ -244,6 +295,8 @@ public interface PortletContainerPlugin extends ComponentPlugin {
                  String portletApplicationName) throws PortletContainerException;
 
   /**
+   * Is event payload type matches.
+   * 
    * @param portletAppName app name
    * @param eventName event name
    * @param payload payload
@@ -251,5 +304,19 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @throws PortletContainerException exception
    */
   boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException;
+  
+//  /**
+//   * Is local portlet.
+//   * 
+//   * @return boolean value if it is a local portlet
+//   */
+//  boolean isLocalPlugin();
+  
+  /**
+   * Get portlet app names.
+   * 
+   * @return Collection of string
+   */
+  Collection<String> getPortletAppNames();
 
 }

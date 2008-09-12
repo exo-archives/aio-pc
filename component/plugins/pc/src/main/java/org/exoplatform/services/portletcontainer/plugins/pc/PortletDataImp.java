@@ -49,32 +49,40 @@ public class PortletDataImp implements PortletData {
   /**
    * Portlet object.
    */
-  protected Portlet portlet;
+  protected Portlet             portlet;
 
   /**
    * User data constraint type.
    */
-  protected UserDataConstraint userDataConstraintType;
+  protected UserDataConstraint  userDataConstraintType;
 
   /**
    * Exo container.
    */
-  protected ExoContainer cont;
+  protected ExoContainer        cont;
+
+  /**
+   * Local portlet flag.
+   */
+  protected boolean             localPortlet;
 
   /**
    * @param cont exo container
    * @param portlet portlet object
    * @param userDataConstraintType user data constraint type
    * @param userAttributes user attributes
+   * @param localPortlet TODO
    */
   public PortletDataImp(final ExoContainer cont,
-      final Portlet portlet,
-      final UserDataConstraint userDataConstraintType,
-      final List<UserAttribute> userAttributes) {
+                        final Portlet portlet,
+                        final UserDataConstraint userDataConstraintType,
+                        final List<UserAttribute> userAttributes,
+                        boolean localPortlet) {
     this.cont = cont;
     this.portlet = portlet;
     this.userDataConstraintType = userDataConstraintType;
     this.userAttributes = userAttributes;
+    this.localPortlet = localPortlet;
   }
 
   /**
@@ -86,7 +94,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return display names
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getDisplayName()
    */
@@ -96,7 +104,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return security role defs
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSecurityRoleRef()
    */
@@ -106,7 +114,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return init params
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getInitParam()
    */
@@ -119,8 +127,7 @@ public class PortletDataImp implements PortletData {
    * @return portlet info
    */
   public final ResourceBundle getPortletInfo(final Locale locale) {
-    ResourceBundleManager manager = (ResourceBundleManager) cont
-        .getComponentInstanceOfType(ResourceBundleManager.class);
+    ResourceBundleManager manager = (ResourceBundleManager) cont.getComponentInstanceOfType(ResourceBundleManager.class);
     try {
       return manager.lookupBundle(portlet, locale);
     } catch (Exception e) {
@@ -130,7 +137,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return supports
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupports()
    */
@@ -140,7 +147,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return descriptions
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getDescription()
    */
@@ -150,7 +157,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param lang language
    * @return description
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getDescription(java.lang.String)
@@ -161,7 +168,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return is cache global
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#isCacheGlobal()
    */
@@ -173,7 +180,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return expiration cache
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getExpirationCache()
    */
@@ -186,7 +193,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return portlet name
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getPortletName()
    */
@@ -196,7 +203,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return supported locales
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedLocale()
    */
@@ -206,7 +213,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return portlet preferences
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getPortletPreferences()
    */
@@ -216,7 +223,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return is secure
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#isSecure()
    */
@@ -228,7 +235,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return user attributes
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getUserAttributes()
    */
@@ -238,7 +245,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return supported processing events
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedProcessingEvent()
    */
@@ -250,7 +257,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return supported publishing events
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedPublishingEvent()
    */
@@ -260,7 +267,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return supported public render parameters
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getSupportedPublicRenderParameter()
    */
@@ -272,7 +279,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return container runtime options
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getContainerRuntimeOption()
    */
@@ -282,7 +289,7 @@ public class PortletDataImp implements PortletData {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return escape xml
    * @see org.exoplatform.services.portletcontainer.pci.PortletData#getEscapeXml()
    */
@@ -290,6 +297,14 @@ public class PortletDataImp implements PortletData {
     if (portlet == null)
       return true;
     return portlet.getEscapeXml();
+  }
+  
+  /**
+   * Is local portlet.
+   * @return boolean value if it is a local portlet
+   */
+  public boolean isLocalPortlet() {
+    return localPortlet;
   }
 
 }

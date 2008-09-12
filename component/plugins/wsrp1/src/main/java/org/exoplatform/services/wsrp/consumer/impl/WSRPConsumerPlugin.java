@@ -20,7 +20,9 @@ package org.exoplatform.services.wsrp.consumer.impl;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
@@ -369,11 +371,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       return adminPortlet.isModeSuported(markup, mode);
     return false;
   }
-  
+
   public final String[] getPortalManagedPortletModes(final String portletAppName,
                                                      final String portletName) {
 //    throw new UnsupportedOperationException("Unsupported operation 'getPortalManagedPortletModes' for WSRP1 plugin");
-    return new String[]{};
+    return new String[] {};
   }
 
   public Collection<WindowState> getWindowStates(String portletAppName,
@@ -501,13 +503,16 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               portlet.addSupports(supports);
             }
           }
-          if (StringUtils.split(portletHandle, "/").length == 1)
+          if (StringUtils.split(portletHandle, "/").length == 1) {
             portletHandle = "unnamed" + "/" + portletHandle;
-          result.put(producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER + portletHandle,
-                     new PortletDataImp(this.container,
-                                        portlet,
-                                        null,
-                                        new ArrayList<UserAttribute>()));
+          }
+          String newPortletHandle = producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER
+              + portletHandle;
+          result.put(newPortletHandle, new PortletDataImp(this.container,
+                                                          portlet,
+                                                          null,
+                                                          new ArrayList<UserAttribute>(),
+                                                          false));
         }
       }
     }
@@ -1117,6 +1122,49 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
     }
     return markup;
+  }
+
+  /**
+   * Get portlet app names.
+   * 
+   * @return collection of string
+   */
+  public final Collection<String> getPortletAppNames() {
+    log.debug("getPortletAppNames() entered");
+    Collection<String> result = new HashSet<String>();
+    // put WSRPAdminPortlet
+    result.add(WSRPConstants.WSRP_ADMIN_PORTLET_APP);
+    // put all remote portlets
+    String producerId = null;
+    String portletHandle = null;
+    ProducerRegistry pregistry = consumer.getProducerRegistry();
+    Iterator<Producer> i = pregistry.getAllProducers();
+    ServiceDescription desc = null;
+    while (i.hasNext()) {
+      Producer producer = i.next();
+      try {
+        desc = producer.getServiceDescription();
+      } catch (WSRPException e) {
+        e.printStackTrace();
+      }
+      producerId = producer.getID();
+      PortletDescription[] portletDescriptions = desc.getOfferedPortlets();
+      if (portletDescriptions != null) {
+        for (int k = 0; k < portletDescriptions.length; k++) {
+          PortletDescription portletDescription = portletDescriptions[k];
+          portletHandle = portletDescription.getPortletHandle();
+          if (StringUtils.split(portletHandle, "/").length == 1) {
+            portletHandle = "unnamed" + "/" + portletHandle;
+          }
+          String newPortletHandle = producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER
+              + portletHandle;
+          String[] ss = StringUtils.split(newPortletHandle, "/");
+          String portletAppName = ss[0];
+          result.add(portletAppName);
+        }
+      }
+    }
+    return result;
   }
 
 }

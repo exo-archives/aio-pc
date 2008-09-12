@@ -40,18 +40,16 @@ import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserDataConstraint;
 
 /**
- * Created by the Exo Development team.
- * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
- * Date: 11 nov. 2003
- * Time: 14:47:22
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: 11 nov. 2003 Time: 14:47:22
  */
 public class PortletApplicationsHolder {
 
   /**
    * Exo container.
    */
-  protected ExoContainer container;
-  
+  protected ExoContainer                              container;
+
   /**
    * Portlet application map.
    */
@@ -60,7 +58,7 @@ public class PortletApplicationsHolder {
   /**
    * Log.
    */
-  private final Log log;
+  private final Log                                   log;
 
   /**
    * Simple constructor.
@@ -110,6 +108,8 @@ public class PortletApplicationsHolder {
   }
 
   /**
+   * Get roles.
+   * 
    * @param portletAppName portlet app name
    * @return roles
    */
@@ -117,6 +117,15 @@ public class PortletApplicationsHolder {
     log.debug("getRoles() entered");
     PortletApplicationHelper helper = portletApps.get(portletAppName);
     return helper.getRoles();
+  }
+  
+  /**
+   * Get portlet app names.
+   * 
+   * @return collection of string
+   */
+  public final Collection<String> getPortletAppNames() {
+    return Collections.unmodifiableSet(portletApps.keySet());
   }
 
   /**
@@ -150,8 +159,11 @@ public class PortletApplicationsHolder {
           }
         }
         all.put(key + Constants.PORTLET_META_DATA_ENCODER + portlet.getPortletName(),
-            new PortletDataImp(container, portlet, userDataConstraintType, portletApp
-                .getUserAttribute()));
+                new PortletDataImp(container,
+                                   portlet,
+                                   userDataConstraintType,
+                                   portletApp.getUserAttribute(),
+                                   true));
       }
     }
     return all;
@@ -164,8 +176,8 @@ public class PortletApplicationsHolder {
    * @return portlet modes
    */
   public final Collection<PortletMode> getPortletModes(final String portletAppName,
-      final String portletName,
-      final String markup) {
+                                                       final String portletName,
+                                                       final String markup) {
     log.debug("getPortletModes() entered");
     Collection<PortletMode> modes = new ArrayList<PortletMode>();
     List<Portlet> portlets = getPortletApplication(portletAppName).getPortlet();
@@ -186,8 +198,6 @@ public class PortletApplicationsHolder {
     }
     return modes;
   }
-  
-  
 
   /**
    * @param portletAppName portlet app name
@@ -197,9 +207,9 @@ public class PortletApplicationsHolder {
    * @return either the specififed portlet mode supported
    */
   public final boolean isModeSuported(final String portletAppName,
-      final String portletName,
-      final String markup,
-      final PortletMode mode) {
+                                      final String portletName,
+                                      final String markup,
+                                      final PortletMode mode) {
     log.debug("isModeSuported() entered");
     if (PortletMode.VIEW.toString().equalsIgnoreCase(mode.toString()))
       return true;
@@ -218,8 +228,8 @@ public class PortletApplicationsHolder {
    * @return window states
    */
   public final Collection<WindowState> getWindowStates(final String portletAppName,
-      final String portletName,
-      final String markup) {
+                                                       final String portletName,
+                                                       final String markup) {
     log.debug("getWindowStates() entered");
     Collection<WindowState> states = new ArrayList<WindowState>();
     List<Portlet> portlets = getPortletApplication(portletAppName).getPortlet();
@@ -249,9 +259,9 @@ public class PortletApplicationsHolder {
    * @return either the specified state supported
    */
   public final boolean isStateSupported(final String portletAppName,
-      final String portletName,
-      final String markup,
-      final WindowState state) {
+                                        final String portletName,
+                                        final String markup,
+                                        final WindowState state) {
     log.debug("isStateSupported() entered");
     if (WindowState.MINIMIZED.toString().equalsIgnoreCase(state.toString()))
       return true;
@@ -273,11 +283,11 @@ public class PortletApplicationsHolder {
    * @param roles roles
    */
   public final void registerPortletApplication(final String portletAppName,
-      final PortletApp portletApp,
-      final Collection<String> roles) {
+                                               final PortletApp portletApp,
+                                               final Collection<String> roles) {
     PortletApplicationHelper helper = new PortletApplicationHelper(portletAppName,
-        portletApp,
-        roles);
+                                                                   portletApp,
+                                                                   roles);
     synchronized (portletApps) {
       portletApps.put(portletAppName, helper);
     }
@@ -318,7 +328,7 @@ public class PortletApplicationsHolder {
     /**
      * Portlet app object.
      */
-    private final PortletApp portletApp;
+    private final PortletApp         portletApp;
 
     /**
      * Roles.
@@ -328,7 +338,7 @@ public class PortletApplicationsHolder {
     /**
      * Portlet app name.
      */
-    private final String portletAppName;
+    private final String             portletAppName;
 
     /**
      * @param portletAppName portlet app name
@@ -336,8 +346,8 @@ public class PortletApplicationsHolder {
      * @param roles roles
      */
     public PortletApplicationHelper(final String portletAppName,
-        final PortletApp portletApp,
-        final Collection<String> roles) {
+                                    final PortletApp portletApp,
+                                    final Collection<String> roles) {
       this.portletApp = portletApp;
       this.roles = roles;
       this.portletAppName = portletAppName;

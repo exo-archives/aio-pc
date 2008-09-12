@@ -35,9 +35,8 @@ import org.exoplatform.container.RootContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.organization.OrganizationService;
-import org.exoplatform.services.organization.User;
-import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl;
@@ -70,7 +69,7 @@ public class BaseTest extends TestCase {
   //protected PortletMonitor portletMonitor;
   protected PortletApp portletApp_;
   protected OrganizationService orgService_ ;
-  protected Collection roles;
+  protected Collection<String> roles;
   protected URLClassLoader cl;
   protected URLClassLoader cl2;
   protected MockServletContext mockServletContext;
@@ -111,7 +110,7 @@ public class BaseTest extends TestCase {
     InputStream is = url.openStream();
     portletApp_ = XMLParser.parse(is,false); //First portlet specification - JSR 168
 
-    roles = new java.util.ArrayList() ;
+    roles = new java.util.ArrayList<String>() ;
     roles.add("auth-user");
 
     mockServletContext = new MockServletContext(PORTLET_APP_NAME, System.getProperty("testPath") + CONTEXT_PATH);

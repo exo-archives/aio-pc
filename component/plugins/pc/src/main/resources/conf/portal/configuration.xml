@@ -40,7 +40,6 @@
       <component-plugin>
         <name>jsr168.jsr286.plugin</name>
         <set-method>addPlugin</set-method>
-        <!-- type>org.exoplatform.portletcontainer.plugins.pc.PortletContainerPluginImpl</type -->
         <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher</type>
         <description>jsr168 jsr286 plugin</description>
       </component-plugin>
