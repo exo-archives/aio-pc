@@ -8,7 +8,7 @@
   <artifactId>assembly</artifactId>
   <packaging>exopc</packaging>
   <!-- packaging>ear</packaging -->
-  <name>eXo Portlet Container Manual Test WSRP2 Assembly</name>
+  <name>eXo Portlet Container Manual Test WSRP2 Assembly on Tomcat</name>
 
   <dependencies>
 

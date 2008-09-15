@@ -64,7 +64,7 @@
             <dependency>
 	      <groupId>_jonas_patches</groupId>
 	      <artifactId>jibx-extras</artifactId>
-	      <version>1.1.3</version>
+	      <version>1.1.6a</version>
 	      <type>jar</type>
 	      <scope>compile</scope>
 	 </dependency>
@@ -112,6 +112,7 @@
 							<fileset
 								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jonas.version}" />
 						</copy>
+						<!-- copy portlet-container.ear to autoload directory-->
 						<copy
 							todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
 							verbose="true" overwrite="true">
@@ -119,7 +120,7 @@
 							  <filename name="**/*.ear"/>
 							</fileset>  
 						</copy>
-
+						<!-- copy jonas bin -->			
 						<copy
 							todir="${exo.projects.directory.working}/exo-jonas/bin/"
 							verbose="true" overwrite="true">
@@ -128,6 +129,7 @@
 								<exclude name="**/WEB*" />
 							</fileset>	
 						</copy>
+						<!-- copy jonas conf -->
 						<copy
 							todir="${exo.projects.directory.working}/exo-jonas/conf/"
 							verbose="true" flatten="true" overwrite="true">
@@ -136,19 +138,19 @@
 								casesensitive="yes">
 							</fileset>
 						</copy>
-						
+						<!-- copy portal.war temporary to jonas autoload -->
 						<copy
 							todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
 							verbose="true"  overwrite="true">
 							<fileset
-								dir="${basedir}/target/ear/">
-								<filename name="portal.war"/>
+								dir="${basedir}/target/ear/"
 								casesensitive="yes">
+        							<filename name="portal.war"/>
 							</fileset>
 						</copy>
 						
 						<touch file="${basedir}/patches/jonas/WEB-INF/classes/conf/exo-configuration.xml"/>
-						
+						<!-- copy WEB-INF to portal.war -->
 						<war 
 						      destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war"  update="true">
              	                                                      <webinf dir="${basedir}/patches/jonas/WEB-INF/">
@@ -161,21 +163,20 @@
 						            <exclude name="**/assembly*" />
 						         </fileset>
 					          </touch>
-					          
+					        <!-- copy several jars into ear -->  
 						<ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
 						          <fileset dir="${basedir}/target/lib-trunk.dir/">
 						              <filename name="**/*.jar" /> 
 						              <exclude name="**/assembly*" />
 						          </fileset>
 					           </ear>	
-					           
+					          <!-- copy modified portal.war --> 
 					          <ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
 						          <fileset dir="${exo.projects.directory.working}/exo-jonas/apps/autoload/">
 						            <filename name="portal.war"/> 
 						          </fileset>
 					           </ear>	
-
-						
+						<!-- delete temporary file portal.war-->
 						<delete
 							file="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war" />
 							

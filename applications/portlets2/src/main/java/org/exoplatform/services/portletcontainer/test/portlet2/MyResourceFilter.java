@@ -16,9 +16,12 @@
  */
 package org.exoplatform.services.portletcontainer.test.portlet2;
 
+import java.io.IOException;
+
 import javax.portlet.filter.ResourceFilter;
 import javax.portlet.filter.FilterChain;
 import javax.portlet.filter.FilterConfig;
+import javax.portlet.PortletException;
 import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.portlet.UnavailableException;
@@ -28,7 +31,7 @@ import javax.portlet.UnavailableException;
  * Author : Alexey Zavizionov
  *          alexey.zavizionov@exoplatform.com.ua
  */
-public class MyFilter implements ResourceFilter {
+public class MyResourceFilter implements ResourceFilter {
 
   /**
    * name.
@@ -55,8 +58,9 @@ public class MyFilter implements ResourceFilter {
    * @throws UnavailableException exception
    * @see javax.portlet.filter.ResourceFilter#doFilter(javax.portlet.ResourceRequest, javax.portlet.ResourceResponse, javax.portlet.filter.FilterChain)
    */
-  public void doFilter(ResourceRequest resourceRequest, ResourceResponse resourceResponse, FilterChain filterChain) throws UnavailableException {
+  public void doFilter(ResourceRequest resourceRequest, ResourceResponse resourceResponse, FilterChain filterChain) throws IOException, PortletException {
     resourceRequest.setAttribute("name",name);
+    //filterChain.doFilter(resourceRequest, resourceResponse);
   }
 
   public void destroy() {

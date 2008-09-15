@@ -312,8 +312,8 @@
   </user-attribute>
 
   <filter>
-    <filter-name>MyFilter</filter-name>
-    <filter-class>org.exoplatform.services.portletcontainer.test.portlet2.MyFilter</filter-class>
+    <filter-name>MyResourceFilter</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.portlet2.MyResourceFilter</filter-class>
     <lifecycle>RESOURCE_PHASE</lifecycle>
     <init-param>
       <name>name</name>
@@ -322,7 +322,7 @@
   </filter>
 
   <filter-mapping>
-    <filter-name>MyFilter</filter-name>
+    <filter-name>MyResourceFilter</filter-name>
     <portlet-name>TestServeResource</portlet-name>
   </filter-mapping>
 	

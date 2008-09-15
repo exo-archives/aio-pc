@@ -6,8 +6,9 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assembly</artifactId>
-  <packaging>ear</packaging>
-  <name>eXo Portlet Container Manual Test WSRP1 Assembly</name>
+  <packaging>exopc</packaging>
+  <!-- packaging>ear</packaging -->
+  <name>eXo Portlet Container Manual Test WSRP1 Assembly on Tomcat</name>
 
   <dependencies>
 
@@ -51,17 +52,17 @@
     <finalName>portlet-container</finalName>
     <plugins>
 
+
 			<plugin>
 				<artifactId>maven-antrun-plugin</artifactId>
 				<version>1.2-SNAPSHOT</version>
         <executions>
           <execution>
             <id>1</id>
-            <phase>clean</phase>
+            <phase>deploy</phase>
             <configuration>
               <tasks>
- 
-		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
+ 		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
 		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
 		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp1/target/hello.war</echo>
         		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
@@ -69,6 +70,8 @@
 				<include name="**/hello.war" />
 			</fileset>
 			</copy>
+		  <echo>=== To remove the portal.xml in /conf/Catalina/localhost, which came as exopc-war patch</echo>
+                  <delete file="${exo.projects.directory.working}/exo-tomcat/conf/Catalina/localhost/portal.xml" />
               </tasks>
             </configuration>
             <goals>
@@ -78,17 +81,6 @@
         </executions>
 	</plugin>
 
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-ear-plugin</artifactId>
-        <configuration>
-          <archive>
-            <manifest>
-              <addClasspath>true</addClasspath>
-            </manifest>
-          </archive>
-        </configuration>
-      </plugin>
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
