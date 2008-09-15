@@ -16,6 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -304,6 +305,6 @@ public interface PortletContainerService {
    * @return either payload type matches
    * @throws PortletContainerException exception
    */
-  boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException;
+  boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, java.io.Serializable payload) throws PortletContainerException;
 
 }

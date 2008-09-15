@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp.consumer.impl;
 
+import java.io.Serializable;
 import java.io.Writer;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -302,14 +303,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return result;
   }
 
-  // public Collection getSupportedPortletModesWithDescriptions() {
-  // return null;
-  // }
-
-  // public Collection getSupportedWindowStatesWithDescriptions() {
-  // return null;
-  // }
-
   public Collection<PortletMode> getPortletModes(String portletAppName,
                                                  String portletName,
                                                  String markup) {
@@ -440,7 +433,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return false;
   }
 
-  public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException {
+  public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Serializable payload) throws PortletContainerException {
     throw new UnsupportedOperationException("Unsupported operation 'isEventPayloadTypeMatches' for WSRP1 plugin");
     // throw new PortletContainerException("Unsupported operation 'isEventPayloadTypeMatches'
     // for WSRP1 plugin");
@@ -684,18 +677,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                   HttpServletResponse response,
                                   EventInput input) throws PortletContainerException {
     throw new UnsupportedOperationException("Unsupported operation 'processEvent' for WSRP1 plugin");
-    // throw new PortletContainerException("Unsupported operation 'processEvent'
-    // for WSRP1 plugin");
-    // return null;
   }
 
   public ResourceOutput serveResource(HttpServletRequest request,
                                       HttpServletResponse response,
                                       ResourceInput input) throws PortletContainerException {
     throw new UnsupportedOperationException("Unsupported operation 'serveResource' for WSRP1 plugin");
-    // throw new PortletContainerException("Unsupported operation
-    // 'serveResource' for WSRP1 plugin");
-    // return null;
   }
 
   public RenderOutput render(HttpServletRequest request,

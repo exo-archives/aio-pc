@@ -38,22 +38,22 @@ public class EventDefinition {
   /**
    * Event name.
    */
-  private QName name;
+  private QName             name;
 
   /**
    * Aliases.
    */
-  private List<QName> aliases;
+  private List<QName>       aliases;
 
   /**
    * Class fully qualified name of an event.
    */
-  private String javaClass;
+  private String            javaClass;
 
   /**
    * Id.
    */
-  private String id;
+  private String            id;
 
   /**
    * @return descriptions
@@ -146,4 +146,28 @@ public class EventDefinition {
   public final void setAliases(final List<QName> newAliases) {
     aliases = newAliases;
   }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null)
+      return false;
+    if (this == obj)
+      return true;
+    if (!(obj instanceof EventDefinition))
+      return false;
+    EventDefinition other = (EventDefinition) obj;
+
+    if (this.id != other.id)
+      return false;
+    if (this.description != other.description)
+      return false;
+    if (this.name != other.name)
+      return false;
+    if (this.aliases != other.aliases)
+      return false;
+    if (this.javaClass != other.javaClass)
+      return false;
+    return true;
+  }
+
 }

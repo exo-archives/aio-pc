@@ -16,6 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer;
 
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Locale;
 import java.util.Map;
@@ -303,14 +304,7 @@ public interface PortletContainerPlugin extends ComponentPlugin {
    * @return either payload is of correct type
    * @throws PortletContainerException exception
    */
-  boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException;
-  
-//  /**
-//   * Is local portlet.
-//   * 
-//   * @return boolean value if it is a local portlet
-//   */
-//  boolean isLocalPlugin();
+  boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Serializable payload) throws PortletContainerException;
   
   /**
    * Get portlet app names.

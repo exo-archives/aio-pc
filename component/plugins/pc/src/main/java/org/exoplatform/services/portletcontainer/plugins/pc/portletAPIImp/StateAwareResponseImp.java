@@ -16,10 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
-import java.io.Serializable;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +27,13 @@ import javax.portlet.PortletModeException;
 import javax.portlet.StateAwareResponse;
 import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
-import javax.xml.namespace.QName;
 import javax.xml.bind.JAXBContext;
+import javax.xml.namespace.QName;
 
+import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
-import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.pci.EventOutput;
 import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
@@ -46,11 +44,13 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDisp
  */
 public class StateAwareResponseImp extends PortletResponseImp implements StateAwareResponse {
 
+  Log log = null;
   /**
    * @param resCtx response context
    */
   public StateAwareResponseImp(final ResponseContext resCtx) {
     super(resCtx);
+    this.log = ExoLogger.getLogger(getClass());
   }
 
   /**
@@ -243,6 +243,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       JAXBContext jaxbContext = JAXBContext.newInstance(payload.getClass());
       jaxbContext.createMarshaller().marshal(payload, new NullOutputStream());
     } catch (Exception e) {
+      log.info(e.getMessage());
       return false;
     }
     List<EventDefinition> eds = getPortletDatas().getApplication().getEventDefinition();

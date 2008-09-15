@@ -16,6 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer.test.plugins;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -59,12 +60,10 @@ public class TestPlugin1 implements PortletContainerPlugin {
   private Map<String, String>         portletprefs;
 
   public Map<String, PortletData> getAllPortletMetaData() {
-
     HashMap<String, PortletData> all = new HashMap<String, PortletData>();
     PortletData pd1 = new PortletDataTestImpl();
     all.put("Test/plug1", pd1);
     return all;
-
   }
 
   public ResourceBundle getBundle(HttpServletRequest request,
@@ -72,7 +71,6 @@ public class TestPlugin1 implements PortletContainerPlugin {
                                   String portletAppName,
                                   String portletName,
                                   Locale locale) throws PortletContainerException {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -87,12 +85,10 @@ public class TestPlugin1 implements PortletContainerPlugin {
   public Collection<PortletMode> getPortletModes(String portletAppName,
                                                  String portletName,
                                                  String markup) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   public Map<String, String[]> getPortletPreference(Input input) {
-    // TODO Auto-generated method stub
 
     HashMap<String, String[]> out = new HashMap<String, String[]>();
     String[] arr;
@@ -112,7 +108,6 @@ public class TestPlugin1 implements PortletContainerPlugin {
   }
 
   public Collection<PortletMode> getSupportedPortletModes() {
-    // TODO Auto-generated method stub
     ArrayList res = new ArrayList();
     Iterator it = portletApp.values().iterator();
     while (it.hasNext()) {
@@ -126,7 +121,6 @@ public class TestPlugin1 implements PortletContainerPlugin {
   }
 
   public Collection<WindowState> getSupportedWindowStates() {
-    // TODO Auto-generated method stub
     ArrayList res = new ArrayList();
     Iterator it = portletApp.values().iterator();
     while (it.hasNext()) {
@@ -142,7 +136,6 @@ public class TestPlugin1 implements PortletContainerPlugin {
   public Collection<WindowState> getWindowStates(String portletAppName,
                                                  String portletName,
                                                  String markup) {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -150,7 +143,6 @@ public class TestPlugin1 implements PortletContainerPlugin {
                                 String portletName,
                                 String markup,
                                 PortletMode mode) {
-    // TODO Auto-generated method stub
     return false;
   }
 
@@ -158,31 +150,26 @@ public class TestPlugin1 implements PortletContainerPlugin {
                                   String portletName,
                                   String markup,
                                   WindowState state) {
-    // TODO Auto-generated method stub
     return false;
   }
 
   public ActionOutput processAction(HttpServletRequest request,
                                     HttpServletResponse response,
                                     ActionInput input) throws PortletContainerException {
-    // TODO Auto-generated method stub
     return null;
   }
 
   public EventOutput processEvent(HttpServletRequest request,
                                   HttpServletResponse response,
                                   EventInput input) throws PortletContainerException {
-
     EventOutput out = new EventOutput();
     out.setRenderParameter("TestParam", "TEstParamValue");
     return out;
-
   }
 
   public RenderOutput render(HttpServletRequest request,
                              HttpServletResponse response,
                              RenderInput input) throws PortletContainerException {
-
     RenderOutput out = new RenderOutput();
     System.out.println("Render Called in #1");
     out.setTitle("TEstTiTle");
@@ -193,14 +180,11 @@ public class TestPlugin1 implements PortletContainerPlugin {
                         HttpServletResponse response,
                         Map<String, Object> attrs,
                         String portletApplicationName) throws PortletContainerException {
-    // TODO Auto-generated method stub
-
   }
 
   public ResourceOutput serveResource(HttpServletRequest request,
                                       HttpServletResponse response,
                                       ResourceInput input) throws PortletContainerException {
-    // TODO Auto-generated method stub
     return null;
   }
 
@@ -209,13 +193,9 @@ public class TestPlugin1 implements PortletContainerPlugin {
   }
 
   public void setMajorVersion(int majorVersion) {
-    // TODO Auto-generated method stub
-
   }
 
   public void setMinorVersion(int minorVersion) {
-    // TODO Auto-generated method stub
-
   }
 
   public void setName(String name) {
@@ -223,13 +203,10 @@ public class TestPlugin1 implements PortletContainerPlugin {
   }
 
   public void setPortletPreference(Input input, Map<String, String> preferences) throws PortletContainerException {
-    // TODO Auto-generated method stub
     this.portletprefs = preferences;
   }
 
   public void setProperties(Map<String, String> properties) {
-    // TODO Auto-generated method stub
-
   }
 
   public String getDescription() {
@@ -240,23 +217,20 @@ public class TestPlugin1 implements PortletContainerPlugin {
     return name;
   }
 
-  public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) throws PortletContainerException {
+  public boolean isEventPayloadTypeMatches(String portletAppName,
+                                           QName eventName,
+                                           Serializable payload) throws PortletContainerException {
     return false;
   }
 
   public PortletPreferences getPortletPreferences(Input input) {
-    // TODO Auto-generated method stub
     return null;
   }
 
   public void setPortletPreference2(Input input, Map<String, String[]> preferences) throws PortletContainerException {
-    // TODO Auto-generated method stub
-
   }
 
   public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
-    // TODO Auto-generated method stub
-
   }
 
   public final String[] getPortalManagedPortletModes(final String portletAppName,

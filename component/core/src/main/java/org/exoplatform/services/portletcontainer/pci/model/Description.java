@@ -18,7 +18,7 @@ package org.exoplatform.services.portletcontainer.pci.model;
 
 /**
  * Jul 7, 2004 .
- *
+ * 
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: Description.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
@@ -61,5 +61,21 @@ public class Description {
    */
   public final void setLang(final String lang) {
     this.lang = lang;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null)
+      return false;
+    if (this == obj)
+      return true;
+    if (!(obj instanceof Description))
+      return false;
+    Description other = (Description) obj;
+    if (this.description != other.description)
+      return false;
+    if (this.lang != other.lang)
+      return false;
+    return true;
   }
 }

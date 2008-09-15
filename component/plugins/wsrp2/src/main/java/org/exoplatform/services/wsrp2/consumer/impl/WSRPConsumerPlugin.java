@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
+import java.io.Serializable;
 import java.io.Writer;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
@@ -490,7 +491,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return false;
   }
 
-  public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Object payload) {
+  public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Serializable payload) {
     // consumer.getProducerRegistry().
 
     Producer producer = getProducer(getProducerID(portletAppName));

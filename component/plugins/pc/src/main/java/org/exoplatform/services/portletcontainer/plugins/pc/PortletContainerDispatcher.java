@@ -17,6 +17,7 @@
 package org.exoplatform.services.portletcontainer.plugins.pc;
 
 import java.io.IOException;
+import java.io.Serializable;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLClassLoader;
@@ -427,7 +428,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final Map<String, PortletData> getAllPortletMetaData() {
     return portletApplications.getAllPortletMetaData();
   }
-  
+
   /**
    * Get portlet app names.
    * 
@@ -456,25 +457,39 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * @param payload payload
    * @return is payload type matches
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#isEventPayloadTypeMatches(java.lang.String,
-   *      javax.xml.namespace.QName, java.lang.Object)
+   *      javax.xml.namespace.QName, Serializable)
    */
   public final boolean isEventPayloadTypeMatches(final String portletAppName,
                                                  final QName eventName,
-                                                 final Object payload) {
+                                                 final Serializable payload) {
     PortletApp portletApp = portletApplications.getPortletApplication(portletAppName);
     List<EventDefinition> eds = portletApp.getEventDefinition();
     return isEventPayloadTypeMatches(eds, payload, eventName);
   }
 
+  /**
+   * Is event payload type matches. The portlet can send events which are not
+   * declared in the portlet deployment descriptor at runtime using the setEvent
+   * method on either the ActionResponse or EventResponse. cxlii.
+   * 
+   * @param eds
+   * @param payload
+   * @param eventName
+   * @return boolean
+   */
   public static boolean isEventPayloadTypeMatches(final List<EventDefinition> eds,
-                                                  final Object payload,
+                                                  final java.io.Serializable payload,
                                                   final QName eventName) {
 //    Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+    if (eds == null || payload == null)
+      return true;
     for (EventDefinition ed : eds) {
-      if (!ed.getPrefferedName().equals(eventName) && !ed.getAliases().contains(eventName))
+      if (!ed.getPrefferedName().equals(eventName) || ed.getAliases() == null
+          || !ed.getAliases().contains(eventName))
         continue;
-      if (ed.getJavaClass() == null)
-        return false;
+      if (ed.getJavaClass() == null) {
+        return true;
+      }
       Class jc;
       try {
         jc = payload.getClass().getClassLoader().loadClass(ed.getJavaClass());
@@ -491,11 +506,11 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 //      if (log.isDebugEnabled())
 //        log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
       if (jc != null) {
-        return jc.isInstance(payload); // just here we would return TRUE
+        return jc.isInstance(payload);
       }
       return false;
     }
-    return false;
+    return true;
   }
 
   /**

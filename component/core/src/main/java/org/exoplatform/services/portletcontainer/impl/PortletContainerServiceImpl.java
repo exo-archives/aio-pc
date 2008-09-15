@@ -16,6 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer.impl;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -602,11 +603,11 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
    * @return do the types match
    * @throws PortletContainerException exception
    * @see org.exoplatform.services.portletcontainer.PortletContainerService#isEventPayloadTypeMatches(java.lang.String,
-   *      javax.xml.namespace.QName, java.lang.Object)
+   *      Serializable, java.lang.Object)
    */
   public final boolean isEventPayloadTypeMatches(final String portletAppName,
                                                  final QName eventName,
-                                                 final Object payload) throws PortletContainerException {
+                                                 final java.io.Serializable payload) throws PortletContainerException {
     return findPluginByPAPPName(portletAppName).isEventPayloadTypeMatches(portletAppName,
                                                                           eventName,
                                                                           payload);

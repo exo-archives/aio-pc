@@ -29,7 +29,7 @@ import org.exoplatform.services.log.ExoLogger;
 
 /**
  * Jul 11, 2004.
- *
+ * 
  * @author: Tuan Nguyen
  * @email: tuan08@users.sourceforge.net
  * @version: $Id: PortletApp.java,v 1.1 2004/07/13 02:31:13 tuan08 Exp $
@@ -39,89 +39,94 @@ public class PortletApp {
   /**
    * Portlets.
    */
-  private final List<Portlet> portlet;
+  private final List<Portlet>                portlet;
 
   /**
    * Version.
    */
-  private String version;
+  private String                             version;
 
   /**
    * Custom window states.
    */
-  private final List<CustomWindowState> customWindowState;
+  private final List<CustomWindowState>      customWindowState;
 
   /**
    * Custom portlet modes.
    */
-  private final List<CustomPortletMode> customPortletMode;
+  private final List<CustomPortletMode>      customPortletMode;
 
   /**
    * Security constraints.
    */
-  private final List<SecurityConstraint> securityConstraint;
+  private final List<SecurityConstraint>     securityConstraint;
 
   /**
    * User attributes.
    */
-  private final List<UserAttribute> userAttribute;
+  private final List<UserAttribute>          userAttribute;
 
   /**
    * Event definitions.
    */
-  private final List<EventDefinition> eventDefinition;
+  private final List<EventDefinition>        eventDefinition;
 
   /**
    * Public render parameters.
    */
-  private final List<PublicRenderParameter> publicRenderParameter;
+  private final List<PublicRenderParameter>  publicRenderParameter;
 
   /**
    * Filters.
    */
-  private List<Filter> filter;
+  private List<Filter>                       filter;
 
   /**
    * Filter mappings.
    */
-  private List<FilterMapping> filterMapping;
+  private List<FilterMapping>                filterMapping;
 
   /**
    * Id.
    */
-  private String id;
+  private String                             id;
 
   // Portlet spec 2 add:
 
   /**
    * Resource bundle.
    */
-  private String resourceBundle;
+  private String                             resourceBundle;
 
   /**
    * Container runtime options.
    */
-  private Map<String, String[]> containerRuntimeOption;
+  private Map<String, String[]>              containerRuntimeOption;
 
   /**
    * Either v2 portlet app.
    */
-  private boolean ver2;
+  private boolean                            ver2;
 
   /**
    * Default namespace.
    */
-  private String defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
+  private String                             defaultNamespace = javax.xml.XMLConstants.NULL_NS_URI;
 
   /**
    * URL generation listeners.
    */
-  private List<String> urlGenerationListener;
+  private List<String>                       urlGenerationListener;
 
   /**
    * Runtime URL listeners objects.
    */
   private List<PortletURLGenerationListener> urlListeners;
+
+  /**
+   * Logger.
+   */
+  private Log                                log              = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
   /**
    * simple constructor.
@@ -168,7 +173,6 @@ public class PortletApp {
       urlGenerationListener = new ArrayList<String>();
 
     if (urlGenerationListener.contains(listener)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"listener\" in portlet app description");
     } else
       urlGenerationListener.add(listener);
@@ -216,19 +220,18 @@ public class PortletApp {
     // for each portlet
     for (int i = 0; i < this.portlet.size(); i++) {
       Portlet portletItem = this.portlet.get(i);
-      if (portletItem.getPortletName().equalsIgnoreCase(portletName)){
+      if (portletItem.getPortletName().equalsIgnoreCase(portletName)) {
         return portletItem;
       }
     }
     return null;
   }
-  
+
   /**
    * @param p portlet definition
    */
   public final void addPortlet(final Portlet p) {
     if (portlet.contains(p)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"Portlet-Name\" in portlet-application description");
     } else {
       this.portlet.add(p);
@@ -273,9 +276,7 @@ public class PortletApp {
     if (f != null) {
       if (filter == null)
         filter = new ArrayList<Filter>();
-
       if (filter.contains(f)) {
-        Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
         log.error("Duplicate field \"filter\" in portlet-application description");
       } else
         this.filter.add(f);
@@ -319,7 +320,6 @@ public class PortletApp {
    */
   public final void addCustomWindowState(final CustomWindowState value) {
     if (customWindowState.contains(value)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"custom-window-state\" in portlet-application description");
     } else
       this.customWindowState.add(value);
@@ -337,7 +337,6 @@ public class PortletApp {
    */
   public final void addCustomPortletMode(final CustomPortletMode mode) {
     if (customPortletMode.contains(mode)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"custom-window-state\" in portlet-application description");
     } else
       this.customPortletMode.add(mode);
@@ -369,7 +368,6 @@ public class PortletApp {
    */
   public final void addUserAttribute(final UserAttribute att) {
     if (userAttribute.contains(att)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"user-attribute\" in portlet-application description");
     } else
       this.userAttribute.add(att);
@@ -387,7 +385,6 @@ public class PortletApp {
    */
   public final void addEventDefinition(final EventDefinition edef) {
     if (eventDefinition.contains(edef)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"event-definition\" in portlet-application description");
     } else
       this.eventDefinition.add(edef);
@@ -405,7 +402,6 @@ public class PortletApp {
    */
   public final void addPublicRenderParameter(final PublicRenderParameter srp) {
     if (publicRenderParameter.contains(srp)) {
-      Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
       log.error("Duplicate field \"public-render-parameter\" in portlet-application description");
     } else
       this.publicRenderParameter.add(srp);
