@@ -21,6 +21,8 @@ import java.util.Iterator;
 import javax.portlet.PortletContext;
 import javax.portlet.filter.FilterConfig;
 
+import org.exoplatform.services.portletcontainer.pci.RenderOutput;
+import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterChainImpl;
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterConfigImpl;
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterWrapper;
@@ -28,10 +30,12 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Action
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ActionResponseImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.EventRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.EventResponseImp;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletResponseImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.RenderRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.RenderResponseImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceResponseImp;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomResponseWrapper;
 
 /**
  * @author: Benjamin Mestrallet
@@ -63,10 +67,18 @@ public class PortletFilterCommand extends BaseCommandUnit {
     }
     chain.restart();
     chain.doFilter(req, res);
-    if (chain.isGoodFinished())
+    if (chain.isGoodFinished()) {
       return rcontext.executeNextUnit();
-    else
+    } else {
+      PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
+      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
+      responseWrapper.flushBuffer();
+      RenderOutput routput = (RenderOutput) rimpl.getOutput();
+      routput.setContentType(responseWrapper.getContentType());
+      routput.setContent(responseWrapper.getPortletContent());
+      routput.setCacheHit(false);
       return null;
+    }
   }
 
   /**
@@ -120,10 +132,18 @@ public class PortletFilterCommand extends BaseCommandUnit {
     }
     chain.restart();
     chain.doFilter(req, res);
-    if (chain.isGoodFinished())
+    if (chain.isGoodFinished()) {
       return rcontext.executeNextUnit();
-    else
+    } else {
+      PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
+      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
+      responseWrapper.flushBuffer();
+      ResourceOutput routput = (ResourceOutput) rimpl.getOutput();
+      routput.setContentType(responseWrapper.getContentType());
+      routput.setContent(responseWrapper.getPortletContent());
+      routput.setCacheHit(false);
       return null;
+    }
   }
 
   /**
