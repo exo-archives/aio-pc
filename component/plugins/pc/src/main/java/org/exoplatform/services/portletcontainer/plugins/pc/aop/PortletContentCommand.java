@@ -32,7 +32,6 @@ public class PortletContentCommand extends BaseCommandUnit {
     RenderOutput routput = (RenderOutput) rimpl.getOutput();
     routput.setContent(responseWrapper.getPortletContent());
     routput.setCacheHit(false);
-    // бред:
     // RenderResponseImp renderRespImpl = (RenderResponseImp) rcontext.response_;
     // routput.setNextPossiblePortletModes(renderRespImpl.getNextPossiblePortletModes());
     return result;
