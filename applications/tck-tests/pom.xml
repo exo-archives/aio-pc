@@ -6,8 +6,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>tck-tests</artifactId>
-  <name>TCK tests por portlet container</name>
-  <description>TCK tests por portlet container</description>
+  <name>eXo Portlet Container 2 TCK tests por portlet container</name>
+  <description>eXo Portlet Container 2 TCK tests por portlet container</description>
   <repositories>
     <repository>
       <id>Codehaus snapshot repository</id>
