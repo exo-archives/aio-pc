@@ -81,7 +81,8 @@ public class TestFilters extends BaseTest2 {
     renderInput.setRenderParameters(renderParameters);
     ((ExoWindowID) renderInput.getInternalWindowID()).setPortletName("PortletToTestFilters");
     RenderOutput o = portletContainer.render(request, response, renderInput);
-    assertNull(o.getContent());
+    assertNotNull(o.getContent());
+    assertTrue(new String(o.getContent()).startsWith("The filter's html markup!"));
     log.info("done.");
   }
 

@@ -24,6 +24,7 @@ import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.portlet.PortletException;
 import java.io.IOException;
+import java.io.PrintWriter;
 
 import org.apache.commons.logging.Log;
 
@@ -45,6 +46,10 @@ public class RenderLoggerFilter implements RenderFilter {
     portletRequest.setAttribute("param", "default-param-value");
     if (portletRequest.getParameter("EXO_FAIL_CHAIN") == null) {
       filterChain.doFilter(portletRequest, portletResponse);
+    } else {
+      portletResponse.setContentType("text/html; charset=UTF-8");
+      PrintWriter w = portletResponse.getWriter();
+      w.println("The filter's html markup!");
     }
   }
 
