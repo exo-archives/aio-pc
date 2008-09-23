@@ -582,8 +582,9 @@ public class PortalFramework {
    * @param appName portlet application name
    * @param portletName portlet name
    * @return unique Id
+   * @throws PortletNotFoundException requested portlet isn't registered on the portlet container
    */
-  public final String addPortlet(final String appName, final String portletName) {
+  public final String addPortlet(final String appName, final String portletName) throws PortletNotFoundException {
     String key = "";
     // Block to get a unique key element. Checking hashmap, until it returns null.
     do {
@@ -602,13 +603,14 @@ public class PortalFramework {
    * @param portletName portlet name
    * @param windowId window ID
    * @return unique Id
+   * @throws PortletNotFoundException requested portlet isn't registered on the portlet container
    */
   public final String addPortletWithId(final String appName,
                                        final String portletName,
-                                       final String windowId) {
+                                       final String windowId) throws PortletNotFoundException {
     PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
     if (pd == null)
-      return null;
+      throw new PortletNotFoundException("Requested portlet isn't registered on the portlet container: " + appName + "/" + portletName);
 
     final WindowID2 windowID = new WindowID2();
     windowID.setOwner("portal#" + Constants.ANON_USER);
@@ -1384,7 +1386,11 @@ public class PortalFramework {
       // search new portlet on a page
       if (!foundInPagePortlets(ss[0], ss[1])) {
         // adds new portlet to the page
-        addPortletToPage(addPortlet(ss[0], ss[1]));
+        try {
+          addPortletToPage(addPortlet(ss[0], ss[1]));
+        } catch (PortletNotFoundException e) {
+          e.printStackTrace();
+        }
       }
     }
   }
