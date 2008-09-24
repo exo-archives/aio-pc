@@ -18,6 +18,7 @@ package org.exoplatform.frameworks.portletcontainer.portalframework;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
 import java.util.Enumeration;
@@ -218,6 +219,19 @@ public class PortalFramework {
    */
   private String                              desktopLayout       = "layout2";
 
+  private static String[] defaultPortalParamNames = {
+    Constants.RESOURCE_ID_PARAMETER,
+    Constants.CACHELEVEL_PARAMETER,
+    Constants.COMPONENT_PARAMETER,
+    PCConstants.REMOVE_PUBLIC_STRING,
+    Constants.TYPE_PARAMETER,
+    Constants.PORTLET_MODE_PARAMETER,
+    Constants.WINDOW_STATE_PARAMETER,
+    Constants.SECURE_PARAMETER
+  };
+
+  private static String[] portalParamNames = null;
+
   /**
    * Constructor.
    *
@@ -233,6 +247,10 @@ public class PortalFramework {
 
   public static PortalFramework getInstance() {
     return instance.get();
+  }
+
+  public static void setPortalParamNames(String[] names) {
+    PortalFramework.portalParamNames = names;
   }
 
   /**
@@ -450,7 +468,7 @@ public class PortalFramework {
     for (final Enumeration<Locale> e = httpRequest.getLocales(); e.hasMoreElements();)
       locales.add(e.nextElement());
 
-    Helper.parseParams(httpRequest, portalParams, portletParams, propertyParams);
+    Helper.parseParams(httpRequest, defaultPortalParamNames, portalParamNames, portalParams, portletParams, propertyParams);
     target = Helper.string0(portalParams.get(Constants.COMPONENT_PARAMETER));
     fixPublicRenderParams(portalParams.get(PCConstants.REMOVE_PUBLIC_STRING));
     action = Helper.getActionType(Helper.string0(portalParams.get(Constants.TYPE_PARAMETER)));
@@ -1239,11 +1257,25 @@ public class PortalFramework {
   }
 
   public String getPortalPortletModeUrl(String id, String mode) {
-    return baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.PORTLET_MODE_PARAMETER + "=" + mode;
+    String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.PORTLET_MODE_PARAMETER + "=" + mode;
+    if (portalParamNames != null)
+      for (Iterator<String> i = portalParams.keySet().iterator(); i.hasNext(); ) {
+        String n = i.next();
+        if (Arrays.binarySearch(portalParamNames, n) >= 0)
+          url += "&" + n + "=" + portletParams.get(n);
+      }
+    return url;
   }
 
   public String getPortalWindowStateUrl(String id, String state) {
-    return baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.WINDOW_STATE_PARAMETER + "=" + state;
+    String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.WINDOW_STATE_PARAMETER + "=" + state;
+    if (portalParamNames != null)
+      for (Iterator<String> i = portalParams.keySet().iterator(); i.hasNext(); ) {
+        String n = i.next();
+        if (Arrays.binarySearch(portalParamNames, n) >= 0)
+          url += "&" + n + "=" + portletParams.get(n);
+      }
+    return url;
   }
 
   private HttpServletRequest     presavedHttpRequest;

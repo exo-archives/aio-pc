@@ -55,18 +55,23 @@ public final class Helper {
    * Distinguishes portal service parameters from portlet parameters.
    *
    * @param httpRequest http servlet request
+   * @param portalParamNames list of names of parameters that are used by the portal framework
+   * @param portalParamNames2 list of names of parameters that are used by a portal
    * @param portalParams portal service params
    * @param portletParams portlet params
    * @param propertyParams property params
    */
-  public static void parseParams(final HttpServletRequest httpRequest, final HashMap<String, String[]> portalParams,
+  public static void parseParams(final HttpServletRequest httpRequest, String[] portalParamNames, String[] portalParamNames2, final HashMap<String, String[]> portalParams,
       final HashMap<String, String[]> portletParams, final HashMap<String, String[]> propertyParams) {
-    System.out.println(" ---------- query string: " + httpRequest.getQueryString());
+//    System.out.println(" ---------- query string: " + httpRequest.getQueryString());
     Enumeration<String> pNames = httpRequest.getParameterNames();
     while (pNames.hasMoreElements()) {
       String n = pNames.nextElement();
-      System.out.println(" ---------- parameter: " + n + ": [" + httpRequest.getParameterValues(n)[0] + "]");
-      if (n.startsWith(org.exoplatform.Constants.PARAMETER_ENCODER))
+//      System.out.println(" ---------- parameter: " + n + ": [" + httpRequest.getParameterValues(n)[0] + "]");
+//      if (n.startsWith(org.exoplatform.Constants.PARAMETER_ENCODER))
+      if (portalParamNames != null && Arrays.binarySearch(portalParamNames, n) >= 0)
+        portalParams.put(n, httpRequest.getParameterValues(n));
+      if (portalParamNames2 != null && Arrays.binarySearch(portalParamNames2, n) >= 0)
         portalParams.put(n, httpRequest.getParameterValues(n));
       else if (n.startsWith(org.exoplatform.Constants.PROPERTY_ENCODER))
         propertyParams.put(n, httpRequest.getParameterValues(n));
