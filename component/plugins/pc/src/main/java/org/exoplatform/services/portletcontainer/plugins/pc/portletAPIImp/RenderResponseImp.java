@@ -16,12 +16,17 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.portlet.PortletMode;
 import javax.portlet.RenderResponse;
 
+import org.apache.commons.lang.StringUtils;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
+import org.exoplatform.services.portletcontainer.pci.model.Supports;
 
 /**
  * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net .
@@ -31,10 +36,16 @@ import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 public class RenderResponseImp extends MimeResponseImp implements RenderResponse {
 
   /**
+   * Supported contents.
+   */
+  private final Collection<String> supportedContents;
+
+  /**
    * @param resCtx response context
    */
   public RenderResponseImp(final ResponseContext resCtx) {
     super(resCtx);
+    this.supportedContents = resCtx.getSupportedContents();
   }
 
   /**
@@ -55,6 +66,75 @@ public class RenderResponseImp extends MimeResponseImp implements RenderResponse
    */
   public final void setNextPossiblePortletModes(final Collection<PortletMode> portletModes) {
     ((RenderOutput) getOutput()).setNextPossiblePortletModes(portletModes);
+  }
+
+  /**
+   * Overridden method.
+   *
+   * @param contentType
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.MimeResponseImp#setContentType(java.lang.String)
+   */
+  public void setContentType(String contentType) {
+    if (contentType != null)
+      contentType = StringUtils.split(contentType, ';')[0];
+    if (!isContentTypeSupported(contentType))
+      throw new IllegalArgumentException("the content type : " + contentType + " is not supported.");
+    super.setContentType(contentType);
+  }
+
+  /**
+   * @param contentTypeToTest content type to test
+   * @return is content type supported
+   */
+  private boolean isContentTypeSupported(final String contentTypeToTest) {
+    Collection<String> c = getResponseContentTypes();
+    for (String element : c)
+      if (element.equals(contentTypeToTest))
+        return true;
+    return false;
+  }
+
+  /**
+   * @return response content types
+   */
+  private Collection<String> getResponseContentTypes() {
+    // TODO could be shared with PortletRequest.getResponseContentType()
+    Collection<String> result = new ArrayList<String>();
+    result.add(getResponseContentType());
+    for (String element : supportedContents) {
+      List<Supports> l = getPortletDatas().getSupports();
+      for (int i = 0; i < l.size(); i++) {
+        Supports supportsType = l.get(i);
+        String mimeType = supportsType.getMimeType();
+        if (element.equals(mimeType) && !element.equals(getInput().getMarkup())) {
+          List<String> portletModes = supportsType.getPortletMode();
+          for (String portletMode : portletModes)
+            if (portletMode.equals(getInput().getPortletMode().toString())) {
+              result.add(mimeType);
+              break;
+            }
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * @return response content type
+   */
+  private String getResponseContentType() {
+    List<Supports> l = getPortletDatas().getSupports();
+    for (int i = 0; i < l.size(); i++) {
+      Supports supportsType = l.get(i);
+      String mimeType = supportsType.getMimeType();
+      if (mimeType.equals(getInput().getMarkup())) {
+        List<String> portletModes = supportsType.getPortletMode();
+        for (String portletMode : portletModes)
+          if (portletMode.equals(getInput().getPortletMode().toString()))
+            return mimeType;
+      }
+    }
+    return PCConstants.XHTML_MIME_TYPE;
   }
 
 }

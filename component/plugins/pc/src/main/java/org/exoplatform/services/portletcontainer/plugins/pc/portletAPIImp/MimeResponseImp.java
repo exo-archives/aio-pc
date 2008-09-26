@@ -19,9 +19,6 @@ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.io.PrintWriter;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 
 import javax.portlet.CacheControl;
@@ -34,17 +31,11 @@ import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
-import org.exoplatform.services.portletcontainer.pci.model.Supports;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 25.05.2007.
  */
 public class MimeResponseImp extends PortletResponseImp implements MimeResponse {
-
-  /**
-   * Supported contents.
-   */
-  private final Collection<String> supportedContents;
 
   /**
    * Content type.
@@ -76,7 +67,6 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
    */
   public MimeResponseImp(final ResponseContext resCtx) {
     super(resCtx);
-    this.supportedContents = resCtx.getSupportedContents();
     this.writerAlreadyCalled = false;
     this.outputStreamAlreadyCalled = false;
     this.cacheCtl = new CacheControlImp(this);
@@ -106,9 +96,6 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
       throw new IllegalStateException("the response has already been committed");
     if (contentType != null)
       contentType = StringUtils.split(contentType, ';')[0];
-
-    if (!isContentTypeSupported(contentType))
-      throw new IllegalArgumentException("the content type : " + contentType + " is not supported.");
     this.contentType = contentType;
     if (getOutput() instanceof RenderOutput)
       ((RenderOutput) getOutput()).setContentType(this.contentType);
@@ -153,61 +140,6 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
           + "getWriter() method.");
     writerAlreadyCalled = true;
     return super.getWriter();
-  }
-
-  /**
-   * @param contentTypeToTest content type to test
-   * @return is content type supported
-   */
-  private boolean isContentTypeSupported(final String contentTypeToTest) {
-    Collection<String> c = getResponseContentTypes();
-    for (String element : c)
-      if (element.equals(contentTypeToTest))
-        return true;
-    return false;
-  }
-
-  /**
-   * @return response content types
-   */
-  private Collection<String> getResponseContentTypes() {
-    // TODO could be shared with PortletRequest.getResponseContentType()
-    Collection<String> result = new ArrayList<String>();
-    result.add(getResponseContentType());
-    for (String element : supportedContents) {
-      List<Supports> l = getPortletDatas().getSupports();
-      for (int i = 0; i < l.size(); i++) {
-        Supports supportsType = l.get(i);
-        String mimeType = supportsType.getMimeType();
-        if (element.equals(mimeType) && !element.equals(getInput().getMarkup())) {
-          List<String> portletModes = supportsType.getPortletMode();
-          for (String portletMode : portletModes)
-            if (portletMode.equals(getInput().getPortletMode().toString())) {
-              result.add(mimeType);
-              break;
-            }
-        }
-      }
-    }
-    return result;
-  }
-
-  /**
-   * @return response content type
-   */
-  private String getResponseContentType() {
-    List<Supports> l = getPortletDatas().getSupports();
-    for (int i = 0; i < l.size(); i++) {
-      Supports supportsType = l.get(i);
-      String mimeType = supportsType.getMimeType();
-      if (mimeType.equals(getInput().getMarkup())) {
-        List<String> portletModes = supportsType.getPortletMode();
-        for (String portletMode : portletModes)
-          if (portletMode.equals(getInput().getPortletMode().toString()))
-            return mimeType;
-      }
-    }
-    return PCConstants.XHTML_MIME_TYPE;
   }
 
   /**
@@ -343,12 +275,12 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
     if (getInput().getPortletURLFactory() != null)
       return getInput().getPortletURLFactory().createResourceURL(PCConstants.RESOURCE_STRING);
 
-    
+
     String uniqueid  = null;
     if (getInput().getPropertyParams() != null && getInput().getPropertyParams().containsKey(ResourceURL.SHARED)){
         uniqueid  = string0((String[])getInput().getPropertyParams().get(ResourceURL.SHARED));
     }
-    
+
     return new ResourceURLImp(PCConstants.RESOURCE_STRING,
         getInput().getBaseURL(),
         isCurrentlySecured(),
@@ -358,7 +290,7 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
         getInput().getRenderParameters(),
         uniqueid);
   }
-  
+
   private static String string0(final String[] strings) {
     if (strings == null)
       return null;
