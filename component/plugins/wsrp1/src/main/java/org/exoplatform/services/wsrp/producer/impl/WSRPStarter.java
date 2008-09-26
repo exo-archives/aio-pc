@@ -101,10 +101,10 @@ public class WSRPStarter extends HttpServlet {
     try {
       String wurl = base + path;
       String[] args = { "-l" + wurl };
-      System.out.println(" --- " + WSRPConstants.WSRP_ID + ": url opt: " + wurl);
+      logDebug(" --- " + WSRPConstants.WSRP_ID + ": url opt: " + wurl);
       Options opts = new Options(args);
       URL wsdd = Thread.currentThread().getContextClassLoader().getResource(deployWSDD);
-      System.out.println(" --- " + WSRPConstants.WSRP_ID + ": WSDD url: " + wsdd);
+      logDebug(" --- " + WSRPConstants.WSRP_ID + ": WSDD url: " + wsdd);
 
       axis = new AxisThread(opts, wsdd);
       axis.start();
@@ -131,28 +131,27 @@ public class WSRPStarter extends HttpServlet {
 
     public void run() {
       try {
-        System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread started");
+        logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread started");
         try {
           Thread.currentThread().sleep(delayBeforeStartSec * 1000, 0);
         } catch (InterruptedException ie) {
         }
         for (int i = 1; i <= retries; i++) {
           InputStream is = wsdd.openStream();
-          System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i);
           logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread: attempt: " + i + " at: "
               + new Date(System.currentTimeMillis()));
           try {
             AdminClient admin = new AdminClient();
             String result = admin.process(opts, is);
             if (result != null) {
-              System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis: " + result);
+              logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis: " + result);
               break;
             }
           } catch (Exception e) {
-            System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread got an exception: "
+            log.error(" --- " + WSRPConstants.WSRP_ID + ": axis thread got an exception: "
                 + e);
             e.printStackTrace();
-            System.out.println(" --- " + WSRPConstants.WSRP_ID
+            log.error(" --- " + WSRPConstants.WSRP_ID
                 + ": axis thread got an exception: cause: " + e.getCause());
             if (e.getCause() != null)
               e.getCause().printStackTrace();
@@ -164,7 +163,7 @@ public class WSRPStarter extends HttpServlet {
             }
           }
         }
-        System.out.println(" --- " + WSRPConstants.WSRP_ID + ": axis thread finished");
+        logDebug(" --- " + WSRPConstants.WSRP_ID + ": axis thread finished");
       } catch (Exception e) {
         e.printStackTrace();
       }
