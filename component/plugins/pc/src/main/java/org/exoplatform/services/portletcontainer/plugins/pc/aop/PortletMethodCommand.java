@@ -28,6 +28,8 @@ import javax.portlet.ResourceRequest;
 import javax.portlet.ResourceResponse;
 import javax.portlet.ResourceServingPortlet;
 
+import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ActionRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.EventRequestImp;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.RenderRequestImp;
@@ -39,6 +41,8 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
  */
 public class PortletMethodCommand extends BaseCommandUnit {
 
+  protected static Log log = ExoLogger.getLogger("pc.monitor");
+  
   /**
    * Overridden method.
    *
@@ -54,9 +58,11 @@ public class PortletMethodCommand extends BaseCommandUnit {
     request.setAttribute("javax.portlet.request", request);
     request.setAttribute("javax.portlet.response", response);
     request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.RENDER_PHASE);
-
+    long start = System.currentTimeMillis();
     rcontext.getPortlet().render(request, response);
-
+    if (log.isDebugEnabled()) {
+      log.debug("render() on " + request.getWindowID() +" executed in " + (System.currentTimeMillis()-start) +"ms");
+     }
     request.removeAttribute("javax.portlet.config");
     request.removeAttribute("javax.portlet.request");
     request.removeAttribute("javax.portlet.response");
@@ -79,9 +85,11 @@ public class PortletMethodCommand extends BaseCommandUnit {
     request.setAttribute("javax.portlet.request", request);
     request.setAttribute("javax.portlet.response", response);
     request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.ACTION_PHASE);
-
+    long start = System.currentTimeMillis();
     acontext.getPortlet().processAction(acontext.getRequest(), acontext.getResponse());
-
+    if (log.isDebugEnabled()) {
+      log.debug("processAction() on " + request.getWindowID() +" executed in " + (System.currentTimeMillis()-start) +"ms");
+     }
     request.removeAttribute("javax.portlet.config");
     request.removeAttribute("javax.portlet.request");
     request.removeAttribute("javax.portlet.response");
@@ -106,10 +114,12 @@ public class PortletMethodCommand extends BaseCommandUnit {
       request.setAttribute("javax.portlet.request", request);
       request.setAttribute("javax.portlet.response", response);
       request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.RESOURCE_PHASE);
-
+      long start = System.currentTimeMillis();
       ((ResourceServingPortlet) rcontext.getPortlet()).serveResource(rcontext.getRequest(),
           rcontext.getResponse());
-
+      if (log.isDebugEnabled()) {
+        log.debug("serveResource() on " + request.getWindowID() +" executed in " + (System.currentTimeMillis()-start) +"ms");
+       }
       request.removeAttribute("javax.portlet.config");
       request.removeAttribute("javax.portlet.request");
       request.removeAttribute("javax.portlet.response");
@@ -134,10 +144,12 @@ public class PortletMethodCommand extends BaseCommandUnit {
       request.setAttribute("javax.portlet.request", request);
       request.setAttribute("javax.portlet.response", response);
       request.setAttribute(PortletRequest.LIFECYCLE_PHASE, PortletRequest.EVENT_PHASE);
-
+      long start = System.currentTimeMillis();
       ((EventPortlet) econtext.getPortlet()).processEvent(econtext.getRequest(), econtext
           .getResponse());
-
+      if (log.isDebugEnabled()) {
+        log.debug("processEvent() on " + request.getWindowID() +" executed in " + (System.currentTimeMillis()-start) +"ms");
+       }
       request.removeAttribute("javax.portlet.config");
       request.removeAttribute("javax.portlet.request");
       request.removeAttribute("javax.portlet.response");
