@@ -69,9 +69,12 @@ public final class Helper {
       String n = pNames.nextElement();
 //      System.out.println(" ---------- parameter: " + n + ": [" + httpRequest.getParameterValues(n)[0] + "]");
 //      if (n.startsWith(org.exoplatform.Constants.PARAMETER_ENCODER))
-      if (portalParamNames != null && Arrays.binarySearch(portalParamNames, n) >= 0)
-        portalParams.put(n, httpRequest.getParameterValues(n));
-      if (portalParamNames2 != null && Arrays.binarySearch(portalParamNames2, n) >= 0)
+      ArrayList<String> portalParamNamesList = new ArrayList<String>();
+      if (portalParamNames != null)
+        portalParamNamesList.addAll(Arrays.asList(portalParamNames));
+      if (portalParamNames2 != null)
+        portalParamNamesList.addAll(Arrays.asList(portalParamNames2));
+      if (portalParamNamesList.contains(n))
         portalParams.put(n, httpRequest.getParameterValues(n));
       else if (n.startsWith(org.exoplatform.Constants.PROPERTY_ENCODER))
         propertyParams.put(n, httpRequest.getParameterValues(n));

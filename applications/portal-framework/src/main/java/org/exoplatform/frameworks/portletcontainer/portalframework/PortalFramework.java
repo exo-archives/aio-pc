@@ -1258,23 +1258,27 @@ public class PortalFramework {
 
   public String getPortalPortletModeUrl(String id, String mode) {
     String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.PORTLET_MODE_PARAMETER + "=" + mode;
-    if (portalParamNames != null)
+    if (portalParamNames != null) {
+      List<String> portalParamNamesList = Arrays.asList(portalParamNames);
       for (Iterator<String> i = portalParams.keySet().iterator(); i.hasNext(); ) {
         String n = i.next();
-        if (Arrays.binarySearch(portalParamNames, n) >= 0)
+        if (portalParamNamesList.contains(n))
           url += "&" + n + "=" + portletParams.get(n);
       }
+    }
     return url;
   }
 
   public String getPortalWindowStateUrl(String id, String state) {
     String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.WINDOW_STATE_PARAMETER + "=" + state;
-    if (portalParamNames != null)
+    if (portalParamNames != null) {
+      List<String> portalParamNamesList = Arrays.asList(portalParamNames);
       for (Iterator<String> i = portalParams.keySet().iterator(); i.hasNext(); ) {
         String n = i.next();
-        if (Arrays.binarySearch(portalParamNames, n) >= 0)
+        if (portalParamNamesList.contains(n))
           url += "&" + n + "=" + portletParams.get(n);
       }
+    }
     return url;
   }
 
