@@ -492,11 +492,11 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       Class jc = null;
       try {
         jc = payload.getClass().getClassLoader().loadClass(ed.getJavaClass());
-      } catch (Exception e) { /* nothing to do */ }
-      if (jc == null) {
+      } catch (Exception e1) {
         try {
           jc = Class.forName(ed.getJavaClass(), true, payload.getClass().getClassLoader());
-        } catch (Exception e) { /* nothing to do */ }
+        } catch (Exception e2) {
+        }
       }
       if (LOG.isDebugEnabled())
         LOG.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
@@ -505,7 +505,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       }
       return false;
     }
-    return false;
+    return true;
   }
 
   /**
