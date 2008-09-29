@@ -243,6 +243,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       JAXBContext jaxbContext = JAXBContext.newInstance(payload.getClass());
       jaxbContext.createMarshaller().marshal(payload, new NullOutputStream());
     } catch (Exception e) {
+      e.printStackTrace();
       log.info(e.getMessage());
       return false;
     }

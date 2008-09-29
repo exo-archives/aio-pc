@@ -165,7 +165,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * Logger.
    */
-  private final Log                       log                      = ExoLogger.getLogger(getClass());
+  private static final Log                       LOG                      = ExoLogger.getLogger(PortletContainerDispatcher.class);
 
   /**
    * Exo container.
@@ -480,7 +480,6 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public static boolean isEventPayloadTypeMatches(final List<EventDefinition> eds,
                                                   final java.io.Serializable payload,
                                                   final QName eventName) {
-//    Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     if (eds == null || payload == null)
       return true;
     for (EventDefinition ed : eds) {
@@ -490,27 +489,23 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       if (ed.getJavaClass() == null) {
         return true;
       }
-      Class jc;
+      Class jc = null;
       try {
         jc = payload.getClass().getClassLoader().loadClass(ed.getJavaClass());
-      } catch (Exception e) {
-        jc = null;
-      }
+      } catch (Exception e) { /* nothing to do */ }
       if (jc == null) {
         try {
           jc = Class.forName(ed.getJavaClass(), true, payload.getClass().getClassLoader());
-        } catch (Exception e) {
-          jc = null;
-        }
+        } catch (Exception e) { /* nothing to do */ }
       }
-//      if (log.isDebugEnabled())
-//        log.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
+      if (LOG.isDebugEnabled())
+        LOG.debug("Event loaded class for eventName: '" + eventName + "' is: " + jc);
       if (jc != null) {
         return jc.isInstance(payload);
       }
       return false;
     }
-    return true;
+    return false;
   }
 
   /**
@@ -523,7 +518,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    *      java.util.Map)
    */
   public final void setPortletPreference(final Input input, final Map<String, String> preferencesMap) throws PortletContainerException {
-    log.debug("try to set a portlet preference directly from the setPortletPreference() method");
+    LOG.debug("try to set a portlet preference directly from the setPortletPreference() method");
     WindowID windowID = input.getInternalWindowID();
     Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
                                                             windowID.getPortletName());
@@ -538,12 +533,12 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         try {
           preferences.setValue(key, preferencesMap.get(key));
         } catch (ReadOnlyException e) {
-          log.error("Can not set a property that has a ReadOnly tag set to true", e);
+          LOG.error("Can not set a property that has a ReadOnly tag set to true", e);
         }
       }
       preferences.store();
     } catch (Exception e) {
-      log.error("Can not store a portlet preference", e);
+      LOG.error("Can not store a portlet preference", e);
       throw new PortletContainerException(e);
     }
   }
@@ -560,7 +555,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   }
 
   public PortletPreferences getPortletPreferences(Input input) {
-    log.debug("Try to get a portlet preference directly from the getPortletPreference() method ");
+    LOG.debug("Try to get a portlet preference directly from the getPortletPreference() method ");
     WindowID windowID = input.getInternalWindowID();
     Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
                                                             windowID.getPortletName());
@@ -571,7 +566,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   }
 
   public void setPortletPreference2(Input input, Map<String, String[]> preferencesMap) throws PortletContainerException {
-    log.debug("try to set a portlet preference directly from the setPortletPreference2() method");
+    LOG.debug("try to set a portlet preference directly from the setPortletPreference2() method");
     WindowID windowID = input.getInternalWindowID();
     Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
                                                             windowID.getPortletName());
@@ -586,18 +581,18 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         try {
           preferences.setValues(key, preferencesMap.get(key));
         } catch (ReadOnlyException e) {
-          log.error("Can not set a property that has a ReadOnly tag set to true", e);
+          LOG.error("Can not set a property that has a ReadOnly tag set to true", e);
         }
       }
       preferences.store();
     } catch (Exception e) {
-      log.error("Can not store a portlet preference", e);
+      LOG.error("Can not store a portlet preference", e);
       throw new PortletContainerException(e);
     }
   }
 
   public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
-    log.debug("try to set a portlet preference directly from the setPortletPreferences() method");
+    LOG.debug("try to set a portlet preference directly from the setPortletPreferences() method");
     WindowID windowID = input.getInternalWindowID();
     Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
                                                             windowID.getPortletName());
@@ -625,7 +620,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                                   final String portletAppName,
                                                   final String portletName,
                                                   final Locale locale) throws PortletContainerException {
-    log.debug("Try to get a bundle object for locale : " + locale);
+    LOG.debug("Try to get a bundle object for locale : " + locale);
 
     int platform = Environment.getInstance().getPlatform();
     if (platform == Environment.STAND_ALONE) {
@@ -669,7 +664,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final ActionOutput processAction(final HttpServletRequest httpServletRequest,
                                           final HttpServletResponse httpServletResponse,
                                           final ActionInput actionInput) throws PortletContainerException {
-    log.debug("ProcessAction method in PortletContainerDispatcher entered");
+    LOG.debug("ProcessAction method in PortletContainerDispatcher entered");
     return (ActionOutput) process(httpServletRequest,
                                   httpServletResponse,
                                   actionInput,
@@ -691,7 +686,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final EventOutput processEvent(final HttpServletRequest httpServletRequest,
                                         final HttpServletResponse httpServletResponse,
                                         final EventInput eventInput) throws PortletContainerException {
-    log.debug("ProcessEvent method in PortletContainerDispatcher entered");
+    LOG.debug("ProcessEvent method in PortletContainerDispatcher entered");
     return (EventOutput) process(httpServletRequest,
                                  httpServletResponse,
                                  eventInput,
@@ -713,7 +708,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final RenderOutput render(final HttpServletRequest httpServletRequest,
                                    final HttpServletResponse httpServletResponse,
                                    final RenderInput renderInput) throws PortletContainerException {
-    log.debug("Render method in PortletContainerDispatcher entered");
+    LOG.debug("Render method in PortletContainerDispatcher entered");
     return (RenderOutput) process(httpServletRequest,
                                   httpServletResponse,
                                   renderInput,
@@ -735,7 +730,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final ResourceOutput serveResource(final HttpServletRequest httpServletRequest,
                                             final HttpServletResponse httpServletResponse,
                                             final ResourceInput resourceInput) throws PortletContainerException {
-    log.debug("ServeResource method in PortletContainerDispatcher entered");
+    LOG.debug("ServeResource method in PortletContainerDispatcher entered");
     return (ResourceOutput) process(httpServletRequest,
                                     httpServletResponse,
                                     resourceInput,
@@ -791,8 +786,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                          final HttpServletResponse response,
                          final Input input,
                          final int isAction) throws PortletContainerException {
-    log.debug("Process method in PortletContainerDispatcher entered");
-    log.debug("Encoding used : " + request.getCharacterEncoding());
+    LOG.debug("Process method in PortletContainerDispatcher entered");
+    LOG.debug("Encoding used : " + request.getCharacterEncoding());
     // create the ActionOutput object
     Output output = null;
     if (isAction == PCConstants.ACTION_INT)
@@ -816,7 +811,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
     int platform = Environment.getInstance().getPlatform();
     if (platform == Environment.STAND_ALONE) {
-      log.debug("Stand alone environement : direct call to handler");
+      LOG.debug("Stand alone environement : direct call to handler");
       URLClassLoader oldCL = (URLClassLoader) Thread.currentThread().getContextClassLoader();
       initTests();
       try {
@@ -832,7 +827,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         Thread.currentThread().setContextClassLoader(oldCL);
       }
     } else {
-      log.debug("Embded environement : use servlet dispatcher to access handler");
+      LOG.debug("Embded environement : use servlet dispatcher to access handler");
       try {
         dispatch(request, response, portletApplicationName);
       } finally {
@@ -841,10 +836,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     }
     if (input.isStateSaveOnClient() && (isAction == PCConstants.ACTION_INT))
       try {
-        log.debug("Serialize Portlet Preferences object to store it on the client");
+        LOG.debug("Serialize Portlet Preferences object to store it on the client");
         ((ActionOutput) output).setPortletState(IOUtil.serialize(windowInfos.getPreferences()));
       } catch (Exception e) {
-        log.error("Can not serialize Portlet Preferences", e);
+        LOG.error("Can not serialize Portlet Preferences", e);
         throw new PortletContainerException("Can not serialize Portlet Preferences", e);
       }
     return output;
@@ -865,7 +860,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
     PortletWindowInternal windowInfos = null;
     if (!input.isStateSaveOnClient()) {// state save on the server
-      log.debug("Extract or create windows info (store in the server)");
+      LOG.debug("Extract or create windows info (store in the server)");
       WindowInfosContainer windowInfosContainer = WindowInfosContainer.getInstance();
       String key = "SESSION_CONTAINER_KEY_ENCODER" + input.getInternalWindowID().generateKey();
       if (windowInfosContainer.getInfos(key) != null)
@@ -879,7 +874,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         windowInfosContainer.addInfos(key, windowInfos);
       }
     } else { // state change kept on the client (for example consumer in WSRP)
-      log.debug("Extract or create windows info (sent by the client)");
+      LOG.debug("Extract or create windows info (sent by the client)");
       WindowID windowID = input.getInternalWindowID();
       Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
                                                               windowID.getPortletName());
@@ -904,21 +899,21 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     ServletContext portalContext = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
     ServletContext portletContext = portalContext.getContext("/" + portletApplicationName);
     if (portletContext == null)
-      log.error("Can't get servlet context for portlet app ["
+      LOG.error("Can't get servlet context for portlet app ["
           + portletApplicationName
           + "]. May be it's caused "
           + "by difference between context name (usually WAR file name) and content of tag <display-name/> in your "
           + "WEB-INF/web.xml");
     RequestDispatcher dispatcher = portletContext.getRequestDispatcher(PortletContainerDispatcher.SERVLET_MAPPING);
     try {
-      log.debug("Dispatch request to the portlet application : " + portletApplicationName);
+      LOG.debug("Dispatch request to the portlet application : " + portletApplicationName);
 
       dispatcher.include(request, response);
     } catch (ServletException e) {
-      log.error("Servlet exception while dispatching to portlet", e);
+      LOG.error("Servlet exception while dispatching to portlet", e);
       throw new PortletContainerException(e);
     } catch (IOException e) {
-      log.error("In and out exception while dispatching to portlet", e);
+      LOG.error("In and out exception while dispatching to portlet", e);
       throw new PortletContainerException(e);
     }
   }
@@ -939,7 +934,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
             .setContextClassLoader(new URLClassLoader(URLs, Thread.currentThread()
                                                                   .getContextClassLoader()));
     } catch (MalformedURLException e) {
-      log.error("Can not init tests", e);
+      LOG.error("Can not init tests", e);
     }
   }
 
@@ -958,7 +953,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     // "WEB-INF/lib/") };
     // Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs));
     // } catch (MalformedURLException e) {
-    // log.error("Can not init tests 2", e);
+    // LOG.error("Can not init tests 2", e);
     // }
   }
 
