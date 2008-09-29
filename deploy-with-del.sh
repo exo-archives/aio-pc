@@ -1,4 +1,4 @@
-#cd applications/test-portal/
+ #cd applications/test-portal/
 #mvn clean install
 #cd ../..
 
