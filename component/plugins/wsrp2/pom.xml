@@ -332,7 +332,7 @@
             <id>copy</id>
             <phase>generate-test-sources</phase>
             <goals>
-              <goal>copy</goal>
+              <goal>copy-dependencies</goal>
             </goals>
             <configuration>
               <useRepositoryLayout>false</useRepositoryLayout>
