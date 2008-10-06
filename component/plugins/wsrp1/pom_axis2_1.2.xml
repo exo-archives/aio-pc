@@ -1,0 +1,318 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.0</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
+  <packaging>jar</packaging>
+  <name>eXo Portlet Container 2 plugins.wsrp1</name>
+  <url>http://www.exoplatform.org</url>
+  <description>eXo Portlet Container 2 wsrp1 plugin</description>
+
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.commons</artifactId>
+      <version>${exo.platform.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.container</artifactId>
+      <version>${exo.platform.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.component.cache</artifactId>
+      <version>${exo.platform.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.xml-processing</artifactId>
+      <version>${exo.platform.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.api</artifactId>
+      <version>${exo.platform.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.common</artifactId>
+      <version>${exo.platform.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.database</artifactId>
+      <version>${exo.platform.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.resources.api</artifactId>
+      <version>${exo.platform.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
+      <version>${exo.platform.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${exo.portlet-container.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
+      <version>${exo.portlet-container.version}</version>
+    </dependency>
+
+    <!-- ************************ soap ************************ -->
+
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-codegen</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2</groupId>
+      <artifactId>axis2-kernel</artifactId>
+      <version>SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2.maven2</groupId>
+      <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.axis2.maven2</groupId>
+      <artifactId>axis2-aar-maven-plugin</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ws.commons.neethi</groupId>
+      <artifactId>neethi</artifactId>
+      <version>2.0</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ws.commons</groupId>
+      <artifactId>XmlSchema</artifactId>
+      <version>1.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.ws.commons.axiom</groupId>
+      <artifactId>axiom</artifactId>
+      <version>1.2.4</version>
+    </dependency>
+
+
+  </dependencies>
+
+  <profiles>
+    <profile>
+      <id>wsrp1</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <src.gen.dir>${basedir}/target/generated</src.gen.dir>
+      </properties>
+    </profile>
+  </profiles>
+
+  <properties>
+    <war.dir>${basedir}/war_template</war.dir>
+  </properties>
+
+
+  <build>
+
+    <resources>
+      <resource>
+        <directory>target/generated</directory>
+        <includes>
+          <include>**/*.wsdd</include>
+        </includes>
+      </resource>
+    </resources>
+
+    <plugins>
+
+      <!-- plugin>
+        <groupId>org.apache.axis2.maven2</groupId>
+        <artifactId>axis2-wsdl2code-maven-plugin</artifactId>
+        <configuration>
+        <packageName>org.exoplatform.services.wsrp.bind</packageName>
+        </configuration>
+        <executions>
+        <execution>
+        <goals>
+        <goal>wsdl2code</goal>
+        </goals>
+        </execution>
+        </executions>
+        </plugin -->
+
+      <!-- plugin>
+        <groupId>org.apache.axis2</groupId>
+        <artifactId>axis2-aar-maven-plugin</artifactId>
+        <version>1.2</version>
+        <extensions>true</extensions>
+        <configuration>
+        <servicesXmlFile>target/generated/resources/services.xml</servicesXmlFile>
+        <wsdlFile>wsdl/wsrp_service.wsdl</wsdlFile>
+        <includeDependencies>false</includeDependencies>
+        </configuration>
+        </plugin -->
+
+      <plugin>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>0</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <tasks if="exo.proxy.host">
+                <echo>=== PROXY === ${exo.proxy.host}:${exo.proxy.port}</echo>
+                <mkdir dir="${src.gen.dir}" />
+                <java fork="yes" dir="wsdl" classname="org.apache.axis2.wsdl.WSDL2Java">
+                  <sysproperty key="proxySet" value="" />
+                  <sysproperty key="proxyHost" value="${exo.proxy.host}" />
+                  <sysproperty key="proxyPort" value="${exo.proxy.port}" />
+                  <arg
+                    line="-s -ss -sd -ssi -g -S -R -d none -t -o ${src.gen.dir} -ns2p urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp.intf,urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp.type,urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp.bind,urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp.wsdl -p org.exoplatform.services.wsrp.wsdl -uri wsrp_service.wsdl" />
+                  <classpath refid="maven.dependency.classpath" />
+                </java>
+              </tasks>
+              <sourceRoot>${src.gen.dir}</sourceRoot>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>1</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <tasks if="${exo.proxy.host}">
+                <echo>=== NON-PROXY ===</echo>
+                <mkdir dir="${src.gen.dir}" />
+                <java fork="yes" dir="wsdl" classname="org.apache.axis2.wsdl.WSDL2Java">
+                  <arg
+                    line="-s -ss -sd -ssi -g -S -R -d none -t -o ${src.gen.dir} -ns2p urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp.intf,urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp.type,urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp.bind,urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp.wsdl -p org.exoplatform.services.wsrp.wsdl -uri wsrp_service.wsdl" />
+                  <classpath refid="maven.dependency.classpath" />
+                </java>
+              </tasks>
+              <sourceRoot>${src.gen.dir}</sourceRoot>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>2</id>
+            <phase>compile</phase>
+            <configuration>
+              <tasks>
+                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="maven.compile.classpath" />
+                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
+                  verbose="false">
+                  <fileset dir="${basedir}/src/main/java">
+                    <include name="**/*.java" />
+                  </fileset>
+                  <hibernate version="3.0" />
+                </hibernatedoclet>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>3</id>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="${basedir}/target/test-classes/" />
+                <copy todir="${basedir}/target/test-classes/">
+                  <fileset dir="${basedir}/war_template/src">
+                    <include name="**/*.properties" />
+                    <include name="**/*.xml" />
+                  </fileset>
+                </copy>
+                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
+                  <classpath>
+                    <path refid="maven.dependency.classpath" />
+                    <pathelement path="${maven.build.dest}" />
+                  </classpath>
+                </javac>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>testPath</name>
+              <value>${basedir}</value>
+            </property>
+            <property>
+              <name>mock.portal.dir</name>
+              <value>${war.dir}</value>
+            </property>
+            <property>
+              <name>maven.exoplatform.dir</name>
+              <value>${war.dir}</value>
+            </property>
+          </systemProperties>
+          <includes>
+            <include>**/Test*.java</include>
+          </includes>
+          <skip>true</skip>
+        </configuration>
+      </plugin>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+
+    </plugins>
+
+  </build>
+
+</project>

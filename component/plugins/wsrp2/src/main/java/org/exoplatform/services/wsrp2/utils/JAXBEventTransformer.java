@@ -1,0 +1,203 @@
+/*
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
+
+package org.exoplatform.services.wsrp2.utils;
+
+import java.awt.Image;
+import java.io.Serializable;
+import java.io.StringReader;
+import java.math.BigDecimal;
+import java.math.BigInteger;
+import java.net.URI;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.List;
+
+import javax.activation.DataHandler;
+import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
+import javax.xml.bind.JAXBException;
+import javax.xml.bind.Marshaller;
+import javax.xml.bind.Unmarshaller;
+import javax.xml.datatype.Duration;
+import javax.xml.datatype.XMLGregorianCalendar;
+import javax.xml.namespace.QName;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.transform.Source;
+import javax.xml.transform.stream.StreamSource;
+
+import org.apache.axis.message.MessageElement;
+import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.pci.EventImpl;
+import org.exoplatform.services.wsrp2.type.Event;
+import org.exoplatform.services.wsrp2.type.EventPayload;
+
+/**
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua Oct 15, 2007
+ */
+public class JAXBEventTransformer {
+
+  private static final Log log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.utils.JAXBEventTransformer");
+
+  // convert from "javax.portlet.Event" to "org.exoplatform.services.wsrp2.type.Event[1]"
+  public static Event[] getEventsMarshal(javax.portlet.Event event) {
+    return new Event[] { getEventMarshal(event) };
+  }
+
+  // convert from "List<javax.portlet.Event>" to "org.exoplatform.services.wsrp2.type.Event[]"
+  public static Event[] getEventsMarshal(List<javax.portlet.Event> eventsList) {
+    Event[] events = new Event[eventsList.size()];
+    int i = 0;
+    for (javax.portlet.Event event : eventsList) {
+      events[i++] = getEventMarshal(event);
+    }
+    return events;
+  }
+
+  // convert from "javax.portlet.Event" to "org.exoplatform.services.wsrp2.type.Event"
+  public static Event getEventMarshal(javax.portlet.Event event) {
+    if (event == null)
+      return null;
+
+    QName eventName = event.getQName();
+    Serializable eventValue = event.getValue();
+
+    if (log.isDebugEnabled())
+      log.debug("JAXBEventTransformer.getEventMarshal() eventName = " + eventName);
+    if (log.isDebugEnabled())
+      log.debug("JAXBEventTransformer.getEventMarshal() eventValue = " + eventValue);
+
+    Event newEvent = new Event();
+    newEvent.setName(eventName);
+
+    if (eventValue != null) {
+
+      String eventType = eventValue.getClass().getName();
+
+      newEvent.setType(new QName(eventType));
+
+      org.w3c.dom.Document doc = getMarshalledDocument(eventValue, eventName);
+
+      if (doc == null) {
+        try {
+          doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+          
+          JAXBContext jaxb = JAXBContext.newInstance(eventValue.getClass());
+          Marshaller marshaller = jaxb.createMarshaller();
+          marshaller.marshal(eventValue, doc);
+        } catch (JAXBException je) {
+          je.printStackTrace();
+        } catch (Exception e) {
+          e.printStackTrace();
+        } catch (Throwable t) {
+          t.printStackTrace();
+        }
+      }
+      org.apache.axis.message.MessageElement messageElement = new MessageElement(doc.getDocumentElement());
+      org.apache.axis.message.MessageElement[] anyArray = new MessageElement[] { messageElement };
+      EventPayload eventPayload = new EventPayload();
+      eventPayload.set_any(anyArray);
+      newEvent.setPayload(eventPayload);
+    }
+    return newEvent;
+  }
+
+  // convert from "org.exoplatform.services.wsrp2.type.Event[]" to "List<javax.portlet.Event>"
+  public static List<javax.portlet.Event> getEventsUnmarshal(Event[] eventArray) {
+    if (eventArray == null)
+      return null;
+    List<javax.portlet.Event> eventsList = new ArrayList<javax.portlet.Event>();
+    int i = 0;
+    for (Event event : eventArray) {
+      Object obj = getUnmarshalledObject(event.getType(), event.getPayload());
+
+      if (obj == null) {
+        try {
+          String clazz = event.getType().getLocalPart();
+          String pkg = clazz.substring(0, clazz.lastIndexOf("."));
+          ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
+          org.w3c.dom.Element messageElement = event.getPayload().get_any()[0];
+
+          JAXBContext jaxb = JAXBContext.newInstance(pkg, cle);
+          Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+          obj = unmarshaller.unmarshal(messageElement);
+        } catch (JAXBException je) {
+          je.printStackTrace();
+        } catch (Exception e) {
+          e.printStackTrace();
+        } catch (Throwable t) {
+          t.printStackTrace();
+        }
+      }
+
+      if (log.isDebugEnabled())
+        log.debug("JAXBEventTransformer.getEventsUnmarshal() o = " + obj);
+
+      javax.portlet.Event ev = new EventImpl(event.getName(), obj != null ? (Serializable) obj
+                                                                         : null);
+      eventsList.add(ev);
+      i++;
+    }
+    return eventsList;
+  }
+
+  public static org.w3c.dom.Document getMarshalledDocument(Object value, QName name) {
+    if (log.isDebugEnabled())
+      log.debug("JAXBEventTransformer.getMarshalledDocument() value = " + value);
+    try {
+      String toenum = value.getClass().getSimpleName();
+      if (log.isDebugEnabled())
+        log.debug("JAXBEventTransformer.getMarshalledDocument() toenum = " + toenum);
+      StandardClasses t = null;
+      try {
+        t = StandardClasses.valueOf(toenum.toUpperCase());
+      } catch (java.lang.IllegalArgumentException e) {
+        return null;
+      }
+      if (log.isDebugEnabled())
+        log.debug("JAXBEventTransformer.getMarshalledDocument() t = " + t);
+      return t.getMarshalledDocument(value, name);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+  private static Object getUnmarshalledObject(QName type, EventPayload payload) {
+    try {
+      String source = type.getLocalPart();
+      String toenum = source.substring(source.lastIndexOf(".") + 1);
+      if (log.isDebugEnabled())
+        log.debug("JAXBEventTransformer.getUnmarshalledObject() toenum = " + toenum);
+      StandardClasses t = null;
+      try {
+        t = StandardClasses.valueOf(toenum.toUpperCase());
+      } catch (java.lang.IllegalArgumentException e) {
+        return null;
+      }
+      if (log.isDebugEnabled())
+        log.debug("JAXBEventTransformer.getUnmarshalledObject() t = " + t);
+      return t.getUnmarshalledObject(type, payload);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+    return null;
+  }
+
+}
