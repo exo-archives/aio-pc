@@ -9,6 +9,10 @@
     <form-bean name="dummy" type="org.apache.struts.action.DynaActionForm">
       <form-property name="abc" type="java.lang.String" />
     </form-bean>
+    <form-bean name="file" type="org.apache.struts.action.DynaActionForm">
+      <form-property name="file" type="org.apache.struts.upload.FormFile" />
+    </form-bean>
+<!--    <form-bean type="org.exoplatform.portletcontainer.applications.sbridgestrutsportlet.Attachment" name="file"/> -->
   </form-beans>
   <global-exceptions>
     <exception key="errors.general" type="java.lang.Exception" path="/error.jsp" />
@@ -23,6 +27,10 @@
     <action path="/Edit" forward="/edit.jsp" />
     <action path="/Error" forward="/error.jsp"/>
     <action name="dummy" path="/ViewSubmit" scope="request" type="org.exoplatform.portletcontainer.applications.sbridgestrutsportlet.SubmitAction" unknown="false"
+      validate="false">
+      <forward name="success" path="/View.do" />
+    </action>
+    <action name="file" path="/file" scope="request" type="org.exoplatform.portletcontainer.applications.sbridgestrutsportlet.SubmitAction" unknown="false"
       validate="false">
       <forward name="success" path="/View.do" />
     </action>

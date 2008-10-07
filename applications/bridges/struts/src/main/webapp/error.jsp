@@ -23,7 +23,8 @@
   <i><pre>
 <%
   Exception e = (Exception)request.getAttribute("BeanActionException");
-  e.printStackTrace(new PrintWriter(out));
+  if (e != null)
+    e.printStackTrace(new PrintWriter(out));
 %>
   </pre></i>
 </logic:present>

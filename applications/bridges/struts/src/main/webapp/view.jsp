@@ -2,6 +2,8 @@
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-bean" prefix="bean" %>
 <%@ taglib uri="http://portals.apache.org/bridges/struts/tags-portlet-html" prefix="html" %>
 <%@ taglib uri="http://jakarta.apache.org/struts/tags-logic" prefix="logic" %>
+<%@ taglib uri="http://jakarta.apache.org/struts/tags-html" prefix="shtml"%>
+
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
   <html:html locale="true">
@@ -47,5 +49,34 @@
         <h1>abc is not present</h1>
       </logic:notPresent>
     </div>
+    <br><br>
+
+
+<html:form action="/file.do" enctype="multipart/form-data" method="post" focus="file">
+<table border="0" cellpadding="0" cellspacing="0">
+<tr>
+    <td>
+        File Location
+    </td>
+    <td style="padding-left: 10px;"></td>
+    <td>
+        <shtml:file property="file" />
+    </td>
+</tr>
+</table>
+<br>
+<html:submit>Upload File</html:submit>
+</html:form>
+    <div style="width: 30%; ">
+      <logic:present parameter="file">
+        <bean:parameter id="file" name="file"/>
+        <h1>file=<bean:write name="file"/></h1>
+      </logic:present>
+      <logic:notPresent parameter="file">
+        <h1>file is not present</h1>
+      </logic:notPresent>
+    </div>
+
+    
   </body>
 </html:html>
