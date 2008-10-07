@@ -85,6 +85,12 @@
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>${org.exoplatform.pc.version}</version>
+      <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xerces</artifactId>
+        </exclusion>
+      </exclusions> 
     </dependency>
 
     <dependency>
@@ -92,6 +98,12 @@
       <artifactId>cargo-core-api-container</artifactId>
       <version>0.9-SNAPSHOT</version>
       <scope>provided</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>xerces</groupId>
+          <artifactId>xercesImpl</artifactId>
+        </exclusion>
+      </exclusions>      
     </dependency>
 
     <dependency>
@@ -115,18 +127,73 @@
     </dependency>
 
     <!-- ************************ soap ************************ -->
-
+    <!-- CXF dependencies -->
+         <dependency>
+            <groupId>org.apache.cxf</groupId>
+            <artifactId>cxf-tools-misctools</artifactId>
+            <version>2.1.2</version>
+         </dependency>
+         
     <dependency>
-      <groupId>axis</groupId>
-      <artifactId>axis</artifactId>
-      <version>1.4-0231</version>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-jaxws</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-http-jetty</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-frontend-simple</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-databinding-jaxb</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-tools-java2ws</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-rt-transports-local</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+    <dependency>
+      <groupId>org.mortbay.jetty</groupId>
+      <artifactId>jetty</artifactId>
+      <version>6.1.9</version>
     </dependency>
 
+<!--
+    <dependency>
+      <groupId>stax</groupId>
+      <artifactId>stax-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+-->
     <dependency>
       <groupId>wsdl4j</groupId>
       <artifactId>wsdl4j</artifactId>
-      <version>1.5.1</version>
+      <version>1.6.1</version>
     </dependency>
+<!--
+    <dependency>
+      <groupId>jdom</groupId>
+      <artifactId>jdom</artifactId>
+      <version>1.0</version>
+    </dependency>
+-->
 
     <dependency>
       <groupId>commons-discovery</groupId>
@@ -154,6 +221,9 @@
 
   <build>
 
+<!--    <sourceDirectory>src/nosources</sourceDirectory>-->
+    <!--    <testSourceDirectory>src/notest</testSourceDirectory>-->
+
     <resources>
       <resource>
         <directory>target/generated</directory>
@@ -168,61 +238,71 @@
         </includes>
       </resource>
     </resources>
-
-    <!-- testSourceDirectory>src/notest</testSourceDirectory -->
+    
 
     <plugins>
+
+      <plugin>
+        <groupId>org.apache.cxf</groupId>
+        <artifactId>cxf-codegen-plugin</artifactId>
+        <version>2.1.2</version>
+        <executions>
+          <execution>
+            <id>generate-sources</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <sourceRoot>${src.gen.dir}</sourceRoot>
+              <wsdlOptions>
+                <wsdlOption>
+                  <wsdl>${basedir}/wsdl/wsrp-service.wsdl</wsdl>
+                  <extraargs>
+                    <extraarg>-validate</extraarg>
+                    <extraarg>-all</extraarg>
+<!--                    <extraarg>-client</extraarg> -->
+<!--                    <extraarg>-server</extraarg> -->
+                    <extraarg>-compile</extraarg> 
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v2:intf=org.exoplatform.services.wsrp2.intf</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v2:bind=org.exoplatform.services.wsrp2.bind</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v2:wsdl=org.exoplatform.services.wsrp2.wsdl</extraarg>
+<!--                    <extraarg>-sn</extraarg>-->
+<!--                    <extraarg>WSRPService</extraarg>-->
+<!--                    <extraarg>-nexclude</extraarg>-->
+<!--                    <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>-->
+                    <extraarg>-exsh</extraarg>
+                    <extraarg>true</extraarg>
+                  </extraargs>
+                </wsdlOption>
+              </wsdlOptions>
+            </configuration>
+            <goals>
+              <goal>wsdl2java</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.2-SNAPSHOT</version>
         <executions>
-          <execution>
-            <id>0</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <tasks if="settings.activeProxy.host">
-                <echo>=== PROXY === [${settings.activeProxy.host}:${settings.activeProxy.port}] ===</echo>
-
-<!--                <property name="activeProxy.host" value="${settings.activeProxy.host}" />-->
-<!--                <property name="activeProxy.port" value="${settings.activeProxy.port}" />-->
-<!--                <property name="activeProxy.user" value="${settings.activeProxy.username}" />-->
-<!--                <property name="activeProxy.password" value="${settings.activeProxy.password}" />-->
-<!--                <property name="activeProxy.nonProxyHosts" value="${settings.activeProxy.nonProxyHosts}" />-->
-<!---->
-<!--                <taskdef name="setproxy" classname="org.apache.tools.ant.taskdefs.optional.net.SetProxy" />-->
-<!--                <setproxy proxyhost="${settings.activeProxy.host}" proxyport="${settings.activeProxy.port}" proxypassword="${settings.activeProxy.password}" proxyuser="${settings.activeProxy.username}"-->
-<!--                  nonproxyhosts="${settings.activeProxy.nonProxyHosts}" />-->
-                                                  
-                <mkdir dir="${src.gen.dir}" />
-                <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
-                  <sysproperty key="proxySet" value="" />
-                  <sysproperty key="proxyHost" value="${settings.activeProxy.host}" />
-                  <sysproperty key="proxyPort" value="${settings.activeProxy.port}" />
-                  <arg line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
-                  <classpath refid="maven.dependency.classpath" />
-                </java>
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
-              </tasks>
-              <sourceRoot>${src.gen.dir}</sourceRoot>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
+<!--
           <execution>
             <id>1</id>
             <phase>generate-sources</phase>
             <configuration>
               <tasks if="${settings.activeProxy.host}">
                 <echo>=== NON-PROXY ===</echo>
+                <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>
                 <mkdir dir="${src.gen.dir}" />
-                <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
-                  <arg line="-v -t -O -1 -a --server-side --deployScope 'Application' -W -o ${src.gen.dir} wsrp_service.wsdl" />
+                <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">
+                  <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />
                   <classpath refid="maven.dependency.classpath" />
                 </java>
                 <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
@@ -236,6 +316,8 @@
               <goal>run</goal>
             </goals>
           </execution>
+-->
+
           <execution>
             <id>2</id>
             <phase>compile</phase>
@@ -292,7 +374,6 @@
                     <exclude name="wsrp2/**/*" />
                   </classes>
                   <zipfileset dir="war_template/WEB-INF" includes="**/*" prefix="WEB-INF" />
-                  <!-- zipfileset dir="war_template/WEB-INF" includes="conf**/*" prefix="WEB-INF/classes" / -->
                 </war>
               </tasks>
             </configuration>
@@ -313,16 +394,9 @@
               <goal>run</goal>
             </goals>
           </execution>
+          
         </executions>
-<!--        <dependencies>-->
-<!--          <dependency>-->
-<!--            <groupId>ant</groupId>-->
-<!--            <artifactId>ant-nodeps</artifactId>-->
-<!--            <version>1.6.5</version>-->
-<!--          </dependency>-->
-<!--        </dependencies>-->
       </plugin>
-
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>

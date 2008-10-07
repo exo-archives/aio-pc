@@ -17,7 +17,7 @@
             xmlns="http://www.w3.org/2001/XMLSchema"
             elementFormDefault="qualified">
 
-      <import namespace="urn:oasis:names:tc:wsrp:v2:types" schemaLocation="wsrp_v2_types.xsd"/>
+      <import namespace="urn:oasis:names:tc:wsrp:v2:types" schemaLocation="wsrp-2.0-types.xsd"/>
 
     </schema>
   </wsdl:types>

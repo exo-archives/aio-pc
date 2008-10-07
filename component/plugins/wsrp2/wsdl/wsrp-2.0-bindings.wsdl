@@ -10,7 +10,7 @@
 
 <!-- This file reflects v2.0 of the specification -->
 
-  <import namespace="urn:oasis:names:tc:wsrp:v2:intf" location="wsrp_v2_interfaces.wsdl"/>
+  <import namespace="urn:oasis:names:tc:wsrp:v2:intf" location="wsrp-2.0-interfaces.wsdl"/>
 
   <wsdl:binding name="WSRP_v2_Markup_Binding_SOAP" type="intf:WSRP_v2_Markup_PortType">
     <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
