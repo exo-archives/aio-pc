@@ -216,6 +216,26 @@
     </supported-publishing-event>
   </portlet>
 
+  <portlet>
+    <description xml:lang="en">AdminPortlet description</description>
+    <portlet-name>AdminPortlet</portlet-name>
+    <display-name xml:lang="en">AdminPortlet</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.AdminPortlet</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supports>
+      <mime-type>application/octet-stream</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>AdminPortlet title</title>
+    </portlet-info>
+  </portlet>
+
   <event-definition>
     <name>MyEventPub</name>
     <value-type>org.exoplatform.services.portletcontainer.test.portlet2.MyEventPub</value-type>

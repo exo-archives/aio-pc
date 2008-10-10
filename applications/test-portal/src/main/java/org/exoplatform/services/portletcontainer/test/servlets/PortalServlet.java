@@ -98,6 +98,7 @@ public class PortalServlet extends HttpServlet {
       w.println("<td><a href='" + request.getContextPath()
           + "'><img src=\"../img/logotestportal.png\" style='border:0px none;'></a></td>");
       w.println("<td>&nbsp;</td>");
+      w.println("<td><b><a href='" + request.getContextPath() + "/logout.jsp'>Logout</a></b></td>");
       w.println("</tr>");
       w.println("</table>");
 
