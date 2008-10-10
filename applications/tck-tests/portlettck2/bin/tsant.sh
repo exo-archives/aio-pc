@@ -16,8 +16,14 @@
 #
 # tsant script. Must be called only after TS_HOME has been set.
 #
-# handles directory-related routines.
-#
+# handles directory-related rout
+
+# EXOMAN added and commentted the lines below
+# TS_HOME="/home/alexey/java/eXoProjects/portlet-container/trunk/applications/tck-tests/portlettck2"
+# export TS_HOME
+# PATH=/home/alexey/java/eXoProjects/portlet-container/trunk/applications/tck-tests/portlettck2/bin:${PATH} 
+# export PATH
+
 if [ $#	-eq 1 ]
 then
 	if [ $1	= "ld" ]
