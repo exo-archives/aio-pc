@@ -251,12 +251,13 @@ public abstract class BaseURLImp implements BaseURL {
 
   /**
    * Overridden method.
+   * The returned URL is not XML escaped.
    *
    * @return string representation of url
    * @see java.lang.Object#toString()
    */
   public String toString() {
-    return toString(defaultEscapeXml);
+    return toString(false);
   }
 
   /**
@@ -295,13 +296,14 @@ public abstract class BaseURLImp implements BaseURL {
 
   /**
    * Overridden method.
-   *
+   * The URL written to the output stream is always XML escaped.
+   * 
    * @param out writer
    * @throws IOException exception
    * @see javax.portlet.BaseURL#write(java.io.Writer)
    */
   public final void write(final Writer out) throws IOException {
-    out.write(toString(defaultEscapeXml));
+    out.write(toString(true));
   }
 
   /**
