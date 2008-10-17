@@ -31,6 +31,11 @@ import javax.servlet.jsp.JspException;
 public class ActionURLTag extends XURLTag {
 
   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = -887109718512852285L;
+  
+  /**
    * Name.
    */
   private String name;

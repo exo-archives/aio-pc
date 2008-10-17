@@ -29,6 +29,11 @@ import javax.servlet.jsp.JspException;
 public class PropertyTag extends TagSupport {
 
   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 4125941271956333980L;
+
+  /**
    * Name.
    */
   private String name;

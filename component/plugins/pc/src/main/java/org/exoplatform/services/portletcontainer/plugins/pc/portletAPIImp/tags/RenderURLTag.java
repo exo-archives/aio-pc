@@ -30,6 +30,11 @@ import javax.servlet.ServletRequest;
  */
 public class RenderURLTag extends XURLTag{
 
+  /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 2912760591191254939L;
+
   public BaseURL getPortletURL() {
     ServletRequest request =  pageContext.getRequest();
     MimeResponse portletResponse = (MimeResponse) request.getAttribute("javax.portlet.response") ;

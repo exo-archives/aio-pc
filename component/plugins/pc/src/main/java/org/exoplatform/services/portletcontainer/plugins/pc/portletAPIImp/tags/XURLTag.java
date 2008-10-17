@@ -38,73 +38,65 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.BaseUR
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 
 /**
- * Created by The eXo Platform SAS.
- * Author : Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: Aug 20, 2003
- * Time: 2:00:32 PM
+ * Created by The eXo Platform SAS. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Aug 20, 2003 Time: 2:00:32 PM
  */
 public abstract class XURLTag extends BodyTagSupport {
 
   /**
    * Window state.
    */
-  protected WindowState windowState;
+  protected WindowState             windowState;
 
   /**
    * Portlet mode.
    */
-  protected PortletMode portletMode;
+  protected PortletMode             portletMode;
 
   /**
    * Var name.
    */
-  protected String var;
+  protected String                  var;
 
   /**
    * Secure.
    */
-  protected boolean secure;
+  protected boolean                 secure;
 
   /**
    * Parameters.
    */
-  private HashMap<String, String[]> parameters = null;
+  private HashMap<String, String[]> parameters                  = null;
 
   /**
    * Render parameters.
    */
-  private Map<String, String[]> renderParameters = null;
+  private Map<String, String[]>     renderParameters            = null;
 
   /**
    * Properties.
    */
-  private HashMap<String, String[]> properties = new HashMap<String, String[]>();
+  private HashMap<String, String[]> properties                  = new HashMap<String, String[]>();
 
   /**
    * Copy current render parameters.
    */
-  protected boolean copyCurrentRenderParameters = false;
+  protected boolean                 copyCurrentRenderParameters = false;
 
   /**
    * Escape xml value.
    */
-  protected boolean escapeXml = true;
-
-  /**
-   * Was escape xml setting changed.
-   */
-  protected boolean changedEscapeXml = false;
+  protected boolean                 escapeXml                   = true;
 
   /**
    * Resource id.
    */
-  protected String resourceID;
+  protected String                  resourceID;
 
   /**
    * Resource cacheability.
    */
-  protected String resourceCacheability;
+  protected String                  resourceCacheability;
 
   /**
    * @param key key
@@ -238,12 +230,11 @@ public abstract class XURLTag extends BodyTagSupport {
    */
   public final void setEscapeXml(final boolean escapeXml) {
     this.escapeXml = escapeXml;
-    this.changedEscapeXml = true;
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param resourceID resource id
    * @see javax.servlet.jsp.tagext.TagSupport#setId(java.lang.String)
    */
@@ -264,7 +255,7 @@ public abstract class XURLTag extends BodyTagSupport {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return tag result
    * @throws JspException
    * @see javax.servlet.jsp.tagext.BodyTagSupport#doStartTag()
@@ -280,7 +271,7 @@ public abstract class XURLTag extends BodyTagSupport {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return tag evaluation resul
    * @throws JspException
    * @see javax.servlet.jsp.tagext.BodyTagSupport#doEndTag()
@@ -344,19 +335,21 @@ public abstract class XURLTag extends BodyTagSupport {
     secure = false;
     copyCurrentRenderParameters = false;
     escapeXml = true;
-    changedEscapeXml = false;
     resourceID = null;
     resourceCacheability = null;
   }
 
   /**
+   * Returns the portlet URL string representation to be embedded in the markup.
+   * The container-runtime-option element may re-define default portlet
+   * container behavior, like the javax.portlet.escapeXml setting that disables
+   * XML encoding of URLs produced by the portlet tag library as default.
+   * 
    * @param baseURL base url
    * @return url string
    */
   public final String URLToString(final BaseURL baseURL) {
-    if (changedEscapeXml)
-      return ((BaseURLImp) baseURL).toString(escapeXml);
-    return ((BaseURLImp) baseURL).toString();
+    return ((BaseURLImp) baseURL).toString(escapeXml);
   }
 
   /**

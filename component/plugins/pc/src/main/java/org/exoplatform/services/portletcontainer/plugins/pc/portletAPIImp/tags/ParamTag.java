@@ -27,6 +27,11 @@ import javax.servlet.jsp.JspException;
 public class ParamTag extends TagSupport {
 
   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 278357243620991146L;
+
+  /**
    * Name.
    */
   private String name;

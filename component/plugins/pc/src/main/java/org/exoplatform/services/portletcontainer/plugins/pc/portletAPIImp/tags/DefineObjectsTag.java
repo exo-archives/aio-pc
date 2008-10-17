@@ -44,6 +44,11 @@ import javax.servlet.jsp.tagext.TagSupport;
 public class DefineObjectsTag extends TagSupport {
 
   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 6747920745801687486L;
+
+  /**
    * Overridden method.
    *
    * @return tag evaluation result

@@ -30,6 +30,11 @@ import javax.servlet.ServletRequest;
 public class ResourceURLTag extends XURLTag {
 
   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 7050874455176983924L;
+
+  /**
    * Overridden method.
    *
    * @return portlet url

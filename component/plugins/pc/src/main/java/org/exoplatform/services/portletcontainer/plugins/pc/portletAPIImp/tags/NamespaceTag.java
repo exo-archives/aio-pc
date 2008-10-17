@@ -33,6 +33,11 @@ import java.io.IOException;
 public class NamespaceTag extends TagSupport {
 
   /**
+   * Serial ID.
+   */
+  private static final long serialVersionUID = 2575978069849495522L;
+
+  /**
    * Overridden method.
    *
    * @return tag processing result
