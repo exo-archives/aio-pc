@@ -1467,4 +1467,18 @@ public class PortalFramework {
     return portletInfos;
   }
 
+  /**
+   * @return the presavedHttpRequest
+   */
+  public HttpServletRequest getPresavedHttpRequest() {
+    return presavedHttpRequest;
+  }
+
+  /**
+   * @return the presavedHttpResponse
+   */
+  public HttpServletResponse getPresavedHttpResponse() {
+    return presavedHttpResponse;
+  }
+
 }
