@@ -5,7 +5,7 @@
     <version>trunk</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>demos</artifactId>
+  <artifactId>exo.pc.applications.demos</artifactId>
   <packaging>exopc-war</packaging>
   <name>eXo Portlet Container 2 Demo Portlets</name>
 
