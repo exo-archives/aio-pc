@@ -59,13 +59,30 @@ public class AxisFilter implements Filter {
   public synchronized void doFilter(ServletRequest servletRequest,
                                     ServletResponse servletResponse,
                                     FilterChain filterChain) throws IOException, ServletException {
-    setCurrentContainer();
-    WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest,
-                                     (HttpServletResponse) servletResponse);
-
-    filterChain.doFilter(servletRequest, servletResponse);
-
-    hibernateCloseSession();
+    try {
+      setCurrentContainer();
+      WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest,
+                                       (HttpServletResponse) servletResponse);
+      filterChain.doFilter(servletRequest, servletResponse);
+    } finally {
+      if (container != null) {
+        try {
+          hibernateCloseSession();
+        } catch (Exception e) {
+          log.warn("An error occured while closing the hibernate sessions", e);
+        }
+      }
+      try {
+        WSRPHTTPContainer.setInstance(null);
+      } catch (Exception e) {
+        log.warn("An error occured while cleaning the ThreadLocal", e);
+      }
+      try {
+        ExoContainerContext.setCurrentContainer(null);
+      } catch (Exception e) {
+        log.warn("An error occured while cleaning the ThreadLocal", e);
+      }
+    }		
   }
 
   private void hibernateCloseSession() {
