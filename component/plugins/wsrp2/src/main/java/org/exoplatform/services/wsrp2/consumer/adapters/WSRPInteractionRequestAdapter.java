@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.StateChange;
@@ -36,9 +38,9 @@ public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implem
 
   private String          interactionState;
 
-  private NamedString[]   formParameters;
+  private List<NamedString>   formParameters;
 
-  private UploadContext[] uploadContexts;    //WSRP2
+  private List<UploadContext> uploadContexts;    //WSRP2
 
   public String getInteractionState() {
     return interactionState;
@@ -48,11 +50,11 @@ public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implem
     this.interactionState = interactionState;
   }
 
-  public NamedString[] getFormParameters() {
+  public List<NamedString> getFormParameters() {
     return formParameters;
   }
 
-  public void setFormParameters(NamedString[] formParameters) {
+  public void setFormParameters(List<NamedString> formParameters) {
     this.formParameters = formParameters;
   }
 
@@ -64,11 +66,11 @@ public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implem
     this.portletStateChange = portletStateChange;
   }
 
-  public UploadContext[] getUploadContexts() {
+  public List<UploadContext> getUploadContexts() {
     return uploadContexts;
   }
 
-  public void setUploadContexts(UploadContext[] uploadContexts) {
+  public void setUploadContexts(List<UploadContext> uploadContexts) {
     this.uploadContexts = uploadContexts;
   }
 

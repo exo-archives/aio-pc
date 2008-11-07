@@ -45,7 +45,7 @@ public class AxisFilter implements Filter {
 
   private ExoContainer container;
 
-  private Log          log           = ExoLogger.getLogger(getClass().getName());
+  private Log          log           = ExoLogger.getLogger(AxisFilter.class);
 
   public void init(FilterConfig filterConfig) throws ServletException {
     this.log = ExoLogger.getLogger(this.getClass().getName());

@@ -20,6 +20,7 @@ package org.exoplatform.services.wsrp2.producer.impl;
 import java.math.BigInteger;
 import java.rmi.RemoteException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -326,7 +327,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     markupContext.setPreferredTitle(output.getTitle());
     markupContext.setRequiresRewriting(!conf.isDoesUrlTemplateProcessing());
     markupContext.setUseCachedItem(false);
-    markupContext.setValidNewModes(null);
+    markupContext.getValidNewModes().clear();// was: setValidNewModes(null);
 
     // preparing markup response
     MarkupResponse markupResponse = new MarkupResponse();
@@ -436,12 +437,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage portlet state change
     boolean isStateChangeAuthorized = false;
-    String stateChange = interactionParams.getPortletStateChange().getValue();
-    if (StateChange.readWrite.getValue().equalsIgnoreCase(stateChange)) {
+    String stateChange = interactionParams.getPortletStateChange().value();
+    if (StateChange.READ_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("readWrite state change");
       // every modification is allowed on the portlet
       isStateChangeAuthorized = true;
-    } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
+    } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
       portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
                                                                          portletContext,
@@ -449,7 +450,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                          portletContext.getScheduledDestruction());
       // any modification will be made on the
       isStateChangeAuthorized = true;
-    } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
+    } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
       log.debug("readOnly state change");
       // if an attempt to change the state is done (means change the portlet
       // pref in JSR 168)
@@ -567,7 +568,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       if (conf.isSavePortletStateOnConsumer())
         portletContext.setPortletState(output.getPortletState());
       updateResponse.setPortletContext(portletContext);
-      updateResponse.setExtensions(null);
+      updateResponse.getExtensions().clear();//was:setExtensions(null);
 
       // get render parameters
       renderParameters = output.getRenderParameters();
@@ -597,11 +598,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // create navigational context
       NavigationalContext newNavigationalContext = new NavigationalContext();
       newNavigationalContext.setOpaqueValue(navigationalState);
-      newNavigationalContext.setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
-      newNavigationalContext.setExtensions(null);
+      newNavigationalContext.getPublicValues().clear();
+      newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
+      newNavigationalContext.getExtensions().clear();
       updateResponse.setNavigationalContext(newNavigationalContext);
 
-      updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(output.getEvents()));
+      updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(output.getEvents()));
 
       blockingInteractionResponse.setUpdateResponse(updateResponse);
     }
@@ -931,12 +933,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage portlet state change
     boolean isStateChangeAuthorized = false;
-    String stateChange = eventParams.getPortletStateChange().getValue();
-    if (StateChange.readWrite.getValue().equalsIgnoreCase(stateChange)) {
+    String stateChange = eventParams.getPortletStateChange().value();
+    if (StateChange.READ_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("readWrite state change");
       // every modification is allowed on the portlet
       isStateChangeAuthorized = true;
-    } else if (StateChange.cloneBeforeWrite.getValue().equalsIgnoreCase(stateChange)) {
+    } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
       portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
                                                                          portletContext,
@@ -944,7 +946,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                          portletContext.getScheduledDestruction());
       // any modification will be made on the
       isStateChangeAuthorized = true;
-    } else if (StateChange.readOnly.getValue().equalsIgnoreCase(stateChange)) {
+    } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
       log.debug("readOnly state change");
       // if an attempt to change the state is done (means change the portlet
       // pref in JSR 168)
@@ -958,7 +960,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     List<HandleEventsFailed> failedEventsList = new ArrayList<HandleEventsFailed>();
 
-    Event[] events = eventParams.getEvents();
+    List<Event> events = eventParams.getEvents();
     List<javax.portlet.Event> nativeEventsList = JAXBEventTransformer.getEventsUnmarshal(events);
     List<javax.portlet.Event> resultNativeEventsList = new ArrayList<javax.portlet.Event>();
 
@@ -996,7 +998,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String navigationalState = null;
 
     Integer index = 0;
-    int eventsLength = events.length;
+    int eventsLength = events.size();
 
     // iteration over incoming javax events
     Iterator<javax.portlet.Event> nativeEventsListIterator = nativeEventsList.iterator();
@@ -1042,9 +1044,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
             + "' method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
         //        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
-        handleEventsFailed.setReason(new LocalizedString(e.getLocalizedMessage(), ""));// TODO
+        LocalizedString reason = new LocalizedString();
+        reason.setValue(e.getLocalizedMessage());
+        handleEventsFailed.setReason(reason);
         BigInteger indexBigInteger = new BigInteger(index.toString());
-        handleEventsFailed.setIndex(new BigInteger[] { indexBigInteger });
+        handleEventsFailed.getIndex().add(indexBigInteger);
         failedEventsList.add(handleEventsFailed);
         Exception2Fault.handleException(e);
       } finally {
@@ -1069,7 +1073,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     UpdateResponse updateResponse = new UpdateResponse();
-    updateResponse.setEvents(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
+    updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
     if (output.getNextMode() != null)
       updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
     if (output.getNextState() != null)
@@ -1084,7 +1088,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     //    }
     updateResponse.setMarkupContext(markupContext);
     updateResponse.setPortletContext(portletContext);
-    updateResponse.setExtensions(null);
+    updateResponse.getExtensions().clear();
 
     // get public parameters
     Map<String, String[]> publicParameters = new HashMap<String, String[]>();
@@ -1100,12 +1104,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // create navigational context
     NavigationalContext newNavigationalContext = new NavigationalContext();
     newNavigationalContext.setOpaqueValue(navigationalState);
-    newNavigationalContext.setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
+    newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));
     updateResponse.setNavigationalContext(navigationalContext);
 
     handleEventsResponse.setUpdateResponse(updateResponse);
     // converting failed events from list to array and set that
-    handleEventsResponse.setFailedEvents(failedEventsList.toArray(new HandleEventsFailed[failedEventsList.size()]));
+    handleEventsResponse.getFailedEvents().addAll(failedEventsList);
 
     return handleEventsResponse;
   }
@@ -1115,7 +1119,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                       UserContext userContext) throws RemoteException {
     if (!Helper.checkLifetime(registrationContext, userContext)
         || !Helper.checkPortletLifetime(registrationContext,
-                                        new PortletContext[] { portletContext },
+                                        Arrays.asList(new PortletContext[] { portletContext }),
                                         userContext,
                                         portletManagementOperationsInterface)) {
       Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
@@ -1129,12 +1133,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
-                                   String[] sessionIDs,
+                                   List<String> sessionIDs,
                                    UserContext userContext) throws RemoteException {
     checkRegistrationContext(registrationContext);
     checkLifetimeRegistrationForRegistration(registrationContext, userContext);
-    for (int i = 0; i < sessionIDs.length; i++) {
-      transientStateManager.releaseSession(sessionIDs[i]);
+    for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {
+      String name = iterator.next();
+      transientStateManager.releaseSession(name);
     }
     return new ReturnAny();
   }
@@ -1245,14 +1250,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return map;
   }
 
-  private String getMimeType(String[] mimeTypes, PortletData portletData) throws WSRPException {
-    if (mimeTypes == null || mimeTypes.length == 0) {
+  private String getMimeType(List<String> mimeTypes, PortletData portletData) throws WSRPException {
+    if (mimeTypes == null || mimeTypes.size() == 0) {
       log.debug("the given array of MimeTypes is empty or null");
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
     }
     List<Supports> l = portletData.getSupports();
-    for (int i = 0; i < mimeTypes.length; i++) {
-      String mimeType = mimeTypes[i];
+    for (String mimeType : mimeTypes) {
       for (Iterator<Supports> iterator = l.iterator(); iterator.hasNext();) {
         String supports = (iterator.next()).getMimeType();
         if (supports.equalsIgnoreCase(mimeType))

@@ -90,8 +90,16 @@
           <groupId>xerces</groupId>
           <artifactId>xerces</artifactId>
         </exclusion>
-      </exclusions> 
+      </exclusions>
     </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.ws</groupId>
+      <artifactId>exo.ws.soap.cxf.jsr181</artifactId>
+      <version>trunk</version>
+    </dependency>
+
+    <!-- END of eXo Deps -->
 
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -103,7 +111,7 @@
           <groupId>xerces</groupId>
           <artifactId>xercesImpl</artifactId>
         </exclusion>
-      </exclusions>      
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -127,13 +135,14 @@
     </dependency>
 
     <!-- ************************ soap ************************ -->
+    
     <!-- CXF dependencies -->
-         <dependency>
-            <groupId>org.apache.cxf</groupId>
-            <artifactId>cxf-tools-misctools</artifactId>
-            <version>2.1.2</version>
-         </dependency>
-         
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-tools-misctools</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+
     <dependency>
       <groupId>org.apache.cxf</groupId>
       <artifactId>cxf-rt-transports-http</artifactId>
@@ -175,25 +184,25 @@
       <version>6.1.9</version>
     </dependency>
 
-<!--
-    <dependency>
+    <!--
+      <dependency>
       <groupId>stax</groupId>
       <artifactId>stax-api</artifactId>
       <version>1.0</version>
-    </dependency>
--->
+      </dependency>
+    -->
     <dependency>
       <groupId>wsdl4j</groupId>
       <artifactId>wsdl4j</artifactId>
       <version>1.6.1</version>
     </dependency>
-<!--
-    <dependency>
+    <!--
+      <dependency>
       <groupId>jdom</groupId>
       <artifactId>jdom</artifactId>
       <version>1.0</version>
-    </dependency>
--->
+      </dependency>
+    -->
 
     <dependency>
       <groupId>commons-discovery</groupId>
@@ -221,8 +230,8 @@
 
   <build>
 
-<!--    <sourceDirectory>src/nosources</sourceDirectory>-->
-    <!--    <testSourceDirectory>src/notest</testSourceDirectory>-->
+    <!--    <sourceDirectory>src/nosources</sourceDirectory>-->
+    <testSourceDirectory>src/notest</testSourceDirectory>
 
     <resources>
       <resource>
@@ -238,9 +247,9 @@
         </includes>
       </resource>
     </resources>
-    
 
     <plugins>
+
 
       <plugin>
         <groupId>org.apache.cxf</groupId>
@@ -258,9 +267,9 @@
                   <extraargs>
                     <extraarg>-validate</extraarg>
                     <extraarg>-all</extraarg>
-<!--                    <extraarg>-client</extraarg> -->
-<!--                    <extraarg>-server</extraarg> -->
-                    <extraarg>-compile</extraarg> 
+                    <!--                    <extraarg>-client</extraarg> -->
+                    <!--                    <extraarg>-server</extraarg> -->
+                    <extraarg>-compile</extraarg>
                     <extraarg>-p</extraarg>
                     <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>
                     <extraarg>-p</extraarg>
@@ -269,12 +278,10 @@
                     <extraarg>urn:oasis:names:tc:wsrp:v2:bind=org.exoplatform.services.wsrp2.bind</extraarg>
                     <extraarg>-p</extraarg>
                     <extraarg>urn:oasis:names:tc:wsrp:v2:wsdl=org.exoplatform.services.wsrp2.wsdl</extraarg>
-<!--                    <extraarg>-sn</extraarg>-->
-<!--                    <extraarg>WSRPService</extraarg>-->
-<!--                    <extraarg>-nexclude</extraarg>-->
-<!--                    <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>-->
-                    <extraarg>-exsh</extraarg>
-                    <extraarg>true</extraarg>
+                    <!--                    <extraarg>-sn</extraarg>-->
+                    <!--                    <extraarg>WSRPService</extraarg>-->
+                    <!--                    <extraarg>-nexclude</extraarg>-->
+                    <!--                    <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>-->
                   </extraargs>
                 </wsdlOption>
               </wsdlOptions>
@@ -292,31 +299,31 @@
         <artifactId>maven-antrun-plugin</artifactId>
         <version>1.2-SNAPSHOT</version>
         <executions>
-<!--
-          <execution>
+          <!--
+            <execution>
             <id>1</id>
             <phase>generate-sources</phase>
             <configuration>
-              <tasks if="${settings.activeProxy.host}">
-                <echo>=== NON-PROXY ===</echo>
-                <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>
-                <mkdir dir="${src.gen.dir}" />
-                <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">
-                  <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />
-                  <classpath refid="maven.dependency.classpath" />
-                </java>
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
-              </tasks>
-              <sourceRoot>${src.gen.dir}</sourceRoot>
+            <tasks if="${settings.activeProxy.host}">
+            <echo>=== NON-PROXY ===</echo>
+            <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>
+            <mkdir dir="${src.gen.dir}" />
+            <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">
+            <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />
+            <classpath refid="maven.dependency.classpath" />
+            </java>
+            <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
+            <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
+            <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />
+            <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
+            </tasks>
+            <sourceRoot>${src.gen.dir}</sourceRoot>
             </configuration>
             <goals>
-              <goal>run</goal>
+            <goal>run</goal>
             </goals>
-          </execution>
--->
+            </execution>
+          -->
 
           <execution>
             <id>2</id>
@@ -394,9 +401,10 @@
               <goal>run</goal>
             </goals>
           </execution>
-          
+
         </executions>
       </plugin>
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -417,6 +425,7 @@
           </execution>
         </executions>
       </plugin>
+
 
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -442,7 +451,7 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
-<!--                        <include>**/SuiteForTestProducer.java</include>-->
+            <!--                        <include>**/SuiteForTestProducer.java</include>-->
             <!--            <include>**/SuiteForTestConsumer.java</include>-->
             <!--            <include>**/TestRegistrationInterface.java</include>-->
             <!-- include>**/Test*.java</include -->

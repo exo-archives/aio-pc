@@ -17,6 +17,9 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.WSRPBaseRequest;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.Extension;
@@ -39,14 +42,14 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
   // For NavigationalContext
   private String        navigationalState;
 
-  private NamedString[] navigationalValues;       //WSRP2
+  private List<NamedString> navigationalValues;       //WSRP2
 
   // For MimeRequest (There are MarkupParams and ResourceParams which extends MimeRequest)
   private boolean       secureClientCommunication; //WSRP2
 
-  private String[]      locales;
+  private List<String>      locales = new ArrayList<String>();
 
-  private String[]      mimeTypes;
+  private List<String>      mimeTypes = new ArrayList<String>();
 
   private String        mode;
 
@@ -54,15 +57,15 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   private ClientData    clientData;
 
-  private String[]      markupCharacterSets;      //modified
+  private List<String>      markupCharacterSets = new ArrayList<String>();      //modified
 
   private String        validateTag;              //WSRP2
 
-  private String[]      validNewModes;            //modified
+  private List<String>      validNewModes = new ArrayList<String>();            //modified
 
-  private String[]      validNewWindowStates;     //modified
+  private List<String>      validNewWindowStates = new ArrayList<String>();     //modified
 
-  private Extension[]   extensions;               //WSRP2
+  private List<Extension>   extensions;               //WSRP2
 
   // UNKNOWN
   private String        userAuthentication;
@@ -115,43 +118,43 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
     this.clientData = clientData;
   }
 
-  public String[] getLocales() {
+  public List<String> getLocales() {
     return locales;
   }
 
-  public void setLocales(String[] locales) {
+  public void setLocales(List<String> locales) {
     this.locales = locales;
   }
 
-  public String[] getValidNewModes() {
+  public List<String> getValidNewModes() {
     return validNewModes;
   }
 
-  public void setValidNewModes(String[] validNewModes) {
+  public void setValidNewModes(List<String> validNewModes) {
     this.validNewModes = validNewModes;
   }
 
-  public String[] getValidNewWindowStates() {
+  public List<String> getValidNewWindowStates() {
     return validNewWindowStates;
   }
 
-  public void setValidNewWindowStates(String[] validNewWindowStates) {
+  public void setValidNewWindowStates(List<String> validNewWindowStates) {
     this.validNewWindowStates = validNewWindowStates;
   }
 
-  public String[] getMimeTypes() {
+  public List<String> getMimeTypes() {
     return mimeTypes;
   }
 
-  public void setMimeTypes(String[] mimeTypes) {
+  public void setMimeTypes(List<String> mimeTypes) {
     this.mimeTypes = mimeTypes;
   }
 
-  public String[] getMarkupCharacterSets() {
+  public List<String> getMarkupCharacterSets() {
     return markupCharacterSets;
   }
 
-  public void setMarkupCharacterSets(String[] markupCharacterSets) {
+  public void setMarkupCharacterSets(List<String> markupCharacterSets) {
     this.markupCharacterSets = markupCharacterSets;
   }
 
@@ -159,35 +162,25 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
     if (wsrpMode == null) {
       throw new IllegalArgumentException("mode must not be null");
     }
-    String[] mods = getValidNewModes();
-    for (int i = 0; i < mods.length; i++) {
-      if (wsrpMode.equalsIgnoreCase(mods[i])) {
-        return true;
-      }
-    }
-    return false;
+    List<String> mods = getValidNewModes();
+    return mods.contains(wsrpMode);
   }
 
   public boolean isWindowStateSupported(String wsrpWindowState) {
     if (wsrpWindowState == null) {
       throw new IllegalArgumentException("window state must not be null");
     }
-    String[] stats = getValidNewWindowStates();
-    for (int i = 0; i < stats.length; i++) {
-      if (wsrpWindowState.equalsIgnoreCase(stats[i])) {
-        return true;
-      }
-    }
-    return false;
+    List<String> stats = getValidNewWindowStates();
+    return stats.contains(wsrpWindowState);
   }
 
   // WSRP2
 
-  public NamedString[] getNavigationalValues() {
+  public List<NamedString> getNavigationalValues() {
     return navigationalValues;
   }
 
-  public void setNavigationalValues(NamedString[] navigationalValues) {
+  public void setNavigationalValues(List<NamedString> navigationalValues) {
     this.navigationalValues = navigationalValues;
   }
 
@@ -199,11 +192,11 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
     this.validateTag = validateTag;
   }
 
-  public Extension[] getExtensions() {
+  public List<Extension> getExtensions() {
     return extensions;
   }
 
-  public void setExtensions(Extension[] extensions) {
+  public void setExtensions(List<Extension> extensions) {
     this.extensions = extensions;
   }
 

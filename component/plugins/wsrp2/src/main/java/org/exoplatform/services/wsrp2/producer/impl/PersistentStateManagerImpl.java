@@ -20,8 +20,12 @@ package org.exoplatform.services.wsrp2.producer.impl;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
+
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.cache.CacheService;
@@ -406,7 +410,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         return null;
       }
       Lifetime lf = (Lifetime) sD.getDataObject();
-      lf.setCurrentTime(Calendar.getInstance());
+      lf.setCurrentTime(DatatypeFactory.newInstance().newXMLGregorianCalendar());
       return lf;
     } catch (Exception e) {
       log.error("Can not extract Registration Lifetime from persistent store", e);

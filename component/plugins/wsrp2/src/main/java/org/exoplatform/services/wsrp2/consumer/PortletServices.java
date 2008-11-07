@@ -1,7 +1,7 @@
 package org.exoplatform.services.wsrp2.consumer;
 
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
 
 /**
  * WSRP portlet services are all wsrp service interfaces which are session
@@ -21,7 +21,7 @@ public interface PortletServices {
    * @param portletManagementPortType Port type object which describes the
    *          operations of the producers portlet mamagement service endpoint
    */
-  public void setWSRPPortletManagementService(WSRP_v2_PortletManagement_PortType portletManagementPortType);
+  public void setWSRPPortletManagementService(WSRPV2PortletManagementPortType portletManagementPortType);
 
   /**
    * Get a port type object describing the operations of a produces portlet
@@ -29,7 +29,7 @@ public interface PortletServices {
    * 
    * @return Portlet management port type object
    */
-  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService();
+  public WSRPV2PortletManagementPortType getWSRPPortletManagementService();
 
   /**
    * Set the portType object of the markup service.
@@ -37,7 +37,7 @@ public interface PortletServices {
    * @param markupPortType Port type object which describes the operations of
    *          the producers markup service endpoint
    */
-  public void setWSRPMarkupService(WSRP_v2_Markup_PortType markupPortType);
+  public void setWSRPMarkupService(WSRPV2MarkupPortType markupPortType);
 
   /**
    * Get a port type object describing the operations of a produces markup
@@ -45,7 +45,7 @@ public interface PortletServices {
    * 
    * @return Markup port type object
    */
-  public WSRP_v2_Markup_PortType getWSRPMarkupService();
+  public WSRPV2MarkupPortType getWSRPMarkupService();
 
   /**
    * Get the URL of the producers markup and portlet management service

@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.ResourceContext;
 import org.exoplatform.services.wsrp2.type.StateChange;
@@ -31,11 +33,11 @@ public interface WSRPResourceRequest extends WSRPBaseRequest {
 
   public String getResourceState();
 
-  public NamedString[] getFormParameters();
+  public List<NamedString> getFormParameters();
 
   public String getResourceID();
 
-  public UploadContext[] getUploadContexts();
+  public List<UploadContext> getUploadContexts();
 
   public StateChange getPortletStateChange();
 

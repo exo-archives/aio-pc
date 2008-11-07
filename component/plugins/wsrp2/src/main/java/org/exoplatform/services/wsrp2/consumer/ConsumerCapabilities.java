@@ -1,5 +1,7 @@
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.StateChange;
 
 /**
@@ -31,7 +33,7 @@ public interface ConsumerCapabilities {
    * @return Array with string representations of the locales which are
    *         supported by the consumer
    */
-  public String[] getSupportedLocales();
+  public List<String> getSupportedLocales();
 
   /**
    * Get the portlet modes the consumer is willing to manage.
@@ -39,7 +41,7 @@ public interface ConsumerCapabilities {
    * @return Array with string representations of the portlet modes which are
    *         supported by the consumer
    */
-  public String[] getSupportedModes();
+  public List<String> getSupportedModes();
 
   /**
    * Get the window states the consumer is willing to manage.
@@ -47,7 +49,7 @@ public interface ConsumerCapabilities {
    * @return Array with string representations of the window states which are
    *         supported by the consumer
    */
-  public String[] getSupportedWindowStates();
+  public List<String> getSupportedWindowStates();
 
   /**
    * Returns a flag which is used to indicate the producer wether or not the
@@ -64,7 +66,7 @@ public interface ConsumerCapabilities {
    * 
    * @return Array of string representations of the character encoding.
    */
-  public String[] getCharacterEncodingSet();
+  public List<String> getCharacterEncodingSet();
 
   /**
    * Get an array of mime types which are supported by the consumer. The order
@@ -72,7 +74,7 @@ public interface ConsumerCapabilities {
    * 
    * @return An array of mimes types the consumer supports.
    */
-  public String[] getMimeTypes();
+  public List<String> getMimeTypes();
 
   /**
    * Set the name of the consumer
@@ -90,7 +92,7 @@ public interface ConsumerCapabilities {
    * Set the mime types the consumer supports The order in the array defines the
    * order of preference of the consumer.
    */
-  public void setMimeTypes(String[] mimeTypes);
+  public void setMimeTypes(List<String> mimeTypes);
 
   /**
    * Set the locales which are supported by the consumer. Pattern: ISO-639 + "_" +
@@ -98,19 +100,19 @@ public interface ConsumerCapabilities {
    * 
    * @param locales Array of string representations of supported locales
    */
-  public void setSupportedLocales(String[] locales);
+  public void setSupportedLocales(List<String> locales);
 
   /**
    * Set the portlet modes which are supported by the consumer.
    * 
    * @param modes Array of string representations of portlet modes
    */
-  public void setSupportedModes(String[] modes);
+  public void setSupportedModes(List<String> modes);
 
   /**
    * Set the window states which are supported by the consumer.
    */
-  public void setSupportedWindowStates(String[] states);
+  public void setSupportedWindowStates(List<String> states);
 
   /**
    * Set a flag which is used to indicate the producer wether or not the
@@ -129,6 +131,6 @@ public interface ConsumerCapabilities {
    * @param charEncoding Array of string representations of the character
    *          encoding.
    */
-  public void setCharacterEncodingSet(String[] charEncoding);
+  public void setCharacterEncodingSet(List<String> charEncoding);
 
 }

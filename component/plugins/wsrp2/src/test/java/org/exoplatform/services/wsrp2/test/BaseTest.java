@@ -37,10 +37,10 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRPv2MarkupPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPv2PortletManagementPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPv2RegistrationPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPv2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.EventParams;
@@ -66,7 +66,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
-import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
+//import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
@@ -101,13 +101,13 @@ public class BaseTest extends TestCase {
 
   protected Collection                          roles;
 
-  protected WSRP_v2_ServiceDescription_PortType serviceDescriptionInterface;
+  protected WSRPv2ServiceDescriptionPortType serviceDescriptionInterface;
 
-  protected WSRP_v2_Registration_PortType       registrationOperationsInterface;
+  protected WSRPv2RegistrationPortType       registrationOperationsInterface;
 
-  protected WSRP_v2_Markup_PortType             markupOperationsInterface;
+  protected WSRPv2MarkupPortType             markupOperationsInterface;
 
-  protected WSRP_v2_PortletManagement_PortType  portletManagementOperationsInterface;
+  protected WSRPv2PortletManagementPortType  portletManagementOperationsInterface;
 
   protected PersonName                          personName;
 

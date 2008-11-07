@@ -104,6 +104,7 @@ import org.exoplatform.services.wsrp2.consumer.portlets.WSRPAdminPortletDataImp;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.EventDescription;
@@ -115,6 +116,7 @@ import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MarkupType;
 import org.exoplatform.services.wsrp2.type.MimeResponse;
 import org.exoplatform.services.wsrp2.type.NamedString;
+import org.exoplatform.services.wsrp2.type.NamedStringArray;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.ParameterDescription;
 import org.exoplatform.services.wsrp2.type.PersonName;
@@ -141,11 +143,11 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
-  private static final String[]     characterEncodings = { "UTF-8" };
+  private static final List<String> characterEncodings = new ArrayList<String>(); // = { "UTF-8" };
 
-  private static final String[]     mimeTypes          = { "text/html", "text/wml" };
+  private static final List<String> mimeTypes          = new ArrayList<String>(); //= { "text/html", "text/wml" };
 
-  public static final String[]      SUPPORTED_LOCALES  = { "en", "fr" };
+  public static final List<String>  SUPPORTED_LOCALES  = new ArrayList<String>(); //= { "en", "fr" };
 
   private static final String       consumerAgent      = "exoplatform.3.0";
 
@@ -225,13 +227,14 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     consumer.setCharacterEncodingSet(characterEncodings);
     consumer.setConsumerAgent(consumerAgent);
     consumer.setMimeTypes(mimeTypes);
-    consumer.setPortletStateChange(StateChange.readWrite);
+    consumer.setPortletStateChange(StateChange.READ_WRITE);
     // TODO modes and states should be getting from producer
     //
     // consumer.setSupportedModes(getPortletModes(Collections.list(pcConf.getSupportedPortletModes())));
-    consumer.setSupportedModes(getPortletModes(pcService.getSupportedPortletModes()));
+    consumer.getSupportedModes().addAll(getPortletModes(pcService.getSupportedPortletModes()));
     // consumer.setSupportedWindowStates(getWindowStates(Collections.list(pcConf.getSupportedWindowStates())));
-    consumer.setSupportedWindowStates(getWindowStates(pcService.getSupportedWindowStates()));
+    consumer.getSupportedWindowStates()
+            .addAll(getWindowStates(pcService.getSupportedWindowStates()));
     consumer.setUserAuthentication(WSRPConstants.NO_USER_AUTHENTIFICATION);
     consumer.setSupportedLocales(SUPPORTED_LOCALES);
     // Create WSRPAdminPortlet
@@ -239,23 +242,23 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     init = true;
   }
 
-  private String[] getPortletModes(Collection<PortletMode> supportedPortletModes) {
-    String[] array = new String[supportedPortletModes.size()];
+  private List<String> getPortletModes(Collection<PortletMode> supportedPortletModes) {
+    List<String> array = new ArrayList<String>();
     int i = 0;
     for (Iterator<PortletMode> iterator = supportedPortletModes.iterator(); iterator.hasNext(); i++) {
       PortletMode portletMode = iterator.next();
-      array[i] = portletMode.toString();
+      array.add(portletMode.toString());
       // was: array[i] = WSRPConstants.WSRP_PREFIX + portletMode.toString();
     }
     return array;
   }
 
-  private String[] getWindowStates(Collection<WindowState> supportedWindowStates) {
-    String[] array = new String[supportedWindowStates.size()];
+  private List<String> getWindowStates(Collection<WindowState> supportedWindowStates) {
+    List<String> array = new ArrayList<String>();
     int i = 0;
     for (Iterator<WindowState> iterator = supportedWindowStates.iterator(); iterator.hasNext(); i++) {
       WindowState windowState = iterator.next();
-      array[i] = windowState.toString();
+      array.add(windowState.toString());
       // was: array[i] = WSRPConstants.WSRP_PREFIX + windowState.toString();
     }
     return array;
@@ -273,10 +276,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       try {
         ServiceDescription desc = producer.getServiceDescription();
         result = new ArrayList<PortletMode>();
-        org.exoplatform.services.wsrp2.type.ItemDescription[] iDArray = desc.getCustomModeDescriptions();
+        List<ItemDescription> iDArray = desc.getCustomModeDescriptions();
         if (iDArray != null) {
-          for (int j = 0; j < iDArray.length; j++) {
-            ItemDescription iD = iDArray[j];
+          for (ItemDescription iD : iDArray) {
             String mode = iD.getItemName();
             if (!result.contains(mode)) {
               result.add(new PortletMode(mode));
@@ -302,10 +304,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       try {
         ServiceDescription desc = producer.getServiceDescription();
         result = new ArrayList<WindowState>();
-        ItemDescription[] iDArray = desc.getCustomWindowStateDescriptions();
+        List<ItemDescription> iDArray = desc.getCustomWindowStateDescriptions();
         if (iDArray != null) {
-          for (int j = 0; j < iDArray.length; j++) {
-            ItemDescription iD = iDArray[j];
+          for (ItemDescription iD : iDArray) {
             String state = iD.getItemName();
             if (!result.contains(state)) {
               result.add(new WindowState(state));
@@ -341,19 +342,17 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         try {
           ServiceDescription sD = producer.getServiceDescription();
           result = new ArrayList<PortletMode>();
-          PortletDescription[] portletDescriptions = sD.getOfferedPortlets();
+          List<PortletDescription> portletDescriptions = sD.getOfferedPortlets();
           if (portletDescriptions != null) {
-            for (int k = 0; k < portletDescriptions.length; k++) {
-              PortletDescription portletDescription = portletDescriptions[k];
+            for (PortletDescription portletDescription : portletDescriptions) {
               String portletHandleTemp = portletDescription.getPortletHandle();
               if (portletHandleTemp.equalsIgnoreCase(portletHandle)) {
-                MarkupType[] markupType = portletDescription.getMarkupTypes();
-                for (int j = 0; j < markupType.length; j++) {
-                  MarkupType type = markupType[j];
+                List<MarkupType> markupType = portletDescription.getMarkupTypes();
+                for (MarkupType type : markupType) {
                   if (type.getMimeType().equalsIgnoreCase(markup)) {
-                    String[] result_in_array = type.getModes();
-                    for (int m = 0; m < result_in_array.length; m++) {
-                      result.add(Modes.getJsrPortletMode(result_in_array[m]));
+                    List<String> result_in_array = type.getModes();
+                    for (String string : result_in_array) {
+                      result.add(Modes.getJsrPortletMode(string));
                     }
                   }
                 }
@@ -389,13 +388,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       if (producer.getID().equalsIgnoreCase(producerID)) {
         try {
           ServiceDescription sD = producer.getServiceDescription();
-          PortletDescription[] portletDescriptions = sD.getOfferedPortlets();
+          List<PortletDescription> portletDescriptions = sD.getOfferedPortlets();
           if (portletDescriptions != null) {
-            for (int iPD = 0; iPD < portletDescriptions.length; iPD++) {
-              PortletDescription portletDescription = portletDescriptions[iPD];
+            for (PortletDescription portletDescription : portletDescriptions) {
               if (portletDescription.getPortletHandle().equalsIgnoreCase(portletAppName
                   + Constants.PORTLET_HANDLE_ENCODER + portletName)) {
-                return portletDescription.getPortletManagedModes();
+                return portletDescription.getPortletManagedModes().toArray(new String[] {});
               }
             }
           }
@@ -453,19 +451,17 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         try {
           ServiceDescription sD = producer.getServiceDescription();
           result = new ArrayList<WindowState>();
-          PortletDescription[] portletDescriptions = sD.getOfferedPortlets();
+          List<PortletDescription> portletDescriptions = sD.getOfferedPortlets();
           if (portletDescriptions != null) {
-            for (int k = 0; k < portletDescriptions.length; k++) {
-              PortletDescription portletDescription = portletDescriptions[k];
+            for (PortletDescription portletDescription : portletDescriptions) {
               String portletHandleTemp = portletDescription.getPortletHandle();
               if (portletHandleTemp.equalsIgnoreCase(portletHandle)) {
-                MarkupType[] markupType = portletDescription.getMarkupTypes();
-                for (int j = 0; j < markupType.length; j++) {
-                  MarkupType type = markupType[j];
+                List<MarkupType> markupType = portletDescription.getMarkupTypes();
+                for (MarkupType type : markupType) {
                   if (type.getMimeType().equalsIgnoreCase(markup)) {
-                    String[] result_in_array = type.getWindowStates();
-                    for (int m = 0; m < result_in_array.length; m++) {
-                      result.add(WindowStates.getJsrWindowState(result_in_array[m]));
+                    List<String> result_in_array = type.getWindowStates();
+                    for (String string : result_in_array) {
+                      result.add(WindowStates.getJsrWindowState(string));
                     }
                   }
                 }
@@ -491,7 +487,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return false;
   }
 
-  public boolean isEventPayloadTypeMatches(String portletAppName, QName eventName, Serializable payload) {
+  public boolean isEventPayloadTypeMatches(String portletAppName,
+                                           QName eventName,
+                                           Serializable payload) {
     // consumer.getProducerRegistry().
 
     Producer producer = getProducer(getProducerID(portletAppName));
@@ -505,13 +503,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     if (sd == null)
       return false;
     if (sd != null) {
-      EventDescription[] eds = sd.getEventDescriptions();
+      List<EventDescription> eds = sd.getEventDescriptions();
       if (eds != null) {
         for (EventDescription ed : eds) {
           // if this name doesn't present in getName or getAliases then continue to next iteration
           if (!(ed.getName() != null && ed.getName().equals(eventName))
-              && !(ed.getAliases() != null && Utils.getQNameList(ed.getAliases())
-                                                   .contains(eventName)))
+              && !(ed.getAliases() != null && ed.getAliases().contains(eventName)))
             continue;
           // caught appropriate event
           if (ed.getType() == null)
@@ -546,10 +543,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       try {
         ServiceDescription desc = producer.getServiceDescription();
         producerId = producer.getID();
-        PortletDescription[] portletDescriptions = desc.getOfferedPortlets();
+        List<PortletDescription> portletDescriptions = desc.getOfferedPortlets();
         if (portletDescriptions != null) {
-          for (int k = 0; k < portletDescriptions.length; k++) {
-            PortletDescription portletDescription = portletDescriptions[k];
+          for (PortletDescription portletDescription : portletDescriptions) {
             portletHandle = portletDescription.getPortletHandle();
             // Create new Portlet remote instance
             // TODO
@@ -567,8 +563,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               for (MarkupType markupType : portletDescription.getMarkupTypes()) {
                 Supports supports = new Supports();
                 supports.setMimeType(markupType.getMimeType());
-                supports.setPortletMode(Arrays.asList(markupType.getModes()));
-                supports.setWindowState(Arrays.asList(markupType.getWindowStates()));
+                supports.getPortletMode().addAll(markupType.getModes());
+                supports.getWindowState().addAll(markupType.getWindowStates());
                 portlet.addSupports(supports);
               }
             }
@@ -632,7 +628,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                  Utils.getStringFromLocalizedString(pd.getShortTitle()));
       if (pd.getKeywords() != null) {
         bundle.add(ResourceBundleManager.KEYWORDS,
-                   Utils.getStringFromLocalizedString(pd.getKeywords()[0]));
+                   Utils.getStringFromLocalizedString(pd.getKeywords().get(0)));
       } else {
         bundle.add(ResourceBundleManager.KEYWORDS, null);
       }
@@ -791,7 +787,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
 
       // process public params from array of NamedString to plain string
-      NamedString[] namedStrings = navigationalContext.getPublicValues();
+      List<NamedString> namedStrings = navigationalContext.getPublicValues();
       String navigationalValues = "";
       if (namedStrings != null) {
         for (NamedString namedString : namedStrings) {
@@ -1149,9 +1145,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   }
 
   // Store only parameters without the "wsrp-" prefix
-  private NamedString[] getRenderParametersAsNamedString(Input input) {
+  private List<NamedString> getRenderParametersAsNamedString(Input input) {
     Map<String, String[]> params = input.getRenderParameters();
-    return Utils.getNamedStringArrayParametersFromMap(params, true);
+    return Utils.getNamedStringListParametersFromMap(params, true);
   }
 
   private void fillMimeRequest(WSRPBaseRequestAdapter baseRequest,
@@ -1166,14 +1162,13 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       for (Locale locale : locales) {
         localesStrings.add(locale.toString());
       }
-      baseRequest.setLocales(localesStrings.toArray(new String[input.getLocales().size()]));
+      baseRequest.getLocales().addAll(localesStrings);
     } else {
       baseRequest.setLocales(SUPPORTED_LOCALES);//new String[]{Locale.getDefault().getDisplayLanguage()});
     }
 
-    Collection<String> supportedContent = pcConf.getSupportedContent();
-    String[] mimeTypes = supportedContent.toArray(new String[supportedContent.size()]);
-    baseRequest.setMimeTypes(mimeTypes);
+    Collection<String> mimeTypes = pcConf.getSupportedContent();
+    baseRequest.getMimeTypes().addAll(mimeTypes);
 
     baseRequest.setMode(Modes.getWSRPModeString(input.getPortletMode()));
     baseRequest.setValidNewModes(null);
@@ -1190,7 +1185,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     // Rewrite public params when they are present in input
     if (input.getPublicParameterMap() != null)
-      baseRequest.setNavigationalValues(Utils.getNamedStringArrayParametersFromMap(input.getPublicParameterMap()));
+      baseRequest.setNavigationalValues(Utils.getNamedStringListParametersFromMap(input.getPublicParameterMap()));
 
     // For RuntimeContext
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();
@@ -1204,7 +1199,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     ClientData clientData = new ClientData();
     clientData.setUserAgent(userAgent);
     clientData.setCcppHeaders(null);
-    clientData.setClientAttributes(null);
+    clientData.getClientAttributes().addAll(null);
     clientData.setRequestVerb(null);
     return clientData;
   }
@@ -1225,8 +1220,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return portletWindowSession.getNavigationalState();
   }
 
-  private NamedString[] getNavigationalValues(Input input, PortletWindowSession portletWindowSession) {
-    NamedString[] resultArray = null;
+  private List<NamedString> getNavigationalValues(Input input,
+                                                  PortletWindowSession portletWindowSession) {
+    List<NamedString> resultArray = null;
 
     if (input.getRenderParameters() != null
         && input.getRenderParameters().get(WSRPConstants.WSRP_NAVIGATIONAL_VALUES) != null) {
@@ -1241,19 +1237,20 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         }
         if (parameterNavigationalValuesDec != null) {
           String[] navigationalValues = parameterNavigationalValuesDec.split(WSRPConstants.NEXT_PARAM);
-          // from String[] to NamedString[] converting navigational values
+          // from String[] to List<NamedString> converting navigational values
           if (navigationalValues != null) {
             List<NamedString> navigationalValuesList = new ArrayList<NamedString>(navigationalValues.length);
             for (String navigationalValue : navigationalValues) {
-              navigationalValuesList.add(new NamedString(navigationalValue, null));
+              navigationalValuesList.add(new NamedStringWrapper(navigationalValue, null));
             }
-            resultArray = navigationalValuesList.toArray(new NamedString[navigationalValues.length]);
+            resultArray = navigationalValuesList;
           }
         }
       }
     }
     if (resultArray != null) {
-      log.debug("user navigational values : " + resultArray);
+      if (log.isDebugEnabled())
+        log.debug("user navigational values : " + resultArray);
       portletWindowSession.setNavigationalValues(resultArray);
     } else {
       log.debug("Navigational values are null");
@@ -1311,7 +1308,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   // Below changes of WSRP2 spec
 
-  private Collection<PortletMode> getPortletModesFromStrings(String[] validNewModes) {
+  private Collection<PortletMode> getPortletModesFromStrings(List<String> validNewModes) {
     if (validNewModes == null)
       return null;
     Collection<PortletMode> portletModes = new ArrayList<PortletMode>();
@@ -1632,7 +1629,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                              PortletWindowSession portletWindowSession) {
     WSRPEventsRequestAdapter eventRequest = new WSRPEventsRequestAdapter();
     fillMimeRequest(eventRequest, input, portletWindowSession);
-    eventRequest.setEvents(JAXBEventTransformer.getEventsMarshal(input.getEvent()));
+    eventRequest.getEvents().add(JAXBEventTransformer.getEventMarshal(input.getEvent()));
     return eventRequest;
   }
 
@@ -1660,20 +1657,17 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         e.printStackTrace();
       }
       producerId = producer.getID();
-      PortletDescription[] portletDescriptions = desc.getOfferedPortlets();
-      if (portletDescriptions != null) {
-        for (int k = 0; k < portletDescriptions.length; k++) {
-          PortletDescription portletDescription = portletDescriptions[k];
-          portletHandle = portletDescription.getPortletHandle();
-          if (StringUtils.split(portletHandle, "/").length == 1) {
-            portletHandle = "unnamed" + "/" + portletHandle;
-          }
-          String newPortletHandle = producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER
-              + portletHandle;
-          String[] ss = StringUtils.split(newPortletHandle, "/");
-          String portletAppName = ss[0];
-          result.add(portletAppName);
+      List<PortletDescription> portletDescriptions = desc.getOfferedPortlets();
+      for (PortletDescription portletDescription : portletDescriptions) {
+        portletHandle = portletDescription.getPortletHandle();
+        if (StringUtils.split(portletHandle, "/").length == 1) {
+          portletHandle = "unnamed" + "/" + portletHandle;
         }
+        String newPortletHandle = producerId + WSRPConstants.WSRP_PRODUCER_APP_ENCODER
+            + portletHandle;
+        String[] ss = StringUtils.split(newPortletHandle, "/");
+        String portletAppName = ss[0];
+        result.add(portletAppName);
       }
     }
     return result;

@@ -40,13 +40,14 @@ public class WSRPConfiguration {
 
   private boolean                 savePortletStateOnConsumer;
 
-  private List<String>            excludeList        = null;
+  private List<String>            excludeList        = new ArrayList<String>();
 
-  private HashMap<String, String> adminPortletParams = null;
+  private HashMap<String, String> adminPortletParams = new HashMap<String, String>();
 
   private final Log               log;
 
   public WSRPConfiguration(InitParams params) {
+    System.out.println(">>> EXOMAN WSRPConfiguration.WSRPConfiguration() 1 = " + 1);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     PropertiesParam param = params.getPropertiesParam("wsrp-conf");
     init(param.getProperties());

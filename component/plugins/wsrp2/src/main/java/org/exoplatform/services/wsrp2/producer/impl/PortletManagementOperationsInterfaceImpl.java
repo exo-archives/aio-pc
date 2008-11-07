@@ -21,6 +21,7 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
@@ -131,7 +132,7 @@ public class PortletManagementOperationsInterfaceImpl implements
                                            UserContext toUserContext,
                                            RegistrationContext fromRegistrationContext,
                                            UserContext fromUserContext,
-                                           PortletContext[] fromPortletContexts,
+                                           List<PortletContext> fromPortletContexts,
                                            Lifetime lifetime) throws RemoteException {
 
     // TODO verify the userContext content
@@ -142,15 +143,14 @@ public class PortletManagementOperationsInterfaceImpl implements
     Collection<CopiedPortlet> copiedPortlets = new ArrayList<CopiedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
-    for (int i = 0; i < fromPortletContexts.length; i++) {
-
-      String portletHandle = fromPortletContexts[i].getPortletHandle();
+    for (PortletContext fromPortletContext : fromPortletContexts) {
+      String portletHandle = fromPortletContext.getPortletHandle();
       String newPortletHandle = null;
 
       try {
 
         PropertyList list = getPortletProperties(fromRegistrationContext,
-                                                 fromPortletContexts[i],
+                                                 fromPortletContext,
                                                  fromUserContext,
                                                  null);
         newPortletHandle = createNewPortletHandle(portletHandle);
@@ -160,7 +160,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         if (lifetime != null)
           newPortletContext.setScheduledDestruction(lifetime);
 
-        newPortletContext.setPortletState(fromPortletContexts[i].getPortletState());
+        newPortletContext.setPortletState(fromPortletContext.getPortletState());
 
         CopiedPortlet copiedPortlet = new CopiedPortlet();
         copiedPortlet.setNewPortletContext(newPortletContext);
@@ -184,19 +184,16 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     }
 
-    CopiedPortlet[] arrayCopied = (CopiedPortlet[]) copiedPortlets.toArray(new CopiedPortlet[copiedPortlets.size()]);
-    FailedPortlets[] arrayFailed = (FailedPortlets[]) failedPortlets.toArray(new FailedPortlets[failedPortlets.size()]);
-
     CopyPortletsResponse copyPortletsResponse = new CopyPortletsResponse();
-    copyPortletsResponse.setCopiedPortlets(arrayCopied);
-    copyPortletsResponse.setFailedPortlets(arrayFailed);
+    copyPortletsResponse.getCopiedPortlets().addAll(copiedPortlets);
+    copyPortletsResponse.getFailedPortlets().addAll(failedPortlets);
 
     return copyPortletsResponse;
 
   }
 
   public ExportPortletsResponse exportPortlets(RegistrationContext registrationContext,
-                                               PortletContext[] portletContexts,
+                                               List<PortletContext> portletContexts,
                                                UserContext userContext,
                                                Lifetime lifetime,
                                                boolean exportByValueRequired) throws RemoteException {
@@ -212,9 +209,7 @@ public class PortletManagementOperationsInterfaceImpl implements
       Exception2Fault.handleException(new WSRPException(Faults.EXPORT_BY_VALUE_NOT_SUPPORTED_FAULT));
     }
 
-    for (int i = 0; i < portletContexts.length; i++) {
-
-      PortletContext portContext = portletContexts[i];
+    for (PortletContext portContext : portletContexts) {
       try {
 
         byte[] exportData = portContext.getPortletState();
@@ -240,17 +235,15 @@ public class PortletManagementOperationsInterfaceImpl implements
     if (lifetime != null)
       exportPortletsResponse.setLifetime(lifetime);
 
-    ExportedPortlet[] arrayExported = (ExportedPortlet[]) exportedPortlets.toArray(new ExportedPortlet[exportedPortlets.size()]);
-    FailedPortlets[] arrayFailed = (FailedPortlets[]) failedPortlets.toArray(new FailedPortlets[failedPortlets.size()]);
-    exportPortletsResponse.setExportedPortlet(arrayExported);
-    exportPortletsResponse.setFailedPortlets(arrayFailed);
+    exportPortletsResponse.getExportedPortlet().addAll(exportedPortlets);
+    exportPortletsResponse.getFailedPortlets().addAll(failedPortlets);
     return exportPortletsResponse;
 
   }
 
   public ImportPortletsResponse importPortlets(RegistrationContext registrationContext,
                                                byte[] importContext,
-                                               ImportPortlet[] importPortlets,
+                                               List<ImportPortlet> importPortlets,
                                                UserContext userContext,
                                                Lifetime lifetime)
 
@@ -262,9 +255,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     Collection<ImportPortlet> importedPortlets = new ArrayList<ImportPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
-    for (int i = 0; i < importPortlets.length; i++) {
-
-      ImportPortlet importPortlet = importPortlets[i];
+    for (ImportPortlet importPortlet : importPortlets) {
 
       try {
         // PortletHandle portletHandle = importPortlet.
@@ -309,7 +300,7 @@ public class PortletManagementOperationsInterfaceImpl implements
   }
 
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
-                                                 String[] portletHandles,
+                                                 List<String> portletHandles,
                                                  UserContext userContext) throws RemoteException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
@@ -319,8 +310,7 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     Collection<FailedPortlets> fails = new ArrayList<FailedPortlets>();
 
-    for (int i = 0; i < portletHandles.length; i++) {
-      String portletHandle = portletHandles[i];
+    for (String portletHandle : portletHandles) {
       try {
         if (stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
           log.debug("Destroy a consumer configured portlet : " + portletHandle);
@@ -328,9 +318,10 @@ public class PortletManagementOperationsInterfaceImpl implements
         } else {
           log.debug("Can't destroy a portlet that did not exist : " + portletHandle);
           FailedPortlets failedPortlets = new FailedPortlets();
-          failedPortlets.setPortletHandles(new String[] { portletHandle });
-          failedPortlets.setReason(new LocalizedString("Can't destroy a portlet that did not exist",
-                                                       ""));
+          failedPortlets.getPortletHandles().add(portletHandle);
+          LocalizedString reason = new LocalizedString();
+          reason.setValue("Can't destroy a portlet that did not exist");
+          failedPortlets.setReason(reason);
           fails.add(failedPortlets);
         }
       } catch (WSRPException e) {
@@ -340,14 +331,12 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
     // Convert from Collection<FailedPortlets> to array FailedPortlets[]
-    FailedPortlets[] array = (FailedPortlets[]) fails.toArray(new FailedPortlets[fails.size()]);
-    if (array != null)
-      response.setFailedPortlets(array);
+    response.getFailedPortlets().addAll(fails);
     return response;
   }
 
   public GetPortletsLifetimeResponse getPortletsLifetime(RegistrationContext registrationContext,
-                                                         PortletContext[] portletContexts,
+                                                         List<PortletContext> portletContexts,
                                                          UserContext userContext) throws RemoteException {
 
     // TODO verify the userContext content
@@ -359,8 +348,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
-    for (int i = 0; i < portletContexts.length; i++) {
-      PortletContext portletContext = portletContexts[i];
+    for (PortletContext portletContext : portletContexts) {
       String portletHandle = portletContext.getPortletHandle();
       try {
         Lifetime lifetimeResult = stateManager.getPortletLifetime(portletHandle);
@@ -373,19 +361,16 @@ public class PortletManagementOperationsInterfaceImpl implements
         failedPortlets.add(fPortlet);
       }
     }
-    
-    PortletLifetime[] arrayLifetime = (PortletLifetime[]) portletLifetimes.toArray(new PortletLifetime[portletLifetimes.size()]);
-    FailedPortlets[] arrayFailed = (FailedPortlets[]) failedPortlets.toArray(new FailedPortlets[failedPortlets.size()]);
-    
+
     GetPortletsLifetimeResponse lfResponse = new GetPortletsLifetimeResponse();
-    lfResponse.setFailedPortlets(arrayFailed);
-    lfResponse.setPortletLifetime(arrayLifetime);
+    lfResponse.getFailedPortlets().addAll(failedPortlets);
+    lfResponse.getPortletLifetime().addAll(portletLifetimes);
     return lfResponse;
 
   }
 
   public SetPortletsLifetimeResponse setPortletsLifetime(RegistrationContext registrationContext,
-                                                         PortletContext[] portletContexts,
+                                                         List<PortletContext> portletContexts,
                                                          UserContext userContext,
                                                          Lifetime lifetime) throws RemoteException {
 
@@ -398,8 +383,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
-    for (int i = 0; i < portletContexts.length; i++) {
-      PortletContext portletContext = portletContexts[i];
+    for (PortletContext portletContext : portletContexts) {
       String portletHandle = portletContext.getPortletHandle();
       try {
         Lifetime lifetimeResult = stateManager.putPortletLifetime(portletHandle, lifetime);
@@ -412,19 +396,17 @@ public class PortletManagementOperationsInterfaceImpl implements
         failedPortlets.add(fPortlet);
       }
     }
-    PortletLifetime[] arrayUpdated = (PortletLifetime[]) portletLifetimes.toArray(new PortletLifetime[portletLifetimes.size()]);
-    FailedPortlets[] arrayFailed = (FailedPortlets[]) failedPortlets.toArray(new FailedPortlets[failedPortlets.size()]);
-    
+
     SetPortletsLifetimeResponse setLifetimeResponse = new SetPortletsLifetimeResponse();
-    setLifetimeResponse.setUpdatedPortlet(arrayUpdated);
-    setLifetimeResponse.setFailedPortlets(arrayFailed);
+    setLifetimeResponse.getUpdatedPortlet().addAll(portletLifetimes);
+    setLifetimeResponse.getFailedPortlets().addAll(failedPortlets);
     return setLifetimeResponse;
   }
 
   public PortletDescriptionResponse getPortletDescription(RegistrationContext registrationContext,
                                                           PortletContext portletContext,
                                                           UserContext userContext,
-                                                          String[] desiredLocales) throws RemoteException {
+                                                          List<String> desiredLocales) throws RemoteException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Get portlet description for registration handle " + registrationHandle);
@@ -443,8 +425,8 @@ public class PortletManagementOperationsInterfaceImpl implements
       Exception2Fault.handleException(e);
     }
 
-    PortletDescription pD = proxy.getPortletDescription(portletHandle, desiredLocales);
-    ResourceList resourceList = proxy.getResourceList(desiredLocales);
+    PortletDescription pD = proxy.getPortletDescription(portletHandle, desiredLocales.toArray(new String[desiredLocales.size()]));
+    ResourceList resourceList = proxy.getResourceList(desiredLocales.toArray(new String[desiredLocales.size()]));
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
     response.setPortletDescription(pD);
@@ -487,7 +469,7 @@ public class PortletManagementOperationsInterfaceImpl implements
   public PropertyList getPortletProperties(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            UserContext userContext,
-                                           String[] names) throws RemoteException {
+                                           List<String> names) throws RemoteException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("get portlet properties for registration handle " + registrationHandle);
@@ -514,7 +496,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     Set<String> keys = properties.keySet();
     for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
       String key = (String) iterator.next();
-      if (names == null || arrayContainsKey(names, key)) {
+      if (names == null || names.contains(key)) {
         String[] values = (String[]) properties.get(key);
         Property prop = new Property();
         prop.setName(new QName(key));
@@ -523,33 +505,23 @@ public class PortletManagementOperationsInterfaceImpl implements
       }
     }
     PropertyList list = new PropertyList();
-    list.setProperties((Property[]) properties2return.toArray(new Property[properties2return.size()]));
-    list.setResetProperties(null);
+    list.getProperties().addAll(properties2return);
+    list.getResetProperties().clear();
     return list;
   }
 
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(RegistrationContext registrationContext,
                                                                           PortletContext portletContext,
                                                                           UserContext userContext,
-                                                                          String[] desiredLocales) throws RemoteException {
+                                                                          List<String> desiredLocales) throws RemoteException {
     PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
     ModelDescription modelDescription = new ModelDescription();
-    modelDescription.setPropertyDescriptions(null);
+    modelDescription.getPropertyDescriptions().clear();
     ResourceList resourceList = new ResourceList();
-    resourceList.setResources(null);
+    resourceList.getResources().clear();
     portletPropertyDescriptionResponse.setModelDescription(null);
     portletPropertyDescriptionResponse.setResourceList(null);
     return portletPropertyDescriptionResponse;
-  }
-
-  private boolean arrayContainsKey(String[] array, String key) {
-    for (int i = 0; i < array.length; i++) {
-      String s = array[i];
-      if (s.equals(key)) {
-        return true;
-      }
-    }
-    return false;
   }
 
   private String createNewPortletHandle(String portletHandle) {

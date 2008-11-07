@@ -62,12 +62,17 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   private Map<String, Producer> loadProducers() {
+    System.out.println(">>> EXOMAN ProducerRegistryImpl.loadProducers() 1 = \n" + 1);
+
     Map<String, Producer> map = new HashMap<String, Producer>();
     try {
       Collection<WSRP2ProducerData> c = loadAll();
       for (Iterator<WSRP2ProducerData> iterator = c.iterator(); iterator.hasNext();) {
         WSRP2ProducerData wsrp2ProducerData = (WSRP2ProducerData) iterator.next();
-        ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont);
+        String producerUrl = wsrp2ProducerData.getProducer().getUrl().toExternalForm();
+        System.out.println(">>> EXOMAN ProducerRegistryImpl.loadProducers() producerUrl = "
+            + producerUrl);
+        ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont,producerUrl);
         map.put(wsrp2ProducerData.getId(), wsrp2ProducerData.getProducer());
       }
     } catch (Exception e) {
@@ -117,8 +122,8 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return producers.containsKey(id);
   }
 
-  public Producer createProducerInstance() {
-    return new ProducerImpl(cont);
+  public Producer createProducerInstance(String producerURL) {
+    return new ProducerImpl(cont, producerURL);
   }
 
   public long getLastModifiedTime() {

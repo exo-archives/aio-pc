@@ -1,5 +1,7 @@
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.NamedString;
@@ -56,7 +58,7 @@ public interface WSRPBaseRequest {
    * @return The navigational values
    */
 
-  public NamedString[] getNavigationalValues();
+  public List<NamedString> getNavigationalValues();
 
   /*****************************************************************************
    * * * * * * * * * * * * * * * * * * * * * * * * * For MimeRequest (There are
@@ -95,7 +97,7 @@ public interface WSRPBaseRequest {
    * @return Array with string representations of the locales which are
    *         supported by the consumer
    */
-  public String[] getLocales();
+  public List<String> getLocales();
 
   /**
    * Get the list of wsrp modes which are supported by the portlet. This should
@@ -105,7 +107,7 @@ public interface WSRPBaseRequest {
    * @return Array with string representations of the portlet modes supported by
    *         the portlet or null
    */
-  public String[] getValidNewModes();
+  public List<String> getValidNewModes();
 
   /**
    * Get the list of wsrp window states which are supported by the portlet. This
@@ -116,7 +118,7 @@ public interface WSRPBaseRequest {
    * @return Array with string representations of the window states supported by
    *         the portlet or null
    */
-  public String[] getValidNewWindowStates();
+  public List<String> getValidNewWindowStates();
 
   /**
    * Get an array of mime types which are supported by the end user device. The
@@ -124,7 +126,7 @@ public interface WSRPBaseRequest {
    * 
    * @return An array of mimes types the consumer supports or null
    */
-  public String[] getMimeTypes();
+  public List<String> getMimeTypes();
 
   /**
    * Get the character sets the consumer wants the remote portlet to use for
@@ -133,7 +135,7 @@ public interface WSRPBaseRequest {
    * 
    * @return Array of string representations of the character encoding.
    */
-  public String[] getMarkupCharacterSets();
+  public List<String> getMarkupCharacterSets();
 
   /**
    * Checks wether a given wsrp mode is supported by the portlet.
@@ -156,7 +158,7 @@ public interface WSRPBaseRequest {
 
   public boolean isSecureClientCommunication();
 
-  public Extension[] getExtensions();
+  public List<Extension> getExtensions();
 
   /*****************************************************************************
    * * * * * * * * * * * * * * * * * * * * * * * * * UNKNOWN * * * * * * * * * * * * * * * * * * * * * * * * * *

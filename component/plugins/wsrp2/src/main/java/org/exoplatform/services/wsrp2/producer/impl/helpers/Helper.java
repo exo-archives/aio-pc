@@ -17,6 +17,9 @@
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.rmi.RemoteException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
@@ -64,13 +67,13 @@ public class Helper {
 
   public static boolean lifetimeExpired(Lifetime lf) {
     if (lf != null)
-      return lf.getTerminationTime().getTimeInMillis() < lf.getCurrentTime().getTimeInMillis();
+      return lf.getTerminationTime().getMillisecond() < lf.getCurrentTime().getMillisecond();
     else
       return false;
   }
 
   public static boolean checkPortletLifetime(RegistrationContext registrationContext,
-                                             PortletContext[] portletContexts,
+                                             List<PortletContext> portletContexts,
                                              UserContext userContext,
                                              PortletManagementOperationsInterface pmoi) {
     //ExoContainer cont = ExoContainerContext.getCurrentContainer();
@@ -83,13 +86,13 @@ public class Helper {
                                                                   portletContexts,
                                                                   userContext);
       if (resp != null) {
-        if (resp.getPortletLifetime() != null && resp.getPortletLifetime().length != 0) {
-          PortletLifetime plf = resp.getPortletLifetime(0);
+        if (resp.getPortletLifetime() != null && resp.getPortletLifetime().size() != 0) {
+          PortletLifetime plf = resp.getPortletLifetime().get(0);
           Lifetime lf = plf.getScheduledDestruction();
           if (lf != null) {
             if (lifetimeExpired(lf)) {
-              String portletHandle = portletContexts[0].getPortletHandle();
-              pmoi.destroyPortlets(registrationContext, new String[] { portletHandle }, userContext);
+              String portletHandle = portletContexts.get(0).getPortletHandle();
+              pmoi.destroyPortlets(registrationContext, Arrays.asList(new String[] { portletHandle }), userContext);
               return false;
             }
           }

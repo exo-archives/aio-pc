@@ -18,6 +18,7 @@
 package org.exoplatform.services.wsrp2.producer;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import org.exoplatform.services.wsrp2.type.CopyPortletsResponse;
 import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
@@ -43,10 +44,10 @@ public interface PortletManagementOperationsInterface {
   public PortletDescriptionResponse getPortletDescription(RegistrationContext registrationContext,
                                                           PortletContext portletContext,
                                                           UserContext userContext,
-                                                          String[] desiredLocales) throws RemoteException;
+                                                          List<String> desiredLocales) throws RemoteException;
 
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
-                                                 String[] portletHandles,
+                                                 List<String> portletHandles,
                                                  UserContext userContext) throws RemoteException;
 
   public PortletContext setPortletProperties(RegistrationContext registrationContext,
@@ -57,12 +58,12 @@ public interface PortletManagementOperationsInterface {
   public PropertyList getPortletProperties(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            UserContext userContext,
-                                           String[] names) throws RemoteException;
+                                           List<String> names) throws RemoteException;
 
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(RegistrationContext registrationContext,
                                                                           PortletContext portletContext,
                                                                           UserContext userContext,
-                                                                          String[] desiredLocales) throws RemoteException;
+                                                                          List<String> desiredLocales) throws RemoteException;
 
   public PortletContext clonePortlet(RegistrationContext registrationContext,
                                      PortletContext portletContext,
@@ -70,11 +71,11 @@ public interface PortletManagementOperationsInterface {
                                      Lifetime lifetime) throws RemoteException;
 
   public GetPortletsLifetimeResponse getPortletsLifetime(RegistrationContext registrationContext,
-                                                         PortletContext[] portletContext,
+                                                         List<PortletContext> portletContext,
                                                          UserContext userContext) throws RemoteException;
 
   public SetPortletsLifetimeResponse setPortletsLifetime(RegistrationContext registrationContext,
-                                                         PortletContext[] portletContext,
+                                                         List<PortletContext> portletContext,
                                                          UserContext userContext,
                                                          Lifetime lifetime) throws RemoteException;
 
@@ -82,18 +83,18 @@ public interface PortletManagementOperationsInterface {
                                            UserContext toUserContext,
                                            RegistrationContext fromRegistrationContext,
                                            UserContext UserContext,
-                                           PortletContext[] fromPortletContexts,
+                                           List<PortletContext> fromPortletContexts,
                                            Lifetime lifetime) throws RemoteException;
 
   public ExportPortletsResponse exportPortlets(RegistrationContext registrationContext,
-                                               PortletContext[] portletContext,
+                                               List<PortletContext> portletContext,
                                                UserContext userContext,
                                                Lifetime lifetime,
                                                boolean exportByValueRequired) throws RemoteException;
 
   public ImportPortletsResponse importPortlets(RegistrationContext registrationContext,
                                                byte[] importContext,
-                                               ImportPortlet[] importPortlet,
+                                               List<ImportPortlet> importPortlet,
                                                UserContext userContext,
                                                Lifetime lifetime) throws RemoteException;
 

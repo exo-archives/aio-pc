@@ -69,7 +69,7 @@ public class StandardPayload<T> {
   }
 
   public T getUnmarshalledObject(QName type, EventPayload payload) {
-    org.w3c.dom.Element messageElement = payload.get_any()[0];
+    org.w3c.dom.Element messageElement = (org.w3c.dom.Element)payload.getAny();
     if (log.isDebugEnabled())
       log.debug("StandardPayload.getUnmarshalledObject() messageElement = " + messageElement);
     if (log.isDebugEnabled())

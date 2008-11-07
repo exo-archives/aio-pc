@@ -19,8 +19,10 @@ package org.exoplatform.services.wsrp2.consumer.portlets;
 
 import java.io.CharArrayWriter;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import javax.portlet.PortletMode;
 import javax.portlet.PortletURL;
@@ -78,9 +80,9 @@ public class WSRPAdminPortlet {
 
   private String                  description   = "";
 
-  private String[]                consumerModes;
+  private List<String>            consumerModes = new ArrayList<String>();
 
-  private String[]                consumerStates;
+  private List<String>            consumerStates = new ArrayList<String>();
 
   private String                  consumerName  = "www.exoplatform.org";
 
@@ -93,11 +95,11 @@ public class WSRPAdminPortlet {
   private PortletContainerConf    pcConf;
 
   private PortletContainerService pcService;
-  
-  private final Log log = ExoLogger.getLogger(getClass().getName());
-  
+
+  private final Log               log           = ExoLogger.getLogger(getClass().getName());
+
   public void init(ExoContainer cont) {
-    
+
     this.consumer = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
     this.conf = (WSRPConfiguration) cont.getComponentInstanceOfType(WSRPConfiguration.class);
     this.pcService = (PortletContainerService) cont.getComponentInstanceOfType(PortletContainerService.class);
@@ -110,22 +112,18 @@ public class WSRPAdminPortlet {
     // Collections.list(pcConf.getSupportedWindowStates());
     Collection<WindowState> states = pcService.getSupportedWindowStates();
 
-    consumerModes = new String[modes.size()];
+    consumerModes = new ArrayList<String>();
     Iterator<PortletMode> mIterator = modes.iterator();
-    int j = 0;
     while (mIterator.hasNext()) {
       PortletMode mode = (PortletMode) mIterator.next();
-      consumerModes[j] = "wsrp:" + mode.toString();
-      j++;
+      consumerModes.add("wsrp:" + mode.toString());
     }
 
-    consumerStates = new String[states.size()];
+    consumerStates = new ArrayList<String>();
     Iterator<WindowState> sIterator = states.iterator();
-    j = 0;
     while (sIterator.hasNext()) {
       WindowState state = (WindowState) sIterator.next();
-      consumerStates[j] = "wsrp:" + state.toString();
-      j++;
+      consumerStates.add("wsrp:" + state.toString());
     }
 
     reset();
@@ -204,7 +202,7 @@ public class WSRPAdminPortlet {
 
       w.println("<table>");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
-      
+
       // a form for unregister producer
       Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription serviceDescr = null;
@@ -228,12 +226,12 @@ public class WSRPAdminPortlet {
         w.println("</td>");
         w.println("<td>");
         w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
-                  + producer.getID() + "\">Deregister</a><br>");
+            + producer.getID() + "\">Deregister</a><br>");
         w.println("</td>");
         w.println("</tr>");
       }
       w.println("<tr><td colspan='2'>&nbsp;<br></td></tr>");
-      
+
       i = pregistry.getAllProducers();
       serviceDescr = null;
       while (i.hasNext()) {
@@ -276,15 +274,14 @@ public class WSRPAdminPortlet {
         if (serviceDescr != null) {
           CookieProtocol cookie = serviceDescr.getRequiresInitCookie();
           if (cookie != null)
-            answer = cookie.getValue();
+            answer = cookie.value();
         }
         w.println("<td>" + answer + "</td>");
         w.println("</tr>");
         if (serviceDescr != null) {
-          PortletDescription[] portletDescriptions = serviceDescr.getOfferedPortlets();
+          List<PortletDescription> portletDescriptions = serviceDescr.getOfferedPortlets();
           if (portletDescriptions != null) {
-            for (int k = 0; k < portletDescriptions.length; k++) {
-              PortletDescription portletDescription = portletDescriptions[k];
+            for (PortletDescription portletDescription : portletDescriptions) {
               w.println("<tr><td colspan='2'><b><br>"
                   + getValue(portletDescription.getDisplayName()) + "</b></td></tr>");
               w.println("<tr><td>" + "portletHandle" + "</td><td>"
@@ -298,17 +295,17 @@ public class WSRPAdminPortlet {
               w.println("<tr><td>" + "displayName" + "</td><td>"
                   + getValue(portletDescription.getDisplayName()) + "</td></tr>");
               StringBuffer value = new StringBuffer();
-              LocalizedString[] keywords = portletDescription.getKeywords();
+              List<LocalizedString> keywords = portletDescription.getKeywords();
               if (keywords != null) {
-                for (int j = 0; j < keywords.length; j++) {
-                  value.append(getValue(keywords[j])).append(" ");
+                for (LocalizedString localizedString : keywords) {
+                  value.append(getValue(localizedString)).append(" ");
                 }
               }
               w.println("<tr><td>" + "keywords" + "</td><td>" + value.toString() + "</td></tr>");
-              MarkupType[] types = portletDescription.getMarkupTypes();
+              List<MarkupType> types = portletDescription.getMarkupTypes();
               value.setLength(0);
-              for (int j = 0; j < types.length; j++) {
-                value.append(types[j].getMimeType()).append(" ");
+              for (MarkupType markupType : types) {
+                value.append(markupType.getMimeType()).append(" ");
               }
               w.println("<tr><td>" + "markupType" + "</td><td>" + value.toString() + "</td></tr>");
               /*
@@ -388,15 +385,17 @@ public class WSRPAdminPortlet {
         ProducerRegistry pregistry = consumer.getProducerRegistry();
         Producer producer = pregistry.getProducer(producerid);
         RegistrationContext registrationContext = producer.getRegistrationContext();
-        
+
         UserContext userContext = new UserContext();
-        userContext.setUserCategories(null);
+        userContext.getUserCategories().addAll(null);
         userContext.setProfile(null);
         userContext.setUserContextKey("");
-        
-        Deregister deregister = new Deregister(registrationContext, userContext);
+
+        Deregister deregister = new Deregister();
+        deregister.setRegistrationContext(registrationContext);
+        deregister.setUserContext(userContext);
         producer.deregister(deregister);
-        
+
         pregistry.removeProducer(producerid);
       }
       if (action.equals("save")) {
@@ -408,10 +407,12 @@ public class WSRPAdminPortlet {
         serviceDescriptionIntfEndpoint = request.getParameter(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
         description = request.getParameter("description");
 
-        String pURL = producerURL;
+        String pURL = producerURL;// + "?wsdl";
+        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() pURL = " + pURL);
+//        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() \n pURL + ?wsdl = " + pURL + "?wsdl");
         String producerId = "producer2" + Integer.toString(pURL.hashCode());
         ProducerRegistry pregistry = consumer.getProducerRegistry();
-        Producer producer = pregistry.createProducerInstance();
+        Producer producer = pregistry.createProducerInstance(pURL);
         producer.setID(producerId);
         producer.setName(producerName);
         producer.setMarkupInterfaceEndpoint(pURL + markupIntfEndpoint);
@@ -419,10 +420,11 @@ public class WSRPAdminPortlet {
         producer.setRegistrationInterfaceEndpoint(pURL + registrationIntfEndpoint);
         producer.setServiceDescriptionInterfaceEndpoint(pURL + serviceDescriptionIntfEndpoint);
         producer.setDescription(description);
-        producer.setDesiredLocales(new String[] { "en" });
+        producer.getDesiredLocales().add("en");
 
         if (producer.isRegistrationRequired()) {
-          String[] CONSUMER_SCOPES = { "chunk_data" };
+          List<String> CONSUMER_SCOPES = new ArrayList<String>();
+          CONSUMER_SCOPES.add("chunk_data");
           String[] CONSUMER_CUSTOM_PROFILES = { "what_more" };
           RegistrationData registrationData = new RegistrationData();
           // required
@@ -430,13 +432,13 @@ public class WSRPAdminPortlet {
           registrationData.setConsumerAgent(consumerAgent);
           registrationData.setMethodGetSupported(false);
           // optional
-          registrationData.setConsumerModes(consumerModes);
-          registrationData.setConsumerWindowStates(consumerStates);
-          registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
-          registrationData.setExtensionDescriptions(null);
-          registrationData.setRegistrationProperties(null);
-          registrationData.setResourceList(null);
-          registrationData.setExtensions(null);
+          registrationData.getConsumerModes().addAll(consumerModes);
+          registrationData.getConsumerWindowStates().addAll(consumerStates);
+          registrationData.getConsumerUserScopes().addAll(CONSUMER_SCOPES);
+          registrationData.getExtensionDescriptions().addAll(null);
+          registrationData.getRegistrationProperties().addAll(null);
+          registrationData.getResourceList().getResources().addAll(null);
+          registrationData.getExtensions().addAll(null);
 
           Register register = new Register();
           register.setRegistrationData(registrationData);
@@ -483,7 +485,7 @@ public class WSRPAdminPortlet {
     consumerName = "www.exoplatform.org";
     consumerAgent = "exoplatform.2.0";
     producerName = "exo producer";
-    producerURL = "http://localhost:8080/wsrp/services2/";
+    producerURL = "http://localhost:8080/wsrp/soap/services/WSRP_v2_Markup_Service?wsdl";//"http://localhost:8080/wsrp/services2/";
     markupIntfEndpoint = "WSRPMarkupService";
     portletManagementIntfEndpoint = "WSRPPortletManagementService";
     registrationIntfEndpoint = "WSRPRegistrationService";

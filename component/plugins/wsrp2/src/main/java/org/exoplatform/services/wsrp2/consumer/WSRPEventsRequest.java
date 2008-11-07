@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.StateChange;
 
@@ -25,7 +27,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
  */
 public interface WSRPEventsRequest extends WSRPBaseRequest {
 
-  public Event[] getEvents();
+  public List<Event> getEvents();
 
   public StateChange getPortletStateChange();
 

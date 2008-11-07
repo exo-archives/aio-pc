@@ -106,27 +106,29 @@ public class Utils {
   }
 
   // replace extensions for template
-  @Deprecated
-  public static void fillExtensions(String temp, Extension[] extensions) {
-    if (extensions != null)
-      if (extensions[0] != null)
-        if (extensions[0].get_any() != null)
-          if (extensions[0].get_any()[0] != null) {
-            // TODO iterate foreach element of array 
-            try {
-              temp = StringUtils.replace(temp,
-                                         "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
-                                         extensions[0].get_any()[0].getAsString());
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          } else {
-            temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
-          }
-  }
+//  @Deprecated
+//  public static void fillExtensions(String temp, Extension[] extensions) {
+//    if (extensions != null && extensions[0] != null && extensions[0].getAny() != null
+//        && extensions[0].getAny() != null) {
+//      // TODO iterate foreach element of array 
+//      try {
+//        temp = StringUtils.replace(temp,
+//                                   "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
+//                                   (String)extensions[0].getAny());
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
+//    } else {
+//      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
+//    }
+//  }
 
-  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params) {
-    return getNamedStringArrayParametersFromMap(params, false);
+//  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params) {
+//    return getNamedStringArrayParametersFromMap(params, false);
+//  }
+
+  public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params) {
+    return getNamedStringListParametersFromMap(params, false);
   }
 
   /**
@@ -140,12 +142,34 @@ public class Utils {
    *          "wsrp-" prefix
    * @return
    */
-  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
-                                                                   boolean selectOnlyNonWSRP) {
+//  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
+//                                                                   boolean selectOnlyNonWSRP) {
+//    if (params == null)
+//      return null;
+//    if (params.isEmpty())
+//      return new NamedString[] {};
+//    List<NamedString> listNamedStringParams = getNamedStringListParametersFromMap(params,
+//                                                                                  selectOnlyNonWSRP);
+//    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+//  }
+
+  /**
+   * Convert from input.getRenderParameters() to
+   * baseRequest.setNavigationalValues(NamedString[]). Convert those parameters
+   * from output.getRenderParameters() which are public to
+   * newNavigationalContext.setPublicValues.
+   * 
+   * @param parameters Map<String, String[]>
+   * @param boolean value to store only those parameters which starting with
+   *          "wsrp-" prefix
+   * @return
+   */
+  public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params,
+                                                                      boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
     if (params.isEmpty())
-      return new NamedString[] {};
+      return new ArrayList<NamedString>();
     Set<String> keys = params.keySet();
     List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
     Iterator<String> iteratorKeys = keys.iterator();
@@ -159,7 +183,7 @@ public class Utils {
         }
       }
     }
-    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+    return listNamedStringParams;
   }
 
   /**
@@ -169,6 +193,45 @@ public class Utils {
    * @return Map<String, String[]>
    */
   public static Map<String, String[]> getMapParametersFromNamedStringArray(NamedString[] array) {
+    if (array == null)
+      return null;
+    Map<String, String[]> result = new HashMap<String, String[]>();
+    if (array != null) {
+      for (NamedString namedString : array) {
+        String name = namedString.getName();
+        String value = namedString.getValue();
+        if (value != null) {
+          if (result.get(name) == null) {
+            // new added parameter
+            result.put(name, new String[] { value });
+          } else {
+            // next added parameter
+            Arrays.asList(result.get(name)).add(value);
+//            String[] oldArray = result.get(name);
+//            String[] newArray = new String[oldArray.length + 1];
+//            int i = 0;
+//            if (oldArray != null) {
+//              for (String v : oldArray) {
+//                newArray[i++] = v;
+//              }
+//            }
+//            newArray[i] = value;
+//            result.put(name, newArray);
+          }
+        }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Convert from <code>List<NamedString></code> to
+   * <code>Map<String, String[]></code>.
+   * 
+   * @param NamedString[]
+   * @return Map<String, String[]>
+   */
+  public static Map<String, String[]> getMapParametersFromNamedStringArray(List<NamedString> array) {
     if (array == null)
       return null;
     Map<String, String[]> result = new HashMap<String, String[]>();

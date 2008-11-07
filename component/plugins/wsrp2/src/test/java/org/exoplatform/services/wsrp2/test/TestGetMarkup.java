@@ -18,11 +18,13 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
@@ -179,10 +181,10 @@ public class TestGetMarkup extends BaseTest {
     ResourceResponse response = markupOperationsInterface.getResource(getResource);
     assertEquals("Everything is ok", response.getResourceContext().getItemString());
 
-    NamedString formParameter = new NamedString();
-    formParameter.setName("goal");
-    formParameter.setValue("image");
-    resourceParams.setFormParameters(new NamedString[] { formParameter });
+    NamedString formParameter = new NamedStringWrapper("goal","image");
+//    formParameter.setName("goal");
+//    formParameter.setValue("image");
+    resourceParams.getFormParameters().add(formParameter);
     response = markupOperationsInterface.getResource(getResource);
     assertEquals("image/jpeg", response.getResourceContext().getMimeType());
   }
@@ -201,7 +203,7 @@ public class TestGetMarkup extends BaseTest {
     javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
                                                  new String("event-value"));
     Event event = JAXBEventTransformer.getEventMarshal(event286);
-    eventParams.setEvents(new Event[] { event });
+    eventParams.getEvents().add(event);
     HandleEvents handleEvents = handleEvents(rc, portletContext);
     HandleEventsResponse response = markupOperationsInterface.handleEvents(handleEvents);
 
@@ -209,7 +211,7 @@ public class TestGetMarkup extends BaseTest {
     UpdateResponse updateResponse = response.getUpdateResponse();
     assertNotNull(updateResponse);
 
-    Event[] events = updateResponse.getEvents();
+    List<Event> events = updateResponse.getEvents();
     assertNotNull(events);
     assertEquals(1, events.length);
 

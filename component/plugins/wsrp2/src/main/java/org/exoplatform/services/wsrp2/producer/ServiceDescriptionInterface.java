@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.producer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.UserContext;
@@ -26,8 +28,8 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public interface ServiceDescriptionInterface {
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
-                                                  String[] desiredLocales,
-                                                  String[] portletHandles,
+                                                  List<String> desiredLocales,
+                                                  List<String> portletHandles,
                                                   UserContext userContext) throws java.rmi.RemoteException;
 
 }

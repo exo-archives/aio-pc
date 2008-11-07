@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.portlet.PortletURL;
@@ -52,7 +53,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private String                 cacheLevel;                    // only for ResourceURL
 
-  private List<String>           supportedPublicRenderParameter;
+  private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
   private Portlet                portlet;
 

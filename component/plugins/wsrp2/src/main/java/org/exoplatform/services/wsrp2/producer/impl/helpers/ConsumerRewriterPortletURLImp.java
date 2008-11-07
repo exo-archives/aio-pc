@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -43,7 +44,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private PersistentStateManager stateManager;
 
-  private List<String>           supportedPublicRenderParameter;
+  private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
   public ConsumerRewriterPortletURLImp(String type,
                                        String baseURL,

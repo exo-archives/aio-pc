@@ -1,5 +1,7 @@
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.ResourceContext;
@@ -60,9 +62,9 @@ public interface PortletWindowSession {
 
   public void updateResourceCache(ResourceContext resourceContext);
 
-  public void setNavigationalValues(NamedString[] navigationalValues);
+  public void setNavigationalValues(List<NamedString> navigationalValues);
 
-  public NamedString[] getNavigationalValues();
+  public List<NamedString> getNavigationalValues();
 
   public void setInteractionState(String interactionState);
 

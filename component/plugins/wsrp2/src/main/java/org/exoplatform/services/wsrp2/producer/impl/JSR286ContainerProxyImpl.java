@@ -18,6 +18,7 @@
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -136,16 +137,16 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       pD.setDisplayName(getDisplayName(portletDisplayNames, desiredLocales));
     }
     pD.setGroupID(portletApplicationName);
-    pD.setKeywords(getKeyWords(portletApplicationName, portletName, desiredLocales));
-    pD.setMarkupTypes(setMarkupTypes(portlet.getSupports(), desiredLocales));
+    pD.getKeywords().addAll(getKeyWords(portletApplicationName, portletName, desiredLocales));
+    pD.getMarkupTypes().addAll(setMarkupTypes(portlet.getSupports(), desiredLocales));
 
     pD.setTitle(getTitle(portletApplicationName, portletName, desiredLocales));
     pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
 
-    pD.setUserProfileItems(getUserProfileItems(portlet.getUserAttributes()));
-    pD.setUserCategories(null);
+    pD.getUserProfileItems().addAll(getUserProfileItems(portlet.getUserAttributes()));
+    pD.getUserCategories().clear();
 
-    pD.setPortletManagedModes(pcService.getPortalManagedPortletModes(portletApplicationName, portletName));
+    pD.getPortletManagedModes().addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName, portletName)));
     
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
@@ -155,29 +156,29 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setUsesMethodGet(new Boolean(conf.isUsesMethodGet()));
 
     // WSRP v2
-    pD.setPublishedEvents(Utils.getQNameArray(portlet.getSupportedPublishingEvent()));
-    pD.setHandledEvents(Utils.getQNameArray(portlet.getSupportedProcessingEvent()));
-    pD.setNavigationalPublicValueDescriptions(getNavigationalPublicValueDescriptions(portlet.getSupportedPublicRenderParameter()));
-    pD.setMayReturnPortletState(null);
-    pD.setExtensions(null);
+    pD.getPublishedEvents().addAll(portlet.getSupportedPublishingEvent());
+    pD.getHandledEvents().addAll(portlet.getSupportedProcessingEvent());
+    pD.getNavigationalPublicValueDescriptions().addAll(getNavigationalPublicValueDescriptions(portlet.getSupportedPublicRenderParameter()));
+    pD.setMayReturnPortletState(false);
+    pD.getExtensions().clear();
 
     return pD;
   }
 
-  private ParameterDescription[] getNavigationalPublicValueDescriptions(List<String> supportedPublicRenderParameter) {
+  private List<ParameterDescription> getNavigationalPublicValueDescriptions(List<String> supportedPublicRenderParameter) {
     if (supportedPublicRenderParameter == null)
       return null;
-    ParameterDescription[] parameterDescriptions = new ParameterDescription[supportedPublicRenderParameter.size()];
+    List<ParameterDescription> parameterDescriptions = new ArrayList<ParameterDescription>(supportedPublicRenderParameter.size());
     int i = 0;
     for (String parameterString : (List<String>) supportedPublicRenderParameter) {
       ParameterDescription parameterDescription = new ParameterDescription();
-      parameterDescription.setNames(new QName[] { new QName(parameterString) });
+      parameterDescription.getNames().add(new QName(parameterString));
       // parameterDescription.setDescription(description);
       // parameterDescription.setLabel(label);
       // parameterDescription.setHint(hint);
       // parameterDescription.setIdentifier(identifier);
-      parameterDescription.setExtensions(null);
-      parameterDescriptions[i++] = parameterDescription;
+      parameterDescription.getExtensions().add(null);
+      parameterDescriptions.add(parameterDescription);
     }
     return parameterDescriptions;
   }
@@ -187,10 +188,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     log.debug("portlet handle to split in setPortletProperties : " + portletHandle);
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
     // mapping WSRP / JSR 168 : a property is a preference type
-    Property[] properties = propertyList.getProperties();
+    List<Property> properties = propertyList.getProperties();
     Map<String, String> propertiesMap = new HashMap<String, String>();
-    for (int i = 0; i < properties.length; i++) {
-      Property property = properties[i];
+    for (Property property : properties) {
       // Locale locale = new Locale(property.getLang());//No mapping available
       // in JSR 168
       String preferenceName = property.getName().toString();
@@ -324,7 +324,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private LocalizedString[] getKeyWords(String portletAppName,
+  private List<LocalizedString> getKeyWords(String portletAppName,
                                         String portletName,
                                         String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
@@ -340,9 +340,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
         try {
           String keyWords = resourceBundle.getString(PortletData.KEYWORDS);
           String[] a = StringUtils.split(keyWords, ",");
-          LocalizedString[] b = new LocalizedString[a.length];
+          List<LocalizedString> b = new ArrayList<LocalizedString>(a.length);
           for (int j = 0; j < a.length; j++) {
-            b[j] = Utils.getLocalizedString(a[j], desiredLocale);
+            b.add(Utils.getLocalizedString(a[j], desiredLocale));
           }
           return b;
         } catch (MissingResourceException ex) {
@@ -354,8 +354,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private MarkupType[] setMarkupTypes(List<Supports> list, String[] locales) {
-    MarkupType[] array = new MarkupType[list.size()];
+  private List<MarkupType> setMarkupTypes(List<Supports> list, String[] locales) {
+    List<MarkupType> result = new ArrayList<MarkupType>(list.size());
     int i = 0;
     MarkupType mT = null;
     for (Iterator<Supports> iter = list.iterator(); iter.hasNext(); i++) {
@@ -369,7 +369,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
         String pM = (String) iterator.next();
         modesInArray[j] = Modes.addPrefixWSRP(pM);
       }
-      mT.setModes(modesInArray);
+      mT.getModes().addAll(Arrays.asList(modesInArray));
       j = 0;
       List<String> windowStates = support.getWindowState();
       String[] windowStatesInArray = new String[windowStates.size()];
@@ -377,11 +377,11 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
         String wS = (String) iterator.next();
         windowStatesInArray[j] = WindowStates.addPrefixWSRP(wS);
       }
-      mT.setWindowStates(windowStatesInArray);
-      mT.setLocales(locales);
-      array[i] = mT;
+      mT.getWindowStates().addAll(Arrays.asList(windowStatesInArray));
+      mT.getLocales().addAll(Arrays.asList(locales));
+      result.add(mT);
     }
-    return array;
+    return result;
   }
 
   private LocalizedString getTitle(String portletAppName,
@@ -423,14 +423,14 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private String[] getUserProfileItems(List<UserAttribute> userAttributes) {
-    String[] toReturnArray = new String[userAttributes.size()];
+  private List<String> getUserProfileItems(List<UserAttribute> userAttributes) {
+    List<String> toReturnList = new ArrayList<String>(userAttributes.size());
     int i = 0;
     for (Iterator<UserAttribute> iter = userAttributes.iterator(); iter.hasNext(); i++) {
       UserAttribute userAttr = (UserAttribute) iter.next();
-      toReturnArray[i] = userAttr.getName();
+      toReturnList.add(userAttr.getName());
     }
-    return toReturnArray;
+    return toReturnList;
   }
 
   private java.util.ResourceBundle getBundle(String portletAppName,

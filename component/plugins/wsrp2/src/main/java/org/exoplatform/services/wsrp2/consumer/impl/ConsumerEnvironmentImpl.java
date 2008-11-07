@@ -17,6 +17,9 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp2.consumer.PortletDriverRegistry;
 import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
@@ -51,17 +54,17 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
 
   private URLRewriter           urlRewriter;
 
-  private String[]              supportedLocales;
+  private List<String>          supportedLocales = new ArrayList<String>();
 
-  private String[]              supportedModes;
+  private List<String>          supportedModes = new ArrayList<String>();
 
-  private String[]              windowStates;
+  private List<String>          windowStates = new ArrayList<String>();
 
   private StateChange           stateChange;
 
-  private String[]              characterEncodingSet;
+  private List<String>          characterEncodingSet = new ArrayList<String>();
 
-  private String[]              mimeTypes;
+  private List<String>          mimeTypes = new ArrayList<String>();
 
   public ConsumerEnvironmentImpl(PortletRegistry portletRegistry,
                                  PortletDriverRegistry portletDriverRegistry,
@@ -75,6 +78,11 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.userRegistry = userRegistry;
     this.urlTemplateComposer = urlTemplateComposer;
     this.urlRewriter = urlRewriter;
+//    this.supportedLocales = new ArrayList<String>();
+//    this.supportedModes = new ArrayList<String>();
+//    this.windowStates = new ArrayList<String>();
+//    this.characterEncodingSet = new ArrayList<String>();
+//    this.mimeTypes = new ArrayList<String>();
   }
 
   public PortletRegistry getPortletRegistry() {
@@ -117,27 +125,27 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.userAuthentication = authMethod;
   }
 
-  public String[] getSupportedLocales() {
+  public List<String> getSupportedLocales() {
     return supportedLocales;
   }
 
-  public void setSupportedLocales(String[] locales) {
+  public void setSupportedLocales(List<String> locales) {
     this.supportedLocales = locales;
   }
 
-  public String[] getSupportedModes() {
+  public List<String> getSupportedModes() {
     return supportedModes;
   }
 
-  public void setSupportedModes(String[] modes) {
+  public void setSupportedModes(List<String> modes) {
     this.supportedModes = modes;
   }
 
-  public String[] getSupportedWindowStates() {
+  public List<String> getSupportedWindowStates() {
     return windowStates;
   }
 
-  public void setSupportedWindowStates(String[] states) {
+  public void setSupportedWindowStates(List<String> states) {
     this.windowStates = states;
   }
 
@@ -149,19 +157,19 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.stateChange = portletStateChange;
   }
 
-  public String[] getCharacterEncodingSet() {
+  public List<String> getCharacterEncodingSet() {
     return characterEncodingSet;
   }
 
-  public void setCharacterEncodingSet(String[] charEncoding) {
+  public void setCharacterEncodingSet(List<String> charEncoding) {
     this.characterEncodingSet = charEncoding;
   }
 
-  public String[] getMimeTypes() {
+  public List<String> getMimeTypes() {
     return mimeTypes;
   }
 
-  public void setMimeTypes(String[] mimeTypes) {
+  public void setMimeTypes(List<String> mimeTypes) {
     this.mimeTypes = mimeTypes;
   }
 }

@@ -30,9 +30,9 @@
     <type>org.exoplatform.services.wsrp2.producer.impl.TransientStateManagerImpl</type>
   </component>
 
-  <component>
-    <type>org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator</type>
-  </component>
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator</type>-->
+  <!--  </component>-->
 
   <component>
     <type>org.exoplatform.services.wsrp2.consumer.impl.PortletRegistryImpl</type>
@@ -100,7 +100,7 @@
         <property name="consumerName" value="www.exoplatform.org" />
         <property name="consumerAgent" value="exoplatform.2.0" />
         <property name="producerName" value="exo producer" />
-        <property name="producerURL" value="http://localhost:8080/wsrp/services2/" />
+        <property name="producerURL" value="http://localhost:8080/wsrp/soap/services/WSRP_v2_Markup_Service?wsdl" />
         <property name="markupIntfEndpoint" value="WSRPMarkupService" />
         <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService" />
         <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />
@@ -108,6 +108,19 @@
         <property name="description" value="" />
       </properties-param>
     </init-params>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.WSRPV2PortletManagementPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.WSRPV2RegistrationPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl</type>
   </component>
 
   <external-component-plugins>
@@ -135,5 +148,24 @@
       <description>wsrp2 plugin</description>
     </component-plugin>
   </external-component-plugins>
+
+  <!--  <external-component-plugins>-->
+  <!--    <target-component>org.exoplatform.services.ws.impl.cxf.WebServiceLoader</target-component>-->
+  <!--    <component-plugin>-->
+  <!--      <name>WebService loader plugin</name>-->
+  <!--      <set-method>addPlugin</set-method>-->
+  <!--      <type>org.exoplatform.services.ws.impl.cxf.WebServiceLoaderPlugin</type>-->
+  <!--      <description>Custom service loader plugin</description>-->
+  <!--      <init-params>-->
+  <!--        <values-param>-->
+  <!--          <name></name>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2PortletManagementPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2RegistrationPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl</value>-->
+  <!--        </values-param>-->
+  <!--      </init-params>-->
+  <!--    </component-plugin>-->
+  <!--  </external-component-plugins>-->
 
 </configuration>

@@ -17,31 +17,17 @@
 
 package org.exoplatform.services.wsrp2.utils;
 
-import java.awt.Image;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import javax.activation.DataHandler;
 import javax.xml.bind.JAXBContext;
-import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 
-import org.apache.axis.message.MessageElement;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
@@ -56,16 +42,26 @@ public class JAXBEventTransformer {
   private static final Log log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.utils.JAXBEventTransformer");
 
   // convert from "javax.portlet.Event" to "org.exoplatform.services.wsrp2.type.Event[1]"
-  public static Event[] getEventsMarshal(javax.portlet.Event event) {
-    return new Event[] { getEventMarshal(event) };
-  }
+//  public static Event[] getEventsMarshal(javax.portlet.Event event) {
+//    return new Event[] { getEventMarshal(event) };
+//  }
 
   // convert from "List<javax.portlet.Event>" to "org.exoplatform.services.wsrp2.type.Event[]"
-  public static Event[] getEventsMarshal(List<javax.portlet.Event> eventsList) {
-    Event[] events = new Event[eventsList.size()];
+//  public static Event[] getEventsMarshal(List<javax.portlet.Event> eventsList) {
+//    Event[] events = new Event[eventsList.size()];
+//    int i = 0;
+//    for (javax.portlet.Event event : eventsList) {
+//      events[i++] = getEventMarshal(event);
+//    }
+//    return events;
+//  }
+
+  // convert from "List<javax.portlet.Event>" to "org.exoplatform.services.wsrp2.type.Event[]"
+  public static List<Event> getEventsMarshal(List<javax.portlet.Event> eventsList) {
+    List<Event> events = new ArrayList<Event>();
     int i = 0;
     for (javax.portlet.Event event : eventsList) {
-      events[i++] = getEventMarshal(event);
+      events.add(getEventMarshal(event));
     }
     return events;
   }
@@ -97,7 +93,7 @@ public class JAXBEventTransformer {
       if (doc == null) {
         try {
           doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-          
+
           JAXBContext jaxb = JAXBContext.newInstance(eventValue.getClass());
           Marshaller marshaller = jaxb.createMarshaller();
           marshaller.marshal(eventValue, doc);
@@ -109,15 +105,54 @@ public class JAXBEventTransformer {
           t.printStackTrace();
         }
       }
-      org.apache.axis.message.MessageElement messageElement = new MessageElement(doc.getDocumentElement());
-      org.apache.axis.message.MessageElement[] anyArray = new MessageElement[] { messageElement };
+//      org.apache.axis.message.MessageElement messageElement = new MessageElement(doc.getDocumentElement());
+//      org.apache.axis.message.MessageElement[] anyArray = new MessageElement[] { messageElement };
       EventPayload eventPayload = new EventPayload();
-      eventPayload.set_any(anyArray);
+//      eventPayload.setAny(anyArray);
       newEvent.setPayload(eventPayload);
     }
     return newEvent;
   }
 
+  // convert from "org.exoplatform.services.wsrp2.type.Event[]" to "List<javax.portlet.Event>"
+  public static List<javax.portlet.Event> getEventsUnmarshal(List<Event> eventList) {
+    if (eventList == null)
+      return null;
+    List<javax.portlet.Event> eventsList = new ArrayList<javax.portlet.Event>();
+    int i = 0;
+    for (Event event : eventList) {
+      Object obj = getUnmarshalledObject(event.getType(), event.getPayload());
+
+      if (obj == null) {
+        try {
+          String clazz = event.getType().getLocalPart();
+          String pkg = clazz.substring(0, clazz.lastIndexOf("."));
+          ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
+          org.w3c.dom.Element messageElement = (org.w3c.dom.Element) event.getPayload().getAny();
+
+          JAXBContext jaxb = JAXBContext.newInstance(pkg, cle);
+          Unmarshaller unmarshaller = jaxb.createUnmarshaller();
+          obj = unmarshaller.unmarshal(messageElement);
+        } catch (JAXBException je) {
+          je.printStackTrace();
+        } catch (Exception e) {
+          e.printStackTrace();
+        } catch (Throwable t) {
+          t.printStackTrace();
+        }
+      }
+
+      if (log.isDebugEnabled())
+        log.debug("JAXBEventTransformer.getEventsUnmarshal() o = " + obj);
+
+      javax.portlet.Event ev = new EventImpl(event.getName(), obj != null ? (Serializable) obj
+                                                                         : null);
+      eventsList.add(ev);
+      i++;
+    }
+    return eventsList;
+  }
+  
   // convert from "org.exoplatform.services.wsrp2.type.Event[]" to "List<javax.portlet.Event>"
   public static List<javax.portlet.Event> getEventsUnmarshal(Event[] eventArray) {
     if (eventArray == null)
@@ -132,7 +167,7 @@ public class JAXBEventTransformer {
           String clazz = event.getType().getLocalPart();
           String pkg = clazz.substring(0, clazz.lastIndexOf("."));
           ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
-          org.w3c.dom.Element messageElement = event.getPayload().get_any()[0];
+          org.w3c.dom.Element messageElement = (org.w3c.dom.Element) event.getPayload().getAny();
 
           JAXBContext jaxb = JAXBContext.newInstance(pkg, cle);
           Unmarshaller unmarshaller = jaxb.createUnmarshaller();

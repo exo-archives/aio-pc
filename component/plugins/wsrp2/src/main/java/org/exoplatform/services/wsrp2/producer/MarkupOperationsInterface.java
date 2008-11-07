@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.producer;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
@@ -64,7 +66,7 @@ public interface MarkupOperationsInterface {
   public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws java.rmi.RemoteException;
 
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
-                                   String[] sessionIDs,
+                                   List<String> sessionIDs,
                                    UserContext userContext) throws java.rmi.RemoteException;
 
 }

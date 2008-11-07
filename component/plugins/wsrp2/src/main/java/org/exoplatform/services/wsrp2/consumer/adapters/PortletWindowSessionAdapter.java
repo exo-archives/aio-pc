@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.PortletSession;
 import org.exoplatform.services.wsrp2.consumer.PortletWindowSession;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
@@ -42,7 +44,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   private ResourceContext resourceContext;
 
-  private NamedString[]   navigationalValues;
+  private List<NamedString>   navigationalValues;
 
   private String          interactionState;
 
@@ -106,11 +108,11 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
     this.resourceContext = resourceContext;
   }
 
-  public NamedString[] getNavigationalValues() {
+  public List<NamedString> getNavigationalValues() {
     return navigationalValues;
   }
 
-  public void setNavigationalValues(NamedString[] navigationalValues) {
+  public void setNavigationalValues(List<NamedString> navigationalValues) {
     this.navigationalValues = navigationalValues;
   }
 

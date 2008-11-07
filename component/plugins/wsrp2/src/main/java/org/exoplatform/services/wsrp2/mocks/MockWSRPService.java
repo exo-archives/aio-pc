@@ -21,21 +21,16 @@ import java.net.URL;
 import java.rmi.Remote;
 
 import javax.xml.namespace.QName;
-import javax.xml.rpc.Call;
-import javax.xml.rpc.ServiceException;
-import javax.xml.rpc.encoding.TypeMappingRegistry;
-import javax.xml.rpc.handler.HandlerRegistry;
 
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_Markup_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_PortletManagement_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_Registration_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_ServiceDescription_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
+import org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl;
+import org.exoplatform.services.wsrp2.bind.WSRPV2PortletManagementPortTypeImpl;
+import org.exoplatform.services.wsrp2.bind.WSRPV2RegistrationPortTypeImpl;
+import org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl;
+import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.wsdl.WSRPService;
-import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 
 /*
  * @author  Mestrallet Benjamin
@@ -44,31 +39,31 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
  * Time: 02:59:48
  */
 
-public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
-  private WSRP_v2_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
+public class MockWSRPService extends WSRPService { //WSRPServiceLocator implements 
+  private WSRPV2ServiceDescriptionPortTypeImpl serviceDescriptionInterface;
 
-  private WSRP_v2_Registration_Binding_SOAPImpl       registrationOperationsInterface;
+  private WSRPV2RegistrationPortTypeImpl       registrationOperationsInterface;
 
-  private WSRP_v2_Markup_Binding_SOAPImpl             markupOperationsInterface;
+  private WSRPV2MarkupPortTypeImpl             markupOperationsInterface;
 
-  private WSRP_v2_PortletManagement_Binding_SOAPImpl  portletManagementOperationsInterface;
+  private WSRPV2PortletManagementPortTypeImpl  portletManagementOperationsInterface;
 
   public MockWSRPService() {
-    serviceDescriptionInterface = new WSRP_v2_ServiceDescription_Binding_SOAPImpl();
-    registrationOperationsInterface = new WSRP_v2_Registration_Binding_SOAPImpl();
-    markupOperationsInterface = new WSRP_v2_Markup_Binding_SOAPImpl();
-    portletManagementOperationsInterface = new WSRP_v2_PortletManagement_Binding_SOAPImpl();
+    serviceDescriptionInterface = new WSRPV2ServiceDescriptionPortTypeImpl(null);
+    registrationOperationsInterface = new WSRPV2RegistrationPortTypeImpl(null);
+    markupOperationsInterface = new WSRPV2MarkupPortTypeImpl(null);
+    portletManagementOperationsInterface = new WSRPV2PortletManagementPortTypeImpl(null);
   }
 
   public String getWSRPPortletManagementServiceAddress() {
     return "Mock";
   }
 
-  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService() throws ServiceException {
+  public WSRPV2PortletManagementPortType getWSRPPortletManagementService() {
     return portletManagementOperationsInterface;
   }
 
-  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService(URL portAddress) throws ServiceException {
+  public WSRPV2PortletManagementPortType getWSRPPortletManagementService(URL portAddress) {
     return portletManagementOperationsInterface;
   }
 
@@ -76,11 +71,11 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
     return "Mock";
   }
 
-  public WSRP_v2_Registration_PortType getWSRPRegistrationService() throws ServiceException {
+  public WSRPV2RegistrationPortType getWSRPRegistrationService() {
     return registrationOperationsInterface;
   }
 
-  public WSRP_v2_Registration_PortType getWSRPRegistrationService(URL portAddress) throws ServiceException {
+  public WSRPV2RegistrationPortType getWSRPRegistrationService(URL portAddress) {
     return registrationOperationsInterface;
   }
 
@@ -88,11 +83,11 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
     return "Mock";
   }
 
-  public WSRP_v2_Markup_PortType getWSRPMarkupService() throws ServiceException {
+  public WSRPV2MarkupPortType getWSRPMarkupService() {
     return markupOperationsInterface;
   }
 
-  public WSRP_v2_Markup_PortType getWSRPMarkupService(URL portAddress) throws ServiceException {
+  public WSRPV2MarkupPortType getWSRPMarkupService(URL portAddress) {
     return markupOperationsInterface;
   }
 
@@ -100,49 +95,49 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
     return "Mock";
   }
 
-  public WSRP_v2_ServiceDescription_PortType getWSRPServiceDescriptionService() throws ServiceException {
+  public WSRPV2ServiceDescriptionPortType getWSRPServiceDescriptionService() {
     return serviceDescriptionInterface;
   }
 
-  public WSRP_v2_ServiceDescription_PortType getWSRPServiceDescriptionService(URL portAddress) throws ServiceException {
+  public WSRPV2ServiceDescriptionPortType getWSRPServiceDescriptionService(URL portAddress) {
     return serviceDescriptionInterface;
   }
 
   ///not necessary to implement
 
-  public Remote getPort(QName qName, Class aClass) throws ServiceException {
+  public Remote getPort(QName qName, Class aClass) {
     return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
-  public Remote getPort(Class aClass) throws ServiceException {
+  public Remote getPort(Class aClass) {
     return null; //To change body of implemented methods use File | Settings | File Templates.
   }
-
-  public Call[] getCalls(QName qName) throws ServiceException {
-    return new Call[0]; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall(QName qName) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall(QName qName, QName qName1) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall(QName qName, String string) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall() throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
+//
+//  public Call[] getCalls(QName qName) {
+//    return new Call[0]; //To change body of implemented methods use File | Settings | File Templates.
+//  }
+//
+//  public Call createCall(QName qName) {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
+//
+//  public Call createCall(QName qName, QName qName1) {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
+//
+//  public Call createCall(QName qName, String string) {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
+//
+//  public Call createCall() {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
 
   public QName getServiceName() {
     return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
-  /*  public Iterator getPorts() throws ServiceException {
+  /*  public Iterator getPorts() {
       return null;  //To change body of implemented methods use File | Settings | File Templates.
     }*/
 
@@ -150,11 +145,11 @@ public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
     return null; //To change body of implemented methods use File | Settings | File Templates.
   }
 
-  public TypeMappingRegistry getTypeMappingRegistry() {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public HandlerRegistry getHandlerRegistry() {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
+//  public TypeMappingRegistry getTypeMappingRegistry() {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
+//
+//  public HandlerRegistry getHandlerRegistry() {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
 }

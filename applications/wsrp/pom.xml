@@ -1,0 +1,87 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>wsrp</artifactId>
+  <packaging>exopc-war</packaging>
+  <name>eXo Portlet Container 2 WSRP Service</name>
+
+  <dependencies>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+<!--
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
+      <version>${org.exoplatform.pcnew.version}</version>
+      <scope>compile</scope>
+    </dependency>
+-->
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
+      <version>${org.exoplatform.pcnew.version}</version>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>2.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>compile</scope>
+    </dependency>
+    
+  </dependencies>
+
+  <build>
+    <finalName>wsrp</finalName>
+    <plugins>
+
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-exopc-plugin</artifactId>
+        <extensions>true</extensions>
+        <configuration>
+          <sharedDir>${basedir}/patches</sharedDir>
+          <excludeProjects>
+            junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework, xerces,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, jaxen,
+            xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
+            commons-logging, saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            carol, commons-fileupload, commons-io, drools-base, drools-core, drools-java,
+            drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
+            exo-platform.services.ldap.impl, exo-platform.services.remote.api,
+            exo-platform.services.remote.impl, exo-platform.services.templates.api,
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
+            jgroups-all, jotm, jotm_jrmp_stubs, jstl, log4j, soap, velocity, commons-beanutils
+          </excludeProjects>
+          <includeToWarClasspath/>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+</project>

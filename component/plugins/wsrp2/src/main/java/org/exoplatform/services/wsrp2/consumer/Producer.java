@@ -1,9 +1,12 @@
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.net.URL;
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
@@ -26,9 +29,9 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  */
 public interface Producer {
 
-  public String[] getDesiredLocales();
+  public List<String> getDesiredLocales();
 
-  public void setDesiredLocales(String[] desiredLocales);
+  public void setDesiredLocales(List<String> desiredLocales);
 
   /**
    * Get the name of the producer.
@@ -91,7 +94,7 @@ public interface Producer {
    * 
    * @return service description interface.
    */
-  public WSRP_v2_ServiceDescription_PortType getServiceDescriptionInterface();
+  public WSRPV2ServiceDescriptionPortType getServiceDescriptionInterface();
 
   /**
    * Get the URL of the producers markup interface.
@@ -126,7 +129,7 @@ public interface Producer {
    * 
    * @return portlet management interface.
    */
-  public WSRP_v2_PortletManagement_PortType getPortletManagementInterface();
+  public WSRPV2PortletManagementPortType getPortletManagementInterface();
 
   /**
    * Get the URL of the producers registration interface.
@@ -145,7 +148,7 @@ public interface Producer {
    * 
    * @return registration interface.
    */
-  public WSRP_v2_Registration_PortType getRegistrationInterface();
+  public WSRPV2RegistrationPortType getRegistrationInterface();
 
   /**
    * Indicates wether or not the producer requires consumer registration.
@@ -238,5 +241,12 @@ public interface Producer {
    * @return true if a portlet management interface endpoint URL is set
    */
   public boolean isPortletManagementInferfaceSupported();
+
+  /**
+   * Get producer URL.
+   * 
+   * @return
+   */
+  public URL getUrl();
 
 }
