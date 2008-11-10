@@ -225,7 +225,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
       javax.xml.ws.Holder<java.lang.Boolean> _getServiceDescription_mayReturnRegistrationState = new javax.xml.ws.Holder<java.lang.Boolean>();
       javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _getServiceDescription_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
 
-      getServiceDescriptionInterface().getServiceDescription(getServiceDescription.getRegistrationContext(),
+      serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
                                                         getServiceDescription.getDesiredLocales(),
                                                         getServiceDescription.getPortletHandles(),
                                                         getServiceDescription.getUserContext(),
@@ -245,6 +245,24 @@ public class ProducerImpl implements Producer, java.io.Serializable {
                                                         _getServiceDescription_exportDescription,
                                                         _getServiceDescription_mayReturnRegistrationState,
                                                         _getServiceDescription_extensions);
+      
+      serviceDescription = new ServiceDescription();
+      serviceDescription.setRequiresRegistration(_getServiceDescription_requiresRegistration.value);
+      serviceDescription.getOfferedPortlets().addAll(_getServiceDescription_offeredPortlets.value);
+      serviceDescription.getUserCategoryDescriptions().addAll(_getServiceDescription_userCategoryDescriptions.value);
+      serviceDescription.getExtensionDescriptions().addAll(_getServiceDescription_extensionDescriptions.value);
+      serviceDescription.getCustomWindowStateDescriptions().addAll(_getServiceDescription_customWindowStateDescriptions.value);
+      serviceDescription.getCustomModeDescriptions().addAll(_getServiceDescription_customModeDescriptions.value);
+      serviceDescription.setRequiresInitCookie(_getServiceDescription_requiresInitCookie.value);
+      serviceDescription.setRegistrationPropertyDescription(_getServiceDescription_registrationPropertyDescription.value);
+      serviceDescription.getLocales().addAll(_getServiceDescription_locales.value);
+      serviceDescription.setResourceList(_getServiceDescription_resourceList.value);
+      serviceDescription.getEventDescriptions().addAll(_getServiceDescription_eventDescriptions.value);
+      serviceDescription.setSchemaType(_getServiceDescription_schemaType.value);
+      serviceDescription.getSupportedOptions().addAll(_getServiceDescription_supportedOptions.value);
+      serviceDescription.setExportDescription(_getServiceDescription_exportDescription.value);
+      serviceDescription.setMayReturnRegistrationState(_getServiceDescription_mayReturnRegistrationState.value);
+      serviceDescription.getExtensions().addAll(_getServiceDescription_extensions.value);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -253,6 +271,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   private GetServiceDescription getServiceDescription(List<String> desiredLocales) {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setRegistrationContext(registrationContext);
+    getServiceDescription.setUserContext(null);
     getServiceDescription.getDesiredLocales().addAll(desiredLocales);
     return getServiceDescription;
   }

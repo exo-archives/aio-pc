@@ -92,6 +92,16 @@
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
       <version>${org.exoplatform.pcnew.version}</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-common-utilities</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <dependency>
@@ -118,6 +128,24 @@
       <groupId>commons-io</groupId>
       <artifactId>commons-io</artifactId>
       <version>1.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>1.5.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-asm</artifactId>
+      <version>2.2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-cxf-common-utilities</artifactId>
+      <version>2.1.2</version>
     </dependency>
 
   </dependencies>
@@ -147,7 +175,7 @@
             relaxngDatatype, cargo-core-api-util, cargo-core-container-tomcat,velocity-dep, saxpath, exo-platform.test.framework,
             xmldb-api, castor, drools-smftest, jsp-api, xml-apis, jaxen,
             xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
-            saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            exo-weblogic-authproviders, exo-weblogic-loginmodule,
             carol, drools-base, drools-core, drools-java,
             drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,

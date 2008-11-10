@@ -435,10 +435,10 @@ public class WSRPAdminPortlet {
           registrationData.getConsumerModes().addAll(consumerModes);
           registrationData.getConsumerWindowStates().addAll(consumerStates);
           registrationData.getConsumerUserScopes().addAll(CONSUMER_SCOPES);
-          registrationData.getExtensionDescriptions().addAll(null);
-          registrationData.getRegistrationProperties().addAll(null);
-          registrationData.getResourceList().getResources().addAll(null);
-          registrationData.getExtensions().addAll(null);
+//          registrationData.getExtensionDescriptions().addAll(null);
+//          registrationData.getRegistrationProperties().addAll(null);
+//          registrationData.getResourceList().getResources().addAll(null);
+//          registrationData.getExtensions().addAll(null);
 
           Register register = new Register();
           register.setRegistrationData(registrationData);

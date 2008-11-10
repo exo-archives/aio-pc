@@ -22,7 +22,6 @@ import java.io.Writer;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -72,7 +71,6 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle.ResourceBundleManager;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp2.consumer.GroupSession;
@@ -116,7 +114,6 @@ import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MarkupType;
 import org.exoplatform.services.wsrp2.type.MimeResponse;
 import org.exoplatform.services.wsrp2.type.NamedString;
-import org.exoplatform.services.wsrp2.type.NamedStringArray;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.ParameterDescription;
 import org.exoplatform.services.wsrp2.type.PersonName;
@@ -612,9 +609,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     /* for WSRP Admin Portlet */
     if (portletAppName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_APP)) {
       if (portletName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_NAME)) {
-        bundle.add(ResourceBundleManager.PORTLET_TITLE, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
-        bundle.add(ResourceBundleManager.PORTLET_SHORT_TITLE, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
-        bundle.add(ResourceBundleManager.KEYWORDS, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
+        bundle.add(PortletData.PORTLET_TITLE, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
+        bundle.add(PortletData.PORTLET_SHORT_TITLE, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
+        bundle.add(PortletData.KEYWORDS, WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
         return bundle;
       }
     }
@@ -622,15 +619,15 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     String portletHandle = getPortletHandle(portletAppName, portletName);
     try {
       PortletDescription pd = getProducer(producerID).getPortletDescription(portletHandle);
-      bundle.add(ResourceBundleManager.PORTLET_TITLE,
+      bundle.add(PortletData.PORTLET_TITLE,
                  Utils.getStringFromLocalizedString(pd.getTitle()));
-      bundle.add(ResourceBundleManager.PORTLET_SHORT_TITLE,
+      bundle.add(PortletData.PORTLET_SHORT_TITLE,
                  Utils.getStringFromLocalizedString(pd.getShortTitle()));
       if (pd.getKeywords() != null) {
-        bundle.add(ResourceBundleManager.KEYWORDS,
+        bundle.add(PortletData.KEYWORDS,
                    Utils.getStringFromLocalizedString(pd.getKeywords().get(0)));
       } else {
-        bundle.add(ResourceBundleManager.KEYWORDS, null);
+        bundle.add(PortletData.KEYWORDS, null);
       }
     } catch (Exception e) {
       e.printStackTrace();
