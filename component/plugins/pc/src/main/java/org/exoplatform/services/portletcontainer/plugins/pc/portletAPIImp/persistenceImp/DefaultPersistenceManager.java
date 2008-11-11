@@ -20,6 +20,7 @@ import javax.portlet.PortletPreferences;
 import javax.portlet.PreferencesValidator;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
@@ -70,7 +71,7 @@ public class DefaultPersistenceManager implements PersistenceManager {
   public final PortletWindowInternal getWindow(final Input input, final ExoPortletPreferences defaultPrefs) {
     WindowID windowID = input.getInternalWindowID();
     PortletApplicationProxy proxy = (PortletApplicationProxy) cont.getComponentInstance(windowID
-        .getPortletApplicationName());
+        .getPortletApplicationName() + Constants.PORTLET_APP_ENCODER);
     String validatorClassName = null;
     PreferencesValidator validator = null;
     if (defaultPrefs != null) {
