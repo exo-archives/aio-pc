@@ -40,6 +40,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
@@ -168,7 +169,7 @@ public class PortletApplicationHandler {
     try {
       ExoContainer manager = cont;
       PortletApplicationProxy proxy = (PortletApplicationProxy) manager
-          .getComponentInstance(portletAppName);
+          .getComponentInstance(portletAppName + Constants.PORTLET_APP_ENCODER);
 
       if (!holder.isModeSuported(portletAppName, portletName, input.getMarkup(), input
           .getPortletMode()))
