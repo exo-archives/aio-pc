@@ -169,7 +169,7 @@ public class PortletApplicationHandler {
     try {
       ExoContainer manager = cont;
       PortletApplicationProxy proxy = (PortletApplicationProxy) manager
-          .getComponentInstance(portletAppName + Constants.PORTLET_APP_ENCODER);
+          .getComponentInstance(portletAppName + PCConstants.PORTLET_APP_ENCODER);
 
       if (!holder.isModeSuported(portletAppName, portletName, input.getMarkup(), input
           .getPortletMode()))

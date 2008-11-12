@@ -159,7 +159,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     String portletAppName = reqCtx.getPortletWindowInternal().getWindowID()
         .getPortletApplicationName();
     PortletApplicationProxy proxy = (PortletApplicationProxy) manager
-        .getComponentInstance(portletAppName+ Constants.PORTLET_APP_ENCODER);
+        .getComponentInstance(portletAppName+ PCConstants.PORTLET_APP_ENCODER);
     return proxy.getPortletConfig(reqCtx.getPortletWindowInternal().getWindowID().getPortletName());
   }
 

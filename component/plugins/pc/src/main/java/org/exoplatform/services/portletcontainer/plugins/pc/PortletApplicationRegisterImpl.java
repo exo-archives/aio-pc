@@ -27,7 +27,7 @@ import javax.portlet.PortletURLGenerationListener;
 import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.Constants;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.component.ComponentPlugin;
@@ -132,7 +132,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
     try {
       appcont
           .registerComponentImplementation(
-              portletAppName + Constants.PORTLET_APP_ENCODER,
+              portletAppName + PCConstants.PORTLET_APP_ENCODER,
               cl
                   .loadClass("org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationProxy"));
     } catch (ClassNotFoundException e) {
@@ -140,7 +140,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
       throw new PortletContainerException("Class not found", e);
     }
     PortletApplicationProxy proxy = (PortletApplicationProxy) appcont
-        .getComponentInstance(portletAppName + Constants.PORTLET_APP_ENCODER);
+        .getComponentInstance(portletAppName + PCConstants.PORTLET_APP_ENCODER);
     proxy.setApplicationName(portletAppName);
     proxy.load();
     log.debug("send post deploy event");
@@ -168,7 +168,7 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
       PortletLifecycleListener portletLifecycleListener = iterator.next();
       portletLifecycleListener.preUndeploy(portletAppName, portletApp, servletContext);
     }
-    appcont.unregisterComponent(portletAppName);
+    appcont.unregisterComponent(portletAppName + PCConstants.PORTLET_APP_ENCODER);
     holder.removePortletApplication(portletAppName);
     removeFilters(portletAppName, portletApp);
     log.debug("send post undeploy event");
