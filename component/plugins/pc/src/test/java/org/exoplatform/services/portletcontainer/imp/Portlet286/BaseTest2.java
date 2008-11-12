@@ -126,7 +126,7 @@ public class BaseTest2 extends TestCase {
     portletApplicationRegister = (PortletApplicationRegister)portalContainer.getComponentInstanceOfType(PortletApplicationRegister.class);
     portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, PORTLET_APP_NAME);
     portletMonitor = (PortletContainerMonitorImpl) RootContainer.getInstance().getComponentInstanceOfType(PortletContainerMonitorImpl.class);
-
+    
 //    portletDatas = (PortletDataImp) portletContainer.
 //      getAllPortletMetaData().get(CONTEXT_PATH.substring(1) + Constants.PORTLET_META_DATA_ENCODER
 //        + "HelloWorld");
