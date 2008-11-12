@@ -56,7 +56,7 @@ public class TestPortletPreferences extends BaseTest {
 	public void setUp() throws Exception {
 		super.setUp();
     proxy = (PortletApplicationProxy) PortalContainer.getInstance().
-                                      getComponentInstance("war_template");
+                                      getComponentInstance("war_template" +PCConstants.PORTLET_APP_ENCODER);
     ExoPortletPreferences prefs = (portletApp_.getPortlet().get(0)).getPortletPreferences();
     PreferencesValidator validator = proxy.getValidator(prefs.getPreferencesValidator(),
       (portletApp_.getPortlet().get(0)).getPortletName());

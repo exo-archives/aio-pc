@@ -55,7 +55,7 @@ public class TestPortletInterface extends BaseTest {
 	public void setUp() throws Exception {
 		super.setUp();
     proxy = (PortletApplicationProxy) PortalContainer.getInstance().
-        getComponentInstance("war_template");
+        getComponentInstance("war_template" + PCConstants.PORTLET_APP_ENCODER);
     portletDatas = (PortletDataImp) portletContainer.
       getAllPortletMetaData().get(CONTEXT_PATH.substring(1) + Constants.PORTLET_META_DATA_ENCODER
         + "HelloWorld");
