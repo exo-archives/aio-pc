@@ -59,6 +59,11 @@ public class PCConstants {
    * App scope.
    */
   public static final String APPLICATION_SCOPE = "APPLICATION_SCOPE";
+  
+  /**
+   *  Portlet App
+   */
+  public static final String PORTLET_APP_ENCODER       = "_portlet_app_";
 
   /**
    * Mime type.
