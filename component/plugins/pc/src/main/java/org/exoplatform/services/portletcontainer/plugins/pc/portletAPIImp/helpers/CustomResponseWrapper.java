@@ -20,6 +20,8 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpServletResponseWrapper;
 import org.exoplatform.services.portletcontainer.helper.URLEncoder;
+import org.exoplatform.commons.utils.Text;
+
 import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.IOException;
@@ -138,6 +140,15 @@ public class CustomResponseWrapper extends HttpServletResponseWrapper {
     servletOutput.close();
     output.close();
     tmpWriter.close();
+  }
+
+  public final Text getPortletMarkup() {
+    if (outputStreamAlreadyCalled)
+      return Text.create(output.toByteArray());
+    else if (writerAlreadyCalled)
+      return Text.create(charArrayWriter.toCharArray());
+    else
+      return null;
   }
 
   /**
