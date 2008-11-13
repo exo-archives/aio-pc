@@ -16,7 +16,6 @@
  */
 package org.exoplatform.frameworks.portletcontainer.portalframework.filters;
 
-import java.io.Serializable;
 import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -79,7 +78,7 @@ public class SessionReplicator implements RequestHandler {
    */
   public final void send(String sessionId,
                          String portalContainerName,
-                         final HashMap<String, Serializable> sessionInfo) throws Exception {
+                         final Map<String, Object> sessionInfo) throws Exception {
     if (sessionInfo == null)
       return;
     sessionInfo.put(SESSION_IDENTIFIER, sessionId);
@@ -91,7 +90,9 @@ public class SessionReplicator implements RequestHandler {
         disp = new MessageDispatcher(channel, null, null, this);
         channel.connect("TestGroup");
       }
-      org.jgroups.Message mess = new org.jgroups.Message(null, null, sessionInfo);
+      org.jgroups.Message mess = new org.jgroups.Message(null,
+                                                         null,
+                                                         (HashMap<String, Object>) sessionInfo);
       disp.castMessage(null, mess, GroupRequest.GET_ALL, 0);
 
     } catch (Exception ex) {
@@ -106,9 +107,10 @@ public class SessionReplicator implements RequestHandler {
    * @return reply
    */
   public final Object handle(final Message msg) {
-    HashMap<String, Serializable> sessionInfo = (HashMap<String, Serializable>) msg.getObject();
+    HashMap<String, Object> sessionInfo = (HashMap<String, Object>) msg.getObject();
     String sid = (String) sessionInfo.get(SESSION_IDENTIFIER);
     String pid = (String) sessionInfo.get(PORTAL_IDENTIFIER);
+    System.out.println(">>> EXOMAN SessionReplicator.handle() pid = " + pid);
     String rid = (String) sessionInfo.get(REPLICATOR_IDENTIFIER);
     if (rid.equals(this.toString()))
       return null;

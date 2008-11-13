@@ -18,7 +18,9 @@ package org.exoplatform.frameworks.portletcontainer.portalframework.filters;
 
 import java.io.IOException;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -32,6 +34,7 @@ import javax.servlet.http.HttpSession;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
+import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 
 /**
@@ -51,11 +54,6 @@ public class PortalFrameworkFilter implements Filter {
    * Frameworks. One per http session.
    */
   public static final HashMap<String, PortalFramework> FRAMEWORKS = new HashMap<String, PortalFramework>();
-
-  /**
-   * Session replication info.
-   */
-  private HashMap<String, Serializable> sessionInfo = new HashMap<String, Serializable>();
 
   /**
    * Does nothing.
@@ -110,6 +108,7 @@ public class PortalFrameworkFilter implements Filter {
     } catch (Exception e){
       e.printStackTrace();
     }
+    
   }
 
   /**

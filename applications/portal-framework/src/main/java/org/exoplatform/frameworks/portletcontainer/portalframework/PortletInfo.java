@@ -66,12 +66,12 @@ public class PortletInfo implements Serializable {
   /**
    * Available portlet modes.
    */
-  private ArrayList<String> modes;
+  private ArrayList<String> modes = new ArrayList<String>();
 
   /**
    * Available window states.
    */
-  private ArrayList<String> states;
+  private ArrayList<String> states = new ArrayList<String>();
 
   /**
    * Portlet name.

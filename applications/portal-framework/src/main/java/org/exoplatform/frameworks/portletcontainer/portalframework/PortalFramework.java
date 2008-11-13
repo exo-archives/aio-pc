@@ -16,7 +16,6 @@
  */
 package org.exoplatform.frameworks.portletcontainer.portalframework;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -1411,9 +1410,13 @@ public class PortalFramework {
     return portletinfo;
   }
 
-  public HashMap<String, Serializable> getRenderedPortletInfos() {
-    // TODO Auto-generated method stub
-    return null;
+  public Map<String, Object> getRenderedPortletInfos() {
+    Map<String, Object> sessionInfo = new HashMap<String, Object>();
+    ArrayList<PortletInfo> pinfos = this.getPortletInfos();
+    for (PortletInfo portletInfo : pinfos) {
+      sessionInfo.put(portletInfo.getName().split("/")[0], portletInfo.getSessionMap());
+    }
+    return sessionInfo;
   }
 
   /**
