@@ -58,6 +58,11 @@ public class ServletWrapper extends HttpServlet {
   HashMap<String, Object> tmp_data = new HashMap<String, Object>();
 
   /**
+   * The logger.
+   */
+  private static final Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+
+  /**
    * Overridden method.
    *
    * @param servletConfig config
@@ -83,7 +88,6 @@ public class ServletWrapper extends HttpServlet {
         .getAttribute(PortletContainerDispatcher.CONTAINER));
     PortletApplicationHandler handler = (PortletApplicationHandler) manager
         .getComponentInstanceOfType(PortletApplicationHandler.class);
-    Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     log.debug("Service method of ServletWrapper entered");
     log.debug("Encoding used : " + servletRequest.getCharacterEncoding());
 
