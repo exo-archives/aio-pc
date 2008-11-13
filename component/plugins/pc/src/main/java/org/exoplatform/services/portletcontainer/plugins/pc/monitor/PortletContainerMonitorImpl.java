@@ -16,7 +16,6 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.monitor;
 
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -54,17 +53,17 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
   /**
    * Runtime metadatas.
    */
-  private final Map<String, PortletRuntimeData> runtimeDatas;
+  private final CopyOnWriteMap<String, PortletRuntimeData> runtimeDatas;
 
   /**
    * Destroyed portlets.
    */
-  private final Map<String, PortletRuntimeData> destroyedPortlets;
+  private CopyOnWriteMap<String, PortletRuntimeData> destroyedPortlets;
 
   /**
    * Broken portlets.
    */
-  private final Map<String, PortletRuntimeData> brokenPortlets;
+  private CopyOnWriteMap<String, PortletRuntimeData> brokenPortlets;
 
   /**
    * Logger.
@@ -89,9 +88,9 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cacheService = cacheService;
     globalCache = cacheService.getCacheInstance(PCConstants.GLOBAL_SCOPE_CACHE);
-    runtimeDatas = Collections.synchronizedMap(new HashMap<String, PortletRuntimeData>());
-    brokenPortlets = Collections.synchronizedMap(new HashMap<String, PortletRuntimeData>());
-    destroyedPortlets = Collections.synchronizedMap(new HashMap<String, PortletRuntimeData>());
+    runtimeDatas = new CopyOnWriteMap<String, PortletRuntimeData>();
+    brokenPortlets = new CopyOnWriteMap<String, PortletRuntimeData>();
+    destroyedPortlets = new CopyOnWriteMap<String, PortletRuntimeData>();
   }
 
   /**
@@ -101,7 +100,7 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
    * @see org.exoplatform.services.portletcontainer.monitor.PortletContainerMonitor#getPortletRuntimeDataMap()
    */
   public final Map<String, PortletRuntimeData> getPortletRuntimeDataMap() {
-    return runtimeDatas;
+    return new HashMap<String, PortletRuntimeData>(runtimeDatas.map);
   }
 
   /**
@@ -759,4 +758,31 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
     datas.setCacheScope(s);
   }
 
+  /**
+   * A very simple copy on write map to avoid read contention which is suitable for read mostly scenarios.
+   * Synchronization only happens on write operations.
+   *
+   * @param <K> the key generic type
+   * @param <V> the value generic type
+   */
+  private static class CopyOnWriteMap<K, V> {
+
+    private volatile Map<K, V> map = new HashMap<K,V>();
+
+    V get(K k) {
+      return map.get(k);
+    }
+
+    synchronized void put(K k, V v) {
+      Map<K, V> copy = new HashMap<K, V>(map);
+      copy.put(k , v);
+      map = copy;
+    }
+
+    synchronized void remove(K k) {
+      Map<K, V> copy = new HashMap<K, V>(map);
+      copy.remove(k);
+      map = copy;
+    }
+  }
 }

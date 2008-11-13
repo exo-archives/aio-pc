@@ -108,10 +108,12 @@ public class PortletApplicationProxy implements Startable {
   public final javax.portlet.Portlet getPortlet(final PortletContext portletContext,
       final String portletName) throws PortletException {
     log.debug("getPortlet() in PortletApplicationProxy entered");
-    synchronized (monitor) {
-      if (!monitor.isInitialized(portletAppName, portletName)) {
-        log.debug("init monitor");
-        init(monitor, portletName, portletContext);
+    if (!monitor.isInitialized(portletAppName, portletName)) {
+      synchronized (monitor) {
+        if (!monitor.isInitialized(portletAppName, portletName)) {
+          log.debug("init monitor");
+          init(monitor, portletName, portletContext);
+        }
       }
     }
     return (javax.portlet.Portlet) pico.getComponentInstance(portletAppName
