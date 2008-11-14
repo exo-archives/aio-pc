@@ -5,7 +5,7 @@
     <version>trunk</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>portlet-jaxb</artifactId>
+  <artifactId>exo.pc.applications.portlet-jaxb</artifactId>
   <packaging>exopc-war</packaging>
   <!-- packaging>war</packaging -->
   <name>eXo Portlet Container 2 Applications JAXB Portlet</name>
