@@ -41,6 +41,11 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.
 public class PortletSessionImp extends AbstractMap implements PortletSession {
 
   /**
+   * The logger.
+   */
+  private static final Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+
+  /**
    * Http session.
    */
   private HttpSession session;
@@ -66,11 +71,6 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
   private boolean invalidated;
 
   /**
-   * Logger.
-   */
-  private final Log log;
-
-  /**
    * Exo container.
    */
   protected ExoContainer cont;
@@ -86,7 +86,6 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
       final PortletContext context,
       final String windowId) {
     this.cont = cont;
-    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.session = session;
     this.context = context;
     this.windowId = windowId;
