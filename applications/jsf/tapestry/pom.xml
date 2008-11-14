@@ -5,7 +5,7 @@
     <version>trunk</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>stapestryportlet</artifactId>
+  <artifactId>exo.pc.applications.jsf.stapestryportlet</artifactId>
   <packaging>war</packaging>
   <!-- packaging>exopc-war</packaging -->
   <name>eXo Portlet Container 2 Applications JSF Tapestry Portlet</name>

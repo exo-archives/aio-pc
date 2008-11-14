@@ -5,7 +5,7 @@
     <version>trunk</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>smyfacesportlet</artifactId>
+  <artifactId>exo.pc.applications.jsf.smyfacesportlet</artifactId>
   <!--packaging>exopc-war</packaging-->
   <packaging>war</packaging>
   <name>eXo Portlet Container 2 Applications JSF MyFaces Portlet</name>

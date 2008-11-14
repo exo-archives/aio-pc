@@ -5,7 +5,7 @@
     <version>trunk</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
-  <artifactId>swebworkportlet</artifactId>
+  <artifactId>exo.pc.applications.jsf.swebworkportlet</artifactId>
   <packaging>war</packaging>
   <name>eXo Portlet Container 2 Applications JSF WebWork Portlet</name>
 
