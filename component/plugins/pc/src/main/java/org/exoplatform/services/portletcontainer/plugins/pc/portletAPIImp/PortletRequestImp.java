@@ -68,7 +68,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
   /**
    * Logger.
    */
-  private final Log log;
+  private static final Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
   /**
    * Exo container.
@@ -110,7 +110,6 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
    */
   public PortletRequestImp(final RequestContext reqCtx) {
     super(reqCtx.getHttpServletRequest());
-    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     this.cont = ((PortletContextImpl) reqCtx.getPortletContext()).getContainer();
     this.reqCtx = reqCtx;
     this.enc = reqCtx.getHttpServletRequest().getCharacterEncoding();
