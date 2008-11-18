@@ -21,7 +21,6 @@ import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.PortletMode;
-import javax.portlet.ResourceURL;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.logging.Log;
@@ -29,7 +28,6 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.imp.EmptyResponse;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
-import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;

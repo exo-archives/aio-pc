@@ -54,6 +54,8 @@ public class TestSessions extends GenericPortlet {
     String a = (String) renderRequest.getPortletSession().getAttribute("a");
     if (a == null || a.equals(""))
       a = "";
+    else 
+      w.println(a.length() + "<br>");
     w.println(a + "<br>");
     a += "++";
     renderRequest.getPortletSession().setAttribute("a", a);

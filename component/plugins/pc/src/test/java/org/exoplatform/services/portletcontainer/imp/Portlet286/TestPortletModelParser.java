@@ -23,7 +23,6 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
-import org.exoplatform.test.BasicTestCase;
 
 /**
  * Created by The eXo Platform SAS

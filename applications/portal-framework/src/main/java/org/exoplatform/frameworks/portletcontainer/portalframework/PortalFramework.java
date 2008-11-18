@@ -57,7 +57,7 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 
 /**
  * Created by The eXo Platform SAS .
- *
+ * 
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id$
  */
@@ -66,134 +66,134 @@ public class PortalFramework {
   /**
    * Thread local instance store.
    */
-  private static ThreadLocal<PortalFramework> instance            = new ThreadLocal<PortalFramework>();
+  private static ThreadLocal<PortalFramework> instance                = new ThreadLocal<PortalFramework>();
 
   /**
    * Portal container instance.
    */
-  private ExoContainer                        portalContainer     = null;
+  private ExoContainer                        portalContainer         = null;
 
   /**
    * Portlet container instance.
    */
-  private PortletContainerService             service             = null;
+  private PortletContainerService             service                 = null;
 
   /**
    * Metadata of all currently registered portlets.
    */
-  private Map<String, PortletData>            allPortletMetaData  = null;
+  private Map<String, PortletData>            allPortletMetaData      = null;
 
   /**
    * Map of all portlet windows.
    */
-  private HashMap<String, WindowID2>          wins                = null;
+  private HashMap<String, WindowID2>          wins                    = null;
 
   /**
    * Event delivery map. QName - name of Event, List - names of portlets to
    * deliver to.
    */
-  private HashMap<QName, List<String>>        eventDelivery       = null;
+  private HashMap<QName, List<String>>        eventDelivery           = null;
 
   /**
    * Map of public parameters for portlets. String is portlet handle List is
    * SupportedPublicRenderParameter for that portlet handle
    */
-  private HashMap<String, List<String>>       publicParams        = null;
+  private HashMap<String, List<String>>       publicParams            = null;
 
   /**
    * Portal service parameters extracted from http request.
    */
-  private HashMap<String, String[]>           portalParams        = null;
+  private HashMap<String, String[]>           portalParams            = null;
 
   /**
    * Portlet parameters extracted from http request.
    */
-  private HashMap<String, String[]>           portletParams       = null;
+  private HashMap<String, String[]>           portletParams           = null;
 
   /**
    * Property parameters extracted from http request.
    */
-  private HashMap<String, String[]>           propertyParams      = null;
+  private HashMap<String, String[]>           propertyParams          = null;
 
   /**
    * Render parameters set by processAction().
    */
-  private Map<String, String[]>               renderParams        = null;
+  private Map<String, String[]>               renderParams            = null;
 
   /**
    * Render parameters set by processEvent().
    */
-  private Map<String, String[]>               eventRenderParams   = null;
+  private Map<String, String[]>               eventRenderParams       = null;
 
   /**
    * Property parameters extracted from http request.
    */
-  private HashMap<String, String[]>           publicRenderParams  = null;
+  private HashMap<String, String[]>           publicRenderParams      = null;
 
   /**
    * List of changed portlets requiring to be rerendered.
    */
-  private HashSet<String>                     changes             = null;
+  private HashSet<String>                     changes                 = null;
 
   /**
    * List of locales supported by remote browser. Extracted from http request.
    */
-  private ArrayList<Locale>                   locales             = null;
+  private ArrayList<Locale>                   locales                 = null;
 
   /**
    * Actual http session.
    */
-  private HttpSession                         httpSession         = null;
+  private HttpSession                         httpSession             = null;
 
   /**
    * Target portlet for current request.
    */
-  private String                              target              = null;
+  private String                              target                  = null;
 
   /**
    * Action type requested by current request.
    */
-  private int                                 action              = -1;
+  private int                                 action                  = -1;
 
   /**
    * Http content type requested by hosting portal.
    */
-  private String                              cntType             = null;
+  private String                              cntType                 = null;
 
   /**
    * List of events to deliver.
    */
-  private List<EventInfo>                     events              = null;
+  private List<EventInfo>                     events                  = null;
 
   /**
    * Redirect path if redirection is requested.
    */
-  private String                              redirect            = null;
+  private String                              redirect                = null;
 
   /**
    * Resource content if we're in serveResource().
    */
-  private byte[]                              resourceContent     = null;
+  private byte[]                              resourceContent         = null;
 
   /**
    * Resource content type if we're in serveResource().
    */
-  private String                              resourceContentType = null;
+  private String                              resourceContentType     = null;
 
   /**
    * Http headers set in serveResource().
    */
-  private Map<String, String>                 resourceHeaders     = null;
+  private Map<String, String>                 resourceHeaders         = null;
 
   /**
    * Http status set in serveResource().
    */
-  private int                                 resourceStatus      = 0;
+  private int                                 resourceStatus          = 0;
 
   /**
    * base URL value for URLs.
    */
-  private String                              baseURL             = null;
+  private String                              baseURL                 = null;
 
   /**
    * Portal pages map. Items of the map are List<String> objects that represent
@@ -201,39 +201,34 @@ public class PortalFramework {
    * are positioned at a page, by their window IDs. Keys of the map are page
    * names or any other string keys.
    */
-  private Map<String, List<String>>           pages               = null;
+  private Map<String, List<String>>           pages                   = null;
 
   /**
    * Default portal page name.
    */
-  private static final String                 DEFAULT_PAGE        = "default";
+  private static final String                 DEFAULT_PAGE            = "default";
 
   /**
    * Current portal page selected.
    */
-  private String                              currentPage         = DEFAULT_PAGE;
+  private String                              currentPage             = DEFAULT_PAGE;
 
   /**
    * Current portal layout.
    */
-  private String                              desktopLayout       = "layout2";
+  private String                              desktopLayout           = "layout2";
 
-  private static String[] defaultPortalParamNames = {
-    Constants.RESOURCE_ID_PARAMETER,
-    Constants.CACHELEVEL_PARAMETER,
-    Constants.COMPONENT_PARAMETER,
-    PCConstants.REMOVE_PUBLIC_STRING,
-    Constants.TYPE_PARAMETER,
-    Constants.PORTLET_MODE_PARAMETER,
-    Constants.WINDOW_STATE_PARAMETER,
-    Constants.SECURE_PARAMETER
-  };
+  private static String[]                     defaultPortalParamNames = {
+      Constants.RESOURCE_ID_PARAMETER, Constants.CACHELEVEL_PARAMETER,
+      Constants.COMPONENT_PARAMETER, PCConstants.REMOVE_PUBLIC_STRING, Constants.TYPE_PARAMETER,
+      Constants.PORTLET_MODE_PARAMETER, Constants.WINDOW_STATE_PARAMETER,
+      Constants.SECURE_PARAMETER                                     };
 
-  private static String[] portalParamNames = null;
+  private static String[]                     portalParamNames        = null;
 
   /**
    * Constructor.
-   *
+   * 
    * @param cnt portal container
    */
   public PortalFramework(final ExoContainer cnt) {
@@ -254,7 +249,7 @@ public class PortalFramework {
 
   /**
    * Returns name of parent portal.
-   *
+   * 
    * @return name of parent portal
    */
   public final String getPortalName() {
@@ -263,7 +258,7 @@ public class PortalFramework {
 
   /**
    * Returns name of target portlet after parsing incoming http request.
-   *
+   * 
    * @return name of target portlet
    */
   protected final String getTarget() {
@@ -272,7 +267,7 @@ public class PortalFramework {
 
   /**
    * Returns name of requested action after parsing incoming http request.
-   *
+   * 
    * @return name of requested action
    */
   public final int getAction() {
@@ -281,7 +276,7 @@ public class PortalFramework {
 
   /**
    * Returns redirect path (if any) after processing of the portlet request.
-   *
+   * 
    * @return redirect path or null
    */
   public final String getRedirect() {
@@ -290,7 +285,7 @@ public class PortalFramework {
 
   /**
    * Returns set of portlets that were changed after event processing.
-   *
+   * 
    * @return set of portlet names. The returned set may be empty
    */
   public final HashSet<String> getChanges() {
@@ -299,7 +294,7 @@ public class PortalFramework {
 
   /**
    * Returns set of all portlets currently registered in the portlet container.
-   *
+   * 
    * @return set of portlet names
    */
   public final List<String> getPortletNames() {
@@ -311,7 +306,7 @@ public class PortalFramework {
 
   /**
    * Returns data generated by serveResource().
-   *
+   * 
    * @return portlet resource binary data
    */
   public final byte[] getResourceContent() {
@@ -320,7 +315,7 @@ public class PortalFramework {
 
   /**
    * Returns serveResource() generated data content type.
-   *
+   * 
    * @return portlet resource content type
    */
   public final String getResourceContentType() {
@@ -329,7 +324,7 @@ public class PortalFramework {
 
   /**
    * Returns http headers set by serveResource().
-   *
+   * 
    * @return http headers map
    */
   public final Map<String, String> getResourceHeaders() {
@@ -338,7 +333,7 @@ public class PortalFramework {
 
   /**
    * Returns http status set by serveResource().
-   *
+   * 
    * @return status
    */
   public final int getResourceStatus() {
@@ -361,7 +356,7 @@ public class PortalFramework {
 
   /**
    * Makes framework initialization for every http request.
-   *
+   * 
    * @param actualHttpSession actual http session
    */
   public final void init(final HttpSession actualHttpSession) {
@@ -372,7 +367,7 @@ public class PortalFramework {
 
   /**
    * Returns collection of supported portlet modes for specified portlet.
-   *
+   * 
    * @param pan portlet application name
    * @param pn portlet name infer
    * @return collection of <code>javax.portlet.PortletMode</code>
@@ -383,7 +378,7 @@ public class PortalFramework {
 
   /**
    * Returns collection of supported window states for specified portlet.
-   *
+   * 
    * @param pan portlet application name
    * @param pn portlet name
    * @return collection of <code>javax.portlet.WindowState</code>
@@ -394,7 +389,7 @@ public class PortalFramework {
 
   /**
    * Returns display name of specified portlet.
-   *
+   * 
    * @param plt portlet name
    * @return display name of a portlet
    */
@@ -411,7 +406,7 @@ public class PortalFramework {
 
   /**
    * Returns WindowID object for specified portlet.
-   *
+   * 
    * @param plt portlet name
    * @return WindowID
    */
@@ -421,7 +416,7 @@ public class PortalFramework {
 
   /**
    * Returns map of portal parameters after parsing incoming http request.
-   *
+   * 
    * @return map of mixed <code>java.lang.String</code> and
    *         <code>java.lang.String[]</code>
    */
@@ -431,7 +426,7 @@ public class PortalFramework {
 
   /**
    * Returns map of portlet parameters after parsing incoming http request.
-   *
+   * 
    * @return map of mixed <code>java.lang.String</code> and
    *         <code>java.lang.String[]</code>
    */
@@ -443,7 +438,7 @@ public class PortalFramework {
    * Parses incoming http request parameters, sets up requested action, target
    * portlet (if any) for the requested action, and changes portlet mode and
    * window state for the target portlet if requested.
-   *
+   * 
    * @param httpRequest actual portal http request
    * @param currCntType portal content type
    */
@@ -467,7 +462,12 @@ public class PortalFramework {
     for (final Enumeration<Locale> e = httpRequest.getLocales(); e.hasMoreElements();)
       locales.add(e.nextElement());
 
-    Helper.parseParams(httpRequest, defaultPortalParamNames, portalParamNames, portalParams, portletParams, propertyParams);
+    Helper.parseParams(httpRequest,
+                       defaultPortalParamNames,
+                       portalParamNames,
+                       portalParams,
+                       portletParams,
+                       propertyParams);
     target = Helper.string0(portalParams.get(Constants.COMPONENT_PARAMETER));
     fixPublicRenderParams(portalParams.get(PCConstants.REMOVE_PUBLIC_STRING));
     action = Helper.getActionType(Helper.string0(portalParams.get(Constants.TYPE_PARAMETER)));
@@ -595,11 +595,12 @@ public class PortalFramework {
 
   /**
    * Adds a requested portlet by creating a WindowID2 instance for it.
-   *
+   * 
    * @param appName portlet application name
    * @param portletName portlet name
    * @return unique Id
-   * @throws PortletNotFoundException requested portlet isn't registered on the portlet container
+   * @throws PortletNotFoundException requested portlet isn't registered on the
+   *           portlet container
    */
   public final String addPortlet(final String appName, final String portletName) throws PortletNotFoundException {
     String key = "";
@@ -615,19 +616,21 @@ public class PortalFramework {
   /**
    * Adds a requested portlet by creating a WindowID2 instance for it with given
    * window ID.
-   *
+   * 
    * @param appName portlet application name
    * @param portletName portlet name
    * @param windowId window ID
    * @return unique Id
-   * @throws PortletNotFoundException requested portlet isn't registered on the portlet container
+   * @throws PortletNotFoundException requested portlet isn't registered on the
+   *           portlet container
    */
   public final String addPortletWithId(final String appName,
                                        final String portletName,
                                        final String windowId) throws PortletNotFoundException {
     PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
     if (pd == null)
-      throw new PortletNotFoundException("Requested portlet isn't registered on the portlet container: " + appName + "/" + portletName);
+      throw new PortletNotFoundException("Requested portlet isn't registered on the portlet container: "
+          + appName + "/" + portletName);
 
     final WindowID2 windowID = new WindowID2();
     windowID.setOwner("portal#" + Constants.ANON_USER);
@@ -651,7 +654,7 @@ public class PortalFramework {
 
   /**
    * Removes a requested portlet by deleting its WindowID2 instance.
-   *
+   * 
    * @param key portlet unique key
    */
   public final void removePortlet(final String key) {
@@ -769,7 +772,7 @@ public class PortalFramework {
 
   /**
    * Generates maps for event and public parameters delivery.
-   *
+   * 
    * @param portlets map of portlet metadata objects
    */
   protected final void buildEventDeliveryAndPublicParamsMaps(final Map<String, WindowID2> portlets) {
@@ -802,7 +805,7 @@ public class PortalFramework {
 
   /**
    * For specified portlet adds public params that are supported by the portlet.
-   *
+   * 
    * @param pname portlet name
    * @param params actual parameters map
    * @return map with parameters that are available to specified portlet
@@ -824,7 +827,7 @@ public class PortalFramework {
 
   /**
    * Does actual removal of public render parameters that a portlet ordered.
-   *
+   * 
    * @param o target output
    */
   private void fixPublicRenderParams(final Output o) {
@@ -838,7 +841,7 @@ public class PortalFramework {
 
   /**
    * Does actual removal of public render parameters that a portlet ordered.
-   *
+   * 
    * @param nl list of names
    */
   private void fixPublicRenderParams(final String[] nl) {
@@ -851,7 +854,7 @@ public class PortalFramework {
   /**
    * Returns value of 'javax.portlet.escapeXml' portlet container runtime option
    * for specified portlet.
-   *
+   * 
    * @param plt portlet name
    * @return either 'javax.portlet.escapeXml' portlet container runtime option
    *         is set
@@ -870,7 +873,7 @@ public class PortalFramework {
   /**
    * Checks whether an event that is about to be delivered has its payload type
    * appropriate to declared.
-   *
+   * 
    * @param eventInfo event to check its payload
    * @return whether payload type valid or not
    */
@@ -896,7 +899,7 @@ public class PortalFramework {
 
   /**
    * Adds events for delivery just after checking of their type.
-   *
+   * 
    * @param newEvents list of new events to add to delivery queue
    */
   protected final void addEvents(final List<Event> newEvents) {
@@ -920,7 +923,7 @@ public class PortalFramework {
 
   /**
    * Generates set of public parameters names for a specified portlet.
-   *
+   * 
    * @param plt portlet name
    * @return set of public portlet names
    */
@@ -936,7 +939,7 @@ public class PortalFramework {
 
   /**
    * Creates ResourceInput instance and fills it with appropriate values.
-   *
+   * 
    * @return resource input object
    */
   protected final ResourceInput createResourceInput() {
@@ -962,7 +965,7 @@ public class PortalFramework {
 
   /**
    * Creates ActionInput instance and fills it with appropriate values.
-   *
+   * 
    * @return action input object
    */
   protected final ActionInput createActionInput() {
@@ -987,7 +990,7 @@ public class PortalFramework {
 
   /**
    * Creates EventInput instance and fills it with appropriate values.
-   *
+   * 
    * @param event event to deliver
    * @return event input object
    */
@@ -1020,7 +1023,7 @@ public class PortalFramework {
 
   /**
    * Creates RenderInput instance and fills it with appropriate values.
-   *
+   * 
    * @param plt name of portlet to render
    * @return render input object
    */
@@ -1055,7 +1058,7 @@ public class PortalFramework {
 
   /**
    * Calls serveResource() for target portlet and parses its output.
-   *
+   * 
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
    * @param resourceInput resource input object
@@ -1071,7 +1074,7 @@ public class PortalFramework {
 
   /**
    * Calls processAction() for target portlet and parses its output.
-   *
+   * 
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
    * @param actionInput action input object
@@ -1102,7 +1105,7 @@ public class PortalFramework {
 
   /**
    * Calls processEvent() for target portlet and parses its output.
-   *
+   * 
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
    * @param eventInput event input object
@@ -1139,7 +1142,7 @@ public class PortalFramework {
 
   /**
    * Calls render() for target portlet and parses its output.
-   *
+   * 
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
    * @param renderInput render input object
@@ -1157,7 +1160,7 @@ public class PortalFramework {
 
   /**
    * Subsequently delivers generated events.
-   *
+   * 
    * @param ctx servlet context
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
@@ -1184,7 +1187,7 @@ public class PortalFramework {
 
   /**
    * The same as processRequest() but for the currently selected page.
-   *
+   * 
    * @param ctx servlet context
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
@@ -1200,7 +1203,7 @@ public class PortalFramework {
 
   /**
    * The same as processRequest() but for a specified page.
-   *
+   * 
    * @param ctx servlet context
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
@@ -1219,7 +1222,7 @@ public class PortalFramework {
   /**
    * Includes the full cycle of portlet container user http request processing,
    * collects data returned by portlets and returns it to a caller.
-   *
+   * 
    * @param ctx servlet context
    * @param httpRequest http servlet request
    * @param httpResponse http servlet response
@@ -1256,12 +1259,14 @@ public class PortalFramework {
   }
 
   public String getPortalPortletModeUrl(String id, String mode) {
-    String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.PORTLET_MODE_PARAMETER + "=" + mode;
+    String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&"
+        + Constants.PORTLET_MODE_PARAMETER + "=" + mode;
     return appendParamsToUrl(url);
   }
 
   public String getPortalWindowStateUrl(String id, String state) {
-    String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&" + Constants.WINDOW_STATE_PARAMETER + "=" + state;
+    String url = baseURL + id + "&" + Constants.SECURE_PARAMETER + "=true&"
+        + Constants.WINDOW_STATE_PARAMETER + "=" + state;
     return appendParamsToUrl(url);
   }
 
@@ -1272,7 +1277,7 @@ public class PortalFramework {
   private String appendParamsToUrl(String url) {
     if (portalParamNames != null) {
       List<String> portalParamNamesList = Arrays.asList(portalParamNames);
-      for (Iterator<String> i = portalParams.keySet().iterator(); i.hasNext(); ) {
+      for (Iterator<String> i = portalParams.keySet().iterator(); i.hasNext();) {
         String n = i.next();
         if (portalParamNamesList.contains(n)) {
           String[] pvs = portalParams.get(n);

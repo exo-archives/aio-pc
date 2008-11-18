@@ -47,7 +47,7 @@ public class PortalServlet extends HttpServlet {
   /**
    * Log.
    */
-  private final Log log = ExoLogger.getLogger(getClass());
+  private static final Log LOG = ExoLogger.getLogger(PortalServlet.class);
 
   /**
    * Serves http request. Renders portal page.

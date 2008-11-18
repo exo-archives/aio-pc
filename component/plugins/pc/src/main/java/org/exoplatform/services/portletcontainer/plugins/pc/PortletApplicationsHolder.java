@@ -148,7 +148,7 @@ public class PortletApplicationsHolder {
       // for each portlet
       for (int i = 0; i < portlets.size(); i++) {
         Portlet portlet = portlets.get(i);
-        // for each security contraint (OPTION)
+        // for each security constraint (OPTION)
         for (SecurityConstraint securityConstraint : securityContraints) {
           List<String> portletNames = securityConstraint.getPortletCollection().getPortletName();
           for (String portletName : portletNames) {

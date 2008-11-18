@@ -17,10 +17,7 @@
 package org.exoplatform.frameworks.portletcontainer.portalframework.filters;
 
 import java.io.IOException;
-import java.io.Serializable;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Map;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
@@ -34,30 +31,35 @@ import javax.servlet.http.HttpSession;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
-import org.exoplatform.frameworks.portletcontainer.portalframework.PortletInfo;
+import org.exoplatform.frameworks.portletcontainer.portalframework.replication.SessionReplicator;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 
 /**
- * Created by The eXo Platform SAS  .
- *
+ * Created by The eXo Platform SAS .
+ * 
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id: PortletFilter.java 8554 2006-09-04 15:28:35Z sunman $
  */
 
 /**
- * PortletFilter class does portal's work using portal-framework it processes user http requests
- * and invokes portlets.
+ * PortletFilter class does portal's work using portal-framework it processes
+ * user http requests and invokes portlets.
  */
 public class PortalFrameworkFilter implements Filter {
 
   /**
    * Frameworks. One per http session.
    */
-  public static final HashMap<String, PortalFramework> FRAMEWORKS = new HashMap<String, PortalFramework>();
+  public static final HashMap<String, PortalFramework> FRAMEWORKS        = new HashMap<String, PortalFramework>();
+
+  /**
+   * Session replicator instance.
+   */
+  private SessionReplicator                            sessionReplicator = null;
 
   /**
    * Does nothing.
-   *
+   * 
    * @param filterConfig filter config
    */
   public void init(final FilterConfig filterConfig) {
@@ -65,7 +67,7 @@ public class PortalFrameworkFilter implements Filter {
 
   /**
    * Actual request processing.
-   *
+   * 
    * @param servletRequest servlet request
    * @param servletResponse servlet respnse
    * @param filterChain filter chain
@@ -73,18 +75,21 @@ public class PortalFrameworkFilter implements Filter {
    * @throws ServletException something may go wrong
    */
   public synchronized void doFilter(ServletRequest servletRequest,
-      ServletResponse servletResponse, FilterChain filterChain)
-      throws IOException, ServletException {
+                                    ServletResponse servletResponse,
+                                    FilterChain filterChain) throws IOException, ServletException {
 
     HttpServletRequest httpRequest = (HttpServletRequest) servletRequest;
     HttpSession httpSession = httpRequest.getSession();
 
     PortalFramework framework = null;
 
+    ExoContainer container = null;
     try {
-      ExoContainer container = ExoContainerContext.getTopContainer();
+      container = ExoContainerContext.getTopContainer();
       // create WindowInfosContainer instance if there's no one
-      WindowInfosContainer.createInstance(container, httpSession.getId(), httpRequest.getRemoteUser());
+      WindowInfosContainer.createInstance(container,
+                                          httpSession.getId(),
+                                          httpRequest.getRemoteUser());
 
       // create/get PortalFramework instance
       framework = FRAMEWORKS.get(httpSession.getId());
@@ -104,11 +109,15 @@ public class PortalFrameworkFilter implements Filter {
 
     // Session Replication
     try {
-      new SessionReplicator().send(httpSession.getId(), framework.getPortalName(), framework.getRenderedPortletInfos());
-    } catch (Exception e){
+      if (sessionReplicator == null)
+        sessionReplicator = (SessionReplicator) container.getComponentInstanceOfType(SessionReplicator.class);
+      sessionReplicator.send(httpSession.getId(),
+                             framework.getPortalName(),
+                             framework.getRenderedPortletInfos());
+    } catch (Exception e) {
       e.printStackTrace();
     }
-    
+
   }
 
   /**

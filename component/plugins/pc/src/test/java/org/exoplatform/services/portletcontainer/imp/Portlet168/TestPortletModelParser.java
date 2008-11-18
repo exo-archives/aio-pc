@@ -21,7 +21,6 @@ import java.net.URL;
 
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
-import org.exoplatform.test.BasicTestCase;
 
 /**
  * Thu, May 15, 2003 @

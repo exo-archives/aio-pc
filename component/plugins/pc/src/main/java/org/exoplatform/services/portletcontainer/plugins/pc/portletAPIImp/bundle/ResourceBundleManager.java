@@ -61,17 +61,17 @@ public class ResourceBundleManager {
   /**
    * Cache.
    */
-  private final ExoCache cache;
+  private final ExoCache             cache;
 
   /**
    * Logger.
    */
-  private final Log log;
+  private final Log                  log;
 
   /**
    * Exo container.
    */
-  protected ExoContainer cont;
+  protected ExoContainer             cont;
 
   /**
    * @param conf PC conf
@@ -80,8 +80,8 @@ public class ResourceBundleManager {
    * @throws Exception exception
    */
   public ResourceBundleManager(final PortletContainerConf conf,
-      final CacheService cacheService,
-      final ExoContainerContext context) throws Exception {
+                               final CacheService cacheService,
+                               final ExoContainerContext context) throws Exception {
     this.conf = conf;
     this.cache = cacheService.getCacheInstance(getClass().getName());
     this.log = ExoLogger.getLogger(getClass().getName());
@@ -112,13 +112,13 @@ public class ResourceBundleManager {
         locale = new Locale("en");
 
       if (conf.isBundleLookupDelegated()) {
-        ResourceBundleDelegate delegate = (ResourceBundleDelegate) cont
-            .getComponentInstanceOfType(ResourceBundleDelegate.class);
+        ResourceBundleDelegate delegate = (ResourceBundleDelegate) cont.getComponentInstanceOfType(ResourceBundleDelegate.class);
         bundle = (MapResourceBundle) delegate.lookupBundle(bundleName, locale);
         initBundle(pI, bundle);
       } else {
-        ResourceBundle rB = ResourceBundle.getBundle(bundleName, locale, Thread.currentThread()
-            .getContextClassLoader());
+        ResourceBundle rB = ResourceBundle.getBundle(bundleName,
+                                                     locale,
+                                                     Thread.currentThread().getContextClassLoader());
         bundle = new MapResourceBundle(rB, locale);
         initBundle(pI, bundle);
         cache.put(key, bundle);
@@ -134,24 +134,26 @@ public class ResourceBundleManager {
    * @param rB resource bundle
    */
   private void initBundle(final PortletInfo pI, final MapResourceBundle rB) {
-    if ((pI != null) && (pI.getTitle() != null))
-      try {
-        rB.getString(PORTLET_TITLE);
-      } catch (MissingResourceException ex) {
-        rB.add(PORTLET_TITLE, pI.getTitle());
-      }
-    if ((pI != null) && (pI.getShortTitle() != null))
-      try {
-        rB.getString(PORTLET_SHORT_TITLE);
-      } catch (MissingResourceException ex) {
-        rB.add(PORTLET_SHORT_TITLE, pI.getShortTitle());
-      }
-    if ((pI != null) && (pI.getKeywords() != null))
-      try {
-        rB.getString(KEYWORDS);
-      } catch (MissingResourceException ex) {
-        rB.add(KEYWORDS, pI.getKeywords());
-      }
+    if (pI != null) {
+      if (pI.getTitle() != null)
+        try {
+          rB.getString(PORTLET_TITLE);
+        } catch (MissingResourceException ex) {
+          rB.add(PORTLET_TITLE, pI.getTitle());
+        }
+      if (pI.getShortTitle() != null)
+        try {
+          rB.getString(PORTLET_SHORT_TITLE);
+        } catch (MissingResourceException ex) {
+          rB.add(PORTLET_SHORT_TITLE, pI.getShortTitle());
+        }
+      if (pI.getKeywords() != null)
+        try {
+          rB.getString(KEYWORDS);
+        } catch (MissingResourceException ex) {
+          rB.add(KEYWORDS, pI.getKeywords());
+        }
+    }
   }
 
 }

@@ -16,17 +16,12 @@
  */
 package org.exoplatform.services.portletcontainer.impl.servlet;
 
-import org.apache.commons.logging.Log;
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.portletcontainer.PortletContainerException;
-import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
-import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHandler;
-import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher;
-import org.exoplatform.services.portletcontainer.pci.Input;
-import org.exoplatform.services.portletcontainer.pci.Output;
-import org.exoplatform.services.portletcontainer.pci.model.Util;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
 
 import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
@@ -35,11 +30,17 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import java.util.Locale;
-import java.util.ResourceBundle;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
+import org.apache.commons.logging.Log;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
+import org.exoplatform.services.portletcontainer.pci.Input;
+import org.exoplatform.services.portletcontainer.pci.Output;
+import org.exoplatform.services.portletcontainer.pci.model.Util;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHandler;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher;
 
 /**
  * Created by the Exo Development team. Author : Mestrallet Benjamin
@@ -55,7 +56,7 @@ public class ServletWrapper extends HttpServlet {
   /**
    * Temp data.
    */
-  HashMap<String, Object> tmp_data = new HashMap<String, Object>();
+  HashMap<String, Object> tmp_data     = new HashMap<String, Object>();
 
   /**
    * The logger.
@@ -64,7 +65,7 @@ public class ServletWrapper extends HttpServlet {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param servletConfig config
    * @throws ServletException exception
    * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
@@ -75,26 +76,25 @@ public class ServletWrapper extends HttpServlet {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param servletRequest request
    * @param servletResponse response
    * @throws ServletException exception
    * @throws java.io.IOException exception
-   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest, javax.servlet.http.HttpServletResponse)
+   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
+   *      javax.servlet.http.HttpServletResponse)
    */
-  protected final void service(HttpServletRequest servletRequest, HttpServletResponse servletResponse) throws ServletException,
-      java.io.IOException {
-    ExoContainer manager = ExoContainerContext.getContainerByName((String) servletRequest
-        .getAttribute(PortletContainerDispatcher.CONTAINER));
-    PortletApplicationHandler handler = (PortletApplicationHandler) manager
-        .getComponentInstanceOfType(PortletApplicationHandler.class);
+  protected final void service(HttpServletRequest servletRequest,
+                               HttpServletResponse servletResponse) throws ServletException,
+                                                                   java.io.IOException {
+    ExoContainer manager = ExoContainerContext.getContainerByName((String) servletRequest.getAttribute(PortletContainerDispatcher.CONTAINER));
+    PortletApplicationHandler handler = (PortletApplicationHandler) manager.getComponentInstanceOfType(PortletApplicationHandler.class);
     log.debug("Service method of ServletWrapper entered");
     log.debug("Encoding used : " + servletRequest.getCharacterEncoding());
 
     // Session replication
     if (servletRequest.getAttribute(PortletContainerDispatcher.ATTRS) != null) {
       HttpSession ss = servletRequest.getSession();
-      // System.out.println("--->Session : "+ss);
       HashMap attrs = (HashMap) servletRequest.getAttribute(PortletContainerDispatcher.ATTRS);
       for (Iterator i = attrs.keySet().iterator(); i.hasNext();) {
         String an = (String) i.next();
@@ -111,31 +111,35 @@ public class ServletWrapper extends HttpServlet {
       isToGetBundle = b.booleanValue();
     if (isToGetBundle) {
       log.debug("Get bundle");
-      String portletAppName = (String) servletRequest
-          .getAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME);
-      String portletName = (String) servletRequest
-          .getAttribute(PortletContainerDispatcher.PORTLET_NAME);
-      ResourceBundle bundle = handler.getBundle(portletAppName, portletName,
-          ((Locale) servletRequest.getAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE)));
+      String portletAppName = (String) servletRequest.getAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME);
+      String portletName = (String) servletRequest.getAttribute(PortletContainerDispatcher.PORTLET_NAME);
+      ResourceBundle bundle = handler.getBundle(portletAppName,
+                                                portletName,
+                                                ((Locale) servletRequest.getAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE)));
       servletRequest.setAttribute(PortletContainerDispatcher.BUNDLE, bundle);
       return;
     }
 
     log.debug("Get " + (String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
-    PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest
-        .getAttribute(PortletContainerDispatcher.WINDOW_INFO);
+    PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest.getAttribute(PortletContainerDispatcher.WINDOW_INFO);
+
     Input input = (Input) servletRequest.getAttribute(PortletContainerDispatcher.INPUT);
     Output output = (Output) servletRequest.getAttribute(PortletContainerDispatcher.OUTPUT);
-    int isAction = Util.actionToInt((String) servletRequest
-        .getAttribute(PortletContainerDispatcher.IS_ACTION));
+    int isAction = Util.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
     servletRequest.removeAttribute(PortletContainerDispatcher.IS_ACTION);
     servletRequest.removeAttribute(PortletContainerDispatcher.INPUT);
     servletRequest.removeAttribute(PortletContainerDispatcher.OUTPUT);
     servletRequest.removeAttribute(PortletContainerDispatcher.WINDOW_INFO);
     servletRequest.removeAttribute(PortletContainerDispatcher.CONTAINER);
+
     try {
-      handler.process(getServletContext(), servletRequest, servletResponse, input, output,
-          windowInfo, isAction);
+      handler.process(getServletContext(),
+                      servletRequest,
+                      servletResponse,
+                      input,
+                      output,
+                      windowInfo,
+                      isAction);
     } catch (PortletContainerException e) {
       log.error("An error occured while processing the portlet request", e);
       throw new ServletException("An error occured while processing the portlet request", e);
@@ -144,7 +148,7 @@ public class ServletWrapper extends HttpServlet {
     // Session replication
     try {
       session_data.clear();
-      Enumeration en = servletRequest.getSession().getAttributeNames();
+      Enumeration<String> en = servletRequest.getSession().getAttributeNames();
       while (en.hasMoreElements()) {
         String attrname = (String) en.nextElement();
         Object obj = servletRequest.getSession().getAttribute(attrname);
@@ -153,20 +157,22 @@ public class ServletWrapper extends HttpServlet {
           // Not changed state - not replicating.
         } else {
           session_data.put(attrname, obj);
+//          tmp_data.put(attrname, obj);
         }
         // Cheking for deleted keys
-        for (Iterator it = tmp_data.keySet().iterator(); it.hasNext();) {
+        Iterator it = tmp_data.keySet().iterator(); 
+        while (it.hasNext()) {
           String a = (String) it.next();
           if (!session_data.containsKey(a)) {
             session_data.put(a, null);
+//            it.remove();
           }
         }
-
         output.setSessionMap(session_data);
       }
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
+
 }

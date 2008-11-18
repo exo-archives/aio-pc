@@ -537,6 +537,8 @@ public class Portlet {
    * @return event list
    */
   public final List<QName> getSupportedProcessingEvent() {
+    if (supportedProcessingEvent == null)
+      supportedProcessingEvent = new ArrayList<QName>();
     return supportedProcessingEvent;
   }
 
@@ -564,6 +566,8 @@ public class Portlet {
    * @return event list
    */
   public final List<QName> getSupportedPublishingEvent() {
+    if (supportedPublishingEvent == null)
+      supportedPublishingEvent = new ArrayList<QName>();
     return supportedPublishingEvent;
   }
 
@@ -592,6 +596,8 @@ public class Portlet {
    * @return param name list
    */
   public final List<String> getSupportedPublicRenderParameter() {
+    if (supportedPublicRenderParameter == null)
+      supportedPublicRenderParameter = new ArrayList<String>();
     return supportedPublicRenderParameter;
   }
 
@@ -612,17 +618,19 @@ public class Portlet {
   /**
    * @param containerRuntimeOption1 container runtime option map
    */
-  public final void setContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption1) {
-    if (containerRuntimeOption1 == null)
+  public final void setContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption) {
+    if (containerRuntimeOption == null)
       this.containerRuntimeOption = new HashMap<String, String[]>();
     else
-      this.containerRuntimeOption = containerRuntimeOption1;
+      this.containerRuntimeOption = containerRuntimeOption;
   }
 
   /**
    * @return container runtime option map
    */
   public final Map<String, String[]> getContainerRuntimeOption() {
+    if (containerRuntimeOption == null)
+      this.containerRuntimeOption = new HashMap<String, String[]>();
     return containerRuntimeOption;
   }
 

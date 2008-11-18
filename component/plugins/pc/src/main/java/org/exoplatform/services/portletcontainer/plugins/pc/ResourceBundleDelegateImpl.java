@@ -19,7 +19,6 @@ package org.exoplatform.services.portletcontainer.plugins.pc;
 import java.util.Locale;
 import java.util.ResourceBundle;
 
-import org.exoplatform.commons.utils.MapResourceBundle;
 import org.exoplatform.services.portletcontainer.bundle.ResourceBundleDelegate;
 import org.exoplatform.services.resources.ResourceBundleService;
 
