@@ -1,4 +1,4 @@
-/*
+ /*
  * Copyright (C) 2003-2007 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
@@ -1418,9 +1418,10 @@ public class PortalFramework {
   public Map<String, Object> getRenderedPortletInfos() {
     Map<String, Object> sessionInfo = new HashMap<String, Object>();
     ArrayList<PortletInfo> pinfos = this.getPortletInfos();
-    for (PortletInfo portletInfo : pinfos) {
-      sessionInfo.put(portletInfo.getName().split("/")[0], portletInfo.getSessionMap());
-    }
+    if (pinfos != null)
+      for (PortletInfo portletInfo : pinfos) {
+        sessionInfo.put(portletInfo.getName().split("/")[0], portletInfo.getSessionMap());
+      }
     return sessionInfo;
   }
 
