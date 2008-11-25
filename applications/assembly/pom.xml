@@ -12,7 +12,7 @@
   <dependencies>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>portal</artifactId>
+      <artifactId>exo.pc.applications.portal</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
@@ -20,7 +20,7 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>wsrp</artifactId>
+      <artifactId>exo.pc.applications.wsrp</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
@@ -28,7 +28,7 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>portlets</artifactId>
+      <artifactId>exo.pc.applications.portlets</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
@@ -36,7 +36,7 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>portlets2</artifactId>
+      <artifactId>exo.pc.applications.portlets2</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
@@ -44,7 +44,7 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>demos</artifactId>
+      <artifactId>exo.pc.applications.demos</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
