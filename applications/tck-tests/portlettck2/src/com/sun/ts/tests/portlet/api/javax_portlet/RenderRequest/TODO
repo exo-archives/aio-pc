@@ -1,5 +1,0 @@
-Change the name of GetRenderParameters* to RetainRenderParameters*
-Change the name of GetAttributeInvalidTest* to GetAttributeNullTest*
-Change the name of GetAuthTypeQWithoutProtection* to GetAuthTypeNullTest*
-Change the name of GetInvalidParameterTest* to GetParameterNullTest*
-
