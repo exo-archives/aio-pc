@@ -19,28 +19,6 @@ package org.exoplatform.services.wsrp2.exceptions;
 
 import java.rmi.RemoteException;
 
-import javax.xml.namespace.QName;
-
-//import org.apache.axis.AxisFault;
-//import org.apache.axis.utils.XMLUtils;
-import org.exoplatform.services.wsrp2.type.AccessDeniedFault;
-import org.exoplatform.services.wsrp2.type.Fault;
-import org.exoplatform.services.wsrp2.type.InconsistentParametersFault;
-import org.exoplatform.services.wsrp2.type.InvalidCookieFault;
-import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
-import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
-import org.exoplatform.services.wsrp2.type.InvalidSessionFault;
-import org.exoplatform.services.wsrp2.type.InvalidUserCategoryFault;
-import org.exoplatform.services.wsrp2.type.MissingParametersFault;
-import org.exoplatform.services.wsrp2.type.OperationFailedFault;
-import org.exoplatform.services.wsrp2.type.PortletStateChangeRequiredFault;
-import org.exoplatform.services.wsrp2.type.UnsupportedLocaleFault;
-import org.exoplatform.services.wsrp2.type.UnsupportedMimeTypeFault;
-import org.exoplatform.services.wsrp2.type.UnsupportedModeFault;
-import org.exoplatform.services.wsrp2.type.UnsupportedWindowStateFault;
-import org.w3c.dom.Document;
-import org.w3c.dom.Element;
-
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */

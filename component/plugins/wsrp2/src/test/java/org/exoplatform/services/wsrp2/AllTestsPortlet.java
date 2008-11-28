@@ -42,7 +42,7 @@ public class AllTestsPortlet extends TestCase {
     }
 
     suite.addTestSuite(SuiteForTestProducer.class);
-    suite.addTestSuite(SuiteForTestConsumer.class);
+//    suite.addTestSuite(SuiteForTestConsumer.class);
     
 //    suite.addTestSuite(WSRPServiceTestCase.class);
 

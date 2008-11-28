@@ -19,23 +19,24 @@ package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.type.Deregister;
+import org.exoplatform.services.wsrp2.type.Extension;
+import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.Register;
@@ -44,6 +45,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
 import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 /*
@@ -55,61 +57,59 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 public class ProducerImpl implements Producer, java.io.Serializable {
 
-  private String                                     name;
+  private String                                            name;
 
-  private String                                     ID;
+  private String                                            ID;
 
-  private String                                     description;
+  private String                                            description;
 
-  private String                                     serviceDescriptionInterfaceEndpoint;
+  private transient WSRPV2ServiceDescriptionPortTypeAdapter serviceDescriptionAdapter;
 
-  private transient WSRPV2ServiceDescriptionPortType serviceDescriptionInterface;
+  private transient WSRPV2MarkupPortTypeAdapter             markupAdapter;
 
-  private String                                     markupInterfaceEndpoint;
+  private transient WSRPV2PortletManagementPortTypeAdapter  portletManagementAdapter;
 
-  private transient WSRPV2MarkupPortType             markupInterface;
+  private ServiceDescription                                serviceDescription;
 
-  private String                                     portletManagementInterfaceEndpoint;
+  private transient WSRPV2RegistrationPortTypeAdapter       registrationAdapter;
 
-  private transient WSRPV2PortletManagementPortType  portletManagementInterface;
+  private RegistrationData                                  registrationData;
 
-  private String                                     registrationInterfaceEndpoint;
+  private RegistrationContext                               registrationContext;
 
-  private ServiceDescription                         serviceDescription;
+  private List<String>                                      desiredLocales = new ArrayList<String>();
 
-  private transient WSRPV2RegistrationPortType       registrationInterface;
+  private static final Log                                  LOG            = ExoLogger.getLogger(ProducerImpl.class);
 
-  private boolean                                    registrationRequired;
-
-  private RegistrationData                           registrationData;
-
-  private RegistrationContext                        registrationContext;
-
-  private transient WSRPService                      service;
-
-  private List<String>                               desiredLocales = new ArrayList<String>();
-
-  private transient Log                              log;
-
-  private URL                                        url;
+  private URL                                               url;
 
   public ProducerImpl(ExoContainer cont, String producerURL) {
 //    this.desiredLocales = new ArrayList<String>();
     init(cont, producerURL);
   }
 
-  public void init(ExoContainer cont, String producerURL) {
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
+  public void init(ExoContainer container, String producerURL) {
+//    this.cont = cont;
     System.out.println(">>> EXOMAN ProducerImpl.init() producerURL = " + producerURL);
     try {
       this.url = new URL(producerURL);
-      service = new WSRPService(this.url);//(WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
+      WSRPService service = new WSRPService(this.url);//(WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
+      System.out.println(">>> EXOMAN ProducerImpl.init() service = " + service);
+
+      String producerId = "producer2" + Integer.toString(producerURL.hashCode());
+      this.ID = producerId;
+      container.registerComponentInstance(this.ID, service);
+
+      this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
+      this.markupAdapter = new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService());
+      this.registrationAdapter = new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService());
+      this.portletManagementAdapter = new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService());
+
     } catch (MalformedURLException e) {
-      log.error("Exception eithin ProducerImpl.init() while creating producer url:'" + producerURL
+      LOG.error("Exception eithin ProducerImpl.init() while creating producer url:'" + producerURL
           + "'", e);
     }
-    System.out.println(">>> EXOMAN ProducerImpl.init() service = " + service);
-//    ((WSRPServiceLocator) service).setMaintainSession(true);
+
   }
 
   public List<String> getDesiredLocales() {
@@ -144,33 +144,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     this.description = description;
   }
 
-  //service description
-  public String getServiceDescriptionInterfaceEndpoint() {
-    return serviceDescriptionInterfaceEndpoint;
-  }
-
-  public void setServiceDescriptionInterfaceEndpoint(String serviceDescriptionInterfaceEndpoint) {
-    System.out.println(">>> EXOMAN ProducerImpl.setServiceDescriptionInterfaceEndpoint() 1 = " + 1);
-//    this.serviceDescriptionInterfaceEndpoint = serviceDescriptionInterfaceEndpoint;
-//    serviceDescriptionInterface = null;
-  }
-
-  public WSRPV2ServiceDescriptionPortType getServiceDescriptionInterface() {
-    if (serviceDescriptionInterface == null) {
-//      try {
-//        try {s
-      serviceDescriptionInterface = service.getWSRPV2ServiceDescriptionService();
-//          (new URL(serviceDescriptionInterfaceEndpoint));
-
-//        } catch (MalformedURLException e) {
-//          log.debug("Malformed URL : " + serviceDescriptionInterfaceEndpoint);
-//          serviceDescriptionInterface = service.getWSRPV2ServiceDescriptionService();
-//        }
-//      } catch (ServiceException e) {
-//        e.printStackTrace();
-//      }
-    }
-    return serviceDescriptionInterface;
+  public WSRPV2ServiceDescriptionPortTypeAdapter getServiceDescriptionAdapter() {
+    return serviceDescriptionAdapter;
   }
 
   public ServiceDescription getServiceDescription(boolean newRequest) throws WSRPException {
@@ -206,63 +181,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   private void updateServiceDescription() {
     try {
-      getServiceDescriptionInterface();
       GetServiceDescription getServiceDescription = getServiceDescription(desiredLocales);
-      javax.xml.ws.Holder<java.lang.Boolean> _getServiceDescription_requiresRegistration = new javax.xml.ws.Holder<java.lang.Boolean>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.PortletDescription>> _getServiceDescription_offeredPortlets = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.PortletDescription>>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ItemDescription>> _getServiceDescription_userCategoryDescriptions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ItemDescription>>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ExtensionDescription>> _getServiceDescription_extensionDescriptions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ExtensionDescription>>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ItemDescription>> _getServiceDescription_customWindowStateDescriptions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ItemDescription>>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ItemDescription>> _getServiceDescription_customModeDescriptions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.ItemDescription>>();
-      javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.CookieProtocol> _getServiceDescription_requiresInitCookie = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.CookieProtocol>();
-      javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ModelDescription> _getServiceDescription_registrationPropertyDescription = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ModelDescription>();
-      javax.xml.ws.Holder<java.util.List<java.lang.String>> _getServiceDescription_locales = new javax.xml.ws.Holder<java.util.List<java.lang.String>>();
-      javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ResourceList> _getServiceDescription_resourceList = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ResourceList>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.EventDescription>> _getServiceDescription_eventDescriptions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.EventDescription>>();
-      javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ModelTypes> _getServiceDescription_schemaType = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ModelTypes>();
-      javax.xml.ws.Holder<java.util.List<java.lang.String>> _getServiceDescription_supportedOptions = new javax.xml.ws.Holder<java.util.List<java.lang.String>>();
-      javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ExportDescription> _getServiceDescription_exportDescription = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ExportDescription>();
-      javax.xml.ws.Holder<java.lang.Boolean> _getServiceDescription_mayReturnRegistrationState = new javax.xml.ws.Holder<java.lang.Boolean>();
-      javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _getServiceDescription_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
-
-      serviceDescriptionInterface.getServiceDescription(getServiceDescription.getRegistrationContext(),
-                                                        getServiceDescription.getDesiredLocales(),
-                                                        getServiceDescription.getPortletHandles(),
-                                                        getServiceDescription.getUserContext(),
-                                                        _getServiceDescription_requiresRegistration,
-                                                        _getServiceDescription_offeredPortlets,
-                                                        _getServiceDescription_userCategoryDescriptions,
-                                                        _getServiceDescription_extensionDescriptions,
-                                                        _getServiceDescription_customWindowStateDescriptions,
-                                                        _getServiceDescription_customModeDescriptions,
-                                                        _getServiceDescription_requiresInitCookie,
-                                                        _getServiceDescription_registrationPropertyDescription,
-                                                        _getServiceDescription_locales,
-                                                        _getServiceDescription_resourceList,
-                                                        _getServiceDescription_eventDescriptions,
-                                                        _getServiceDescription_schemaType,
-                                                        _getServiceDescription_supportedOptions,
-                                                        _getServiceDescription_exportDescription,
-                                                        _getServiceDescription_mayReturnRegistrationState,
-                                                        _getServiceDescription_extensions);
-      
-      serviceDescription = new ServiceDescription();
-      serviceDescription.setRequiresRegistration(_getServiceDescription_requiresRegistration.value);
-      serviceDescription.getOfferedPortlets().addAll(_getServiceDescription_offeredPortlets.value);
-      serviceDescription.getUserCategoryDescriptions().addAll(_getServiceDescription_userCategoryDescriptions.value);
-      serviceDescription.getExtensionDescriptions().addAll(_getServiceDescription_extensionDescriptions.value);
-      serviceDescription.getCustomWindowStateDescriptions().addAll(_getServiceDescription_customWindowStateDescriptions.value);
-      serviceDescription.getCustomModeDescriptions().addAll(_getServiceDescription_customModeDescriptions.value);
-      serviceDescription.setRequiresInitCookie(_getServiceDescription_requiresInitCookie.value);
-      serviceDescription.setRegistrationPropertyDescription(_getServiceDescription_registrationPropertyDescription.value);
-      serviceDescription.getLocales().addAll(_getServiceDescription_locales.value);
-      serviceDescription.setResourceList(_getServiceDescription_resourceList.value);
-      serviceDescription.getEventDescriptions().addAll(_getServiceDescription_eventDescriptions.value);
-      serviceDescription.setSchemaType(_getServiceDescription_schemaType.value);
-      serviceDescription.getSupportedOptions().addAll(_getServiceDescription_supportedOptions.value);
-      serviceDescription.setExportDescription(_getServiceDescription_exportDescription.value);
-      serviceDescription.setMayReturnRegistrationState(_getServiceDescription_mayReturnRegistrationState.value);
-      serviceDescription.getExtensions().addAll(_getServiceDescription_extensions.value);
+      serviceDescription = serviceDescriptionAdapter.getServiceDescription(getServiceDescription);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -272,78 +192,32 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setRegistrationContext(registrationContext);
     getServiceDescription.setUserContext(null);
-    getServiceDescription.getDesiredLocales().addAll(desiredLocales);
+    if (desiredLocales != null)
+      getServiceDescription.getDesiredLocales().addAll(desiredLocales);
     return getServiceDescription;
   }
 
-  //markup
-  public String getMarkupInterfaceEndpoint() {
-    return markupInterfaceEndpoint;
+  public WSRPV2MarkupPortTypeAdapter getMarkupAdapter() {
+    return markupAdapter;
   }
 
-  public void setMarkupInterfaceEndpoint(String markupInterfaceEndpoint) {
-    this.markupInterfaceEndpoint = markupInterfaceEndpoint;
-  }
-
-  //portlet management
-  public String getPortletManagementInterfaceEndpoint() {
-    return portletManagementInterfaceEndpoint;
-  }
-
-  public void setPortletManagementInterfaceEndpoint(String portletManagementInterfaceEndpoint) {
-    this.portletManagementInterfaceEndpoint = portletManagementInterfaceEndpoint;
-//    portletManagementInterface = null;
-  }
-
-  public WSRPV2PortletManagementPortType getPortletManagementInterface() {
-    if (portletManagementInterface == null) {
-      try {
-//        try {
-        portletManagementInterface = service.getWSRPV2PortletManagementService();//new URL(portletManagementInterfaceEndpoint));
-//        } catch (MalformedURLException e) {
-//          portletManagementInterface = service.getWSRPPortletManagementService();
-//        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-    return portletManagementInterface;
+  public WSRPV2PortletManagementPortTypeAdapter getPortletManagementAdapter() {
+    return portletManagementAdapter;
   }
 
   public boolean isPortletManagementInferfaceSupported() {
-    if (portletManagementInterface == null) {
-      getPortletManagementInterface();
+    if (portletManagementAdapter == null) {
+      getPortletManagementAdapter();
     }
-    if (portletManagementInterface == null) {
+    if (portletManagementAdapter == null) {
       return false;
     } else {
       return true;
     }
   }
 
-  //registration
-  public String getRegistrationInterfaceEndpoint() {
-    return registrationInterfaceEndpoint;
-  }
-
-  public void setRegistrationInterfaceEndpoint(String registrationInterfaceEndpoint) {
-    this.registrationInterfaceEndpoint = registrationInterfaceEndpoint;
-//    registrationInterface = null;
-  }
-
-  public WSRPV2RegistrationPortType getRegistrationInterface() {
-    if (registrationInterface == null) {
-      try {
-//        try {
-        registrationInterface = service.getWSRPV2RegistrationService();//RegistrationService(new URL(registrationInterfaceEndpoint));
-//        } catch (MalformedURLException e) {
-//          registrationInterface = service.getWSRPRegistrationService();
-//        }
-      } catch (Exception e) {
-        e.printStackTrace();
-      }
-    }
-    return registrationInterface;
+  public WSRPV2RegistrationPortTypeAdapter getRegistrationAdapter() {
+    return registrationAdapter;
   }
 
   public boolean isRegistrationRequired() {
@@ -366,11 +240,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   public RegistrationContext register(Register register) throws WSRPException {
-    if (registrationInterface == null) {
-      getRegistrationInterface();
-    }
     try {
-      this.registrationContext = registrationInterface.register(register);
+      this.registrationContext = registrationAdapter.register(register);
       this.registrationData = register.getRegistrationData();
     } catch (Exception e) {
       e.printStackTrace();
@@ -379,34 +250,21 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   public RegistrationState modifyRegistration(ModifyRegistration modifyRegistration) throws WSRPException {
-    //ModifyRegistration modifyRegistration = new ModifyRegistration();
-    modifyRegistration.setRegistrationData(registrationData);
-    modifyRegistration.setRegistrationContext(registrationContext);
-    javax.xml.ws.Holder<byte[]> _modifyRegistration_registrationState = new javax.xml.ws.Holder<byte[]>();
-    javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.Lifetime> _modifyRegistration_scheduledDestruction = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.Lifetime>();
-    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _modifyRegistration_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
+    RegistrationState registrationState = null;
+//    ModifyRegistration modifyRegistration = new ModifyRegistration();
+//    modifyRegistration.setRegistrationData(registrationData);
+//    modifyRegistration.setRegistrationContext(registrationContext);
     try {
-      registrationInterface.modifyRegistration(modifyRegistration.getRegistrationContext(),
-                                               modifyRegistration.getRegistrationData(),
-                                               modifyRegistration.getUserContext(),
-                                               _modifyRegistration_registrationState,
-                                               _modifyRegistration_scheduledDestruction,
-                                               _modifyRegistration_extensions);
+      registrationState = registrationAdapter.modifyRegistration(modifyRegistration);
     } catch (Exception e) {
       throw new WSRPException(Faults.INVALID_REGISTRATION_FAULT, e);
     }
-    RegistrationState registrationState = new RegistrationState();
-    registrationState.setRegistrationState(_modifyRegistration_registrationState.value);
     return registrationState;
   }
 
   public ReturnAny deregister(Deregister deregister) throws WSRPException {
-    if (registrationInterface == null) {
-      getRegistrationInterface();
-    }
     try {
-      registrationInterface.deregister(deregister.getRegistrationContext(),
-                                       deregister.getUserContext());
+      Extension extension = registrationAdapter.deregister(deregister);
     } catch (Exception e) {
       throw new WSRPException(Faults.INVALID_REGISTRATION_FAULT, e);
     } finally {
@@ -417,19 +275,36 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     return returnAny;
   }
 
-  public boolean isRegistrationInterfaceSupported() {
-    if (serviceDescriptionInterface == null) {
-      getServiceDescriptionInterface();
+  public Lifetime getRegistrationLifetime(GetRegistrationLifetime getRegistrationLifetime) throws WSRPException {
+    Lifetime lifetime = null;
+    try {
+      lifetime = registrationAdapter.getRegistrationLifetime(getRegistrationLifetime);
+    } catch (Exception e) {
+      throw new WSRPException(Faults.INVALID_REGISTRATION_FAULT, e);
     }
-    if (serviceDescriptionInterface == null) {
+    return lifetime;
+  }
+
+  public Lifetime setRegistrationLifetime(SetRegistrationLifetime setRegistrationLifetime) throws WSRPException {
+    Lifetime lifetime = null;
+    try {
+      lifetime = registrationAdapter.setRegistrationLifetime(setRegistrationLifetime);
+    } catch (Exception e) {
+      throw new WSRPException(Faults.INVALID_REGISTRATION_FAULT, e);
+    }
+    return lifetime;
+  }
+
+  public boolean isRegistrationAdapterSupported() {
+    if (serviceDescriptionAdapter == null) {
       return false;
     } else {
       return true;
     }
   }
-  
+
   public URL getUrl() {
     return url;
   }
-  
+
 }

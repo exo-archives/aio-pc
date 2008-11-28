@@ -105,13 +105,14 @@ public class MockWSRPService extends WSRPService { //WSRPServiceLocator implemen
 
   ///not necessary to implement
 
-  public Remote getPort(QName qName, Class aClass) {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
+//  public Remote getPort(QName qName, Class aClass) {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
+//
+//  public Remote getPort(Class aClass) {
+//    return null; //To change body of implemented methods use File | Settings | File Templates.
+//  }
 
-  public Remote getPort(Class aClass) {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
 //
 //  public Call[] getCalls(QName qName) {
 //    return new Call[0]; //To change body of implemented methods use File | Settings | File Templates.

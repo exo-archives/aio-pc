@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.test;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.MarkupType;
@@ -72,12 +74,12 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   public void testGetKeyWords() throws Exception {
     log();
     PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("sample", ps.getKeywords(0).getValue());
-    assertEquals("hello", ps.getKeywords(1).getValue());
+    assertEquals("sample", ps.getKeywords().get(0).getValue());
+    assertEquals("hello", ps.getKeywords().get(1).getValue());
 
     ps = getHelloWorldPortlet("fr");
-    assertEquals("exemple", ps.getKeywords(0).getValue());
-    assertEquals("bonjour", ps.getKeywords(1).getValue());
+    assertEquals("exemple", ps.getKeywords().get(0).getValue());
+    assertEquals("bonjour", ps.getKeywords().get(1).getValue());
   }
 
   public void testGetPortletHandle() throws Exception {
@@ -95,16 +97,16 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   public void testGetMarkup() throws Exception {
     log();
     PortletDescription ps = getHelloWorldPortlet("en");
-    MarkupType mT = ps.getMarkupTypes(0);
+    MarkupType mT = ps.getMarkupTypes().get(0);
 
     assertEquals("text/html", mT.getMimeType());
-    assertEquals("wsrp:config", mT.getModes(0));
-    assertEquals("wsrp:help", mT.getModes(2));
+    assertEquals("wsrp:config", mT.getModes().get(0));
+    assertEquals("wsrp:help", mT.getModes().get(2));
 //    assertEquals("wsrp:minimized", mT.getWindowStates(0));
 //    assertEquals("wsrp:normal", mT.getWindowStates(1));
 //    assertEquals("wsrp:maximized", mT.getWindowStates(2));
 //    assertEquals("wsrp:half-page", mT.getWindowStates(3));
-    assertEquals("en", mT.getLocales()[0]);
+    assertEquals("en", mT.getLocales().get(0));
   }
 
   public void testPortletNeedsSecureTransportation() throws Exception {
@@ -113,14 +115,14 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
 //    assertEquals(false, ps.getDefaultMarkupSecure().booleanValue());
 //    assertEquals(false, ps.getOnlySecure().booleanValue());
 //  !!! changed to true 'cause there is security constraint for the portlet in portlet.xml
-    assertEquals(true, ps.getDefaultMarkupSecure().booleanValue());
-    assertEquals(true, ps.getOnlySecure().booleanValue());
+    assertEquals(true, ps.isDefaultMarkupSecure().booleanValue());
+    assertEquals(true, ps.isOnlySecure().booleanValue());
   }
 
   public void testRequiresRegistration() throws Exception {
     log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setDesiredLocales(new String[] { "en" });
+    getServiceDescription.getDesiredLocales().add("en");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     assertEquals(true, sd.isRequiresRegistration());
   }
@@ -128,16 +130,16 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   public void testGetCustomModes() throws Exception {
     log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setDesiredLocales(new String[] { "en" });
+    getServiceDescription.getDesiredLocales().add("en");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    ItemDescription[] iDArray = sd.getCustomModeDescriptions();
+    List<ItemDescription> list = sd.getCustomModeDescriptions();
 
-    ItemDescription iD = iDArray[0];
+    ItemDescription iD = list.get(0);
     assertEquals("config", iD.getItemName());
 //    assertEquals("en", iD.getDescription().getLang());
     assertEquals("to let admin config portlets", iD.getDescription().getValue());
 
-    iD = iDArray[1];
+    iD = list.get(1);
     assertEquals("config", iD.getItemName());
 //    assertEquals("fr", iD.getDescription().getLang());
   }
@@ -145,21 +147,21 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   public void testGetCustomWindowStates() throws Exception {
     log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setDesiredLocales(new String[] { "en" });
+    getServiceDescription.getDesiredLocales().add("en");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    ItemDescription[] iDArray = sd.getCustomWindowStateDescriptions();
+    List<ItemDescription> list = sd.getCustomWindowStateDescriptions();
 
-    ItemDescription iD = iDArray[0];
+    ItemDescription iD = list.get(0);
     assertEquals("half-page", iD.getItemName());
 //    assertEquals("en", iD.getDescription().getLang());
     assertEquals("portlet takes half of the page", iD.getDescription().getValue());
 
-    iD = iDArray[1];
+    iD = list.get(1);
     assertEquals("half-page", iD.getItemName());
 //    assertEquals("fr", iD.getDescription().getLang());
     assertEquals("portlet sure une demi page", iD.getDescription().getValue());
 
-    iD = iDArray[2];
+    iD = list.get(2);
     assertEquals("max-per-column", iD.getItemName());
 //    assertEquals("en", iD.getDescription().getLang());
     assertEquals("portlet the whole column", iD.getDescription().getValue());
@@ -168,28 +170,28 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   public void testGetSupportedLocales() throws Exception {
     log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setDesiredLocales(new String[] { "en" });
+    getServiceDescription.getDesiredLocales().add("en");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    String[] localesArray = sd.getLocales();
-    assertEquals("en", localesArray[0]);
-    assertEquals("fr", localesArray[1]);
+    List<String> localesList = sd.getLocales();
+    assertEquals("en", localesList.get(0));
+    assertEquals("fr", localesList.get(1));
   }
 
   public void testGetUserAttributes() throws Exception {
     log();
     PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("workInfo/telephone", ps.getUserProfileItems(0));
+    assertEquals("workInfo/telephone", ps.getUserProfileItems().get(0));
   }
 
   private PortletDescription getHelloWorldPortlet(String locale) throws Exception {
     log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setDesiredLocales(new String[] { locale });
+    getServiceDescription.getDesiredLocales().add(locale);
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    PortletDescription[] psArray = sd.getOfferedPortlets();
-    for (int i = 0; i < psArray.length; i++) {
-      if (CONTEXT_PATH.concat("/HelloWorld").equals(psArray[i].getPortletHandle()))
-        return psArray[i];
+    List<PortletDescription> list = sd.getOfferedPortlets();
+    for (PortletDescription portletDescription : list) {
+      if (CONTEXT_PATH.concat("/HelloWorld").equals(portletDescription.getPortletHandle()))
+        return portletDescription;
     }
     return null;
   }

@@ -18,30 +18,35 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.net.URL;
-import java.rmi.RemoteException;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Collection;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.List;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.xml.datatype.XMLGregorianCalendar;
 
 import junit.framework.TestCase;
 
 import org.exoplatform.Constants;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
-import org.exoplatform.services.wsrp2.intf.WSRPv2MarkupPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPv2PortletManagementPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPv2RegistrationPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPv2ServiceDescriptionPortType;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
@@ -66,10 +71,12 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
-//import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
+
+import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl;
 
 /**
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: 11 nov. 2003 Time:
@@ -77,109 +84,114 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services2/";
+  protected static final String                     SERVICE_URL              = "http://localhost:8080/wsrp/soap/services/WSRP_v2_Markup_Service?wsdl";
 
-  protected static final String                 CONTEXT_PATH             = "hello";
+  protected static final String                     CONTEXT_PATH             = "hello";
 
-  protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
-                                                                                                                  : System.getProperty("testPath"));
+  protected static final String                     TEST_PATH                = (System.getProperty("testPath") == null ? "."
+                                                                                                                      : System.getProperty("testPath"));
 
   //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
 
-  protected static final String                 serviceUrlString         = SERVICE_URL.substring(0,
-                                                                                                 SERVICE_URL.length() - 1);
+  protected static final String                     serviceUrlString         = SERVICE_URL.substring(0,
+                                                                                                     SERVICE_URL.length() - 1);
 
-  protected static final String                 consumerAgent            = "exoplatform.2.0";
+  protected static final String                     consumerAgent            = "exoplatform.2.0";
 
-  static boolean                                initService_             = true;
+  static boolean                                    initService_             = true;
 
-  protected PortletContainerService             portletContainer;
+  protected PortletContainerService                 portletContainer;
 
-  protected PortletApplicationsHolder           holder;
+  protected PortletApplicationsHolder               holder;
 
-  protected PortletApp                          portletApp_;
+  protected PortletApp                              portletApp_;
 
-  protected Collection                          roles;
+  protected Collection                              roles;
 
-  protected WSRPv2ServiceDescriptionPortType serviceDescriptionInterface;
+  protected WSRPV2ServiceDescriptionPortTypeAdapter serviceDescriptionInterface;
 
-  protected WSRPv2RegistrationPortType       registrationOperationsInterface;
+  protected WSRPV2RegistrationPortTypeAdapter       registrationOperationsInterface;
 
-  protected WSRPv2MarkupPortType             markupOperationsInterface;
+  protected WSRPV2MarkupPortTypeAdapter             markupOperationsInterface;
 
-  protected WSRPv2PortletManagementPortType  portletManagementOperationsInterface;
+  protected WSRPV2PortletManagementPortTypeAdapter  portletManagementOperationsInterface;
 
-  protected PersonName                          personName;
+  protected PersonName                              personName;
 
-  protected UserContext                         userContext;
+  protected UserContext                             userContext;
 
-  protected UserProfile                         userProfile;
+  protected UserProfile                             userProfile;
 
-  protected RegistrationData                    registrationData;
+  protected RegistrationData                        registrationData;
 
-  protected RuntimeContext                      runtimeContext;
+  protected RuntimeContext                          runtimeContext;
 
-  protected Templates                           templates;
+  protected Templates                               templates;
 
-  protected ClientData                          clientData;
+  protected ClientData                              clientData;
 
-  protected MarkupParams                        markupParams;
+  protected MarkupParams                            markupParams;
 
-  protected ResourceParams                      resourceParams;
+  protected ResourceParams                          resourceParams;
 
-  protected EventParams                         eventParams;
+  protected EventParams                             eventParams;
 
-  protected NavigationalContext                 navigationalContext;
+  protected NavigationalContext                     navigationalContext;
 
-  protected SessionParams                       sessionParams;
+  protected SessionParams                           sessionParams;
 
-  protected Register                            register;
+  protected Register                                register;
 
-  protected Lifetime                            lifetime;
+  protected Lifetime                                lifetime;
 
-  protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard",
-      "minimal"                                                         };
+  protected RegistrationContext                     registrationContext;
 
-  public static String[]                        localesArray             = { "en" };
+  protected static final String[]                   USER_CATEGORIES_ARRAY    = { "full",
+      "standard", "minimal"                                                 };
 
-  public static String[]                        markupCharacterSets      = { "UF-08", "ISO-8859-1" };
+  public static String[]                            localesArray             = { "en" };
 
-  public static String[]                        mimeTypes                = { "text/html",
-      "text/xhtml"                                                      };
+  public static String[]                            markupCharacterSets      = { "UF-08",
+      "ISO-8859-1"                                                          };
 
-  public static final String                    BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
-                                                                             + Constants.DEFAUL_PORTAL_OWNER;
+  public static String[]                            mimeTypes                = { "text/html",
+      "text/xhtml"                                                          };
 
-  public static final String                    DEFAULT_TEMPLATE         = BASE_URL
-                                                                             + "&portal:windowState={wsrp-windowState}"
-                                                                             + "&_mode={wsrp-portletMode}"
-                                                                             + "&_isSecure={wsrp-secureURL}"
-                                                                             + "&_component={wsrp-portletHandle}";
+  public static final String                        BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
+                                                                                 + Constants.DEFAUL_PORTAL_OWNER;
 
-  public static final String                    RENDER_TEMPLATE          = DEFAULT_TEMPLATE
-                                                                             + "&portal:type={wsrp-urlType}"
-                                                                             + "&ns={wsrp-navigationalState}";
+  public static final String                        DEFAULT_TEMPLATE         = BASE_URL
+                                                                                 + "&portal:windowState={wsrp-windowState}"
+                                                                                 + "&_mode={wsrp-portletMode}"
+                                                                                 + "&_isSecure={wsrp-secureURL}"
+                                                                                 + "&_component={wsrp-portletHandle}";
 
-  public static final String                    BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE
-                                                                             + "&portal:type={wsrp-urlType}"
-                                                                             + "&ns={wsrp-navigationalState}"
-                                                                             + "&is={wsrp-interactionState}";
+  public static final String                        RENDER_TEMPLATE          = DEFAULT_TEMPLATE
+                                                                                 + "&portal:type={wsrp-urlType}"
+                                                                                 + "&ns={wsrp-navigationalState}";
 
-  public static final String[]                  CONSUMER_MODES           = { "wsrp:view",
-      "wsrp:edit"                                                       };
+  public static final String                        BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE
+                                                                                 + "&portal:type={wsrp-urlType}"
+                                                                                 + "&ns={wsrp-navigationalState}"
+                                                                                 + "&is={wsrp-interactionState}";
 
-  public static final String[]                  CONSUMER_STATES          = { "wsrp:normal",
-      "wsrp:maximized"                                                  };
+  public static final String[]                      CONSUMER_MODES           = { "wsrp:view",
+      "wsrp:edit"                                                           };
 
-  public static final String[]                  CONSUMER_SCOPES          = { "chunk_data" };
+  public static final String[]                      CONSUMER_STATES          = { "wsrp:normal",
+      "wsrp:maximized"                                                      };
 
-  public static final String[]                  CONSUMER_CUSTOM_PROFILES = { "what_more" };
+  public static final String[]                      CONSUMER_SCOPES          = { "chunk_data" };
 
-  private MockServletRequest                    mockServletRequest;
+  public static final String[]                      CONSUMER_CUSTOM_PROFILES = { "what_more" };
 
-  private MockServletResponse                   mockServletResponse;
+  private MockServletRequest                        mockServletRequest;
 
-  public static boolean                         cargoCustomStatus        = false;
+  private MockServletResponse                       mockServletResponse;
+
+  public static boolean                             cargoCustomStatus        = false;
+
+  protected ExoContainer                            container;
 
   public void setUp() throws Exception {
 
@@ -208,26 +220,40 @@ public class BaseTest extends TestCase {
         }
     */
 
-    WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
-    serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
-        + "WSRPServiceDescriptionService"));
-    registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL
-        + "WSRPRegistrationService"));
-    markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL
-        + "WSRPMarkupService"));
-    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
-        + "WSRPPortletManagementService"));
+//    WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
+//    serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
+//        + "WSRPServiceDescriptionService"));
+//    registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL
+//        + "WSRPRegistrationService"));
+//    markupOperationsInterface = serviceLocator.getWSRPMarkupService(new URL(SERVICE_URL
+//        + "WSRPMarkupService"));
+//    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
+//        + "WSRPPortletManagementService"));
+    WSRPService service = new WSRPService(new URL(SERVICE_URL));
+    System.out.println(">>> EXOMAN ProducerImpl.init() service = " + service);
+
+    String producerId = "producer2" + Integer.toString(SERVICE_URL.hashCode());
+
+    container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()); //OK
+    System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
+    if (container.getComponentInstance(producerId) == null)
+      container.registerComponentInstance(producerId, service);
+
+    this.serviceDescriptionInterface = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
+    this.markupOperationsInterface = new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService());
+    this.registrationOperationsInterface = new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService());
+    this.portletManagementOperationsInterface = new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService());
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
     registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
-    registrationData.setConsumerModes(CONSUMER_MODES);
-    registrationData.setConsumerWindowStates(CONSUMER_STATES);
-    registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
+    registrationData.getConsumerModes().addAll(Arrays.asList(CONSUMER_MODES));
+    registrationData.getConsumerWindowStates().addAll(Arrays.asList(CONSUMER_STATES));
+    registrationData.getConsumerUserScopes().addAll(Arrays.asList(CONSUMER_SCOPES));
 //    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
-    registrationData.setRegistrationProperties(null);//allows extension of the specs
-    registrationData.setExtensions(null);//allows extension of the specs
+//    registrationData.getRegistrationProperties(null);//allows extension of the specs
+//    registrationData.getExtensions(null);//allows extension of the specs
 
     Calendar currentTime = new GregorianCalendar();
     currentTime.setTime(new Date(System.currentTimeMillis()));
@@ -237,18 +263,22 @@ public class BaseTest extends TestCase {
 
     lifetime = null;
 
-    register = new Register(registrationData, lifetime, userContext);
+    register = new Register();
+    register.setRegistrationData(registrationData);
+    register.setLifetime(lifetime);
+    register.setUserContext(userContext);
 
     personName = new PersonName();
     personName.setNickname("exotest");
 
     userProfile = new UserProfile();
-    userProfile.setBdate(new GregorianCalendar());
+    XMLGregorianCalendar gc = new XMLGregorianCalendarImpl(new GregorianCalendar());
+    userProfile.setBdate(gc);
     userProfile.setGender("male");
     userProfile.setName(personName);
 
     userContext = new UserContext();
-    userContext.setUserCategories(USER_CATEGORIES_ARRAY);
+    userContext.getUserCategories().addAll(Arrays.asList(USER_CATEGORIES_ARRAY));
     userContext.setProfile(userProfile);
     userContext.setUserContextKey("exotest");
 
@@ -275,32 +305,32 @@ public class BaseTest extends TestCase {
 
     markupParams = new MarkupParams();
     markupParams.setClientData(clientData);
-    markupParams.setLocales(localesArray);
-    markupParams.setMarkupCharacterSets(markupCharacterSets);
+    markupParams.getLocales().addAll(Arrays.asList(localesArray));
+    markupParams.getMarkupCharacterSets().addAll(Arrays.asList(markupCharacterSets));
     markupParams.setNavigationalContext(navigationalContext);
     markupParams.setSecureClientCommunication(false);
     markupParams.setValidateTag(null);
-    markupParams.setValidNewModes(null);
-    markupParams.setValidNewWindowStates(null);
-    markupParams.setMimeTypes(mimeTypes);
+//    markupParams.getValidNewModes().addAll(null);
+//    markupParams.getValidNewWindowStates().addAll(null);
+    markupParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
 
     resourceParams = new ResourceParams();
     resourceParams.setClientData(clientData);
-    resourceParams.setLocales(localesArray);
-    resourceParams.setMarkupCharacterSets(markupCharacterSets);
+    resourceParams.getLocales().addAll(Arrays.asList(localesArray));
+    resourceParams.getMarkupCharacterSets().addAll(Arrays.asList(markupCharacterSets));
     resourceParams.setNavigationalContext(navigationalContext);
     resourceParams.setSecureClientCommunication(false);
     resourceParams.setValidateTag(null);
-    resourceParams.setValidNewModes(null);
-    resourceParams.setValidNewWindowStates(null);
-    resourceParams.setMimeTypes(mimeTypes);
+//    resourceParams.getValidNewModes().addAll(null);
+//    resourceParams.getValidNewWindowStates().addAll(null);
+    resourceParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
     resourceParams.setMode("wsrp:view");
     resourceParams.setWindowState("wsrp:normal");
 
     eventParams = new EventParams();
-    eventParams.setEvents(null);
+//    eventParams.getEvents().addAll(Arrays.asList(null);
 
     mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
@@ -314,9 +344,9 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
+  protected ServiceDescription getServiceDescription(String[] locales) throws Exception {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setDesiredLocales(locales);
+    getServiceDescription.getDesiredLocales().addAll(Arrays.asList(locales));
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
   }
 
@@ -341,7 +371,7 @@ public class BaseTest extends TestCase {
   }
 
   protected HandleEvents handleEvents(RegistrationContext rc, PortletContext portletContext) {
-    eventParams.setPortletStateChange(StateChange.readOnly);
+    eventParams.setPortletStateChange(StateChange.READ_ONLY);
     HandleEvents handleEvents = new HandleEvents();
     handleEvents.setRegistrationContext(rc);
     handleEvents.setPortletContext(portletContext);
@@ -353,12 +383,11 @@ public class BaseTest extends TestCase {
   }
 
   protected void manageTemplatesOptimization(ServiceDescription sd, String portletHandle) {
-    PortletDescription[] array = sd.getOfferedPortlets();
-    for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+    List<PortletDescription> list = sd.getOfferedPortlets();
+    for (PortletDescription portletDescription : list) {
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
         System.out.println("[test] use of portlet handle : " + portletHandle);
-        if (portletDescription.getTemplatesStoredInSession().booleanValue()) {
+        if (portletDescription.isTemplatesStoredInSession().booleanValue()) {
           System.out.println("[test] set templates to null ");
           runtimeContext.setTemplates(null);
         }
@@ -369,12 +398,11 @@ public class BaseTest extends TestCase {
   protected void manageUserContextOptimization(ServiceDescription sd,
                                                String portletHandle,
                                                GetMarkup getMarkup) {
-    PortletDescription[] array = sd.getOfferedPortlets();
-    for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+    List<PortletDescription> list = sd.getOfferedPortlets();
+    for (PortletDescription portletDescription : list) {
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
         System.out.println("[test] use of portlet handle : " + portletHandle);
-        if (portletDescription.getUserContextStoredInSession().booleanValue()) {
+        if (portletDescription.isUserContextStoredInSession().booleanValue()) {
           System.out.println("[test] set user context to null ");
           getMarkup.setUserContext(null);
         }
@@ -385,12 +413,11 @@ public class BaseTest extends TestCase {
   protected void manageUserContextOptimization(ServiceDescription sd,
                                                String portletHandle,
                                                PerformBlockingInteraction performBlockingInteraction) {
-    PortletDescription[] array = sd.getOfferedPortlets();
-    for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+    List<PortletDescription> array = sd.getOfferedPortlets();
+    for (PortletDescription portletDescription : array) {
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
         System.out.println("[test] use of portlet handle : " + portletHandle);
-        if (portletDescription.getUserContextStoredInSession().booleanValue()) {
+        if (portletDescription.isUserContextStoredInSession().booleanValue()) {
           System.out.println("[test] set user context to null ");
           performBlockingInteraction.setUserContext(null);
         }
@@ -413,15 +440,24 @@ public class BaseTest extends TestCase {
     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
     System.out.println(">>>>>>>>>>>>>>> >>> " + ste.getClassName() + " - " + ste.getMethodName());
   }
-  
-  protected Lifetime getLifetimeInSec(int i){
+
+  protected Lifetime getLifetimeInSec(int i) {
     Calendar calendar1 = Calendar.getInstance();
     Calendar calendar2 = Calendar.getInstance();
     calendar2.add(Calendar.SECOND, i);
     Lifetime lf = new Lifetime();
-    lf.setCurrentTime(calendar1);
-    lf.setTerminationTime(calendar2);
+    lf.setCurrentTime(CalendarUtils.convertCalendar(calendar1));
+    lf.setTerminationTime(CalendarUtils.convertCalendar(calendar2));
     return lf;
   }
-  
+
+  protected void createRegistrationContext(ServiceDescription sd) throws Exception {
+    if (sd.isRequiresRegistration()) {
+      registrationContext = new RegistrationContext();
+      registrationContext.setRegistrationHandle("");
+    } else {
+      registrationContext = null;
+    }
+  }
+
 }

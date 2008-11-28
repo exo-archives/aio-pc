@@ -17,26 +17,6 @@
 
 package org.exoplatform.services.wsrp2;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
-//import javax.xml.rpc.ServiceException;
-
-//import org.apache.axis.AxisFault;
-//import org.apache.axis.EngineConfiguration;
-//import org.apache.axis.client.Call;
-//import org.apache.axis.client.Service;
-//import org.apache.axis.components.logger.LogFactory;
-//import org.apache.axis.deployment.wsdd.WSDDConstants;
-//import org.apache.axis.message.SOAPBodyElement;
-//import org.apache.axis.utils.Messages;
-//import org.apache.axis.utils.Options;
-import org.apache.commons.logging.Log;
 
 /**
  * AdminClient class uses in WSRPStarter. Referenced classes of package

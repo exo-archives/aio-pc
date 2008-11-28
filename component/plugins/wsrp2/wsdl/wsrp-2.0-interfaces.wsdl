@@ -285,6 +285,10 @@
   </wsdl:message>
 
   <wsdl:portType name="WSRP_v2_Markup_PortType">
+<!--    <jaxws:bindings xmlns:jaxws="http://java.sun.com/xml/ns/jaxws">
+        <enableWrapperStyle>false</enableWrapperStyle>
+    </jaxws:bindings> -->
+    
     <wsdl:operation name="getMarkup">
       <wsdl:input  message="intf:getMarkup"           name="getMarkup"/>
       <wsdl:output message="intf:getMarkupResponse"   name="getMarkupResponse"/>

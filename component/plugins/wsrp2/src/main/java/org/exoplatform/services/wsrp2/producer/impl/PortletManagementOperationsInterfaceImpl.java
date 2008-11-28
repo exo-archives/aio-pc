@@ -185,8 +185,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     }
 
     CopyPortletsResponse copyPortletsResponse = new CopyPortletsResponse();
-    copyPortletsResponse.getCopiedPortlets().addAll(copiedPortlets);
-    copyPortletsResponse.getFailedPortlets().addAll(failedPortlets);
+    if (copiedPortlets != null)
+      copyPortletsResponse.getCopiedPortlets().addAll(copiedPortlets);
+    if (failedPortlets != null)
+      copyPortletsResponse.getFailedPortlets().addAll(failedPortlets);
 
     return copyPortletsResponse;
 
@@ -235,8 +237,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     if (lifetime != null)
       exportPortletsResponse.setLifetime(lifetime);
 
-    exportPortletsResponse.getExportedPortlet().addAll(exportedPortlets);
-    exportPortletsResponse.getFailedPortlets().addAll(failedPortlets);
+    if (exportedPortlets != null)
+      exportPortletsResponse.getExportedPortlet().addAll(exportedPortlets);
+    if (failedPortlets != null)
+      exportPortletsResponse.getFailedPortlets().addAll(failedPortlets);
     return exportPortletsResponse;
 
   }
@@ -331,7 +335,8 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
     // Convert from Collection<FailedPortlets> to array FailedPortlets[]
-    response.getFailedPortlets().addAll(fails);
+    if (fails != null)
+      response.getFailedPortlets().addAll(fails);
     return response;
   }
 
@@ -363,8 +368,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     }
 
     GetPortletsLifetimeResponse lfResponse = new GetPortletsLifetimeResponse();
-    lfResponse.getFailedPortlets().addAll(failedPortlets);
-    lfResponse.getPortletLifetime().addAll(portletLifetimes);
+    if (failedPortlets != null)
+      lfResponse.getFailedPortlets().addAll(failedPortlets);
+    if (portletLifetimes != null)
+      lfResponse.getPortletLifetime().addAll(portletLifetimes);
     return lfResponse;
 
   }
@@ -398,8 +405,11 @@ public class PortletManagementOperationsInterfaceImpl implements
     }
 
     SetPortletsLifetimeResponse setLifetimeResponse = new SetPortletsLifetimeResponse();
-    setLifetimeResponse.getUpdatedPortlet().addAll(portletLifetimes);
-    setLifetimeResponse.getFailedPortlets().addAll(failedPortlets);
+    if (failedPortlets != null)
+      setLifetimeResponse.getFailedPortlets().addAll(failedPortlets);
+    if (portletLifetimes != null)
+      setLifetimeResponse.getUpdatedPortlet().addAll(portletLifetimes);
+
     return setLifetimeResponse;
   }
 
@@ -425,7 +435,8 @@ public class PortletManagementOperationsInterfaceImpl implements
       Exception2Fault.handleException(e);
     }
 
-    PortletDescription pD = proxy.getPortletDescription(portletHandle, desiredLocales.toArray(new String[desiredLocales.size()]));
+    PortletDescription pD = proxy.getPortletDescription(portletHandle,
+                                                        desiredLocales.toArray(new String[desiredLocales.size()]));
     ResourceList resourceList = proxy.getResourceList(desiredLocales.toArray(new String[desiredLocales.size()]));
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
@@ -505,8 +516,9 @@ public class PortletManagementOperationsInterfaceImpl implements
       }
     }
     PropertyList list = new PropertyList();
-    list.getProperties().addAll(properties2return);
-    list.getResetProperties().clear();
+    if (properties2return != null)
+      list.getProperties().addAll(properties2return);
+//    list.getResetProperties().clear();
     return list;
   }
 

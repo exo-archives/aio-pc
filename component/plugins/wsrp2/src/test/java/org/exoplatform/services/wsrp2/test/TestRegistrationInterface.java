@@ -40,20 +40,20 @@ public class TestRegistrationInterface extends BaseTest {
     log();
   }
 
-  public void testRegistrationHandle() throws RemoteException {
+  public void testRegistrationHandle() throws Exception {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
   }
 
-  public void testIncorrectRegistrationData() throws RemoteException {
+  public void testIncorrectRegistrationData() throws Exception {
     log();
     registrationData.setConsumerAgent(incorrectConsumerAgent);
     try {
       registrationOperationsInterface.register(register);
       fail("the registration of the consumer should return a WS Fault");
 //   patch by Pascal LEMOINE avoids exception here
-    } catch (RemoteException e) {
+    } catch (Exception e) {
     }
   }
 
@@ -76,7 +76,7 @@ public class TestRegistrationInterface extends BaseTest {
     try {
       registrationOperationsInterface.modifyRegistration(modifyRegistration);
       fail("the modify registration of the consumer should return a WS Fault");
-    } catch (RemoteException e) {
+    } catch (Exception e) {
     }
   }
 
@@ -85,14 +85,16 @@ public class TestRegistrationInterface extends BaseTest {
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     returnedContext.getRegistrationHandle();
     resolveRegistrationContext(returnedContext);
-    Deregister deregister = new Deregister(returnedContext, userContext);
+    Deregister deregister = new Deregister();
+    deregister.setRegistrationContext(returnedContext);
+    deregister.setUserContext(userContext);
     registrationOperationsInterface.deregister(deregister);
     if (returnedContext.getRegistrationState() == null) {
       ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
       try {
         registrationOperationsInterface.modifyRegistration(modifyRegistration);
         fail("the modify registration of the consumer should return a WS Fault");
-      } catch (RemoteException e) {
+      } catch (Exception e) {
       }
     } else {
       System.out.println("[test] can not try to modify registration here as the state is saved on consumer");
@@ -104,11 +106,13 @@ public class TestRegistrationInterface extends BaseTest {
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     resolveRegistrationContext(returnedContext);
     returnedContext.setRegistrationHandle("chunkHandle");
-    Deregister deregister = new Deregister(returnedContext, userContext);
+    Deregister deregister = new Deregister();
+    deregister.setRegistrationContext(returnedContext);
+    deregister.setUserContext(userContext);
     try {
       registrationOperationsInterface.deregister(deregister);
       fail("the deregistration of the consumer should return a WS Fault");
-    } catch (RemoteException e) {
+    } catch (Exception e) {
     }
   }
 
@@ -119,7 +123,7 @@ public class TestRegistrationInterface extends BaseTest {
     return modifyRegistration;
   }
 
-  public void testRegistrationHandleWithLifetime() throws RemoteException {
+  public void testRegistrationHandleWithLifetime() throws Exception {
     log();
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
@@ -130,12 +134,12 @@ public class TestRegistrationInterface extends BaseTest {
     try {
       registrationOperationsInterface.register(register);
       fail("the registration of the consumer should return a WS Fault");
-    } catch (RemoteException e) {
+    } catch (Exception e) {
     }
     register.setLifetime(null);
   }
 
-  public void testGetRegistrationLifetime() throws RemoteException {
+  public void testGetRegistrationLifetime() throws Exception {
     log();
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
@@ -149,7 +153,7 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(null);
   }
 
-  public void testGetRegistrationLifetimeNull() throws RemoteException {
+  public void testGetRegistrationLifetimeNull() throws Exception {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
@@ -160,7 +164,7 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(null);
   }
 
-  public void testSetRegistrationLifetime() throws RemoteException {
+  public void testSetRegistrationLifetime() throws Exception {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
@@ -177,7 +181,7 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(null);
   }
 
-  public void testSetRegistrationLifetimeNull() throws RemoteException {
+  public void testSetRegistrationLifetimeNull() throws Exception {
     log();
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);

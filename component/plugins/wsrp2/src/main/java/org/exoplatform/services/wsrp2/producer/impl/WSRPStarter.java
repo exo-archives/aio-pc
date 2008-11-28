@@ -25,12 +25,10 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-//import org.apache.axis.utils.Options;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.AdminClient;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 
 /**

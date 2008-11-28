@@ -27,10 +27,8 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
-import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.NamedString;
 

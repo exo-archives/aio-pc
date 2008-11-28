@@ -42,13 +42,13 @@ public class TestProducer extends BaseTest {
     log();
     assertEquals(PRODUCER_ID, producer.getID());
     assertEquals(PRODUCER_NAME, producer.getName());
-    assertEquals(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT,
-                 producer.getPortletManagementInterfaceEndpoint());
-    assertEquals(PRODUCER_REGISTRATION_INTERFACE_ENDPOINT,
-                 producer.getRegistrationInterfaceEndpoint());
-    assertEquals(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT,
-                 producer.getServiceDescriptionInterfaceEndpoint());
-    producer.getServiceDescriptionInterface();
+//    assertEquals(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT,
+//                 producer.getPortletManagementInterfaceEndpoint());
+//    assertEquals(PRODUCER_REGISTRATION_INTERFACE_ENDPOINT,
+//                 producer.getRegistrationInterfaceEndpoint());
+//    assertEquals(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT,
+//                 producer.getServiceDescriptionInterfaceEndpoint());
+    producer.getServiceDescriptionAdapter();
   }
 
 //  public void testServiceDescription() throws Exception {
@@ -81,7 +81,7 @@ public class TestProducer extends BaseTest {
   public void testPortletManagement() {
     log();
     assertTrue(producer.isPortletManagementInferfaceSupported());
-    assertNotNull(producer.getPortletManagementInterface());
+    assertNotNull(producer.getPortletManagementAdapter());
   }
 
   private PortletDescription getHelloWorldPortlet(PortletDescription[] psArray) throws Exception {

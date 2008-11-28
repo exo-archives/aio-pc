@@ -31,6 +31,8 @@ import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService;
+//import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 import org.hibernate.Session;
 
 /**
@@ -38,26 +40,29 @@ import org.hibernate.Session;
  *         févr. 2004 Time: 23:04:48
  */
 public class ProducerRegistryImpl implements ProducerRegistry {
-  private static final String   queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
+  private static final String      queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
 
-  private static final String   queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
-                                                     + "where pd.id = ?";
+  private static final String      queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
+                                                        + "where pd.id = ?";
 
-  private long                  lastModifiedTime_;
+  private long                     lastModifiedTime_;
 
-  private Map<String, Producer> producers;
+  private Map<String, Producer>    producers;
 
-  private HibernateService      hservice_;
+//  private Map<String, WSRPService> services;
 
-  private Log                   log_;
+  private HibernateService         hservice_;
 
-  protected ExoContainer        cont;
+  private Log                      log_;
+
+  protected ExoContainer           cont;
 
   public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService) throws ConfigurationException {
     hservice_ = dbService;
     log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     cont = ctx.getContainer();
     producers = loadProducers();
+//    services = new HashMap<String, WSRPService>();
     lastModifiedTime_ = System.currentTimeMillis();
   }
 
@@ -72,7 +77,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
         String producerUrl = wsrp2ProducerData.getProducer().getUrl().toExternalForm();
         System.out.println(">>> EXOMAN ProducerRegistryImpl.loadProducers() producerUrl = "
             + producerUrl);
-        ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont,producerUrl);
+        ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont, producerUrl);
         map.put(wsrp2ProducerData.getId(), wsrp2ProducerData.getProducer());
       }
     } catch (Exception e) {
@@ -85,6 +90,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     try {
       save(producer);
       producers.put(producer.getID(), producer);
+//      services.put(producer.getID(), new WSRPService(producer.getUrl()));
       lastModifiedTime_ = System.currentTimeMillis();
     } catch (Exception e) {
       e.printStackTrace();
@@ -103,6 +109,9 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     try {
       remove(id);
       producers.remove(id);
+      if (cont.getComponentInstance(id) == null)
+        cont.unregisterComponent(id);
+//      services.remove(id);
       lastModifiedTime_ = System.currentTimeMillis();
       Producer producer = (Producer) producers.get(id);
       return producer;
@@ -115,6 +124,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   public void removeAllProducers() throws Exception {
     removeAll();
     producers.clear();
+//    services.clear();
     lastModifiedTime_ = System.currentTimeMillis();
   }
 
@@ -123,6 +133,7 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   public Producer createProducerInstance(String producerURL) {
+
     return new ProducerImpl(cont, producerURL);
   }
 

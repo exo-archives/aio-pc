@@ -38,8 +38,12 @@ public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
 
   protected Map<String, PortletSession> portletSessions = new HashMap<String, PortletSession>();
 
-  public GroupSessionImpl(String groupID, String markupURL) {
-    super(markupURL);
+//  public GroupSessionImpl() {
+//    super(null);
+//  }
+  
+  public GroupSessionImpl(String groupID, String producerID) {
+    super(producerID);
     this.groupID = groupID;
   }
 

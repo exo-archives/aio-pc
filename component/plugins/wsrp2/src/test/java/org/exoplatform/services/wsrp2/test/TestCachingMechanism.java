@@ -41,15 +41,13 @@ public class TestCachingMechanism extends BaseTest {
     log();
   }
 
-  public void testExistenceOfValidateTag() throws RemoteException {
+  public void testExistenceOfValidateTag() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new RegistrationContext(null, null, null, "");
+    createRegistrationContext(sd);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(registrationContext, portletContext));
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(4, cacheControl.getExpires());
     assertEquals(WSRPConstants.WSRP_USER_SCOPE_CACHE, cacheControl.getUserScope());
@@ -58,10 +56,8 @@ public class TestCachingMechanism extends BaseTest {
   /*
   public void testUseCacheReturn() throws RemoteException, UnsupportedWindowStateFault, InvalidHandleFault, UnsupportedModeFault {
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
-    RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
-
+    createRegistrationContext(sd);
+    
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -82,10 +78,8 @@ public class TestCachingMechanism extends BaseTest {
 
   public void testExistenceOfGlobal() throws RemoteException {
     ServiceDescription sd = getServiceDescription(new String[]{"en"});
-    RegistrationContext rc = null;
-    if(sd.isRequiresRegistration())
-      rc = new RegistrationContext();
-
+    createRegistrationContext(sd);
+    
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/EmptyPortletWithGlobalCache");
 

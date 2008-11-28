@@ -20,8 +20,8 @@ package org.exoplatform.services.wsrp2.testConsumer;
 import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.GregorianCalendar;
 import java.util.Locale;
 
 import javax.servlet.http.HttpServletRequest;
@@ -53,6 +53,7 @@ import org.exoplatform.services.wsrp2.consumer.adapters.UserAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.WSRPPortletAdapter;
 import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.PersonName;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.Register;
@@ -195,32 +196,34 @@ public class BaseTest extends TestCase {
     registrationData.setConsumerName("www.exoplatform.com");
     registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
-    registrationData.setConsumerModes(CONSUMER_MODES);
-    registrationData.setConsumerWindowStates(CONSUMER_STATES);
-    registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
+    registrationData.getConsumerModes().addAll(Arrays.asList(CONSUMER_MODES));
+    registrationData.getConsumerWindowStates().addAll(Arrays.asList(CONSUMER_STATES));
+    registrationData.getConsumerUserScopes().addAll(Arrays.asList(CONSUMER_SCOPES));
 //    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
 
-    register = new Register(registrationData, null, userContext);
+    register = new Register();
+    register.setRegistrationData(registrationData);
+    register.setUserContext(userContext);
 
-    producer = new ProducerImpl(container);
+    producer = new ProducerImpl(container,null);
     producer.setID(PRODUCER_ID);
     producer.setDescription(PRODUCER_DESCRIPTION);
     producer.setName(PRODUCER_NAME);
     //producer.setMarkupInterfaceEndpoint(PRODUCER_MARKUP_INTERFACE_ENDPOINT);
-    producer.setPortletManagementInterfaceEndpoint(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT);
-    producer.setRegistrationInterfaceEndpoint(PRODUCER_REGISTRATION_INTERFACE_ENDPOINT);
-    producer.setServiceDescriptionInterfaceEndpoint(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT);
+//    producer.setPortletManagementInterfaceEndpoint(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT);
+//    producer.setRegistrationInterfaceEndpoint(PRODUCER_REGISTRATION_INTERFACE_ENDPOINT);
+//    producer.setServiceDescriptionInterfaceEndpoint(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT);
 
     personName = new PersonName();
     personName.setNickname("exotest");
 
     userProfile = new UserProfile();
-    userProfile.setBdate(new GregorianCalendar());
+    userProfile.setBdate(CalendarUtils.getNow());
     userProfile.setGender("male");
     userProfile.setName(personName);
 
     userContext = new UserContext();
-    userContext.setUserCategories(USER_CATEGORIES_ARRAY);
+    userContext.getUserCategories().addAll(Arrays.asList(USER_CATEGORIES_ARRAY));
     userContext.setProfile(userProfile);
     userContext.setUserContextKey("exotest");
 

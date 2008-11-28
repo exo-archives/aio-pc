@@ -3,10 +3,11 @@ package org.exoplatform.services.wsrp2.consumer;
 import java.net.URL;
 import java.util.List;
 
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
-import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
@@ -76,79 +77,81 @@ public interface Producer {
   public void setDescription(String description);
 
   /**
-   * Get the URL of the producers service description interface.
+   * Get the URL of the producers service description Adapter.
    * 
-   * @return URL of the service description interface.
+   * @return URL of the service description Adapter.
    */
-  public String getServiceDescriptionInterfaceEndpoint();
+//  public String getServiceDescriptionAdapterEndpoint();
 
   /**
-   * Set the URL of the producers service description interface.
+   * Set the URL of the producers service description Adapter.
    * 
-   * @param url of the service description interface.
+   * @param url of the service description Adapter.
    */
-  public void setServiceDescriptionInterfaceEndpoint(String url);
+//  public void setServiceDescriptionAdapterEndpoint(String url);
 
   /**
-   * Get the producers service description interface.
+   * Get the producers service description Adapter.
    * 
-   * @return service description interface.
+   * @return service description Adapter.
    */
-  public WSRPV2ServiceDescriptionPortType getServiceDescriptionInterface();
+  public WSRPV2ServiceDescriptionPortTypeAdapter getServiceDescriptionAdapter();
 
   /**
-   * Get the URL of the producers markup interface.
+   * Get the URL of the producers markup Adapter.
    * 
-   * @return URL of the markup interface.
+   * @return URL of the markup Adapter.
    */
-  public String getMarkupInterfaceEndpoint();
+//  public String getMarkupAdapterEndpoint();
+  
+  public WSRPV2MarkupPortTypeAdapter getMarkupAdapter();
 
   /**
-   * Set the URL of the producers markup interface.
+   * Set the URL of the producers markup Adapter.
    * 
-   * @param url of the markup interface.
+   * @param url of the markup Adapter.
    */
-  public void setMarkupInterfaceEndpoint(String url);
+//  public void setMarkupAdapterEndpoint(String url);
 
   /**
-   * Get the URL of the producers portlet management interface.
+   * Get the URL of the producers portlet management Adapter.
    * 
-   * @return URL of the portlet management interface.
+   * @return URL of the portlet management Adapter.
    */
-  public String getPortletManagementInterfaceEndpoint();
+//  public String getPortletManagementAdapterEndpoint();
 
   /**
-   * Set the URL of the producers portlet management interface.
+   * Set the URL of the producers portlet management Adapter.
    * 
-   * @param url of the portlet management interface.
+   * @param url of the portlet management Adapter.
    */
-  public void setPortletManagementInterfaceEndpoint(String url);
+//  public void setPortletManagementAdapterEndpoint(String url);
 
   /**
-   * Get the producers portlet management interface.
+   * Get the producers portlet management Adapter.
    * 
-   * @return portlet management interface.
+   * @return portlet management Adapter.
    */
-  public WSRPV2PortletManagementPortType getPortletManagementInterface();
+  public WSRPV2PortletManagementPortTypeAdapter getPortletManagementAdapter();
 
   /**
-   * Get the URL of the producers registration interface.
+   * Get the URL of the producers registration Adapter.
    * 
-   * @return URL of the registration interface.
+   * @return URL of the registration Adapter.
    */
-  public String getRegistrationInterfaceEndpoint();
+//  public String getRegistrationAdapterEndpoint();
 
   /**
-   * Set the URL of the producers registration interface.
+   * Set the URL of the producers registration Adapter.
    */
-  public void setRegistrationInterfaceEndpoint(String url);
+//  public void setRegistrationAdapterEndpoint(String url);
 
   /**
-   * Get the producers registration interface.
+   * Get the producers registration Adapter.
    * 
-   * @return registration interface.
+   * @return registration Adapter.
    */
-  public WSRPV2RegistrationPortType getRegistrationInterface();
+  public WSRPV2RegistrationPortTypeAdapter getRegistrationAdapter();
 
   /**
    * Indicates wether or not the producer requires consumer registration.
@@ -229,16 +232,16 @@ public interface Producer {
   public ReturnAny deregister(Deregister deregister) throws WSRPException;
 
   /**
-   * Check wether the optional registration interface is supported
+   * Check wether the optional registration Adapter is supported
    * 
-   * @return true if a registration interface endpoint URL is set
+   * @return true if a registration Adapter endpoint URL is set
    */
-  public boolean isRegistrationInterfaceSupported();
+  public boolean isRegistrationAdapterSupported();
 
   /**
-   * Check wether the optional portlet management interface is supported
+   * Check wether the optional portlet management Adapter is supported
    * 
-   * @return true if a portlet management interface endpoint URL is set
+   * @return true if a portlet management Adapter endpoint URL is set
    */
   public boolean isPortletManagementInferfaceSupported();
 

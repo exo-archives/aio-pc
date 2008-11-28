@@ -1,6 +1,6 @@
 package org.exoplatform.services.wsrp2.consumer;
 
-import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
+//import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
 
 /**
  * The init cookie information provides a mean to store information if a
@@ -49,10 +49,10 @@ public interface InitCookieInfo {
    */
   public void setInitCookieDone(boolean initCookieDone);
 
-  public String getMarkupInterfaceURL();
+//  public String getMarkupInterfaceURL();
 
-  public WSRPV2MarkupPortType getWSRPMarkupService();
-
-  public void setWSRPMarkupService(WSRPV2MarkupPortType markupPortType);
+//  public WSRPV2MarkupPortType getWSRPMarkupService();
+//
+//  public void setWSRPMarkupService(WSRPV2MarkupPortType markupPortType);
 
 }

@@ -39,15 +39,19 @@ public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
 
   private String                      userID;
 
-  public UserSessionImpl(String markupInterfaceURL) {
-    super(markupInterfaceURL);
+  public UserSessionImpl() {
+    super(null);
+  }
+  
+  public UserSessionImpl(String producerID) {
+    super(producerID);
   }
 
   public GroupSessionMgr getGroupSession(String groupID) throws WSRPException {
     if (groupID != null) {
       GroupSessionMgr groupSession = (GroupSessionMgr) groupSessions.get(groupID);
       if (groupSession == null) {
-        groupSession = new GroupSessionImpl(groupID, getMarkupInterfaceURL());
+        groupSession = new GroupSessionImpl(groupID, getProducerID());
         addGroupSession(groupSession);
       }
       return groupSession;

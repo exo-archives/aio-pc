@@ -27,7 +27,6 @@ import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net

@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.exoplatform.services.wsrp2.consumer.WSRPEventsRequest;
@@ -33,6 +34,9 @@ public class WSRPEventsRequestAdapter extends WSRPBaseRequestAdapter implements 
   private StateChange portletStateChange;
 
   public List<Event> getEvents() {
+    if (events == null) {
+      events = new ArrayList<Event>();
+    }
     return this.events;
   }
 

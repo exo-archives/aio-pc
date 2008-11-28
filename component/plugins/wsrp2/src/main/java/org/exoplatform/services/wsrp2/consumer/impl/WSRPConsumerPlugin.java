@@ -228,7 +228,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // TODO modes and states should be getting from producer
     //
     // consumer.setSupportedModes(getPortletModes(Collections.list(pcConf.getSupportedPortletModes())));
-    consumer.getSupportedModes().addAll(getPortletModes(pcService.getSupportedPortletModes()));
+    List<String> supportedPortletModes = getPortletModes(pcService.getSupportedPortletModes());
+    if (supportedPortletModes != null)
+      consumer.getSupportedModes().addAll(supportedPortletModes);
     // consumer.setSupportedWindowStates(getWindowStates(Collections.list(pcConf.getSupportedWindowStates())));
     consumer.getSupportedWindowStates()
             .addAll(getWindowStates(pcService.getSupportedWindowStates()));
@@ -560,8 +562,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               for (MarkupType markupType : portletDescription.getMarkupTypes()) {
                 Supports supports = new Supports();
                 supports.setMimeType(markupType.getMimeType());
-                supports.getPortletMode().addAll(markupType.getModes());
-                supports.getWindowState().addAll(markupType.getWindowStates());
+                if (markupType.getModes() != null)
+                  supports.getPortletMode().addAll(markupType.getModes());
+                if (markupType.getWindowStates() != null)
+                  supports.getWindowState().addAll(markupType.getWindowStates());
                 portlet.addSupports(supports);
               }
             }
@@ -619,8 +623,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     String portletHandle = getPortletHandle(portletAppName, portletName);
     try {
       PortletDescription pd = getProducer(producerID).getPortletDescription(portletHandle);
-      bundle.add(PortletData.PORTLET_TITLE,
-                 Utils.getStringFromLocalizedString(pd.getTitle()));
+      bundle.add(PortletData.PORTLET_TITLE, Utils.getStringFromLocalizedString(pd.getTitle()));
       bundle.add(PortletData.PORTLET_SHORT_TITLE,
                  Utils.getStringFromLocalizedString(pd.getShortTitle()));
       if (pd.getKeywords() != null) {
@@ -976,7 +979,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         + producerID);
     if (userSession == null) {
       log.debug("Create new UserSession");
-      userSession = new UserSessionImpl(getProducer(producerID).getMarkupInterfaceEndpoint());
+      userSession = new UserSessionImpl(producerID);//getProducer(producerID).getMarkupInterfaceEndpoint());
       httpSession.setAttribute(USER_SESSIONS_KEY + producerID, userSession);
     } else {
       log.debug("Use existing UserSession");
@@ -1159,13 +1162,15 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       for (Locale locale : locales) {
         localesStrings.add(locale.toString());
       }
-      baseRequest.getLocales().addAll(localesStrings);
+      if (localesStrings != null)
+        baseRequest.getLocales().addAll(localesStrings);
     } else {
       baseRequest.setLocales(SUPPORTED_LOCALES);//new String[]{Locale.getDefault().getDisplayLanguage()});
     }
 
     Collection<String> mimeTypes = pcConf.getSupportedContent();
-    baseRequest.getMimeTypes().addAll(mimeTypes);
+    if (mimeTypes != null)
+      baseRequest.getMimeTypes().addAll(mimeTypes);
 
     baseRequest.setMode(Modes.getWSRPModeString(input.getPortletMode()));
     baseRequest.setValidNewModes(null);
@@ -1196,7 +1201,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     ClientData clientData = new ClientData();
     clientData.setUserAgent(userAgent);
     clientData.setCcppHeaders(null);
-    clientData.getClientAttributes().addAll(null);
+//    clientData.getClientAttributes().addAll(null);
     clientData.setRequestVerb(null);
     return clientData;
   }
@@ -1626,7 +1631,12 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                              PortletWindowSession portletWindowSession) {
     WSRPEventsRequestAdapter eventRequest = new WSRPEventsRequestAdapter();
     fillMimeRequest(eventRequest, input, portletWindowSession);
-    eventRequest.getEvents().add(JAXBEventTransformer.getEventMarshal(input.getEvent()));
+    System.out.println(">>> EXOMAN WSRPConsumerPlugin.getEventsRequest() input.getEvent() = "
+        + input.getEvent());
+    System.out.println(">>> EXOMAN WSRPConsumerPlugin.getEventsRequest() eventRequest.getEvents() = "
+        + eventRequest.getEvents());
+    if (input.getEvent() != null)
+      eventRequest.getEvents().add(JAXBEventTransformer.getEventMarshal(input.getEvent()));
     return eventRequest;
   }
 

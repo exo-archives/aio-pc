@@ -18,13 +18,13 @@
 package org.exoplatform.services.wsrp2.test;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
-import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
@@ -46,7 +46,7 @@ public class TestSomeScenarios extends BaseTest {
     log();
     //get the service description through a monitor that listen on port 8081
     GetServiceDescription request = new GetServiceDescription();
-    request.setDesiredLocales(new String[] { "en" });
+    request.getDesiredLocales().add("en");
     ServiceDescription serviceDescription = null;
     serviceDescription = serviceDescriptionInterface.getServiceDescription(request);
 
@@ -62,9 +62,8 @@ public class TestSomeScenarios extends BaseTest {
 
     //test the existence of our portlet handle
     boolean go_on = false;
-    PortletDescription[] array = serviceDescription.getOfferedPortlets();
-    for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+    List<PortletDescription> portletDescrList = serviceDescription.getOfferedPortlets();
+    for (PortletDescription portletDescription : portletDescrList) {
       if (PORTLET_HANDLE.equals(portletDescription.getPortletHandle())) {
         go_on = true;
         break;

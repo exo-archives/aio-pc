@@ -1,8 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<schema targetNamespace="urn:oasis:names:tc:wsrp:v2:types" xmlns:types="urn:oasis:names:tc:wsrp:v2:types" xmlns="http://www.w3.org/2001/XMLSchema"
-  xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
-  xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" jaxb:version="2.0" elementFormDefault="qualified">
+<schema targetNamespace="urn:oasis:names:tc:wsrp:v2:types" 
+        xmlns:types="urn:oasis:names:tc:wsrp:v2:types" 
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+        xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+        xmlns:xjc="http://java.sun.com/xml/ns/jaxb/xjc" 
+        jaxb:version="2.0" elementFormDefault="qualified">
 
   <!-- This file reflects v2.0 of the specification -->
 

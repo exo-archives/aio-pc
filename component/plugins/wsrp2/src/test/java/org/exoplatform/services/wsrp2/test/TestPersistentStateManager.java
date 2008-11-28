@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.test;
 
+import java.util.Arrays;
+
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
@@ -58,12 +60,12 @@ public class TestPersistentStateManager extends BaseTest {
     registrationData.setConsumerName("www.exoplatform.com");
     registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
-    registrationData.setConsumerModes(CONSUMER_MODES);
-    registrationData.setConsumerWindowStates(CONSUMER_STATES);
-    registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
+    registrationData.getConsumerModes().addAll(Arrays.asList(CONSUMER_MODES));
+    registrationData.getConsumerWindowStates().addAll(Arrays.asList(CONSUMER_STATES));
+    registrationData.getConsumerUserScopes().addAll(Arrays.asList(CONSUMER_SCOPES));
 //    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
-    registrationData.setRegistrationProperties(null);//allows extension of the specs
-    registrationData.setExtensions(null);//allows extension of the specs
+//    registrationData.getRegistrationProperties(null);//allows extension of the specs
+//    registrationData.getExtensions(null);//allows extension of the specs
 
     psmanager_.save("test", "RegistrationData", registrationData);
 

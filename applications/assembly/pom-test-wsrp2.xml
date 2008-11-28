@@ -6,49 +6,11 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assembly</artifactId>
-  <packaging>ear</packaging>
-  <name>eXo Portlet Container Demo Assembly</name>
+  <packaging>exopc</packaging>
+  <!-- packaging>ear</packaging -->
+  <name>eXo Portlet Container Manual Test WSRP2 Assembly on Tomcat</name>
 
   <dependencies>
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.portal</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.wsrp</artifactId>
-      <version>${org.exoplatform.pcnew.version}</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
-<!--
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.portlets</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.portlets2</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
--->
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.demos</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
@@ -66,29 +28,6 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.portal-framework</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.portlets2events</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <scope>compile</scope>
-    </dependency>
-
-  <!--
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>${org.exoplatform.pcnew.version}</version>
-      <scope>compile</scope>
-    </dependency>
-    -->
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
       <version>${org.exoplatform.pcnew.version}</version>
       <scope>compile</scope>
@@ -103,31 +42,13 @@
         </exclusion>
       </exclusions>
     </dependency>
-
+    
     <dependency>
-      <groupId>javax.servlet</groupId>
-      <artifactId>jstl</artifactId>
-      <version>1.1.2</version>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.applications.wsrp</artifactId>
+      <version>${org.exoplatform.pcnew.version}</version>
+      <type>exopc-war</type>
       <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>taglibs</groupId>
-      <artifactId>standard</artifactId>
-      <version>1.1.2</version>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-fileupload</groupId>
-      <artifactId>commons-fileupload</artifactId>
-      <version>1.2</version>
-      <scope>compile</scope>
-    </dependency>
-
-    <dependency>
-      <groupId>commons-io</groupId>
-      <artifactId>commons-io</artifactId>
-      <version>1.3</version>
     </dependency>
 
     <dependency>
@@ -147,12 +68,28 @@
       <artifactId>exo-cxf-common-utilities</artifactId>
       <version>2.1.2</version>
     </dependency>
+    
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.1.2</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
 
   </dependencies>
 
   <build>
     <finalName>portlet-container</finalName>
     <plugins>
+
+<!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-ear-plugin</artifactId>
@@ -164,6 +101,8 @@
           </archive>
         </configuration>
       </plugin>
+-->
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
@@ -185,6 +124,35 @@
           </excludeProjects>
         </configuration>
       </plugin>
+
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<version>1.2-SNAPSHOT</version>
+        <executions>
+          <execution>
+            <id>1</id>
+            <phase>deploy</phase>
+            <configuration>
+              <tasks>
+ 		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
+		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
+		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pcnew.version}/component/plugins/wsrp2/target/hello.war</echo>
+        		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pcnew.version}/component/plugins/wsrp2/target/">
+				<include name="**/hello.war" />
+			</fileset>
+			</copy>
+		  <echo>=== To remove the portal.xml in /conf/Catalina/localhost, which came as exopc-war patch</echo>
+                  <delete file="${exo.projects.directory.working}/exo-tomcat/conf/Catalina/localhost/portal.xml" />
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+	</plugin>
+
     </plugins>
   </build>
 

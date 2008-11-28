@@ -244,8 +244,9 @@ public class WSRPAdminPortlet {
         w.println("<tr>");
         w.println("<td colspan='2'>");
         w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
-        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint()
-            + "<br>");
+//        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint()
+//            + "<br>");
+        
 //        w.println("Description - " + producer.getDescription() + "<br>");
 //        RegistrationContext regCtx = producer.getRegistrationContext();
 //        if (regCtx != null) {
@@ -387,7 +388,7 @@ public class WSRPAdminPortlet {
         RegistrationContext registrationContext = producer.getRegistrationContext();
 
         UserContext userContext = new UserContext();
-        userContext.getUserCategories().addAll(null);
+//        userContext.getUserCategories().addAll(null);
         userContext.setProfile(null);
         userContext.setUserContextKey("");
 
@@ -410,15 +411,13 @@ public class WSRPAdminPortlet {
         String pURL = producerURL;// + "?wsdl";
         System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() pURL = " + pURL);
 //        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() \n pURL + ?wsdl = " + pURL + "?wsdl");
-        String producerId = "producer2" + Integer.toString(pURL.hashCode());
         ProducerRegistry pregistry = consumer.getProducerRegistry();
         Producer producer = pregistry.createProducerInstance(pURL);
-        producer.setID(producerId);
         producer.setName(producerName);
-        producer.setMarkupInterfaceEndpoint(pURL + markupIntfEndpoint);
-        producer.setPortletManagementInterfaceEndpoint(pURL + portletManagementIntfEndpoint);
-        producer.setRegistrationInterfaceEndpoint(pURL + registrationIntfEndpoint);
-        producer.setServiceDescriptionInterfaceEndpoint(pURL + serviceDescriptionIntfEndpoint);
+//        producer.setMarkupInterfaceEndpoint(pURL + markupIntfEndpoint);
+//        producer.setPortletManagementInterfaceEndpoint(pURL + portletManagementIntfEndpoint);
+//        producer.setRegistrationInterfaceEndpoint(pURL + registrationIntfEndpoint);
+//        producer.setServiceDescriptionInterfaceEndpoint(pURL + serviceDescriptionIntfEndpoint);
         producer.setDescription(description);
         producer.getDesiredLocales().add("en");
 

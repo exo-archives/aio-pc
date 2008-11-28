@@ -17,7 +17,6 @@
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
 import java.rmi.RemoteException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

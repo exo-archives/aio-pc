@@ -58,10 +58,10 @@ public class WSRPHttpSession implements HttpSession {
   }
 
   public WSRPHttpSession(String sessionID, int maxInactiveInterval) {
-    creationTime = System.currentTimeMillis();
+    this.creationTime = System.currentTimeMillis();
     this.sessionID = sessionID;
     this.maxInactiveInterval = maxInactiveInterval;
-    isNew = true;
+    this.isNew = true;
   }
 
   public long getCreationTime() {

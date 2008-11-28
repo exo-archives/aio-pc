@@ -153,7 +153,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
+    String uniqueID = null;
+    if (k.length > 2)
+      uniqueID = k[2];
+    
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage session
@@ -359,7 +362,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
+    String uniqueID = null;
+    if (k.length > 2)
+      uniqueID = k[2];
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -599,7 +604,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       NavigationalContext newNavigationalContext = new NavigationalContext();
       newNavigationalContext.setOpaqueValue(navigationalState);
       newNavigationalContext.getPublicValues().clear();
-      newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
+      newNavigationalContext.getPublicValues()
+                            .addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
       newNavigationalContext.getExtensions().clear();
       updateResponse.setNavigationalContext(newNavigationalContext);
 
@@ -646,7 +652,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
+    String uniqueID = null;
+    if (k.length > 2)
+      uniqueID = k[2];
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -856,7 +864,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
+    String uniqueID = null;
+    if (k.length > 2)
+      uniqueID = k[2];
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -1073,7 +1083,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     UpdateResponse updateResponse = new UpdateResponse();
-    updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
+    updateResponse.getEvents()
+                  .addAll(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
     if (output.getNextMode() != null)
       updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
     if (output.getNextState() != null)
@@ -1104,12 +1115,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // create navigational context
     NavigationalContext newNavigationalContext = new NavigationalContext();
     newNavigationalContext.setOpaqueValue(navigationalState);
-    newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));
+    newNavigationalContext.getPublicValues()
+                          .addAll(Utils.getNamedStringListParametersFromMap(publicParameters));
     updateResponse.setNavigationalContext(navigationalContext);
 
     handleEventsResponse.setUpdateResponse(updateResponse);
     // converting failed events from list to array and set that
-    handleEventsResponse.getFailedEvents().addAll(failedEventsList);
+    if (failedEventsList != null)
+      handleEventsResponse.getFailedEvents().addAll(failedEventsList);
 
     return handleEventsResponse;
   }
