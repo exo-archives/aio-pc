@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>trunk</version>
+    <version>2.0.5-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.tck-tests</artifactId>
@@ -12,9 +12,6 @@
     <repository>
       <id>Codehaus snapshot repository</id>
       <url>http://snapshots.repository.codehaus.org</url>
-                <snapshots>
-            <enabled>true</enabled>
-          </snapshots>
     </repository>
   </repositories>
 
@@ -208,44 +205,44 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portal</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portal-framework</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portlets2events</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
@@ -454,12 +451,18 @@
       <activation>
         <activeByDefault>true</activeByDefault>
       </activation>
-      
-      
       <build>
         <plugins>
-	
 
+<!-- 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+            </executions>
+          </plugin>
+
+-->
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
@@ -481,7 +484,10 @@
               <container>
                 <containerId>tomcat5x</containerId>
                 <zipUrlInstaller>
-                  <url>http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip</url>
+                  <url>
+                    http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip
+                    <!--   http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip  -->
+                  </url>
                   <installDir>
                     ${java.io.tmpdir}/cargoinstall
                   </installDir>
@@ -1147,26 +1153,6 @@
             <groupId>org.apache.maven.plugins</groupId>
             <artifactId>maven-antrun-plugin</artifactId>
             <executions>
-	    
-          <execution>
-            <id>000</id>
-            <phase>clean</phase>
-            <configuration>
-              <tasks>
-                <echo>=== ECHO === project.build.directory = [${project.build.directory}] ===</echo>${basedir}
-                <echo>=== ECHO === basedir = [${basedir}] =</echo>
-                <echo>${basedir}/../test-portal/target/portal.war</echo>
-                <echo>${project.build.directory}/log/container.log</echo>
-                <echo>=== ECHO === 000 ===</echo>
-                <echo>=== ECHO === 000 ===</echo>
-              </tasks>
-            </configuration>
-                <goals>
-                  <goal>run</goal>
-                </goals>
-          </execution>
-	    
-	    
                <execution>
                 <id>cleaning</id>
                 <phase>clean</phase>
@@ -1306,9 +1292,6 @@
 
             </executions>
           </plugin>
-	  
-
-	  
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
@@ -1323,9 +1306,7 @@
               </execution>
             </executions>
           </plugin>
-
         </plugins>
-
       </build>
     </profile>
   </profiles>
