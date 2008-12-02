@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.test;
+package org.exoplatform.services.wsrp2.testProducer;
 
 import java.net.URL;
 import java.util.Arrays;
