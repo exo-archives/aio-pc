@@ -16,8 +16,10 @@
   <modules>
     <module>component/core</module>
     <module>component/plugins/pc</module>
+
     <module>component/plugins/wsrp1</module>
     <module>component/plugins/wsrp2</module>
+
     <module>applications</module>
   </modules>
   
@@ -177,7 +179,7 @@
         <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>
         <org.exoplatform.kernel.version>2.0.6-SNAPSHOT</org.exoplatform.kernel.version>
         <org.exoplatform.core.version>2.1.4-SNAPSHOT</org.exoplatform.core.version>
-        <org.exoplatform.pc.version>${project.version}</org.exoplatform.pc.version>
+        <org.exoplatform.pc.version>2.0.5-SNAPSHOT</org.exoplatform.pc.version>
       </properties>
     </profile>
   </profiles>
