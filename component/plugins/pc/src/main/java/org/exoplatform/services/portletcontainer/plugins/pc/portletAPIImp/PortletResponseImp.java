@@ -160,8 +160,12 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
    * @see javax.servlet.http.HttpServletResponseWrapper#encodeURL(java.lang.String)
    */
   public final String encodeURL(final String path) {
+    // http://jira.exoplatform.org/browse/PC-335
+    if (path.startsWith("#"))
+      return path;
     if (!path.startsWith("/") && !path.startsWith("http://"))
       throw new IllegalArgumentException("Path must be started with / or http://");
+
     // made for TCK
     // com.sun.ts.tests.portlet.api.javax_portlet.PortletRequestDispatcher.ResponseMethodsMiscMiscTestPortlet
     // on weblogic 9.2
