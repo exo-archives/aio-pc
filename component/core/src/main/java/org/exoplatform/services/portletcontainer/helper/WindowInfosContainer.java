@@ -52,6 +52,7 @@ public class WindowInfosContainer extends HashMap<Object, Object> {
    */
   public WindowInfosContainer(final String id, final String owner) {
     this.id = id;
+    this.owner = owner;
   }
 
   /**
