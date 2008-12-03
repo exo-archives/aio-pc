@@ -76,25 +76,12 @@ public class StandardPayload<T> {
     if (log.isDebugEnabled())
       log.debug("StandardPayload.getUnmarshalledObject() type.getLocalPart() = "
           + type.getLocalPart());
-    try {
-      System.out.println("\n>>> EXOMAN StandardPayload.getUnmarshalledObject() type.getLocalPart() = "
-          + type.getLocalPart());
 
+    try {
       JAXBContext jaxb = JAXBContext.newInstance(Class.forName(type.getLocalPart()));
       Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-      System.out.println(">>> EXOMAN StandardPayload.getUnmarshalledObject() messageElement.toString() = "
-          + messageElement.toString());
-      StringReader reader = new StringReader(messageElement.toString());
-      System.out.println(">>> EXOMAN StandardPayload.getUnmarshalledObject() reader = " + reader);
       Class<T> classT = (Class<T>) Class.forName(type.getLocalPart());
-      System.out.println(">>> EXOMAN StandardPayload.getUnmarshalledObject() classT = " + classT);
-      System.out.println(">>> EXOMAN StandardPayload.getUnmarshalledObject() classT.getName() = "
-          + classT.getName());
-      Source source = new StreamSource(reader);
-      System.out.println(">>> EXOMAN StandardPayload.getUnmarshalledObject() source = " + source);
-      JAXBElement<T> stdElement = unmarshaller.unmarshal(source, classT);
-      System.out.println(">>> EXOMAN StandardPayload.getUnmarshalledObject() stdElement = "
-          + stdElement);
+      JAXBElement<T> stdElement = unmarshaller.unmarshal(messageElement, classT);
       if (log.isDebugEnabled())
         log.debug("StandardPayload.getUnmarshalledObject() boolInput.getValue() = "
             + stdElement.getValue());
