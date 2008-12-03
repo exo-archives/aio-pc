@@ -4,8 +4,8 @@
   <display-name>eXo WS Samples</display-name>
 
   <filter>
-    <filter-name>AxisFilter</filter-name>
-    <filter-class>org.exoplatform.services.wsrp2.filter.AxisFilter</filter-class>
+    <filter-name>WSRPFilter</filter-name>
+    <filter-class>org.exoplatform.services.wsrp2.filter.WSRPFilter</filter-class>
     <init-param>
       <param-name>portal-container-name</param-name>
       <param-value>portal</param-value>
@@ -19,7 +19,7 @@
   <!-- AXIS filter mapping for WSRP -->
 
   <filter-mapping>
-    <filter-name>AxisFilter</filter-name>
+    <filter-name>WSRPFilter</filter-name>
     <servlet-name>SOAPServlet</servlet-name>
   </filter-mapping>
 

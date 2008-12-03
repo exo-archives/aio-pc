@@ -39,7 +39,7 @@ import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
 /**
  * User: Benjamin Mestrallet Date: 26 juil. 2004
  */
-public class AxisFilter implements Filter {
+public class WSRPFilter implements Filter {
 
   private String       containerName = "portal";
 

@@ -39,13 +39,13 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 /**
  * User: Benjamin Mestrallet Date: 26 juil. 2004
  */
-public class AxisFilter implements Filter {
+public class WSRPFilter implements Filter {
 
   private String       containerName = "portal";
 
   private ExoContainer container;
 
-  private Log          log           = ExoLogger.getLogger(AxisFilter.class);
+  private Log          log           = ExoLogger.getLogger(WSRPFilter.class);
 
   public void init(FilterConfig filterConfig) throws ServletException {
     this.log = ExoLogger.getLogger(this.getClass().getName());
