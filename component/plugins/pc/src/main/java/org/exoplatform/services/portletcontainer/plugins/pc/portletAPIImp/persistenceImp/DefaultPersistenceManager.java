@@ -88,7 +88,7 @@ public class DefaultPersistenceManager implements PersistenceManager {
           .getComponentInstanceOfType(PortletPreferencesPersister.class);
     }
     PortletPreferencesImp prefsImp = null;
-    if (!input.isStateSaveOnClient())
+    if (!input.isStateSaveOnClient()) { // state save on the server
       try {
         ExoPortletPreferences preferences = currentPersister.getPortletPreferences(windowID);
         if (preferences != null) {
@@ -99,7 +99,7 @@ public class DefaultPersistenceManager implements PersistenceManager {
       } catch (Exception ex) {
         log.error("Error: ", ex);
       }
-    else {
+    } else { // state change kept on the client (for example consumer in WSRP)
       byte[] portletState = input.getPortletState();
       if (portletState != null)
         try {
