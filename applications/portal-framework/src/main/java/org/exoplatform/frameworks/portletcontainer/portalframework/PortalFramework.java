@@ -948,7 +948,7 @@ public class PortalFramework {
     resourceInput.setLocales(locales);
     resourceInput.setEscapeXml(getPortletEscapeXml(target));
     resourceInput.setInternalWindowID(win);
-    resourceInput.setBaseURL(baseURL + target);
+    resourceInput.setBaseURL(appendParamsToUrl(baseURL));
     resourceInput.setUserAttributes(new HashMap<String, String>());
     resourceInput.setMarkup(cntType);
     resourceInput.setPublicParamNames(getPublicNamesSet(target));
@@ -1033,7 +1033,7 @@ public class PortalFramework {
     renderInput.setLocales(locales);
     renderInput.setEscapeXml(getPortletEscapeXml(plt));
     renderInput.setInternalWindowID(win);
-    renderInput.setBaseURL(baseURL + plt);
+    renderInput.setBaseURL(appendParamsToUrl(baseURL + plt));
     renderInput.setUserAttributes(new HashMap<String, String>());
     renderInput.setMarkup(cntType);
     renderInput.setPublicParamNames(getPublicNamesSet(plt));
@@ -1289,6 +1289,8 @@ public class PortalFramework {
     return url;
   }
 
+  
+  
   private HttpServletRequest     presavedHttpRequest;
 
   private HttpServletResponse    presavedHttpResponse;
