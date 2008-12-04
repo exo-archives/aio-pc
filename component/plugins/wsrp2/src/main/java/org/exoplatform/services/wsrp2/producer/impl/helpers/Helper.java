@@ -20,6 +20,8 @@ import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
+import javax.xml.datatype.DatatypeConstants;
+
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
@@ -66,7 +68,7 @@ public class Helper {
 
   public static boolean lifetimeExpired(Lifetime lf) {
     if (lf != null)
-      return lf.getTerminationTime().getMillisecond() < lf.getCurrentTime().getMillisecond();
+      return DatatypeConstants.LESSER == lf.getTerminationTime().compare(lf.getCurrentTime());
     else
       return false;
   }
