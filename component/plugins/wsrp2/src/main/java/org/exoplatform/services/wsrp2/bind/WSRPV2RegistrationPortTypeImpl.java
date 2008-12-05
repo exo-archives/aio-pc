@@ -106,7 +106,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     try {
       Lifetime response = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime.getRegistrationContext(),
                                                                                   getRegistrationLifetime.getUserContext());
-      org.exoplatform.services.wsrp2.type.Lifetime _return = null;
+      org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (Exception ex) {
       ex.printStackTrace();

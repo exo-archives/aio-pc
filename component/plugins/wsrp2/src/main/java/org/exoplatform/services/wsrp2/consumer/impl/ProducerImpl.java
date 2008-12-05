@@ -100,6 +100,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
       this.ID = producerId;
       container.registerComponentInstance(this.ID, service);
 
+//      WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
+//      setTimeOut(ClientProxy.getClient(SDpt));
       this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
       this.markupAdapter = new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService());
       this.registrationAdapter = new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService());
@@ -111,6 +113,15 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     }
 
   }
+
+//  private void setTimeOut(Client client) {
+//    HTTPConduit http = (HTTPConduit) client.getConduit();
+//    HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
+//    httpClientPolicy.setConnectionTimeout(360000);
+//    httpClientPolicy.setAllowChunking(false);
+//    httpClientPolicy.setReceiveTimeout(320000);
+//    http.setClient(httpClientPolicy);
+//  }
 
   public List<String> getDesiredLocales() {
     return desiredLocales;

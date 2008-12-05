@@ -21,7 +21,6 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-//import org.exoplatform.services.wsrp2.wsdl.WSRPServiceTestCase;
 import org.exoplatform.services.wsrp2.test.TestStandardClasses;
 
 /**

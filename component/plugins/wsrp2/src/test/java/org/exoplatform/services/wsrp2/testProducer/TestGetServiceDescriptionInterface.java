@@ -171,6 +171,7 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
     log();
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.getDesiredLocales().add("en");
+    getServiceDescription.getDesiredLocales().add("fr");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
     List<String> localesList = sd.getLocales();
     assertEquals("en", localesList.get(0));

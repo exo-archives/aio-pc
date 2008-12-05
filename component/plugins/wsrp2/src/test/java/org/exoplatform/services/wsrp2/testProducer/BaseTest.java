@@ -442,12 +442,12 @@ public class BaseTest extends TestCase {
   }
 
   protected Lifetime getLifetimeInSec(int i) {
-    Calendar calendar1 = Calendar.getInstance();
-    Calendar calendar2 = Calendar.getInstance();
-    calendar2.add(Calendar.SECOND, i);
+    Calendar calendarCurrent = Calendar.getInstance();
+    Calendar calendarTermination = Calendar.getInstance();
+    calendarTermination.add(Calendar.SECOND, i);
     Lifetime lf = new Lifetime();
-    lf.setCurrentTime(CalendarUtils.convertCalendar(calendar1));
-    lf.setTerminationTime(CalendarUtils.convertCalendar(calendar2));
+    lf.setCurrentTime(CalendarUtils.convertCalendar(calendarCurrent));
+    lf.setTerminationTime(CalendarUtils.convertCalendar(calendarTermination));
     return lf;
   }
 

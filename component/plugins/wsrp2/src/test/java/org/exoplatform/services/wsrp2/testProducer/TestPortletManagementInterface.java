@@ -165,6 +165,7 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setRegistrationContext(rC);
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
+    getPortletProperties.getNames().add("time-format");
     PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
     List<Property> propList = list.getProperties();
     
@@ -232,6 +233,8 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setRegistrationContext(rC);
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
+    getPortletProperties.getNames().add("time-format");
+    
     list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
     List<Property> propList = list.getProperties();
     

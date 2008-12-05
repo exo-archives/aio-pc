@@ -19,12 +19,16 @@ package org.exoplatform.services.wsrp2.exceptions;
 
 import java.rmi.RemoteException;
 
+import org.exoplatform.services.wsrp2.type.Fault;
+
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class Exception2Fault {
 
   public static void handleException(WSRPException e) throws RemoteException {
+    String fault = e.getFault();
+
 //    AxisFault fault = new AxisFault();
 //    QName qname = new QName(Fault.getTypeDesc().getXmlType().getNamespaceURI(), e.getFault());
 //    fault.setFaultCode(qname);
@@ -39,7 +43,7 @@ public class Exception2Fault {
 //    } catch (Exception ex) {
 //      ex.printStackTrace();
 //    }
-//    throw fault;
+    throw new RemoteException(fault, e);
   }
 
   public static String getNameSpace(String fault) {

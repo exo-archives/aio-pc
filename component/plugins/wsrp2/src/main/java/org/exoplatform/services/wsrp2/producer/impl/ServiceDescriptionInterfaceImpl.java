@@ -63,7 +63,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   private PortletContainerProxy     proxy;
 
-  private final static List<String> LOCALES           = Arrays.asList(new String[] { "en" });
+  private final static List<String> LOCALES           = Arrays.asList(new String[] { "en" , "fr"});
 
   private final static List<String> SUPPORTED_OPTIONS = Arrays.asList(new String[] { "wsrp:events",
       "wsrp:leasing", "wsrp:copyPortlets", "wsrp:import", "wsrp:export" });

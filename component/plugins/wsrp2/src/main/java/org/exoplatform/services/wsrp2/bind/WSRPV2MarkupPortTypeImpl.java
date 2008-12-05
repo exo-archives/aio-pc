@@ -5,6 +5,8 @@
 
 package org.exoplatform.services.wsrp2.bind;
 
+import java.rmi.RemoteException;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
@@ -246,6 +248,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     System.out.println(runtimeContext);
     System.out.println(userContext);
     System.out.println(markupParams);
+    
     try {
       MarkupResponse response = markupOperationsInterface.getMarkup(registrationContext,
                                                                     portletContext,
@@ -258,10 +261,11 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       sessionContext.value = sessionContextValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
-    } catch (Exception ex) {
+    } catch (RemoteException ex) {
       ex.printStackTrace();
       throw new RuntimeException(ex);
     }
+      
     //throw new AccessDenied("AccessDenied...");
     //throw new ResourceSuspended("ResourceSuspended...");
     //throw new UnsupportedMimeType("UnsupportedMimeType...");
