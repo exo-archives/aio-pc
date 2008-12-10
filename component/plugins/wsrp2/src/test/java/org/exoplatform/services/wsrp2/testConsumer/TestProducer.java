@@ -17,10 +17,12 @@
 
 package org.exoplatform.services.wsrp2.testConsumer;
 
+import java.util.Arrays;
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
-import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /*
@@ -51,30 +53,33 @@ public class TestProducer extends BaseTest {
     producer.getServiceDescriptionAdapter();
   }
 
+  // ERROR: do not uncomment
 //  public void testServiceDescription() throws Exception {
 //    assertNull(producer.getServiceDescription(false));
-//    producer.setDesiredLocales(desiredLocales);
+//    producer.setDesiredLocales(Arrays.asList(desiredLocales));
 //    ServiceDescription serviceDescription = producer.getServiceDescription();
 //    PortletDescription portletDescription = getHelloWorldPortlet(serviceDescription.getOfferedPortlets());
 //    assertEquals("Usual Hello World Portlet", portletDescription.getDescription().getValue());
 //  }
-
+//
 //  public void testPortletDescription() throws WSRPException {
-//    producer.setDesiredLocales(new String[] { "fr" });
+//    producer.setDesiredLocales(Arrays.asList(new String[] { "fr" }));
 //    PortletDescription portletDescription = producer.getPortletDescription(CONTEXT_PATH.substring(1) + "/HelloWorld");
 //    assertEquals("Salut le monde Portlet", portletDescription.getDescription().getValue());
 //  }
-
+//
 //  public void testRegistration() throws WSRPException {
-//    assertTrue(producer.isRegistrationInterfaceSupported());
-//    producer.setDesiredLocales(desiredLocales);
+//    assertTrue(producer.isRegistrationAdapterSupported());
+//    producer.setDesiredLocales(Arrays.asList(desiredLocales));
 //    ServiceDescription serviceDescription = producer.getServiceDescription();
 //    assertEquals(producer.isRegistrationRequired(), serviceDescription.isRequiresRegistration());
 //    assertNull(producer.getRegistrationData());
 //    assertNotNull(producer.register(register));
 //    assertNotNull(producer.getRegistrationData());
 //    assertNotNull(producer.getRegistrationContext());
-//    Deregister deregister = new Deregister(producer.getRegistrationContext(), userContext);
+//    Deregister deregister = new Deregister();
+//    deregister.setRegistrationContext(producer.getRegistrationContext());
+//    deregister.setUserContext(userContext);
 //    producer.deregister(deregister);
 //  }
 
@@ -84,11 +89,11 @@ public class TestProducer extends BaseTest {
     assertNotNull(producer.getPortletManagementAdapter());
   }
 
-  private PortletDescription getHelloWorldPortlet(PortletDescription[] psArray) throws Exception {
+  private PortletDescription getHelloWorldPortlet(List<PortletDescription> portletDescriptionList) throws Exception {
     log();
-    for (int i = 0; i < psArray.length; i++) {
-      if (CONTEXT_PATH.substring(1).concat("/HelloWorld").equals(psArray[i].getPortletHandle()))
-        return psArray[i];
+    for (PortletDescription portletDescription : portletDescriptionList) {
+      if (CONTEXT_PATH.substring(1).concat("/HelloWorld").equals(portletDescription.getPortletHandle()))
+        return portletDescription;
     }
     return null;
   }

@@ -39,7 +39,7 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService;
  * Time: 02:59:48
  */
 
-public class MockWSRPService extends WSRPService { //WSRPServiceLocator implements 
+public class MockWSRPServiceOld extends WSRPService { //WSRPServiceLocator implements 
   private WSRPV2ServiceDescriptionPortTypeImpl serviceDescriptionInterface;
 
   private WSRPV2RegistrationPortTypeImpl       registrationOperationsInterface;
@@ -48,7 +48,7 @@ public class MockWSRPService extends WSRPService { //WSRPServiceLocator implemen
 
   private WSRPV2PortletManagementPortTypeImpl  portletManagementOperationsInterface;
 
-  public MockWSRPService() {
+  public MockWSRPServiceOld() {
     serviceDescriptionInterface = new WSRPV2ServiceDescriptionPortTypeImpl(null);
     registrationOperationsInterface = new WSRPV2RegistrationPortTypeImpl(null);
     markupOperationsInterface = new WSRPV2MarkupPortTypeImpl(null);

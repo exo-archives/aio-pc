@@ -18,13 +18,18 @@
 package org.exoplatform.services.wsrp2.testProducer;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
 
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.type.CacheControl;
+import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.PortletContext;
-import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.UnsupportedModeFault;
+import org.exoplatform.services.wsrp2.type.UnsupportedWindowStateFault;
 
 /*
  * @author  Mestrallet Benjamin
@@ -47,22 +52,23 @@ public class TestCachingMechanism extends BaseTest {
     createRegistrationContext(sd);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(registrationContext, portletContext));
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(registrationContext,
+                                                                            portletContext));
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(4, cacheControl.getExpires());
     assertEquals(WSRPConstants.WSRP_USER_SCOPE_CACHE, cacheControl.getUserScope());
     assertNotNull(cacheControl.getValidateTag());
   }
-  /*
-  public void testUseCacheReturn() throws RemoteException, UnsupportedWindowStateFault, InvalidHandleFault, UnsupportedModeFault {
-    ServiceDescription sd = getServiceDescription(new String[]{"en"});
+
+  public void testUseCacheReturn() throws RemoteException, Exception {
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd);
-    
+
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
 
-    GetMarkup getMarkup = getMarkup(rc, portletContext);
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     System.out.println("[test] validate tag key : " + cacheControl.getValidateTag());
@@ -73,21 +79,21 @@ public class TestCachingMechanism extends BaseTest {
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     response = markupOperationsInterface.getMarkup(getMarkup);
-    assertTrue(response.getMarkupContext().getUseCachedMarkup().booleanValue());
+//    assertTrue(response.getMarkupContext().getCacheControl().UseCachedMarkup().booleanValue());
   }
 
-  public void testExistenceOfGlobal() throws RemoteException {
-    ServiceDescription sd = getServiceDescription(new String[]{"en"});
+  public void testExistenceOfGlobal() throws RemoteException, Exception {
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd);
-    
+
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/EmptyPortletWithGlobalCache");
 
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(registrationContext, portletContext));
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(-1, cacheControl.getExpires());
     assertEquals(WSRPConstants.WSRP_GLOBAL_SCOPE_CACHE, cacheControl.getUserScope());
     assertNotNull(cacheControl.getValidateTag());
   }
-  */
+
 }

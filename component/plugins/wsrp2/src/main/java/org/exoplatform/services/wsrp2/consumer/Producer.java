@@ -3,6 +3,7 @@ package org.exoplatform.services.wsrp2.consumer;
 import java.net.URL;
 import java.util.List;
 
+import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2MarkupPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2PortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2RegistrationPortTypeAdapter;
@@ -17,6 +18,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 /**
  * A consumer representation of a WSRP-producer providing WSRP-portlets.
@@ -82,14 +84,12 @@ public interface Producer {
    * @return URL of the service description Adapter.
    */
 //  public String getServiceDescriptionAdapterEndpoint();
-
   /**
    * Set the URL of the producers service description Adapter.
    * 
    * @param url of the service description Adapter.
    */
 //  public void setServiceDescriptionAdapterEndpoint(String url);
-
   /**
    * Get the producers service description Adapter.
    * 
@@ -103,7 +103,6 @@ public interface Producer {
    * @return URL of the markup Adapter.
    */
 //  public String getMarkupAdapterEndpoint();
-  
   public WSRPV2MarkupPortTypeAdapter getMarkupAdapter();
 
   /**
@@ -112,21 +111,18 @@ public interface Producer {
    * @param url of the markup Adapter.
    */
 //  public void setMarkupAdapterEndpoint(String url);
-
   /**
    * Get the URL of the producers portlet management Adapter.
    * 
    * @return URL of the portlet management Adapter.
    */
 //  public String getPortletManagementAdapterEndpoint();
-
   /**
    * Set the URL of the producers portlet management Adapter.
    * 
    * @param url of the portlet management Adapter.
    */
 //  public void setPortletManagementAdapterEndpoint(String url);
-
   /**
    * Get the producers portlet management Adapter.
    * 
@@ -140,12 +136,10 @@ public interface Producer {
    * @return URL of the registration Adapter.
    */
 //  public String getRegistrationAdapterEndpoint();
-
   /**
    * Set the URL of the producers registration Adapter.
    */
 //  public void setRegistrationAdapterEndpoint(String url);
-
   /**
    * Get the producers registration Adapter.
    * 
@@ -251,5 +245,15 @@ public interface Producer {
    * @return
    */
   public URL getUrl();
+
+  public void setServiceDescriptionAdapter(WSRPV2ServiceDescriptionPortTypeAdapter serviceDescriptionAdapter);
+
+  public void setMarkupAdapter(WSRPV2MarkupPortTypeAdapter markupAdapter);
+
+  public void setRegistrationAdapter(WSRPV2RegistrationPortTypeAdapter registrationAdapter);
+
+  public void setPortletManagementAdapter(WSRPV2PortletManagementPortTypeAdapter portletManagementAdapter);
+  
+  public void createAdapters(WSRPService service, ExoContainer container);
 
 }

@@ -154,7 +154,7 @@
     <display-name xml:lang="en">EmptyPortletWithGlobalCache</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.EmptyPortletWithGlobalCache</portlet-class>
     <expiration-cache>-1</expiration-cache>
-    <cache-scope>global</cache-scope>
+    <cache-scope>public</cache-scope>
     <supports>
       <mime-type>text/html</mime-type>
       <portlet-mode>config</portlet-mode>

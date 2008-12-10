@@ -51,7 +51,12 @@ import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp2.consumer.adapters.PortletKeyAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.UserAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.WSRPPortletAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
+import org.exoplatform.services.wsrp2.mocks.MockWSRPService;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.PersonName;
@@ -60,6 +65,7 @@ import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
@@ -168,7 +174,11 @@ public class BaseTest extends TestCase {
       // Leaving for compatibility reasons
       //container = PortalContainer.getInstance();
       //container = RootContainer.getInstance().getPortalContainer("portal");
+
       container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
+//      StandaloneContainer.setConfigurationPath("src/test/java/conf/test-configuration.xml");
+//      container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
+
     } catch (Throwable t) {
       t.printStackTrace();
     }
@@ -205,11 +215,30 @@ public class BaseTest extends TestCase {
     register.setRegistrationData(registrationData);
     register.setUserContext(userContext);
 
-    producer = new ProducerImpl(container,null);
+    producer = new ProducerImpl(container, null);//"http://www.example.org/"
     producer.setID(PRODUCER_ID);
     producer.setDescription(PRODUCER_DESCRIPTION);
     producer.setName(PRODUCER_NAME);
-    //producer.setMarkupInterfaceEndpoint(PRODUCER_MARKUP_INTERFACE_ENDPOINT);
+
+    WSRPService service = (WSRPService) container.getComponentInstanceOfType(MockWSRPService.class);
+    if (service != null) {
+//      container.unregisterComponentByInstance(service);
+      container.unregisterComponent(PRODUCER_ID);
+    } else {
+      service = new MockWSRPService(container);
+    }
+
+    System.out.println(">>> EXOMAN BaseTest.setUp() service = " + service);
+    System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
+
+    producer.createAdapters(service, container);
+
+    producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService()));
+    producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService()));
+    producer.setRegistrationAdapter(new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService()));
+    producer.setPortletManagementAdapter(new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService()));
+
+//    producer.setMarkupInterfaceEndpoint(PRODUCER_MARKUP_INTERFACE_ENDPOINT);
 //    producer.setPortletManagementInterfaceEndpoint(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT);
 //    producer.setRegistrationInterfaceEndpoint(PRODUCER_REGISTRATION_INTERFACE_ENDPOINT);
 //    producer.setServiceDescriptionInterfaceEndpoint(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT);
@@ -262,10 +291,10 @@ public class BaseTest extends TestCase {
     user.setUserContext(userContext);
     return user;
   }
-  
+
   protected void log() {
     StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
     System.out.println(">>>>>>>>>>>>>>> >>> " + ste.getClassName() + " - " + ste.getMethodName());
   }
-  
+
 }

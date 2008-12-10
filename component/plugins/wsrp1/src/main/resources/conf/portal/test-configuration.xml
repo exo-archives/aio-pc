@@ -3,5 +3,5 @@
   <component>
     <type>org.exoplatform.services.wsrp.mocks.MockWSRPService</type>
   </component>
-  <remove-configuration>org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator</remove-configuration>
+<!--  <remove-configuration>org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator</remove-configuration>-->
 </configuration>
