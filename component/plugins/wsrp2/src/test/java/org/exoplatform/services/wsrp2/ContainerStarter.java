@@ -58,7 +58,7 @@ public class ContainerStarter {
 
     //Configuring & starting an Tomcat5x container
     try {
-      Installer installer = new ZipURLInstaller(new java.net.URL("http://www.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip"),
+      Installer installer = new ZipURLInstaller(new java.net.URL("http://www.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip"),
                                                 System.getProperty("java.io.tmpdir"));
       installer.install();
 

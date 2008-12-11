@@ -110,6 +110,8 @@
     </init-params>
   </component>
 
+
+<!--services for WebServiceLoader-->
   <component>
     <type>org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl</type>
   </component>
@@ -122,6 +124,7 @@
   <component>
     <type>org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl</type>
   </component>
+
 
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
