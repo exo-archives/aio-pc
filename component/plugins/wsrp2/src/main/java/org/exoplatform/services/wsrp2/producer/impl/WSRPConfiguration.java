@@ -22,27 +22,51 @@ import org.exoplatform.services.wsrp2.WSRPConstants;
  */
 public class WSRPConfiguration {
 
-  private boolean                 hasUserSpecificState;
+  /**
+   * WSRP Configuration constants
+   */
 
-  private boolean                 doesUrlTemplateProcessing;
+  public static final String      HAS_USER_SPECIFIC_STATE             = "wsrp.has.user.specific.state";
 
-  private boolean                 templatesStoredInSession;
+  public static final String      DOES_URL_TEMPLATE_PROCESSING        = "wsrp.does.url.template.processing";
 
-  private boolean                 userContextStoredInSession;
+  public static final String      TEMPLATES_STORED_IN_SESSION         = "wsrp.templates.stored.in.session";
 
-  private boolean                 usesMethodGet;
+  public static final String      USER_CONTEXT_STORED_IN_SESSION      = "wsrp.user.context.stored.in.session";
 
-  private boolean                 requiresRegistration;
+  public static final String      USES_METHOD_GET                     = "wsrp.uses.method.get";
 
-  private boolean                 blockingInteractionOptimized;
+  public static final String      REQUIRES_REGISTRATION               = "wsrp.requires.registration";
 
-  private boolean                 saveRegistrationStateOnConsumer;
+  public static final String      BLOCKING_INTERACTION_OPTIMIZED      = "wsrp.perform.blocking.interaction.optimized";
 
-  private boolean                 savePortletStateOnConsumer;
+  public static final String      SAVE_REGISTRATION_STATE_ON_CONSUMER = "wsrp.save.registration.state.on.consumer";
 
-  private List<String>            excludeList        = new ArrayList<String>();
+  public static final String      SAVE_PORTLET_STATE_ON_CONSUMER      = "wsrp.save.portlet.state.on.consumer";
 
-  private HashMap<String, String> adminPortletParams = new HashMap<String, String>();
+//  private boolean                 hasUserSpecificState;
+//
+//  private boolean                 doesUrlTemplateProcessing;
+//
+//  private boolean                 templatesStoredInSession;
+//
+//  private boolean                 userContextStoredInSession;
+//
+//  private boolean                 usesMethodGet;
+//
+//  private boolean                 requiresRegistration;
+//
+//  private boolean                 blockingInteractionOptimized;
+//
+//  private boolean                 saveRegistrationStateOnConsumer;
+//
+//  private boolean                 savePortletStateOnConsumer;
+
+  private HashMap<String, String> properties;
+
+  private List<String>            excludeList;
+
+  private HashMap<String, String> adminPortletParams;
 
   private final Log               log;
 
@@ -62,20 +86,46 @@ public class WSRPConfiguration {
   }
 
   private void init(ExoProperties props) {
-    hasUserSpecificState = props.getProperty("wsrp.has.user.specific.state").equals("true");
-    doesUrlTemplateProcessing = props.getProperty("wsrp.does.url.template.processing")
-                                     .equals("true");
-    templatesStoredInSession = props.getProperty("wsrp.templates.stored.in.session").equals("true");
-    userContextStoredInSession = props.getProperty("wsrp.user.context.stored.in.session")
-                                      .equals("true");
-    usesMethodGet = props.getProperty("wsrp.uses.method.get").equals("true");
-    requiresRegistration = props.getProperty("wsrp.requires.registration").equals("true");
-    blockingInteractionOptimized = props.getProperty("wsrp.perform.blocking.interaction.optimized")
-                                        .equals("true");
-    saveRegistrationStateOnConsumer = props.getProperty("wsrp.save.registration.state.on.consumer")
-                                           .equals("true");
-    savePortletStateOnConsumer = props.getProperty("wsrp.save.portlet.state.on.consumer")
-                                      .equals("true");
+    
+    if (properties == null)
+      properties = new HashMap<String, String>();
+    properties.putAll(props);
+    
+//    properties.put(WSRPConfiguration.HAS_USER_SPECIFIC_STATE, String.valueOf(hasUserSpecificState));
+//    properties.put(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING,
+//                   String.valueOf(doesUrlTemplateProcessing));
+//    properties.put(WSRPConfiguration.TEMPLATES_STORED_IN_SESSION,
+//                   String.valueOf(templatesStoredInSession));
+//    properties.put(WSRPConfiguration.USER_CONTEXT_STORED_IN_SESSION,
+//                   String.valueOf(userContextStoredInSession));
+//    properties.put(WSRPConfiguration.USES_METHOD_GET, String.valueOf(usesMethodGet));
+//    properties.put(WSRPConfiguration.REQUIRES_REGISTRATION, String.valueOf(requiresRegistration));
+//    properties.put(WSRPConfiguration.BLOCKING_INTERACTION_OPTIMIZED,
+//                   String.valueOf(blockingInteractionOptimized));
+//    properties.put(WSRPConfiguration.SAVE_REGISTRATION_STATE_ON_CONSUMER,
+//                   String.valueOf(saveRegistrationStateOnConsumer));
+//    properties.put(WSRPConfiguration.SAVE_PORTLET_STATE_ON_CONSUMER,
+//                   String.valueOf(savePortletStateOnConsumer));
+//    
+//    
+//    hasUserSpecificState = props.getProperty(WSRPConfiguration.HAS_USER_SPECIFIC_STATE)
+//                                .equals("true");
+//    doesUrlTemplateProcessing = props.getProperty(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)
+//                                     .equals("true");
+//    templatesStoredInSession = props.getProperty(WSRPConfiguration.TEMPLATES_STORED_IN_SESSION)
+//                                    .equals("true");
+//    userContextStoredInSession = props.getProperty(WSRPConfiguration.USER_CONTEXT_STORED_IN_SESSION)
+//                                      .equals("true");
+//    usesMethodGet = props.getProperty(WSRPConfiguration.USES_METHOD_GET).equals("true");
+//    requiresRegistration = props.getProperty(WSRPConfiguration.REQUIRES_REGISTRATION)
+//                                .equals("true");
+//    blockingInteractionOptimized = props.getProperty(WSRPConfiguration.BLOCKING_INTERACTION_OPTIMIZED)
+//                                        .equals("true");
+//    saveRegistrationStateOnConsumer = props.getProperty(WSRPConfiguration.SAVE_REGISTRATION_STATE_ON_CONSUMER)
+//                                           .equals("true");
+//    savePortletStateOnConsumer = props.getProperty(WSRPConfiguration.SAVE_PORTLET_STATE_ON_CONSUMER)
+//                                      .equals("true");
+
   }
 
   private void initParamsAdminPortlet(ExoProperties props) {
@@ -104,47 +154,57 @@ public class WSRPConfiguration {
   }
 
   public boolean isHasUserSpecificState() {
-    return hasUserSpecificState;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.HAS_USER_SPECIFIC_STATE));
   }
 
   public boolean isDoesUrlTemplateProcessing() {
-    return doesUrlTemplateProcessing;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING));
   }
 
   public boolean isTemplatesStoredInSession() {
-    return templatesStoredInSession;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.TEMPLATES_STORED_IN_SESSION));
   }
 
   public boolean isUserContextStoredInSession() {
-    return userContextStoredInSession;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.USER_CONTEXT_STORED_IN_SESSION));
   }
 
   public boolean isUsesMethodGet() {
-    return usesMethodGet;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.USES_METHOD_GET));
   }
 
   public boolean isRegistrationRequired() {
-    return requiresRegistration;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.REQUIRES_REGISTRATION));
   }
 
   public boolean isBlockingInteractionOptimized() {
-    return blockingInteractionOptimized;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.BLOCKING_INTERACTION_OPTIMIZED));
   }
 
   public boolean isSaveRegistrationStateOnConsumer() {
-    return saveRegistrationStateOnConsumer;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.SAVE_REGISTRATION_STATE_ON_CONSUMER));
   }
 
   public boolean isSavePortletStateOnConsumer() {
-    return savePortletStateOnConsumer;
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.SAVE_PORTLET_STATE_ON_CONSUMER));
   }
 
   public List<String> getExcludeList() {
+    if (excludeList == null)
+      excludeList = new ArrayList<String>();
     return excludeList;
   }
 
   public HashMap<String, String> getAdminPortletParams() {
+    if (adminPortletParams == null)
+      adminPortletParams = new HashMap<String, String>();
     return adminPortletParams;
+  }
+
+  public HashMap<String, String> getProperties() {
+    if (properties == null)
+      properties = new HashMap<String, String>();
+    return properties;
   }
 
 }

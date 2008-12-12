@@ -7,6 +7,10 @@
   </component>
 
   <component>
+    <type>org.exoplatform.services.wsrp2.bind.extensions.ServiceAdministrationInterfaceImpl</type>
+  </component>
+
+  <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.RegistrationOperationsInterfaceImp</type>
   </component>
 
@@ -111,7 +115,7 @@
   </component>
 
 
-<!--services for WebServiceLoader-->
+  <!--services for WebServiceLoader-->
   <component>
     <type>org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl</type>
   </component>
@@ -123,6 +127,10 @@
   </component>
   <component>
     <type>org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeImpl</type>
   </component>
 
 

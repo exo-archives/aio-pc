@@ -61,6 +61,12 @@
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.database</artifactId>
       <version>${org.exoplatform.core.version}</version>
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <groupId>asm</groupId>-->
+<!--          <artifactId>asm</artifactId>-->
+<!--        </exclusion>-->
+<!--      </exclusions>-->
     </dependency>
 
     <dependency>
@@ -97,9 +103,62 @@
       <groupId>org.exoplatform.ws</groupId>
       <artifactId>exo.ws.soap.cxf.jsr181</artifactId>
       <version>trunk</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-common-utilities</artifactId>
+            </exclusion>
+            <exclusion>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-rt-frontend-jaxws</artifactId>
+            </exclusion>
+          </exclusions>
     </dependency>
 
     <!-- END of eXo Deps -->
+
+    <!-- CXF deps -->
+
+        <dependency>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-tools-misctools</artifactId>
+          <version>2.1.2</version>
+          <exclusions>
+            <exclusion>
+              <groupId>org.apache.cxf</groupId>
+              <artifactId>cxf-common-utilities</artifactId>
+            </exclusion>
+          </exclusions>
+        </dependency>
+
+        <dependency>
+          <groupId>org.exoplatform.patches</groupId>
+          <artifactId>exo-cxf-common-utilities</artifactId>
+          <version>2.1.2</version>
+        </dependency>
+
+        <dependency>
+          <groupId>org.exoplatform.patches</groupId>
+          <artifactId>exo-cxf-rt-frontend-jaxws</artifactId>
+          <version>2.1.2</version>
+        </dependency>
+        
+
+<!--        <dependency>-->
+<!--          <groupId>asm</groupId>-->
+<!--          <artifactId>asm</artifactId>-->
+<!--          <version>1.5.3</version>-->
+<!--        </dependency>-->
+
+        <dependency>
+          <groupId>org.exoplatform.patches</groupId>
+          <artifactId>exo-asm</artifactId>
+          <version>2.2.3</version>
+        </dependency>
+
+
+    <!-- Cargo deps -->
+
 
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -142,23 +201,7 @@
       <version>6.1.9</version>
     </dependency>
 
-    <dependency>
-      <groupId>asm</groupId>
-      <artifactId>asm</artifactId>
-      <version>1.5.3</version>
-    </dependency>
 
-    <!--    <dependency>-->
-    <!--      <groupId>org.exoplatform.patches</groupId>-->
-    <!--      <artifactId>exo-asm</artifactId>-->
-    <!--      <version>2.2.3</version>-->
-    <!--    </dependency>-->
-
-    <!--    <dependency>-->
-    <!--      <groupId>org.exoplatform.patches</groupId>-->
-    <!--      <artifactId>exo-cxf-common-utilities</artifactId>-->
-    <!--      <version>2.1.2</version>-->
-    <!--    </dependency>-->
 
 
     <!--

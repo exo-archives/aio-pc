@@ -56,7 +56,7 @@ public class RegistrationOperationsInterfaceImp implements RegistrationOperation
     if (Helper.lifetimeExpired(lifetime)) {
       Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
     }
-
+    
     String owner = null;
     if (userContext != null) {
       owner = userContext.getUserContextKey();

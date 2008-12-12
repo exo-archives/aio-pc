@@ -122,11 +122,6 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
                                                   List<String> desiredLocales,
                                                   List<String> portletHandles,
                                                   UserContext userContext) throws RemoteException {
-    System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() portletHandles = "
-        + portletHandles);
-    
-    System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() portletHandles.size() = "
-        + portletHandles.size());
     
     if (desiredLocales == null) {
       desiredLocales = new ArrayList<String>();
@@ -148,7 +143,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
         System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() excludeHandle = "
             + excludeHandle);
         if (excludeHandle.endsWith("*")) {
-          for (Iterator iterator = keys.iterator(); iterator.hasNext();) {
+          for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
             String iterKey = (String) iterator.next();
             if (iterKey.startsWith(excludeHandle.substring(0, excludeHandle.length() - 1))) {
               System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() iterKey 1 = remove = "
@@ -166,34 +161,14 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       }
     }
 
-    System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() portletHandles.isEmpty() = "
-        + portletHandles.isEmpty());
     if (portletHandles != null && !portletHandles.isEmpty()) {
-      int n = 0;
-
-      System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() 2222222 keys.size() = "
-          + keys.size());
-
-      for (Iterator<String> iter = keys.iterator(); iter.hasNext(); n++) {
+      Iterator<String> iter = keys.iterator();
+      while (iter.hasNext()) {
         String keysHandle = (String) iter.next();
-        System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() keysHandle = "
-            + keysHandle);
-        boolean found = false;
-        for (String portletHandle : portletHandles) {
-          System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() portletHandle = "
-              + portletHandle);
-          if (portletHandle.equals(keysHandle)) {
-            found = true;
-            break;
-          }
-        }
-        if (found == false) {
-          System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() keysHandle 3 = remove = "
-              + keysHandle);
-          iter.remove();//keys.remove(keysHandle);
+        if (!portletHandles.contains(keysHandle)) {
+          iter.remove();
         }
       }
-
     }
 
     // manage user

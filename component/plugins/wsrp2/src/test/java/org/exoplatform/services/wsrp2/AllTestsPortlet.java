@@ -41,10 +41,10 @@ public class AllTestsPortlet extends TestCase {
       assertTrue(ContainerStarter.start());
     }
 
-    suite.addTestSuite(TestStandardClasses.class);
+//    suite.addTestSuite(TestStandardClasses.class);
     
     suite.addTestSuite(SuiteForTestProducer.class);
-    suite.addTestSuite(SuiteForTestConsumer.class);
+//    suite.addTestSuite(SuiteForTestConsumer.class);
 
     
 //    suite.addTestSuite(WSRPServiceTestCase.class);
