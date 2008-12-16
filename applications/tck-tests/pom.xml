@@ -485,7 +485,7 @@
                 <containerId>tomcat5x</containerId>
                 <zipUrlInstaller>
                   <url>
-                    http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.25/bin/apache-tomcat-5.5.25.zip
+                    http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip
                     <!--   http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip  -->
                   </url>
                   <installDir>
