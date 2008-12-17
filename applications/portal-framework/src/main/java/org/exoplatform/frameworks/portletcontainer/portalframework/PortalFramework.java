@@ -606,8 +606,10 @@ public class PortalFramework {
     String key = "";
     // Block to get a unique key element. Checking hashmap, until it returns null.
     do {
-      key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_"
-          + httpSession.getId();
+      key = appName + "_" + portletName + "_" + (new Date().toString()).hashCode() + "_"
+      + httpSession.getId();
+//      key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_"
+//          + httpSession.getId();
     } while (wins.get(key) != null);
 
     return addPortletWithId(appName, portletName, key);
