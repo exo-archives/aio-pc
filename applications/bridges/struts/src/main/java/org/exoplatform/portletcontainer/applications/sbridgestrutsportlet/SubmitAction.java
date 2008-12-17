@@ -25,7 +25,6 @@ import org.apache.struts.action.Action;
 import org.apache.struts.action.ActionForm;
 import org.apache.struts.action.ActionForward;
 import org.apache.struts.action.ActionMapping;
-import org.apache.struts.action.ActionRedirect;
 import org.apache.struts.action.DynaActionForm;
 import org.apache.struts.upload.FormFile;
 import org.exoplatform.services.log.ExoLogger;
@@ -41,6 +40,7 @@ public class SubmitAction extends Action {
                                ActionForm form,
                                HttpServletRequest request,
                                HttpServletResponse response) throws Exception {
+
     DynaActionForm dform = (DynaActionForm) form;
     LOG.info("SubmitAction.execute() dform = " + dform);
     try {
@@ -53,18 +53,23 @@ public class SubmitAction extends Action {
     } catch (Exception e) {
       e.printStackTrace();
     }
-    ActionRedirect redirect = new ActionRedirect(mapping.findForward("success"));
-    try {
-      redirect.addParameter("abc", dform.get("abc"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    try {
-      redirect.addParameter("file", dform.get("file"));
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return redirect;
+
+//    ActionRedirect redirect = new ActionRedirect(mapping.findForward("success"));
+    ActionForward forward = new ActionForward(mapping.findForward("success"));
+    
+//    try {
+//      redirect.addParameter("abc", dform.get("abc"));
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+//    try {
+//      redirect.addParameter("file", dform.get("file"));
+//    } catch (Exception e) {
+//      e.printStackTrace();
+//    }
+
+    return forward;
+
   }
 
   private FormFile file;
