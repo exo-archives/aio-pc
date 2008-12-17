@@ -189,7 +189,7 @@ public class XMLParser {
         p.setCaching(Integer.parseInt(xpp.getContent().trim()));
       else
         p.setCaching(null);
-      if (xpp.node("cache-scope") && xpp.getContent().trim().equalsIgnoreCase("public")) // in the 1-st spec was: global
+      if (xpp.node("cache-scope") && xpp.getContent().trim().equalsIgnoreCase("public")) // in the 1-st spec was: global, see below
         p.setGlobalCache("true");
       else
         p.setGlobalCache("false");
