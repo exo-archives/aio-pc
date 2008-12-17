@@ -71,7 +71,6 @@ public class WSRPConfiguration {
   private final Log               log;
 
   public WSRPConfiguration(InitParams params) {
-    System.out.println(">>> EXOMAN WSRPConfiguration.WSRPConfiguration() 1 = " + 1);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     PropertiesParam param = params.getPropertiesParam("wsrp-conf");
     init(param.getProperties());

@@ -25,6 +25,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -41,10 +42,12 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
+import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2MarkupPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2PortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2RegistrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPV2ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.ClientData;
@@ -85,6 +88,8 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
 public class BaseTest extends TestCase {
 
   protected static final String                     SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRP_v2_Markup_Service?wsdl";
+
+  protected static final String                     ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRP_v2_ServiceAdministration_Service";
 
   protected static final String                     CONTEXT_PATH             = "hello";
 
@@ -230,12 +235,12 @@ public class BaseTest extends TestCase {
 //    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
 //        + "WSRPPortletManagementService"));
     WSRPService service = new WSRPService(new URL(SERVICE_URL));
-    System.out.println(">>> EXOMAN ProducerImpl.init() service = " + service);
+    System.out.println(">>> ProducerImpl.init() service = " + service);
 
     String producerId = "producer2" + Integer.toString(SERVICE_URL.hashCode());
 
     container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()); //OK
-    System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
+    System.out.println(">>> BaseTest.setUp() container = " + container);
     if (container.getComponentInstance(producerId) == null)
       container.registerComponentInstance(producerId, service);
 
@@ -336,6 +341,7 @@ public class BaseTest extends TestCase {
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
     WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
                                      (HttpServletResponse) mockServletResponse);
+    
   }
 
   public void tearDown() throws Exception {
@@ -460,4 +466,42 @@ public class BaseTest extends TestCase {
     }
   }
 
+  protected GetServiceDescription getServiceDescription(RegistrationContext registrationContext) {
+    GetServiceDescription getServiceDescription = new GetServiceDescription();
+    getServiceDescription.getDesiredLocales().add("en");
+    getServiceDescription.getPortletHandles().add(CONTEXT_PATH.concat("/HelloWorld"));
+    getServiceDescription.setRegistrationContext(registrationContext);
+    return getServiceDescription;
+  }
+
+  protected void setRequiresRegistration(boolean isRequiresRegistration) {
+    WSRPV2ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV2ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    String requestProps = WSRPConfiguration.REQUIRES_REGISTRATION.concat("=")
+                                                                 .concat(String.valueOf(isRequiresRegistration));
+    responseProps = administrationPort.getServiceAdministration(requestProps);
+    if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
+      fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
+    }
+    if (!responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION)
+                      .equalsIgnoreCase(String.valueOf(isRequiresRegistration))) {
+      fail("WSRPConfiguration doesn't return properly modified REQUIRES_REGISTRATION property");
+    }
+  }
+
+  protected boolean getRequiresRegistration() {
+    WSRPV2ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV2ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    responseProps = administrationPort.getServiceAdministration("");
+    if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
+      fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
+    }
+    if (responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION) == null) {
+      fail("WSRPConfiguration returns null REQUIRES_REGISTRATION property");
+    }
+    return Boolean.parseBoolean(responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION));
+  }
+  
 }

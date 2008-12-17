@@ -11,7 +11,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.producer.impl.RegistrationOperationsInterfaceImp</type>
+    <type>org.exoplatform.services.wsrp2.producer.impl.RegistrationOperationsInterfaceImpl</type>
   </component>
 
   <component>

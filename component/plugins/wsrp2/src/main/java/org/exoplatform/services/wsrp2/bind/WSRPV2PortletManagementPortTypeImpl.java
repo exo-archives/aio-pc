@@ -50,8 +50,6 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
 
   public WSRPV2PortletManagementPortTypeImpl(PortletManagementOperationsInterface portletManagementOperationsInterface) {
     this.portletManagementOperationsInterface = portletManagementOperationsInterface;
-    System.out.println(">>> EXOMAN WSRPV2PortletManagementPortTypeImpl.WSRPV2PortletManagementPortTypeImpl() portletManagementOperationsInterface = "
-        + portletManagementOperationsInterface);
   }
 
   /* (non-Javadoc)

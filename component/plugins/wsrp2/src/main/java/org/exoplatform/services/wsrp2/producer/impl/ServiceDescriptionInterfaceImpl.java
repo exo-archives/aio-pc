@@ -41,10 +41,15 @@ import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.ServiceDescriptionInterface;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.EventDescription;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.ModelDescription;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
@@ -121,40 +126,38 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
                                                   List<String> desiredLocales,
                                                   List<String> portletHandles,
-                                                  UserContext userContext) throws RemoteException {
-    
+                                                  UserContext userContext) throws ResourceSuspended,
+                                                  InvalidRegistration,
+                                                  ModifyRegistrationRequired,
+                                                  OperationFailed {
     if (desiredLocales == null) {
       desiredLocales = new ArrayList<String>();
       desiredLocales.add("en");
     }
 
+//    if (conf.isRegistrationRequired() && registrationContext == null) {
+//      throw new InvalidRegistration("The supplied registrationContext is null.", new InvalidRegistrationFault());
+//    }
+    
     log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
 
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
     
     Set<String> keys = portletMetaDatas.keySet();
-    System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() 111111111 keys.size() = "
-        + keys.size());
 //    Set<String> iterableKeys = new HashSet<String>(keys);
     if (conf.getExcludeList() != null) {
       //remove exclude portlets from portletMetaDatas
       for (Iterator<String> excludeIter = conf.getExcludeList().iterator(); excludeIter.hasNext();) {
         String excludeHandle = (String) excludeIter.next();
-        System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() excludeHandle = "
-            + excludeHandle);
         if (excludeHandle.endsWith("*")) {
           for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
             String iterKey = (String) iterator.next();
             if (iterKey.startsWith(excludeHandle.substring(0, excludeHandle.length() - 1))) {
-              System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() iterKey 1 = remove = "
-                  + iterKey);
               iterator.remove();
             }
           }
         } else {
           if (keys.contains(excludeHandle)) {
-            System.out.println(">>> EXOMAN ServiceDescriptionInterfaceImpl.getServiceDescription() excludeHandle 2 = remove = "
-                + excludeHandle);
             keys.remove(excludeHandle);
           }
         }

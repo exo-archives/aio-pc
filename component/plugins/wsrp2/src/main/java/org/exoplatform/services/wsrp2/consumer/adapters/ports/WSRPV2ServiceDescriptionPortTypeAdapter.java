@@ -17,6 +17,7 @@
 package org.exoplatform.services.wsrp2.consumer.adapters.ports;
 
 import org.apache.commons.logging.Log;
+import org.apache.cxf.binding.soap.SoapFault;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
@@ -49,6 +50,7 @@ public class WSRPV2ServiceDescriptionPortTypeAdapter {
                                                                                            OperationFailed {
 
     System.out.println("Invoking getServiceDescription...");
+
     org.exoplatform.services.wsrp2.type.RegistrationContext _getServiceDescription_registrationContext = serviceDescription.getRegistrationContext();
     java.util.List<java.lang.String> _getServiceDescription_desiredLocales = serviceDescription.getDesiredLocales();
     java.util.List<java.lang.String> _getServiceDescription_portletHandles = serviceDescription.getPortletHandles();

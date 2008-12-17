@@ -1631,10 +1631,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                              PortletWindowSession portletWindowSession) {
     WSRPEventsRequestAdapter eventRequest = new WSRPEventsRequestAdapter();
     fillMimeRequest(eventRequest, input, portletWindowSession);
-    System.out.println(">>> EXOMAN WSRPConsumerPlugin.getEventsRequest() input.getEvent() = "
-        + input.getEvent());
-    System.out.println(">>> EXOMAN WSRPConsumerPlugin.getEventsRequest() eventRequest.getEvents() = "
-        + eventRequest.getEvents());
     if (input.getEvent() != null)
       eventRequest.getEvents().add(JAXBEventTransformer.getEventMarshal(input.getEvent()));
     return eventRequest;

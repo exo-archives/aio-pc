@@ -18,6 +18,7 @@
 package org.exoplatform.services.wsrp2.bind.extensions;
 
 import java.rmi.RemoteException;
+import java.util.Map;
 import java.util.Set;
 
 import org.apache.commons.logging.Log;
@@ -43,31 +44,21 @@ public class ServiceAdministrationInterfaceImpl implements ServiceAdministration
   public ServiceAdministrationInterfaceImpl(PortletContainerProxy cont,
                                             WSRPConfiguration conf,
                                             ExoContainerContext context) {
-    System.out.println(">>> EXOMAN ServiceAdministrationInterfaceImpl.ServiceAdministrationInterfaceImpl() 1 = " + 1);
     this.conf = conf;
     this.log = ExoLogger.getLogger(ServiceAdministrationInterfaceImpl.class);
     this.container = context.getContainer();
   }
 
-  public ServiceAdministration getServiceAdministration(){//java.util.HashMap<java.lang.String, java.lang.String> properties) throws RemoteException {
+  public ServiceAdministration getServiceAdministration(Map<String, String> properties) throws RemoteException {
 
-    System.out.println(">>> EXOMAN ServiceAdministrationInterfaceImpl.getServiceAdministration() 1 = " + 1);
-    System.out.println(">>> EXOMAN ServiceAdministrationInterfaceImpl.getServiceAdministration() conf = "
-        + conf);
-    
     java.util.HashMap<java.lang.String, java.lang.String> realProps = conf.getProperties();
-    System.out.println(">>> EXOMAN ServiceAdministrationInterfaceImpl.getServiceAdministration() realProps = "
-        + realProps);
-    System.out.println(">>> EXOMAN ServiceAdministrationInterfaceImpl.getServiceAdministration() realProps.size() = "
-        + realProps.size());
-//    if (properties != null && !properties.isEmpty() && properties.size() != 0) {
-//      Set<String> set = properties.keySet();
-//      for (String key : set) {
-//        if (realProps.containsKey(key)) {
-//          realProps.put(key, properties.get(key));
-//        }
-//      }
-//    }
+
+    Set<String> set = properties.keySet();
+    for (String key : set) {
+      if (realProps.containsKey(key)) {
+        realProps.put(key, properties.get(key));
+      }
+    }
 
     ServiceAdministration sA = new ServiceAdministration();
     sA.getProperties().putAll(realProps);

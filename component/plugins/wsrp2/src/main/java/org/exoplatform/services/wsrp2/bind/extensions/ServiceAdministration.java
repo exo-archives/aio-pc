@@ -27,7 +27,7 @@ import javax.xml.bind.annotation.XmlType;
  * </pre>
  */
 @XmlAccessorType(XmlAccessType.FIELD)
-@XmlType(name = "ServiceAdministration", propOrder = { "properties" })
+@XmlType(name = "serviceAdministration", propOrder = { "properties" })
 public class ServiceAdministration implements Serializable {
 
   protected java.util.HashMap<java.lang.String, java.lang.String> properties;
@@ -37,6 +37,10 @@ public class ServiceAdministration implements Serializable {
       properties = new java.util.HashMap<java.lang.String, java.lang.String>();
     }
     return this.properties;
+  }
+  
+  public String getPropertiesAsString(){
+    return getProperties().toString();
   }
 
 }

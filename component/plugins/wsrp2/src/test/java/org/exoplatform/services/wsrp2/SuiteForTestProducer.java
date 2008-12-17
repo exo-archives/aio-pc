@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.testProducer.TestCachingMechanism;
 import org.exoplatform.services.wsrp2.testProducer.TestGetMarkup;
+import org.exoplatform.services.wsrp2.testProducer.TestGetServiceAdministration;
 import org.exoplatform.services.wsrp2.testProducer.TestGetServiceDescriptionInterface;
 import org.exoplatform.services.wsrp2.testProducer.TestPerformBlockingInteraction;
 import org.exoplatform.services.wsrp2.testProducer.TestPersistentStateManager;
@@ -43,15 +44,16 @@ public class SuiteForTestProducer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/war_template";
     System.setProperty("mock.portal.dir", newProperty);
 
-//    addTestSuite(TestGetMarkup.class);
-//    addTestSuite(TestRegistrationInterface.class);
-//    addTestSuite(TestCachingMechanism.class);
+    addTestSuite(TestGetMarkup.class);
+    addTestSuite(TestRegistrationInterface.class);
+    addTestSuite(TestCachingMechanism.class);
+    addTestSuite(TestGetServiceAdministration.class);
     addTestSuite(TestGetServiceDescriptionInterface.class);
-//    addTestSuite(TestPerformBlockingInteraction.class);
-//    addTestSuite(TestPortletManagementInterface.class);
-//    addTestSuite(TestSomeScenarios.class);
-//    addTestSuite(TestWSRPSession.class);
-//    addTestSuite(TestPersistentStateManager.class);
+    addTestSuite(TestPerformBlockingInteraction.class);
+    addTestSuite(TestPortletManagementInterface.class);
+    addTestSuite(TestSomeScenarios.class);
+    addTestSuite(TestWSRPSession.class);
+    addTestSuite(TestPersistentStateManager.class);
 
   }
 

@@ -67,7 +67,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   private Map<String, Producer> loadProducers() {
-    System.out.println(">>> EXOMAN ProducerRegistryImpl.loadProducers() 1 = \n" + 1);
 
     Map<String, Producer> map = new HashMap<String, Producer>();
     try {
@@ -75,8 +74,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
       for (Iterator<WSRP2ProducerData> iterator = c.iterator(); iterator.hasNext();) {
         WSRP2ProducerData wsrp2ProducerData = (WSRP2ProducerData) iterator.next();
         String producerUrl = wsrp2ProducerData.getProducer().getUrl().toExternalForm();
-        System.out.println(">>> EXOMAN ProducerRegistryImpl.loadProducers() producerUrl = "
-            + producerUrl);
         ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont, producerUrl);
         map.put(wsrp2ProducerData.getId(), wsrp2ProducerData.getProducer());
       }

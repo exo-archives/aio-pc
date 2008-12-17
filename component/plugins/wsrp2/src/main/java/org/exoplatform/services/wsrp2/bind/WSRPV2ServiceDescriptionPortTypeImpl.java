@@ -31,8 +31,6 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
 
   public WSRPV2ServiceDescriptionPortTypeImpl(ServiceDescriptionInterface serviceDescriptionInterface) {
     this.serviceDescriptionInterface = serviceDescriptionInterface;
-    System.out.println(">>> EXOMAN WSRPV2ServiceDescriptionPortTypeImpl.WSRPV2ServiceDescriptionPortTypeImpl() serviceDescriptionInterface = "
-        + serviceDescriptionInterface);
   }
 
   /* (non-Javadoc)
@@ -66,7 +64,7 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
     System.out.println(desiredLocales);
     System.out.println(portletHandles);
     System.out.println(userContext);
-    try {
+//    try {
       ServiceDescription response = serviceDescriptionInterface.getServiceDescription(registrationContext,
                                                                                       desiredLocales,
                                                                                       portletHandles,
@@ -103,12 +101,12 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
       mayReturnRegistrationState.value = mayReturnRegistrationStateValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException(ex);
-    }
+//    } catch (Exception ex) {
+//      ex.printStackTrace();
+//      throw new RuntimeException(ex);
+//    }
     //throw new ResourceSuspended("ResourceSuspended...");
-    //throw new InvalidRegistration("InvalidRegistration...");
+//    throw new InvalidRegistration("InvalidRegistration...");
     //throw new ModifyRegistrationRequired("ModifyRegistrationRequired...");
     //throw new OperationFailed("OperationFailed...");
   }

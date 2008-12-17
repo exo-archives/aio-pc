@@ -150,7 +150,6 @@ public class Utils {
 //                                                                                  selectOnlyNonWSRP);
 //    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
 //  }
-
   /**
    * Convert from input.getRenderParameters() to
    * baseRequest.setNavigationalValues(NamedString[]). Convert those parameters
@@ -256,6 +255,36 @@ public class Utils {
 //            result.put(name, newArray);
           }
         }
+      }
+    }
+
+    return result;
+  }
+
+  public static Map<String, String> getMapFromString(String properties) {
+    if (properties==null)
+      return null;
+    Map<String, String> result = new HashMap<String, String>();
+    if (properties.length() == 0)
+      return result;
+
+    if (properties.startsWith("{"))
+      properties = properties.substring(1);
+    if (properties.endsWith("}"))
+      properties = properties.substring(0, properties.length() - 2);
+
+    String[] props = properties.split(",");
+    for (String string : props) {
+      string = string.trim();
+
+      String[] aprops = string.split("=");
+      if (aprops.length == 1) {
+        String key = aprops[0];
+        result.put(key, null);
+      } else if (aprops.length == 2) {
+        String key = aprops[0];
+        String value = aprops[1];
+        result.put(key, value);
       }
     }
     return result;

@@ -38,8 +38,6 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
 
   public WSRPV2RegistrationPortTypeImpl(RegistrationOperationsInterface registrationOperationsInterface) {
     this.registrationOperationsInterface = registrationOperationsInterface;
-    System.out.println(">>> EXOMAN WSRPV2RegistrationPortTypeImpl.WSRPV2RegistrationPortTypeImpl() registrationOperationsInterface = "
-        + registrationOperationsInterface);
   }
 
   /* (non-Javadoc)

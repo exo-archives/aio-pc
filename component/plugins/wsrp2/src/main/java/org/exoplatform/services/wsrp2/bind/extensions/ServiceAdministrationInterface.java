@@ -17,10 +17,10 @@
 
 package org.exoplatform.services.wsrp2.bind.extensions;
 
+import java.util.Map;
+
 /**
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface ServiceAdministrationInterface {
-  public ServiceAdministration getServiceAdministration();//java.util.HashMap<java.lang.String, java.lang.String> properties) throws java.rmi.RemoteException;
-
+  public ServiceAdministration getServiceAdministration(Map<String, String> properties) throws java.rmi.RemoteException;
 }

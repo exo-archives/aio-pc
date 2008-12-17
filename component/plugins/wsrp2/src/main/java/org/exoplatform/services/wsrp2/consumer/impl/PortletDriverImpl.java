@@ -278,7 +278,6 @@ public class PortletDriverImpl implements PortletDriver {
   public MarkupResponse getMarkup(WSRPMarkupRequest markupRequest,
                                   UserSessionMgr userSession,
                                   String baseURL) throws WSRPException {
-    System.out.println(">>> EXOMAN PortletDriverImpl.getMarkup() 1 = " + 1);
     checkInitCookie(userSession);
     MarkupResponse response = null;
     try {

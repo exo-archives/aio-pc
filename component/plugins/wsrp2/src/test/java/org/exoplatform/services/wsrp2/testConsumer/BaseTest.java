@@ -228,8 +228,8 @@ public class BaseTest extends TestCase {
       service = new MockWSRPService(container);
     }
 
-    System.out.println(">>> EXOMAN BaseTest.setUp() service = " + service);
-    System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
+    System.out.println(">>> BaseTest.setUp() service = " + service); 
+    System.out.println(">>> BaseTest.setUp() container = " + container);
 
     producer.createAdapters(service, container);
 

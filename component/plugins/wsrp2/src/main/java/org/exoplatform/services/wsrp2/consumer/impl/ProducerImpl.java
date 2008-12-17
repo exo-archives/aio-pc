@@ -94,14 +94,12 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   public void init(ExoContainer container, String producerURL) {
 //    this.cont = cont;
-    System.out.println(">>> EXOMAN ProducerImpl.init() producerURL = " + producerURL);
     try {
       this.url = new URL(producerURL);
       String producerId = "producer2" + Integer.toString(producerURL.hashCode());
       this.ID = producerId;
 
       WSRPService service = new WSRPService(this.url);//(WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
-      System.out.println(">>> EXOMAN ProducerImpl.init() service = " + service);
 
       createAdapters(service, container);
 

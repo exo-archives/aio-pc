@@ -7,7 +7,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp.producer.impl.RegistrationOperationsInterfaceImp</type>
+    <type>org.exoplatform.services.wsrp.producer.impl.RegistrationOperationsInterfaceImpl</type>
   </component>
 
   <component>

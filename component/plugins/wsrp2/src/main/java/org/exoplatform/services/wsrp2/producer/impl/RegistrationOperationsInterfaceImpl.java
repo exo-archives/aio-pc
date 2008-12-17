@@ -39,13 +39,13 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class RegistrationOperationsInterfaceImp implements RegistrationOperationsInterface {
+public class RegistrationOperationsInterfaceImpl implements RegistrationOperationsInterface {
 
   private Log                    log;
 
   private PersistentStateManager stateManager;
 
-  public RegistrationOperationsInterfaceImp(PersistentStateManager stateManager) {
+  public RegistrationOperationsInterfaceImpl(PersistentStateManager stateManager) {
     this.stateManager = stateManager;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
   }

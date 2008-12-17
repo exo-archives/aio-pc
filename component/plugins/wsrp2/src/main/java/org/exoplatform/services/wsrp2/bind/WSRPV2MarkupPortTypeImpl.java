@@ -49,8 +49,6 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
 
   public WSRPV2MarkupPortTypeImpl(MarkupOperationsInterface markupOperationsInterface) {
     this.markupOperationsInterface = markupOperationsInterface;
-    System.out.println(">>> EXOMAN WSRPV2MarkupPortTypeImpl.WSRPV2MarkupPortTypeImpl() markupOperationsInterface = "
-        + markupOperationsInterface);
   }
 
   /* (non-Javadoc)

@@ -409,8 +409,6 @@ public class WSRPAdminPortlet {
         description = request.getParameter("description");
 
         String pURL = producerURL;// + "?wsdl";
-        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() pURL = " + pURL);
-//        System.out.println(">>> EXOMAN WSRPAdminPortlet.processAction() \n pURL + ?wsdl = " + pURL + "?wsdl");
         ProducerRegistry pregistry = consumer.getProducerRegistry();
         Producer producer = pregistry.createProducerInstance(pURL);
         producer.setName(producerName);
