@@ -61,12 +61,12 @@
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.database</artifactId>
       <version>${org.exoplatform.core.version}</version>
-<!--      <exclusions>-->
-<!--        <exclusion>-->
-<!--          <groupId>asm</groupId>-->
-<!--          <artifactId>asm</artifactId>-->
-<!--        </exclusion>-->
-<!--      </exclusions>-->
+      <!--      <exclusions>-->
+      <!--        <exclusion>-->
+      <!--          <groupId>asm</groupId>-->
+      <!--          <artifactId>asm</artifactId>-->
+      <!--        </exclusion>-->
+      <!--      </exclusions>-->
     </dependency>
 
     <dependency>
@@ -103,58 +103,58 @@
       <groupId>org.exoplatform.ws</groupId>
       <artifactId>exo.ws.soap.cxf.jsr181</artifactId>
       <version>trunk</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.apache.cxf</groupId>
-              <artifactId>cxf-common-utilities</artifactId>
-            </exclusion>
-            <exclusion>
-              <groupId>org.apache.cxf</groupId>
-              <artifactId>cxf-rt-frontend-jaxws</artifactId>
-            </exclusion>
-          </exclusions>
+      <exclusions>
+        <exclusion>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-common-utilities</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-rt-frontend-jaxws</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- END of eXo Deps -->
 
     <!-- CXF deps -->
 
-        <dependency>
+    <dependency>
+      <groupId>org.apache.cxf</groupId>
+      <artifactId>cxf-tools-misctools</artifactId>
+      <version>2.1.2</version>
+      <exclusions>
+        <exclusion>
           <groupId>org.apache.cxf</groupId>
-          <artifactId>cxf-tools-misctools</artifactId>
-          <version>2.1.2</version>
-          <exclusions>
-            <exclusion>
-              <groupId>org.apache.cxf</groupId>
-              <artifactId>cxf-common-utilities</artifactId>
-            </exclusion>
-          </exclusions>
-        </dependency>
+          <artifactId>cxf-common-utilities</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
 
-        <dependency>
-          <groupId>org.exoplatform.patches</groupId>
-          <artifactId>exo-cxf-common-utilities</artifactId>
-          <version>2.1.2</version>
-        </dependency>
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-cxf-common-utilities</artifactId>
+      <version>2.1.2</version>
+    </dependency>
 
-        <dependency>
-          <groupId>org.exoplatform.patches</groupId>
-          <artifactId>exo-cxf-rt-frontend-jaxws</artifactId>
-          <version>2.1.2</version>
-        </dependency>
-        
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-cxf-rt-frontend-jaxws</artifactId>
+      <version>2.1.2</version>
+    </dependency>
 
-<!--        <dependency>-->
-<!--          <groupId>asm</groupId>-->
-<!--          <artifactId>asm</artifactId>-->
-<!--          <version>1.5.3</version>-->
-<!--        </dependency>-->
 
-        <dependency>
-          <groupId>org.exoplatform.patches</groupId>
-          <artifactId>exo-asm</artifactId>
-          <version>2.2.3</version>
-        </dependency>
+    <!--        <dependency>-->
+    <!--          <groupId>asm</groupId>-->
+    <!--          <artifactId>asm</artifactId>-->
+    <!--          <version>1.5.3</version>-->
+    <!--        </dependency>-->
+
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-asm</artifactId>
+      <version>2.2.3</version>
+    </dependency>
 
 
     <!-- Cargo deps -->
@@ -245,7 +245,7 @@
   <!--  </profiles>-->
 
   <properties>
-    <war.dir>${basedir}/war_template</war.dir>
+    <war.dir>${basedir}/war_template2</war.dir>
     <src.gen.dir>${basedir}/target/generated</src.gen.dir>
     <cxf.version>2.1.2</cxf.version>
   </properties>
@@ -277,8 +277,46 @@
         <artifactId>cxf-codegen-plugin</artifactId>
         <version>${cxf.version}</version>
         <executions>
+          <!-- Generate sources for WSRP 1 -->
           <execution>
-            <id>generate-sources</id>
+            <id>generate-sources-1</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <sourceRoot>${src.gen.dir}</sourceRoot>
+              <wsdlOptions>
+                <wsdlOption>
+                  <wsdl>${basedir}/wsdl1/wsrp_service.wsdl</wsdl>
+                  <extraargs>
+                    <extraarg>-validate</extraarg>
+                    <extraarg>-all</extraarg>
+                    <!--                                        <extraarg>-client</extraarg> -->
+                    <!--                                        <extraarg>-server</extraarg>-->
+                    <extraarg>-compile</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp1.type</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp1.intf</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp1.bind</extraarg>
+                    <extraarg>-p</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp1.wsdl</extraarg>
+                    <!--                                        <extraarg>-sn</extraarg>-->
+                    <!--                                        <extraarg>WSRPService</extraarg>-->
+                    <!--                                        <extraarg>-nexclude</extraarg>-->
+                    <!--                                        <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>-->
+                    <!--                                        <extraarg>-b</extraarg>-->
+                    <!--                                        <extraarg>${basedir}/wsdl/binding.xml</extraarg>-->
+                  </extraargs>
+                </wsdlOption>
+              </wsdlOptions>
+            </configuration>
+            <goals>
+              <goal>wsdl2java</goal>
+            </goals>
+          </execution>
+          <!-- Generate sources for WSRP 2 -->
+          <execution>
+            <id>generate-sources-2</id>
             <phase>generate-sources</phase>
             <configuration>
               <sourceRoot>${src.gen.dir}</sourceRoot>
@@ -323,29 +361,29 @@
         <version>1.2-SNAPSHOT</version>
         <executions>
 
-          <execution>
-            <id>1</id>
-            <phase>generate-sources</phase>
-            <configuration>
-              <tasks if="${settings.activeProxy.host}">
-                <echo>=== NON-PROXY ===</echo>
-                <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>
-                <mkdir dir="${src.gen.dir}" />
-                <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">
-                  <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />
-                  <classpath refid="maven.dependency.classpath" />
-                </java>
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />
-                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />
-              </tasks>
-              <sourceRoot>${src.gen.dir}</sourceRoot>
-            </configuration>
-            <goals>
-              <goal>run</goal>
-            </goals>
-          </execution>
+<!--          <execution>-->
+<!--            <id>1</id>-->
+<!--            <phase>generate-sources</phase>-->
+<!--            <configuration>-->
+<!--              <tasks if="${settings.activeProxy.host}">-->
+<!--                <echo>=== NON-PROXY ===</echo>-->
+<!--                <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>-->
+<!--                <mkdir dir="${src.gen.dir}" />-->
+<!--                <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">-->
+<!--                  <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />-->
+<!--                  <classpath refid="maven.dependency.classpath" />-->
+<!--                </java>-->
+<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />-->
+<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />-->
+<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />-->
+<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />-->
+<!--              </tasks>-->
+<!--              <sourceRoot>${src.gen.dir}</sourceRoot>-->
+<!--            </configuration>-->
+<!--            <goals>-->
+<!--              <goal>run</goal>-->
+<!--            </goals>-->
+<!--          </execution>-->
 
 
           <execution>
@@ -357,6 +395,8 @@
                 <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
                   verbose="false">
                   <fileset dir="${basedir}/src/main/java">
+                    <include name="org/exoplatform/services/wsrp1/consumer/impl/WSRP1ProducerData.java" />
+                    <include name="org/exoplatform/services/wsrp1/producer/impl/WSRP1StateData.java" />
                     <include name="org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java" />
                     <include name="org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java" />
                   </fileset>
@@ -368,6 +408,7 @@
               <goal>run</goal>
             </goals>
           </execution>
+          
           <execution>
             <id>3</id>
             <phase>generate-test-sources</phase>
@@ -375,12 +416,12 @@
               <tasks>
                 <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
-                  <fileset dir="${basedir}/war_template/src">
+                  <fileset dir="${basedir}/war_template2/src">
                     <include name="**/*.properties" />
                     <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
                   deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
@@ -399,11 +440,11 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <war destfile="target/hello.war" webxml="war_template/WEB-INF/web.xml">
+                <war destfile="target/hello.war" webxml="war_template2/WEB-INF/web.xml">
                   <classes dir="target/test-classes">
                     <exclude name="wsrp2/**/*" />
                   </classes>
-                  <zipfileset dir="war_template/WEB-INF" includes="**/*" prefix="WEB-INF" />
+                  <zipfileset dir="war_template2/WEB-INF" includes="**/*" prefix="WEB-INF" />
                 </war>
               </tasks>
             </configuration>

@@ -58,7 +58,7 @@ public class TestProducer extends BaseTest {
 
   public void testPortletDescription() throws WSRPException {
     producer.setDesiredLocales(new String[] { "fr" });
-    PortletDescription portletDescription = producer.getPortletDescription("war_template/HelloWorld");
+    PortletDescription portletDescription = producer.getPortletDescription("war_template1/HelloWorld");
     assertEquals("Salut le monde Portlet", portletDescription.getDescription().getValue());
   }
 
@@ -81,7 +81,7 @@ public class TestProducer extends BaseTest {
 
   private PortletDescription getHelloWorldPortlet(PortletDescription[] psArray) throws Exception {
     for (int i = 0; i < psArray.length; i++) {
-      if ("war_template/HelloWorld".equals(psArray[i].getPortletHandle()))
+      if ("war_template1/HelloWorld".equals(psArray[i].getPortletHandle()))
         return psArray[i];
     }
     return null;

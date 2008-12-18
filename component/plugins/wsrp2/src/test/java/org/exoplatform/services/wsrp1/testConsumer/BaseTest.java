@@ -73,7 +73,7 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
 public class BaseTest extends TestCase {
 
-  protected static final String      CONTEXT_PATH                                    = "/war_template";
+  protected static final String      CONTEXT_PATH                                    = "/war_template1";
 
   protected static final String      TEST_PATH                                       = (System.getProperty("testPath") == null ? "."
                                                                                                                               : System.getProperty("testPath"));
@@ -172,7 +172,7 @@ public class BaseTest extends TestCase {
     Collection<String> roles = new ArrayList<String>();
     roles.add("auth-user");
 
-    mockServletContext = new MockServletContext("hello", "./war_template");
+    mockServletContext = new MockServletContext("hello", "./war_template1");
     mockServletContext.setInitParameter("test-param", "test-parame-value");
 
     portletApplicationRegister = (PortletApplicationRegister) container.getComponentInstanceOfType(PortletApplicationRegister.class);
@@ -180,7 +180,7 @@ public class BaseTest extends TestCase {
     portletApplicationRegister.registerPortletApplication(mockServletContext,
                                                           portletApp_,
                                                           roles,
-                                                          "war_template");
+                                                          "war_template1");
 
     producerRegistry = (ProducerRegistry) container.getComponentInstanceOfType(ProducerRegistry.class);
     portletRegistry = (PortletRegistry) container.getComponentInstanceOfType(PortletRegistry.class);
@@ -227,7 +227,7 @@ public class BaseTest extends TestCase {
 
   public void tearDown() throws Exception {
     try {
-      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template");
+      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template1");
       HibernateService hservice = (HibernateService) container.getComponentInstanceOfType(HibernateService.class);
       hservice.closeSession();
     } catch (Exception e) {

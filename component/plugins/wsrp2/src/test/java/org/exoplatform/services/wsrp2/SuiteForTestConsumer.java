@@ -37,7 +37,7 @@ public class SuiteForTestConsumer extends TestSuite {
   public SuiteForTestConsumer() {
     log.info("Preparing SuiteForTestProducer tests....");
 
-    String newProperty = System.getProperty("basedir") + "/war_template";
+    String newProperty = System.getProperty("basedir") + "/war_template2";
     System.setProperty("mock.portal.dir", newProperty);
 
     addTestSuite(TestPortletRegistry.class);

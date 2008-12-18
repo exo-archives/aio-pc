@@ -61,6 +61,7 @@
   <component>
     <type>org.exoplatform.services.wsrp.consumer.impl.ConsumerEnvironmentImpl</type>
   </component>
+  
   <component>
     <type>org.exoplatform.services.wsrp.consumer.impl.URLTemplateComposerImpl</type>
   </component>
