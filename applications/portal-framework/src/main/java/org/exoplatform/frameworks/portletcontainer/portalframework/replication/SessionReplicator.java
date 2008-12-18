@@ -25,6 +25,9 @@ import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.exoplatform.container.xml.InitParams;
+import org.exoplatform.container.xml.PropertiesParam;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
@@ -75,6 +78,13 @@ public class SessionReplicator implements RequestHandler, Startable {
    * Logger.
    */
   private static final Log         LOG                   = ExoLogger.getLogger(SessionReplicator.class);
+  
+  /**
+   * Parameters to initialize.
+   */
+  private InitParams          initParams;
+
+
 
   /**
    * Sends session info to other nodes.
@@ -85,8 +95,23 @@ public class SessionReplicator implements RequestHandler, Startable {
    * @throws Exception something may go wrong
    */
 
-  public SessionReplicator() {
-    init();
+  public SessionReplicator(InitParams params) {
+    
+    this.initParams = params;
+     
+    
+    try {
+      String channelProps  = initParams.getPropertiesParam("replication-properties").getProperty("channel-config");
+      if (channel == null || disp == null) {
+        channel = createJChannel(channelProps);
+        disp = new MessageDispatcher(channel, null, null, this);
+        String groupName  = initParams.getPropertiesParam("replication-properties").getProperty("group-name");
+        channel.connect(groupName);
+      }
+    } catch (Exception ex) {
+      ex.printStackTrace();
+    }
+
   }
 
   public final void send(String sessionId,
@@ -154,25 +179,16 @@ public class SessionReplicator implements RequestHandler, Startable {
     return new String("Ok");
   }
 
-  private static JChannel createJChannel() throws Exception {
-    InputStream stream = (SessionReplicator.class.getClassLoader().getResourceAsStream("jgroups-configuration.conf"));
-    byte[] b;
-    b = new byte[stream.available()];
-    stream.read(b, 0, stream.available());
-    String props = new String(b);
+  private static JChannel createJChannel(String props) throws Exception {
+//    InputStream stream = (SessionReplicator.class.getClassLoader().getResourceAsStream("jgroups-configuration.conf"));
+//    byte[] b;
+//    b = new byte[stream.available()];
+//    stream.read(b, 0, stream.available());
+    
     return new JChannel(props);
   }
 
   public void init() {
-    try {
-      if (channel == null || disp == null) {
-        channel = createJChannel();
-        disp = new MessageDispatcher(channel, null, null, this);
-        channel.connect("TestGroup");
-      }
-    } catch (Exception ex) {
-      ex.printStackTrace();
-    }
   }
 
   public void start() {

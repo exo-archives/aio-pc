@@ -56,6 +56,13 @@ public class PortalFrameworkFilter implements Filter {
    * Session replicator instance.
    */
   private SessionReplicator                            sessionReplicator = null;
+  
+  
+  /**
+   * Session replicator option.
+   */
+  private boolean                            isReplicationEnabled = true;
+
 
   /**
    * Does nothing.
@@ -109,11 +116,16 @@ public class PortalFrameworkFilter implements Filter {
 
     // Session Replication
     try {
-      if (sessionReplicator == null)
+      if (sessionReplicator == null && isReplicationEnabled) {
         sessionReplicator = (SessionReplicator) container.getComponentInstanceOfType(SessionReplicator.class);
+        if (sessionReplicator == null){
+          isReplicationEnabled = false;
+          return;
+        }
       sessionReplicator.send(httpSession.getId(),
                              framework.getPortalName(),
                              framework.getRenderedPortletInfos());
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
