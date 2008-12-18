@@ -4,6 +4,7 @@
 
 <!--  config replication for IPv4   --> 
 
+<!--
   <component>
     <type>org.exoplatform.frameworks.portletcontainer.portalframework.replication.SessionReplicator</type>
     <init-params>
@@ -14,7 +15,7 @@
       </properties-param>
     </init-params>
   </component>
-
+-->
 <!--  config replication for IPv6   --> 
 <!-- 
   <component>
