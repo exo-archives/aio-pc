@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp1;
 
 /**
  * Created by The eXo Platform SAS Author : Max Shaposhnik

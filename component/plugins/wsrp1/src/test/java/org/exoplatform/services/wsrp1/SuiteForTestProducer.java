@@ -14,20 +14,20 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp1;
 
 import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.test.TestCachingMechanism;
-import org.exoplatform.services.wsrp.test.TestGetMarkup;
-import org.exoplatform.services.wsrp.test.TestGetServiceDescriptionInterface;
-import org.exoplatform.services.wsrp.test.TestPerformBlockingInteraction;
-import org.exoplatform.services.wsrp.test.TestPortletManagementInterface;
-import org.exoplatform.services.wsrp.test.TestRegistrationInterface;
-import org.exoplatform.services.wsrp.test.TestSomeScenarios;
-import org.exoplatform.services.wsrp.test.TestWSRPSession;
+import org.exoplatform.services.wsrp.TestCachingMechanism;
+import org.exoplatform.services.wsrp.TestGetMarkup;
+import org.exoplatform.services.wsrp.TestGetServiceDescriptionInterface;
+import org.exoplatform.services.wsrp.TestPerformBlockingInteraction;
+import org.exoplatform.services.wsrp.TestPortletManagementInterface;
+import org.exoplatform.services.wsrp.TestRegistrationInterface;
+import org.exoplatform.services.wsrp.TestSomeScenarios;
+import org.exoplatform.services.wsrp.TestWSRPSession;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008

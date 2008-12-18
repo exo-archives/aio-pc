@@ -14,17 +14,17 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp1;
 
 import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.testConsumer.TestPortletRegistry;
-import org.exoplatform.services.wsrp.testConsumer.TestProducerRegistry;
-import org.exoplatform.services.wsrp.testConsumer.TestURLRewriter;
-import org.exoplatform.services.wsrp.testConsumer.TestURLTemplateComposer;
-import org.exoplatform.services.wsrp.testConsumer.TestUserRegistry;
+import org.exoplatform.services.wsrp.TestPortletRegistry;
+import org.exoplatform.services.wsrp.TestProducerRegistry;
+import org.exoplatform.services.wsrp.TestURLRewriter;
+import org.exoplatform.services.wsrp.TestURLTemplateComposer;
+import org.exoplatform.services.wsrp.TestUserRegistry;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008

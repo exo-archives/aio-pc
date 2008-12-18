@@ -15,38 +15,37 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp1.testConsumer;
 
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
- * Date: 2 févr. 2004
- * Time: 17:08:46
+ * Date: 5 févr. 2004
+ * Time: 18:31:05
  */
 
-public class TestProducerRegistry extends BaseTest {
+public class TestUserRegistry extends BaseTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestProducerRegistry.setUp()");
+    System.out.println(">>>>>>>>>>>>>>> TestUserRegistry.setUp()");
   }
 
-  public void testAddProducer() {
-    producerRegistry.addProducer(producer);
-    assertTrue(producerRegistry.existsProducer(producer.getID()));
-    assertEquals(producer, producerRegistry.getAllProducers().next());
+  public void testAddUser() {
+    userRegistry.addUser(createUser("userID"));
+    assertTrue(userRegistry.getAllUsers().hasNext());
+    assertNotNull(userRegistry.getUser("userID"));
   }
 
-  public void testRemoveProducer() throws Exception {
-    producerRegistry.removeAllProducers();
-
-    producerRegistry.addProducer(producer);
-    producerRegistry.removeAllProducers();
-    assertTrue(!producerRegistry.getAllProducers().hasNext());
-
-    producerRegistry.addProducer(producer);
-    producerRegistry.removeProducer(producer.getID());
-    assertTrue(!producerRegistry.getAllProducers().hasNext());
+  public void testRemoveUser() {
+    userRegistry.addUser(createUser("userID"));
+    userRegistry.addUser(createUser("userID2"));
+    userRegistry.addUser(createUser("userID3"));
+    userRegistry.removeUser("userID3");
+    assertNull(userRegistry.getUser("userID3"));
+    userRegistry.removeAllUsers();
+    assertFalse(userRegistry.getAllUsers().hasNext());
   }
+
 }

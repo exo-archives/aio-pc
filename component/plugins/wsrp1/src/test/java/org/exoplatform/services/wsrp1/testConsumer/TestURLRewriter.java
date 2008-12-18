@@ -15,25 +15,32 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp1.testConsumer;
+
+import org.exoplatform.services.wsrp.exceptions.WSRPException;
 
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
- * Date: 5 févr. 2004
- * Time: 12:59:02
+ * Date: 6 févr. 2004
+ * Time: 17:17:29
  */
 
-public class TestConsumerEnvironement extends BaseTest {
+public class TestURLRewriter extends BaseTest {
+
+  String s = "wsrp_rewrite?wsrp-urlType=render&amp;wsrp-portletMode=wsrp:help&amp;"
+               + "wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**"
+               + "&amp;wsrp-windowState=wsrp:normal&amp;amp;wsrp-secureURL=false/wsrp_rewrite";
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestConsumerEnvironement.setUp()");
+    System.out.println(">>>>>>>>>>>>>>> TestURLRewriter.setUp()");
   }
 
-  public void testInit() {
-
+  public void testRewrite() throws WSRPException {
+    System.out.println("Rewritten : " + urlRewriter.rewriteURLs("baseURL", s));
+    //assertEquals(returned, urlRewriter.rewriteURLs(s));
   }
 
 }

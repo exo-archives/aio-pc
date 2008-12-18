@@ -15,32 +15,38 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
-
-import org.exoplatform.services.wsrp.exceptions.WSRPException;
+package org.exoplatform.services.wsrp1.testConsumer;
 
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
- * Date: 6 févr. 2004
- * Time: 17:17:29
+ * Date: 2 févr. 2004
+ * Time: 17:08:46
  */
 
-public class TestURLRewriter extends BaseTest {
-
-  String s = "wsrp_rewrite?wsrp-urlType=render&amp;wsrp-portletMode=wsrp:help&amp;"
-               + "wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**"
-               + "&amp;wsrp-windowState=wsrp:normal&amp;amp;wsrp-secureURL=false/wsrp_rewrite";
+public class TestProducerRegistry extends BaseTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestURLRewriter.setUp()");
+    System.out.println(">>>>>>>>>>>>>>> TestProducerRegistry.setUp()");
   }
 
-  public void testRewrite() throws WSRPException {
-    System.out.println("Rewritten : " + urlRewriter.rewriteURLs("baseURL", s));
-    //assertEquals(returned, urlRewriter.rewriteURLs(s));
+  public void testAddProducer() {
+    producerRegistry.addProducer(producer);
+    assertTrue(producerRegistry.existsProducer(producer.getID()));
+    assertEquals(producer, producerRegistry.getAllProducers().next());
   }
 
+  public void testRemoveProducer() throws Exception {
+    producerRegistry.removeAllProducers();
+
+    producerRegistry.addProducer(producer);
+    producerRegistry.removeAllProducers();
+    assertTrue(!producerRegistry.getAllProducers().hasNext());
+
+    producerRegistry.addProducer(producer);
+    producerRegistry.removeProducer(producer.getID());
+    assertTrue(!producerRegistry.getAllProducers().hasNext());
+  }
 }

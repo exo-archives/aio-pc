@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.test;
+package org.exoplatform.services.wsrp1.test;
 
 import org.exoplatform.services.wsrp.type.ItemDescription;
 import org.exoplatform.services.wsrp.type.MarkupType;

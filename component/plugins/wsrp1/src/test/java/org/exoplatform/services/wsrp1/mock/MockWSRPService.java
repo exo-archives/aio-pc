@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.mock;
+package org.exoplatform.services.wsrp1.mock;
 
 import java.net.URL;
 import java.rmi.Remote;

@@ -15,37 +15,25 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp1.testConsumer;
 
 /*
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 5 févr. 2004
- * Time: 18:31:05
+ * Time: 12:59:02
  */
 
-public class TestUserRegistry extends BaseTest {
+public class TestConsumerEnvironement extends BaseTest {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestUserRegistry.setUp()");
+    System.out.println(">>>>>>>>>>>>>>> TestConsumerEnvironement.setUp()");
   }
 
-  public void testAddUser() {
-    userRegistry.addUser(createUser("userID"));
-    assertTrue(userRegistry.getAllUsers().hasNext());
-    assertNotNull(userRegistry.getUser("userID"));
-  }
+  public void testInit() {
 
-  public void testRemoveUser() {
-    userRegistry.addUser(createUser("userID"));
-    userRegistry.addUser(createUser("userID2"));
-    userRegistry.addUser(createUser("userID3"));
-    userRegistry.removeUser("userID3");
-    assertNull(userRegistry.getUser("userID3"));
-    userRegistry.removeAllUsers();
-    assertFalse(userRegistry.getAllUsers().hasNext());
   }
 
 }

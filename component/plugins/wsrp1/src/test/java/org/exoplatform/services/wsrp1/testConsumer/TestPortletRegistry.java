@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp.testConsumer;
+package org.exoplatform.services.wsrp1.testConsumer;
 
 import org.exoplatform.services.wsrp.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp.exceptions.WSRPException;
