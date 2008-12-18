@@ -1,12 +1,12 @@
 @echo off
-REM
+
 REM Copyright 2002 Sun Microsystems, Inc. All rights reserved.
 REM SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
-REM
 
-REM
 REM @(#)tsant.bat       1.9   02/05/13
-REM
+
+REM uncomment below for resolve test failure problems
+REM set JAVA_HOME=c:\progra~1\java\jdk15~1.0_0
 
 @setlocal
 if "%1" == "ld" goto ld
