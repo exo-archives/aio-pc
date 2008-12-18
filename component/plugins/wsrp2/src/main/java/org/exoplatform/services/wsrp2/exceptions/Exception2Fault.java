@@ -19,8 +19,6 @@ package org.exoplatform.services.wsrp2.exceptions;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp2.type.Fault;
-
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
