@@ -293,13 +293,13 @@
                     <!--                                        <extraarg>-server</extraarg>-->
                     <extraarg>-compile</extraarg>
                     <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp1.type</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp.type</extraarg>
                     <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp1.intf</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp.intf</extraarg>
                     <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp1.bind</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp.bind</extraarg>
                     <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp1.wsdl</extraarg>
+                    <extraarg>urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp.wsdl</extraarg>
                     <!--                                        <extraarg>-sn</extraarg>-->
                     <!--                                        <extraarg>WSRPService</extraarg>-->
                     <!--                                        <extraarg>-nexclude</extraarg>-->
