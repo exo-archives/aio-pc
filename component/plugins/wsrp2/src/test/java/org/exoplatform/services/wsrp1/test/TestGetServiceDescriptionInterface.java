@@ -17,11 +17,12 @@
 
 package org.exoplatform.services.wsrp1.test;
 
-import org.exoplatform.services.wsrp.type.ItemDescription;
-import org.exoplatform.services.wsrp.type.MarkupType;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp1.type.ItemDescription;
+import org.exoplatform.services.wsrp1.type.MarkupType;
+import org.exoplatform.services.wsrp1.type.PortletDescription;
+import org.exoplatform.services.wsrp1.type.ServiceDescription;
+import org.exoplatform.services.wsrp1.type.ServiceDescriptionRequest;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net

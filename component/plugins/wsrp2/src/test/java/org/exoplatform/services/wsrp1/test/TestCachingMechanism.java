@@ -19,12 +19,13 @@ package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.WSRPConstants;
-import org.exoplatform.services.wsrp.type.CacheControl;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp1.WSRPConstants;
+import org.exoplatform.services.wsrp1.type.CacheControl;
+import org.exoplatform.services.wsrp1.type.MarkupResponse;
+import org.exoplatform.services.wsrp1.type.PortletContext;
+import org.exoplatform.services.wsrp1.type.RegistrationContext;
+import org.exoplatform.services.wsrp1.type.ServiceDescription;
 
 /*
  * @author  Mestrallet Benjamin

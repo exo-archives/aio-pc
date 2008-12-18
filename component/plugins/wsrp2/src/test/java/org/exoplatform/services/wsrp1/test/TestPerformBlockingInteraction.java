@@ -22,19 +22,20 @@ import java.rmi.RemoteException;
 import javax.portlet.PortletPreferences;
 
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
-import org.exoplatform.services.wsrp.type.BlockingInteractionRequest;
-import org.exoplatform.services.wsrp.type.BlockingInteractionResponse;
-import org.exoplatform.services.wsrp.type.InteractionParams;
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.NamedString;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.StateChange;
-import org.exoplatform.services.wsrp.type.UpdateResponse;
-import org.exoplatform.services.wsrp.utils.Modes;
-import org.exoplatform.services.wsrp.utils.WindowStates;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp.Modes;
+import org.exoplatform.services.wsrp.WindowStates;
+import org.exoplatform.services.wsrp1.type.BlockingInteractionRequest;
+import org.exoplatform.services.wsrp1.type.BlockingInteractionResponse;
+import org.exoplatform.services.wsrp1.type.InteractionParams;
+import org.exoplatform.services.wsrp1.type.MarkupRequest;
+import org.exoplatform.services.wsrp1.type.MarkupResponse;
+import org.exoplatform.services.wsrp1.type.NamedString;
+import org.exoplatform.services.wsrp1.type.PortletContext;
+import org.exoplatform.services.wsrp1.type.RegistrationContext;
+import org.exoplatform.services.wsrp1.type.ServiceDescription;
+import org.exoplatform.services.wsrp1.type.StateChange;
+import org.exoplatform.services.wsrp1.type.UpdateResponse;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net

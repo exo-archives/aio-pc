@@ -18,10 +18,11 @@
 package org.exoplatform.services.wsrp1.test;
 
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.wsrp.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp.producer.impl.PersistentStateManagerImpl;
-import org.exoplatform.services.wsrp.producer.impl.WSRP1StateData;
-import org.exoplatform.services.wsrp.type.RegistrationData;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp.PersistentStateManager;
+import org.exoplatform.services.wsrp.PersistentStateManagerImpl;
+import org.exoplatform.services.wsrp.WSRP1StateData;
+import org.exoplatform.services.wsrp1.type.RegistrationData;
 
 /*
  * @author  Mestrallet Benjamin

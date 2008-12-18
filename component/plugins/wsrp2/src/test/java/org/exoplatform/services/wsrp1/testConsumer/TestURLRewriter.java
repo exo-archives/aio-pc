@@ -17,7 +17,7 @@
 
 package org.exoplatform.services.wsrp1.testConsumer;
 
-import org.exoplatform.services.wsrp.exceptions.WSRPException;
+import org.exoplatform.services.wsrp1.exceptions.WSRPException;
 
 /*
  * @author  Mestrallet Benjamin

@@ -19,13 +19,14 @@ package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.MarkupResponse;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.ReleaseSessionsRequest;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp1.type.MarkupRequest;
+import org.exoplatform.services.wsrp1.type.MarkupResponse;
+import org.exoplatform.services.wsrp1.type.PortletContext;
+import org.exoplatform.services.wsrp1.type.RegistrationContext;
+import org.exoplatform.services.wsrp1.type.ReleaseSessionsRequest;
+import org.exoplatform.services.wsrp1.type.ServiceDescription;
+import org.exoplatform.services.wsrp1.type.ServiceDescriptionRequest;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net

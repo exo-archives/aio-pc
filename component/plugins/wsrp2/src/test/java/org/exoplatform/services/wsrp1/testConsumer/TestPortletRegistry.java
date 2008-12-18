@@ -17,9 +17,10 @@
 
 package org.exoplatform.services.wsrp1.testConsumer;
 
-import org.exoplatform.services.wsrp.consumer.WSRPPortlet;
-import org.exoplatform.services.wsrp.exceptions.WSRPException;
-import org.exoplatform.services.wsrp.type.PortletContext;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp.WSRPException;
+import org.exoplatform.services.wsrp.WSRPPortlet;
+import org.exoplatform.services.wsrp1.type.PortletContext;
 
 /*
  * @author  Mestrallet Benjamin

@@ -20,15 +20,16 @@ package org.exoplatform.services.wsrp1.test;
 import java.rmi.RemoteException;
 
 import org.apache.commons.lang.StringUtils;
-import org.exoplatform.services.wsrp.type.ClonePortletRequest;
-import org.exoplatform.services.wsrp.type.DestroyPortletsRequest;
-import org.exoplatform.services.wsrp.type.DestroyPortletsResponse;
-import org.exoplatform.services.wsrp.type.GetPortletPropertiesRequest;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.Property;
-import org.exoplatform.services.wsrp.type.PropertyList;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.SetPortletPropertiesRequest;
+import org.exoplatform.services.wsrp.BaseTest;
+import org.exoplatform.services.wsrp1.type.ClonePortletRequest;
+import org.exoplatform.services.wsrp1.type.DestroyPortletsRequest;
+import org.exoplatform.services.wsrp1.type.DestroyPortletsResponse;
+import org.exoplatform.services.wsrp1.type.GetPortletPropertiesRequest;
+import org.exoplatform.services.wsrp1.type.PortletContext;
+import org.exoplatform.services.wsrp1.type.Property;
+import org.exoplatform.services.wsrp1.type.PropertyList;
+import org.exoplatform.services.wsrp1.type.RegistrationContext;
+import org.exoplatform.services.wsrp1.type.SetPortletPropertiesRequest;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net

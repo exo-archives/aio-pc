@@ -34,27 +34,27 @@ import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_Markup_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_PortletManagement_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_Registration_PortType;
-import org.exoplatform.services.wsrp.intf.WSRP_v1_ServiceDescription_PortType;
-import org.exoplatform.services.wsrp.producer.impl.helpers.WSRPHTTPContainer;
-import org.exoplatform.services.wsrp.type.BlockingInteractionRequest;
-import org.exoplatform.services.wsrp.type.ClientData;
-import org.exoplatform.services.wsrp.type.MarkupParams;
-import org.exoplatform.services.wsrp.type.MarkupRequest;
-import org.exoplatform.services.wsrp.type.PersonName;
-import org.exoplatform.services.wsrp.type.PortletContext;
-import org.exoplatform.services.wsrp.type.PortletDescription;
-import org.exoplatform.services.wsrp.type.RegistrationContext;
-import org.exoplatform.services.wsrp.type.RegistrationData;
-import org.exoplatform.services.wsrp.type.RuntimeContext;
-import org.exoplatform.services.wsrp.type.ServiceDescription;
-import org.exoplatform.services.wsrp.type.ServiceDescriptionRequest;
-import org.exoplatform.services.wsrp.type.Templates;
-import org.exoplatform.services.wsrp.type.UserContext;
-import org.exoplatform.services.wsrp.type.UserProfile;
-import org.exoplatform.services.wsrp.wsdl.WSRPServiceLocator;
+import org.exoplatform.services.wsrp.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType;
+import org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType;
+import org.exoplatform.services.wsrp1.intf.WSRPV1RegistrationPortType;
+import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
+import org.exoplatform.services.wsrp1.type.BlockingInteractionRequest;
+import org.exoplatform.services.wsrp1.type.ClientData;
+import org.exoplatform.services.wsrp1.type.MarkupParams;
+import org.exoplatform.services.wsrp1.type.MarkupRequest;
+import org.exoplatform.services.wsrp1.type.PersonName;
+import org.exoplatform.services.wsrp1.type.PortletContext;
+import org.exoplatform.services.wsrp1.type.PortletDescription;
+import org.exoplatform.services.wsrp1.type.RegistrationContext;
+import org.exoplatform.services.wsrp1.type.RegistrationData;
+import org.exoplatform.services.wsrp1.type.RuntimeContext;
+import org.exoplatform.services.wsrp1.type.ServiceDescription;
+import org.exoplatform.services.wsrp1.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp1.type.Templates;
+import org.exoplatform.services.wsrp1.type.UserContext;
+import org.exoplatform.services.wsrp1.type.UserProfile;
+import org.exoplatform.services.wsrp1.wsdl.WSRPServiceLocator;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
@@ -84,13 +84,13 @@ public class BaseTest extends TestCase {
 
   protected Collection                          roles;
 
-  protected WSRP_v1_ServiceDescription_PortType serviceDescriptionInterface;
+  protected WSRPV1ServiceDescriptionPortType serviceDescriptionInterface;
 
-  protected WSRP_v1_Registration_PortType       registrationOperationsInterface;
+  protected WSRPV1RegistrationPortType       registrationOperationsInterface;
 
-  protected WSRP_v1_Markup_PortType             markupOperationsInterface;
+  protected WSRPV1MarkupPortType             markupOperationsInterface;
 
-  protected WSRP_v1_PortletManagement_PortType  portletManagementOperationsInterface;
+  protected WSRPV1PortletManagementPortType  portletManagementOperationsInterface;
 
   protected PersonName                          personName;
 
