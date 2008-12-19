@@ -115,7 +115,6 @@
       </exclusions>
     </dependency>
 
-    <!-- END of eXo Deps -->
 
     <!-- CXF deps -->
 
@@ -143,7 +142,6 @@
       <version>2.1.2</version>
     </dependency>
 
-
     <!--        <dependency>-->
     <!--          <groupId>asm</groupId>-->
     <!--          <artifactId>asm</artifactId>-->
@@ -158,7 +156,6 @@
 
 
     <!-- Cargo deps -->
-
 
     <dependency>
       <groupId>org.codehaus.cargo</groupId>
@@ -201,9 +198,6 @@
       <version>6.1.9</version>
     </dependency>
 
-
-
-
     <!--
       <dependency>
       <groupId>stax</groupId>
@@ -211,11 +205,13 @@
       <version>1.0</version>
       </dependency>
     -->
+
     <dependency>
       <groupId>wsdl4j</groupId>
       <artifactId>wsdl4j</artifactId>
       <version>1.6.1</version>
     </dependency>
+
     <!--
       <dependency>
       <groupId>jdom</groupId>
@@ -304,8 +300,8 @@
                     <!--                                        <extraarg>WSRPService</extraarg>-->
                     <!--                                        <extraarg>-nexclude</extraarg>-->
                     <!--                                        <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp1.type</extraarg>-->
-                    <!--                                        <extraarg>-b</extraarg>-->
-                    <!--                                        <extraarg>${basedir}/wsdl1/binding.xml</extraarg>-->
+                    <!--                    <extraarg>-b</extraarg>-->
+                    <!--                    <extraarg>${basedir}/wsdl1/binding.xml</extraarg>-->
                   </extraargs>
                 </wsdlOption>
               </wsdlOptions>
@@ -341,8 +337,8 @@
                     <!--                                        <extraarg>WSRPService</extraarg>-->
                     <!--                                        <extraarg>-nexclude</extraarg>-->
                     <!--                                        <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>-->
-                    <!--                                        <extraarg>-b</extraarg>-->
-                    <!--                                        <extraarg>${basedir}/wsdl/binding.xml</extraarg>-->
+                    <!--                    <extraarg>-b</extraarg>-->
+                    <!--                    <extraarg>${basedir}/wsdl/binding.xml</extraarg>-->
                   </extraargs>
                 </wsdlOption>
               </wsdlOptions>
@@ -361,29 +357,29 @@
         <version>1.2-SNAPSHOT</version>
         <executions>
 
-<!--          <execution>-->
-<!--            <id>1</id>-->
-<!--            <phase>generate-sources</phase>-->
-<!--            <configuration>-->
-<!--              <tasks if="${settings.activeProxy.host}">-->
-<!--                <echo>=== NON-PROXY ===</echo>-->
-<!--                <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>-->
-<!--                <mkdir dir="${src.gen.dir}" />-->
-<!--                <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">-->
-<!--                  <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />-->
-<!--                  <classpath refid="maven.dependency.classpath" />-->
-<!--                </java>-->
-<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />-->
-<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />-->
-<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />-->
-<!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />-->
-<!--              </tasks>-->
-<!--              <sourceRoot>${src.gen.dir}</sourceRoot>-->
-<!--            </configuration>-->
-<!--            <goals>-->
-<!--              <goal>run</goal>-->
-<!--            </goals>-->
-<!--          </execution>-->
+          <!--          <execution>-->
+          <!--            <id>1</id>-->
+          <!--            <phase>generate-sources</phase>-->
+          <!--            <configuration>-->
+          <!--              <tasks if="${settings.activeProxy.host}">-->
+          <!--                <echo>=== NON-PROXY ===</echo>-->
+          <!--                <echo>=== ${basedir}/wsdl/wsrp_service.wsdl -v -verbose -transport soap ===</echo>-->
+          <!--                <mkdir dir="${src.gen.dir}" />-->
+          <!--                <java fork="yes" dir="wsdl" classname="org.apache.cxf.tools.misc.WSDLToService">-->
+          <!--                  <arg line="-transport soap -e servicename -p portname -n bindingname -d ${src.gen.dir} ${basedir}/wsdl/wsrp_service.wsdl" />-->
+          <!--                  <classpath refid="maven.dependency.classpath" />-->
+          <!--                </java>-->
+          <!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_ServiceDescription_Binding_SOAPImpl.java" />-->
+          <!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Registration_Binding_SOAPImpl.java" />-->
+          <!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_Markup_Binding_SOAPImpl.java" />-->
+          <!--                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp2/bind/WSRP_v2_PortletManagement_Binding_SOAPImpl.java" />-->
+          <!--              </tasks>-->
+          <!--              <sourceRoot>${src.gen.dir}</sourceRoot>-->
+          <!--            </configuration>-->
+          <!--            <goals>-->
+          <!--              <goal>run</goal>-->
+          <!--            </goals>-->
+          <!--          </execution>-->
 
 
           <execution>
@@ -408,7 +404,7 @@
               <goal>run</goal>
             </goals>
           </execution>
-          
+
           <execution>
             <id>3</id>
             <phase>generate-test-sources</phase>
@@ -525,5 +521,36 @@
     </plugins>
 
   </build>
+
+
+  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-javadoc-plugin</artifactId>
+        <version>2.4</version>
+        <configuration>
+          <aggregate>true</aggregate>
+          <source>1.5</source>
+          <breakiterator>true</breakiterator>
+          <charset>UTF-8</charset>
+          <docencoding>UTF-8</docencoding>
+          <locale>en_US</locale>
+          <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>
+          <links>
+            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>
+          </links>
+          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+          <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>
+          <additionalparam>
+            -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7 -operations -constructors
+            -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api
+          </additionalparam>
+          <sourcepath>target/generated</sourcepath>
+        </configuration>
+      </plugin>
+    </plugins>
+  </reporting>
+
 
 </project>

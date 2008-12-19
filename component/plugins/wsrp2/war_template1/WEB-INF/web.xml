@@ -15,21 +15,6 @@
     <param-value>test-parame-value</param-value>
   </context-param>
 
-  <listener>
-    <listener-class>org.exoplatform.services.portletcontainer.test.listener.AppListener</listener-class>
-  </listener>
-
-  <listener>
-    <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
-  </listener>
-
-  <servlet>
-    <servlet-name>PortletWrapper</servlet-name>
-    <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
-  </servlet>
-
-  <!-- AXIS filter for WSRP1 -->
-
   <filter>
     <filter-name>WSRPFilter</filter-name>
     <filter-class>org.exoplatform.services.wsrp.filter.WSRPFilter</filter-class>
@@ -43,105 +28,48 @@
     </init-param>
   </filter>
 
-  <!-- AXIS filter mapping for WSRP1 -->
+  <!-- AXIS filter mapping for WSRP -->
 
   <filter-mapping>
     <filter-name>WSRPFilter</filter-name>
-    <url-pattern>/services/*</url-pattern>
+    <servlet-name>SOAPServlet</servlet-name>
   </filter-mapping>
 
-  <!-- WSRPStarter servlet for WSRP1 -->
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.test.listener.AppListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
+  </listener>
 
   <servlet>
-    <servlet-name>WSRPStarter1</servlet-name>
-    <display-name>WSRPStarter1</display-name>
-    <servlet-class>org.exoplatform.services.wsrp.producer.impl.WSRPStarter</servlet-class>
-    <init-param>
-      <param-name>base</param-name>
-      <param-value>http://localhost:8080/</param-value>
-    </init-param>
-    <init-param>
-      <param-name>path</param-name>
-      <param-value>hello/services</param-value>
-    </init-param>
-    <init-param>
-      <param-name>deploy-wsdd</param-name>
-      <param-value>org/exoplatform/services/wsrp/wsdl/deploy.wsdd</param-value>
-    </init-param>
-    <init-param>
-      <param-name>delay-before-start-sec</param-name>
-      <param-value>2</param-value>
-    </init-param>
-    <init-param>
-      <param-name>retries</param-name>
-      <param-value>5</param-value>
-    </init-param>
-    <init-param>
-      <param-name>delay-retry-sec</param-name>
-      <param-value>2</param-value>
-    </init-param>
+    <servlet-name>PortletWrapper</servlet-name>
+    <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
+  </servlet>
+
+  <servlet>
+    <servlet-name>SOAPServlet</servlet-name>
+    <display-name>SOAP Servlet</display-name>
+    <servlet-class>org.exoplatform.services.ws.impl.cxf.transport.http.SOAPServlet</servlet-class>
     <load-on-startup>1</load-on-startup>
   </servlet>
-
-  <!-- Axis servlet for WSRP1 -->
-
-  <servlet>
-    <servlet-name>AxisServlet</servlet-name>
-    <display-name>Apache-Axis Servlet</display-name>
-    <servlet-class>org.apache.axis.transport.http.AxisServlet</servlet-class>
-  </servlet>
-
-  <servlet>
-    <servlet-name>AdminServlet</servlet-name>
-    <display-name>Axis Admin Servlet</display-name>
-    <servlet-class>org.apache.axis.transport.http.AdminServlet</servlet-class>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <servlet>
-    <servlet-name>SOAPMonitorService</servlet-name>
-    <display-name>SOAPMonitorService</display-name>
-    <servlet-class>org.apache.axis.monitor.SOAPMonitorService</servlet-class>
-    <init-param>
-      <param-name>SOAPMonitorPort</param-name>
-      <param-value>5001</param-value>
-    </init-param>
-    <load-on-startup>1</load-on-startup>
-  </servlet>
-
-  <!-- WSRPStarter mapping for WSRP1 -->
-
-  <!-- servlet-mapping>
-    <servlet-name>WSRPStarter1</servlet-name>
-    <url-pattern>/servlet/WSRPStarter1</url-pattern>
-    </servlet-mapping -->
-
-  <!-- soap/axis service mapping for WSRP1 -->
-
-  <servlet-mapping>
-    <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>/servlet/AxisServlet</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>*.jws</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>AxisServlet</servlet-name>
-    <url-pattern>/services/*</url-pattern>
-  </servlet-mapping>
-
-  <servlet-mapping>
-    <servlet-name>SOAPMonitorService</servlet-name>
-    <url-pattern>/SOAPMonitor</url-pattern>
-  </servlet-mapping>
 
   <servlet-mapping>
     <servlet-name>PortletWrapper</servlet-name>
     <url-pattern>/PortletWrapper</url-pattern>
   </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SOAPServlet</servlet-name>
+    <url-pattern>/soap/servlet/SOAPServlet/*</url-pattern>
+  </servlet-mapping>
+
+  <servlet-mapping>
+    <servlet-name>SOAPServlet</servlet-name>
+    <url-pattern>/soap/services/*</url-pattern>
+  </servlet-mapping>
+
 
   <!-- ================================================================== -->
   <!--           MIME MAPPING                                             -->

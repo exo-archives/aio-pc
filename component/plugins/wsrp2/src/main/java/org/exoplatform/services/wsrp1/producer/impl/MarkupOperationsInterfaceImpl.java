@@ -30,8 +30,6 @@ import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
@@ -40,33 +38,28 @@ import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.wsrp.Exception2Fault;
-import org.exoplatform.services.wsrp.Faults;
-import org.exoplatform.services.wsrp.MarkupOperationsInterface;
-import org.exoplatform.services.wsrp.Modes;
-import org.exoplatform.services.wsrp.PersistentStateManager;
-import org.exoplatform.services.wsrp.PortletContainerProxy;
-import org.exoplatform.services.wsrp.PortletManagementOperationsInterface;
-import org.exoplatform.services.wsrp.TransientStateManager;
-import org.exoplatform.services.wsrp.Utils;
-import org.exoplatform.services.wsrp.WSRPConfiguration;
-import org.exoplatform.services.wsrp.WSRPConsumerRewriterPortletURLFactory;
-import org.exoplatform.services.wsrp.WSRPException;
-import org.exoplatform.services.wsrp.WSRPHTTPContainer;
-import org.exoplatform.services.wsrp.WSRPHttpServletRequest;
-import org.exoplatform.services.wsrp.WSRPHttpServletResponse;
-import org.exoplatform.services.wsrp.WSRPHttpSession;
-import org.exoplatform.services.wsrp.WSRPPortletPreferencesPersister;
-import org.exoplatform.services.wsrp.WSRPProducerRewriterPortletURLFactory;
-import org.exoplatform.services.wsrp.WindowStates;
 import org.exoplatform.services.wsrp1.WSRPConstants;
+import org.exoplatform.services.wsrp1.exceptions.Exception2Fault;
+import org.exoplatform.services.wsrp1.exceptions.Faults;
+import org.exoplatform.services.wsrp1.exceptions.WSRPException;
+import org.exoplatform.services.wsrp1.producer.MarkupOperationsInterface;
+import org.exoplatform.services.wsrp1.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp1.producer.PortletContainerProxy;
+import org.exoplatform.services.wsrp1.producer.PortletManagementOperationsInterface;
+import org.exoplatform.services.wsrp1.producer.TransientStateManager;
+import org.exoplatform.services.wsrp1.producer.impl.helpers.WSRPConsumerRewriterPortletURLFactory;
+import org.exoplatform.services.wsrp1.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp1.producer.impl.helpers.WSRPHttpServletRequest;
+import org.exoplatform.services.wsrp1.producer.impl.helpers.WSRPHttpServletResponse;
+import org.exoplatform.services.wsrp1.producer.impl.helpers.WSRPHttpSession;
+import org.exoplatform.services.wsrp1.producer.impl.helpers.WSRPProducerRewriterPortletURLFactory;
 import org.exoplatform.services.wsrp1.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp1.type.CacheControl;
+import org.exoplatform.services.wsrp1.type.Extension;
 import org.exoplatform.services.wsrp1.type.InteractionParams;
 import org.exoplatform.services.wsrp1.type.MarkupContext;
 import org.exoplatform.services.wsrp1.type.MarkupParams;
 import org.exoplatform.services.wsrp1.type.MarkupResponse;
-import org.exoplatform.services.wsrp1.type.NamedString;
 import org.exoplatform.services.wsrp1.type.PortletContext;
 import org.exoplatform.services.wsrp1.type.RegistrationContext;
 import org.exoplatform.services.wsrp1.type.ReturnAny;
@@ -76,6 +69,9 @@ import org.exoplatform.services.wsrp1.type.StateChange;
 import org.exoplatform.services.wsrp1.type.Templates;
 import org.exoplatform.services.wsrp1.type.UpdateResponse;
 import org.exoplatform.services.wsrp1.type.UserContext;
+import org.exoplatform.services.wsrp1.utils.Modes;
+import org.exoplatform.services.wsrp1.utils.Utils;
+import org.exoplatform.services.wsrp1.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -467,7 +463,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return blockingInteractionResponse;
   }
 
-  public ReturnAny initCookie(RegistrationContext registrationContext) throws RemoteException {
+  public Extension initCookie(RegistrationContext registrationContext) throws RemoteException {
     // ReturnAny any = null;
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
@@ -479,7 +475,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return new ReturnAny();
   }
 
-  public ReturnAny releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws RemoteException {
+  public Extension releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws RemoteException {
     // ReturnAny any = null;
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");

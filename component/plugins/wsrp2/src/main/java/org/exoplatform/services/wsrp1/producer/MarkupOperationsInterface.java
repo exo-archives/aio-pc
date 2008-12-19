@@ -18,12 +18,12 @@
 package org.exoplatform.services.wsrp1.producer;
 
 import org.exoplatform.services.wsrp1.type.BlockingInteractionResponse;
+import org.exoplatform.services.wsrp1.type.Extension;
 import org.exoplatform.services.wsrp1.type.InteractionParams;
 import org.exoplatform.services.wsrp1.type.MarkupParams;
 import org.exoplatform.services.wsrp1.type.MarkupResponse;
 import org.exoplatform.services.wsrp1.type.PortletContext;
 import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.ReturnAny;
 import org.exoplatform.services.wsrp1.type.RuntimeContext;
 import org.exoplatform.services.wsrp1.type.UserContext;
 
@@ -44,7 +44,7 @@ public interface MarkupOperationsInterface {
                                                                 MarkupParams markupParams,
                                                                 InteractionParams interactionParams) throws java.rmi.RemoteException;
 
-  public ReturnAny initCookie(RegistrationContext registrationContext) throws java.rmi.RemoteException;
+  public Extension initCookie(RegistrationContext registrationContext) throws java.rmi.RemoteException;
 
-  public ReturnAny releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws java.rmi.RemoteException;
+  public Extension releaseSessions(RegistrationContext registrationContext, String[] sessionIDs) throws java.rmi.RemoteException;
 }

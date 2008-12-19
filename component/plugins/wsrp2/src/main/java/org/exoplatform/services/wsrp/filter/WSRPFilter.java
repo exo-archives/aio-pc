@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.filter;
+package org.exoplatform.services.wsrp.filter;
 
 import java.io.IOException;
 import java.util.List;
