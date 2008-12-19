@@ -14,14 +14,15 @@
   <packaging>pom</packaging>
 
   <modules>
-<!--
+
     <module>component/core</module>
     <module>component/plugins/pc</module>
     <module>component/plugins/wsrp1</module>
     <module>component/plugins/wsrp2</module>
     <module>applications</module>
--->
+
     <module>applications/tck-tests</module>
+
   </modules>
   
   <dependencies>
