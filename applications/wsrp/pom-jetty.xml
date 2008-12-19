@@ -24,14 +24,14 @@
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
-
+<!--
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
-
+-->
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>

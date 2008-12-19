@@ -15,7 +15,6 @@
 
   <modules>
 
-    <module>component/plugins/wsrp1</module>
     <module>component/plugins/wsrp2</module>
     <module>applications/wsrp</module>
 
