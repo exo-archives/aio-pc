@@ -1030,14 +1030,14 @@ public class WSRPTypesTransformer {
     if (itemDescription == null) {
       return null;
     }
-    List<WS1ItemDescription> ws1itemDescriptions = new ArrayList<WS1ItemDescription>();
+    List<WS1ItemDescription> ws1ItemDescriptions = new ArrayList<WS1ItemDescription>();
     for (Iterator<ItemDescription> it = itemDescription.iterator(); it.hasNext();) {
       WS1ItemDescription ws1itemDescription = getWS1ItemDescription(it.next());
       if (ws1itemDescription != null) {
-        ws1itemDescriptions.add(ws1itemDescription);
+        ws1ItemDescriptions.add(ws1itemDescription);
       }
     }
-    return ws1itemDescriptions;
+    return ws1ItemDescriptions;
   }
 
   public static List<ResetProperty> getWS2ResetProperties(List<WS1ResetProperty> ws1resetProperties) {

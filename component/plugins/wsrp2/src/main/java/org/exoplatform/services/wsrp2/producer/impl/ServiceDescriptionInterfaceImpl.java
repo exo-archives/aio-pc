@@ -130,6 +130,8 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
                                                   InvalidRegistration,
                                                   ModifyRegistrationRequired,
                                                   OperationFailed {
+    // portletHandles and userContext are unavailable int the 1st spec
+    
     if (desiredLocales == null) {
       desiredLocales = new ArrayList<String>();
       desiredLocales.add("en");

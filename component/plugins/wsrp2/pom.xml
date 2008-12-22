@@ -563,9 +563,33 @@
             -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize
             7 -operations -constructors -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api
           </additionalparam>
-          <sourcepath>target/generated</sourcepath>
+          <sourcepath>src/main/java</sourcepath>
         </configuration>
       </plugin>
+<!--      <plugin>-->
+<!--        <groupId>org.apache.maven.plugins</groupId>-->
+<!--        <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--        <version>2.4</version>-->
+<!--        <configuration>-->
+<!--          <aggregate>true</aggregate>-->
+<!--          <source>1.5</source>-->
+<!--          <breakiterator>true</breakiterator>-->
+<!--          <charset>UTF-8</charset>-->
+<!--          <docencoding>UTF-8</docencoding>-->
+<!--          <locale>en_US</locale>-->
+<!--          <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>-->
+<!--          <links>-->
+<!--            <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>-->
+<!--          </links>-->
+<!--          <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>-->
+<!--          <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+<!--          <additionalparam>-->
+<!--            -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize-->
+<!--            7 -operations -constructors -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api-->
+<!--          </additionalparam>-->
+<!--          <sourcepath>target/generated</sourcepath>-->
+<!--        </configuration>-->
+<!--      </plugin>-->
     </plugins>
   </reporting>
 
