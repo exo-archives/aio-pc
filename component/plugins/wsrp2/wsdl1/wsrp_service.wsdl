@@ -6,6 +6,8 @@
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
 
+  <!-- This file reflects v1.0 of the specification -->
+
   <import namespace="urn:oasis:names:tc:wsrp:v1:bind"
           location="wsrp_v1_bindings.wsdl"/>
 

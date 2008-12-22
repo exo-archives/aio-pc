@@ -288,20 +288,31 @@
                     <!--                                        <extraarg>-client</extraarg> -->
                     <!--                                        <extraarg>-server</extraarg>-->
                     <extraarg>-compile</extraarg>
-                    <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp1.type</extraarg>
-                    <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp1.intf</extraarg>
-                    <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp1.bind</extraarg>
-                    <extraarg>-p</extraarg>
-                    <extraarg>urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp1.wsdl</extraarg>
+                    
+<!--                    <extraarg>-p</extraarg>-->
+<!--                    <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp1.type</extraarg>-->
+<!--                    <extraarg>-p</extraarg>-->
+<!--                    <extraarg>urn:oasis:names:tc:wsrp:v1:intf=org.exoplatform.services.wsrp1.intf</extraarg>-->
+
+<!--                    <extraarg>-p</extraarg>-->
+<!--                    <extraarg>urn:oasis:names:tc:wsrp:v1:bind=org.exoplatform.services.wsrp1.bind</extraarg>-->
+<!--                    <extraarg>-p</extraarg>-->
+<!--                    <extraarg>urn:oasis:names:tc:wsrp:v1:wsdl=org.exoplatform.services.wsrp1.wsdl</extraarg>-->
+                    
                     <!--                                        <extraarg>-sn</extraarg>-->
                     <!--                                        <extraarg>WSRPService</extraarg>-->
                     <!--                                        <extraarg>-nexclude</extraarg>-->
                     <!--                                        <extraarg>urn:oasis:names:tc:wsrp:v1:types=org.exoplatform.services.wsrp1.type</extraarg>-->
                     <!--                    <extraarg>-b</extraarg>-->
                     <!--                    <extraarg>${basedir}/wsdl1/binding.xml</extraarg>-->
+                    <extraarg>-b</extraarg>
+                    <extraarg>${basedir}/wsdl1/types_modification.xml</extraarg>
+                    <extraarg>-b</extraarg>
+                    <extraarg>${basedir}/wsdl1/binding_modification.xml</extraarg>
+                    <extraarg>-b</extraarg>
+                    <extraarg>${basedir}/wsdl1/interface_modification.xml</extraarg>
+                    <extraarg>-b</extraarg>
+                    <extraarg>${basedir}/wsdl1/service_modification.xml</extraarg>
                   </extraargs>
                 </wsdlOption>
               </wsdlOptions>
@@ -325,6 +336,7 @@
                     <!--                                        <extraarg>-client</extraarg> -->
                     <!--                                        <extraarg>-server</extraarg>-->
                     <extraarg>-compile</extraarg>
+                    
                     <extraarg>-p</extraarg>
                     <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>
                     <extraarg>-p</extraarg>
@@ -333,10 +345,12 @@
                     <extraarg>urn:oasis:names:tc:wsrp:v2:bind=org.exoplatform.services.wsrp2.bind</extraarg>
                     <extraarg>-p</extraarg>
                     <extraarg>urn:oasis:names:tc:wsrp:v2:wsdl=org.exoplatform.services.wsrp2.wsdl</extraarg>
+                    
                     <!--                                        <extraarg>-sn</extraarg>-->
                     <!--                                        <extraarg>WSRPService</extraarg>-->
                     <!--                                        <extraarg>-nexclude</extraarg>-->
                     <!--                                        <extraarg>urn:oasis:names:tc:wsrp:v2:types=org.exoplatform.services.wsrp2.type</extraarg>-->
+                    
                     <!--                    <extraarg>-b</extraarg>-->
                     <!--                    <extraarg>${basedir}/wsdl/binding.xml</extraarg>-->
                   </extraargs>
@@ -387,9 +401,10 @@
             <phase>compile</phase>
             <configuration>
               <tasks>
-                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="maven.compile.classpath" />
-                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
-                  verbose="false">
+                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask"
+                  classpathref="maven.compile.classpath" />
+                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo"
+                  mergedir="target/classes" force="true" verbose="false">
                   <fileset dir="${basedir}/src/main/java">
                     <include name="org/exoplatform/services/wsrp1/consumer/impl/WSRP1ProducerData.java" />
                     <include name="org/exoplatform/services/wsrp1/producer/impl/WSRP1StateData.java" />
@@ -417,8 +432,9 @@
                     <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
-                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/"
+                  debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}"
+                  optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
@@ -454,7 +470,8 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar" basedir="target/classes" />
+                <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar"
+                  basedir="target/classes" />
               </tasks>
             </configuration>
             <goals>
@@ -543,8 +560,8 @@
           <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
           <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>
           <additionalparam>
-            -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7 -operations -constructors
-            -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api
+            -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize
+            7 -operations -constructors -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api
           </additionalparam>
           <sourcepath>target/generated</sourcepath>
         </configuration>

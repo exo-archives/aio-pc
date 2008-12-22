@@ -6,11 +6,10 @@
                   xmlns="http://schemas.xmlsoap.org/wsdl/"
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                   xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-                  >
+                  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
+  <!-- This file reflects v1.0 of the specification -->
 
-<!-- This file reflects v1.0 of the specification -->
   <wsdl:types>
     <schema targetNamespace="urn:oasis:names:tc:wsrp:v1:intf"
             xmlns="http://www.w3.org/2001/XMLSchema"

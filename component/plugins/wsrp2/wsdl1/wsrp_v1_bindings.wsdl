@@ -7,11 +7,10 @@
                   xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"
                   xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/">
 
+  <!-- This file reflects v1.0 of the specification -->
 
-<!-- This file reflects v1.0 of the specification -->
   <import namespace="urn:oasis:names:tc:wsrp:v1:intf"
           location="wsrp_v1_interfaces.wsdl"/>
-
 
   <wsdl:binding name="WSRP_v1_Markup_Binding_SOAP" 
                 type="intf:WSRP_v1_Markup_PortType">
