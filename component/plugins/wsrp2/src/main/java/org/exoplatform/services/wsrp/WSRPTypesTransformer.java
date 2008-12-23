@@ -5,11 +5,13 @@ import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
+import javax.xml.ws.Holder;
 
 import org.exoplatform.services.wsrp1.type.WS1CacheControl;
 import org.exoplatform.services.wsrp1.type.WS1ClientData;
 import org.exoplatform.services.wsrp1.type.WS1Contact;
 import org.exoplatform.services.wsrp1.type.WS1CookieProtocol;
+import org.exoplatform.services.wsrp1.type.WS1DestroyFailed;
 import org.exoplatform.services.wsrp1.type.WS1EmployerInfo;
 import org.exoplatform.services.wsrp1.type.WS1Extension;
 import org.exoplatform.services.wsrp1.type.WS1InteractionParams;
@@ -52,6 +54,7 @@ import org.exoplatform.services.wsrp2.type.Contact;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.EmployerInfo;
 import org.exoplatform.services.wsrp2.type.Extension;
+import org.exoplatform.services.wsrp2.type.FailedPortlets;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
@@ -196,8 +199,10 @@ public class WSRPTypesTransformer {
     InteractionParams interactionParams = new InteractionParams();
     interactionParams.setInteractionState(ws1InteractionParams.getInteractionState());
     interactionParams.setPortletStateChange(getWS2StateChange(ws1InteractionParams.getPortletStateChange()));
-    interactionParams.getFormParameters().addAll(getWS2FormParameters(ws1InteractionParams.getFormParameters()));
-    interactionParams.getUploadContexts().addAll(getWS2UploadContext(ws1InteractionParams.getUploadContexts()));
+    interactionParams.getFormParameters()
+                     .addAll(getWS2FormParameters(ws1InteractionParams.getFormParameters()));
+    interactionParams.getUploadContexts()
+                     .addAll(getWS2UploadContext(ws1InteractionParams.getUploadContexts()));
     return interactionParams;
   }
 
@@ -267,7 +272,8 @@ public class WSRPTypesTransformer {
     ws1UpdateResponse.setMarkupContext(getWS1MarkupContext(updateResponse.getMarkupContext()));
 
     if (updateResponse.getNavigationalContext() != null) {
-      ws1UpdateResponse.setNavigationalState(updateResponse.getNavigationalContext().getOpaqueValue());
+      ws1UpdateResponse.setNavigationalState(updateResponse.getNavigationalContext()
+                                                           .getOpaqueValue());
     }
     ws1UpdateResponse.setNewMode(updateResponse.getNewMode());
     ws1UpdateResponse.setPortletContext(getWS1PortletContext(updateResponse.getPortletContext()));
@@ -439,7 +445,8 @@ public class WSRPTypesTransformer {
     UploadContext uploadContext = new UploadContext();
     uploadContext.setMimeType(ws1UploadContext.getMimeType());
     uploadContext.setUploadData(ws1UploadContext.getUploadData());
-    uploadContext.getMimeAttributes().addAll(getWS2NamedStrings(ws1UploadContext.getMimeAttributes()));
+    uploadContext.getMimeAttributes()
+                 .addAll(getWS2NamedStrings(ws1UploadContext.getMimeAttributes()));
     uploadContext.getExtensions().addAll(getWS2Extensions(ws1UploadContext.getExtensions()));
     return uploadContext;
   }
@@ -609,9 +616,12 @@ public class WSRPTypesTransformer {
     portletDescription.setTitle(getWS2LocalizedString(ws1portletDescription.getTitle()));
     portletDescription.setUserContextStoredInSession(ws1portletDescription.isUserContextStoredInSession());
     portletDescription.setUsesMethodGet(ws1portletDescription.isUsesMethodGet());
-    portletDescription.getExtensions().addAll(getWS2Extensions(ws1portletDescription.getExtensions()));
-    portletDescription.getKeywords().addAll(getWS2LocalizedStrings(ws1portletDescription.getKeywords()));
-    portletDescription.getMarkupTypes().addAll(getWS2MarkupTypes(ws1portletDescription.getMarkupTypes()));
+    portletDescription.getExtensions()
+                      .addAll(getWS2Extensions(ws1portletDescription.getExtensions()));
+    portletDescription.getKeywords()
+                      .addAll(getWS2LocalizedStrings(ws1portletDescription.getKeywords()));
+    portletDescription.getMarkupTypes()
+                      .addAll(getWS2MarkupTypes(ws1portletDescription.getMarkupTypes()));
     portletDescription.getUserProfileItems().addAll(ws1portletDescription.getUserProfileItems());
 
     return portletDescription;
@@ -656,8 +666,8 @@ public class WSRPTypesTransformer {
     ModelDescription modelDescription = new ModelDescription();
     modelDescription.setModelTypes(getWS2ModelTypes(ws1modelDescription.getModelTypes()));
     modelDescription.getExtensions().addAll(getWS2Extensions(ws1modelDescription.getExtensions()));
-    modelDescription.getPropertyDescriptions().addAll(
-        getWS2PropertyDescriptions(ws1modelDescription.getPropertyDescriptions()));
+    modelDescription.getPropertyDescriptions()
+                    .addAll(getWS2PropertyDescriptions(ws1modelDescription.getPropertyDescriptions()));
     return modelDescription;
   }
 
@@ -840,9 +850,12 @@ public class WSRPTypesTransformer {
     ws1portletDescription.setTitle(getWS1LocalizedString(portletDescription.getTitle()));
     ws1portletDescription.setUserContextStoredInSession(portletDescription.isUserContextStoredInSession());
     ws1portletDescription.setUsesMethodGet(portletDescription.isUsesMethodGet());
-    ws1portletDescription.getExtensions().addAll(getWS1Extensions(portletDescription.getExtensions()));
-    ws1portletDescription.getKeywords().addAll(getWS1LocalizedStrings(portletDescription.getKeywords()));
-    ws1portletDescription.getMarkupTypes().addAll(getWS1MarkupTypes(portletDescription.getMarkupTypes()));
+    ws1portletDescription.getExtensions()
+                         .addAll(getWS1Extensions(portletDescription.getExtensions()));
+    ws1portletDescription.getKeywords()
+                         .addAll(getWS1LocalizedStrings(portletDescription.getKeywords()));
+    ws1portletDescription.getMarkupTypes()
+                         .addAll(getWS1MarkupTypes(portletDescription.getMarkupTypes()));
     ws1portletDescription.getUserProfileItems().addAll(portletDescription.getUserProfileItems());
 
     return ws1portletDescription;
@@ -873,8 +886,8 @@ public class WSRPTypesTransformer {
     WS1ModelDescription ws1modelDescription = new WS1ModelDescription();
     ws1modelDescription.setModelTypes(getWS1ModelTypes(modelDescription.getModelTypes()));
     ws1modelDescription.getExtensions().addAll(getWS1Extensions(modelDescription.getExtensions()));
-    ws1modelDescription.getPropertyDescriptions().addAll(
-        getWS1PropertyDescriptions(modelDescription.getPropertyDescriptions()));
+    ws1modelDescription.getPropertyDescriptions()
+                       .addAll(getWS1PropertyDescriptions(modelDescription.getPropertyDescriptions()));
     return ws1modelDescription;
   }
 
@@ -1060,7 +1073,8 @@ public class WSRPTypesTransformer {
     }
     PropertyList propertyList = new PropertyList();
     propertyList.getProperties().addAll(getWS2Properties(ws1propertyList.getProperties()));
-    propertyList.getResetProperties().addAll(getWS2ResetProperties(ws1propertyList.getResetProperties()));
+    propertyList.getResetProperties()
+                .addAll(getWS2ResetProperties(ws1propertyList.getResetProperties()));
     propertyList.getExtensions().addAll(getWS2Extensions(ws1propertyList.getExtensions()));
     return propertyList;
   }
@@ -1094,7 +1108,8 @@ public class WSRPTypesTransformer {
     }
     WS1PropertyList ws1propertyList = new WS1PropertyList();
     ws1propertyList.getProperties().addAll(getWS1Properties(propertyList.getProperties()));
-    ws1propertyList.getResetProperties().addAll(getWS1ResetProperties(propertyList.getResetProperties()));
+    ws1propertyList.getResetProperties()
+                   .addAll(getWS1ResetProperties(propertyList.getResetProperties()));
     ws1propertyList.getExtensions().addAll(getWS1Extensions(propertyList.getExtensions()));
     return ws1propertyList;
   }
@@ -1158,11 +1173,14 @@ public class WSRPTypesTransformer {
     ws1sd.setRequiresInitCookie(getWS1CookieProtocol(sd.getRequiresInitCookie()));
     ws1sd.setRequiresRegistration(sd.isRequiresRegistration());
     ws1sd.setResourceList(getWS1ResourceList(sd.getResourceList()));
-    ws1sd.getCustomModeDescriptions().addAll(getWS1ItemDescriptions(sd.getCustomModeDescriptions()));
-    ws1sd.getCustomWindowStateDescriptions().addAll(getWS1ItemDescriptions(sd.getCustomWindowStateDescriptions()));
+    ws1sd.getCustomModeDescriptions()
+         .addAll(getWS1ItemDescriptions(sd.getCustomModeDescriptions()));
+    ws1sd.getCustomWindowStateDescriptions()
+         .addAll(getWS1ItemDescriptions(sd.getCustomWindowStateDescriptions()));
     ws1sd.getExtensions().addAll(getWS1Extensions(sd.getExtensions()));
     ws1sd.getOfferedPortlets().addAll(getWS1PortletDescriptions(sd.getOfferedPortlets()));
-    ws1sd.getUserCategoryDescriptions().addAll(getWS1ItemDescriptions(sd.getUserCategoryDescriptions()));
+    ws1sd.getUserCategoryDescriptions()
+         .addAll(getWS1ItemDescriptions(sd.getUserCategoryDescriptions()));
     return ws1sd;
   }
 
@@ -1190,6 +1208,27 @@ public class WSRPTypesTransformer {
     List<WS1Property> ws1rProperties = getWS1Properties(rd.getRegistrationProperties());
     ws1rData.getRegistrationProperties().addAll(ws1rProperties);
     return ws1rData;
+  }
+
+  public static List<WS1DestroyFailed> getWS1DestroyFailed(List<FailedPortlets> fp) {
+    if (fp == null) {
+      return null;
+    }
+    List<WS1DestroyFailed> ws1destroyfaileds = new ArrayList<WS1DestroyFailed>();
+    for (Iterator<FailedPortlets> it = fp.iterator(); it.hasNext();) {
+      WS1DestroyFailed ws1destroyFailed = getWS1DestroyFailed(it.next());
+      if (ws1destroyFailed != null) {
+        ws1destroyfaileds.add(ws1destroyFailed);
+      }
+    }
+    return ws1destroyfaileds;
+  }
+
+  public static WS1DestroyFailed getWS1DestroyFailed(FailedPortlets fp) {
+    WS1DestroyFailed ws1destroyFailed = new WS1DestroyFailed();
+    ws1destroyFailed.setPortletHandle(fp.getPortletHandles().get(0));
+    ws1destroyFailed.setReason(fp.getReason().getValue());
+    return ws1destroyFailed;
   }
 
 }
