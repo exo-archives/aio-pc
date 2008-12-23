@@ -6,6 +6,7 @@ package org.exoplatform.services.wsrp1.bind;
 import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
 import org.exoplatform.services.wsrp1.intf.WS1InconsistentParameters;
@@ -32,6 +33,7 @@ import org.exoplatform.services.wsrp1.type.WS1InvalidSessionFault;
 import org.exoplatform.services.wsrp1.type.WS1InvalidUserCategoryFault;
 import org.exoplatform.services.wsrp1.type.WS1MissingParametersFault;
 import org.exoplatform.services.wsrp1.type.WS1OperationFailedFault;
+import org.exoplatform.services.wsrp1.type.WS1PortletStateChangeRequiredFault;
 import org.exoplatform.services.wsrp1.type.WS1UnsupportedLocaleFault;
 import org.exoplatform.services.wsrp1.type.WS1UnsupportedMimeTypeFault;
 import org.exoplatform.services.wsrp1.type.WS1UnsupportedModeFault;
@@ -46,13 +48,14 @@ import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
 import org.exoplatform.services.wsrp2.intf.MissingParameters;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.PortletStateChangeRequired;
 import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.producer.MarkupOperationsInterface;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
-import org.exoplatform.services.wsrp2.type.InitCookie;
+import org.exoplatform.services.wsrp2.type.InteractionParams;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -91,9 +94,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
 
-      ReturnAny returnAny = markupOperationsInterface.releaseSessions(ws2registrationContext,
-                                                                      sessionIDs,
-                                                                      null);
+      ReturnAny returnAny = markupOperationsInterface.releaseSessions(ws2registrationContext, sessionIDs, null);
 
       java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = new ArrayList<WS1Extension>();
       _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions()));
@@ -157,11 +158,8 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
       UserContext ws2userContext = WSRPTypesTransformer.getWS2UserContext(userContext);
       MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
 
-      MarkupResponse markupResponse = markupOperationsInterface.getMarkup(ws2registrationContext,
-                                                                          ws2portletContext,
-                                                                          ws2runtimeContext,
-                                                                          ws2userContext,
-                                                                          ws2markupParams);
+      MarkupResponse markupResponse = markupOperationsInterface.getMarkup(ws2registrationContext, ws2portletContext,
+          ws2runtimeContext, ws2userContext, ws2markupParams);
 
       markupContext.value = WSRPTypesTransformer.getWS1MarkupContext(markupResponse.getMarkupContext());
       sessionContext.value = WSRPTypesTransformer.getWS1SessionContext(markupResponse.getSessionContext());
@@ -225,17 +223,30 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
     System.out.println(registrationContext);
     try {
 
-      InitCookie initCookie = markupOperationsInterface.initCookie(registrationContext, userContext);
+      RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
 
-      java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = null;
+      ReturnAny returnAny = markupOperationsInterface.initCookie(ws2registrationContext, null);
+
+      java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = new ArrayList<WS1Extension>();
+      _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions()));
       return _return;
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException(ex);
+
+    } catch (InvalidRegistration ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
+    } catch (AccessDenied ad) {
+      LOG.error(ad.getMessage(), ad);
+      throw new WS1AccessDenied(ad.getMessage(), new WS1AccessDeniedFault());
+    } catch (OperationFailed of) {
+      LOG.error(of.getMessage(), of);
+      throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
+    } catch (WSRPException wsrpe) {
+      LOG.error(wsrpe.getMessage(), wsrpe);
+      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
+    } catch (Exception e) {
+      LOG.error(e.getMessage(), e);
+      throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
-    //throw new WS1InvalidRegistration("InvalidRegistration...");
-    //throw new WS1AccessDenied("AccessDenied...");
-    //throw new WS1OperationFailed("OperationFailed...");
   }
 
   /* (non-Javadoc)
@@ -272,37 +283,70 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
     System.out.println(interactionParams);
     try {
 
-      BlockingInteractionResponse blockingInteractionResponse = markupOperationsInterface.performBlockingInteraction(registrationContext,
-                                                                                                                     portletContext,
-                                                                                                                     runtimeContext,
-                                                                                                                     userContext,
-                                                                                                                     markupParams,
-                                                                                                                     interactionParams);
+      RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
+      PortletContext ws2portletContext = WSRPTypesTransformer.getWS2PortletContext(portletContext);
+      RuntimeContext ws2runtimeContext = WSRPTypesTransformer.getWS2RuntimeContext(runtimeContext);
+      UserContext ws2userContext = WSRPTypesTransformer.getWS2UserContext(userContext);
+      MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
+      InteractionParams ws2interactionParams = WSRPTypesTransformer.getWS2InteractionParams(interactionParams);
+      
+      BlockingInteractionResponse blockingInteractionResponse = markupOperationsInterface.performBlockingInteraction(
+          ws2registrationContext, ws2portletContext, ws2runtimeContext, ws2userContext, ws2markupParams, ws2interactionParams);
 
-      org.exoplatform.services.wsrp1.type.WS1UpdateResponse updateResponseValue = null;
-      updateResponse.value = updateResponseValue;
-      java.lang.String redirectURLValue = "";
-      redirectURL.value = redirectURLValue;
-      java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> extensionsValue = null;
-      extensions.value = extensionsValue;
-    } catch (Exception ex) {
-      ex.printStackTrace();
-      throw new RuntimeException(ex);
+      updateResponse.value = WSRPTypesTransformer.getWS1UpdateResponse(blockingInteractionResponse.getUpdateResponse());
+      redirectURL.value = blockingInteractionResponse.getRedirectURL();
+      extensions.value = WSRPTypesTransformer.getWS1Extensions(blockingInteractionResponse.getExtensions());
+
+    } catch (UnsupportedLocale ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1UnsupportedLocale(ir.getMessage(), new WS1UnsupportedLocaleFault());
+    } catch (InvalidRegistration ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
+    } catch (InvalidUserCategory ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
+    } catch (UnsupportedMimeType ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1UnsupportedMimeType(ir.getMessage(), new WS1UnsupportedMimeTypeFault());
+    } catch (MissingParameters ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
+    } catch (InvalidCookie ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1InvalidCookie(ir.getMessage(), new WS1InvalidCookieFault());
+    } catch (AccessDenied ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
+    } catch (InvalidHandle ir) {
+      LOG.error(ir.getMessage(), ir);
+      throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
+    } catch (UnsupportedMode mp) {
+      LOG.error(mp.getMessage(), mp);
+      throw new WS1UnsupportedMode(mp.getMessage(), new WS1UnsupportedModeFault());
+    } catch (PortletStateChangeRequired ad) {
+      LOG.error(ad.getMessage(), ad);
+      throw new WS1PortletStateChangeRequired(ad.getMessage(), new WS1PortletStateChangeRequiredFault());
+    } catch (InvalidSession ad) {
+      LOG.error(ad.getMessage(), ad);
+      throw new WS1InvalidSession(ad.getMessage(), new WS1InvalidSessionFault());
+    } catch (UnsupportedWindowState mp) {
+      LOG.error(mp.getMessage(), mp);
+      throw new WS1UnsupportedWindowState(mp.getMessage(), new WS1UnsupportedWindowStateFault());
+    } catch (InconsistentParameters ad) {
+      LOG.error(ad.getMessage(), ad);
+      throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
+    } catch (OperationFailed of) {
+      LOG.error(of.getMessage(), of);
+      throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
+    } catch (WSRPException wsrpe) {
+      LOG.error(wsrpe.getMessage(), wsrpe);
+      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
+    } catch (Exception e) {
+      LOG.error(e.getMessage(), e);
+      throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
-    //throw new WS1UnsupportedLocale("UnsupportedLocale...");
-    //throw new WS1InvalidRegistration("InvalidRegistration...");
-    //throw new WS1InvalidUserCategory("InvalidUserCategory...");
-    //throw new WS1UnsupportedMimeType("UnsupportedMimeType...");
-    //throw new WS1MissingParameters("MissingParameters...");
-    //throw new WS1InvalidCookie("InvalidCookie...");
-    //throw new WS1AccessDenied("AccessDenied...");
-    //throw new WS1InvalidHandle("InvalidHandle...");
-    //throw new WS1UnsupportedMode("UnsupportedMode...");
-    //throw new WS1PortletStateChangeRequired("PortletStateChangeRequired...");
-    //throw new WS1InvalidSession("InvalidSession...");
-    //throw new WS1UnsupportedWindowState("UnsupportedWindowState...");
-    //throw new WS1InconsistentParameters("InconsistentParameters...");
-    //throw new WS1OperationFailed("OperationFailed...");
+    
   }
 
 }
