@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
@@ -41,6 +40,7 @@ import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
@@ -49,7 +49,6 @@ import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.ServiceDescriptionInterface;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.EventDescription;
-import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.ModelDescription;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
@@ -68,7 +67,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   private PortletContainerProxy     proxy;
 
-  private final static List<String> LOCALES           = Arrays.asList(new String[] { "en" , "fr"});
+  private final static List<String> LOCALES           = Arrays.asList(new String[] { "en", "fr" });
 
   private final static List<String> SUPPORTED_OPTIONS = Arrays.asList(new String[] { "wsrp:events",
       "wsrp:leasing", "wsrp:copyPortlets", "wsrp:import", "wsrp:export" });
@@ -127,11 +126,12 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
                                                   List<String> desiredLocales,
                                                   List<String> portletHandles,
                                                   UserContext userContext) throws ResourceSuspended,
-                                                  InvalidRegistration,
-                                                  ModifyRegistrationRequired,
-                                                  OperationFailed {
+                                                                          InvalidRegistration,
+                                                                          ModifyRegistrationRequired,
+                                                                          OperationFailed,
+                                                                          WSRPException {
     // portletHandles and userContext are unavailable int the 1st spec
-    
+
     if (desiredLocales == null) {
       desiredLocales = new ArrayList<String>();
       desiredLocales.add("en");
@@ -140,11 +140,11 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 //    if (conf.isRegistrationRequired() && registrationContext == null) {
 //      throw new InvalidRegistration("The supplied registrationContext is null.", new InvalidRegistrationFault());
 //    }
-    
+
     log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
 
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
-    
+
     Set<String> keys = portletMetaDatas.keySet();
 //    Set<String> iterableKeys = new HashSet<String>(keys);
     if (conf.getExcludeList() != null) {

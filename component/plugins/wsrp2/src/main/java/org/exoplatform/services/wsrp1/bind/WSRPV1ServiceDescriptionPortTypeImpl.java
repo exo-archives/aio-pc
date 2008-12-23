@@ -1,9 +1,7 @@
-/**
- */
-
 package org.exoplatform.services.wsrp1.bind;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
@@ -72,7 +70,6 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
       locales.value = null;
       resourceList.value = null;
       extensions.value = null;
-
 
     } catch (InvalidRegistration ir) {
       LOG.error(ir.getMessage(), ir);

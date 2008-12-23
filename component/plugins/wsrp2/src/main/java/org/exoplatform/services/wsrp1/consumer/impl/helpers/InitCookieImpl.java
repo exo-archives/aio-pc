@@ -20,13 +20,10 @@ package org.exoplatform.services.wsrp1.consumer.impl.helpers;
 import java.net.MalformedURLException;
 import java.net.URL;
 
-import javax.xml.rpc.ServiceException;
-
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.wsrp.InitCookieTemplate;
+import org.exoplatform.services.wsrp1.consumer.templates.InitCookieTemplate;
+import org.exoplatform.services.wsrp1.intf.WSRPService;
 import org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType;
-import org.exoplatform.services.wsrp1.wsdl.WSRPService;
-import org.exoplatform.services.wsrp1.wsdl.WSRPServiceLocator;
 
 /**
  * Created y the eXo platform team User: Benjamin Mestrallet Date: 11 mai 2004

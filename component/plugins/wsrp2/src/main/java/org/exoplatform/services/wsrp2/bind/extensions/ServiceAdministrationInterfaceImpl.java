@@ -29,9 +29,6 @@ import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 
 /**
- * Author : Tuan Nguyen tuan08@users.sourceforge.net Author : Mestrallet
- * Benjamin benjmestrallet@users.sourceforge.net Date: 10 Dec. 2003 Time:
- * 09:40:23
  */
 public class ServiceAdministrationInterfaceImpl implements ServiceAdministrationInterface {
 

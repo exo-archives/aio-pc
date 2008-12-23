@@ -1,5 +1,3 @@
-/**
- */
 
 package org.exoplatform.services.wsrp1.bind;
 
@@ -65,7 +63,6 @@ import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
- * 
  */
 
 @javax.jws.WebService(name = "WSRPV1MarkupPortType", serviceName = "WSRPService", portName = "WSRPMarkupService", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType")
@@ -94,7 +91,9 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
 
-      ReturnAny returnAny = markupOperationsInterface.releaseSessions(ws2registrationContext, sessionIDs, null);
+      ReturnAny returnAny = markupOperationsInterface.releaseSessions(ws2registrationContext,
+                                                                      sessionIDs,
+                                                                      null);
 
       java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = new ArrayList<WS1Extension>();
       _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions()));
@@ -158,8 +157,11 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
       UserContext ws2userContext = WSRPTypesTransformer.getWS2UserContext(userContext);
       MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
 
-      MarkupResponse markupResponse = markupOperationsInterface.getMarkup(ws2registrationContext, ws2portletContext,
-          ws2runtimeContext, ws2userContext, ws2markupParams);
+      MarkupResponse markupResponse = markupOperationsInterface.getMarkup(ws2registrationContext,
+                                                                          ws2portletContext,
+                                                                          ws2runtimeContext,
+                                                                          ws2userContext,
+                                                                          ws2markupParams);
 
       markupContext.value = WSRPTypesTransformer.getWS1MarkupContext(markupResponse.getMarkupContext());
       sessionContext.value = WSRPTypesTransformer.getWS1SessionContext(markupResponse.getSessionContext());
@@ -289,9 +291,13 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
       UserContext ws2userContext = WSRPTypesTransformer.getWS2UserContext(userContext);
       MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
       InteractionParams ws2interactionParams = WSRPTypesTransformer.getWS2InteractionParams(interactionParams);
-      
-      BlockingInteractionResponse blockingInteractionResponse = markupOperationsInterface.performBlockingInteraction(
-          ws2registrationContext, ws2portletContext, ws2runtimeContext, ws2userContext, ws2markupParams, ws2interactionParams);
+
+      BlockingInteractionResponse blockingInteractionResponse = markupOperationsInterface.performBlockingInteraction(ws2registrationContext,
+                                                                                                                     ws2portletContext,
+                                                                                                                     ws2runtimeContext,
+                                                                                                                     ws2userContext,
+                                                                                                                     ws2markupParams,
+                                                                                                                     ws2interactionParams);
 
       updateResponse.value = WSRPTypesTransformer.getWS1UpdateResponse(blockingInteractionResponse.getUpdateResponse());
       redirectURL.value = blockingInteractionResponse.getRedirectURL();
@@ -326,7 +332,8 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
       throw new WS1UnsupportedMode(mp.getMessage(), new WS1UnsupportedModeFault());
     } catch (PortletStateChangeRequired ad) {
       LOG.error(ad.getMessage(), ad);
-      throw new WS1PortletStateChangeRequired(ad.getMessage(), new WS1PortletStateChangeRequiredFault());
+      throw new WS1PortletStateChangeRequired(ad.getMessage(),
+                                              new WS1PortletStateChangeRequiredFault());
     } catch (InvalidSession ad) {
       LOG.error(ad.getMessage(), ad);
       throw new WS1InvalidSession(ad.getMessage(), new WS1InvalidSessionFault());
@@ -346,7 +353,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
       LOG.error(e.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
-    
+
   }
 
 }

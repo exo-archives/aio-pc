@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.producer;
 
 import java.util.List;
 
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
@@ -37,6 +38,7 @@ public interface ServiceDescriptionInterface {
                                                   UserContext userContext) throws ResourceSuspended,
                                                                           InvalidRegistration,
                                                                           ModifyRegistrationRequired,
-                                                                          OperationFailed;
+                                                                          OperationFailed,
+                                                                          WSRPException;
 
 }

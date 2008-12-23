@@ -19,6 +19,24 @@ package org.exoplatform.services.wsrp2.producer;
 
 import java.util.List;
 
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
+import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
+import org.exoplatform.services.wsrp2.intf.PortletStateChangeRequired;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
+import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
@@ -41,32 +59,109 @@ public interface MarkupOperationsInterface {
                                   PortletContext portletContext,
                                   RuntimeContext runtimeContext,
                                   UserContext userContext,
-                                  MarkupParams markupParams) throws java.rmi.RemoteException;
+                                  MarkupParams markupParams) throws AccessDenied,
+                                                            ResourceSuspended,
+                                                            UnsupportedMimeType,
+                                                            InvalidRegistration,
+                                                            InvalidHandle,
+                                                            InvalidCookie,
+                                                            UnsupportedWindowState,
+                                                            InvalidUserCategory,
+                                                            UnsupportedMode,
+                                                            ModifyRegistrationRequired,
+                                                            InvalidSession,
+                                                            MissingParameters,
+                                                            InconsistentParameters,
+                                                            OperationFailed,
+                                                            UnsupportedLocale,
+                                                            WSRPException;
 
   public ResourceResponse getResource(RegistrationContext registrationContext,
                                       PortletContext portletContext,
                                       RuntimeContext runtimeContext,
                                       UserContext userContext,
-                                      ResourceParams resourceParams) throws java.rmi.RemoteException;
+                                      ResourceParams resourceParams) throws OperationNotSupported,
+                                                                    AccessDenied,
+                                                                    ResourceSuspended,
+                                                                    UnsupportedMimeType,
+                                                                    InvalidRegistration,
+                                                                    InvalidHandle,
+                                                                    InvalidCookie,
+                                                                    UnsupportedWindowState,
+                                                                    InvalidUserCategory,
+                                                                    UnsupportedMode,
+                                                                    ModifyRegistrationRequired,
+                                                                    InvalidSession,
+                                                                    MissingParameters,
+                                                                    InconsistentParameters,
+                                                                    OperationFailed,
+                                                                    UnsupportedLocale,
+                                                                    WSRPException;
 
   public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext,
                                                                 PortletContext portletContext,
                                                                 RuntimeContext runtimeContext,
                                                                 UserContext userContext,
                                                                 MarkupParams markupParams,
-                                                                InteractionParams interactionParams) throws java.rmi.RemoteException;
+                                                                InteractionParams interactionParams) throws AccessDenied,
+                                                                                                    ResourceSuspended,
+                                                                                                    UnsupportedMimeType,
+                                                                                                    InvalidRegistration,
+                                                                                                    InvalidHandle,
+                                                                                                    InvalidCookie,
+                                                                                                    UnsupportedWindowState,
+                                                                                                    InvalidUserCategory,
+                                                                                                    UnsupportedMode,
+                                                                                                    ModifyRegistrationRequired,
+                                                                                                    InvalidSession,
+                                                                                                    MissingParameters,
+                                                                                                    InconsistentParameters,
+                                                                                                    OperationFailed,
+                                                                                                    UnsupportedLocale,
+                                                                                                    PortletStateChangeRequired,
+                                                                                                    WSRPException;
 
   public HandleEventsResponse handleEvents(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            RuntimeContext runtimeContext,
                                            UserContext userContext,
                                            MarkupParams markupParams,
-                                           EventParams eventParams) throws java.rmi.RemoteException;
+                                           EventParams eventParams) throws OperationNotSupported,
+                                                                   AccessDenied,
+                                                                   ResourceSuspended,
+                                                                   UnsupportedMimeType,
+                                                                   InvalidRegistration,
+                                                                   InvalidHandle,
+                                                                   InvalidCookie,
+                                                                   UnsupportedWindowState,
+                                                                   InvalidUserCategory,
+                                                                   UnsupportedMode,
+                                                                   ModifyRegistrationRequired,
+                                                                   InvalidSession,
+                                                                   MissingParameters,
+                                                                   InconsistentParameters,
+                                                                   OperationFailed,
+                                                                   UnsupportedLocale,
+                                                                   PortletStateChangeRequired,
+                                                                   WSRPException;
 
-  public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws java.rmi.RemoteException;
+  public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
+                                                                                               AccessDenied,
+                                                                                               ResourceSuspended,
+                                                                                               InvalidRegistration,
+                                                                                               ModifyRegistrationRequired,
+                                                                                               OperationFailed,
+                                                                                               WSRPException;
 
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
                                    List<String> sessionIDs,
-                                   UserContext userContext) throws java.rmi.RemoteException;
+                                   UserContext userContext) throws OperationNotSupported,
+                                                           AccessDenied,
+                                                           ResourceSuspended,
+                                                           InvalidRegistration,
+                                                           ModifyRegistrationRequired,
+                                                           MissingParameters,
+                                                           OperationFailed,
+                                                           WSRPException;
 
 }

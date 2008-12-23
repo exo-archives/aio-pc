@@ -26,6 +26,14 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
@@ -52,11 +60,14 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
 
   public RegistrationContext register(RegistrationData data,
                                       UserContext userContext,
-                                      Lifetime lifetime) throws RemoteException {
+                                      Lifetime lifetime) throws OperationNotSupported,
+                                                        MissingParameters,
+                                                        OperationFailed,
+                                                        WSRPException {
     if (Helper.lifetimeExpired(lifetime)) {
       Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
     }
-    
+
     String owner = null;
     if (userContext != null) {
       owner = userContext.getUserContextKey();
@@ -87,7 +98,12 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
 
   public RegistrationState modifyRegistration(RegistrationContext registrationContext,
                                               RegistrationData data,
-                                              UserContext userContext) throws RemoteException {
+                                              UserContext userContext) throws OperationNotSupported,
+                                                                      ResourceSuspended,
+                                                                      InvalidRegistration,
+                                                                      MissingParameters,
+                                                                      OperationFailed,
+                                                                      WSRPException {
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
       if (log.isDebugEnabled())
@@ -112,7 +128,11 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     return new RegistrationState();//the state is kept in the producer (not send to the consumer)
   }
 
-  public ReturnAny deregister(RegistrationContext registrationContext, UserContext userContext) throws RemoteException {
+  public ReturnAny deregister(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
+                                                                                               ResourceSuspended,
+                                                                                               InvalidRegistration,
+                                                                                               OperationFailed,
+                                                                                               WSRPException {
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
       if (log.isDebugEnabled())
@@ -136,7 +156,14 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
   }
 
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext,
-                                          UserContext userContext) throws RemoteException {
+                                          UserContext userContext) throws OperationNotSupported,
+                                                                  AccessDenied,
+                                                                  ResourceSuspended,
+                                                                  InvalidRegistration,
+                                                                  InvalidHandle,
+                                                                  ModifyRegistrationRequired,
+                                                                  OperationFailed,
+                                                                  WSRPException {
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
       if (log.isDebugEnabled())
@@ -162,7 +189,14 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
 
   public Lifetime setRegistrationLifetime(RegistrationContext registrationContext,
                                           UserContext userContext,
-                                          Lifetime lifetime) throws RemoteException {
+                                          Lifetime lifetime) throws OperationNotSupported,
+                                                            AccessDenied,
+                                                            ResourceSuspended,
+                                                            InvalidRegistration,
+                                                            InvalidHandle,
+                                                            ModifyRegistrationRequired,
+                                                            OperationFailed,
+                                                            WSRPException {
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
       if (log.isDebugEnabled())

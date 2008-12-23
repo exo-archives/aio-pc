@@ -52,6 +52,23 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
+import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
+import org.exoplatform.services.wsrp2.intf.PortletStateChangeRequired;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
+import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.producer.MarkupOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
@@ -156,7 +173,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String uniqueID = null;
     if (k.length > 2)
       uniqueID = k[2];
-    
+
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage session
@@ -352,7 +369,23 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                 RuntimeContext runtimeContext,
                                                                 UserContext userContext,
                                                                 MarkupParams markupParams,
-                                                                InteractionParams interactionParams) throws RemoteException {
+                                                                InteractionParams interactionParams) throws AccessDenied,
+                                                                                                    ResourceSuspended,
+                                                                                                    UnsupportedMimeType,
+                                                                                                    InvalidRegistration,
+                                                                                                    InvalidHandle,
+                                                                                                    InvalidCookie,
+                                                                                                    UnsupportedWindowState,
+                                                                                                    InvalidUserCategory,
+                                                                                                    UnsupportedMode,
+                                                                                                    ModifyRegistrationRequired,
+                                                                                                    InvalidSession,
+                                                                                                    MissingParameters,
+                                                                                                    InconsistentParameters,
+                                                                                                    OperationFailed,
+                                                                                                    UnsupportedLocale,
+                                                                                                    PortletStateChangeRequired,
+                                                                                                    WSRPException {
 
     checkRegistrationContext(registrationContext);
     checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
@@ -640,7 +673,23 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                       PortletContext portletContext,
                                       RuntimeContext runtimeContext,
                                       UserContext userContext,
-                                      ResourceParams resourceParams) throws java.rmi.RemoteException {
+                                      ResourceParams resourceParams) throws OperationNotSupported,
+                                                                    AccessDenied,
+                                                                    ResourceSuspended,
+                                                                    UnsupportedMimeType,
+                                                                    InvalidRegistration,
+                                                                    InvalidHandle,
+                                                                    InvalidCookie,
+                                                                    UnsupportedWindowState,
+                                                                    InvalidUserCategory,
+                                                                    UnsupportedMode,
+                                                                    ModifyRegistrationRequired,
+                                                                    InvalidSession,
+                                                                    MissingParameters,
+                                                                    InconsistentParameters,
+                                                                    OperationFailed,
+                                                                    UnsupportedLocale,
+                                                                    WSRPException {
 
     checkRegistrationContext(registrationContext);
     checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
@@ -853,7 +902,24 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                            RuntimeContext runtimeContext,
                                            UserContext userContext,
                                            MarkupParams markupParams,
-                                           EventParams eventParams) throws java.rmi.RemoteException {
+                                           EventParams eventParams) throws OperationNotSupported,
+                                                                   AccessDenied,
+                                                                   ResourceSuspended,
+                                                                   UnsupportedMimeType,
+                                                                   InvalidRegistration,
+                                                                   InvalidHandle,
+                                                                   InvalidCookie,
+                                                                   UnsupportedWindowState,
+                                                                   InvalidUserCategory,
+                                                                   UnsupportedMode,
+                                                                   ModifyRegistrationRequired,
+                                                                   InvalidSession,
+                                                                   MissingParameters,
+                                                                   InconsistentParameters,
+                                                                   OperationFailed,
+                                                                   UnsupportedLocale,
+                                                                   PortletStateChangeRequired,
+                                                                   WSRPException {
 
     checkRegistrationContext(registrationContext);
     checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
@@ -1139,7 +1205,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
   }
 
-  public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws RemoteException {
+  public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
+                                                                                               AccessDenied,
+                                                                                               ResourceSuspended,
+                                                                                               InvalidRegistration,
+                                                                                               ModifyRegistrationRequired,
+                                                                                               OperationFailed,
+                                                                                               WSRPException {
     checkRegistrationContext(registrationContext);
     checkLifetimeRegistrationForRegistration(registrationContext, userContext);
     return new ReturnAny();
@@ -1147,7 +1219,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
                                    List<String> sessionIDs,
-                                   UserContext userContext) throws RemoteException {
+                                   UserContext userContext) throws OperationNotSupported,
+                                                           AccessDenied,
+                                                           ResourceSuspended,
+                                                           InvalidRegistration,
+                                                           ModifyRegistrationRequired,
+                                                           MissingParameters,
+                                                           OperationFailed,
+                                                           WSRPException {
     checkRegistrationContext(registrationContext);
     checkLifetimeRegistrationForRegistration(registrationContext, userContext);
     for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {

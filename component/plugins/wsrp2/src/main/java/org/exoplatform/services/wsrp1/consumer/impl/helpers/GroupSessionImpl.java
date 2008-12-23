@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.exoplatform.services.wsrp.consumer.InitCookieImpl;
-import org.exoplatform.services.wsrp.consumer.PortletSessionImpl;
 import org.exoplatform.services.wsrp1.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp1.consumer.PortletSession;
 

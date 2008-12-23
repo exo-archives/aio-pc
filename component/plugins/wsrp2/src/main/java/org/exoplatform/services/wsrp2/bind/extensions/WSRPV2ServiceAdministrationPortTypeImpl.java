@@ -1,8 +1,3 @@
-/**
- * Please modify this class to meet your needs
- * This class is not complete
- */
-
 package org.exoplatform.services.wsrp2.bind.extensions;
 
 import java.util.HashMap;

@@ -35,6 +35,18 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
+import org.exoplatform.services.wsrp2.intf.ExportNoLongerValid;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
@@ -85,7 +97,17 @@ public class PortletManagementOperationsInterfaceImpl implements
   public PortletContext clonePortlet(RegistrationContext registrationContext,
                                      PortletContext portletContext,
                                      UserContext userContext,
-                                     Lifetime lifetime) throws RemoteException {
+                                     Lifetime lifetime) throws OperationNotSupported,
+                                                       AccessDenied,
+                                                       ResourceSuspended,
+                                                       InvalidRegistration,
+                                                       InvalidHandle,
+                                                       InvalidUserCategory,
+                                                       ModifyRegistrationRequired,
+                                                       MissingParameters,
+                                                       InconsistentParameters,
+                                                       OperationFailed,
+                                                       WSRPException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Clone a portlet for the registered consumer : " + registrationHandle);
@@ -133,7 +155,17 @@ public class PortletManagementOperationsInterfaceImpl implements
                                            RegistrationContext fromRegistrationContext,
                                            UserContext fromUserContext,
                                            List<PortletContext> fromPortletContexts,
-                                           Lifetime lifetime) throws RemoteException {
+                                           Lifetime lifetime) throws OperationNotSupported,
+                                                             AccessDenied,
+                                                             ResourceSuspended,
+                                                             InvalidRegistration,
+                                                             InvalidHandle,
+                                                             InvalidUserCategory,
+                                                             ModifyRegistrationRequired,
+                                                             MissingParameters,
+                                                             InconsistentParameters,
+                                                             OperationFailed,
+                                                             WSRPException {
 
     // TODO verify the userContext content
     String registrationHandle = fromRegistrationContext.getRegistrationHandle();
@@ -198,7 +230,18 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                List<PortletContext> portletContexts,
                                                UserContext userContext,
                                                Lifetime lifetime,
-                                               boolean exportByValueRequired) throws RemoteException {
+                                               boolean exportByValueRequired) throws OperationNotSupported,
+                                                                             ExportByValueNotSupported,
+                                                                             AccessDenied,
+                                                                             ResourceSuspended,
+                                                                             InvalidRegistration,
+                                                                             InvalidHandle,
+                                                                             InvalidUserCategory,
+                                                                             ModifyRegistrationRequired,
+                                                                             MissingParameters,
+                                                                             InconsistentParameters,
+                                                                             OperationFailed,
+                                                                             WSRPException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
@@ -251,7 +294,17 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                UserContext userContext,
                                                Lifetime lifetime)
 
-  throws RemoteException {
+                                                                 throws OperationNotSupported,
+                                                                 ExportNoLongerValid,
+                                                                 AccessDenied,
+                                                                 ResourceSuspended,
+                                                                 InvalidRegistration,
+                                                                 InvalidUserCategory,
+                                                                 ModifyRegistrationRequired,
+                                                                 MissingParameters,
+                                                                 InconsistentParameters,
+                                                                 OperationFailed,
+                                                                 WSRPException {
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
     org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
@@ -297,7 +350,14 @@ public class PortletManagementOperationsInterfaceImpl implements
   public Lifetime setExportLifetime(RegistrationContext registrationContext,
                                     byte[] exportContext,
                                     UserContext userContext,
-                                    Lifetime lifetime) throws RemoteException {
+                                    Lifetime lifetime) throws OperationNotSupported,
+                                                      AccessDenied,
+                                                      ResourceSuspended,
+                                                      InvalidRegistration,
+                                                      InvalidHandle,
+                                                      ModifyRegistrationRequired,
+                                                      OperationFailed,
+                                                      WSRPException {
 
     return lifetime;
 
@@ -305,7 +365,14 @@ public class PortletManagementOperationsInterfaceImpl implements
 
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
                                                  List<String> portletHandles,
-                                                 UserContext userContext) throws RemoteException {
+                                                 UserContext userContext) throws OperationNotSupported,
+                                                                         ResourceSuspended,
+                                                                         InvalidRegistration,
+                                                                         ModifyRegistrationRequired,
+                                                                         MissingParameters,
+                                                                         InconsistentParameters,
+                                                                         OperationFailed,
+                                                                         WSRPException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Destroy portlet for registration handle " + registrationHandle);
@@ -342,7 +409,15 @@ public class PortletManagementOperationsInterfaceImpl implements
 
   public GetPortletsLifetimeResponse getPortletsLifetime(RegistrationContext registrationContext,
                                                          List<PortletContext> portletContexts,
-                                                         UserContext userContext) throws RemoteException {
+                                                         UserContext userContext) throws OperationNotSupported,
+                                                                                 AccessDenied,
+                                                                                 ResourceSuspended,
+                                                                                 InvalidRegistration,
+                                                                                 InvalidHandle,
+                                                                                 ModifyRegistrationRequired,
+                                                                                 InconsistentParameters,
+                                                                                 OperationFailed,
+                                                                                 WSRPException {
 
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
@@ -379,7 +454,15 @@ public class PortletManagementOperationsInterfaceImpl implements
   public SetPortletsLifetimeResponse setPortletsLifetime(RegistrationContext registrationContext,
                                                          List<PortletContext> portletContexts,
                                                          UserContext userContext,
-                                                         Lifetime lifetime) throws RemoteException {
+                                                         Lifetime lifetime) throws OperationNotSupported,
+                                                                           AccessDenied,
+                                                                           ResourceSuspended,
+                                                                           InvalidRegistration,
+                                                                           InvalidHandle,
+                                                                           ModifyRegistrationRequired,
+                                                                           InconsistentParameters,
+                                                                           OperationFailed,
+                                                                           WSRPException {
 
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
@@ -416,7 +499,17 @@ public class PortletManagementOperationsInterfaceImpl implements
   public PortletDescriptionResponse getPortletDescription(RegistrationContext registrationContext,
                                                           PortletContext portletContext,
                                                           UserContext userContext,
-                                                          List<String> desiredLocales) throws RemoteException {
+                                                          List<String> desiredLocales) throws OperationNotSupported,
+                                                                                      AccessDenied,
+                                                                                      ResourceSuspended,
+                                                                                      InvalidRegistration,
+                                                                                      InvalidHandle,
+                                                                                      InvalidUserCategory,
+                                                                                      ModifyRegistrationRequired,
+                                                                                      MissingParameters,
+                                                                                      InconsistentParameters,
+                                                                                      OperationFailed,
+                                                                                      WSRPException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Get portlet description for registration handle " + registrationHandle);
@@ -449,7 +542,17 @@ public class PortletManagementOperationsInterfaceImpl implements
   public PortletContext setPortletProperties(RegistrationContext registrationContext,
                                              PortletContext portletContext,
                                              UserContext userContext,
-                                             PropertyList propertyList) throws RemoteException {
+                                             PropertyList propertyList) throws OperationNotSupported,
+                                                                       AccessDenied,
+                                                                       ResourceSuspended,
+                                                                       InvalidRegistration,
+                                                                       InvalidHandle,
+                                                                       InvalidUserCategory,
+                                                                       ModifyRegistrationRequired,
+                                                                       MissingParameters,
+                                                                       InconsistentParameters,
+                                                                       OperationFailed,
+                                                                       WSRPException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
@@ -480,7 +583,17 @@ public class PortletManagementOperationsInterfaceImpl implements
   public PropertyList getPortletProperties(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            UserContext userContext,
-                                           List<String> names) throws RemoteException {
+                                           List<String> names) throws OperationNotSupported,
+                                                              AccessDenied,
+                                                              ResourceSuspended,
+                                                              InvalidRegistration,
+                                                              InvalidHandle,
+                                                              InvalidUserCategory,
+                                                              ModifyRegistrationRequired,
+                                                              MissingParameters,
+                                                              InconsistentParameters,
+                                                              OperationFailed,
+                                                              WSRPException {
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("get portlet properties for registration handle " + registrationHandle);
@@ -525,7 +638,17 @@ public class PortletManagementOperationsInterfaceImpl implements
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(RegistrationContext registrationContext,
                                                                           PortletContext portletContext,
                                                                           UserContext userContext,
-                                                                          List<String> desiredLocales) throws RemoteException {
+                                                                          List<String> desiredLocales) throws OperationNotSupported,
+                                                                                                      AccessDenied,
+                                                                                                      ResourceSuspended,
+                                                                                                      InvalidRegistration,
+                                                                                                      InvalidHandle,
+                                                                                                      InvalidUserCategory,
+                                                                                                      ModifyRegistrationRequired,
+                                                                                                      MissingParameters,
+                                                                                                      InconsistentParameters,
+                                                                                                      OperationFailed,
+                                                                                                      WSRPException {
     PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
     ModelDescription modelDescription = new ModelDescription();
     modelDescription.getPropertyDescriptions().clear();
