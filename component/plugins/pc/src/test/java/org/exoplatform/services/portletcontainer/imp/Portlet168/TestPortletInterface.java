@@ -28,6 +28,7 @@ import org.exoplatform.Constants;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.imp.EmptyResponse;
 import org.exoplatform.services.portletcontainer.monitor.PortletRuntimeData;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
@@ -253,10 +254,12 @@ public class TestPortletInterface extends BaseTest {
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithExceptionWhileProcessAction");
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-		portletContainer.processAction(request, response, actionInput);
-    RenderOutput rO = portletContainer.render(request, response, renderInput);
-		assertEquals("Exception occured", rO.getTitle());
-		assertEquals("javax.portlet.PortletException: Exception in processAction", new String(rO.getContent()));
+    try {
+      portletContainer.processAction(request, response, actionInput);
+    	RenderOutput rO = portletContainer.render(request, response, renderInput);
+			assertEquals("Exception occured", rO.getTitle());
+			assertEquals("javax.portlet.PortletException: Exception in processAction", new String(rO.getContent()));
+    } catch (PortletProcessingException e) { }
     assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithExceptionWhileProcessAction"));
 	}
@@ -276,32 +279,40 @@ public class TestPortletInterface extends BaseTest {
 		((ExoWindowID)actionInput.getInternalWindowID()).setPortletName("PortletWithPermanentUnavailibiltyInProcessActionAndRender");
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
-		portletContainer.processAction(request, response, actionInput);
-		assertTrue(portletMonitor.isBroken("war_template",
+		try {
+      portletContainer.processAction(request, response, actionInput);
+    } catch (PortletProcessingException e) { }
+	  assertTrue(portletMonitor.isBroken("war_template",
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
-	  PortletRuntimeData rD = (PortletRuntimeData) portletMonitor.
+    PortletRuntimeData rD = (PortletRuntimeData) portletMonitor.
 						getPortletRuntimeDataMap().get("war_template" + PortletContainerMonitorImpl.SEPARATOR +
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender");
-		assertNull(rD);
+	  assertNull(rD);
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithPermanentUnavailibiltyInProcessActionAndRender");
-		portletContainer.render(request, response, renderInput);
-		assertEquals("Exception occured", portletContainer.render(request, response, renderInput).getTitle());
-		assertEquals("javax.portlet.UnavailableException: Permanent unavailable exception",
+		try {
+      portletContainer.render(request, response, renderInput);
+	  	assertEquals("Exception occured", portletContainer.render(request, response, renderInput).getTitle());
+			assertEquals("javax.portlet.UnavailableException: Permanent unavailable exception",
         new String(portletContainer.render(request, response, renderInput).getContent()));
+    } catch (PortletProcessingException e) { }
     assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
-		ActionOutput o = portletContainer.processAction(request, response, actionInput);
+    try {
+      ActionOutput o = portletContainer.processAction(request, response, actionInput);
 // changed on request of Erez Harari, now exception.toString() is returned in that property instead of static text
 //		assertEquals("output generated because of an exception",
 //        o.getProperties().get(PCConstants.EXCEPTION));
-		assertNotNull(o.getProperties().get(PCConstants.EXCEPTION));
+		  assertNotNull(o.getProperties().get(PCConstants.EXCEPTION));
+    } catch (PortletProcessingException e) { }
     assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 		portletApplicationRegister.removePortletApplication(mockServletContext, PORTLET_APP_NAME);
 		portletApplicationRegister.registerPortletApplication(mockServletContext, portletApp_, roles, "war_template");
 		assertFalse(portletMonitor.isBroken("war_template",
 						"PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
-		portletContainer.processAction(request, response, actionInput);
+    try {
+      portletContainer.processAction(request, response, actionInput);
+    } catch (PortletProcessingException e) { }
 		assertNull(rD);
 	}
 
@@ -319,10 +330,13 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithPermanentUnavailibiltyInProcessActionAndRender");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
-		assertEquals("Exception occured", o.getTitle());
-		assertEquals("javax.portlet.UnavailableException: Permanent unavailable exception",
+		try {
+      RenderOutput o = portletContainer.render(request, response, renderInput);
+			assertEquals("Exception occured", o.getTitle());
+			assertEquals("javax.portlet.UnavailableException: Permanent unavailable exception",
         new String(portletContainer.render(request, response, renderInput).getContent()));
+
+    } catch (PortletProcessingException e) { }
 		assertTrue(portletMonitor.isBroken("war_template",
         "PortletWithPermanentUnavailibiltyInProcessActionAndRender"));
 	}
@@ -338,7 +352,9 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)actionInput.getInternalWindowID()).setPortletName("PortletWithNonPermanentUnavailibiltyInProcessActionAndRender");
-		portletContainer.processAction(request, response, actionInput);
+		try {
+      portletContainer.processAction(request, response, actionInput);
+    } catch (PortletProcessingException e) { }
 		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
@@ -346,18 +362,22 @@ public class TestPortletInterface extends BaseTest {
 		assertTrue(portletMonitor.isAvailable("war_template",
 						"PortletWithNonPermanentUnavailibiltyInProcessActionAndRender", System.currentTimeMillis()));
 		request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
-		portletContainer.processAction(request, response, actionInput);
+		try {
+      portletContainer.processAction(request, response, actionInput);
+    } catch (PortletProcessingException e) { }
 		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithNonPermanentUnavailibiltyInProcessActionAndRender");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
+		try {
+      RenderOutput o = portletContainer.render(request, response, renderInput);
+      assertEquals("Exception occured", o.getTitle());
+	    assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
+        new String(portletContainer.render(request, response, renderInput).getContent()));
+    } catch (PortletProcessingException e) { }
 		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
-		assertEquals("Exception occured", o.getTitle());
-		assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
-        new String(portletContainer.render(request, response, renderInput).getContent()));
 	}
 
 	/**
@@ -371,25 +391,30 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithNonPermanentUnavailibiltyInProcessActionAndRender");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
+		RenderOutput o;
+		try {
+  		o = portletContainer.render(request, response, renderInput);
+	  	assertEquals("Exception occured", o.getTitle());
+			assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
+        new String(portletContainer.render(request, response, renderInput).getContent()));
+	  } catch (PortletProcessingException e) { }
 		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
-		assertEquals("Exception occured", o.getTitle());
-		assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
-        new String(portletContainer.render(request, response, renderInput).getContent()));
 		Thread.sleep(5000);
 		assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
 		request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
-		o = portletContainer.render(request, response, renderInput);
+		try {
+			o = portletContainer.render(request, response, renderInput);
+			assertEquals("Exception occured", o.getTitle());
+			assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
+        new String(portletContainer.render(request, response, renderInput).getContent()));
+		} catch (PortletProcessingException e) { }
 		assertFalse(portletMonitor.isAvailable("war_template",
         "PortletWithNonPermanentUnavailibiltyInProcessActionAndRender",
         System.currentTimeMillis()));
-		assertEquals("Exception occured", o.getTitle());
-		assertEquals("javax.portlet.UnavailableException: Non Permanent unavailable exception",
-        new String(portletContainer.render(request, response, renderInput).getContent()));
 	}
 
 	/**
@@ -401,19 +426,22 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)actionInput.getInternalWindowID()).setPortletName("PortletWithRuntimeExceptionWhileProcessActionAndRender");
-		portletContainer.processAction(request, response, actionInput);
+		try {
+			portletContainer.processAction(request, response, actionInput);
+		} catch (PortletProcessingException e) { }
 		assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithRuntimeExceptionWhileProcessActionAndRender"));
 		PortletRuntimeData rD = (PortletRuntimeData) portletMonitor.getPortletRuntimeDataMap().
         get("war_template" + PortletContainerMonitorImpl.SEPARATOR +
         "PortletWithRuntimeExceptionWhileProcessActionAndRender");
-//		assertNull(rD);
     assertNotNull(rD);
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithRuntimeExceptionWhileProcessActionAndRender");
-		portletContainer.render(request, response, renderInput);
-		assertEquals("Exception occured", portletContainer.render(request, response, renderInput).getTitle());
-		assertEquals("java.lang.RuntimeException: runtime exception in processAction",
+		try {
+			portletContainer.render(request, response, renderInput);
+			assertEquals("Exception occured", portletContainer.render(request, response, renderInput).getTitle());
+			assertEquals("java.lang.RuntimeException: runtime exception in processAction",
         new String(portletContainer.render(request, response, renderInput).getContent()));
+    } catch (PortletProcessingException e) { }
 	}
 
 	/**
@@ -425,10 +453,12 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletWithRuntimeExceptionWhileProcessActionAndRender");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
-		assertEquals("Exception occured", o.getTitle());
-		assertEquals("java.lang.RuntimeException: runtime exception in render",
+		try {
+			RenderOutput o = portletContainer.render(request, response, renderInput);
+			assertEquals("Exception occured", o.getTitle());
+			assertEquals("java.lang.RuntimeException: runtime exception in render",
         new String(portletContainer.render(request, response, renderInput).getContent()));
+    } catch (PortletProcessingException e) { }
 		assertTrue(portletMonitor.isAvailable("war_template",
         "PortletWithRuntimeExceptionWhileProcessActionAndRender"));
 	}
@@ -445,14 +475,18 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)actionInput.getInternalWindowID()).setPortletName("HelloWorld");
-		ActionOutput aO = portletContainer.processAction(request, response, actionInput);
-		assertEquals("output generated because of a destroyed portlet access",
+		try {
+			ActionOutput aO = portletContainer.processAction(request, response, actionInput);
+			assertEquals("output generated because of a destroyed portlet access",
 						aO.getProperties().get(PCConstants.DESTROYED));
+		} catch (PortletProcessingException e) { }
 		assertTrue(portletMonitor.isDestroyed("war_template", "HelloWorld"));
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("HelloWorld");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
-		assertEquals("Portlet destroyed", o.getTitle());
-		assertEquals("Portlet unvailable", new String(o.getContent()));
+		try {
+			RenderOutput o = portletContainer.render(request, response, renderInput);
+			assertEquals("Portlet destroyed", o.getTitle());
+			assertEquals("Portlet unvailable", new String(o.getContent()));
+		} catch (PortletProcessingException e) { }
 	}
 
 	/**
@@ -467,13 +501,18 @@ public class TestPortletInterface extends BaseTest {
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("HelloWorld");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
-		assertEquals("Portlet destroyed", o.getTitle());
-		assertEquals("Portlet unvailable", new String(o.getContent()));
-		request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
-		o = portletContainer.render(request, response, renderInput);
-		assertEquals("Portlet destroyed", o.getTitle());
-		assertEquals("Portlet unvailable", new String(o.getContent()));
+		RenderOutput o;
+		try {
+			o = portletContainer.render(request, response, renderInput);
+			assertEquals("Portlet destroyed", o.getTitle());
+			assertEquals("Portlet unvailable", new String(o.getContent()));
+		} catch (PortletProcessingException e) { }
+		try {
+			request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
+			o = portletContainer.render(request, response, renderInput);
+			assertEquals("Portlet destroyed", o.getTitle());
+			assertEquals("Portlet unvailable", new String(o.getContent()));
+		} catch (PortletProcessingException e) { }
 	}
 
 	/**

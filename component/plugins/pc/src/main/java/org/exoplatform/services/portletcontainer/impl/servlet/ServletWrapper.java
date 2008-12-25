@@ -35,7 +35,9 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher.ExceptionHolder;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.Output;
 import org.exoplatform.services.portletcontainer.pci.model.Util;
@@ -131,7 +133,8 @@ public class ServletWrapper extends HttpServlet {
     servletRequest.removeAttribute(PortletContainerDispatcher.OUTPUT);
     servletRequest.removeAttribute(PortletContainerDispatcher.WINDOW_INFO);
     servletRequest.removeAttribute(PortletContainerDispatcher.CONTAINER);
-
+    ExceptionHolder exceptionHolder = (ExceptionHolder) servletRequest.getAttribute(PortletContainerDispatcher.EXCEPTION);
+    servletRequest.removeAttribute(PortletContainerDispatcher.EXCEPTION);
     try {
       handler.process(getServletContext(),
                       servletRequest,
@@ -140,6 +143,8 @@ public class ServletWrapper extends HttpServlet {
                       output,
                       windowInfo,
                       isAction);
+    } catch (PortletProcessingException e) {
+      exceptionHolder.setException(e);
     } catch (PortletContainerException e) {
       log.error("An error occured while processing the portlet request", e);
       throw new ServletException("An error occured while processing the portlet request", e);

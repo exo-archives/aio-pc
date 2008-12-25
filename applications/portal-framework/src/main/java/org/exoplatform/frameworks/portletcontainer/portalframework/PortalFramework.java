@@ -44,6 +44,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.pci.ActionInput;
 import org.exoplatform.services.portletcontainer.pci.ActionOutput;
 import org.exoplatform.services.portletcontainer.pci.EventInput;
@@ -1411,12 +1412,19 @@ public class PortalFramework {
         portletinfo.setOut("");
         System.out.println(" !!!!!!!!!!!! error getContent portlet " + portlet + ": " + oe);
       }
+    } catch (PortletProcessingException ppe) {
+      portletinfo.setOut(generatePortletErrorMarkup(portletinfo, ppe));
     } catch (Throwable e1) {
       System.out.println(" !!!!!!!!!!!! error rendering portlet " + portlet + ": " + e1);
       e1.printStackTrace();
       System.out.println(" !!!!!!!!!!!! trying to continue...");
     }
     return portletinfo;
+  }
+
+  private String generatePortletErrorMarkup(PortletInfo portletinfo, PortletProcessingException ppe) {
+    String markup = "<h3>Portlet <i>" + portletinfo.getTitle() + "</i> has failed: \"" + ppe.getMessage() + "\"</h3>";
+    return markup;
   }
 
   public Map<String, Object> getRenderedPortletInfos() {

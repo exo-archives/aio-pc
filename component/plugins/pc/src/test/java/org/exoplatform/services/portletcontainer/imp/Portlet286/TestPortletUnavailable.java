@@ -26,6 +26,7 @@ import javax.xml.namespace.QName;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.imp.EmptyResponse;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
 import org.exoplatform.services.portletcontainer.pci.EventOutput;
@@ -60,7 +61,9 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
     Event event = new EventImpl(new QName("MyEventProc"), new String("event-value"));
     eventInput.setEvent(event);
 
-    EventOutput eo = portletContainer.processEvent(request, response, eventInput);
+    try {
+	    EventOutput eo = portletContainer.processEvent(request, response, eventInput);
+    } catch (PortletProcessingException e) { }
 
   try {
   Thread.sleep(500);

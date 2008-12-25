@@ -52,6 +52,7 @@ import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
@@ -133,6 +134,11 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public static final String              CONTAINER                = "org.exoplatform.container.ExoContainer";
 
   /**
+   * Portlet processing exception.
+   */
+  public static final String              EXCEPTION                = "org.exoplatform.services.portletcontainer.PortletProcessingException";
+
+  /**
    * Servlet mapping attribute.
    */
   public static final String              SERVLET_MAPPING          = "/PortletWrapper";
@@ -198,7 +204,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param name plugin name
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setName(java.lang.String)
    */
@@ -208,7 +214,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return plugin name
    * @see org.exoplatform.container.component.ComponentPlugin#getName()
    */
@@ -218,7 +224,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param description description
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setDescription(java.lang.String)
    */
@@ -228,7 +234,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return description
    * @see org.exoplatform.container.component.ComponentPlugin#getDescription()
    */
@@ -238,7 +244,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param majorVersion major version
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setMajorVersion(int)
    */
@@ -248,7 +254,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param minorVersion minor version
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setMinorVersion(int)
    */
@@ -258,7 +264,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param properties properties
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#setProperties(java.util.Map)
    */
@@ -268,7 +274,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return portlet modes
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getSupportedPortletModes()
    */
@@ -278,7 +284,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return window states
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getSupportedWindowStates()
    */
@@ -288,7 +294,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param portletAppName portlet app name
    * @param portletName portlet name
    * @param markup markup
@@ -332,12 +338,12 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         }
       }
     }
-    return (String[]) resultManagedModes.toArray(new String[resultManagedModes.size()]);
+    return resultManagedModes.toArray(new String[resultManagedModes.size()]);
   }
 
   /**
    * Overridden method.
-   * 
+   *
    * @param portletAppName portlet app name
    * @param portletName portlet name
    * @param markup markup
@@ -365,7 +371,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param portletAppName portlet app name
    * @param portletName portlet name
    * @param markup markup
@@ -393,7 +399,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param portletAppName portlet app name
    * @param portletName portlet name
    * @param markup markup
@@ -421,7 +427,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return all portlet metadata
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getAllPortletMetaData()
    */
@@ -431,7 +437,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Get portlet app names.
-   * 
+   *
    * @return collection of string
    */
   public final Collection<String> getPortletAppNames() {
@@ -440,7 +446,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param portletAppName portlet application name
    * @return portlet app object
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getPortletApp(java.lang.String)
@@ -451,7 +457,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param portletAppName portlet application name
    * @param eventName event name
    * @param payload payload
@@ -471,7 +477,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * Is event payload type matches. The portlet can send events which are not
    * declared in the portlet deployment descriptor at runtime using the setEvent
    * method on either the ActionResponse or EventResponse. cxlii.
-   * 
+   *
    * @param eds
    * @param payload
    * @param eventName
@@ -510,7 +516,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param input input
    * @param preferencesMap preferences map
    * @throws PortletContainerException exception
@@ -545,7 +551,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param input input
    * @return portlet preference
    * @see org.exoplatform.services.portletcontainer.PortletContainerPlugin#getPortletPreference(org.exoplatform.services.portletcontainer.pci.Input)
@@ -603,7 +609,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param request request
    * @param response response
    * @param portletAppName portlet application name
@@ -651,7 +657,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param httpServletRequest request
    * @param httpServletResponse response
    * @param actionInput input
@@ -673,7 +679,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param httpServletRequest request
    * @param httpServletResponse response
    * @param eventInput input
@@ -695,7 +701,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param httpServletRequest requets
    * @param httpServletResponse response
    * @param renderInput input
@@ -717,7 +723,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param httpServletRequest request
    * @param httpServletResponse response
    * @param resourceInput input
@@ -739,7 +745,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param request request
    * @param response response
    * @param attrs attrs
@@ -780,7 +786,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * @param input input
    * @param isAction action type
    * @return output
-   * @throws PortletContainerException exception
+   * @throws PortletContainerException
    */
   private Output process(final HttpServletRequest request,
                          final HttpServletResponse response,
@@ -803,11 +809,13 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     PortletWindowInternal windowInfos = getWindowInfos(request, input, isAction);
     String portletApplicationName = windowInfos.getWindowID().getPortletApplicationName();
 
+    ExceptionHolder exceptionHolder = new ExceptionHolder();
     request.setAttribute(PortletContainerDispatcher.CONTAINER, container.getContext().getName());
     request.setAttribute(PortletContainerDispatcher.INPUT, input);
     request.setAttribute(PortletContainerDispatcher.OUTPUT, output);
     request.setAttribute(PortletContainerDispatcher.WINDOW_INFO, windowInfos);
     request.setAttribute(PortletContainerDispatcher.IS_ACTION, Util.actionToString(isAction));
+    request.setAttribute(PortletContainerDispatcher.EXCEPTION, exceptionHolder);
 
     int platform = Environment.getInstance().getPlatform();
     if (platform == Environment.STAND_ALONE) {
@@ -842,6 +850,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         LOG.error("Can not serialize Portlet Preferences", e);
         throw new PortletContainerException("Can not serialize Portlet Preferences", e);
       }
+    if (exceptionHolder.getException() != null)
+      throw exceptionHolder.getException();
     return output;
   }
 
@@ -955,6 +965,26 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     // } catch (MalformedURLException e) {
     // LOG.error("Can not init tests 2", e);
     // }
+  }
+
+  public class ExceptionHolder {
+
+    private PortletProcessingException exception;
+
+    /**
+     * @return the exception
+     */
+    public PortletProcessingException getException() {
+      return exception;
+    }
+
+    /**
+     * @param exception the exception to set
+     */
+    public void setException(PortletProcessingException exception) {
+      this.exception = exception;
+    }
+
   }
 
 }

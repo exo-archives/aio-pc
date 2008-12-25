@@ -368,4 +368,9 @@ public class PortletContainerConf {
   public final boolean isBundleLookupDelegated() {
     return isBundleLookupDelegated;
   }
+
+  public boolean isHookPortletExceptions() {
+    return containerConfs.getGlobal().getHookPortletExceptions() != null &&
+      containerConfs.getGlobal().getHookPortletExceptions().equals("true");
+  }
 }

@@ -46,6 +46,12 @@ public class Global {
   private Integer minorVersion;
 
   /**
+   * Should the Portlet Container hook portlet exceptions and generate human readable error report
+   * or generate PortletProcessingException.
+   */
+  private String hookPortletExceptions;
+
+  /**
    * @return description
    */
   public final String getDescription() {
@@ -99,5 +105,19 @@ public class Global {
    */
   public final void setName(final String name) {
     this.name = name;
+  }
+
+  /**
+   * @return the hookPortletExceptions
+   */
+  public String getHookPortletExceptions() {
+    return hookPortletExceptions;
+  }
+
+  /**
+   * @param hookPortletExceptions the hookPortletExceptions to set
+   */
+  public void setHookPortletExceptions(String hookPortletExceptions) {
+    this.hookPortletExceptions = hookPortletExceptions;
   }
 }

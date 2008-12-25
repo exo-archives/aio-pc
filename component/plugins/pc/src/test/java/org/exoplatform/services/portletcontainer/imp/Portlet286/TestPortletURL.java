@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.imp.EmptyResponse;
 import org.exoplatform.services.portletcontainer.pci.ExoWindowID;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
@@ -58,10 +59,15 @@ public class TestPortletURL extends BaseTest2{
 		HttpServletRequest request = new MockServletRequest(new MockHttpSession(), Locale.US, true);
 		HttpServletResponse response = new MockServletResponse(new EmptyResponse());
 		((ExoWindowID)renderInput.getInternalWindowID()).setPortletName("PortletToTestStateSupport");
-		RenderOutput o = portletContainer.render(request, response, renderInput);
-		assertEquals("Exception occured", o.getTitle());
-		assertEquals("javax.portlet.WindowStateException: The window state detached is not supported by that portlet",
+		try {
+			RenderOutput o = portletContainer.render(request, response, renderInput);
+			assertEquals("Exception occured", o.getTitle());
+			assertEquals("javax.portlet.WindowStateException: The window state detached is not supported by that portlet",
 						new String(o.getContent()));
+		} catch (PortletProcessingException e) {
+		  assertTrue(e.getCause() instanceof javax.portlet.WindowStateException);
+    }
+
 	}
 
 }

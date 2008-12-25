@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2008 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -27,8 +27,9 @@ public class PortletContainerException extends Exception {
    * @param cause cause
    */
   public PortletContainerException(final Throwable cause) {
-    super(cause.getMessage());
-    cause.printStackTrace();
+    super(cause);
+    if (cause != null)
+      cause.printStackTrace();
   }
 
   /**
@@ -43,8 +44,9 @@ public class PortletContainerException extends Exception {
    * @param cause cause
    */
   public PortletContainerException(final String message, final Throwable cause) {
-    super(message);
-    cause.printStackTrace();
+    super(message, cause);
+    if (cause != null)
+      cause.printStackTrace();
   }
 
 }

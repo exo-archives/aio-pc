@@ -44,6 +44,9 @@
               <field name="minorVersion">
                 <int>0</int>
               </field>
+              <field name="hookPortletExceptions">
+                <string>false</string>
+              </field>
             </object>
           </field>
           <field name="bundle">
@@ -366,10 +369,6 @@
           </field>
         </object>
       </object-param>
-      <!-- value-param>
-        <name>conf-path</name>
-        <value>jar:/conf/portal/portlet-container.xml</value>
-        </value-param -->
     </init-params>
   </component>
 

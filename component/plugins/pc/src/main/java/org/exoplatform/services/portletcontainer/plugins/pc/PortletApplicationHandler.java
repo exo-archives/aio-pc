@@ -46,6 +46,7 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
 import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
 import org.exoplatform.services.portletcontainer.pci.Input;
 import org.exoplatform.services.portletcontainer.pci.Output;
@@ -260,11 +261,11 @@ public class PortletApplicationHandler {
 
       if (isDestroyed) {
         log.debug("Portlet is destroyed");
-        generateOutputForException(portletRequest, isAction, null, output);
+        processPortletException(null, portletRequest, isAction, null, output);
         return;
       } else if (isBroken || !isAvailable || (portletRequest.getAttribute(exception_key) != null)) {
         log.debug("Portlet is borken, not available or the request contains an associated error");
-        generateOutputForException(portletRequest, isAction, exception_key, output);
+        processPortletException(null, portletRequest, isAction, exception_key, output);
         return;
       } else {
         Portlet portlet = null;
@@ -273,7 +274,7 @@ public class PortletApplicationHandler {
         } catch (PortletException e) {
           log.error("unable to get portlet :  " + portletName, e);
           portletRequest.setAttribute(exception_key, e);
-          generateOutputForException(portletRequest, isAction, exception_key, output);
+          processPortletException(e, portletRequest, isAction, exception_key, output);
           return;
         }
         try {
@@ -309,7 +310,7 @@ public class PortletApplicationHandler {
           if (t instanceof RuntimeException) {
             log.debug("It is a runtime exception");
             portletRequest.setAttribute(exception_key, t);
-            generateOutputForException(portletRequest, isAction, exception_key, output);
+            processPortletException(t, portletRequest, isAction, exception_key, output);
             return;
           }
           if (t instanceof PortletException) {
@@ -329,12 +330,12 @@ public class PortletApplicationHandler {
               }
             }
             portletRequest.setAttribute(exception_key, e);
-            generateOutputForException(portletRequest, isAction, exception_key, output);
+            processPortletException(t, portletRequest, isAction, exception_key, output);
             return;
           }
           log.debug("It is not a portlet exception");
           portletRequest.setAttribute(exception_key, t);
-          generateOutputForException(portletRequest, isAction, exception_key, output);
+          processPortletException(t, portletRequest, isAction, exception_key, output);
           return;
         }
       }
@@ -377,11 +378,23 @@ public class PortletApplicationHandler {
   }
 
   /**
+   * @param throwable TODO
    * @param request request
    * @param isAction action type
    * @param key key
    * @param output output
+   * @throws PortletContainerException exception
    */
+  private void processPortletException(Throwable throwable,
+      final PortletRequestImp request,
+      final int isAction,
+      final String key, final Output output) throws PortletContainerException {
+    if (conf.isHookPortletExceptions())
+      generateOutputForException(request, isAction, key, output);
+    else
+      throw new PortletProcessingException("", throwable);
+  }
+
   private void generateOutputForException(final PortletRequestImp request,
       final int isAction,
       final String key,
@@ -455,24 +468,24 @@ public class PortletApplicationHandler {
   // can be overriden for specific Action request processing
   protected void processActionRequest(PortletRequestImp request)
   {
-    
+
   }
-  
+
   // can be overriden for specific Event request processing
   protected void processEventRequest(PortletRequestImp request)
   {
-    
+
   }
-  
+
   // can be overriden for specific Resource request processing
   protected void processResourceRequest(PortletRequestImp request)
   {
-    
+
   }
-  
+
   // can be overriden for specific Render request processing
   protected void processRenderRequest(PortletRequestImp request)
   {
-    
+
   }
 }
