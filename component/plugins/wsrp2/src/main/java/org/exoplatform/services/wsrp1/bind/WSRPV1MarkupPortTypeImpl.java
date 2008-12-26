@@ -230,7 +230,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
       ReturnAny returnAny = markupOperationsInterface.initCookie(ws2registrationContext, null);
 
       java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = new ArrayList<WS1Extension>();
-      _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions()));
+      _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions())); // in a wsrp1 we have to return a list of Extensions
       return _return;
 
     } catch (InvalidRegistration ir) {

@@ -1,11 +1,11 @@
 package org.exoplatform.services.wsrp;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
-import javax.xml.ws.Holder;
 
 import org.exoplatform.services.wsrp1.type.WS1CacheControl;
 import org.exoplatform.services.wsrp1.type.WS1ClientData;
@@ -1225,10 +1225,240 @@ public class WSRPTypesTransformer {
   }
 
   public static WS1DestroyFailed getWS1DestroyFailed(FailedPortlets fp) {
+    if (fp == null) {
+      return null;
+    }
     WS1DestroyFailed ws1destroyFailed = new WS1DestroyFailed();
     ws1destroyFailed.setPortletHandle(fp.getPortletHandles().get(0));
     ws1destroyFailed.setReason(fp.getReason().getValue());
     return ws1destroyFailed;
+  }
+
+  public static WS1RuntimeContext getWS1RuntimeContext(RuntimeContext runtimeContext) {
+    if (runtimeContext == null) {
+      return null;
+    }
+    WS1RuntimeContext ws1RuntimeContext = new WS1RuntimeContext();
+    ws1RuntimeContext.setUserAuthentication(runtimeContext.getUserAuthentication());
+    ws1RuntimeContext.setPortletInstanceKey(runtimeContext.getPortletInstanceKey());
+    ws1RuntimeContext.setNamespacePrefix(runtimeContext.getNamespacePrefix());
+    ws1RuntimeContext.setTemplates(getWS1Templates(runtimeContext.getTemplates()));
+    ws1RuntimeContext.setSessionID(runtimeContext.getSessionParams().getSessionID());
+    ws1RuntimeContext.getExtensions().addAll(getWS1Extensions(runtimeContext.getExtensions()));
+    return ws1RuntimeContext;
+  }
+
+  public static WS1UserContext getWS1UserContext(UserContext userContext) {
+    if (userContext == null) {
+      return null;
+    }
+    WS1UserContext ws1UserContext = new WS1UserContext();
+    ws1UserContext.setUserContextKey(userContext.getUserContextKey());
+    ws1UserContext.getUserCategories().addAll(userContext.getUserCategories());
+    ws1UserContext.setProfile(getWS1Profile(userContext.getProfile()));
+    ws1UserContext.getExtensions().addAll(getWS1Extensions(userContext.getExtensions()));
+    return null;
+  }
+
+  public static WS1UserProfile getWS1Profile(UserProfile profile) {
+    if (profile == null) {
+      return null;
+    }
+    WS1UserProfile ws1UserProfile = new WS1UserProfile();
+    ws1UserProfile.setName(getWS1PersonName(profile.getName()));
+    ws1UserProfile.setBdate(profile.getBdate());
+    ws1UserProfile.setGender(profile.getGender());
+    ws1UserProfile.setEmployerInfo(getWS1EmployerInfo(profile.getEmployerInfo()));
+    ws1UserProfile.setHomeInfo(getWS1Contact(profile.getHomeInfo()));
+    ws1UserProfile.setBusinessInfo(getWS1Contact(profile.getBusinessInfo()));
+    ws1UserProfile.getExtensions().addAll(getWS1Extensions(profile.getExtensions()));
+    return null;
+  }
+
+  public static WS1Contact getWS1Contact(Contact homeInfo) {
+    if (homeInfo == null) {
+      return null;
+    }
+    WS1Contact ws1Contact = new WS1Contact();
+    ws1Contact.setPostal(getWS1Postal(homeInfo.getPostal()));
+    ws1Contact.setTelecom(getWS1Telacom(homeInfo.getTelecom()));
+    ws1Contact.setOnline(getWS1Online(homeInfo.getOnline()));
+    ws1Contact.getExtensions().addAll(getWS1Extensions(homeInfo.getExtensions()));
+    return ws1Contact;
+  }
+
+  public static WS1Online getWS1Online(Online online) {
+    if (online == null) {
+      return null;
+    }
+    WS1Online ws1Online = new WS1Online();
+    ws1Online.setEmail(online.getEmail());
+    ws1Online.setUri(online.getUri());
+    ws1Online.getExtensions().addAll(getWS1Extensions(online.getExtensions()));
+    return ws1Online;
+  }
+
+  public static WS1Telecom getWS1Telacom(Telecom telecom) {
+    if (telecom == null) {
+      return null;
+    }
+    WS1Telecom ws1Telecom = new WS1Telecom();
+    ws1Telecom.setTelephone(getWS1TelephoneNum(telecom.getTelephone()));
+    ws1Telecom.setFax(getWS1TelephoneNum(telecom.getFax()));
+    ws1Telecom.setMobile(getWS1TelephoneNum(telecom.getMobile()));
+    ws1Telecom.setPager(getWS1TelephoneNum(telecom.getPager()));
+    ws1Telecom.getExtensions().addAll(getWS1Extensions(telecom.getExtensions()));
+    return ws1Telecom;
+  }
+
+  public static WS1TelephoneNum getWS1TelephoneNum(TelephoneNum telephone) {
+    if (telephone == null) {
+      return null;
+    }
+    WS1TelephoneNum ws1TelephoneNum = new WS1TelephoneNum();
+    ws1TelephoneNum.setIntcode(telephone.getIntcode());
+    ws1TelephoneNum.setLoccode(telephone.getLoccode());
+    ws1TelephoneNum.setNumber(telephone.getNumber());
+    ws1TelephoneNum.setExt(telephone.getExt());
+    ws1TelephoneNum.setComment(telephone.getComment());
+    return ws1TelephoneNum;
+  }
+
+  public static WS1Postal getWS1Postal(Postal postal) {
+    if (postal == null) {
+      return null;
+    }
+    WS1Postal ws1Postal= new WS1Postal();
+    ws1Postal.setName(postal.getName());
+    ws1Postal.setStreet(postal.getStreet());
+    ws1Postal.setCity(postal.getCity());
+    ws1Postal.setStateprov(postal.getStateprov());
+    ws1Postal.setPostalcode(postal.getPostalcode());
+    ws1Postal.setCountry(postal.getCountry());
+    ws1Postal.setOrganization(postal.getOrganization());
+    ws1Postal.getExtensions().addAll(getWS1Extensions(postal.getExtensions()));
+    return ws1Postal;
+  }
+
+  public static WS1EmployerInfo getWS1EmployerInfo(EmployerInfo employerInfo) {
+    if (employerInfo == null) {
+      return null;
+    }
+    WS1EmployerInfo ws1EmployerInfo = new WS1EmployerInfo();
+    ws1EmployerInfo.setEmployer(employerInfo.getEmployer());
+    ws1EmployerInfo.setDepartment(employerInfo.getDepartment());
+    ws1EmployerInfo.setJobtitle(employerInfo.getJobtitle());
+    ws1EmployerInfo.getExtensions().addAll(getWS1Extensions(employerInfo.getExtensions()));
+    return ws1EmployerInfo;
+  }
+
+  public static WS1PersonName getWS1PersonName(PersonName name) {
+    if (name == null) {
+      return null;
+    }
+    WS1PersonName ws1PersonName = new WS1PersonName();
+    ws1PersonName.setPrefix(name.getPrefix());
+    ws1PersonName.setGiven(name.getGiven());
+    ws1PersonName.setFamily(name.getFamily());
+    ws1PersonName.setMiddle(name.getMiddle());
+    ws1PersonName.setSuffix(name.getSuffix());
+    ws1PersonName.setNickname(name.getNickname());
+    ws1PersonName.getExtensions().addAll(getWS1Extensions(name.getExtensions()));
+    return ws1PersonName;
+  }
+
+  public static WS1MarkupParams getWS1MarkupParams(MarkupParams markupParams) {
+    if (markupParams == null) {
+      return null;
+    }
+    WS1MarkupParams ws1MarkupParams = new WS1MarkupParams();
+    ws1MarkupParams.setSecureClientCommunication(markupParams.isSecureClientCommunication());
+    ws1MarkupParams.getLocales().addAll(markupParams.getLocales());
+    ws1MarkupParams.getMimeTypes().addAll(markupParams.getMimeTypes());
+    ws1MarkupParams.setMode(markupParams.getMode());
+    ws1MarkupParams.setWindowState(markupParams.getWindowState());
+    ws1MarkupParams.setClientData(getWS1ClientData(markupParams.getClientData()));
+    ws1MarkupParams.setNavigationalState(markupParams.getNavigationalContext().getOpaqueValue());
+    ws1MarkupParams.getMarkupCharacterSets().addAll(markupParams.getMarkupCharacterSets());
+    ws1MarkupParams.setValidateTag(markupParams.getValidateTag());
+    ws1MarkupParams.getValidNewModes().addAll(markupParams.getValidNewModes());
+    ws1MarkupParams.getValidNewWindowStates().addAll(markupParams.getValidNewWindowStates());
+    ws1MarkupParams.getExtensions().addAll(getWS1Extensions(markupParams.getExtensions()));
+    return ws1MarkupParams;
+  }
+
+  public static WS1ClientData getWS1ClientData(ClientData clientData) {
+    if (clientData == null) {
+      return null;
+    }
+    WS1ClientData ws1ClientData = new WS1ClientData();
+    ws1ClientData.setUserAgent(clientData.getUserAgent());
+    ws1ClientData.getExtensions().addAll(getWS1Extensions(clientData.getExtensions()));
+    return ws1ClientData;
+  }
+
+  public static WS1InteractionParams getWS1InteractionParams(InteractionParams interactionParams) {
+    if (interactionParams == null) {
+      return null;
+    }
+    WS1InteractionParams ws1InteractionParams = new WS1InteractionParams();
+    ws1InteractionParams.setPortletStateChange(getWS1StateChange(interactionParams.getPortletStateChange()));
+    ws1InteractionParams.setInteractionState(interactionParams.getInteractionState());
+    ws1InteractionParams.getFormParameters().addAll(getWS1NamedStrings(interactionParams.getFormParameters()));
+    ws1InteractionParams.getUploadContexts().addAll(getWS1UploadContexts(interactionParams.getUploadContexts()));
+    ws1InteractionParams.getExtensions().addAll(getWS1Extensions(interactionParams.getExtensions()));
+    return ws1InteractionParams;
+  }
+
+  public static List<WS1UploadContext> getWS1UploadContexts(List<UploadContext> uploadContexts) {
+    if (uploadContexts == null) {
+      return null;
+    }
+    List<WS1UploadContext> ws1uploadContexts = new ArrayList<WS1UploadContext>();
+    for (Iterator<UploadContext> it = uploadContexts.iterator(); it.hasNext();) {
+      WS1UploadContext ws1uploadContext = getWS1UploadContext(it.next());
+      if (ws1uploadContext != null) {
+        ws1uploadContexts.add(ws1uploadContext);
+      }
+    }
+    return ws1uploadContexts;
+  }
+
+  public static WS1UploadContext getWS1UploadContext(UploadContext uploadContext) {
+    WS1UploadContext ws1UploadContext = new WS1UploadContext();
+    ws1UploadContext.setMimeType(uploadContext.getMimeType());
+    ws1UploadContext.setUploadData(uploadContext.getUploadData());
+    ws1UploadContext.getMimeAttributes().addAll(getWS1NamedStrings(uploadContext.getMimeAttributes()));
+    ws1UploadContext.getExtensions().addAll(getWS1Extensions(uploadContext.getExtensions()));
+    return ws1UploadContext;
+  }
+
+  public static List<WS1NamedString> getWS1NamedStrings(List<NamedString> namedStrings) {
+    if (namedStrings == null) {
+      return null;
+    }
+    List<WS1NamedString> ws1namedStrings = new ArrayList<WS1NamedString>();
+    for (Iterator<NamedString> it = namedStrings.iterator(); it.hasNext();) {
+      WS1NamedString ws1namedString = getWS1NamedString(it.next());
+      if (ws1namedString != null) {
+        ws1namedStrings.add(ws1namedString);
+      }
+    }
+    return ws1namedStrings;
+  }
+
+  public static WS1NamedString getWS1NamedString(NamedString namedString) {
+    WS1NamedString ws1NamedString = new WS1NamedString();
+    ws1NamedString.setName(namedString.getName());
+    ws1NamedString.setValue(namedString.getValue());
+    return ws1NamedString;
+  }
+
+  public static WS1StateChange getWS1StateChange(StateChange portletStateChange) {
+    if (portletStateChange == null) {
+      return null;
+    }
+    return WS1StateChange.fromValue(portletStateChange.value());
   }
 
 }
