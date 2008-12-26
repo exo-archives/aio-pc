@@ -1461,4 +1461,31 @@ public class WSRPTypesTransformer {
     return WS1StateChange.fromValue(portletStateChange.value());
   }
 
+  public static List<FailedPortlets> getWS2FailedPortlets(List<WS1DestroyFailed> destroyFaileds) {
+    if (destroyFaileds == null) {
+      return null;
+    }
+    List<FailedPortlets> failedPortletss = new ArrayList<FailedPortlets>();
+    for (Iterator<WS1DestroyFailed> it = destroyFaileds.iterator(); it.hasNext();) {
+      FailedPortlets failedPortlets = getWS2FailedPortlets(it.next());
+      if (failedPortlets != null) {
+        failedPortletss.add(failedPortlets);
+      }
+    }
+    return failedPortletss;
+  }
+
+  public static FailedPortlets getWS2FailedPortlets(WS1DestroyFailed ws1DestroyFailed) {
+    if (ws1DestroyFailed == null) {
+      return null;
+    }
+    FailedPortlets failedPortlets = new FailedPortlets();
+//    failedPortlets.setErrorCode(value);
+    LocalizedString reason = new LocalizedString();
+    reason.setValue(ws1DestroyFailed.getReason());
+    failedPortlets.setReason(reason);
+//    failedPortlets.setResourceList(value);
+    return failedPortlets;
+  }
+
 }

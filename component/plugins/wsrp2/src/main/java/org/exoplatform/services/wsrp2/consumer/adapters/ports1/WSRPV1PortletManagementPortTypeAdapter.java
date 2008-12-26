@@ -143,7 +143,8 @@ public class WSRPV1PortletManagementPortTypeAdapter {
     response.setPortletDescription(WSRPTypesTransformer.getWS2PortletDescription(_getPortletDescription_portletDescription.value));
     response.setResourceList(WSRPTypesTransformer.getWS2ResourceList(_getPortletDescription_resourceList.value));
     if (_getPortletDescription_extensions.value != null)
-      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletDescription_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletDescription_extensions.value));
     return response;
 
   }
@@ -159,38 +160,55 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                InconsistentParameters,
                                                                OperationFailed {
     System.out.println("Invoking clonePortlet...");
-    org.exoplatform.services.wsrp2.type.RegistrationContext _clonePortlet_registrationContext = clonePortlet.getRegistrationContext();
-    org.exoplatform.services.wsrp2.type.PortletContext _clonePortlet_portletContext = clonePortlet.getPortletContext();
-    org.exoplatform.services.wsrp2.type.UserContext _clonePortlet_userContext = clonePortlet.getUserContext();
-    org.exoplatform.services.wsrp2.type.Lifetime _clonePortlet_lifetime = clonePortlet.getLifetime();
+
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _clonePortlet_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(clonePortlet.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1PortletContext _clonePortlet_portletContext = WSRPTypesTransformer.getWS1PortletContext(clonePortlet.getPortletContext());
+    org.exoplatform.services.wsrp1.type.WS1UserContext _clonePortlet_userContext = WSRPTypesTransformer.getWS1UserContext(clonePortlet.getUserContext());
     javax.xml.ws.Holder<java.lang.String> _clonePortlet_portletHandle = new javax.xml.ws.Holder<java.lang.String>();
     javax.xml.ws.Holder<byte[]> _clonePortlet_portletState = new javax.xml.ws.Holder<byte[]>();
-    javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.Lifetime> _clonePortlet_scheduledDestruction = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.Lifetime>();
-    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _clonePortlet_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
+    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _clonePortlet_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
+    try {
+      portletManagementPort.clonePortlet(_clonePortlet_registrationContext,
+                                         _clonePortlet_portletContext,
+                                         _clonePortlet_userContext,
+                                         _clonePortlet_portletHandle,
+                                         _clonePortlet_portletState,
+                                         _clonePortlet_extensions);
 
-    portletManagementPort.clonePortlet(_clonePortlet_registrationContext,
-                                       _clonePortlet_portletContext,
-                                       _clonePortlet_userContext,
-                                       _clonePortlet_lifetime,
-                                       _clonePortlet_portletHandle,
-                                       _clonePortlet_portletState,
-                                       _clonePortlet_scheduledDestruction,
-                                       _clonePortlet_extensions);
-
-    System.out.println("clonePortlet._clonePortlet_portletHandle="
-        + _clonePortlet_portletHandle.value);
-    System.out.println("clonePortlet._clonePortlet_portletState="
-        + _clonePortlet_portletState.value);
-    System.out.println("clonePortlet._clonePortlet_scheduledDestruction="
-        + _clonePortlet_scheduledDestruction.value);
-    System.out.println("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
+      System.out.println("clonePortlet._clonePortlet_portletHandle="
+          + _clonePortlet_portletHandle.value);
+      System.out.println("clonePortlet._clonePortlet_portletState="
+          + _clonePortlet_portletState.value);
+      System.out.println("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
+    } catch (WS1InvalidRegistration e) {
+      System.out.println("Expected exception: InvalidRegistration has occurred.");
+      System.out.println(e.toString());
+    } catch (WS1MissingParameters e) {
+      System.out.println("Expected exception: MissingParameters has occurred.");
+      System.out.println(e.toString());
+    } catch (WS1InvalidUserCategory e) {
+      System.out.println("Expected exception: InvalidUserCategory has occurred.");
+      System.out.println(e.toString());
+    } catch (WS1AccessDenied e) {
+      System.out.println("Expected exception: AccessDenied has occurred.");
+      System.out.println(e.toString());
+    } catch (WS1InvalidHandle e) {
+      System.out.println("Expected exception: InvalidHandle has occurred.");
+      System.out.println(e.toString());
+    } catch (WS1InconsistentParameters e) {
+      System.out.println("Expected exception: InconsistentParameters has occurred.");
+      System.out.println(e.toString());
+    } catch (WS1OperationFailed e) {
+      System.out.println("Expected exception: OperationFailed has occurred.");
+      System.out.println(e.toString());
+    }
 
     PortletContext response = new PortletContext();
     response.setPortletHandle(_clonePortlet_portletHandle.value);
     response.setPortletState(_clonePortlet_portletState.value);
-    response.setScheduledDestruction(_clonePortlet_scheduledDestruction.value);
     if (_clonePortlet_extensions.value != null)
-      response.getExtensions().addAll(_clonePortlet_extensions.value);
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_clonePortlet_extensions.value));
     return response;
 
   }
@@ -204,28 +222,35 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                                  OperationFailed {
 
     System.out.println("Invoking destroyPortlets...");
-    org.exoplatform.services.wsrp2.type.RegistrationContext _destroyPortlets_registrationContext = destroyPortlets.getRegistrationContext();
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _destroyPortlets_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(destroyPortlets.getRegistrationContext());
     java.util.List<java.lang.String> _destroyPortlets_portletHandles = destroyPortlets.getPortletHandles();
-    org.exoplatform.services.wsrp2.type.UserContext _destroyPortlets_userContext = destroyPortlets.getUserContext();
-    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.FailedPortlets>> _destroyPortlets_failedPortlets = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.FailedPortlets>>();
-    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _destroyPortlets_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
+    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1DestroyFailed>> _destroyPortlets_destroyFailed = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1DestroyFailed>>();
+    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _destroyPortlets_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
+    try {
+      portletManagementPort.destroyPortlets(_destroyPortlets_registrationContext, _destroyPortlets_portletHandles, _destroyPortlets_destroyFailed, _destroyPortlets_extensions);
 
-    portletManagementPort.destroyPortlets(_destroyPortlets_registrationContext,
-                                          _destroyPortlets_portletHandles,
-                                          _destroyPortlets_userContext,
-                                          _destroyPortlets_failedPortlets,
-                                          _destroyPortlets_extensions);
-
-    System.out.println("destroyPortlets._destroyPortlets_failedPortlets="
-        + _destroyPortlets_failedPortlets.value);
-    System.out.println("destroyPortlets._destroyPortlets_extensions="
-        + _destroyPortlets_extensions.value);
+        System.out.println("destroyPortlets._destroyPortlets_destroyFailed=" + _destroyPortlets_destroyFailed.value);
+        System.out.println("destroyPortlets._destroyPortlets_extensions=" + _destroyPortlets_extensions.value);
+    } catch (WS1InvalidRegistration e) { 
+        System.out.println("Expected exception: InvalidRegistration has occurred.");
+        System.out.println(e.toString());
+    } catch (WS1MissingParameters e) { 
+        System.out.println("Expected exception: MissingParameters has occurred.");
+        System.out.println(e.toString());
+    } catch (WS1InconsistentParameters e) { 
+        System.out.println("Expected exception: InconsistentParameters has occurred.");
+        System.out.println(e.toString());
+    } catch (WS1OperationFailed e) { 
+        System.out.println("Expected exception: OperationFailed has occurred.");
+        System.out.println(e.toString());
+    }
+        
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
-    if (_destroyPortlets_failedPortlets.value != null)
-      response.getFailedPortlets().addAll(_destroyPortlets_failedPortlets.value);
+    if (_destroyPortlets_destroyFailed.value != null)
+      response.getFailedPortlets().addAll(WSRPTypesTransformer.getWS2FailedPortlets(_destroyPortlets_destroyFailed.value));
     if (_destroyPortlets_extensions.value != null)
-      response.getExtensions().addAll(_destroyPortlets_extensions.value);
+      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_destroyPortlets_extensions.value));
     return response;
 
   }
