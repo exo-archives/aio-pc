@@ -130,7 +130,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   public Producer createProducerInstance(String producerURL) {
-
     return new ProducerImpl(cont, producerURL);
   }
 
