@@ -1,4 +1,4 @@
-package org.exoplatform.services.wsrp1.bind1.extensions;
+package org.exoplatform.services.wsrp2.bind1.extensions;
 
 import javax.jws.WebMethod;
 import javax.jws.WebParam;
