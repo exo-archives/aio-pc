@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp1.bind.extensions;
+package org.exoplatform.services.wsrp1.bind1.extensions;
 
 import java.rmi.RemoteException;
 import java.util.Map;
