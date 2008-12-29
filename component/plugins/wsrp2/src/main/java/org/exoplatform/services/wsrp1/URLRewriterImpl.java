@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp1.consumer.impl;
+package org.exoplatform.services.wsrp1;
 
 import java.util.HashMap;
 import java.util.Map;
