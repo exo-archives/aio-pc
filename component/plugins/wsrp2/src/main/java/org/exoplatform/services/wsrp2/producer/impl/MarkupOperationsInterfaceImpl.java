@@ -18,7 +18,6 @@
 package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.math.BigInteger;
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -49,7 +48,6 @@ import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
-import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
@@ -156,20 +154,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   RuntimeContext runtimeContext,
                                   UserContext userContext,
                                   MarkupParams markupParams) throws AccessDenied,
-                                  ResourceSuspended,
-                                  UnsupportedMimeType,
-                                  InvalidRegistration,
-                                  InvalidHandle,
-                                  InvalidCookie,
-                                  UnsupportedWindowState,
-                                  InvalidUserCategory,
-                                  UnsupportedMode,
-                                  ModifyRegistrationRequired,
-                                  InvalidSession,
-                                  MissingParameters,
-                                  InconsistentParameters,
-                                  OperationFailed,
-                                  UnsupportedLocale  {
+                                                            ResourceSuspended,
+                                                            UnsupportedMimeType,
+                                                            InvalidRegistration,
+                                                            InvalidHandle,
+                                                            InvalidCookie,
+                                                            UnsupportedWindowState,
+                                                            InvalidUserCategory,
+                                                            UnsupportedMode,
+                                                            ModifyRegistrationRequired,
+                                                            InvalidSession,
+                                                            MissingParameters,
+                                                            InconsistentParameters,
+                                                            OperationFailed,
+                                                            UnsupportedLocale,
+                                                            WSRPException {
 
     checkRegistrationContext(registrationContext);
     checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
@@ -219,7 +218,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         }
       } catch (WSRPException e) {
         log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
-        Exception2Fault.handleException(e);
+        throw new WSRPException();
       }
     }
 
@@ -255,7 +254,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
@@ -338,7 +337,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         throw new WSRPException("render output hasError");
     } catch (WSRPException e) {
       log.debug("The call to render method was a failure ", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // preparing cache control object
@@ -346,7 +345,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       cacheControl = transientStateManager.getCacheControl(portletData);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // preparing markup context
@@ -441,7 +440,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
       e.printStackTrace();
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
@@ -496,10 +495,15 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       isStateChangeAuthorized = true;
     } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
-      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
-                                                                         portletContext,
-                                                                         userContext,
-                                                                         portletContext.getScheduledDestruction());
+      try {
+        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                           portletContext,
+                                                                           userContext,
+                                                                           portletContext.getScheduledDestruction());
+
+      } catch (OperationNotSupported e) {
+        throw new OperationFailed(e.getMessage(), e);
+      }
       // any modification will be made on the
       isStateChangeAuthorized = true;
     } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
@@ -509,8 +513,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // then a fault will be launched
     } else {
       log.debug("The submited portlet state change value : " + stateChange + " is not supported");
-
-      Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
+      throw new PortletStateChangeRequired();
     }
 
     // PROCESS PARAMETERS
@@ -585,7 +588,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (WSRPException e) {
       e.printStackTrace();
       log.debug("The call to processAction method was a failure ", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     BlockingInteractionResponse blockingInteractionResponse = new BlockingInteractionResponse();
@@ -632,7 +635,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         persistentStateManager.putNavigationalState(navigationalState, renderParameters);
       } catch (WSRPException e) {
         e.printStackTrace();
-        Exception2Fault.handleException(e);
+        throw new WSRPException();
       }
 
       // get public parameters
@@ -750,7 +753,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     //        }
     //      } catch (WSRPException e) {
     //        log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
-    //        Exception2Fault.handleException(e);
+    //        throw new WSRPException();
     //      }
     //    }
 
@@ -795,7 +798,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       mimeType = getMimeType(resourceParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
@@ -881,7 +884,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         throw new WSRPException("serveResource output hasError");
     } catch (WSRPException e) {
       log.debug("The call to render method was a failure ", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // preparing cache control object
@@ -889,7 +892,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       cacheControl = transientStateManager.getCacheControl(portletData);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     //output.getProperties() // TODO
     // preparing resource context
@@ -975,7 +978,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
@@ -1043,7 +1046,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // then a fault will be launched
     } else {
       log.debug("The submited portlet state change value : " + stateChange + " is not supported");
-      Exception2Fault.handleException(new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT));
+      throw new PortletStateChangeRequired();
     }
 
     HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
@@ -1140,7 +1143,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         BigInteger indexBigInteger = new BigInteger(index.toString());
         handleEventsFailed.getIndex().add(indexBigInteger);
         failedEventsList.add(handleEventsFailed);
-        Exception2Fault.handleException(e);
+        throw new WSRPException();
       } finally {
         index++;
       }
@@ -1157,7 +1160,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         log.debug("set new navigational state : " + navigationalState);
         persistentStateManager.putNavigationalState(navigationalState, renderParameters);
       } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
+        throw new WSRPException();
       }
       //      }
     }
@@ -1209,14 +1212,23 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private void checkLifetimeForRegistrationAndPortlet(RegistrationContext registrationContext,
                                                       PortletContext portletContext,
-                                                      UserContext userContext) throws RemoteException {
-    if (!Helper.checkLifetime(registrationContext, userContext)
-        || !Helper.checkPortletLifetime(registrationContext,
-                                        Arrays.asList(new PortletContext[] { portletContext }),
-                                        userContext,
-                                        portletManagementOperationsInterface)) {
-      Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+                                                      UserContext userContext) throws InvalidRegistration,
+                                                                              WSRPException {
+    try {
+
+      if (!Helper.checkLifetime(registrationContext, userContext)
+          || !Helper.checkPortletLifetime(registrationContext,
+                                          Arrays.asList(new PortletContext[] { portletContext }),
+                                          userContext)) {
+        throw new InvalidRegistration();
+      }
+
+    } catch (InvalidRegistration ir) {
+      throw ir;
+    } catch (Exception e) {
+      throw new InvalidRegistration(e.getMessage(), e);
     }
+
   }
 
   public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
@@ -1251,30 +1263,39 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private void checkLifetimeRegistrationForRegistration(RegistrationContext registrationContext,
-                                                        UserContext userContext) throws RemoteException {
-    if (!Helper.checkLifetime(registrationContext, userContext)) {
-      Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+                                                        UserContext userContext) throws InvalidRegistration,
+                                                                                WSRPException {
+    try {
+      if (!Helper.checkLifetime(registrationContext, userContext)) {
+        throw new InvalidRegistration();
+      }
+    } catch (InvalidRegistration ir) {
+      throw ir;
+    } catch (Exception e) {
+      throw new InvalidRegistration(e.getMessage(), e);
     }
+
   }
 
-  private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws RemoteException {
+  private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
     WSRPHttpSession session = null;
     try {
       session = transientStateManager.resolveSession(sessionID, user, sessiontimeperiod);
 
     } catch (WSRPException e) {
       log.debug("Can not lookup or create new session, sessionID parameter : " + sessionID);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     log.debug("Use session with ID : " + session.getId());
     return session;
   }
 
-  private String manageRegistration(String portletHandle, RegistrationContext registrationContext) throws RemoteException {
+  private String manageRegistration(String portletHandle, RegistrationContext registrationContext) throws InvalidRegistration,
+                                                                                                  InvalidHandle {
     log.debug("manageRegistration called for portlet handle : " + portletHandle);
     if (!proxy.isPortletOffered(portletHandle)) {
       log.debug("The latter handle is not offered by the Producer");
-      Exception2Fault.handleException(new WSRPException(Faults.INVALID_HANDLE_FAULT));
+      throw new InvalidHandle();
     } else {
       String[] keys = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
       if (keys.length == 2) {
@@ -1286,18 +1307,18 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return portletHandle;
   }
 
-  private void checkRegistrationContext(RegistrationContext registrationContext) throws RemoteException {
+  private void checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
       if (registrationContext == null) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        throw new InvalidRegistration();
       }
     } else {
       log.debug("Registration non required");
     }
   }
 
-  private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws java.rmi.RemoteException {
+  private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws WSRPException {
     Map<String, String[]> map = null;
     try {
       String navigationalState = navigationalContext.getOpaqueValue();
@@ -1311,12 +1332,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         }
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     return map;
   }
 
-  private Map<String, String[]> processInteractionState(String interactionState) throws java.rmi.RemoteException {
+  private Map<String, String[]> processInteractionState(String interactionState) throws WSRPException {
     Map<String, String[]> map = null;
     try {
       log.debug("Lookup interaction state : " + interactionState);
@@ -1329,14 +1350,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         }
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     if (map == null)
       map = new HashMap<String, String[]>();
     return map;
   }
 
-  private Map<String, String[]> processResourceState(String resourceState) throws java.rmi.RemoteException {
+  private Map<String, String[]> processResourceState(String resourceState) throws WSRPException {
     Map<String, String[]> map = null;
     try {
       log.debug("Lookup resource state : " + resourceState);
@@ -1349,7 +1370,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         }
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     if (map == null)
       map = new HashMap<String, String[]>();

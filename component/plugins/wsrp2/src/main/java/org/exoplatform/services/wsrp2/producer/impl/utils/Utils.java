@@ -22,6 +22,7 @@ import java.rmi.RemoteException;
 import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 
 /*
@@ -33,13 +34,10 @@ import org.exoplatform.services.wsrp2.type.RegistrationContext;
 
 public class Utils {
   public static void checkRegistration(RegistrationContext registrationContext,
-                                      org.exoplatform.services.wsrp2.producer.PersistentStateManager stateManager) throws RemoteException {
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
-      }
-    } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+                                       org.exoplatform.services.wsrp2.producer.PersistentStateManager stateManager) throws InvalidRegistration,
+                                                                                                                   WSRPException {
+    if (!stateManager.isRegistered(registrationContext)) {
+      throw new InvalidRegistration();
     }
   }
 }

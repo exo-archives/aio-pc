@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
-import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -32,8 +31,6 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
-import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
@@ -131,7 +128,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         log.debug("Clone a Producer Offered Portlet with handle : " + portletHandle);
         if (!proxy.isPortletOffered(portletHandle)) {
           log.debug("The latter handle is not offered by the Producer");
-          Exception2Fault.handleException(new WSRPException(Faults.INVALID_HANDLE_FAULT));
+          throw new InvalidHandle();
         }
         newPortletHandle = createNewPortletHandle(portletHandle);
         stateManager.addConsumerConfiguredPortletHandle(newPortletHandle, registrationContext);
@@ -141,7 +138,7 @@ public class PortletManagementOperationsInterfaceImpl implements
       }
     } catch (WSRPException e) {
       log.error("Can not clone portlet", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     log.debug("New portlet handle : " + newPortletHandle);
     PortletContext clonedPortletContext = new PortletContext();
@@ -210,7 +207,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         reason.setValue("Cannot copy portlet");
         failedPortlet.setReason(reason);
         failedPortlets.add(failedPortlet);
-        //         Exception2Fault.handleException(e);
+        //         throw new WSRPException();
         e.printStackTrace();
       }
 
@@ -251,7 +248,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
     if (exportByValueRequired == true) {
-      Exception2Fault.handleException(new WSRPException(Faults.EXPORT_BY_VALUE_NOT_SUPPORTED_FAULT));
+      throw new ExportByValueNotSupported();
     }
 
     for (PortletContext portContext : portletContexts) {
@@ -271,7 +268,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         reason.setValue("Cannot copy portlet");
         failedPortlet.setReason(reason);
         failedPortlets.add(failedPortlet);
-        // Exception2Fault.handleException(e);
+        // throw new WSRPException();
         e.printStackTrace();
       }
     }
@@ -327,7 +324,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         reason.setValue("Cannot import portlet");
         failedPortlet.setReason(reason);
         failedPortlets.add(failedPortlet);
-        // Exception2Fault.handleException(e);
+        // throw new WSRPException();
         e.printStackTrace();
 
       }
@@ -396,7 +393,7 @@ public class PortletManagementOperationsInterfaceImpl implements
           fails.add(failedPortlets);
         }
       } catch (WSRPException e) {
-        Exception2Fault.handleException(e);
+        throw new WSRPException();
       }
     }
 
@@ -522,10 +519,10 @@ public class PortletManagementOperationsInterfaceImpl implements
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
         log.debug("This portlet handle " + portletHandle
             + " is not valid in the scope of that registration ");
-        Exception2Fault.handleException(new WSRPException(Faults.ACCESS_DENIED_FAULT));
+        throw new AccessDenied();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     PortletDescription pD = proxy.getPortletDescription(portletHandle,
@@ -564,10 +561,10 @@ public class PortletManagementOperationsInterfaceImpl implements
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
         log.debug("This portlet handle " + portletHandle
             + " is not valid in the scope of that registration ");
-        Exception2Fault.handleException(new WSRPException(Faults.ACCESS_DENIED_FAULT));
+        throw new AccessDenied();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
 
     String userID = userContext.getUserContextKey();
@@ -575,7 +572,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     try {
       proxy.setPortletProperties(portletHandle, userID, propertyList);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     return portletContext;
   }
@@ -604,17 +601,17 @@ public class PortletManagementOperationsInterfaceImpl implements
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
         log.debug("This portlet handle " + portletHandle
             + " is not valid in the scope of that registration ");
-        Exception2Fault.handleException(new WSRPException(Faults.ACCESS_DENIED_FAULT));
+        throw new AccessDenied();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     String userID = userContext.getUserContextKey();
     Map<String, String[]> properties = null;
     try {
       properties = proxy.getPortletProperties(portletHandle, userID);
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     Collection<Property> properties2return = new ArrayList<Property>();
     Set<String> keys = properties.keySet();

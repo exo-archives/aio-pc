@@ -24,9 +24,16 @@ import javax.xml.datatype.DatatypeConstants;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
-import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
@@ -43,25 +50,25 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public class Helper {
 
-  static private ExoContainer      cont = ExoContainerContext.getCurrentContainer();
-
-  static private WSRPConfiguration conf = (WSRPConfiguration) cont.getComponentInstanceOfType(WSRPConfiguration.class);
-
   public static boolean checkLifetime(RegistrationContext registrationContext,
-                                      UserContext userContext) {
+                                      UserContext userContext) throws OperationNotSupported,
+                                                              AccessDenied,
+                                                              ResourceSuspended,
+                                                              InvalidRegistration,
+                                                              InvalidHandle,
+                                                              ModifyRegistrationRequired,
+                                                              OperationFailed,
+                                                              WSRPException {
+    ExoContainer cont = ExoContainerContext.getCurrentContainer();
     if (registrationContext == null)
       return true;
     RegistrationOperationsInterface roi = (RegistrationOperationsInterface) cont.getComponentInstanceOfType(RegistrationOperationsInterface.class);
-    try {
-      Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
-      if (lf != null) {
-        if (lifetimeExpired(lf)) {
-          roi.deregister(registrationContext, userContext);
-          return false;
-        }
+    Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
+    if (lf != null) {
+      if (lifetimeExpired(lf)) {
+        roi.deregister(registrationContext, userContext);
+        return false;
       }
-    } catch (RemoteException e) {
-      e.printStackTrace();
     }
     return true;
   }
@@ -75,42 +82,50 @@ public class Helper {
 
   public static boolean checkPortletLifetime(RegistrationContext registrationContext,
                                              List<PortletContext> portletContexts,
-                                             UserContext userContext,
-                                             PortletManagementOperationsInterface pmoi) {
-    //ExoContainer cont = ExoContainerContext.getCurrentContainer();
-    // PortletManagementOperationsInterface poi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
+                                             UserContext userContext) throws OperationNotSupported,
+                                                                     AccessDenied,
+                                                                     ResourceSuspended,
+                                                                     InvalidRegistration,
+                                                                     InvalidHandle,
+                                                                     ModifyRegistrationRequired,
+                                                                     InconsistentParameters,
+                                                                     OperationFailed,
+                                                                     MissingParameters,
+                                                                     WSRPException {
+    ExoContainer cont = ExoContainerContext.getCurrentContainer();
+    PortletManagementOperationsInterface pmoi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
 
     if (registrationContext == null)
       return true;
-    try {
-      GetPortletsLifetimeResponse resp = pmoi.getPortletsLifetime(registrationContext,
-                                                                  portletContexts,
-                                                                  userContext);
-      if (resp != null) {
-        if (resp.getPortletLifetime() != null && resp.getPortletLifetime().size() != 0) {
-          PortletLifetime plf = resp.getPortletLifetime().get(0);
-          Lifetime lf = plf.getScheduledDestruction();
-          if (lf != null) {
-            if (lifetimeExpired(lf)) {
-              String portletHandle = portletContexts.get(0).getPortletHandle();
-              pmoi.destroyPortlets(registrationContext, Arrays.asList(new String[] { portletHandle }), userContext);
-              return false;
-            }
+    GetPortletsLifetimeResponse resp = pmoi.getPortletsLifetime(registrationContext,
+                                                                portletContexts,
+                                                                userContext);
+    if (resp != null) {
+      if (resp.getPortletLifetime() != null && resp.getPortletLifetime().size() != 0) {
+        PortletLifetime plf = resp.getPortletLifetime().get(0);
+        Lifetime lf = plf.getScheduledDestruction();
+        if (lf != null) {
+          if (lifetimeExpired(lf)) {
+            String portletHandle = portletContexts.get(0).getPortletHandle();
+            pmoi.destroyPortlets(registrationContext,
+                                 Arrays.asList(new String[] { portletHandle }),
+                                 userContext);
+            return false;
           }
         }
       }
-    } catch (RemoteException e) {
-      e.printStackTrace();
     }
     return true;
   }
 
-  private void checkRegistrationContext(RegistrationContext registrationContext) throws RemoteException {
-    if (conf.isRegistrationRequired()) {
-      if (registrationContext == null) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
-      }
-    }
-  }
+//  private void checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
+//    ExoContainer cont = ExoContainerContext.getCurrentContainer();
+//    WSRPConfiguration conf = (WSRPConfiguration) cont.getComponentInstanceOfType(WSRPConfiguration.class);
+//    if (conf.isRegistrationRequired()) {
+//      if (registrationContext == null) {
+//        throw new InvalidRegistration();
+//      }
+//    }
+//  }
 
 }

@@ -17,13 +17,10 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
-import java.rmi.RemoteException;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
@@ -36,7 +33,6 @@ import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
@@ -64,9 +60,6 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
                                                         MissingParameters,
                                                         OperationFailed,
                                                         WSRPException {
-    if (Helper.lifetimeExpired(lifetime)) {
-      Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
-    }
 
     String owner = null;
     if (userContext != null) {
@@ -84,7 +77,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     RegistrationContext rC = new RegistrationContext();
     rC.setRegistrationHandle(registrationHandle);
@@ -111,10 +104,10 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     try {
       if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        throw new InvalidRegistration();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     String registrationHandle = registrationContext.getRegistrationHandle();
     try {
@@ -123,7 +116,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     return new RegistrationState();//the state is kept in the producer (not send to the consumer)
   }
@@ -140,17 +133,17 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     try {
       if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        throw new InvalidRegistration();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     try {
       stateManager.deregister(registrationContext);
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
-      Exception2Fault.handleException(e);
+      throw new  WSRPException();
     }
     return new ReturnAny();
   }
@@ -171,10 +164,10 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     try {
       if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        throw new InvalidRegistration();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     Lifetime lifetime = null;
     try {
@@ -182,7 +175,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Get registration lifetime failed", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     return lifetime;
   }
@@ -204,10 +197,10 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     try {
       if (!stateManager.isRegistered(registrationContext)) {
-        Exception2Fault.handleException(new WSRPException(Faults.INVALID_REGISTRATION_FAULT));
+        throw new InvalidRegistration();
       }
     } catch (WSRPException e) {
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     Lifetime resultLifetime = null;
     try {
@@ -216,7 +209,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Get registration lifetime failed", e);
-      Exception2Fault.handleException(e);
+      throw new WSRPException();
     }
     return resultLifetime;
   }
