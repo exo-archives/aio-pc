@@ -34,27 +34,23 @@ import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType;
 import org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType;
 import org.exoplatform.services.wsrp1.intf.WSRPV1RegistrationPortType;
 import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
-import org.exoplatform.services.wsrp1.type.BlockingInteractionRequest;
-import org.exoplatform.services.wsrp1.type.ClientData;
-import org.exoplatform.services.wsrp1.type.MarkupParams;
-import org.exoplatform.services.wsrp1.type.MarkupRequest;
-import org.exoplatform.services.wsrp1.type.PersonName;
-import org.exoplatform.services.wsrp1.type.PortletContext;
-import org.exoplatform.services.wsrp1.type.PortletDescription;
-import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.RegistrationData;
-import org.exoplatform.services.wsrp1.type.RuntimeContext;
-import org.exoplatform.services.wsrp1.type.ServiceDescription;
-import org.exoplatform.services.wsrp1.type.ServiceDescriptionRequest;
-import org.exoplatform.services.wsrp1.type.Templates;
-import org.exoplatform.services.wsrp1.type.UserContext;
-import org.exoplatform.services.wsrp1.type.UserProfile;
-import org.exoplatform.services.wsrp1.wsdl.WSRPServiceLocator;
+import org.exoplatform.services.wsrp1.type.WS1ClientData;
+import org.exoplatform.services.wsrp1.type.WS1MarkupParams;
+import org.exoplatform.services.wsrp1.type.WS1PersonName;
+import org.exoplatform.services.wsrp1.type.WS1PortletContext;
+import org.exoplatform.services.wsrp1.type.WS1PortletDescription;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationData;
+import org.exoplatform.services.wsrp1.type.WS1RuntimeContext;
+import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
+import org.exoplatform.services.wsrp1.type.WS1Templates;
+import org.exoplatform.services.wsrp1.type.WS1UserContext;
+import org.exoplatform.services.wsrp1.type.WS1UserProfile;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
@@ -92,21 +88,21 @@ public class BaseTest extends TestCase {
 
   protected WSRPV1PortletManagementPortType  portletManagementOperationsInterface;
 
-  protected PersonName                          personName;
+  protected WS1PersonName                          personName;
 
-  protected UserContext                         userContext;
+  protected WS1UserContext                         userContext;
 
-  protected UserProfile                         userProfile;
+  protected WS1UserProfile                         userProfile;
 
-  protected RegistrationData                    registrationData;
+  protected WS1RegistrationData                    registrationData;
 
-  protected RuntimeContext                      runtimeContext;
+  protected WS1RuntimeContext                      runtimeContext;
 
-  protected Templates                           templates;
+  protected WS1Templates                           templates;
 
-  protected ClientData                          clientData;
+  protected WS1ClientData                          clientData;
 
-  protected MarkupParams                        markupParams;
+  protected WS1MarkupParams                        markupParams;
 
   protected static final String[]               USER_CATEGORIES_ARRAY    = { "full", "standard",
       "minimal"                                                         };
@@ -156,7 +152,6 @@ public class BaseTest extends TestCase {
 
   public void setUp() throws Exception {
 
-    WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
     serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
         + "WSRPServiceDescriptionService"));
     registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL
@@ -166,7 +161,7 @@ public class BaseTest extends TestCase {
     portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
         + "WSRPPortletManagementService"));
 
-    registrationData = new RegistrationData();
+    registrationData = new WS1RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
     registrationData.setConsumerAgent("exoplatform.1.0");
     registrationData.setMethodGetSupported(false);
@@ -177,35 +172,35 @@ public class BaseTest extends TestCase {
     registrationData.setRegistrationProperties(null);//allows extension of the specs
     registrationData.setExtensions(null);//allows extension of the specs
 
-    personName = new PersonName();
+    personName = new WS1PersonName();
     personName.setNickname("exotest");
 
-    userProfile = new UserProfile();
+    userProfile = new WS1UserProfile();
     userProfile.setBdate(new GregorianCalendar());
     userProfile.setGender("male");
     userProfile.setName(personName);
 
-    userContext = new UserContext();
+    userContext = new WS1UserContext();
     userContext.setUserCategories(USER_CATEGORIES_ARRAY);
     userContext.setProfile(userProfile);
     userContext.setUserContextKey("exotest");
 
-    templates = new Templates();
+    templates = new WS1Templates();
     templates.setDefaultTemplate(DEFAULT_TEMPLATE);
     templates.setRenderTemplate(RENDER_TEMPLATE);
     templates.setRenderTemplate(BLOCKING_TEMPLATE);
 
-    runtimeContext = new RuntimeContext();
+    runtimeContext = new WS1RuntimeContext();
     runtimeContext.setNamespacePrefix("NamespacePrefix");
 //runtimeContext.setPortletInstanceKey("windowID");
     runtimeContext.setSessionID(null);
     runtimeContext.setTemplates(templates);
     runtimeContext.setUserAuthentication("none");
 
-    clientData = new ClientData();
+    clientData = new WS1ClientData();
     clientData.setUserAgent("PC");
 
-    markupParams = new MarkupParams();
+    markupParams = new WS1MarkupParams();
     markupParams.setClientData(clientData);
     markupParams.setLocales(localesArray);
     markupParams.setMarkupCharacterSets(markupCharacterSets);
@@ -228,14 +223,14 @@ public class BaseTest extends TestCase {
 
   }
 
-  protected ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
+  protected WS1ServiceDescription getServiceDescription(String[] locales) throws RemoteException {
+    WS1ServiceDescriptionRequest getServiceDescription = new WS1ServiceDescriptionRequest();
     getServiceDescription.setDesiredLocales(locales);
     return serviceDescriptionInterface.getServiceDescription(getServiceDescription);
   }
 
-  protected MarkupRequest getMarkup(RegistrationContext rc, PortletContext portletContext) {
-    MarkupRequest getMarkup = new MarkupRequest();
+  protected WS1MarkupRequest getMarkup(WS1RegistrationContext rc, WS1PortletContext portletContext) {
+    WS1MarkupRequest getMarkup = new WS1MarkupRequest();
     getMarkup.setRegistrationContext(rc);
     getMarkup.setPortletContext(portletContext);
     getMarkup.setRuntimeContext(runtimeContext);
@@ -244,10 +239,10 @@ public class BaseTest extends TestCase {
     return getMarkup;
   }
 
-  protected void manageTemplatesOptimization(ServiceDescription sd, String portletHandle) {
-    PortletDescription[] array = sd.getOfferedPortlets();
+  protected void manageTemplatesOptimization(WS1ServiceDescription sd, String portletHandle) {
+    WS1PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+      WS1PortletDescription portletDescription = array[i];
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
         System.out.println("[test] use of portlet handle : " + portletHandle);
         if (portletDescription.getTemplatesStoredInSession().booleanValue()) {
@@ -258,12 +253,12 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void manageUserContextOptimization(ServiceDescription sd,
+  protected void manageUserContextOptimization(WS1ServiceDescription sd,
                                                String portletHandle,
-                                               MarkupRequest getMarkup) {
-    PortletDescription[] array = sd.getOfferedPortlets();
+                                               WS1MarkupRequest getMarkup) {
+    WS1PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+      WS1PortletDescription portletDescription = array[i];
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
         System.out.println("[test] use of portlet handle : " + portletHandle);
         if (portletDescription.getUserContextStoredInSession().booleanValue()) {
@@ -274,12 +269,12 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void manageUserContextOptimization(ServiceDescription sd,
+  protected void manageUserContextOptimization(WS1ServiceDescription sd,
                                                String portletHandle,
-                                               BlockingInteractionRequest performBlockingInteraction) {
-    PortletDescription[] array = sd.getOfferedPortlets();
+                                               WS1BlockingInteractionRequest performBlockingInteraction) {
+    WS1PortletDescription[] array = sd.getOfferedPortlets();
     for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+      WS1PortletDescription portletDescription = array[i];
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
         System.out.println("[test] use of portlet handle : " + portletHandle);
         if (portletDescription.getUserContextStoredInSession().booleanValue()) {
@@ -290,14 +285,14 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void resolveRegistrationContext(RegistrationContext registrationContext) throws Exception {
+  protected void resolveRegistrationContext(WS1RegistrationContext registrationContext) throws Exception {
     byte[] registrationState = registrationContext.getRegistrationState();
     if (registrationState != null) {
       System.out.println("[test] Save registration state on consumer");
       Object o = IOUtil.deserialize(registrationState);
-      if (!(o instanceof RegistrationData))
+      if (!(o instanceof WS1RegistrationData))
         fail("The deserialized object should be of type RegistrationData");
-      assertEquals(((RegistrationData) o).getConsumerName(), registrationData.getConsumerName());
+      assertEquals(((WS1RegistrationData) o).getConsumerName(), registrationData.getConsumerName());
     }
   }
 

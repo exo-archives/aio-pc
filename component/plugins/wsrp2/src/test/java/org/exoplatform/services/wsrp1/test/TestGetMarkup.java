@@ -20,16 +20,12 @@ package org.exoplatform.services.wsrp1.test;
 import java.rmi.RemoteException;
 
 import org.apache.commons.lang.StringUtils;
-import org.exoplatform.services.wsrp.BaseTest;
-import org.exoplatform.services.wsrp1.type.ClonePortletRequest;
-import org.exoplatform.services.wsrp1.type.MarkupRequest;
-import org.exoplatform.services.wsrp1.type.MarkupResponse;
-import org.exoplatform.services.wsrp1.type.PortletContext;
-import org.exoplatform.services.wsrp1.type.Property;
-import org.exoplatform.services.wsrp1.type.PropertyList;
-import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.ServiceDescription;
-import org.exoplatform.services.wsrp1.type.SetPortletPropertiesRequest;
+import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
+import org.exoplatform.services.wsrp1.type.WS1PortletContext;
+import org.exoplatform.services.wsrp1.type.WS1Property;
+import org.exoplatform.services.wsrp1.type.WS1PropertyList;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
+import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -43,16 +39,16 @@ public class TestGetMarkup extends BaseTest {
   }
 
   public void testGetMarkupForSeveralModes() throws Exception {
-    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    RegistrationContext rc = null;
+    WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    WS1RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new WS1RegistrationContext("", null, null);
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-    PortletContext portletContext = new PortletContext();
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    WS1MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
     assertEquals("Everything is ok", response.getMarkupContext().getMarkupString());
     markupParams.setMode("wsrp:help");
@@ -65,16 +61,16 @@ public class TestGetMarkup extends BaseTest {
   }
 
   public void testGetMarkupForSeveralWindowStates() throws Exception {
-    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    RegistrationContext rc = null;
+    WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    WS1RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new WS1RegistrationContext("", null, null);
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-    PortletContext portletContext = new PortletContext();
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    WS1MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
     assertEquals("Everything is ok", response.getMarkupContext().getMarkupString());
     markupParams.setWindowState("wsrp:maximized");
@@ -88,16 +84,16 @@ public class TestGetMarkup extends BaseTest {
   }
 
   public void testGetMarkupWithRewrittenURLInIt() throws RemoteException {
-    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    RegistrationContext rc = null;
+    WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    WS1RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+      rc = new WS1RegistrationContext("", null, null);
     String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
-    PortletContext portletContext = new PortletContext();
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    WS1MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String s = response.getMarkupContext().getMarkupString();
     int index = s.indexOf("&ns=");
     s = s.substring(index + "&ns=".length());
@@ -115,32 +111,32 @@ public class TestGetMarkup extends BaseTest {
 
   public void testGetMarkupOfAClonedPortlet() throws Exception {
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    RegistrationContext rC = registrationOperationsInterface.register(registrationData);
+    WS1RegistrationContext rC = registrationOperationsInterface.register(registrationData);
     resolveRegistrationContext(rC);
-    PortletContext portletContext = new PortletContext();
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
-    ClonePortletRequest clonePortlet = new ClonePortletRequest();
+    WS1ClonePortletRequest clonePortlet = new WS1ClonePortletRequest();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(portletContext);
     clonePortlet.setUserContext(userContext);
-    PortletContext returnedPC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
+    WS1PortletContext returnedPC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     //set some new properties
-    Property property = new Property();
+    WS1Property property = new WS1Property();
     property.setLang("en");
     property.setName("test-prop");
     property.setStringValue("test-value");
-    PropertyList list = new PropertyList();
-    list.setProperties(new Property[] { property });
-    SetPortletPropertiesRequest setPortletProperties = new SetPortletPropertiesRequest();
+    WS1PropertyList list = new WS1PropertyList();
+    list.setProperties(new WS1Property[] { property });
+    WS1SetPortletPropertiesRequest setPortletProperties = new WS1SetPortletPropertiesRequest();
     setPortletProperties.setRegistrationContext(rC);
     setPortletProperties.setPortletContext(returnedPC);
     setPortletProperties.setUserContext(userContext);
     setPortletProperties.setPropertyList(list);
     returnedPC = portletManagementOperationsInterface.setPortletProperties(setPortletProperties);
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    MarkupRequest getMarkup = getMarkup(rC, returnedPC);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1MarkupRequest getMarkup = getMarkup(rC, returnedPC);
+    WS1MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     assertEquals("Everything is more than ok", response.getMarkupContext().getMarkupString());
   }
 

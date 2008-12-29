@@ -19,13 +19,12 @@ package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.BaseTest;
-import org.exoplatform.services.wsrp1.WSRPConstants;
-import org.exoplatform.services.wsrp1.type.CacheControl;
-import org.exoplatform.services.wsrp1.type.MarkupResponse;
-import org.exoplatform.services.wsrp1.type.PortletContext;
-import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.ServiceDescription;
+import org.exoplatform.services.wsrp1.type.WS1CacheControl;
+import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
+import org.exoplatform.services.wsrp1.type.WS1PortletContext;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
+import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
+import org.exoplatform.services.wsrp2.consumer.impl.urls1.WSRPConstants;
 
 /*
  * @author  Mestrallet Benjamin
@@ -43,14 +42,14 @@ public class TestCachingMechanism extends BaseTest {
   }
 
   public void testExistenceOfValidateTag() throws RemoteException {
-    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    RegistrationContext rc = null;
+    WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    WS1RegistrationContext rc = null;
     if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
-    PortletContext portletContext = new PortletContext();
+      rc = new WS1RegistrationContext("", null, null);
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
-    CacheControl cacheControl = response.getMarkupContext().getCacheControl();
+    WS1MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
+    WS1CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(4, cacheControl.getExpires());
     assertEquals(WSRPConstants.WSRP_USER_SCOPE_CACHE, cacheControl.getUserScope());
     assertNotNull(cacheControl.getValidateTag());
