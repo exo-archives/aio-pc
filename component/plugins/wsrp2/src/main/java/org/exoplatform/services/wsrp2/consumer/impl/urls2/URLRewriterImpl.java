@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.consumer.impl.urls;
+package org.exoplatform.services.wsrp2.consumer.impl.urls2;
 
 import java.util.Map;
 import java.util.TreeMap;

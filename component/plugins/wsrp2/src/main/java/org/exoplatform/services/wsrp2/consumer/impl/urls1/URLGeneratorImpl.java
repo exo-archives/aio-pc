@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.urls1;
+package org.exoplatform.services.wsrp2.consumer.impl.urls1;
 
 import java.net.URLEncoder;
 import java.util.Iterator;
