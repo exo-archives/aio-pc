@@ -21,8 +21,8 @@ import java.util.Map;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortType;
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.bind2.extensions.WSRPV2ServiceAdministrationPortType;
+import org.exoplatform.services.wsrp2.bind2.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.utils.Utils;
 

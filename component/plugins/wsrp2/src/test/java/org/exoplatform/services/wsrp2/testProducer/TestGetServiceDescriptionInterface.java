@@ -20,7 +20,7 @@ package org.exoplatform.services.wsrp2.testProducer;
 import java.util.List;
 import java.util.Map;
 
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.bind2.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;

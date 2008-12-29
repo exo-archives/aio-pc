@@ -136,7 +136,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.extensions.ServiceAdministrationInterfaceImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind2.extensions.ServiceAdministrationInterfaceImpl</type>
   </component>
 
   <component>
@@ -243,19 +243,19 @@
   <!-- Services for the SOAP WebService -->
   
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind2.WSRPV2MarkupPortTypeImpl</type>
   </component>
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.WSRPV2PortletManagementPortTypeImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind2.WSRPV2PortletManagementPortTypeImpl</type>
   </component>
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.WSRPV2RegistrationPortTypeImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind2.WSRPV2RegistrationPortTypeImpl</type>
   </component>
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind2.WSRPV2ServiceDescriptionPortTypeImpl</type>
   </component>
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind2.extensions.WSRPV2ServiceAdministrationPortTypeImpl</type>
   </component>
 
   <!-- Mixed external component plugins for both WSRP 1 and WSRP 2-->
@@ -314,10 +314,10 @@
   <!--      <init-params>-->
   <!--        <values-param>-->
   <!--          <name></name>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2MarkupPortTypeImpl</value>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2PortletManagementPortTypeImpl</value>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2RegistrationPortTypeImpl</value>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.WSRPV2ServiceDescriptionPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind2.WSRPV2MarkupPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind2.WSRPV2PortletManagementPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind2.WSRPV2RegistrationPortTypeImpl</value>-->
+  <!--          <value>org.exoplatform.services.wsrp2.bind2.WSRPV2ServiceDescriptionPortTypeImpl</value>-->
   <!--        </values-param>-->
   <!--      </init-params>-->
   <!--    </component-plugin>-->
