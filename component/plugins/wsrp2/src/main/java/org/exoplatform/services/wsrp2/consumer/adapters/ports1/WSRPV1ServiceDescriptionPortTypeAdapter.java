@@ -18,7 +18,6 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
@@ -28,6 +27,7 @@ import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * Created by The eXo Platform SAS .

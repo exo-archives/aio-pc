@@ -3,7 +3,6 @@ package org.exoplatform.services.wsrp2.bind1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
 import org.exoplatform.services.wsrp1.intf.WS1InconsistentParameters;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidHandle;
@@ -35,6 +34,7 @@ import org.exoplatform.services.wsrp2.type.PortletPropertyDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.UserContext;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  */

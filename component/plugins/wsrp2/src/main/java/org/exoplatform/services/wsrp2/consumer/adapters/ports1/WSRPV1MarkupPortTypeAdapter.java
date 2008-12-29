@@ -18,7 +18,6 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
 import org.exoplatform.services.wsrp1.intf.WS1InconsistentParameters;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidCookie;
@@ -62,6 +61,7 @@ import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
 import org.exoplatform.services.wsrp2.type.ReleaseSessions;
 import org.exoplatform.services.wsrp2.type.ResourceResponse;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * Created by The eXo Platform SAS .

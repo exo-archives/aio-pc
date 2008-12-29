@@ -18,7 +18,6 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
 import org.exoplatform.services.wsrp1.intf.WS1MissingParameters;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
@@ -40,6 +39,7 @@ import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
 import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * Created by The eXo Platform SAS .

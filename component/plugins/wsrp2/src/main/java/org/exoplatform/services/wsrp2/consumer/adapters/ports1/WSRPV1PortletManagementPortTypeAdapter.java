@@ -18,7 +18,6 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
 import org.exoplatform.services.wsrp1.intf.WS1InconsistentParameters;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidHandle;
@@ -64,6 +63,7 @@ import org.exoplatform.services.wsrp2.type.SetExportLifetime;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
 import org.exoplatform.services.wsrp2.type.SetPortletsLifetime;
 import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * Created by The eXo Platform SAS .

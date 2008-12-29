@@ -1,4 +1,4 @@
-package org.exoplatform.services.wsrp;
+package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
 import java.util.Collection;

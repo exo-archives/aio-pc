@@ -2,7 +2,6 @@ package org.exoplatform.services.wsrp2.bind1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.WSRPTypesTransformer;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
@@ -14,6 +13,7 @@ import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.producer.ServiceDescriptionInterface;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * 
