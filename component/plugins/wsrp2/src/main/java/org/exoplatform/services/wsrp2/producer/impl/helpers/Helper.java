@@ -16,7 +16,6 @@
  */
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
-import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -36,7 +35,6 @@ import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
-import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.PortletContext;

@@ -17,10 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.utils;
 
-import java.rmi.RemoteException;
-
-import org.exoplatform.services.wsrp2.exceptions.Exception2Fault;
-import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;

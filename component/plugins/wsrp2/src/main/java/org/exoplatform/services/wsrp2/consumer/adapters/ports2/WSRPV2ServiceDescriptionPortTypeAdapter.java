@@ -17,7 +17,6 @@
 package org.exoplatform.services.wsrp2.consumer.adapters.ports2;
 
 import org.apache.commons.logging.Log;
-import org.apache.cxf.binding.soap.SoapFault;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;

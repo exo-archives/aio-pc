@@ -19,7 +19,6 @@ package org.exoplatform.services.wsrp2.utils;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;

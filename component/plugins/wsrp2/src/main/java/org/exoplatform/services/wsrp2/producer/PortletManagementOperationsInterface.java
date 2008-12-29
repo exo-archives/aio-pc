@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.producer;
 
-import java.rmi.RemoteException;
 import java.util.List;
 
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;

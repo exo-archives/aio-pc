@@ -31,8 +31,6 @@ import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
-//import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 import org.hibernate.Session;
 
 /**
