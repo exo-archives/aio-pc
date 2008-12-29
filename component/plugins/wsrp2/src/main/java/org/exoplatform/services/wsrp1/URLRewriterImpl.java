@@ -22,11 +22,10 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp.Faults;
-import org.exoplatform.services.wsrp.URLGenerator;
-import org.exoplatform.services.wsrp.URLRewriter;
-import org.exoplatform.services.wsrp.WSRPException;
-import org.exoplatform.services.wsrp1.WSRPConstants;
+import org.exoplatform.services.wsrp2.consumer.URLGenerator;
+import org.exoplatform.services.wsrp2.consumer.URLRewriter;
+import org.exoplatform.services.wsrp2.exceptions.Faults;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
 /*
  * Some part of this class implementation are taken from the WSRP4J project

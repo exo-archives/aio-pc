@@ -24,10 +24,9 @@ import java.util.Set;
 
 import org.exoplatform.Constants;
 import org.exoplatform.services.portletcontainer.PCConstants;
-import org.exoplatform.services.wsrp.Modes;
-import org.exoplatform.services.wsrp.URLGenerator;
-import org.exoplatform.services.wsrp.WindowStates;
-import org.exoplatform.services.wsrp1.WSRPConstants;
+import org.exoplatform.services.wsrp2.consumer.URLGenerator;
+import org.exoplatform.services.wsrp2.utils.Modes;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /*
  * @author  Mestrallet Benjamin
@@ -48,6 +47,10 @@ public class URLGeneratorImpl implements URLGenerator {
 
   public String getResourceURL(String baseURL, Map<String, String> params) {
     return getURL(baseURL, params);
+  }
+  
+  public String getExtensionURL(String baseURL, Map<String, String> params) {
+    return null;
   }
 
   private String getURL(String baseURL, Map<String, String> params) {

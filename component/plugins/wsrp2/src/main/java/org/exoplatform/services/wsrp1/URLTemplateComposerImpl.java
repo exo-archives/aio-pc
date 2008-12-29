@@ -21,8 +21,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 
 import org.exoplatform.Constants;
-import org.exoplatform.services.wsrp.URLTemplateComposer;
-import org.exoplatform.services.wsrp1.WSRPConstants;
+import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
 /*
  * @author  Mestrallet Benjamin

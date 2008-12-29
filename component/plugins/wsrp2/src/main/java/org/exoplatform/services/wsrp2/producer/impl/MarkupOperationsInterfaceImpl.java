@@ -155,7 +155,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                   PortletContext portletContext,
                                   RuntimeContext runtimeContext,
                                   UserContext userContext,
-                                  MarkupParams markupParams) throws RemoteException {
+                                  MarkupParams markupParams) throws AccessDenied,
+                                  ResourceSuspended,
+                                  UnsupportedMimeType,
+                                  InvalidRegistration,
+                                  InvalidHandle,
+                                  InvalidCookie,
+                                  UnsupportedWindowState,
+                                  InvalidUserCategory,
+                                  UnsupportedMode,
+                                  ModifyRegistrationRequired,
+                                  InvalidSession,
+                                  MissingParameters,
+                                  InconsistentParameters,
+                                  OperationFailed,
+                                  UnsupportedLocale  {
 
     checkRegistrationContext(registrationContext);
     checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
