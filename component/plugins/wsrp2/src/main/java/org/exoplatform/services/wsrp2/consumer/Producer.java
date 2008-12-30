@@ -3,11 +3,10 @@ package org.exoplatform.services.wsrp2.consumer;
 import java.net.URL;
 import java.util.List;
 
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2MarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2PortletManagementPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2RegistrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
@@ -18,7 +17,6 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 /**
  * A consumer representation of a WSRP-producer providing WSRP-portlets.
@@ -58,11 +56,21 @@ public interface Producer {
   public String getID();
 
   /**
+   * @return
+   */
+  public int getVersion();
+
+  /**
    * Set the ID of the producer to he given value.
    * 
    * @param id ID of the producer.
    */
   public void setID(String id);
+
+  /**
+   * @param version
+   */
+  public void setVersion(int version);
 
   /**
    * Get a description of the producer.
@@ -95,7 +103,7 @@ public interface Producer {
    * 
    * @return service description Adapter.
    */
-  public WSRPV2ServiceDescriptionPortTypeAdapter getServiceDescriptionAdapter();
+  public WSRPServiceDescriptionPortTypeAdapter getServiceDescriptionAdapter();
 
   /**
    * Get the URL of the producers markup Adapter.
@@ -103,7 +111,7 @@ public interface Producer {
    * @return URL of the markup Adapter.
    */
 //  public String getMarkupAdapterEndpoint();
-  public WSRPV2MarkupPortTypeAdapter getMarkupAdapter();
+  public WSRPMarkupPortTypeAdapter getMarkupAdapter();
 
   /**
    * Set the URL of the producers markup Adapter.
@@ -128,7 +136,7 @@ public interface Producer {
    * 
    * @return portlet management Adapter.
    */
-  public WSRPV2PortletManagementPortTypeAdapter getPortletManagementAdapter();
+  public WSRPPortletManagementPortTypeAdapter getPortletManagementAdapter();
 
   /**
    * Get the URL of the producers registration Adapter.
@@ -145,7 +153,7 @@ public interface Producer {
    * 
    * @return registration Adapter.
    */
-  public WSRPV2RegistrationPortTypeAdapter getRegistrationAdapter();
+  public WSRPRegistrationPortTypeAdapter getRegistrationAdapter();
 
   /**
    * Indicates wether or not the producer requires consumer registration.
@@ -246,14 +254,12 @@ public interface Producer {
    */
   public URL getUrl();
 
-  public void setServiceDescriptionAdapter(WSRPV2ServiceDescriptionPortTypeAdapter serviceDescriptionAdapter);
+  public void setServiceDescriptionAdapter(WSRPServiceDescriptionPortTypeAdapter serviceDescriptionAdapter);
 
-  public void setMarkupAdapter(WSRPV2MarkupPortTypeAdapter markupAdapter);
+  public void setMarkupAdapter(WSRPMarkupPortTypeAdapter markupAdapter);
 
-  public void setRegistrationAdapter(WSRPV2RegistrationPortTypeAdapter registrationAdapter);
+  public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapter registrationAdapter);
 
-  public void setPortletManagementAdapter(WSRPV2PortletManagementPortTypeAdapter portletManagementAdapter);
-  
-  public void createAdapters(WSRPService service, ExoContainer container);
+  public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapter portletManagementAdapter);
 
 }

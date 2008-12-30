@@ -78,15 +78,17 @@ public class WSRPAdminPortlet {
 
   private String                  serviceDescriptionIntfEndpoint;
 
-  private String                  description   = "";
+  private String                  description    = "";
 
-  private List<String>            consumerModes = new ArrayList<String>();
+  private Integer                 version        = 2;
+
+  private List<String>            consumerModes  = new ArrayList<String>();
 
   private List<String>            consumerStates = new ArrayList<String>();
 
-  private String                  consumerName  = "www.exoplatform.org";
+  private String                  consumerName   = "www.exoplatform.org";
 
-  private String                  consumerAgent = "exoplatform.2.0";
+  private String                  consumerAgent  = "exoplatform.2.0";
 
   private ConsumerEnvironment     consumer;
 
@@ -96,7 +98,7 @@ public class WSRPAdminPortlet {
 
   private PortletContainerService pcService;
 
-  private final Log               log           = ExoLogger.getLogger(getClass().getName());
+  private final Log               log            = ExoLogger.getLogger(getClass().getName());
 
   public void init(ExoContainer cont) {
 
@@ -185,6 +187,12 @@ public class WSRPAdminPortlet {
       w.println("      <td><textarea id=\"" + WSRPConstants.WAP_description + "\" name=\""
           + WSRPConstants.WAP_description + "\" cols=\"35\" rows=\"5\">" + description
           + "</textarea></td></tr>");
+
+      w.println("    <tr><td><label>Version</label></td>");
+      w.println("      <td><textarea id=\"" + WSRPConstants.WAP_version + "\" name=\""
+          + WSRPConstants.WAP_version + "\" cols=\"35\" rows=\"5\">" + version
+          + "</textarea></td></tr>");
+
       w.println("    <tr><td colspan='2' align='center'>");
       w.println("      <a href=\"javascript:submit_producer_wsrp2_form('save');\">Save</a>");
       w.println("      <a href=\"javascript:submit_producer_wsrp2_form('reset');\">Reset</a>");
@@ -246,7 +254,7 @@ public class WSRPAdminPortlet {
         w.println("<b>Name - " + producer.getName() + ", ID - " + producer.getID() + "</b><br><br>");
 //        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint()
 //            + "<br>");
-        
+
 //        w.println("Description - " + producer.getDescription() + "<br>");
 //        RegistrationContext regCtx = producer.getRegistrationContext();
 //        if (regCtx != null) {
@@ -407,10 +415,11 @@ public class WSRPAdminPortlet {
         registrationIntfEndpoint = request.getParameter(WSRPConstants.WAP_registrationIntfEndpoint);
         serviceDescriptionIntfEndpoint = request.getParameter(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
         description = request.getParameter("description");
+        version = Integer.parseInt(request.getParameter("version"));
 
         String pURL = producerURL;// + "?wsdl";
         ProducerRegistry pregistry = consumer.getProducerRegistry();
-        Producer producer = pregistry.createProducerInstance(pURL);
+        Producer producer = pregistry.createProducerInstance(pURL, version);
         producer.setName(producerName);
 //        producer.setMarkupInterfaceEndpoint(pURL + markupIntfEndpoint);
 //        producer.setPortletManagementInterfaceEndpoint(pURL + portletManagementIntfEndpoint);
@@ -475,6 +484,7 @@ public class WSRPAdminPortlet {
         serviceDescriptionIntfEndpoint = (String) conf.getAdminPortletParams()
                                                       .get(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
         description = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_description);
+        version = Integer.valueOf(conf.getAdminPortletParams().get(WSRPConstants.WAP_version));
         return;
       }
     }
@@ -488,6 +498,7 @@ public class WSRPAdminPortlet {
     registrationIntfEndpoint = "WSRPRegistrationService";
     serviceDescriptionIntfEndpoint = "WSRPServiceDescriptionService";
     description = "";
+    version = 2;
   }
 
   protected String getValue(LocalizedString s) {

@@ -16,8 +16,6 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports;
 
-import org.apache.commons.logging.Log;
-import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
@@ -35,7 +33,6 @@ import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
-import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
@@ -55,14 +52,7 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2MarkupPortTypeAdapter {
-
-  private WSRPV2MarkupPortType markupPort;
-
-  private static final Log     LOG = ExoLogger.getLogger(WSRPV2MarkupPortTypeAdapter.class);
-  
-  public WSRPV2MarkupPortTypeAdapter() {
-  }
+public interface WSRPMarkupPortTypeAdapter {
 
   public MarkupResponse getMarkup(GetMarkup getMarkup) throws AccessDenied,
                                                       ResourceSuspended,
@@ -78,16 +68,7 @@ public class WSRPV2MarkupPortTypeAdapter {
                                                       MissingParameters,
                                                       InconsistentParameters,
                                                       OperationFailed,
-                                                      UnsupportedLocale {
-    
-    return getPortVersion().getMarkup(getMarkup);
-    
-  }
-
-  private WSRPV2MarkupPortTypeAdapter getPortVersion() {
-    // TODO Auto-generated method stub
-    return null;
-  }
+                                                      UnsupportedLocale;
 
   public ResourceResponse getResource(GetResource getResource) throws OperationNotSupported,
                                                               AccessDenied,
@@ -104,13 +85,7 @@ public class WSRPV2MarkupPortTypeAdapter {
                                                               MissingParameters,
                                                               InconsistentParameters,
                                                               OperationFailed,
-                                                              UnsupportedLocale {
-    
-    
-    
-    return null;
-    
-  }
+                                                              UnsupportedLocale;
 
   public BlockingInteractionResponse performBlockingInteraction(PerformBlockingInteraction performBlockingInteraction) throws AccessDenied,
                                                                                                                       ResourceSuspended,
@@ -127,9 +102,7 @@ public class WSRPV2MarkupPortTypeAdapter {
                                                                                                                       InconsistentParameters,
                                                                                                                       OperationFailed,
                                                                                                                       UnsupportedLocale,
-                                                                                                                      PortletStateChangeRequired {
-    return null;
-  }
+                                                                                                                      PortletStateChangeRequired;
 
   public HandleEventsResponse handleEvents(HandleEvents handleEvents) throws OperationNotSupported,
                                                                      AccessDenied,
@@ -147,18 +120,14 @@ public class WSRPV2MarkupPortTypeAdapter {
                                                                      InconsistentParameters,
                                                                      OperationFailed,
                                                                      UnsupportedLocale,
-                                                                     PortletStateChangeRequired {
-    return null;
-  }
+                                                                     PortletStateChangeRequired;
 
   public Extension initCookie(InitCookie initCookie) throws OperationNotSupported,
                                                     AccessDenied,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     ModifyRegistrationRequired,
-                                                    OperationFailed {
-    return null;
-  }
+                                                    OperationFailed;
 
   public Extension releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
                                                                    AccessDenied,
@@ -166,8 +135,6 @@ public class WSRPV2MarkupPortTypeAdapter {
                                                                    InvalidRegistration,
                                                                    ModifyRegistrationRequired,
                                                                    MissingParameters,
-                                                                   OperationFailed {
-    return null;
-  }
+                                                                   OperationFailed;
 
 }

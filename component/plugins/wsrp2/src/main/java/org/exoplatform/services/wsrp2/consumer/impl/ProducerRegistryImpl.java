@@ -127,8 +127,8 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return producers.containsKey(id);
   }
 
-  public Producer createProducerInstance(String producerURL) {
-    return new ProducerImpl(cont, producerURL);
+  public Producer createProducerInstance(String producerURL, int version) {
+    return new ProducerImpl(cont, producerURL, version);
   }
 
   public long getLastModifiedTime() {

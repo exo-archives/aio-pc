@@ -16,8 +16,6 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports;
 
-import org.apache.commons.logging.Log;
-import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
@@ -26,7 +24,6 @@ import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
-import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
@@ -44,67 +41,22 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2RegistrationPortTypeAdapter {
-
-  private WSRPV2RegistrationPortType registrationPort;
-
-  private static final Log           LOG = ExoLogger.getLogger(WSRPV2RegistrationPortTypeAdapter.class);
-
-  public WSRPV2RegistrationPortTypeAdapter(WSRPV2RegistrationPortType registrationPort) {
-    this.registrationPort = registrationPort;
-  }
+public interface WSRPRegistrationPortTypeAdapter {
 
   public RegistrationContext register(Register register) throws OperationNotSupported,
                                                         MissingParameters,
-                                                        OperationFailed {
-    System.out.println("Invoking register...");
-    return registrationPort.register(register);
-  }
+                                                        OperationFailed;
 
   public Extension deregister(Deregister deregister) throws OperationNotSupported,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
-                                                    OperationFailed {
-    System.out.println("Invoking deregister...");
-    return registrationPort.deregister(deregister.getRegistrationContext(),
-                                       deregister.getUserContext());
-  }
+                                                    OperationFailed;
 
   public RegistrationState modifyRegistration(ModifyRegistration modifyRegistration) throws OperationNotSupported,
                                                                                     ResourceSuspended,
                                                                                     InvalidRegistration,
                                                                                     MissingParameters,
-                                                                                    OperationFailed {
-
-    System.out.println("Invoking modifyRegistration...");
-    org.exoplatform.services.wsrp2.type.RegistrationContext _modifyRegistration_registrationContext = modifyRegistration.getRegistrationContext();
-    org.exoplatform.services.wsrp2.type.RegistrationData _modifyRegistration_registrationData = modifyRegistration.getRegistrationData();
-    org.exoplatform.services.wsrp2.type.UserContext _modifyRegistration_userContext = modifyRegistration.getUserContext();
-    javax.xml.ws.Holder<byte[]> _modifyRegistration_registrationState = new javax.xml.ws.Holder<byte[]>();
-    javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.Lifetime> _modifyRegistration_scheduledDestruction = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.Lifetime>();
-    javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _modifyRegistration_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
-
-    registrationPort.modifyRegistration(_modifyRegistration_registrationContext,
-                                        _modifyRegistration_registrationData,
-                                        _modifyRegistration_userContext,
-                                        _modifyRegistration_registrationState,
-                                        _modifyRegistration_scheduledDestruction,
-                                        _modifyRegistration_extensions);
-
-    System.out.println("modifyRegistration._modifyRegistration_registrationState="
-        + _modifyRegistration_registrationState.value);
-    System.out.println("modifyRegistration._modifyRegistration_scheduledDestruction="
-        + _modifyRegistration_scheduledDestruction.value);
-    System.out.println("modifyRegistration._modifyRegistration_extensions="
-        + _modifyRegistration_extensions.value);
-
-    RegistrationState registrationState = new RegistrationState();
-    registrationState.setRegistrationState(_modifyRegistration_registrationState.value);
-    registrationState.setScheduledDestruction(_modifyRegistration_scheduledDestruction.value);
-    if (_modifyRegistration_extensions.value != null)
-      registrationState.getExtensions().addAll(_modifyRegistration_extensions.value);
-    return registrationState;
-  }
+                                                                                    OperationFailed;
 
   public Lifetime getRegistrationLifetime(GetRegistrationLifetime getRegistrationLifetime) throws OperationNotSupported,
                                                                                           AccessDenied,
@@ -112,10 +64,7 @@ public class WSRPV2RegistrationPortTypeAdapter {
                                                                                           InvalidRegistration,
                                                                                           InvalidHandle,
                                                                                           ModifyRegistrationRequired,
-                                                                                          OperationFailed {
-    System.out.println("Invoking getRegistrationLifetime...");
-    return registrationPort.getRegistrationLifetime(getRegistrationLifetime);
-  }
+                                                                                          OperationFailed;
 
   public Lifetime setRegistrationLifetime(SetRegistrationLifetime setRegistrationLifetime) throws OperationNotSupported,
                                                                                           AccessDenied,
@@ -123,9 +72,5 @@ public class WSRPV2RegistrationPortTypeAdapter {
                                                                                           InvalidRegistration,
                                                                                           InvalidHandle,
                                                                                           ModifyRegistrationRequired,
-                                                                                          OperationFailed {
-    System.out.println("Invoking setRegistrationLifetime...");
-    return registrationPort.setRegistrationLifetime(setRegistrationLifetime);
-  }
-
+                                                                                          OperationFailed;
 }

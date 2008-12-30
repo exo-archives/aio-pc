@@ -18,6 +18,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports2;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
@@ -33,7 +34,8 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2ServiceDescriptionPortTypeAdapter {
+public class WSRPV2ServiceDescriptionPortTypeAdapter implements
+    WSRPServiceDescriptionPortTypeAdapter {
 
   private WSRPV2ServiceDescriptionPortType serviceDescriptionPort;
 

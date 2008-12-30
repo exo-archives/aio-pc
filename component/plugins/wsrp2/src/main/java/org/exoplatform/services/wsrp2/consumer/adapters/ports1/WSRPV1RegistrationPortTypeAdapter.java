@@ -22,6 +22,7 @@ import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
 import org.exoplatform.services.wsrp1.intf.WS1MissingParameters;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1RegistrationPortType;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
@@ -48,7 +49,7 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV1RegistrationPortTypeAdapter {
+public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTypeAdapter {
 
   private WSRPV1RegistrationPortType registrationPort;
 

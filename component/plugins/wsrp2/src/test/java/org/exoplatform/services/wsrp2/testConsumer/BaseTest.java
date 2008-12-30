@@ -231,7 +231,7 @@ public class BaseTest extends TestCase {
     System.out.println(">>> BaseTest.setUp() service = " + service); 
     System.out.println(">>> BaseTest.setUp() container = " + container);
 
-    producer.createAdapters(service, container);
+    producer.createAdapters2(service, container);
 
     producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService()));
     producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService()));

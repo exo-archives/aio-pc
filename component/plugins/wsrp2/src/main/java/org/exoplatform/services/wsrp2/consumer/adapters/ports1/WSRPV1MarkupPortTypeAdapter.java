@@ -33,6 +33,7 @@ import org.exoplatform.services.wsrp1.intf.WS1UnsupportedMimeType;
 import org.exoplatform.services.wsrp1.intf.WS1UnsupportedMode;
 import org.exoplatform.services.wsrp1.intf.WS1UnsupportedWindowState;
 import org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
@@ -70,7 +71,7 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV1MarkupPortTypeAdapter {
+public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapter {
 
   private WSRPV1MarkupPortType markupPort;
 

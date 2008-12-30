@@ -150,6 +150,8 @@ public class WSRPConfiguration {
                            props.getProperty(WSRPConstants.WAP_serviceDescriptionIntfEndpoint));
     adminPortletParams.put(WSRPConstants.WAP_description,
                            props.getProperty(WSRPConstants.WAP_description));
+    adminPortletParams.put(WSRPConstants.WAP_version,
+                           props.getProperty(WSRPConstants.WAP_version));
   }
 
   public boolean isHasUserSpecificState() {

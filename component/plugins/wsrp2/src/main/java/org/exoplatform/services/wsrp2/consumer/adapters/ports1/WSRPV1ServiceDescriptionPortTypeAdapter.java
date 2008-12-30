@@ -21,6 +21,7 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
@@ -36,7 +37,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV1ServiceDescriptionPortTypeAdapter {
+public class WSRPV1ServiceDescriptionPortTypeAdapter implements
+    WSRPServiceDescriptionPortTypeAdapter {
 
   private WSRPV1ServiceDescriptionPortType serviceDescriptionPort;
 
@@ -116,10 +118,11 @@ public class WSRPV1ServiceDescriptionPortTypeAdapter {
     }
 
     // commented unused in wsrp1 items
-    
+
     ServiceDescription response = new ServiceDescription();
     response.setRequiresRegistration(_getServiceDescription_requiresRegistration.value);
-    response.getOfferedPortlets().addAll(WSRPTypesTransformer.getWS2PortletDescriptions(_getServiceDescription_offeredPortlets.value));
+    response.getOfferedPortlets()
+            .addAll(WSRPTypesTransformer.getWS2PortletDescriptions(_getServiceDescription_offeredPortlets.value));
     response.getUserCategoryDescriptions()
             .addAll(WSRPTypesTransformer.getWS2ItemDescriptions(_getServiceDescription_userCategoryDescriptions.value));
 //    response.getExtensionDescriptions().addAll(_getServiceDescription_extensionDescriptions.value);
@@ -136,7 +139,8 @@ public class WSRPV1ServiceDescriptionPortTypeAdapter {
 //    response.getSupportedOptions().addAll(_getServiceDescription_supportedOptions.value);
 //    response.setExportDescription(_getServiceDescription_exportDescription.value);
 //    response.setMayReturnRegistrationState(_getServiceDescription_mayReturnRegistrationState.value);
-    response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_getServiceDescription_extensions.value));
+    response.getExtensions()
+            .addAll(WSRPTypesTransformer.getWS2Extensions(_getServiceDescription_extensions.value));
     return response;
 
   }

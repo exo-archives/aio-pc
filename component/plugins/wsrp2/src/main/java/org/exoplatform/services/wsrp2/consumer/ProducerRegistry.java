@@ -59,7 +59,7 @@ public interface ProducerRegistry {
    * 
    * @return return a new Producer instance
    */
-  public Producer createProducerInstance(String producerURL);
+  public Producer createProducerInstance(String producerURL, int version);
 
   /**
    * Get the last time that a producer is added or removed

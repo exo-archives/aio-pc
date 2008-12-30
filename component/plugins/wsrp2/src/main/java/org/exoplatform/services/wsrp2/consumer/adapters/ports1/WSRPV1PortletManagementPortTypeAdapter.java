@@ -26,6 +26,7 @@ import org.exoplatform.services.wsrp1.intf.WS1InvalidUserCategory;
 import org.exoplatform.services.wsrp1.intf.WS1MissingParameters;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
 import org.exoplatform.services.wsrp2.intf.ExportNoLongerValid;
@@ -72,7 +73,7 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV1PortletManagementPortTypeAdapter {
+public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManagementPortTypeAdapter {
 
   private WSRPV1PortletManagementPortType portletManagementPort;
 
@@ -94,21 +95,21 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                                                       OperationFailed {
 
     System.out.println("Invoking getPortletDescription...");
-    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletDescription_registrationContext = WSRPTypesTransformer
-        .getWS1RegistrationContext(getPortletDescription.getRegistrationContext());
-    org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletDescription_portletContext = WSRPTypesTransformer
-        .getWS1PortletContext(getPortletDescription.getPortletContext());
-    org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletDescription_userContext = WSRPTypesTransformer
-        .getWS1UserContext(getPortletDescription.getUserContext());
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletDescription.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletDescription_portletContext = WSRPTypesTransformer.getWS1PortletContext(getPortletDescription.getPortletContext());
+    org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletDescription_userContext = WSRPTypesTransformer.getWS1UserContext(getPortletDescription.getUserContext());
     java.util.List<java.lang.String> _getPortletDescription_desiredLocales = getPortletDescription.getDesiredLocales();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1PortletDescription> _getPortletDescription_portletDescription = new javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1PortletDescription>();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ResourceList> _getPortletDescription_resourceList = new javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ResourceList>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _getPortletDescription_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
     try {
       portletManagementPort.getPortletDescription(_getPortletDescription_registrationContext,
-          _getPortletDescription_portletContext, _getPortletDescription_userContext,
-          _getPortletDescription_desiredLocales, _getPortletDescription_portletDescription,
-          _getPortletDescription_resourceList, _getPortletDescription_extensions);
+                                                  _getPortletDescription_portletContext,
+                                                  _getPortletDescription_userContext,
+                                                  _getPortletDescription_desiredLocales,
+                                                  _getPortletDescription_portletDescription,
+                                                  _getPortletDescription_resourceList,
+                                                  _getPortletDescription_extensions);
 
       System.out.println("getPortletDescription._getPortletDescription_portletDescription="
           + _getPortletDescription_portletDescription.value);
@@ -140,11 +141,11 @@ public class WSRPV1PortletManagementPortTypeAdapter {
     }
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
-    response.setPortletDescription(WSRPTypesTransformer
-        .getWS2PortletDescription(_getPortletDescription_portletDescription.value));
+    response.setPortletDescription(WSRPTypesTransformer.getWS2PortletDescription(_getPortletDescription_portletDescription.value));
     response.setResourceList(WSRPTypesTransformer.getWS2ResourceList(_getPortletDescription_resourceList.value));
     if (_getPortletDescription_extensions.value != null)
-      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletDescription_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletDescription_extensions.value));
     return response;
 
   }
@@ -161,21 +162,24 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                OperationFailed {
     System.out.println("Invoking clonePortlet...");
 
-    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _clonePortlet_registrationContext = WSRPTypesTransformer
-        .getWS1RegistrationContext(clonePortlet.getRegistrationContext());
-    org.exoplatform.services.wsrp1.type.WS1PortletContext _clonePortlet_portletContext = WSRPTypesTransformer
-        .getWS1PortletContext(clonePortlet.getPortletContext());
-    org.exoplatform.services.wsrp1.type.WS1UserContext _clonePortlet_userContext = WSRPTypesTransformer
-        .getWS1UserContext(clonePortlet.getUserContext());
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _clonePortlet_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(clonePortlet.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1PortletContext _clonePortlet_portletContext = WSRPTypesTransformer.getWS1PortletContext(clonePortlet.getPortletContext());
+    org.exoplatform.services.wsrp1.type.WS1UserContext _clonePortlet_userContext = WSRPTypesTransformer.getWS1UserContext(clonePortlet.getUserContext());
     javax.xml.ws.Holder<java.lang.String> _clonePortlet_portletHandle = new javax.xml.ws.Holder<java.lang.String>();
     javax.xml.ws.Holder<byte[]> _clonePortlet_portletState = new javax.xml.ws.Holder<byte[]>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _clonePortlet_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
     try {
-      portletManagementPort.clonePortlet(_clonePortlet_registrationContext, _clonePortlet_portletContext,
-          _clonePortlet_userContext, _clonePortlet_portletHandle, _clonePortlet_portletState, _clonePortlet_extensions);
+      portletManagementPort.clonePortlet(_clonePortlet_registrationContext,
+                                         _clonePortlet_portletContext,
+                                         _clonePortlet_userContext,
+                                         _clonePortlet_portletHandle,
+                                         _clonePortlet_portletState,
+                                         _clonePortlet_extensions);
 
-      System.out.println("clonePortlet._clonePortlet_portletHandle=" + _clonePortlet_portletHandle.value);
-      System.out.println("clonePortlet._clonePortlet_portletState=" + _clonePortlet_portletState.value);
+      System.out.println("clonePortlet._clonePortlet_portletHandle="
+          + _clonePortlet_portletHandle.value);
+      System.out.println("clonePortlet._clonePortlet_portletState="
+          + _clonePortlet_portletState.value);
       System.out.println("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
     } catch (WS1InvalidRegistration e) {
       System.out.println("Expected exception: InvalidRegistration has occurred.");
@@ -204,7 +208,8 @@ public class WSRPV1PortletManagementPortTypeAdapter {
     response.setPortletHandle(_clonePortlet_portletHandle.value);
     response.setPortletState(_clonePortlet_portletState.value);
     if (_clonePortlet_extensions.value != null)
-      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_clonePortlet_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_clonePortlet_extensions.value));
     return response;
 
   }
@@ -218,17 +223,20 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                                  OperationFailed {
 
     System.out.println("Invoking destroyPortlets...");
-    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _destroyPortlets_registrationContext = WSRPTypesTransformer
-        .getWS1RegistrationContext(destroyPortlets.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _destroyPortlets_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(destroyPortlets.getRegistrationContext());
     java.util.List<java.lang.String> _destroyPortlets_portletHandles = destroyPortlets.getPortletHandles();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1DestroyFailed>> _destroyPortlets_destroyFailed = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1DestroyFailed>>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _destroyPortlets_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
     try {
-      portletManagementPort.destroyPortlets(_destroyPortlets_registrationContext, _destroyPortlets_portletHandles,
-          _destroyPortlets_destroyFailed, _destroyPortlets_extensions);
+      portletManagementPort.destroyPortlets(_destroyPortlets_registrationContext,
+                                            _destroyPortlets_portletHandles,
+                                            _destroyPortlets_destroyFailed,
+                                            _destroyPortlets_extensions);
 
-      System.out.println("destroyPortlets._destroyPortlets_destroyFailed=" + _destroyPortlets_destroyFailed.value);
-      System.out.println("destroyPortlets._destroyPortlets_extensions=" + _destroyPortlets_extensions.value);
+      System.out.println("destroyPortlets._destroyPortlets_destroyFailed="
+          + _destroyPortlets_destroyFailed.value);
+      System.out.println("destroyPortlets._destroyPortlets_extensions="
+          + _destroyPortlets_extensions.value);
     } catch (WS1InvalidRegistration e) {
       System.out.println("Expected exception: InvalidRegistration has occurred.");
       System.out.println(e.toString());
@@ -245,10 +253,11 @@ public class WSRPV1PortletManagementPortTypeAdapter {
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
     if (_destroyPortlets_destroyFailed.value != null)
-      response.getFailedPortlets().addAll(
-          WSRPTypesTransformer.getWS2FailedPortlets(_destroyPortlets_destroyFailed.value));
+      response.getFailedPortlets()
+              .addAll(WSRPTypesTransformer.getWS2FailedPortlets(_destroyPortlets_destroyFailed.value));
     if (_destroyPortlets_extensions.value != null)
-      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_destroyPortlets_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_destroyPortlets_extensions.value));
     return response;
 
   }
@@ -266,21 +275,21 @@ public class WSRPV1PortletManagementPortTypeAdapter {
 
     System.out.println("Invoking setPortletProperties...");
 
-    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _setPortletProperties_registrationContext = WSRPTypesTransformer
-        .getWS1RegistrationContext(setPortletProperties.getRegistrationContext());
-    org.exoplatform.services.wsrp1.type.WS1PortletContext _setPortletProperties_portletContext = WSRPTypesTransformer
-        .getWS1PortletContext(setPortletProperties.getPortletContext());
-    org.exoplatform.services.wsrp1.type.WS1UserContext _setPortletProperties_userContext = WSRPTypesTransformer
-        .getWS1UserContext(setPortletProperties.getUserContext());
-    org.exoplatform.services.wsrp1.type.WS1PropertyList _setPortletProperties_propertyList = WSRPTypesTransformer
-        .getWS1PropertyList(setPortletProperties.getPropertyList());
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _setPortletProperties_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(setPortletProperties.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1PortletContext _setPortletProperties_portletContext = WSRPTypesTransformer.getWS1PortletContext(setPortletProperties.getPortletContext());
+    org.exoplatform.services.wsrp1.type.WS1UserContext _setPortletProperties_userContext = WSRPTypesTransformer.getWS1UserContext(setPortletProperties.getUserContext());
+    org.exoplatform.services.wsrp1.type.WS1PropertyList _setPortletProperties_propertyList = WSRPTypesTransformer.getWS1PropertyList(setPortletProperties.getPropertyList());
     javax.xml.ws.Holder<java.lang.String> _setPortletProperties_portletHandle = new javax.xml.ws.Holder<java.lang.String>();
     javax.xml.ws.Holder<byte[]> _setPortletProperties_portletState = new javax.xml.ws.Holder<byte[]>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _setPortletProperties_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
     try {
       portletManagementPort.setPortletProperties(_setPortletProperties_registrationContext,
-          _setPortletProperties_portletContext, _setPortletProperties_userContext, _setPortletProperties_propertyList,
-          _setPortletProperties_portletHandle, _setPortletProperties_portletState, _setPortletProperties_extensions);
+                                                 _setPortletProperties_portletContext,
+                                                 _setPortletProperties_userContext,
+                                                 _setPortletProperties_propertyList,
+                                                 _setPortletProperties_portletHandle,
+                                                 _setPortletProperties_portletState,
+                                                 _setPortletProperties_extensions);
 
       System.out.println("setPortletProperties._setPortletProperties_portletHandle="
           + _setPortletProperties_portletHandle.value);
@@ -315,7 +324,8 @@ public class WSRPV1PortletManagementPortTypeAdapter {
     response.setPortletHandle(_setPortletProperties_portletHandle.value);
     response.setPortletState(_setPortletProperties_portletState.value);
     if (_setPortletProperties_extensions.value != null)
-      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_setPortletProperties_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_setPortletProperties_extensions.value));
     return response;
 
   }
@@ -332,20 +342,21 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                                      OperationFailed {
 
     System.out.println("Invoking getPortletProperties...");
-    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletProperties_registrationContext = WSRPTypesTransformer
-        .getWS1RegistrationContext(getPortletProperties.getRegistrationContext());
-    org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletProperties_portletContext = WSRPTypesTransformer
-        .getWS1PortletContext(getPortletProperties.getPortletContext());
-    org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletProperties_userContext = WSRPTypesTransformer
-        .getWS1UserContext(getPortletProperties.getUserContext());
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletProperties_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletProperties.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletProperties_portletContext = WSRPTypesTransformer.getWS1PortletContext(getPortletProperties.getPortletContext());
+    org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletProperties_userContext = WSRPTypesTransformer.getWS1UserContext(getPortletProperties.getUserContext());
     java.util.List<java.lang.String> _getPortletProperties_names = getPortletProperties.getNames();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Property>> _getPortletProperties_properties = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Property>>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1ResetProperty>> _getPortletProperties_resetProperties = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1ResetProperty>>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _getPortletProperties_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
     try {
       portletManagementPort.getPortletProperties(_getPortletProperties_registrationContext,
-          _getPortletProperties_portletContext, _getPortletProperties_userContext, _getPortletProperties_names,
-          _getPortletProperties_properties, _getPortletProperties_resetProperties, _getPortletProperties_extensions);
+                                                 _getPortletProperties_portletContext,
+                                                 _getPortletProperties_userContext,
+                                                 _getPortletProperties_names,
+                                                 _getPortletProperties_properties,
+                                                 _getPortletProperties_resetProperties,
+                                                 _getPortletProperties_extensions);
 
       System.out.println("getPortletProperties._getPortletProperties_properties="
           + _getPortletProperties_properties.value);
@@ -378,12 +389,14 @@ public class WSRPV1PortletManagementPortTypeAdapter {
 
     PropertyList response = new PropertyList();
     if (_getPortletProperties_properties.value != null)
-      response.getProperties().addAll(WSRPTypesTransformer.getWS2Properties(_getPortletProperties_properties.value));
+      response.getProperties()
+              .addAll(WSRPTypesTransformer.getWS2Properties(_getPortletProperties_properties.value));
     if (_getPortletProperties_resetProperties.value != null)
-      response.getResetProperties().addAll(
-          WSRPTypesTransformer.getWS2ResetProperties(_getPortletProperties_resetProperties.value));
+      response.getResetProperties()
+              .addAll(WSRPTypesTransformer.getWS2ResetProperties(_getPortletProperties_resetProperties.value));
     if (_getPortletProperties_extensions.value != null)
-      response.getExtensions().addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletProperties_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletProperties_extensions.value));
     return response;
 
   }
@@ -400,23 +413,22 @@ public class WSRPV1PortletManagementPortTypeAdapter {
                                                                                                                                       OperationFailed {
 
     System.out.println("Invoking getPortletPropertyDescription...");
-    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletPropertyDescription_registrationContext = WSRPTypesTransformer
-        .getWS1RegistrationContext(getPortletPropertyDescription.getRegistrationContext());
-    org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletPropertyDescription_portletContext = WSRPTypesTransformer
-        .getWS1PortletContext(getPortletPropertyDescription.getPortletContext());
-    org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletPropertyDescription_userContext = WSRPTypesTransformer
-        .getWS1UserContext(getPortletPropertyDescription.getUserContext());
+    org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletPropertyDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletPropertyDescription.getRegistrationContext());
+    org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletPropertyDescription_portletContext = WSRPTypesTransformer.getWS1PortletContext(getPortletPropertyDescription.getPortletContext());
+    org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletPropertyDescription_userContext = WSRPTypesTransformer.getWS1UserContext(getPortletPropertyDescription.getUserContext());
 
-    java.util.List<java.lang.String> _getPortletPropertyDescription_desiredLocales = getPortletPropertyDescription
-        .getDesiredLocales();
+    java.util.List<java.lang.String> _getPortletPropertyDescription_desiredLocales = getPortletPropertyDescription.getDesiredLocales();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ModelDescription> _getPortletPropertyDescription_modelDescription = new javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ModelDescription>();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ResourceList> _getPortletPropertyDescription_resourceList = new javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ResourceList>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _getPortletPropertyDescription_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
     try {
       portletManagementPort.getPortletPropertyDescription(_getPortletPropertyDescription_registrationContext,
-          _getPortletPropertyDescription_portletContext, _getPortletPropertyDescription_userContext,
-          _getPortletPropertyDescription_desiredLocales, _getPortletPropertyDescription_modelDescription,
-          _getPortletPropertyDescription_resourceList, _getPortletPropertyDescription_extensions);
+                                                          _getPortletPropertyDescription_portletContext,
+                                                          _getPortletPropertyDescription_userContext,
+                                                          _getPortletPropertyDescription_desiredLocales,
+                                                          _getPortletPropertyDescription_modelDescription,
+                                                          _getPortletPropertyDescription_resourceList,
+                                                          _getPortletPropertyDescription_extensions);
 
       System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
           + _getPortletPropertyDescription_modelDescription.value);
@@ -448,13 +460,11 @@ public class WSRPV1PortletManagementPortTypeAdapter {
     }
 
     PortletPropertyDescriptionResponse response = new PortletPropertyDescriptionResponse();
-    response.setModelDescription(WSRPTypesTransformer
-        .getWS2ModelDescription(_getPortletPropertyDescription_modelDescription.value));
-    response
-        .setResourceList(WSRPTypesTransformer.getWS2ResourceList(_getPortletPropertyDescription_resourceList.value));
+    response.setModelDescription(WSRPTypesTransformer.getWS2ModelDescription(_getPortletPropertyDescription_modelDescription.value));
+    response.setResourceList(WSRPTypesTransformer.getWS2ResourceList(_getPortletPropertyDescription_resourceList.value));
     if (_getPortletPropertyDescription_extensions.value != null)
-      response.getExtensions().addAll(
-          WSRPTypesTransformer.getWS2Extensions(_getPortletPropertyDescription_extensions.value));
+      response.getExtensions()
+              .addAll(WSRPTypesTransformer.getWS2Extensions(_getPortletPropertyDescription_extensions.value));
     return response;
 
   }

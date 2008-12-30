@@ -236,6 +236,7 @@
         <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />
         <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService" />
         <property name="description" value="" />
+        <property name="version" value="2" />
       </properties-param>
     </init-params>
   </component>
