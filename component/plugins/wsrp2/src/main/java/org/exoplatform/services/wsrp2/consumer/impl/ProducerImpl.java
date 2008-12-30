@@ -88,6 +88,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   public ProducerImpl(ExoContainer container, String producerURL) {
 //    this.desiredLocales = new ArrayList<String>();
+    // в конструктор передавать версию продюсера из формы регистрации
     if (producerURL != null)
       init(container, producerURL);
   }
@@ -99,7 +100,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
       String producerId = "producer2" + Integer.toString(producerURL.hashCode());
       this.ID = producerId;
 
-      WSRPService service = new WSRPService(this.url);//(WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
+      WSRPService service = new WSRPService(this.url);
 
       createAdapters(service, container);
 
