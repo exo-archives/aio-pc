@@ -215,7 +215,7 @@ public class BaseTest extends TestCase {
     register.setRegistrationData(registrationData);
     register.setUserContext(userContext);
 
-    producer = new ProducerImpl(container, null);//"http://www.example.org/"
+    producer = new ProducerImpl(container, null, 2);//"http://www.example.org/"
     producer.setID(PRODUCER_ID);
     producer.setDescription(PRODUCER_DESCRIPTION);
     producer.setName(PRODUCER_NAME);
@@ -231,7 +231,7 @@ public class BaseTest extends TestCase {
     System.out.println(">>> BaseTest.setUp() service = " + service); 
     System.out.println(">>> BaseTest.setUp() container = " + container);
 
-    producer.createAdapters2(service, container);
+    producer.createAdapters(service, container);
 
     producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapterAPI(service.getWSRPV2ServiceDescriptionService()));
     producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapterAPI(service.getWSRPV2MarkupService()));

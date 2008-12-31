@@ -3,6 +3,7 @@ package org.exoplatform.services.wsrp2.consumer;
 import java.net.URL;
 import java.util.List;
 
+import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
@@ -261,5 +262,9 @@ public interface Producer {
   public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapterAPI registrationAdapter);
 
   public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapterAPI portletManagementAdapter);
+
+  public void init(ExoContainer container, String producerURL);
+
+  public void createAdapters(javax.xml.ws.Service service, ExoContainer container);
 
 }

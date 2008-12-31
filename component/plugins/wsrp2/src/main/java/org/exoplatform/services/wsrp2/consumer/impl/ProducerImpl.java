@@ -68,11 +68,11 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 
 public class ProducerImpl implements Producer, java.io.Serializable {
 
-  private String                                          name;
+  private String                                             name;
 
-  private String                                          ID;
+  private String                                             ID;
 
-  private String                                          description;
+  private String                                             description;
 
   private transient WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter;
 
@@ -82,71 +82,75 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   private transient WSRPRegistrationPortTypeAdapterAPI       registrationAdapter;
 
-  private ServiceDescription                              serviceDescription;
+  private ServiceDescription                                 serviceDescription;
 
-  private RegistrationData                                registrationData;
+  private RegistrationData                                   registrationData;
 
-  private RegistrationContext                             registrationContext;
+  private RegistrationContext                                registrationContext;
 
-  private List<String>                                    desiredLocales = new ArrayList<String>();
+  private List<String>                                       desiredLocales = new ArrayList<String>();
 
-  private static final Log                                LOG            = ExoLogger.getLogger(ProducerImpl.class);
+  private URL                                                url;
 
-  private URL                                             url;
+  private int                                                version        = 2;
 
-  private int                                             version        = 2;
+//  private String                                             producerURL;
 
-  public ProducerImpl(ExoContainer container, String producerURL, int version) {
+  private ExoContainer                                       container;
+
+  private static final Log                                   LOG            = ExoLogger.getLogger(ProducerImpl.class);
+
+  public ProducerImpl(ExoContainer container, String producerURL, Integer version) {
 //    this.desiredLocales = new ArrayList<String>();
-    // в конструктор передавать версию продюсера из формы регистрации
-    setVersion(version);
-    if (producerURL != null)
-      init(container, producerURL);
+    this.container = container;
+    this.url = initProducerURL(producerURL);
+    if (version != null)
+      setVersion(version);
+    init();
   }
 
+  /**
+   * Usefull for ProducerRegistryImpl.loadProducers()
+   */
   public void init(ExoContainer container, String producerURL) {
+    this.container = container;
+    this.url = initProducerURL(producerURL);
+    init();
+  }
+
+  private void init() {
+    if (this.url == null)
+      return;
     if (this.version == 1)
-      init1(container, producerURL);
+      init1();
     else
-      init2(container, producerURL);
+      init2();
   }
 
-  public void init1(ExoContainer container, String producerURL) {
-//  this.cont = cont;
-    try {
-      this.url = new URL(producerURL);
-      String producerId = "producer1" + Integer.toString(producerURL.hashCode());
-      this.ID = producerId;
-
-      org.exoplatform.services.wsrp1.intf.WSRPService service = new org.exoplatform.services.wsrp1.intf.WSRPService(this.url);
-
-      createAdapters1(service, container);
-
-    } catch (MalformedURLException e) {
-      LOG.error("Exception eithin ProducerImpl.init() while creating producer url:'" + producerURL
-          + "'", e);
-    }
+  private void init1() {
+    this.ID = "producer1" + Integer.toString(this.url.toExternalForm().hashCode());
+    org.exoplatform.services.wsrp1.intf.WSRPService service = new org.exoplatform.services.wsrp1.intf.WSRPService(this.url);
+    createAdapters1(service);
   }
 
-  public void init2(ExoContainer container, String producerURL) {
-//    this.cont = cont;
-    try {
-      this.url = new URL(producerURL);
-      String producerId = "producer2" + Integer.toString(producerURL.hashCode());
-      this.ID = producerId;
-
-      WSRPService service = new WSRPService(this.url);
-
-      createAdapters2(service, container);
-
-    } catch (MalformedURLException e) {
-      LOG.error("Exception eithin ProducerImpl.init() while creating producer url:'" + producerURL
-          + "'", e);
-    }
+  private void init2() {
+    this.ID = "producer2" + Integer.toString(this.url.toExternalForm().hashCode());
+    WSRPService service = new WSRPService(this.url);
+    createAdapters2(service);
   }
 
-  public void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService service,
-                              ExoContainer container) {
+  /**
+   * Usefull for BaseTest.setUp()
+   */
+  public void createAdapters(javax.xml.ws.Service service, ExoContainer container) {
+    this.container = container;
+    if (this.version == 1)
+      createAdapters1((org.exoplatform.services.wsrp1.intf.WSRPService) service);
+    else
+      createAdapters2((WSRPService) service);
+  }
+
+  private void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService service) {
     container.registerComponentInstance(this.ID, service);
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
@@ -156,7 +160,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     this.portletManagementAdapter = new WSRPV1PortletManagementPortTypeAdapter(service.getWSRPPortletManagementService());
   }
 
-  public void createAdapters2(WSRPService service, ExoContainer container) {
+  private void createAdapters2(WSRPService service) {
     container.registerComponentInstance(this.ID, service);
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
@@ -392,6 +396,18 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapterAPI portletManagementAdapter) {
     this.portletManagementAdapter = portletManagementAdapter;
+  }
+
+  private URL initProducerURL(String producerURL) {
+    if (producerURL == null || "".equalsIgnoreCase(producerURL))
+      return null;
+    try {
+      return new URL(producerURL);
+    } catch (MalformedURLException e) {
+      LOG.error("Exception within ProducerImpl.init() while creating producer url:'" + producerURL
+          + "'", e);
+      return null;
+    }
   }
 
 }
