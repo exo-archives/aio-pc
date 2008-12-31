@@ -30,7 +30,7 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public interface WSRPServiceDescriptionPortTypeAdapter {
+public interface WSRPServiceDescriptionPortTypeAdapterAPI {
 
   public ServiceDescription getServiceDescription(GetServiceDescription serviceDescription) throws ResourceSuspended,
                                                                                            InvalidRegistration,

@@ -41,7 +41,7 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public interface WSRPRegistrationPortTypeAdapter {
+public interface WSRPRegistrationPortTypeAdapterAPI {
 
   public RegistrationContext register(Register register) throws OperationNotSupported,
                                                         MissingParameters,

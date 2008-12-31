@@ -61,7 +61,7 @@ import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public interface WSRPPortletManagementPortTypeAdapter {
+public interface WSRPPortletManagementPortTypeAdapterAPI {
 
   public PortletDescriptionResponse getPortletDescription(GetPortletDescription getPortletDescription) throws OperationNotSupported,
                                                                                                       AccessDenied,

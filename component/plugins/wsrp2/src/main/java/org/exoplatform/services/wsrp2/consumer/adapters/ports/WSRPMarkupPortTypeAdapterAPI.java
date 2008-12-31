@@ -52,7 +52,7 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public interface WSRPMarkupPortTypeAdapter {
+public interface WSRPMarkupPortTypeAdapterAPI {
 
   public MarkupResponse getMarkup(GetMarkup getMarkup) throws AccessDenied,
                                                       ResourceSuspended,
