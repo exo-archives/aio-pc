@@ -109,8 +109,8 @@
                 <taskdef resource="emma_ant.properties" classpathref="maven.dependency.classpath" />
                 <emma enabled="true">
                   <!-- merged file will be rewritted by last project -->
-                  <merge outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/coverage.es">
-                    <fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/">
+                  <merge outfile="${exo.projects.directory.src}/portlet-container/trunk/target/coverage.es">
+                    <fileset dir="${exo.projects.directory.src}/portlet-container/trunk/">
                       <include name="**/target/emma/*.e*" />
                       <include name="**/target/emma/*.e*" />
                     </fileset>
@@ -119,15 +119,15 @@
                   </merge>
                   <report>
                     <sourcepath>
-                      <dirset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/">
+                      <dirset dir="${exo.projects.directory.src}/portlet-container/trunk/">
                         <include name="**/src/**/java" />
                       </dirset>
                     </sourcepath>
-                    <fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/">
+                    <fileset dir="${exo.projects.directory.src}/portlet-container/trunk/target/">
                       <include name="*.es" />
                     </fileset>
-                    <html outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/coverage.html" />
-                    <xml outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/coverage.xml" />
+                    <html outfile="${exo.projects.directory.src}/portlet-container/trunk/target/coverage.html" />
+                    <xml outfile="${exo.projects.directory.src}/portlet-container/trunk/target/coverage.xml" />
                   </report>
                 </emma>
               </tasks>
