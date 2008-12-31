@@ -43,10 +43,10 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsH
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
 import org.exoplatform.services.wsrp2.bind2.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2MarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2PortletManagementPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2RegistrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
@@ -113,13 +113,13 @@ public class BaseTest extends TestCase {
 
   protected Collection                              roles;
 
-  protected WSRPV2ServiceDescriptionPortTypeAdapter serviceDescriptionInterface;
+  protected WSRPV2ServiceDescriptionPortTypeAdapterAPI serviceDescriptionInterface;
 
-  protected WSRPV2RegistrationPortTypeAdapter       registrationOperationsInterface;
+  protected WSRPV2RegistrationPortTypeAdapterAPI       registrationOperationsInterface;
 
-  protected WSRPV2MarkupPortTypeAdapter             markupOperationsInterface;
+  protected WSRPV2MarkupPortTypeAdapterAPI             markupOperationsInterface;
 
-  protected WSRPV2PortletManagementPortTypeAdapter  portletManagementOperationsInterface;
+  protected WSRPV2PortletManagementPortTypeAdapterAPI  portletManagementOperationsInterface;
 
   protected PersonName                              personName;
 
@@ -244,10 +244,10 @@ public class BaseTest extends TestCase {
     if (container.getComponentInstance(producerId) == null)
       container.registerComponentInstance(producerId, service);
 
-    this.serviceDescriptionInterface = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
-    this.markupOperationsInterface = new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService());
-    this.registrationOperationsInterface = new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService());
-    this.portletManagementOperationsInterface = new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService());
+    this.serviceDescriptionInterface = new WSRPV2ServiceDescriptionPortTypeAdapterAPI(service.getWSRPV2ServiceDescriptionService());
+    this.markupOperationsInterface = new WSRPV2MarkupPortTypeAdapterAPI(service.getWSRPV2MarkupService());
+    this.registrationOperationsInterface = new WSRPV2RegistrationPortTypeAdapterAPI(service.getWSRPV2RegistrationService());
+    this.portletManagementOperationsInterface = new WSRPV2PortletManagementPortTypeAdapterAPI(service.getWSRPV2PortletManagementService());
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
