@@ -29,18 +29,18 @@ import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports1.WSRPV1MarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports1.WSRPV1PortletManagementPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports1.WSRPV1RegistrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports1.WSRPV1ServiceDescriptionPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2MarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2PortletManagementPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2RegistrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2MarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2PortletManagementPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2RegistrationPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2ServiceDescriptionPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.Deregister;
@@ -74,13 +74,13 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   private String                                          description;
 
-  private transient WSRPServiceDescriptionPortTypeAdapter serviceDescriptionAdapter;
+  private transient WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter;
 
-  private transient WSRPMarkupPortTypeAdapter             markupAdapter;
+  private transient WSRPMarkupPortTypeAdapterAPI             markupAdapter;
 
-  private transient WSRPPortletManagementPortTypeAdapter  portletManagementAdapter;
+  private transient WSRPPortletManagementPortTypeAdapterAPI  portletManagementAdapter;
 
-  private transient WSRPRegistrationPortTypeAdapter       registrationAdapter;
+  private transient WSRPRegistrationPortTypeAdapterAPI       registrationAdapter;
 
   private ServiceDescription                              serviceDescription;
 
@@ -160,10 +160,10 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     container.registerComponentInstance(this.ID, service);
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
-    this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
-    this.markupAdapter = new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService());
-    this.registrationAdapter = new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService());
-    this.portletManagementAdapter = new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService());
+    this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapterAPI(service.getWSRPV2ServiceDescriptionService());
+    this.markupAdapter = new WSRPV2MarkupPortTypeAdapterAPI(service.getWSRPV2MarkupService());
+    this.registrationAdapter = new WSRPV2RegistrationPortTypeAdapterAPI(service.getWSRPV2RegistrationService());
+    this.portletManagementAdapter = new WSRPV2PortletManagementPortTypeAdapterAPI(service.getWSRPV2PortletManagementService());
   }
 
   public int getVersion() {
@@ -215,7 +215,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     this.description = description;
   }
 
-  public WSRPServiceDescriptionPortTypeAdapter getServiceDescriptionAdapter() {
+  public WSRPServiceDescriptionPortTypeAdapterAPI getServiceDescriptionAdapter() {
     return serviceDescriptionAdapter;
   }
 
@@ -268,11 +268,11 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     return getServiceDescription;
   }
 
-  public WSRPMarkupPortTypeAdapter getMarkupAdapter() {
+  public WSRPMarkupPortTypeAdapterAPI getMarkupAdapter() {
     return markupAdapter;
   }
 
-  public WSRPPortletManagementPortTypeAdapter getPortletManagementAdapter() {
+  public WSRPPortletManagementPortTypeAdapterAPI getPortletManagementAdapter() {
     return portletManagementAdapter;
   }
 
@@ -287,7 +287,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     }
   }
 
-  public WSRPRegistrationPortTypeAdapter getRegistrationAdapter() {
+  public WSRPRegistrationPortTypeAdapterAPI getRegistrationAdapter() {
     return registrationAdapter;
   }
 
@@ -378,19 +378,19 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     return url;
   }
 
-  public void setServiceDescriptionAdapter(WSRPServiceDescriptionPortTypeAdapter serviceDescriptionAdapter) {
+  public void setServiceDescriptionAdapter(WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter) {
     this.serviceDescriptionAdapter = serviceDescriptionAdapter;
   }
 
-  public void setMarkupAdapter(WSRPMarkupPortTypeAdapter markupAdapter) {
+  public void setMarkupAdapter(WSRPMarkupPortTypeAdapterAPI markupAdapter) {
     this.markupAdapter = markupAdapter;
   }
 
-  public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapter registrationAdapter) {
+  public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapterAPI registrationAdapter) {
     this.registrationAdapter = registrationAdapter;
   }
 
-  public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapter portletManagementAdapter) {
+  public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapterAPI portletManagementAdapter) {
     this.portletManagementAdapter = portletManagementAdapter;
   }
 

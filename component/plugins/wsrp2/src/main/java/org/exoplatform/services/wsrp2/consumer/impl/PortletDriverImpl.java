@@ -39,8 +39,8 @@ import org.exoplatform.services.wsrp2.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp2.consumer.WSRPMarkupRequest;
 import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp2.consumer.WSRPResourceRequest;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2MarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports2.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.ClientData;
@@ -93,9 +93,9 @@ public class PortletDriverImpl implements PortletDriver {
 
   private WSRPPortlet                            portlet               = null;
 
-  private WSRPV2MarkupPortTypeAdapter            markupPort            = null;
+  private WSRPMarkupPortTypeAdapterAPI            markupPort            = null;
 
-  private WSRPV2PortletManagementPortTypeAdapter portletManagementPort = null;
+  private WSRPPortletManagementPortTypeAdapterAPI portletManagementPort = null;
 
   private ConsumerEnvironment                    consumer              = null;
 

@@ -3,10 +3,10 @@ package org.exoplatform.services.wsrp2.consumer;
 import java.net.URL;
 import java.util.List;
 
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
@@ -103,7 +103,7 @@ public interface Producer {
    * 
    * @return service description Adapter.
    */
-  public WSRPServiceDescriptionPortTypeAdapter getServiceDescriptionAdapter();
+  public WSRPServiceDescriptionPortTypeAdapterAPI getServiceDescriptionAdapter();
 
   /**
    * Get the URL of the producers markup Adapter.
@@ -111,7 +111,7 @@ public interface Producer {
    * @return URL of the markup Adapter.
    */
 //  public String getMarkupAdapterEndpoint();
-  public WSRPMarkupPortTypeAdapter getMarkupAdapter();
+  public WSRPMarkupPortTypeAdapterAPI getMarkupAdapter();
 
   /**
    * Set the URL of the producers markup Adapter.
@@ -136,7 +136,7 @@ public interface Producer {
    * 
    * @return portlet management Adapter.
    */
-  public WSRPPortletManagementPortTypeAdapter getPortletManagementAdapter();
+  public WSRPPortletManagementPortTypeAdapterAPI getPortletManagementAdapter();
 
   /**
    * Get the URL of the producers registration Adapter.
@@ -153,7 +153,7 @@ public interface Producer {
    * 
    * @return registration Adapter.
    */
-  public WSRPRegistrationPortTypeAdapter getRegistrationAdapter();
+  public WSRPRegistrationPortTypeAdapterAPI getRegistrationAdapter();
 
   /**
    * Indicates wether or not the producer requires consumer registration.
@@ -254,12 +254,12 @@ public interface Producer {
    */
   public URL getUrl();
 
-  public void setServiceDescriptionAdapter(WSRPServiceDescriptionPortTypeAdapter serviceDescriptionAdapter);
+  public void setServiceDescriptionAdapter(WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter);
 
-  public void setMarkupAdapter(WSRPMarkupPortTypeAdapter markupAdapter);
+  public void setMarkupAdapter(WSRPMarkupPortTypeAdapterAPI markupAdapter);
 
-  public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapter registrationAdapter);
+  public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapterAPI registrationAdapter);
 
-  public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapter portletManagementAdapter);
+  public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapterAPI portletManagementAdapter);
 
 }

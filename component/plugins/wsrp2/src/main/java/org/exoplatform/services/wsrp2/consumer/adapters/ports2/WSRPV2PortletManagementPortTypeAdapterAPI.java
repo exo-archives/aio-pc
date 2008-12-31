@@ -65,13 +65,13 @@ import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManagementPortTypeAdapterAPI {
+public class WSRPV2PortletManagementPortTypeAdapterAPI implements WSRPPortletManagementPortTypeAdapterAPI {
 
   private WSRPV2PortletManagementPortType portletManagementPort;
 
-  private static final Log                LOG = ExoLogger.getLogger(WSRPV2PortletManagementPortTypeAdapter.class);
+  private static final Log                LOG = ExoLogger.getLogger(WSRPV2PortletManagementPortTypeAdapterAPI.class);
 
-  public WSRPV2PortletManagementPortTypeAdapter(WSRPV2PortletManagementPortType portletManagementPort) {
+  public WSRPV2PortletManagementPortTypeAdapterAPI(WSRPV2PortletManagementPortType portletManagementPort) {
     this.portletManagementPort = portletManagementPort;
   }
 
