@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports2;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
@@ -45,7 +45,7 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTypeAdapter {
+public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTypeAdapterAPI {
 
   private WSRPV2RegistrationPortType registrationPort;
 

@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports2;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
 import org.exoplatform.services.wsrp2.intf.ExportNoLongerValid;
@@ -65,7 +65,7 @@ import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManagementPortTypeAdapter {
+public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManagementPortTypeAdapterAPI {
 
   private WSRPV2PortletManagementPortType portletManagementPort;
 

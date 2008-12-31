@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports2;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
@@ -56,7 +56,7 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapter {
+public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI {
 
   private WSRPV2MarkupPortType markupPort;
 
