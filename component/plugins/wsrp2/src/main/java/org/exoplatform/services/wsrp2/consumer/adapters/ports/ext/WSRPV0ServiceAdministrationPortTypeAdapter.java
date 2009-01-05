@@ -14,13 +14,14 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp2.bind.extensions;
+package org.exoplatform.services.wsrp2.consumer.adapters.ports.ext;
 
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.bind.extensions.WSRPV0ServiceAdministrationPortType;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
