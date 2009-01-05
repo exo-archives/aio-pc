@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.bind1.extensions;
+package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.rmi.RemoteException;
 import java.util.Map;
@@ -25,8 +25,9 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.bind2.extensions.ServiceAdministration;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
-import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
+import org.exoplatform.services.wsrp2.producer.ServiceAdministrationInterface;
 
 /**
  */

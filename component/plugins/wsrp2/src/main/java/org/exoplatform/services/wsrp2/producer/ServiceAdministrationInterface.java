@@ -15,9 +15,11 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.bind2.extensions;
+package org.exoplatform.services.wsrp2.producer;
 
 import java.util.Map;
+
+import org.exoplatform.services.wsrp2.bind2.extensions.ServiceAdministration;
 
 /**
  */

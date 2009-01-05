@@ -6,6 +6,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
+import org.exoplatform.services.wsrp2.producer.ServiceAdministrationInterface;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**

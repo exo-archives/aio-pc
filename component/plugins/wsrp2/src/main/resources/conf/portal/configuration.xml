@@ -136,7 +136,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.bind2.extensions.ServiceAdministrationInterfaceImpl</type>
+    <type>org.exoplatform.services.wsrp2.producer.impl.ServiceAdministrationInterfaceImpl</type>
   </component>
 
   <component>
