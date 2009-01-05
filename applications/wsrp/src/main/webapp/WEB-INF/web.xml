@@ -5,7 +5,7 @@
 
   <filter>
     <filter-name>WSRPFilter</filter-name>
-    <filter-class>org.exoplatform.services.wsrp.filter.WSRPFilter</filter-class>
+    <filter-class>org.exoplatform.services.wsrp2.filter.WSRPFilter</filter-class>
     <init-param>
       <param-name>portal-container-name</param-name>
       <param-value>portal</param-value>
