@@ -56,13 +56,13 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2MarkupPortTypeAdapterAPI implements WSRPMarkupPortTypeAdapterAPI {
+public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI {
 
   private WSRPV2MarkupPortType markupPort;
 
-  private static final Log     LOG = ExoLogger.getLogger(WSRPV2MarkupPortTypeAdapterAPI.class);
+  private static final Log     LOG = ExoLogger.getLogger(WSRPV2MarkupPortTypeAdapter.class);
 
-  public WSRPV2MarkupPortTypeAdapterAPI(WSRPV2MarkupPortType markupPort) {
+  public WSRPV2MarkupPortTypeAdapter(WSRPV2MarkupPortType markupPort) {
     this.markupPort = markupPort;
   }
 

@@ -34,14 +34,14 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2ServiceDescriptionPortTypeAdapterAPI implements
+public class WSRPV2ServiceDescriptionPortTypeAdapter implements
     WSRPServiceDescriptionPortTypeAdapterAPI {
 
   private WSRPV2ServiceDescriptionPortType serviceDescriptionPort;
 
-  private static final Log                 LOG = ExoLogger.getLogger(WSRPV2ServiceDescriptionPortTypeAdapterAPI.class);
+  private static final Log                 LOG = ExoLogger.getLogger(WSRPV2ServiceDescriptionPortTypeAdapter.class);
 
-  public WSRPV2ServiceDescriptionPortTypeAdapterAPI(WSRPV2ServiceDescriptionPortType serviceDescriptionPort) {
+  public WSRPV2ServiceDescriptionPortTypeAdapter(WSRPV2ServiceDescriptionPortType serviceDescriptionPort) {
     this.serviceDescriptionPort = serviceDescriptionPort;
   }
 

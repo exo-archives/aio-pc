@@ -37,10 +37,10 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1MarkupPor
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1PortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1RegistrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1ServiceDescriptionPortTypeAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.Deregister;
@@ -94,63 +94,56 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   private int                                                version        = 2;
 
-//  private String                                             producerURL;
-
-  private ExoContainer                                       container;
-
   private static final Log                                   LOG            = ExoLogger.getLogger(ProducerImpl.class);
 
   public ProducerImpl(ExoContainer container, String producerURL, Integer version) {
 //    this.desiredLocales = new ArrayList<String>();
-    this.container = container;
     this.url = initProducerURL(producerURL);
     if (version != null)
       setVersion(version);
-    init();
+    init(container);
   }
 
   /**
    * Usefull for ProducerRegistryImpl.loadProducers()
    */
   public void init(ExoContainer container, String producerURL) {
-    this.container = container;
     this.url = initProducerURL(producerURL);
-    init();
+    init(container);
   }
 
-  private void init() {
+  private void init(ExoContainer container) {
     if (this.url == null)
       return;
     if (this.version == 1)
-      init1();
+      init1(container);
     else
-      init2();
+      init2(container);
   }
 
-  private void init1() {
+  private void init1(ExoContainer container) {
     this.ID = "producer1" + Integer.toString(this.url.toExternalForm().hashCode());
     org.exoplatform.services.wsrp1.intf.WSRPService service = new org.exoplatform.services.wsrp1.intf.WSRPService(this.url);
-    createAdapters1(service);
+    createAdapters1(service, container);
   }
 
-  private void init2() {
+  private void init2(ExoContainer container) {
     this.ID = "producer2" + Integer.toString(this.url.toExternalForm().hashCode());
     WSRPService service = new WSRPService(this.url);
-    createAdapters2(service);
+    createAdapters2(service, container);
   }
 
   /**
    * Usefull for BaseTest.setUp()
    */
   public void createAdapters(javax.xml.ws.Service service, ExoContainer container) {
-    this.container = container;
     if (this.version == 1)
-      createAdapters1((org.exoplatform.services.wsrp1.intf.WSRPService) service);
+      createAdapters1((org.exoplatform.services.wsrp1.intf.WSRPService) service, container);
     else
-      createAdapters2((WSRPService) service);
+      createAdapters2((WSRPService) service, container);
   }
 
-  private void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService service) {
+  private void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService service, ExoContainer container) {
     container.registerComponentInstance(this.ID, service);
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
@@ -160,14 +153,14 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     this.portletManagementAdapter = new WSRPV1PortletManagementPortTypeAdapter(service.getWSRPPortletManagementService());
   }
 
-  private void createAdapters2(WSRPService service) {
+  private void createAdapters2(WSRPService service, ExoContainer container) {
     container.registerComponentInstance(this.ID, service);
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
-    this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapterAPI(service.getWSRPV2ServiceDescriptionService());
-    this.markupAdapter = new WSRPV2MarkupPortTypeAdapterAPI(service.getWSRPV2MarkupService());
-    this.registrationAdapter = new WSRPV2RegistrationPortTypeAdapterAPI(service.getWSRPV2RegistrationService());
-    this.portletManagementAdapter = new WSRPV2PortletManagementPortTypeAdapterAPI(service.getWSRPV2PortletManagementService());
+    this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
+    this.markupAdapter = new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService());
+    this.registrationAdapter = new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService());
+    this.portletManagementAdapter = new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService());
   }
 
   public int getVersion() {

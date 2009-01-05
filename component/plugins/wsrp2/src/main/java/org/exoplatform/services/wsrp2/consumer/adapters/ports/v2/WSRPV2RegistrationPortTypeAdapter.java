@@ -45,13 +45,13 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV2RegistrationPortTypeAdapterAPI implements WSRPRegistrationPortTypeAdapterAPI {
+public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTypeAdapterAPI {
 
   private WSRPV2RegistrationPortType registrationPort;
 
-  private static final Log           LOG = ExoLogger.getLogger(WSRPV2RegistrationPortTypeAdapterAPI.class);
+  private static final Log           LOG = ExoLogger.getLogger(WSRPV2RegistrationPortTypeAdapter.class);
 
-  public WSRPV2RegistrationPortTypeAdapterAPI(WSRPV2RegistrationPortType registrationPort) {
+  public WSRPV2RegistrationPortTypeAdapter(WSRPV2RegistrationPortType registrationPort) {
     this.registrationPort = registrationPort;
   }
 

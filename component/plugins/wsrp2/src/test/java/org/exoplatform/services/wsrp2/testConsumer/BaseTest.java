@@ -51,10 +51,10 @@ import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp2.consumer.adapters.PortletKeyAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.UserAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.WSRPPortletAdapter;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
 import org.exoplatform.services.wsrp2.mocks.MockWSRPService;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
@@ -233,10 +233,10 @@ public class BaseTest extends TestCase {
 
     producer.createAdapters(service, container);
 
-    producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapterAPI(service.getWSRPV2ServiceDescriptionService()));
-    producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapterAPI(service.getWSRPV2MarkupService()));
-    producer.setRegistrationAdapter(new WSRPV2RegistrationPortTypeAdapterAPI(service.getWSRPV2RegistrationService()));
-    producer.setPortletManagementAdapter(new WSRPV2PortletManagementPortTypeAdapterAPI(service.getWSRPV2PortletManagementService()));
+    producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService()));
+    producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService()));
+    producer.setRegistrationAdapter(new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService()));
+    producer.setPortletManagementAdapter(new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService()));
 
 //    producer.setMarkupInterfaceEndpoint(PRODUCER_MARKUP_INTERFACE_ENDPOINT);
 //    producer.setPortletManagementInterfaceEndpoint(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT);

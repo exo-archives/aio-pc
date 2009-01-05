@@ -102,7 +102,7 @@
     <dependency>
       <groupId>org.exoplatform.ws</groupId>
       <artifactId>exo.ws.soap.cxf.jsr181</artifactId>
-      <version>trunk</version>
+      <version>${org.exoplatform.ws.version}</version>
       <exclusions>
         <exclusion>
           <groupId>org.apache.cxf</groupId>
@@ -249,7 +249,7 @@
   <build>
 
     <!-- <sourceDirectory>src/nosources</sourceDirectory> -->
-    <!-- <testSourceDirectory>src/notest</testSourceDirectory> -->
+     <testSourceDirectory>src/notest</testSourceDirectory> 
 
     <resources>
       <resource>

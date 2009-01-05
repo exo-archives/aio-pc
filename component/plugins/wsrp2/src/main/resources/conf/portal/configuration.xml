@@ -241,7 +241,7 @@
     </init-params>
   </component>
 
-  <!-- Services for the SOAP WebService -->
+  <!-- Services for the WSRP v2 SOAP WebService -->
   
   <component>
     <type>org.exoplatform.services.wsrp2.bind2.WSRPV2MarkupPortTypeImpl</type>
@@ -258,6 +258,26 @@
   <component>
     <type>org.exoplatform.services.wsrp2.bind2.extensions.WSRPV2ServiceAdministrationPortTypeImpl</type>
   </component>
+
+
+  <!-- Services for the WSRP v2 SOAP WebService -->
+  
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind1.WSRPV1MarkupPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind1.WSRPV1PortletManagementPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind1.WSRPV1RegistrationPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind1.WSRPV1ServiceDescriptionPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind1.extensions.WSRPV1ServiceAdministrationPortTypeImpl</type>
+  </component>
+
 
   <!-- Mixed external component plugins for both WSRP 1 and WSRP 2-->
 
