@@ -230,7 +230,7 @@ public class PortletContainerConf {
   /**
    * @return supported content types
    */
-  public final Collection<String> getSupportedContent() {
+  public final synchronized Collection<String> getSupportedContent() {
     if (supportedContents == null) {
       supportedContents = new ArrayList<String>();
       List<SupportedContent> content = containerConfs.getSupportedContent();
