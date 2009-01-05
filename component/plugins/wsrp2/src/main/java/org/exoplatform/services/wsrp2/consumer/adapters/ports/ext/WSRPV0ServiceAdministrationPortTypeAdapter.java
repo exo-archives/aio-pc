@@ -21,7 +21,7 @@ import java.util.Map;
 import org.apache.commons.logging.Log;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV0ServiceAdministrationPortType;
+import org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortType;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
