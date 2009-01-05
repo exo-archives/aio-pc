@@ -1,5 +1,5 @@
 
-package org.exoplatform.services.wsrp2.bind1;
+package org.exoplatform.services.wsrp2.bind.v1;
 
 import java.util.ArrayList;
 import java.util.List;
