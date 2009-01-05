@@ -8,11 +8,11 @@ import javax.jws.WebService;
  * 
  */
 
-@WebService(name = "WSRP_v2_ServiceAdministration_PortType")
+@WebService(name = "WSRP_v0_ServiceAdministration_PortType")
 public interface WSRPV0ServiceAdministrationPortType {
 
-  @WebMethod(action = "urn:oasis:names:tc:wsrp:v2:getServiceAdministration")
-  public void getServiceAdministration(@WebParam(mode = WebParam.Mode.INOUT, name = "properties", targetNamespace = "urn:oasis:names:tc:wsrp:v2:types")
+  @WebMethod(action = "urn:oasis:names:tc:wsrp:v0:getServiceAdministration")
+  public void getServiceAdministration(@WebParam(mode = WebParam.Mode.INOUT, name = "properties", targetNamespace = "urn:oasis:names:tc:wsrp:v0:types")
   javax.xml.ws.Holder<String> properties);
 
 }

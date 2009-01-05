@@ -14,7 +14,7 @@ import org.exoplatform.services.wsrp2.utils.Utils;
  * 2008 Generated source version: 2.1.2
  */
 
-@javax.jws.WebService(name = "WSRPV0ServiceAdministrationPortType", serviceName = "WSRPService", portName = "WSRP_v2_ServiceAdministration_Service")
+@javax.jws.WebService(name = "WSRPV0ServiceAdministrationPortType", serviceName = "WSRPService", portName = "WSRP_v0_ServiceAdministration_Service")
 public class WSRPV0ServiceAdministrationPortTypeImpl implements
     WSRPV0ServiceAdministrationPortType, AbstractSingletonWebService {
 

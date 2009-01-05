@@ -5,6 +5,7 @@ import java.util.ArrayList;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
 import org.exoplatform.services.wsrp1.intf.WS1InconsistentParameters;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidCookie;
@@ -65,8 +66,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 /**
  */
 
-@javax.jws.WebService(name = "WSRPV1MarkupPortType", serviceName = "WSRPService", portName = "WSRPMarkupService", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType")
-public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType {
+@javax.jws.WebService(name = "WSRPV1MarkupPortType", serviceName = "WSRPService", portName = "WSRP_v1_Markup_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType")
+public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractSingletonWebService  {
 
   private MarkupOperationsInterface markupOperationsInterface;
 

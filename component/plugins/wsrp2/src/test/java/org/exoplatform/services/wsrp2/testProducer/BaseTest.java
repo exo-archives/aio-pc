@@ -89,7 +89,7 @@ public class BaseTest extends TestCase {
 
   protected static final String                     SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRP_v2_Markup_Service?wsdl";
 
-  protected static final String                     ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRP_v2_ServiceAdministration_Service";
+  protected static final String                     ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRP_v0_ServiceAdministration_Service";
 
   protected static final String                     CONTEXT_PATH             = "hello";
 

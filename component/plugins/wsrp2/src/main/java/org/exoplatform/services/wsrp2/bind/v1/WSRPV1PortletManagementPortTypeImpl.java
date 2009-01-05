@@ -3,6 +3,7 @@ package org.exoplatform.services.wsrp2.bind.v1;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
 import org.exoplatform.services.wsrp1.intf.WS1InconsistentParameters;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidHandle;
@@ -39,8 +40,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 /**
  */
 
-@javax.jws.WebService(name = "WSRPV1PortletManagementPortType", serviceName = "WSRPService", portName = "WSRPMarkupService", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType")
-public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagementPortType {
+@javax.jws.WebService(name = "WSRPV1PortletManagementPortType", serviceName = "WSRPService", portName = "WSRP_v1_PortletManagement_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType")
+public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagementPortType, AbstractSingletonWebService  {
 
   private static final Log                     LOG = ExoLogger.getLogger(WSRPV1PortletManagementPortTypeImpl.class.getName());
 
