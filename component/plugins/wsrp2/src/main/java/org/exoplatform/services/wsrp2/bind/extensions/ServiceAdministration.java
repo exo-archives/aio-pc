@@ -1,4 +1,4 @@
-package org.exoplatform.services.wsrp2.bind2.extensions;
+package org.exoplatform.services.wsrp2.bind.extensions;
 
 import java.io.Serializable;
 

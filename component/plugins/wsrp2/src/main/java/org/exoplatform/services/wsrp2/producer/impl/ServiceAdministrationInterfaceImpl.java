@@ -25,7 +25,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.bind2.extensions.ServiceAdministration;
+import org.exoplatform.services.wsrp2.bind.extensions.ServiceAdministration;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.ServiceAdministrationInterface;
 
