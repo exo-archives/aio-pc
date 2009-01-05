@@ -14,15 +14,15 @@ import org.exoplatform.services.wsrp2.utils.Utils;
  * 2008 Generated source version: 2.1.2
  */
 
-@javax.jws.WebService(name = "WSRPV2ServiceAdministrationPortType", serviceName = "WSRPService", portName = "WSRP_v2_ServiceAdministration_Service")
-public class WSRPV2ServiceAdministrationPortTypeImpl implements
-    WSRPV2ServiceAdministrationPortType, AbstractSingletonWebService {
+@javax.jws.WebService(name = "WSRPV0ServiceAdministrationPortType", serviceName = "WSRPService", portName = "WSRP_v2_ServiceAdministration_Service")
+public class WSRPV0ServiceAdministrationPortTypeImpl implements
+    WSRPV0ServiceAdministrationPortType, AbstractSingletonWebService {
 
-  private static final Log               LOG = ExoLogger.getLogger(WSRPV2ServiceAdministrationPortTypeImpl.class.getName());
+  private static final Log               LOG = ExoLogger.getLogger(WSRPV0ServiceAdministrationPortTypeImpl.class.getName());
 
   private ServiceAdministrationInterface serviceAdministrationInterface;
 
-  public WSRPV2ServiceAdministrationPortTypeImpl(ServiceAdministrationInterface serviceAdministrationInterface) {
+  public WSRPV0ServiceAdministrationPortTypeImpl(ServiceAdministrationInterface serviceAdministrationInterface) {
     this.serviceAdministrationInterface = serviceAdministrationInterface;
   }
 

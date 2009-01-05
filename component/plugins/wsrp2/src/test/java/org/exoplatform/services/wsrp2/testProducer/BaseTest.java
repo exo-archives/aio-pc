@@ -42,7 +42,7 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.bind.extensions.WSRPV0ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapter;
@@ -475,9 +475,9 @@ public class BaseTest extends TestCase {
   }
 
   protected void setRequiresRegistration(boolean isRequiresRegistration) {
-    WSRPV2ServiceAdministrationPortTypeAdapter administrationPort = null;
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
     Map<String, String> responseProps = null;
-    administrationPort = new WSRPV2ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
     String requestProps = WSRPConfiguration.REQUIRES_REGISTRATION.concat("=")
                                                                  .concat(String.valueOf(isRequiresRegistration));
     responseProps = administrationPort.getServiceAdministration(requestProps);
@@ -491,9 +491,9 @@ public class BaseTest extends TestCase {
   }
 
   protected boolean getRequiresRegistration() {
-    WSRPV2ServiceAdministrationPortTypeAdapter administrationPort = null;
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
     Map<String, String> responseProps = null;
-    administrationPort = new WSRPV2ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
     responseProps = administrationPort.getServiceAdministration("");
     if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
       fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");

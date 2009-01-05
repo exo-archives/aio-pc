@@ -21,8 +21,8 @@ import java.util.Map;
 import org.apache.cxf.interceptor.LoggingInInterceptor;
 import org.apache.cxf.interceptor.LoggingOutInterceptor;
 import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortType;
-import org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeAdapter;
+import org.exoplatform.services.wsrp2.bind.extensions.WSRPV0ServiceAdministrationPortType;
+import org.exoplatform.services.wsrp2.bind.extensions.WSRPV0ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
@@ -44,12 +44,12 @@ public class TestGetServiceAdministration extends BaseTest {
   public void testGetServiceAdministration() throws Exception {
 
     JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
-    client.setServiceClass(WSRPV2ServiceAdministrationPortType.class);
+    client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
     client.setAddress(ADMINISTRATION_ADDRESS);
     client.getInInterceptors().add(new LoggingInInterceptor());
     client.getOutInterceptors().add(new LoggingOutInterceptor());
     Object obj = client.create();
-    WSRPV2ServiceAdministrationPortType serviceAdministrationPort = (WSRPV2ServiceAdministrationPortType) obj;
+    WSRPV0ServiceAdministrationPortType serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) obj;
     assertNotNull(serviceAdministrationPort);
 
     String propString = null;
@@ -103,7 +103,7 @@ public class TestGetServiceAdministration extends BaseTest {
 
   public void testGetServiceAdministrationAdapter() throws Exception {
 
-    WSRPV2ServiceAdministrationPortTypeAdapter administration = new WSRPV2ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    WSRPV0ServiceAdministrationPortTypeAdapter administration = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
     assertNotNull(administration);
 
     // it gets boolean value property on a producer

@@ -256,7 +256,7 @@
     <type>org.exoplatform.services.wsrp2.bind2.WSRPV2ServiceDescriptionPortTypeImpl</type>
   </component>
   <component>
-    <type>org.exoplatform.services.wsrp2.bind.extensions.WSRPV2ServiceAdministrationPortTypeImpl</type>
+    <type>org.exoplatform.services.wsrp2.bind.extensions.WSRPV0ServiceAdministrationPortTypeImpl</type>
   </component>
 
 

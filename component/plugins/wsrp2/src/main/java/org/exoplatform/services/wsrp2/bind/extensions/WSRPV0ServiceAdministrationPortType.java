@@ -9,7 +9,7 @@ import javax.jws.WebService;
  */
 
 @WebService(name = "WSRP_v2_ServiceAdministration_PortType")
-public interface WSRPV2ServiceAdministrationPortType {
+public interface WSRPV0ServiceAdministrationPortType {
 
   @WebMethod(action = "urn:oasis:names:tc:wsrp:v2:getServiceAdministration")
   public void getServiceAdministration(@WebParam(mode = WebParam.Mode.INOUT, name = "properties", targetNamespace = "urn:oasis:names:tc:wsrp:v2:types")

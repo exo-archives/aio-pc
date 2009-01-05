@@ -30,22 +30,22 @@ import org.exoplatform.services.wsrp2.utils.Utils;
  *
  * Dec 15, 2008  
  */
-public class WSRPV2ServiceAdministrationPortTypeAdapter {
-  private static final Log LOG = ExoLogger.getLogger(WSRPV2ServiceAdministrationPortTypeAdapter.class);
+public class WSRPV0ServiceAdministrationPortTypeAdapter {
+  private static final Log LOG = ExoLogger.getLogger(WSRPV0ServiceAdministrationPortTypeAdapter.class);
   
   
-  private WSRPV2ServiceAdministrationPortType serviceAdministrationPort;
+  private WSRPV0ServiceAdministrationPortType serviceAdministrationPort;
 
 
-  public WSRPV2ServiceAdministrationPortTypeAdapter(String address) {
+  public WSRPV0ServiceAdministrationPortTypeAdapter(String address) {
 //    String address = "http://localhost:8080/hello/soap/services/WSRP_v2_ServiceAdministration_Service";
     JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
-    client.setServiceClass(WSRPV2ServiceAdministrationPortType.class);
+    client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
     client.setAddress(address);
 //    client.getInInterceptors().add(new LoggingInInterceptor());
 //    client.getOutInterceptors().add(new LoggingOutInterceptor());
     Object obj = client.create();
-    this.serviceAdministrationPort = (WSRPV2ServiceAdministrationPortType) obj;
+    this.serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) obj;
   }
 
   public Map<String, String> getServiceAdministration(String propString) {
