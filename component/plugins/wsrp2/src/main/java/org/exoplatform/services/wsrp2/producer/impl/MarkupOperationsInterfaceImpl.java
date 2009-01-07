@@ -203,7 +203,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage user
     userContext = transientStateManager.resolveUserContext(userContext, session);
-    String owner = userContext.getUserContextKey();
+    String owner = user;
     log.debug("Owner Context : " + owner);
 
     // manage cache
@@ -417,8 +417,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
+    String user = userContext!=null?userContext.getUserContextKey():null;
     WSRPHttpSession session = resolveSession(sessionID,
-                                             userContext.getUserContextKey(),
+                                             user,
                                              sessiontimeperiod);
 
     // build the session context
@@ -428,7 +429,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage user
     userContext = transientStateManager.resolveUserContext(userContext, session);
-    String owner = userContext.getUserContextKey();
+    String owner = user;
     log.debug("Owner Context : " + owner);
 
     // get portlet data
@@ -727,8 +728,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
+    String user = userContext!=null?userContext.getUserContextKey():null;
     WSRPHttpSession session = resolveSession(sessionID,
-                                             userContext.getUserContextKey(),
+                                             user,
                                              sessiontimeperiod);
 
     // build the session context
@@ -738,7 +740,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage user
     userContext = transientStateManager.resolveUserContext(userContext, session);
-    String owner = userContext.getUserContextKey();
+    String owner = user;
     log.debug("Owner Context : " + owner);
 
     // manage cache
@@ -956,8 +958,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
+    String user = userContext!=null?userContext.getUserContextKey():null;
     WSRPHttpSession session = resolveSession(sessionID,
-                                             userContext.getUserContextKey(),
+                                             user,
                                              sessiontimeperiod);
 
     // build the session context
@@ -967,7 +970,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage user
     userContext = transientStateManager.resolveUserContext(userContext, session);
-    String owner = userContext.getUserContextKey();
+    String owner = user;
     log.debug("Owner Context : " + owner);
 
     // get portlet data
