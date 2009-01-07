@@ -587,8 +587,15 @@ public class WSRPTypesTransformer {
       return null;
     }
     List<PortletDescription> portletDescriptions = new ArrayList<PortletDescription>();
-    for (Iterator<WS1PortletDescription> it = ws1portletDescriptions.iterator(); it.hasNext();) {
-      PortletDescription portletDescription = getWS2PortletDescription(it.next());
+    Iterator<WS1PortletDescription> it = ws1portletDescriptions.iterator();
+    while (it.hasNext()) {
+      WS1PortletDescription elem = (WS1PortletDescription)it.next();
+      System.out.println(">>>alexey:WSRPTypesTransformer.getWS2PortletDescriptions elem = " + elem);
+      System.out.println(">>>                                                      elem.getPortletHandle() = "
+          + elem.getPortletHandle());
+      System.out.println(">>>                                                      elem.getGroupID() = "
+          + elem.getGroupID());
+      PortletDescription portletDescription = getWS2PortletDescription(elem);
       if (portletDescription != null) {
         portletDescriptions.add(portletDescription);
       }
@@ -605,7 +612,9 @@ public class WSRPTypesTransformer {
     portletDescription.setDescription(getWS2LocalizedString(ws1portletDescription.getDescription()));
     portletDescription.setDisplayName(getWS2LocalizedString(ws1portletDescription.getDisplayName()));
     portletDescription.setDoesUrlTemplateProcessing(ws1portletDescription.isDoesUrlTemplateProcessing());
-    portletDescription.setGroupID(portletDescription.getGroupID());
+    System.out.println(">>>alexey:WSRPTypesTransformer.getWS2PortletDescription ws1portletDescription.getGroupID() = "
+        + ws1portletDescription.getGroupID());
+    portletDescription.setGroupID(ws1portletDescription.getGroupID());
     portletDescription.setHasUserSpecificState(ws1portletDescription.isHasUserSpecificState());
     portletDescription.setMayReturnPortletState(false);
     portletDescription.setOnlySecure(ws1portletDescription.isOnlySecure());
@@ -822,8 +831,15 @@ public class WSRPTypesTransformer {
       return null;
     }
     List<WS1PortletDescription> ws1portletDescriptions = new ArrayList<WS1PortletDescription>();
-    for (Iterator<PortletDescription> it = portletDescriptions.iterator(); it.hasNext();) {
-      WS1PortletDescription ws1portletDescription = getWS1PortletDescription(it.next());
+    Iterator<PortletDescription> it = portletDescriptions.iterator();
+    while (it.hasNext()) {
+      PortletDescription elem = (PortletDescription) it.next();
+      System.out.println(">>>alexey:WSRPTypesTransformer.getWS1PortletDescriptions elem = " + elem);
+      System.out.println(">>>                                                      elem.getPortletHandle() = "
+          + elem.getPortletHandle());
+      System.out.println(">>>                                                      elem.getGroupID() = "
+          + elem.getGroupID());
+      WS1PortletDescription ws1portletDescription = getWS1PortletDescription(elem);
       if (ws1portletDescription != null) {
         ws1portletDescriptions.add(ws1portletDescription);
       }

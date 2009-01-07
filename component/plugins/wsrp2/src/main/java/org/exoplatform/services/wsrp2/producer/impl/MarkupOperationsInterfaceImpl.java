@@ -191,8 +191,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
+    String user = userContext!=null?userContext.getUserContextKey():null;
     WSRPHttpSession session = resolveSession(sessionID,
-                                             userContext.getUserContextKey(),
+                                             user,
                                              sessiontimeperiod);
 
     // build the session context

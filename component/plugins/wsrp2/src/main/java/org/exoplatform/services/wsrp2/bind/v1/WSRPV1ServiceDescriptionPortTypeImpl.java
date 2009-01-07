@@ -60,7 +60,7 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
                                                                                       null,
                                                                                       null);
 
-      requiresRegistration.value = false;
+      requiresRegistration.value = response.isRequiresRegistration();
       offeredPortlets.value = WSRPTypesTransformer.getWS1PortletDescriptions(response.getOfferedPortlets());
       userCategoryDescriptions.value = WSRPTypesTransformer.getWS1ItemDescriptions(response.getUserCategoryDescriptions());
 //      customUserProfileItemDescriptions.value = WSRPTypesTransformer.getWS1ItemDescriptions(response.getCustomUserProfileItemDescriptions());
