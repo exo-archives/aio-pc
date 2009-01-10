@@ -345,7 +345,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
    * @throws ValidatorException exception
    */
   public void store() throws IOException, ValidatorException {
-    if (!isMethodCalledIsAction())
+    if (isMethodCalledIsRender())
       throw new IllegalStateException("the store() method can not be called from a render method");
     if (!isStateChangeAuthorized())
       throw new IllegalStateException("the state of the portlet can not be changed");
@@ -398,8 +398,8 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   /**
    * @return if method called is action
    */
-  public boolean isMethodCalledIsAction() {
-    return (methodCalledIsAction == PCConstants.ACTION_INT);
+  public boolean isMethodCalledIsRender() {
+    return (methodCalledIsAction == PCConstants.RENDER_INT);
   }
 
   /**
