@@ -28,6 +28,7 @@ import javax.portlet.StateAwareResponse;
 import javax.portlet.WindowState;
 import javax.portlet.WindowStateException;
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
@@ -45,6 +46,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDisp
 public class StateAwareResponseImp extends PortletResponseImp implements StateAwareResponse {
 
   Log log = null;
+
   /**
    * @param resCtx response context
    */
@@ -240,11 +242,20 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
     if (validateByJAXB8_5_2List(payload))
       return true;
     try {
-      JAXBContext jaxbContext = JAXBContext.newInstance(payload.getClass());
-      jaxbContext.createMarshaller().marshal(payload, new NullOutputStream());
+      try {
+        JAXBContext jaxbContext = JAXBContext.newInstance(payload.getClass());
+        jaxbContext.createMarshaller().marshal(payload, new NullOutputStream());
+      } catch (Exception e) {
+        // to prevent exception "com.sun.istack.SAXException2: unable to marshal type ... as an element because it is missing an @XmlRootElement"
+        JAXBContext jaxbContext = JAXBContext.newInstance(payload.getClass().getPackage().getName());
+        jaxbContext.createMarshaller()
+                   .marshal(new JAXBElement(new QName("", payload.getClass().getSimpleName()),
+                                            payload.getClass(),
+                                            payload),
+                            new NullOutputStream());
+      }
     } catch (Exception e) {
-      e.printStackTrace();
-      log.info(e.getMessage());
+      log.error(e.getMessage(),e);
       return false;
     }
     List<EventDefinition> eds = getPortletDatas().getApplication().getEventDefinition();
@@ -264,7 +275,7 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
       throw new java.lang.IllegalArgumentException("setEvent(): can't get binding of " + value == null ? null
                                                                                                       : value.getClass()
                                                                                                              .getName());
-    
+
     ((EventOutput) getOutput()).setEvent(name, value);
   }
 
