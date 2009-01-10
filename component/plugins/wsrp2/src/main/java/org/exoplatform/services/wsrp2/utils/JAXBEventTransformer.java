@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.xml.bind.JAXBContext;
+import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -75,10 +76,20 @@ public class JAXBEventTransformer {
       if (doc == null) {
         try {
           doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-          JAXBContext jaxb = JAXBContext.newInstance(eventValue.getClass());
-          Marshaller marshaller = jaxb.createMarshaller();
-          marshaller.marshal(eventValue, doc);
+          try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(eventValue.getClass());
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.marshal(eventValue, doc);
+          } catch (Exception e) {
+            JAXBContext jaxbContext = JAXBContext.newInstance(eventValue.getClass()
+                                                                        .getPackage()
+                                                                        .getName());
+            jaxbContext.createMarshaller()
+                       .marshal(new JAXBElement(new QName("", eventValue.getClass().getSimpleName()),
+                                                eventValue.getClass(),
+                                                eventValue),
+                                doc);
+          }
         } catch (JAXBException je) {
           je.printStackTrace();
         } catch (Exception e) {
@@ -91,7 +102,7 @@ public class JAXBEventTransformer {
       eventPayload = new EventPayload();
       eventPayload.setAny(messageElement);
     }
-    
+
     Event newEvent = new Event();
     newEvent.setName(eventName);
     newEvent.setType(eventType);
@@ -107,31 +118,32 @@ public class JAXBEventTransformer {
     for (Event event : eventList) {
 
       Object obj = null;
-      if (event.getType()!=null && event.getPayload()!=null) { 
-      obj = getUnmarshalledObject(event.getType(), event.getPayload());
+      if (event.getType() != null && event.getPayload() != null) {
+        obj = getUnmarshalledObject(event.getType(), event.getPayload());
 
-      if (obj == null) {
-        try {
-          String clazz = event.getType().getLocalPart();
+        if (obj == null) {
+          try {
+            String clazz = event.getType().getLocalPart();
 
-          String pkg = clazz.substring(0, clazz.lastIndexOf("."));
-          ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
-          org.w3c.dom.Element messageElement = (org.w3c.dom.Element) event.getPayload().getAny();
+            String pkg = clazz.substring(0, clazz.lastIndexOf("."));
+            ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
+            org.w3c.dom.Element messageElement = (org.w3c.dom.Element) event.getPayload().getAny();
 
-          JAXBContext jaxb = JAXBContext.newInstance(pkg, cle);
-          Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-          obj = unmarshaller.unmarshal(messageElement);
-        } catch (JAXBException je) {
-          je.printStackTrace();
-        } catch (Exception e) {
-          e.printStackTrace();
-        } catch (Throwable t) {
-          t.printStackTrace();
+            JAXBContext jaxbContext = JAXBContext.newInstance(pkg, cle);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            obj = unmarshaller.unmarshal(messageElement);
+            //TODO do we need to do something with value which doesn't contain an XmlRootElement?
+          } catch (JAXBException je) {
+            je.printStackTrace();
+          } catch (Exception e) {
+            e.printStackTrace();
+          } catch (Throwable t) {
+            t.printStackTrace();
+          }
         }
-      }
 
-      if (log.isDebugEnabled())
-        log.debug("JAXBEventTransformer.getEventsUnmarshal() o = " + obj);
+        if (log.isDebugEnabled())
+          log.debug("JAXBEventTransformer.getEventsUnmarshal() o = " + obj);
 
       }
       javax.portlet.Event ev = new EventImpl(event.getName(), obj != null ? (Serializable) obj
