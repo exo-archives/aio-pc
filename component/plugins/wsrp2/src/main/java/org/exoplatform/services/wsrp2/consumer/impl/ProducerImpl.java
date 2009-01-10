@@ -144,7 +144,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   private void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService service, ExoContainer container) {
-    container.registerComponentInstance(this.ID, service);
+//    container.registerComponentInstance(this.ID, service);
+    
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
     this.serviceDescriptionAdapter = new WSRPV1ServiceDescriptionPortTypeAdapter(service.getWSRPServiceDescriptionService());
@@ -154,7 +155,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   private void createAdapters2(WSRPService service, ExoContainer container) {
-    container.registerComponentInstance(this.ID, service);
+//    container.registerComponentInstance(this.ID, service);
+    
 //    WSRPV2ServiceDescriptionPortType SDpt = service.getWSRPV2ServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
     this.serviceDescriptionAdapter = new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService());
