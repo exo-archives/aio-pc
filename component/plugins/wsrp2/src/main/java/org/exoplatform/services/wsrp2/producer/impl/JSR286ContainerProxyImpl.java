@@ -144,8 +144,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.getUserCategories().clear();
 
     pD.getPortletManagedModes()
-      .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
-                                                                   portletName)));
+    .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
+                                                                 portletName)));
 
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
@@ -232,9 +232,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
   }
 
   public Map<String, PortletData> getAllPortletMetaData() {
-    return pcService.getAllPortletMetaData();
+    return pcService.getAllPortletMetaData(true);
   }
-
+  
   // public Collection getWindowStates(String s) {
   // return service.getWindowStates(s);
   // }
