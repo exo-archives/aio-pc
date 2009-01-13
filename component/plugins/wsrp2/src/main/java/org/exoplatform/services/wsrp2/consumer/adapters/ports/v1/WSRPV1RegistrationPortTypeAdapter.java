@@ -140,7 +140,10 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
       System.out.println(e.toString());
     }
 
-    Extension extension = WSRPTypesTransformer.getWS2Extension(_deregister_extensions.value.get(0)); // in a WSRP2 we have t oreturn just one Extension
+    Extension extension = null;
+    if (!_deregister_extensions.value.isEmpty()) {
+      extension = WSRPTypesTransformer.getWS2Extension(_deregister_extensions.value.get(0)); // in a WSRP2 we have to return just one Extension
+    }
     return extension;
   }
 

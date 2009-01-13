@@ -74,7 +74,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
@@ -234,7 +234,7 @@ public class BaseTest extends TestCase {
 //        + "WSRPMarkupService"));
 //    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
 //        + "WSRPPortletManagementService"));
-    WSRPService service = new WSRPService(new URL(SERVICE_URL));
+    WSRPService2 service = new WSRPService2(new URL(SERVICE_URL));
     System.out.println(">>> ProducerImpl.init() service = " + service);
 
     String producerId = "producer2" + Integer.toString(SERVICE_URL.hashCode());

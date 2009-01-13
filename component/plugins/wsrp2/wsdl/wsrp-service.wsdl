@@ -12,7 +12,7 @@
        resources (e.g. registrationHandle, registrationState, etc) can cross the service boundaries -->
 
   <!-- A service definition encapsulating the WSRP v2 support of this Producer -->
-  <wsdl:service name="WSRPService">
+  <wsdl:service name="WSRPService2">
     <wsdl:port binding="v2bind:WSRP_v2_Markup_Binding_SOAP" name="WSRP_v2_Markup_Service">
       <soap:address location="http://my.service:8082/WSRPService"/>
     </wsdl:port>

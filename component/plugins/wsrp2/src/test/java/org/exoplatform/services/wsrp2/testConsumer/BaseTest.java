@@ -65,7 +65,7 @@ import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
@@ -220,7 +220,7 @@ public class BaseTest extends TestCase {
     producer.setDescription(PRODUCER_DESCRIPTION);
     producer.setName(PRODUCER_NAME);
 
-    WSRPService service = (WSRPService) container.getComponentInstanceOfType(MockWSRPService.class);
+    WSRPService2 service = (WSRPService2) container.getComponentInstanceOfType(MockWSRPService.class);
     if (service != null) {
 //      container.unregisterComponentByInstance(service);
       container.unregisterComponent(PRODUCER_ID);

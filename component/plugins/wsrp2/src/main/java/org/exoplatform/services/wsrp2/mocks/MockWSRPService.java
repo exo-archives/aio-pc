@@ -29,7 +29,7 @@ import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
 import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
 import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
 import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 
 /**
  * Created by The eXo Platform SAS .
@@ -39,13 +39,13 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService;
  * @version $Id: $ Dec 8, 2008
  */
 
-@WebServiceClient(name = "WSRPService", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl")
-public class MockWSRPService extends WSRPService {
+@WebServiceClient(name = "WSRPService2", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl")
+public class MockWSRPService extends WSRPService2 {
 
   public final static URL   WSDL_LOCATION;
 
   public final static QName SERVICE                         = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
-                                                                        "WSRPService");
+                                                                        "WSRPService2");
 
   public final static QName WSRPV2ServiceDescriptionService = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
                                                                         "WSRP_v2_ServiceDescription_Service");
@@ -63,12 +63,12 @@ public class MockWSRPService extends WSRPService {
   
   static {
     URL url = null;
-    try {
-      url = new URL("file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl");
-    } catch (MalformedURLException e) {
-      System.err.println("Can not initialize the default wsdl from file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl");
-      // e.printStackTrace();
-    }
+//    try {
+//      url = new URL("file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl");
+//    } catch (MalformedURLException e) {
+//      System.err.println("Can not initialize the default wsdl from file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl");
+//      // e.printStackTrace();
+//    }
     WSDL_LOCATION = url;
   }
 
