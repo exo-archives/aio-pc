@@ -390,8 +390,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           List<PortletDescription> portletDescriptions = sD.getOfferedPortlets();
           if (portletDescriptions != null) {
             for (PortletDescription portletDescription : portletDescriptions) {
-              if (portletDescription.getPortletHandle().equalsIgnoreCase(portletAppName
-                  + Constants.PORTLET_HANDLE_ENCODER + portletName)) {
+              if (portletDescription.getPortletHandle().equalsIgnoreCase(portletHandle)){
                 return portletDescription.getPortletManagedModes().toArray(new String[] {});
               }
             }
@@ -627,8 +626,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       bundle.add(PortletData.PORTLET_SHORT_TITLE,
                  Utils.getStringFromLocalizedString(pd.getShortTitle()));
       if (pd.getKeywords() != null) {
-        bundle.add(PortletData.KEYWORDS,
-                   Utils.getStringFromLocalizedString(pd.getKeywords().get(0)));
+        bundle.add(PortletData.KEYWORDS,pd.getKeywords().isEmpty()?"":Utils.getStringFromLocalizedString(pd.getKeywords().get(0)));
       } else {
         bundle.add(PortletData.KEYWORDS, null);
       }
