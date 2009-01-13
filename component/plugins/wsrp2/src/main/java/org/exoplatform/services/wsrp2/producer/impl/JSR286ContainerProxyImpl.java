@@ -232,7 +232,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
   }
 
   public Map<String, PortletData> getAllPortletMetaData() {
-    return pcService.getAllPortletMetaData(true);
+    return pcService.getAllPortletMetaData();// for exclude register remote to remote use parameter 'true'
   }
   
   // public Collection getWindowStates(String s) {
