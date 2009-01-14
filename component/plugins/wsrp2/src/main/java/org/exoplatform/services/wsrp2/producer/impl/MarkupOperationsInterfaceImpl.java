@@ -191,10 +191,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
-    String user = userContext!=null?userContext.getUserContextKey():null;
-    WSRPHttpSession session = resolveSession(sessionID,
-                                             user,
-                                             sessiontimeperiod);
+    String user = userContext != null ? userContext.getUserContextKey() : null;
+    WSRPHttpSession session = resolveSession(sessionID, user, sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();
@@ -263,6 +261,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     String baseURL = null;
     PortletURLFactory portletURLFactory = null;
     // creating Portlet URL Factory
+
     if (conf.isDoesUrlTemplateProcessing()) {// default is true
       log.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext, session);
@@ -293,6 +292,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     portletData.getSupportedPublicRenderParameter(),
                                                                     ((PortletDataImp) portletData).getWrappedPortletTyped());
     }
+
+//    }
+
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
@@ -417,10 +419,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
-    String user = userContext!=null?userContext.getUserContextKey():null;
-    WSRPHttpSession session = resolveSession(sessionID,
-                                             user,
-                                             sessiontimeperiod);
+    String user = userContext != null ? userContext.getUserContextKey() : null;
+    WSRPHttpSession session = resolveSession(sessionID, user, sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();
@@ -728,10 +728,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
-    String user = userContext!=null?userContext.getUserContextKey():null;
-    WSRPHttpSession session = resolveSession(sessionID,
-                                             user,
-                                             sessiontimeperiod);
+    String user = userContext != null ? userContext.getUserContextKey() : null;
+    WSRPHttpSession session = resolveSession(sessionID, user, sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();
@@ -958,10 +956,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage session
     String sessionID = runtimeContext.getSessionParams().getSessionID();
-    String user = userContext!=null?userContext.getUserContextKey():null;
-    WSRPHttpSession session = resolveSession(sessionID,
-                                             user,
-                                             sessiontimeperiod);
+    String user = userContext != null ? userContext.getUserContextKey() : null;
+    WSRPHttpSession session = resolveSession(sessionID, user, sessiontimeperiod);
 
     // build the session context
     SessionContext sessionContext = new SessionContext();

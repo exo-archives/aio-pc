@@ -91,19 +91,19 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public class PortletDriverImpl implements PortletDriver {
 
-  private WSRPPortlet                            portlet               = null;
+  private WSRPPortlet                             portlet               = null;
 
   private WSRPMarkupPortTypeAdapterAPI            markupPort            = null;
 
   private WSRPPortletManagementPortTypeAdapterAPI portletManagementPort = null;
 
-  private ConsumerEnvironment                    consumer              = null;
+  private ConsumerEnvironment                     consumer              = null;
 
-  private Producer                               producer              = null;
+  private Producer                                producer              = null;
 
-  private CookieProtocol                         initCookie            = CookieProtocol.NONE;
+  private CookieProtocol                          initCookie            = CookieProtocol.NONE;
 
-  private Log                                    LOG;
+  private Log                                     LOG;
 
   public PortletDriverImpl(ExoContainer cont, WSRPPortlet portlet) throws WSRPException {
     this.consumer = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
@@ -197,7 +197,7 @@ public class PortletDriverImpl implements PortletDriver {
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
-    URLTemplateComposer templateComposer = consumer.getTemplateComposer();
+    URLTemplateComposer templateComposer = consumer.getTemplateComposer(producer.getVersion());
 
     if (templateComposer != null) {
       runtimeContext.setNamespacePrefix(templateComposer.getNamespacePrefix());
@@ -312,7 +312,7 @@ public class PortletDriverImpl implements PortletDriver {
       if (markupContext.getMimeType().startsWith("text/")) {
         String rewrittenMarkup = null;
         if (requiresRewriting) {
-          URLRewriter urlRewriter = consumer.getURLRewriter();
+          URLRewriter urlRewriter = consumer.getURLRewriter(producer.getVersion());
           rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
           LOG.debug("rewrittenMarkup = " + rewrittenMarkup);
           if (rewrittenMarkup != null) {
@@ -607,7 +607,7 @@ public class PortletDriverImpl implements PortletDriver {
       if (resourceContext.getMimeType().startsWith("text/")) {
         String rewrittenMarkup = null;
         if (requiresRewriting) {
-          URLRewriter urlRewriter = consumer.getURLRewriter();
+          URLRewriter urlRewriter = consumer.getURLRewriter(producer.getVersion());
           rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
           LOG.debug("rewrittenMarkup = " + rewrittenMarkup);
           if (rewrittenMarkup != null) {

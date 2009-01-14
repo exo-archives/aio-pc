@@ -27,6 +27,12 @@ import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp2.consumer.UserRegistry;
+import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLGeneratorImpl1;
+import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLRewriterImpl1;
+import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLTemplateComposerImpl1;
+import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLGeneratorImpl2;
+import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLRewriterImpl2;
+import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLTemplateComposerImpl2;
 import org.exoplatform.services.wsrp2.type.StateChange;
 
 /*
@@ -38,7 +44,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 
 public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
 
-  private String                consumerAgent = "exoplatform.2.0";
+  private String                consumerAgent        = "exoplatform.2.0";
 
   private String                userAuthentication;
 
@@ -50,34 +56,40 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
 
   private UserRegistry          userRegistry;
 
-  private URLTemplateComposer   urlTemplateComposer;
+  private URLTemplateComposer   urlTemplateComposer1;
 
-  private URLRewriter           urlRewriter;
+  private URLTemplateComposer   urlTemplateComposer2;
 
-  private List<String>          supportedLocales = new ArrayList<String>();
+  private URLRewriter           urlRewriter1;
 
-  private List<String>          supportedModes = new ArrayList<String>();
+  private URLRewriter           urlRewriter2;
 
-  private List<String>          windowStates = new ArrayList<String>();
+  private List<String>          supportedLocales     = new ArrayList<String>();
+
+  private List<String>          supportedModes       = new ArrayList<String>();
+
+  private List<String>          windowStates         = new ArrayList<String>();
 
   private StateChange           stateChange;
 
   private List<String>          characterEncodingSet = new ArrayList<String>();
 
-  private List<String>          mimeTypes = new ArrayList<String>();
+  private List<String>          mimeTypes            = new ArrayList<String>();
 
   public ConsumerEnvironmentImpl(PortletRegistry portletRegistry,
                                  PortletDriverRegistry portletDriverRegistry,
                                  ProducerRegistry producerRegistry,
-                                 UserRegistry userRegistry,
-                                 URLTemplateComposer urlTemplateComposer,
-                                 URLRewriter urlRewriter) {
+                                 UserRegistry userRegistry) {
     this.portletRegistry = portletRegistry;
     this.portletDriverRegistry = portletDriverRegistry;
     this.producerRegistry = producerRegistry;
     this.userRegistry = userRegistry;
-    this.urlTemplateComposer = urlTemplateComposer;
-    this.urlRewriter = urlRewriter;
+    this.urlTemplateComposer1 = new URLTemplateComposerImpl1();
+    this.urlTemplateComposer2 = new URLTemplateComposerImpl2();
+
+    this.urlRewriter1 = new URLRewriterImpl1(new URLGeneratorImpl1());
+    this.urlRewriter2 = new URLRewriterImpl2(new URLGeneratorImpl2());
+
 //    this.supportedLocales = new ArrayList<String>();
 //    this.supportedModes = new ArrayList<String>();
 //    this.windowStates = new ArrayList<String>();
@@ -101,12 +113,18 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     return userRegistry;
   }
 
-  public URLTemplateComposer getTemplateComposer() {
-    return urlTemplateComposer;
+  public URLTemplateComposer getTemplateComposer(int version) {
+    if (version == 1)
+      return urlTemplateComposer1;
+    else
+      return urlTemplateComposer2;
   }
 
-  public URLRewriter getURLRewriter() {
-    return urlRewriter;
+  public URLRewriter getURLRewriter(int version) {
+    if (version == 1)
+      return urlRewriter1;
+    else
+      return urlRewriter2;
   }
 
   public String getConsumerAgent() {

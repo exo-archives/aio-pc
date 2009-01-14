@@ -52,6 +52,7 @@ import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.producer.MarkupOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
@@ -158,6 +159,8 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       UserContext ws2userContext = WSRPTypesTransformer.getWS2UserContext(userContext);
       MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
 
+      WSRPHTTPContainer.getInstance().setVersion(1);
+      
       MarkupResponse markupResponse = markupOperationsInterface.getMarkup(ws2registrationContext,
                                                                           ws2portletContext,
                                                                           ws2runtimeContext,
@@ -293,6 +296,8 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
       InteractionParams ws2interactionParams = WSRPTypesTransformer.getWS2InteractionParams(interactionParams);
 
+      WSRPHTTPContainer.getInstance().setVersion(1);
+      
       BlockingInteractionResponse blockingInteractionResponse = markupOperationsInterface.performBlockingInteraction(ws2registrationContext,
                                                                                                                      ws2portletContext,
                                                                                                                      ws2runtimeContext,

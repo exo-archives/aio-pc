@@ -41,13 +41,13 @@ public interface Consumer {
    * 
    * @return Interface to the consumer specific template composer
    */
-  public URLTemplateComposer getTemplateComposer();
+  public URLTemplateComposer getTemplateComposer(int version);
 
   /**
    * Get the url rewriter for consumer url-rewriting
    * 
    * @return The consumer specific url rewriter
    */
-  public URLRewriter getURLRewriter();
+  public URLRewriter getURLRewriter(int version);
 
 }

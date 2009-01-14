@@ -73,7 +73,7 @@ public class WSRPFilter implements Filter {
         }
       }
       try {
-        WSRPHTTPContainer.setInstance(null);
+        WSRPHTTPContainer.removeInstance();
       } catch (Exception e) {
         log.warn("An error occured while cleaning the ThreadLocal", e);
       }

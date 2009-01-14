@@ -35,7 +35,7 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
  * Time: 13:19:37
  */
 
-public class URLGeneratorImpl implements URLGenerator {
+public class URLGeneratorImpl1 implements URLGenerator {
 
   public String getBlockingActionURL(String baseURL, Map<String, String> params) {
     return getURL(baseURL, params);
@@ -68,10 +68,10 @@ public class URLGeneratorImpl implements URLGenerator {
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       // TODO need todo below, because the PORTLET_HANDLE doesn't need for our new plugin.wsrp mechanism
-      if (name.equalsIgnoreCase(WSRPConstants.WSRP_PORTLET_HANDLE))
+      if (name.equalsIgnoreCase(WSRPConstants1.WSRP_PORTLET_HANDLE))
         continue;
       String value = parameters.get(name);
-      sB.append(WSRPConstants.NEXT_PARAM);
+      sB.append(WSRPConstants1.NEXT_PARAM);
       sB.append(encode(replaceName(name)));
       sB.append("=");
       sB.append(encode(replaceValue(name, value)));
@@ -80,29 +80,29 @@ public class URLGeneratorImpl implements URLGenerator {
   }
 
   private String replaceName(String name) {
-    if (WSRPConstants.WSRP_MODE.equals(name))
+    if (WSRPConstants1.WSRP_MODE.equals(name))
       return Constants.PORTLET_MODE_PARAMETER;
-    else if (WSRPConstants.WSRP_WINDOW_STATE.equals(name))
+    else if (WSRPConstants1.WSRP_WINDOW_STATE.equals(name))
       return Constants.WINDOW_STATE_PARAMETER;
-    else if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
+    else if (WSRPConstants1.WSRP_PORTLET_HANDLE.equals(name))
       return Constants.COMPONENT_PARAMETER;
-    else if (WSRPConstants.WSRP_SECURE_URL.equals(name))
+    else if (WSRPConstants1.WSRP_SECURE_URL.equals(name))
       return Constants.SECURE_PARAMETER;
-    else if (WSRPConstants.WSRP_URL_TYPE.equals(name))
+    else if (WSRPConstants1.WSRP_URL_TYPE.equals(name))
       return Constants.TYPE_PARAMETER;
     return name;
   }
 
   private String replaceValue(String name, String value) {
-    if (WSRPConstants.WSRP_URL_TYPE.equals(name)) {
-      if (WSRPConstants.URL_TYPE_BLOCKINGACTION.equals(value)) {
+    if (WSRPConstants1.WSRP_URL_TYPE.equals(name)) {
+      if (WSRPConstants1.URL_TYPE_BLOCKINGACTION.equals(value)) {
         return PCConstants.ACTION_STRING;
       }
     }
-    if (WSRPConstants.WSRP_MODE.equals(name)) {
+    if (WSRPConstants1.WSRP_MODE.equals(name)) {
       return Modes.delAllPrefixesWSRP(value);
     }
-    if (WSRPConstants.WSRP_WINDOW_STATE.equals(name)) {
+    if (WSRPConstants1.WSRP_WINDOW_STATE.equals(name)) {
       return WindowStates.delAllPrefixesWSRP(value);
     }
     return value;

@@ -22,7 +22,7 @@ import org.exoplatform.Constants;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRPConstants {
+public class WSRPConstants1 {
 
   public static final String WSRP_REWRITE_PREFIX                = "wsrp_rewrite?";
 

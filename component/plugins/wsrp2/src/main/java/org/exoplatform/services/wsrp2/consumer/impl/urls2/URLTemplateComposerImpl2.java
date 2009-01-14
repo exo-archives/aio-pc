@@ -29,7 +29,7 @@ import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
  * févr. 2004 Time: 13:05:01
  */
 
-public class URLTemplateComposerImpl implements URLTemplateComposer {
+public class URLTemplateComposerImpl2 implements URLTemplateComposer {
 
   public static final String SECURE_PROTOCOL     = "https://";
 

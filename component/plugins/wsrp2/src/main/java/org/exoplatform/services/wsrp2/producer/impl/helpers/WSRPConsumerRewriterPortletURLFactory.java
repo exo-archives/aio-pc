@@ -27,6 +27,8 @@ import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.ws1.ConsumerRewriterPortletURLImp1;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.ws1.ConsumerRewriterResourceURLImp1;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
@@ -39,7 +41,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private boolean                isCurrentlySecured;
 
-  private PersistentStateManager stateManager;
+  private PersistentStateManager persistentStateManager;
 
   private String                 portletHandle;
 
@@ -47,22 +49,24 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private boolean                defaultEscapeXml;
 
-  private String                 markup;                        // only for PortletURL
+  private String                 markup;                                                  // only for PortletURL
 
-  private List<Supports>         supports;                      // only for PortletURL
+  private List<Supports>         supports;                                                // only for PortletURL
 
-  private String                 cacheLevel;                    // only for ResourceURL
+  private String                 cacheLevel;                                              // only for ResourceURL
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
   private Portlet                portlet;
+
+  private int                    version;
 
   public WSRPConsumerRewriterPortletURLFactory(String markup,
                                                String template,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
                                                String portletHandle,
-                                               PersistentStateManager stateManager,
+                                               PersistentStateManager persistentStateManager,
                                                String sessionID,
                                                boolean defaultEscapeXml,
                                                String cacheLevel,
@@ -73,39 +77,60 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
     this.isCurrentlySecured = isCurrentlySecured;
     this.template = template;
     this.portletHandle = portletHandle;
-    this.stateManager = stateManager;
+    this.persistentStateManager = persistentStateManager;
     this.sessionID = sessionID;
     this.defaultEscapeXml = defaultEscapeXml;
     this.cacheLevel = cacheLevel;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.portlet = portlet;
+    this.version = WSRPHTTPContainer.getInstance().getVersion();
   }
 
   public PortletURL createPortletURL(String type) {
-    return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
-                                             template,
-                                             markup,
-                                             supports,
-                                             isCurrentlySecured,
-                                             portletHandle,
-                                             stateManager,
-                                             sessionID,
-                                             defaultEscapeXml,
-                                             supportedPublicRenderParameter,
-                                             portlet);
+    if (version == 1) {
+      return new ConsumerRewriterPortletURLImp1(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+                                                template,
+                                                markup,
+                                                supports,
+                                                isCurrentlySecured,
+                                                portletHandle,
+                                                persistentStateManager,
+                                                sessionID);
+    } else {
+      return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+                                               template,
+                                               markup,
+                                               supports,
+                                               isCurrentlySecured,
+                                               portletHandle,
+                                               persistentStateManager,
+                                               sessionID,
+                                               defaultEscapeXml,
+                                               supportedPublicRenderParameter,
+                                               portlet);
+    }
   }
 
   public ResourceURL createResourceURL(String type) {
-    return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
-                                              template,
-                                              isCurrentlySecured,
-                                              portletHandle,
-                                              stateManager,
-                                              sessionID,
-                                              defaultEscapeXml,
-                                              cacheLevel,
-                                              supportedPublicRenderParameter,
-                                              portlet);
+    if (version == 1) {
+      return new ConsumerRewriterResourceURLImp1(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+                                                 template,
+                                                 isCurrentlySecured,
+                                                 portletHandle,
+                                                 persistentStateManager,
+                                                 sessionID);
+    } else {
+      return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+                                                template,
+                                                isCurrentlySecured,
+                                                portletHandle,
+                                                persistentStateManager,
+                                                sessionID,
+                                                defaultEscapeXml,
+                                                cacheLevel,
+                                                supportedPublicRenderParameter,
+                                                portlet);
+    }
   }
 
 }

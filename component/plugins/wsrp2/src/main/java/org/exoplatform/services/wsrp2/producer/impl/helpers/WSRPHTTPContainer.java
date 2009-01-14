@@ -13,6 +13,27 @@ public class WSRPHTTPContainer extends HashMap<Object, Object> {
 
   private HttpServletResponse                   response;
 
+  private int                                   version;
+  
+  public WSRPHTTPContainer(HttpServletRequest request, HttpServletResponse response) {
+    this.request = new WSRPHttpServletRequest(request);
+    this.response = new WSRPHttpServletResponse(request, response);
+    this.version = 2;
+  }
+
+  public static WSRPHTTPContainer getInstance() {
+    return (WSRPHTTPContainer) threadLocal.get();
+  }
+
+  public static void removeInstance() {
+    threadLocal.set(null);
+  }
+
+  public static void createInstance(final HttpServletRequest request,
+                                    final HttpServletResponse response) {
+    threadLocal.set(new WSRPHTTPContainer(request, response));
+  }  
+
   public WSRPHttpServletRequest getRequest() {
     return (WSRPHttpServletRequest) request;
   }
@@ -20,23 +41,13 @@ public class WSRPHTTPContainer extends HashMap<Object, Object> {
   public WSRPHttpServletResponse getResponse() {
     return (WSRPHttpServletResponse) response;
   }
-
-  public WSRPHTTPContainer(HttpServletRequest request, HttpServletResponse response) {
-    this.request = new WSRPHttpServletRequest(request);
-    this.response = new WSRPHttpServletResponse(request, response);
+  
+  public int getVersion() {
+    return version;
   }
-
-  public static WSRPHTTPContainer getInstance() {
-    return (WSRPHTTPContainer) threadLocal.get();
-  }
-
-  public static void setInstance(final WSRPHTTPContainer wsrpHTTPContainer) {
-    threadLocal.set(wsrpHTTPContainer);
-  }
-
-  public static void createInstance(final HttpServletRequest request,
-                                    final HttpServletResponse response) {
-    threadLocal.set(new WSRPHTTPContainer(request, response));
+  
+  public void setVersion(int version) {
+    this.version = version;
   }
 
 }

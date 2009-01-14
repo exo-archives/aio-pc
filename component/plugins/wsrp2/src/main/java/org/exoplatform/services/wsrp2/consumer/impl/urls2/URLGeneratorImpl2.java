@@ -36,7 +36,7 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
  * Time: 13:19:37
  */
 
-public class URLGeneratorImpl implements URLGenerator {
+public class URLGeneratorImpl2 implements URLGenerator {
 
   public String getBlockingActionURL(String baseURL, Map<String, String> params) {
     return getURL(baseURL, params);

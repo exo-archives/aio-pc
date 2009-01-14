@@ -40,13 +40,13 @@ import org.exoplatform.services.wsrp2.exceptions.WSRPException;
  * Time: 15:13:40
  */
 
-public class URLRewriterImpl implements URLRewriter {
+public class URLRewriterImpl2 implements URLRewriter {
 
   private URLGenerator urlGenerator;
 
   private Log          log;
 
-  public URLRewriterImpl(URLGenerator urlGenerator) {
+  public URLRewriterImpl2(URLGenerator urlGenerator) {
     this.urlGenerator = urlGenerator;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer");
   }

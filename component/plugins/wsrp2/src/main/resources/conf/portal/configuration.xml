@@ -180,11 +180,11 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLGeneratorImpl</type>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLGeneratorImpl2</type>
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLRewriterImpl</type>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLRewriterImpl2</type>
   </component>
 
   <component>
@@ -192,7 +192,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLTemplateComposerImpl</type>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLTemplateComposerImpl2</type>
   </component>
 
   <component>
