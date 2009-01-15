@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
@@ -102,7 +103,7 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 
-    Set names = parameters.keySet();
+    Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);

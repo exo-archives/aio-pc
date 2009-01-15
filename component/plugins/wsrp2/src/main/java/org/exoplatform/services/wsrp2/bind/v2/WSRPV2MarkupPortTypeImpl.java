@@ -23,6 +23,7 @@ import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
 import org.exoplatform.services.wsrp2.producer.MarkupOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
@@ -77,6 +78,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     System.out.println(userContext);
     System.out.println(resourceParams);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       ResourceResponse response = markupOperationsInterface.getResource(registrationContext,
                                                                         portletContext.value,
                                                                         runtimeContext,
@@ -158,6 +160,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     System.out.println(markupParams);
     System.out.println(interactionParams);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(registrationContext,
                                                                                                   portletContext,
                                                                                                   runtimeContext,
@@ -210,8 +213,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     System.out.println(runtimeContext);
     System.out.println(userContext);
     System.out.println(markupParams);
-
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       MarkupResponse response = markupOperationsInterface.getMarkup(registrationContext,
                                                                     portletContext,
                                                                     runtimeContext,
@@ -300,6 +303,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     System.out.println(markupParams);
     System.out.println(eventParams);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       HandleEventsResponse response = markupOperationsInterface.handleEvents(registrationContext,
                                                                              portletContext,
                                                                              runtimeContext,

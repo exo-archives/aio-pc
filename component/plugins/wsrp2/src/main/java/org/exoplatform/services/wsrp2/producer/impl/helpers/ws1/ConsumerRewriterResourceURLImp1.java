@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
 
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -106,7 +107,7 @@ public class ConsumerRewriterResourceURLImp1 extends ResourceURLImp {
     }
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
-    Set names = parameters.keySet();
+    Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
       String name = (String) iterator.next();
       Object obj = parameters.get(name);
