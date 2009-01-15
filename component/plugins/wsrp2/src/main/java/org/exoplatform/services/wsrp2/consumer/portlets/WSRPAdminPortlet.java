@@ -157,7 +157,7 @@ public class WSRPAdminPortlet {
       actionURL.setWindowState(WindowState.NORMAL);
       actionURL.setPortletMode(PortletMode.VIEW);
 
-      w.println("<center><b>Register remote producer for " + WSRPConstants.WSRP_ID
+      w.println("<center><b>Register remote producer for " //+ WSRPConstants.WSRP_ID
           + " plugin.</b></center><br>");
       w.println("<form name=\"producer_wsrp2_form\" method=\"post\" action=\""
           + actionURL.toString() + "\">");

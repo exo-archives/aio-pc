@@ -19,13 +19,11 @@ package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.WSRPConstants1;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 
@@ -80,10 +78,10 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
     }
     if (cacheLevel != null) {
       template = StringUtils.replace(template,
-                                     "{" + WSRPConstants1.WSRP_CACHELEVEL + "}",
+                                     "{" + WSRPConstants.WSRP1_CACHELEVEL + "}",
                                      cacheLevel);
     } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants1.WSRP_CACHELEVEL + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP1_CACHELEVEL + "}", "");
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
     template = StringUtils.replace(template,

@@ -19,12 +19,10 @@ package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.Set;
 
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.WSRPConstants1;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 
@@ -101,7 +99,7 @@ public class ConsumerRewriterResourceURLImp1 extends ResourceURLImp {
     }
     if (cacheLevel != null) {
       sB.append(WSRPConstants.NEXT_PARAM);
-      sB.append(WSRPConstants1.WSRP_CACHELEVEL);
+      sB.append(WSRPConstants.WSRP1_CACHELEVEL);
       sB.append("=");
       sB.append(cacheLevel);
     }

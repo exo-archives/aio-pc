@@ -22,6 +22,7 @@ import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLGenerator;
 import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
@@ -60,11 +61,11 @@ public class URLRewriterImpl1 implements URLRewriter {
     while (markupIndex < markup.length()) {
       rewriteStartPos = -1;
       rewriteEndPos = -1;
-      rewriteStartPos = markup.indexOf(WSRPConstants1.WSRP_REWRITE_PREFIX, markupIndex);
-      if (!(rewriteStartPos == -1 || (rewriteStartPos + WSRPConstants1.WSRP_REWRITE_PREFIX.length() - 1) > (markup.length() - 2))) {
-        rewriteEndPos = markup.indexOf(WSRPConstants1.WSRP_REWRITE_SUFFFIX, markupIndex);
+      rewriteStartPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_PREFIX, markupIndex);
+      if (!(rewriteStartPos == -1 || (rewriteStartPos + WSRPConstants.WSRP_REWRITE_PREFIX.length() - 1) > (markup.length() - 2))) {
+        rewriteEndPos = markup.indexOf(WSRPConstants.WSRP_REWRITE_SUFFFIX, markupIndex);
         if (rewriteEndPos != -1) {
-          rewriteEndPos = rewriteEndPos + WSRPConstants1.WSRP_REWRITE_SUFFFIX.length();
+          rewriteEndPos = rewriteEndPos + WSRPConstants.WSRP_REWRITE_SUFFFIX.length();
         }
       }
       if ((rewriteStartPos != -1) && (rewriteEndPos != -1)) {
@@ -83,41 +84,41 @@ public class URLRewriterImpl1 implements URLRewriter {
 
   private void rewrite(String baseURL, StringBuffer markup, String rewriteURL) throws WSRPException {
     Map<String, String> params = createParameterMap(rewriteURL);
-    if (rewriteURL.indexOf(WSRPConstants1.URL_TYPE_BLOCKINGACTION) != -1) {
+    if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_BLOCKINGACTION) != -1) {
       markup.append(urlGenerator.getBlockingActionURL(baseURL, params));
-    } else if (rewriteURL.indexOf(WSRPConstants1.URL_TYPE_RENDER) != -1) {
+    } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RENDER) != -1) {
       markup.append(urlGenerator.getRenderURL(baseURL, params));
-    } else if (rewriteURL.indexOf(WSRPConstants1.URL_TYPE_RESOURCE) != -1) {
+    } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RESOURCE) != -1) {
       markup.append(urlGenerator.getResourceURL(baseURL, params));
     }
   }
 
   private Map<String, String> createParameterMap(String rewriteURL) throws WSRPException {
     Map<String, String> params = new HashMap<String, String>();
-    if (rewriteURL.indexOf(WSRPConstants1.URL_TYPE_BLOCKINGACTION) != -1) {
-      params.put(WSRPConstants1.WSRP_URL_TYPE, WSRPConstants1.URL_TYPE_BLOCKINGACTION);
-    } else if (rewriteURL.indexOf(WSRPConstants1.URL_TYPE_RENDER) != -1) {
-      params.put(WSRPConstants1.WSRP_URL_TYPE, WSRPConstants1.URL_TYPE_RENDER);
-    } else if (rewriteURL.indexOf(WSRPConstants1.URL_TYPE_RESOURCE) != -1) {
-      params.put(WSRPConstants1.WSRP_URL_TYPE, WSRPConstants1.URL_TYPE_RESOURCE);
+    if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_BLOCKINGACTION) != -1) {
+      params.put(WSRPConstants.WSRP_URL_TYPE, WSRPConstants.URL_TYPE_BLOCKINGACTION);
+    } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RENDER) != -1) {
+      params.put(WSRPConstants.WSRP_URL_TYPE, WSRPConstants.URL_TYPE_RENDER);
+    } else if (rewriteURL.indexOf(WSRPConstants.URL_TYPE_RESOURCE) != -1) {
+      params.put(WSRPConstants.WSRP_URL_TYPE, WSRPConstants.URL_TYPE_RESOURCE);
     } else {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
     }
     int equals = 0;
     int next = 0;
-    int end = rewriteURL.indexOf(WSRPConstants1.WSRP_REWRITE_SUFFFIX);
-    int index = rewriteURL.indexOf(WSRPConstants1.NEXT_PARAM);
+    int end = rewriteURL.indexOf(WSRPConstants.WSRP_REWRITE_SUFFFIX);
+    int index = rewriteURL.indexOf(WSRPConstants.NEXT_PARAM);
     int lengthNext = 0;
     String subNext = null;
     while (index != -1) {
-      subNext = rewriteURL.substring(index, index + WSRPConstants1.NEXT_PARAM.length());
-      if (subNext.equals(WSRPConstants1.NEXT_PARAM)) {
-        lengthNext = WSRPConstants1.NEXT_PARAM.length();
+      subNext = rewriteURL.substring(index, index + WSRPConstants.NEXT_PARAM.length());
+      if (subNext.equals(WSRPConstants.NEXT_PARAM)) {
+        lengthNext = WSRPConstants.NEXT_PARAM.length();
       } else {
-        lengthNext = WSRPConstants1.NEXT_PARAM.length();
+        lengthNext = WSRPConstants.NEXT_PARAM.length();
       }
       equals = rewriteURL.indexOf("=", index + lengthNext);
-      next = rewriteURL.indexOf(WSRPConstants1.NEXT_PARAM, equals);
+      next = rewriteURL.indexOf(WSRPConstants.NEXT_PARAM, equals);
       if (equals != -1) {
         if (next != -1) {
           params.put(rewriteURL.substring(index + lengthNext, equals),

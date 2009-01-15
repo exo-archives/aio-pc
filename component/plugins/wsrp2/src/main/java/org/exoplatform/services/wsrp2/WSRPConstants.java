@@ -72,6 +72,8 @@ public class WSRPConstants {
   // was: WSRP_CACHELEVEL = "wsrp-cacheLevel"
   public static final String WSRP_RESOURCE_CACHEABILITY         = "wsrp-resourceCacheability";
 
+  public static final String WSRP1_CACHELEVEL                    = "wsrp-cacheLevel";
+
   // ResourceBooleanName
   public static final String WSRP_REQUIRES_REWRITE              = "wsrp-requiresRewrite";
 
@@ -114,10 +116,10 @@ public class WSRPConstants {
 
   public static final String CERTIFICATE_USER_AUTHENTIFICATION  = WSRP_PREFIX + "certificate";
 
-  /**
-   * FOR WSRP STARTER
-   */
-  public static final String WSRP_ID                            = "WSRP2";
+//  /**
+//   * FOR WSRP STARTER
+//   */
+//  public static final String WSRP_ID                            = "WSRP2";
 
   /**
    * WSRP ADMIN
