@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
+package org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1;
 
 import java.util.Collection;
 import java.util.Iterator;

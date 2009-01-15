@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers;
+package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,11 +24,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
@@ -36,9 +36,7 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ProducerRewriterPortletURLImp
-                                          extends
-                                          org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp {
+public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private String                 sessionID;
 
@@ -48,8 +46,8 @@ public class ProducerRewriterPortletURLImp
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
-  public ProducerRewriterPortletURLImp(String type,
-                                       String template,
+  public ConsumerRewriterPortletURLImp(String type,
+                                       String baseURL,
                                        String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,
@@ -59,7 +57,7 @@ public class ProducerRewriterPortletURLImp
                                        boolean defaultEscapeXml,
                                        List<String> supportedPublicRenderParameter,
                                        Portlet portlet) {
-    super(type, template, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
+    super(type, baseURL, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -96,47 +94,62 @@ public class ProducerRewriterPortletURLImp
       }
     }
 
-    String template = baseURL;
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
+    StringBuffer sB = new StringBuffer();
 
-    String secureInfo = "false";
+    sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
+
+    sB.append(WSRPConstants.WSRP_URL_TYPE);
+    sB.append("=");
+    sB.append(getType());
+
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
+    sB.append("=");
+    sB.append("");
+
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_EXTENSIONS);
+    sB.append("=");
+    sB.append("");
+
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);
-      secureInfo = "true";
     }
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_SECURE_URL);
+    sB.append("=");
+    sB.append(isSecure());
 
-    if (requiredPortletMode != null) {
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_MODE + "}",
-                                     requiredPortletMode.toString());
-    } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
-    }
-    if (requiredWindowState != null) {
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_WINDOW_STATE + "}",
-                                     requiredWindowState.toString());
-    } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
-    }
+    //if (requiredPortletMode != null) {
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_MODE);
+    sB.append("=");
+    sB.append(requiredPortletMode != null ? requiredPortletMode : "");
+    //}
+
+    //if (requiredWindowState != null) {
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_WINDOW_STATE);
+    sB.append("=");
+    sB.append(requiredWindowState != null ? requiredWindowState : "");
+    //}
 
     // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
-      stateManager.putNavigationalState(navigationalState, parameters);//was: privateParams
+      stateManager.putNavigationalState(navigationalState, parameters);// was: privateParams
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}",
-                                   navigationalState);
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+    sB.append("=");
+    sB.append(navigationalState);
 
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}",
-                                   encode(navigationalValuesString));
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
+    sB.append("=");
+    sB.append(encode(navigationalValuesString));
 
     // process interaction state
     if (getType().equalsIgnoreCase(PCConstants.ACTION_STRING)) {
@@ -146,34 +159,13 @@ public class ProducerRewriterPortletURLImp
       } catch (WSRPException e) {
         e.printStackTrace();
       }
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}",
-                                     interactionState);
-    } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
+      sB.append(WSRPConstants.NEXT_PARAM);
+      sB.append(WSRPConstants.WSRP_INTERACTION_STATE);
+      sB.append("=");
+      sB.append(interactionState);
     }
 
-    //clear resource params 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
-                                   "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
-
-    // other parameters
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
-                                   portletHandle);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
-                                   "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");
+    sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
@@ -181,22 +173,22 @@ public class ProducerRewriterPortletURLImp
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        template += WSRPConstants.NEXT_PARAM;
-        template += encode(name);
-        template += "=";
-        template += encode(value);
+        sB.append(WSRPConstants.NEXT_PARAM);
+        sB.append(encode(name));
+        sB.append("=");
+        sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          template += WSRPConstants.NEXT_PARAM;
-          template += encode(name);
-          template += "=";
-          template += encode(values[i]);
+          sB.append(WSRPConstants.NEXT_PARAM);
+          sB.append(encode(name));
+          sB.append("=");
+          sB.append(encode(values[i]));
         }
       }
     }
 
-    return template;
+    return sB.toString();
   }
 
 }

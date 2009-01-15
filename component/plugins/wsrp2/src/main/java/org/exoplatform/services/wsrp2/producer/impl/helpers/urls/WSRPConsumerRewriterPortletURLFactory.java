@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers;
+package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +27,9 @@ import org.exoplatform.services.portletcontainer.pci.PortletURLFactory;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.ws1.ConsumerRewriterPortletURLImp1;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.ws1.ConsumerRewriterResourceURLImp1;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ConsumerRewriterPortletURLImp1;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ConsumerRewriterResourceURLImp1;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
