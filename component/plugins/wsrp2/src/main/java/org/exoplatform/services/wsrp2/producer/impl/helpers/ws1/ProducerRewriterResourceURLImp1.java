@@ -41,11 +41,11 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
   private PersistentStateManager stateManager;
 
   public ProducerRewriterResourceURLImp1(String type,
-                                        String template,
-                                        boolean isCurrentlySecured,
-                                        String portletHandle,
-                                        PersistentStateManager stateManager,
-                                        String sessionID) {
+                                         String template,
+                                         boolean isCurrentlySecured,
+                                         String portletHandle,
+                                         PersistentStateManager stateManager,
+                                         String sessionID) {
     super(type, template, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
