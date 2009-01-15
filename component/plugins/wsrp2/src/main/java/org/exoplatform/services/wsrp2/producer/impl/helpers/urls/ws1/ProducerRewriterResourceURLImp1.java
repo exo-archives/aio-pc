@@ -78,10 +78,10 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
     }
     if (cacheLevel != null) {
       template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP1_CACHELEVEL + "}",
+                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
                                      cacheLevel);
     } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP1_CACHELEVEL + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
     template = StringUtils.replace(template,

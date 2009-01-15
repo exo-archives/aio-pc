@@ -99,7 +99,7 @@ public class ConsumerRewriterResourceURLImp1 extends ResourceURLImp {
     }
     if (cacheLevel != null) {
       sB.append(WSRPConstants.NEXT_PARAM);
-      sB.append(WSRPConstants.WSRP1_CACHELEVEL);
+      sB.append(WSRPConstants.WSRP_RESOURCE_CACHEABILITY);
       sB.append("=");
       sB.append(cacheLevel);
     }
