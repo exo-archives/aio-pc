@@ -35,8 +35,8 @@ import org.exoplatform.services.wsrp2.type.Templates;
  *         Zavizionov</a>
  * @version $Id: $ Jan 15, 2009
  */
-public class WSRPProducerRewriterPortletURLFactoryBuilder {
-  private static final Log LOG = ExoLogger.getLogger(WSRPProducerRewriterPortletURLFactoryBuilder.class);
+public class WSRPRewriterPortletURLFactoryBuilder {
+  private static final Log LOG = ExoLogger.getLogger(WSRPRewriterPortletURLFactoryBuilder.class);
 
   public static PortletURLFactory getFactory(boolean isDoesUrlTemplateProcessing,
                                              RuntimeContext runtimeContext,

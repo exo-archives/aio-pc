@@ -79,7 +79,7 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletReque
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPProducerRewriterPortletURLFactory;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPProducerRewriterPortletURLFactoryBuilder;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPRewriterPortletURLFactoryBuilder;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.Event;
@@ -258,7 +258,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
                                                                                 runtimeContext,
                                                                                 session,
                                                                                 conf.isTemplatesStoredInSession(),
@@ -424,7 +424,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
                                                                                                   runtimeContext,
                                                                                                   session,
                                                                                                   conf.isTemplatesStoredInSession(),
@@ -763,7 +763,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
                                                                                                   runtimeContext,
                                                                                                   session,
                                                                                                   conf.isTemplatesStoredInSession(),
@@ -924,7 +924,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
                                                                                                   runtimeContext,
                                                                                                   session,
                                                                                                   conf.isTemplatesStoredInSession(),
