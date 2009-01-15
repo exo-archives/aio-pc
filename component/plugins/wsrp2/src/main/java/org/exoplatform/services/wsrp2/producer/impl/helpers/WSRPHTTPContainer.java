@@ -14,7 +14,7 @@ public class WSRPHTTPContainer extends HashMap<Object, Object> {
   private HttpServletResponse                   response;
 
   private int                                   version;
-  
+
   public WSRPHTTPContainer(HttpServletRequest request, HttpServletResponse response) {
     this.request = new WSRPHttpServletRequest(request);
     this.response = new WSRPHttpServletResponse(request, response);
@@ -32,7 +32,7 @@ public class WSRPHTTPContainer extends HashMap<Object, Object> {
   public static void createInstance(final HttpServletRequest request,
                                     final HttpServletResponse response) {
     threadLocal.set(new WSRPHTTPContainer(request, response));
-  }  
+  }
 
   public WSRPHttpServletRequest getRequest() {
     return (WSRPHttpServletRequest) request;
@@ -41,11 +41,11 @@ public class WSRPHTTPContainer extends HashMap<Object, Object> {
   public WSRPHttpServletResponse getResponse() {
     return (WSRPHttpServletResponse) response;
   }
-  
+
   public int getVersion() {
     return version;
   }
-  
+
   public void setVersion(int version) {
     this.version = version;
   }

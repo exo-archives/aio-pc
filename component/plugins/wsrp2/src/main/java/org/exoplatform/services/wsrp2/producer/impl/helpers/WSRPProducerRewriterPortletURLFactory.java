@@ -49,7 +49,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private List<Supports>         supports;                                                // only for PortletURL
 
-  private String                 mimeType;                                                  // only for PortletURL
+  private String                 mimeType;                                                // only for PortletURL
 
   private String                 cacheLevel;                                              // only for ResourceURL
 

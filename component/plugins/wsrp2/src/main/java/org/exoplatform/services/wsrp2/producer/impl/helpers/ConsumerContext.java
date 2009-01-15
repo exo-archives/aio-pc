@@ -31,7 +31,7 @@ public class ConsumerContext implements Serializable {
   /**
    * 
    */
-  private static final long  serialVersionUID = -7301320553261412108L;
+  private static final long  serialVersionUID     = -7301320553261412108L;
 
   private String             registrationHandle;
 

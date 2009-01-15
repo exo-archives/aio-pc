@@ -20,7 +20,6 @@ package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
@@ -42,13 +41,13 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
   private PersistentStateManager stateManager;
 
   public ProducerRewriterPortletURLImp1(String type,
-                                       String template,
-                                       String mimeType,
-                                       List<Supports> supports,
-                                       boolean isCurrentlySecured,
-                                       String portletHandle,
-                                       PersistentStateManager persistentStateManager,
-                                       String sessionID) {
+                                        String template,
+                                        String mimeType,
+                                        List<Supports> supports,
+                                        boolean isCurrentlySecured,
+                                        String portletHandle,
+                                        PersistentStateManager persistentStateManager,
+                                        String sessionID) {
     super(type, template, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = persistentStateManager;

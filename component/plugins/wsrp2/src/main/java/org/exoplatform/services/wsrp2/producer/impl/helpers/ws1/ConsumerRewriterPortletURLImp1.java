@@ -20,7 +20,6 @@ package org.exoplatform.services.wsrp2.producer.impl.helpers.ws1;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
@@ -41,13 +40,13 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
   private PersistentStateManager stateManager;
 
   public ConsumerRewriterPortletURLImp1(String type,
-                                       String baseURL,
-                                       String mimeType,
-                                       List<Supports> supports,
-                                       boolean isCurrentlySecured,
-                                       String portletHandle,
-                                       PersistentStateManager stateManager,
-                                       String sessionID) {
+                                        String baseURL,
+                                        String mimeType,
+                                        List<Supports> supports,
+                                        boolean isCurrentlySecured,
+                                        String portletHandle,
+                                        PersistentStateManager stateManager,
+                                        String sessionID) {
     super(type, baseURL, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;

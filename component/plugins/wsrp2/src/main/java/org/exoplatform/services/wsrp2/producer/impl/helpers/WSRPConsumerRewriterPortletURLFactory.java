@@ -49,7 +49,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private boolean                defaultEscapeXml;
 
-  private String                 mimeType;                                                  // only for PortletURL
+  private String                 mimeType;                                                // only for PortletURL
 
   private List<Supports>         supports;                                                // only for PortletURL
 

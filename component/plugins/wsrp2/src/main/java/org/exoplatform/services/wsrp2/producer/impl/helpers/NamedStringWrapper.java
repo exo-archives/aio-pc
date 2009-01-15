@@ -22,17 +22,17 @@ import org.exoplatform.services.wsrp2.type.NamedString;
 
 /**
  * Created by The eXo Platform SAS .
- * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey Zavizionov</a>
- * @version $Id: $
- *
- * Oct 28, 2008  
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Oct 28, 2008
  */
 public class NamedStringWrapper extends NamedString {
   private static final Log LOG = ExoLogger.getLogger(NamedStringWrapper.class);
-  
+
   public NamedStringWrapper(String name, String value) {
     this.name = name;
     this.value = value;
   }
-  
+
 }
