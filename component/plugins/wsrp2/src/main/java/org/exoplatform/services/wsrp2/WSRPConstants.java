@@ -72,7 +72,7 @@ public class WSRPConstants {
   // was: WSRP_CACHELEVEL = "wsrp-cacheLevel"
   public static final String WSRP_RESOURCE_CACHEABILITY         = "wsrp-resourceCacheability";
 
-  public static final String WSRP1_CACHELEVEL                    = "wsrp-cacheLevel";
+  public static final String WSRP1_CACHELEVEL                   = "wsrp-cacheLevel";
 
   // ResourceBooleanName
   public static final String WSRP_REQUIRES_REWRITE              = "wsrp-requiresRewrite";
