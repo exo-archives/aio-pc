@@ -79,6 +79,7 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletReque
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPProducerRewriterPortletURLFactory;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPProducerRewriterPortletURLFactoryBuilder;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.Event;
@@ -257,44 +258,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
-    // manage rewriting mechanism
-    String baseURL = null;
-    PortletURLFactory portletURLFactory = null;
-    // creating Portlet URL Factory
-
-    if (conf.isDoesUrlTemplateProcessing()) {// default is true
-      log.debug("Producer URL rewriting");
-      Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getRenderTemplate();
-      portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-
-    } else {
-      log.debug("Consumer URL rewriting");
-      portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    }
-
-//    }
-
+    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+                                                                                runtimeContext,
+                                                                                session,
+                                                                                conf.isTemplatesStoredInSession(),
+                                                                                transientStateManager,
+                                                                                mimeType,
+                                                                                portletData.getSupports(),
+                                                                                markupParams.isSecureClientCommunication(),
+                                                                                portletHandle,
+                                                                                persistentStateManager,
+                                                                                sessionID,
+                                                                                portletData.getEscapeXml(),
+                                                                                ResourceURL.PAGE,
+                                                                                portletData.getSupportedPublicRenderParameter(),
+                                                                                ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
@@ -319,7 +297,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
-    input.setBaseURL(baseURL);
+    input.setBaseURL(null);
     input.setPortletURLFactory(portletURLFactory);
     input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
@@ -446,39 +424,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
-    // manage rewriting mechanism
-    String baseURL = null;
-    PortletURLFactory portletURLFactory = null;
-    // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {// default is true
-      log.debug("Producer URL rewriting");
-      Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getBlockingActionTemplate();
-      portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    } else {
-      log.debug("Consumer URL rewriting");
-      portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    }
+    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+                                                                                                  runtimeContext,
+                                                                                                  session,
+                                                                                                  conf.isTemplatesStoredInSession(),
+                                                                                                  transientStateManager,
+                                                                                                  mimeType,
+                                                                                                  portletData.getSupports(),
+                                                                                                  markupParams.isSecureClientCommunication(),
+                                                                                                  portletHandle,
+                                                                                                  persistentStateManager,
+                                                                                                  sessionID,
+                                                                                                  portletData.getEscapeXml(),
+                                                                                                  ResourceURL.PAGE,
+                                                                                                  portletData.getSupportedPublicRenderParameter(),
+                                                                                                  ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage portlet state
@@ -565,7 +525,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
-    input.setBaseURL(baseURL);
+    input.setBaseURL(null);
     input.setPortletURLFactory(portletURLFactory);
     input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
@@ -803,39 +763,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
-    // manage rewriting mechanism
-    String baseURL = null;
-    PortletURLFactory portletURLFactory = null;
-    // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {// default is true
-      log.debug("Producer URL rewriting");
-      Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getResourceTemplate();
-      portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    resourceParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    resourceParams.getResourceCacheability(),
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    } else {
-      log.debug("Consumer URL rewriting");
-      portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    resourceParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    resourceParams.getResourceCacheability(),
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    }
+    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+                                                                                                  runtimeContext,
+                                                                                                  session,
+                                                                                                  conf.isTemplatesStoredInSession(),
+                                                                                                  transientStateManager,
+                                                                                                  mimeType,
+                                                                                                  portletData.getSupports(),
+                                                                                                  resourceParams.isSecureClientCommunication(),
+                                                                                                  portletHandle,
+                                                                                                  persistentStateManager,
+                                                                                                  sessionID,
+                                                                                                  portletData.getEscapeXml(),
+                                                                                                  ResourceURL.PAGE,
+                                                                                                  portletData.getSupportedPublicRenderParameter(),
+                                                                                                  ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END CREATING FACTORY --------------
 
     // manage mode and states
@@ -862,7 +804,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
     input.setInternalWindowID(windowID);
-    input.setBaseURL(baseURL);
+    input.setBaseURL(null);
     input.setPortletURLFactory(portletURLFactory);
     input.setEscapeXml(true);
     input.setUserAttributes(new HashMap<String, String>());
@@ -982,39 +924,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
-    // manage rewriting mechanism
-    String baseURL = null;
-    PortletURLFactory portletURLFactory = null;
-    // creating Portlet URL Factory
-    if (conf.isDoesUrlTemplateProcessing()) {// default is true
-      log.debug("Producer URL rewriting");
-      Templates templates = manageTemplates(runtimeContext, session);
-      baseURL = templates.getRenderTemplate();
-      portletURLFactory = new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    } else {
-      log.debug("Consumer URL rewriting");
-      portletURLFactory = new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                                    baseURL,
-                                                                    portletData.getSupports(),
-                                                                    markupParams.isSecureClientCommunication(),
-                                                                    portletHandle,
-                                                                    persistentStateManager,
-                                                                    sessionID,
-                                                                    portletData.getEscapeXml(),
-                                                                    ResourceURL.PAGE,
-                                                                    portletData.getSupportedPublicRenderParameter(),
-                                                                    ((PortletDataImp) portletData).getWrappedPortletTyped());
-    }
+    PortletURLFactory portletURLFactory = WSRPProducerRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
+                                                                                                  runtimeContext,
+                                                                                                  session,
+                                                                                                  conf.isTemplatesStoredInSession(),
+                                                                                                  transientStateManager,
+                                                                                                  mimeType,
+                                                                                                  portletData.getSupports(),
+                                                                                                  markupParams.isSecureClientCommunication(),
+                                                                                                  portletHandle,
+                                                                                                  persistentStateManager,
+                                                                                                  sessionID,
+                                                                                                  portletData.getEscapeXml(),
+                                                                                                  ResourceURL.PAGE,
+                                                                                                  portletData.getSupportedPublicRenderParameter(),
+                                                                                                  ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END CREATING FACTORY --------------
 
     // manage portlet state
@@ -1111,7 +1035,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       windowID.setPortletName(portletName);
       windowID.setUniqueID(uniqueID);
       input.setInternalWindowID(windowID);
-      input.setBaseURL(baseURL);
+      input.setBaseURL(null);
       input.setPortletURLFactory(portletURLFactory);
       input.setEscapeXml(true);
       input.setUserAttributes(new HashMap<String, String>());
@@ -1404,20 +1328,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return null;
   }
 
-  private Templates manageTemplates(RuntimeContext runtimeContext, WSRPHttpSession session) {
-    Templates templates = runtimeContext.getTemplates();
-    if (conf.isTemplatesStoredInSession()) { // default is false
-      log.debug("Optimized mode : templates store in session");
-      if (templates == null) {
-        log.debug("Optimized mode : retrieves the template from session");
-        templates = transientStateManager.getTemplates(session);
-      } else {
-        log.debug("Optimized mode : store the templates in session");
-        transientStateManager.storeTemplates(templates, session);
-      }
-    }
-    return templates;
-  }
+
 
   private Integer getSessionTimePeriod() {
     try {

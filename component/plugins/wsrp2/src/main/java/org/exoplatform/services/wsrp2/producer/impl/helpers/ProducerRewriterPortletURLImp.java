@@ -50,7 +50,7 @@ public class ProducerRewriterPortletURLImp
 
   public ProducerRewriterPortletURLImp(String type,
                                        String template,
-                                       String markup,
+                                       String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,
                                        String portletHandle,
@@ -59,7 +59,7 @@ public class ProducerRewriterPortletURLImp
                                        boolean defaultEscapeXml,
                                        List<String> supportedPublicRenderParameter,
                                        Portlet portlet) {
-    super(type, template, markup, supports, isCurrentlySecured, defaultEscapeXml, portlet);
+    super(type, template, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;

@@ -49,7 +49,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private List<Supports>         supports;                                                // only for PortletURL
 
-  private String                 markup;                                                  // only for PortletURL
+  private String                 mimeType;                                                  // only for PortletURL
 
   private String                 cacheLevel;                                              // only for ResourceURL
 
@@ -59,7 +59,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private int                    version;
 
-  public WSRPProducerRewriterPortletURLFactory(String markup,
+  public WSRPProducerRewriterPortletURLFactory(String mimeType,
                                                String template,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
@@ -70,7 +70,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                String cacheLevel,
                                                List<String> supportedPublicRenderParameter,
                                                Portlet portlet) {
-    this.markup = markup;
+    this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
     this.template = template;
@@ -88,7 +88,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
     if (version == 1) {
       return new ProducerRewriterPortletURLImp1(type,
                                                 template,
-                                                markup,
+                                                mimeType,
                                                 supports,
                                                 isCurrentlySecured,
                                                 portletHandle,
@@ -97,7 +97,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
     } else {
       return new ProducerRewriterPortletURLImp(type,
                                                template,
-                                               markup,
+                                               mimeType,
                                                supports,
                                                isCurrentlySecured,
                                                portletHandle,

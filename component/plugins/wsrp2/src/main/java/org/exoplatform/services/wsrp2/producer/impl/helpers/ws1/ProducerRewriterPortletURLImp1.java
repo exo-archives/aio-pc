@@ -42,13 +42,13 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
 
   public ProducerRewriterPortletURLImp1(String type,
                                        String template,
-                                       String markup,
+                                       String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,
                                        String portletHandle,
                                        PersistentStateManager persistentStateManager,
                                        String sessionID) {
-    super(type, template, markup, supports, isCurrentlySecured, true, null);
+    super(type, template, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = persistentStateManager;
     this.sessionID = sessionID;

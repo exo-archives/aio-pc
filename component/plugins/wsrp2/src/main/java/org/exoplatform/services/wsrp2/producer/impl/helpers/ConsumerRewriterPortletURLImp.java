@@ -48,7 +48,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   public ConsumerRewriterPortletURLImp(String type,
                                        String baseURL,
-                                       String markup,
+                                       String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,
                                        String portletHandle,
@@ -57,7 +57,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
                                        boolean defaultEscapeXml,
                                        List<String> supportedPublicRenderParameter,
                                        Portlet portlet) {
-    super(type, baseURL, markup, supports, isCurrentlySecured, defaultEscapeXml, portlet);
+    super(type, baseURL, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;

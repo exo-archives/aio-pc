@@ -41,13 +41,13 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
 
   public ConsumerRewriterPortletURLImp1(String type,
                                        String baseURL,
-                                       String markup,
+                                       String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,
                                        String portletHandle,
                                        PersistentStateManager stateManager,
                                        String sessionID) {
-    super(type, baseURL, markup, supports, isCurrentlySecured, true, null);
+    super(type, baseURL, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
