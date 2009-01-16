@@ -231,8 +231,12 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     }
   }
 
+  /**
+   * For exclude register remote to remote use pcService.getAllPortletMetaData(true).
+   * For include that use pcService.getAllPortletMetaData().
+   */
   public Map<String, PortletData> getAllPortletMetaData() {
-    return pcService.getAllPortletMetaData();// for exclude register remote to remote use parameter 'true'
+    return pcService.getAllPortletMetaData(true);
   }
   
   // public Collection getWindowStates(String s) {
