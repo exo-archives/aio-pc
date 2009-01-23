@@ -104,9 +104,13 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   public ProducerImpl(ExoContainer container, String producerURL, Integer version) {
 //    this.desiredLocales = new ArrayList<String>();
     this.url = initProducerURL(producerURL);
-    if (version != null)
-      setVersion(version);
-    init(container);
+    if (this.url != null) {
+      if (version != null)
+        setVersion(version);
+      init(container);
+    } else {
+      LOG.error("producer URL is null", new NullPointerException("producer URL is null"));
+    }
   }
 
   /**
@@ -415,9 +419,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   private String createProducerID(String string) {
-    return string
-        + Integer.toString(this.url.toExternalForm().hashCode()) + "_"
-            + Long.toString(Calendar.getInstance().getTimeInMillis(), 16);
+    return string + Integer.toString(this.url.toExternalForm().hashCode()) + "_"
+        + Long.toString(Calendar.getInstance().getTimeInMillis(), 16);
   }
 
 }

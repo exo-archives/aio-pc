@@ -1,28 +1,40 @@
 package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
+import org.exoplatform.services.wsrp1.type.WS1BlockingInteractionResponse;
 import org.exoplatform.services.wsrp1.type.WS1CacheControl;
 import org.exoplatform.services.wsrp1.type.WS1ClientData;
+import org.exoplatform.services.wsrp1.type.WS1ClonePortlet;
 import org.exoplatform.services.wsrp1.type.WS1Contact;
 import org.exoplatform.services.wsrp1.type.WS1CookieProtocol;
 import org.exoplatform.services.wsrp1.type.WS1DestroyFailed;
+import org.exoplatform.services.wsrp1.type.WS1DestroyPortlets;
+import org.exoplatform.services.wsrp1.type.WS1DestroyPortletsResponse;
 import org.exoplatform.services.wsrp1.type.WS1EmployerInfo;
 import org.exoplatform.services.wsrp1.type.WS1Extension;
+import org.exoplatform.services.wsrp1.type.WS1GetMarkup;
+import org.exoplatform.services.wsrp1.type.WS1GetPortletProperties;
+import org.exoplatform.services.wsrp1.type.WS1GetServiceDescription;
 import org.exoplatform.services.wsrp1.type.WS1InteractionParams;
 import org.exoplatform.services.wsrp1.type.WS1ItemDescription;
 import org.exoplatform.services.wsrp1.type.WS1LocalizedString;
 import org.exoplatform.services.wsrp1.type.WS1MarkupContext;
 import org.exoplatform.services.wsrp1.type.WS1MarkupParams;
+import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
 import org.exoplatform.services.wsrp1.type.WS1MarkupType;
 import org.exoplatform.services.wsrp1.type.WS1ModelDescription;
 import org.exoplatform.services.wsrp1.type.WS1ModelTypes;
+import org.exoplatform.services.wsrp1.type.WS1ModifyRegistration;
 import org.exoplatform.services.wsrp1.type.WS1NamedString;
 import org.exoplatform.services.wsrp1.type.WS1Online;
+import org.exoplatform.services.wsrp1.type.WS1PerformBlockingInteraction;
 import org.exoplatform.services.wsrp1.type.WS1PersonName;
 import org.exoplatform.services.wsrp1.type.WS1PortletContext;
 import org.exoplatform.services.wsrp1.type.WS1PortletDescription;
@@ -32,6 +44,8 @@ import org.exoplatform.services.wsrp1.type.WS1PropertyDescription;
 import org.exoplatform.services.wsrp1.type.WS1PropertyList;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationData;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationState;
+import org.exoplatform.services.wsrp1.type.WS1ReleaseSessions;
 import org.exoplatform.services.wsrp1.type.WS1ResetProperty;
 import org.exoplatform.services.wsrp1.type.WS1Resource;
 import org.exoplatform.services.wsrp1.type.WS1ResourceList;
@@ -39,6 +53,7 @@ import org.exoplatform.services.wsrp1.type.WS1ResourceValue;
 import org.exoplatform.services.wsrp1.type.WS1RuntimeContext;
 import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
 import org.exoplatform.services.wsrp1.type.WS1SessionContext;
+import org.exoplatform.services.wsrp1.type.WS1SetPortletProperties;
 import org.exoplatform.services.wsrp1.type.WS1StateChange;
 import org.exoplatform.services.wsrp1.type.WS1Telecom;
 import org.exoplatform.services.wsrp1.type.WS1TelephoneNum;
@@ -47,24 +62,34 @@ import org.exoplatform.services.wsrp1.type.WS1UpdateResponse;
 import org.exoplatform.services.wsrp1.type.WS1UploadContext;
 import org.exoplatform.services.wsrp1.type.WS1UserContext;
 import org.exoplatform.services.wsrp1.type.WS1UserProfile;
+import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.ClientData;
+import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Contact;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
+import org.exoplatform.services.wsrp2.type.DestroyPortlets;
+import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
 import org.exoplatform.services.wsrp2.type.EmployerInfo;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.FailedPortlets;
+import org.exoplatform.services.wsrp2.type.GetMarkup;
+import org.exoplatform.services.wsrp2.type.GetPortletProperties;
+import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
+import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MarkupType;
 import org.exoplatform.services.wsrp2.type.ModelDescription;
 import org.exoplatform.services.wsrp2.type.ModelTypes;
+import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.Online;
+import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
 import org.exoplatform.services.wsrp2.type.PersonName;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
@@ -72,8 +97,11 @@ import org.exoplatform.services.wsrp2.type.Postal;
 import org.exoplatform.services.wsrp2.type.Property;
 import org.exoplatform.services.wsrp2.type.PropertyDescription;
 import org.exoplatform.services.wsrp2.type.PropertyList;
+import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
+import org.exoplatform.services.wsrp2.type.RegistrationState;
+import org.exoplatform.services.wsrp2.type.ReleaseSessions;
 import org.exoplatform.services.wsrp2.type.ResetProperty;
 import org.exoplatform.services.wsrp2.type.Resource;
 import org.exoplatform.services.wsrp2.type.ResourceList;
@@ -82,6 +110,7 @@ import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SessionContext;
 import org.exoplatform.services.wsrp2.type.SessionParams;
+import org.exoplatform.services.wsrp2.type.SetPortletProperties;
 import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.Telecom;
 import org.exoplatform.services.wsrp2.type.TelephoneNum;
@@ -589,7 +618,7 @@ public class WSRPTypesTransformer {
     List<PortletDescription> portletDescriptions = new ArrayList<PortletDescription>();
     Iterator<WS1PortletDescription> it = ws1portletDescriptions.iterator();
     while (it.hasNext()) {
-      WS1PortletDescription elem = (WS1PortletDescription)it.next();
+      WS1PortletDescription elem = (WS1PortletDescription) it.next();
       PortletDescription portletDescription = getWS2PortletDescription(elem);
       if (portletDescription != null) {
         portletDescriptions.add(portletDescription);
@@ -1331,7 +1360,7 @@ public class WSRPTypesTransformer {
     if (postal == null) {
       return null;
     }
-    WS1Postal ws1Postal= new WS1Postal();
+    WS1Postal ws1Postal = new WS1Postal();
     ws1Postal.setName(postal.getName());
     ws1Postal.setStreet(postal.getStreet());
     ws1Postal.setCity(postal.getCity());
@@ -1407,9 +1436,12 @@ public class WSRPTypesTransformer {
     WS1InteractionParams ws1InteractionParams = new WS1InteractionParams();
     ws1InteractionParams.setPortletStateChange(getWS1StateChange(interactionParams.getPortletStateChange()));
     ws1InteractionParams.setInteractionState(interactionParams.getInteractionState());
-    ws1InteractionParams.getFormParameters().addAll(getWS1NamedStrings(interactionParams.getFormParameters()));
-    ws1InteractionParams.getUploadContexts().addAll(getWS1UploadContexts(interactionParams.getUploadContexts()));
-    ws1InteractionParams.getExtensions().addAll(getWS1Extensions(interactionParams.getExtensions()));
+    ws1InteractionParams.getFormParameters()
+                        .addAll(getWS1NamedStrings(interactionParams.getFormParameters()));
+    ws1InteractionParams.getUploadContexts()
+                        .addAll(getWS1UploadContexts(interactionParams.getUploadContexts()));
+    ws1InteractionParams.getExtensions()
+                        .addAll(getWS1Extensions(interactionParams.getExtensions()));
     return ws1InteractionParams;
   }
 
@@ -1431,7 +1463,8 @@ public class WSRPTypesTransformer {
     WS1UploadContext ws1UploadContext = new WS1UploadContext();
     ws1UploadContext.setMimeType(uploadContext.getMimeType());
     ws1UploadContext.setUploadData(uploadContext.getUploadData());
-    ws1UploadContext.getMimeAttributes().addAll(getWS1NamedStrings(uploadContext.getMimeAttributes()));
+    ws1UploadContext.getMimeAttributes()
+                    .addAll(getWS1NamedStrings(uploadContext.getMimeAttributes()));
     ws1UploadContext.getExtensions().addAll(getWS1Extensions(uploadContext.getExtensions()));
     return ws1UploadContext;
   }
@@ -1489,6 +1522,120 @@ public class WSRPTypesTransformer {
     failedPortlets.setReason(reason);
 //    failedPortlets.setResourceList(value);
     return failedPortlets;
+  }
+
+  public static GetServiceDescription getWS2GetServiceDescription(WS1GetServiceDescription ws1GetServiceDescription) {
+    GetServiceDescription getServiceDescription = new GetServiceDescription();
+    getServiceDescription.setRegistrationContext(getWS2RegistrationContext(ws1GetServiceDescription.getRegistrationContext()));
+//    getServiceDescription.setUserContext());
+    getServiceDescription.getDesiredLocales();
+    getServiceDescription.getPortletHandles();
+    return getServiceDescription;
+  }
+
+  public static GetMarkup getWS2GetMarkup(WS1GetMarkup ws1GetMarkup) {
+    GetMarkup getMarkup = new GetMarkup();
+    getMarkup.setMarkupParams(getWS2MarkupParams(ws1GetMarkup.getMarkupParams()));
+    getMarkup.setPortletContext(getWS2PortletContext(ws1GetMarkup.getPortletContext()));
+    getMarkup.setRegistrationContext(getWS2RegistrationContext(ws1GetMarkup.getRegistrationContext()));
+    getMarkup.setRuntimeContext(getWS2RuntimeContext(ws1GetMarkup.getRuntimeContext()));
+//    getMarkup.setUserContext(value);
+    return getMarkup;
+  }
+
+  public static WS1MarkupResponse getWS1MarkupResponse(MarkupResponse ws2MarkupResponse) {
+    WS1MarkupResponse ws1MarkupResponse = new WS1MarkupResponse();
+    ws1MarkupResponse.setMarkupContext(getWS1MarkupContext(ws2MarkupResponse.getMarkupContext()));
+    ws1MarkupResponse.setSessionContext(getWS1SessionContext(ws2MarkupResponse.getSessionContext()));
+    try {
+      ws1MarkupResponse.getExtensions().addAll(getWS1Extensions(ws2MarkupResponse.getExtensions()));
+    } catch (NullPointerException npe) {
+    }
+    return ws1MarkupResponse;
+  }
+
+  public static ClonePortlet getWS2ClonePortlet(WS1ClonePortlet ws1ClonePortlet) {
+    ClonePortlet clonePortlet = new ClonePortlet();
+    clonePortlet.setPortletContext(getWS2PortletContext(ws1ClonePortlet.getPortletContext()));
+    clonePortlet.setRegistrationContext(getWS2RegistrationContext(ws1ClonePortlet.getRegistrationContext()));
+    clonePortlet.setUserContext(getWS2UserContext(ws1ClonePortlet.getUserContext()));
+//    clonePortlet.setLifetime(value);
+    return clonePortlet;
+  }
+
+  public static SetPortletProperties getWS2SetPortletProperties(WS1SetPortletProperties ws1SetPortletProperties) {
+    SetPortletProperties setPortletProperties = new SetPortletProperties();
+    setPortletProperties.setPortletContext(getWS2PortletContext(ws1SetPortletProperties.getPortletContext()));
+    setPortletProperties.setRegistrationContext(getWS2RegistrationContext(ws1SetPortletProperties.getRegistrationContext()));
+    setPortletProperties.setUserContext(getWS2UserContext(ws1SetPortletProperties.getUserContext()));
+    setPortletProperties.setPropertyList(getWS2PropertyList(ws1SetPortletProperties.getPropertyList()));
+    return setPortletProperties;
+  }
+
+  public static PerformBlockingInteraction getWS2PerformBlockingInteraction(WS1PerformBlockingInteraction ws1PerformBlockingInteraction) {
+    PerformBlockingInteraction performBlockingInteraction = new PerformBlockingInteraction();
+    performBlockingInteraction.setInteractionParams(getWS2InteractionParams(ws1PerformBlockingInteraction.getInteractionParams()));
+    performBlockingInteraction.setMarkupParams(getWS2MarkupParams(ws1PerformBlockingInteraction.getMarkupParams()));
+    performBlockingInteraction.setPortletContext(getWS2PortletContext(ws1PerformBlockingInteraction.getPortletContext()));
+    performBlockingInteraction.setRegistrationContext(getWS2RegistrationContext(ws1PerformBlockingInteraction.getRegistrationContext()));
+    performBlockingInteraction.setRuntimeContext(getWS2RuntimeContext(ws1PerformBlockingInteraction.getRuntimeContext()));
+    performBlockingInteraction.setUserContext(getWS2UserContext(ws1PerformBlockingInteraction.getUserContext()));
+    return performBlockingInteraction;
+  }
+
+  public static WS1BlockingInteractionResponse getWS1BlockingInteractionResponse(BlockingInteractionResponse ws2PerformBlockingInteraction) {
+    WS1BlockingInteractionResponse ws1BlockingInteractionResponse = new WS1BlockingInteractionResponse();
+    ws1BlockingInteractionResponse.setRedirectURL(ws2PerformBlockingInteraction.getRedirectURL());
+    ws1BlockingInteractionResponse.setUpdateResponse(getWS1UpdateResponse(ws2PerformBlockingInteraction.getUpdateResponse()));
+    ws1BlockingInteractionResponse.getExtensions().addAll(getWS1Extensions(ws2PerformBlockingInteraction.getExtensions()));
+    return ws1BlockingInteractionResponse;
+  }
+
+  public static GetPortletProperties getWS2GetPortletProperties(WS1GetPortletProperties ws1GetPortletProperties) {
+    GetPortletProperties getPortletProperties = new GetPortletProperties();
+    getPortletProperties.setPortletContext(getWS2PortletContext(ws1GetPortletProperties.getPortletContext()));
+    getPortletProperties.setRegistrationContext(getWS2RegistrationContext(ws1GetPortletProperties.getRegistrationContext()));
+    getPortletProperties.setUserContext(getWS2UserContext(ws1GetPortletProperties.getUserContext()));
+    getPortletProperties.getNames().addAll(ws1GetPortletProperties.getNames());
+    return getPortletProperties;
+  }
+
+  public static DestroyPortlets getWS2DestroyPortlets(WS1DestroyPortlets ws1DestroyPortlets) {
+    DestroyPortlets destroyPortlets = new DestroyPortlets();
+    destroyPortlets.setRegistrationContext(getWS2RegistrationContext(ws1DestroyPortlets.getRegistrationContext()));
+//    destroyPortlets.setUserContext();
+    destroyPortlets.getPortletHandles().addAll(ws1DestroyPortlets.getPortletHandles());
+    return destroyPortlets;
+  }
+
+  public static WS1DestroyPortletsResponse getWS1DestroyPortletsResponse(DestroyPortletsResponse ws2DestroyPortlets) {
+    WS1DestroyPortletsResponse ws1DestroyPortletsResponse = new WS1DestroyPortletsResponse();
+    ws1DestroyPortletsResponse.getDestroyFailed().addAll(getWS1DestroyFailed(ws2DestroyPortlets.getFailedPortlets()));
+    ws1DestroyPortletsResponse.getExtensions().addAll(getWS1Extensions(ws2DestroyPortlets.getExtensions()));
+    return ws1DestroyPortletsResponse;
+  }
+
+  public static ReleaseSessions getWS2ReleaseSessions(WS1ReleaseSessions ws1ReleaseSessions) {
+    ReleaseSessions releaseSessions = new ReleaseSessions();
+    releaseSessions.setRegistrationContext(getWS2RegistrationContext(ws1ReleaseSessions.getRegistrationContext()));
+//    releaseSessions.setUserContext();
+    releaseSessions.getSessionIDs().addAll(ws1ReleaseSessions.getSessionIDs());
+    return releaseSessions;
+  }
+
+  public static ModifyRegistration getWS2ModifyRegistration(WS1ModifyRegistration ws1ModifyRegistration) {
+    ModifyRegistration modifyRegistration = new ModifyRegistration();
+    modifyRegistration.setRegistrationContext(getWS2RegistrationContext(ws1ModifyRegistration.getRegistrationContext()));
+    modifyRegistration.setRegistrationData(getWS2RegistrationData(ws1ModifyRegistration.getRegistrationData()));
+//    modifyRegistration.setUserContext(value);
+    return modifyRegistration;
+  }
+
+  public static WS1RegistrationState getWS1RegistrationState(RegistrationState ws2ModifyRegistration) {
+    WS1RegistrationState ws1RegistrationState = new WS1RegistrationState();
+    ws1RegistrationState.setRegistrationState(ws2ModifyRegistration.getRegistrationState());
+    ws1RegistrationState.getExtensions().addAll(getWS1Extensions(ws2ModifyRegistration.getExtensions()));
+    return ws1RegistrationState;
   }
 
 }

@@ -273,9 +273,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
   }
 
-  final public void save(String key, String type, Object o) throws Exception {
-    Session session = this.hservice.openSession();
+  final private void save(String key, String type, Object o) throws Exception {
     WSRP2StateData data = load(key);
+    Session session = this.hservice.openSession();
     if (data == null) {
       data = new WSRP2StateData();
       data.setId(key);
@@ -297,7 +297,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   // else look in hservice, if one obj put into cache and return it
   //   if more exception
   //   if none return null 
-  final public WSRP2StateData load(String key) throws Exception {
+  final private WSRP2StateData load(String key) throws Exception {
     WSRP2StateData data = (WSRP2StateData) this.cache.get(key);
     if (data == null) {
       Session session = this.hservice.openSession();
@@ -316,7 +316,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   //  if more than one result throw exception
   //  if one result: get from DB and put into cache
   // else delete from DB
-  final public void remove(String key) throws Exception {
+  final private void remove(String key) throws Exception {
     Session session = this.hservice.openSession();
     WSRP2StateData data = (WSRP2StateData) this.cache.remove(key);
     if (data == null) {
