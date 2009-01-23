@@ -17,12 +17,13 @@
 
 package org.exoplatform.services.wsrp1.test;
 
+import java.util.Arrays;
+
 import org.exoplatform.container.PortalContainer;
-import org.exoplatform.services.wsrp.BaseTest;
-import org.exoplatform.services.wsrp.PersistentStateManager;
-import org.exoplatform.services.wsrp.PersistentStateManagerImpl;
-import org.exoplatform.services.wsrp.WSRP1StateData;
-import org.exoplatform.services.wsrp1.type.RegistrationData;
+import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 /*
  * @author  Mestrallet Benjamin
@@ -44,24 +45,39 @@ public class TestPersistentStateManager extends BaseTest {
   }
 
   public void testPersistentStateData() throws Exception {
+    
     RegistrationData registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
     registrationData.setConsumerAgent("exoplatform.1.0");
     registrationData.setMethodGetSupported(false);
-    registrationData.setConsumerModes(CONSUMER_MODES);
-    registrationData.setConsumerWindowStates(CONSUMER_STATES);
-    registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
-    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
-    registrationData.setRegistrationProperties(null);//allows extension of the specs
-    registrationData.setExtensions(null);//allows extension of the specs
+    registrationData.getConsumerModes().addAll(Arrays.asList(CONSUMER_MODES));
+    registrationData.getConsumerWindowStates().addAll(Arrays.asList(CONSUMER_STATES));
+    registrationData.getConsumerUserScopes().addAll(Arrays.asList(CONSUMER_SCOPES));
+//    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
+//    registrationData.getRegistrationProperties(null);//allows extension of the specs
+//    registrationData.getExtensions(null);//allows extension of the specs
+    RegistrationContext registrationContext = new RegistrationContext();
+    registrationContext.setRegistrationHandle("test");
+    
+    
+    psmanager_.register(registrationContext.getRegistrationHandle(), registrationData);
+    
+//  psmanager_.save("test", "RegistrationData", registrationData);
 
-    psmanager_.save("test", "RegistrationData", registrationData);
+    registrationData = psmanager_.getRegistrationData(registrationContext);
+    assertTrue("Expect data is not null", registrationData != null);
+    
+//  WSRP1StateData data = psmanager_.load("test");
+//  assertTrue("Expect data is not null", data != null);
 
-    WSRP1StateData data = psmanager_.load("test");
-    assertTrue("Expect data is not null", data != null);
+    psmanager_.deregister(registrationContext);
+    registrationData = psmanager_.getRegistrationData(registrationContext);
+    assertTrue("Expect data is null", registrationData == null);
+    
+//  psmanager_.remove("test");
+//  data = psmanager_.load("test");
+//  assertTrue("Expect data is null", data == null);
+    
 
-    psmanager_.remove("test");
-    data = psmanager_.load("test");
-    assertTrue("Expect data is null", data == null);
   }
 }

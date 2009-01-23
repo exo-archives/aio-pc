@@ -42,6 +42,10 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.ext.WSRPV0ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapter;
@@ -87,116 +91,116 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                     SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRP_v2_Markup_Service?wsdl";
+  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRP_v2_Markup_Service?wsdl";
 
-  protected static final String                     ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRP_v0_ServiceAdministration_Service";
+  protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRP_v0_ServiceAdministration_Service";
 
-  protected static final String                     CONTEXT_PATH             = "hello";
+  protected static final String                      CONTEXT_PATH             = "hello";
 
-  protected static final String                     TEST_PATH                = (System.getProperty("testPath") == null ? "."
-                                                                                                                      : System.getProperty("testPath"));
+  protected static final String                      TEST_PATH                = (System.getProperty("testPath") == null ? "."
+                                                                                                                       : System.getProperty("testPath"));
 
   //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
 
-  protected static final String                     serviceUrlString         = SERVICE_URL.substring(0,
-                                                                                                     SERVICE_URL.length() - 1);
+  protected static final String                      serviceUrlString         = SERVICE_URL.substring(0,
+                                                                                                      SERVICE_URL.length() - 1);
 
-  protected static final String                     consumerAgent            = "exoplatform.2.0";
+  protected static final String                      consumerAgent            = "exoplatform.2.0";
 
-  static boolean                                    initService_             = true;
+  static boolean                                     initService_             = true;
 
-  protected PortletContainerService                 portletContainer;
+  protected PortletContainerService                  portletContainer;
 
-  protected PortletApplicationsHolder               holder;
+  protected PortletApplicationsHolder                holder;
 
-  protected PortletApp                              portletApp_;
+  protected PortletApp                               portletApp_;
 
-  protected Collection                              roles;
+  protected Collection                               roles;
 
-  protected WSRPV2ServiceDescriptionPortTypeAdapter serviceDescriptionInterface;
+  protected WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionInterface;
 
-  protected WSRPV2RegistrationPortTypeAdapter       registrationOperationsInterface;
+  protected WSRPRegistrationPortTypeAdapterAPI       registrationOperationsInterface;
 
-  protected WSRPV2MarkupPortTypeAdapter             markupOperationsInterface;
+  protected WSRPMarkupPortTypeAdapterAPI             markupOperationsInterface;
 
-  protected WSRPV2PortletManagementPortTypeAdapter  portletManagementOperationsInterface;
+  protected WSRPPortletManagementPortTypeAdapterAPI  portletManagementOperationsInterface;
 
-  protected PersonName                              personName;
+  protected PersonName                               personName;
 
-  protected UserContext                             userContext;
+  protected UserContext                              userContext;
 
-  protected UserProfile                             userProfile;
+  protected UserProfile                              userProfile;
 
-  protected RegistrationData                        registrationData;
+  protected RegistrationData                         registrationData;
 
-  protected RuntimeContext                          runtimeContext;
+  protected RuntimeContext                           runtimeContext;
 
-  protected Templates                               templates;
+  protected Templates                                templates;
 
-  protected ClientData                              clientData;
+  protected ClientData                               clientData;
 
-  protected MarkupParams                            markupParams;
+  protected MarkupParams                             markupParams;
 
-  protected ResourceParams                          resourceParams;
+  protected ResourceParams                           resourceParams;
 
-  protected EventParams                             eventParams;
+  protected EventParams                              eventParams;
 
-  protected NavigationalContext                     navigationalContext;
+  protected NavigationalContext                      navigationalContext;
 
-  protected SessionParams                           sessionParams;
+  protected SessionParams                            sessionParams;
 
-  protected Register                                register;
+  protected Register                                 register;
 
-  protected Lifetime                                lifetime;
+  protected Lifetime                                 lifetime;
 
-  protected RegistrationContext                     registrationContext;
+  protected RegistrationContext                      registrationContext;
 
-  protected static final String[]                   USER_CATEGORIES_ARRAY    = { "full",
-      "standard", "minimal"                                                 };
+  protected static final String[]                    USER_CATEGORIES_ARRAY    = { "full",
+      "standard", "minimal"                                                  };
 
-  public static String[]                            localesArray             = { "en" };
+  public static String[]                             localesArray             = { "en" };
 
-  public static String[]                            markupCharacterSets      = { "UF-08",
-      "ISO-8859-1"                                                          };
+  public static String[]                             markupCharacterSets      = { "UF-08",
+      "ISO-8859-1"                                                           };
 
-  public static String[]                            mimeTypes                = { "text/html",
-      "text/xhtml"                                                          };
+  public static String[]                             mimeTypes                = { "text/html",
+      "text/xhtml"                                                           };
 
-  public static final String                        BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
-                                                                                 + Constants.DEFAUL_PORTAL_OWNER;
+  public static final String                         BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
+                                                                                  + Constants.DEFAUL_PORTAL_OWNER;
 
-  public static final String                        DEFAULT_TEMPLATE         = BASE_URL
-                                                                                 + "&portal:windowState={wsrp-windowState}"
-                                                                                 + "&_mode={wsrp-portletMode}"
-                                                                                 + "&_isSecure={wsrp-secureURL}"
-                                                                                 + "&_component={wsrp-portletHandle}";
+  public static final String                         DEFAULT_TEMPLATE         = BASE_URL
+                                                                                  + "&portal:windowState={wsrp-windowState}"
+                                                                                  + "&_mode={wsrp-portletMode}"
+                                                                                  + "&_isSecure={wsrp-secureURL}"
+                                                                                  + "&_component={wsrp-portletHandle}";
 
-  public static final String                        RENDER_TEMPLATE          = DEFAULT_TEMPLATE
-                                                                                 + "&portal:type={wsrp-urlType}"
-                                                                                 + "&ns={wsrp-navigationalState}";
+  public static final String                         RENDER_TEMPLATE          = DEFAULT_TEMPLATE
+                                                                                  + "&portal:type={wsrp-urlType}"
+                                                                                  + "&ns={wsrp-navigationalState}";
 
-  public static final String                        BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE
-                                                                                 + "&portal:type={wsrp-urlType}"
-                                                                                 + "&ns={wsrp-navigationalState}"
-                                                                                 + "&is={wsrp-interactionState}";
+  public static final String                         BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE
+                                                                                  + "&portal:type={wsrp-urlType}"
+                                                                                  + "&ns={wsrp-navigationalState}"
+                                                                                  + "&is={wsrp-interactionState}";
 
-  public static final String[]                      CONSUMER_MODES           = { "wsrp:view",
-      "wsrp:edit"                                                           };
+  public static final String[]                       CONSUMER_MODES           = { "wsrp:view",
+      "wsrp:edit"                                                            };
 
-  public static final String[]                      CONSUMER_STATES          = { "wsrp:normal",
-      "wsrp:maximized"                                                      };
+  public static final String[]                       CONSUMER_STATES          = { "wsrp:normal",
+      "wsrp:maximized"                                                       };
 
-  public static final String[]                      CONSUMER_SCOPES          = { "chunk_data" };
+  public static final String[]                       CONSUMER_SCOPES          = { "chunk_data" };
 
-  public static final String[]                      CONSUMER_CUSTOM_PROFILES = { "what_more" };
+  public static final String[]                       CONSUMER_CUSTOM_PROFILES = { "what_more" };
 
-  private MockServletRequest                        mockServletRequest;
+  private MockServletRequest                         mockServletRequest;
 
-  private MockServletResponse                       mockServletResponse;
+  private MockServletResponse                        mockServletResponse;
 
-  public static boolean                             cargoCustomStatus        = false;
+  public static boolean                              cargoCustomStatus        = false;
 
-  protected ExoContainer                            container;
+  protected ExoContainer                             container;
 
   public void setUp() throws Exception {
 
@@ -234,6 +238,7 @@ public class BaseTest extends TestCase {
 //        + "WSRPMarkupService"));
 //    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
 //        + "WSRPPortletManagementService"));
+
     WSRPService2 service = new WSRPService2(new URL(SERVICE_URL));
     System.out.println(">>> ProducerImpl.init() service = " + service);
 

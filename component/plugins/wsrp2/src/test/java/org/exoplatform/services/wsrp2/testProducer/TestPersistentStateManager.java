@@ -24,6 +24,7 @@ import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
 import org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData;
+import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 /*
@@ -66,14 +67,26 @@ public class TestPersistentStateManager extends BaseTest {
 //    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
 //    registrationData.getRegistrationProperties(null);//allows extension of the specs
 //    registrationData.getExtensions(null);//allows extension of the specs
+    RegistrationContext registrationContext = new RegistrationContext();
+    registrationContext.setRegistrationHandle("test");
+    
+    
+    psmanager_.register(registrationContext.getRegistrationHandle(), registrationData);
+    
+//    psmanager_.save("test", "RegistrationData", registrationData);
 
-    psmanager_.save("test", "RegistrationData", registrationData);
+    registrationData = psmanager_.getRegistrationData(registrationContext);
+    assertTrue("Expect data is not null", registrationData != null);
+    
+//    WSRP2StateData data = psmanager_.load("test");
+//    assertTrue("Expect data is not null", data != null);
 
-    WSRP2StateData data = psmanager_.load("test");
-    assertTrue("Expect data is not null", data != null);
-
-    psmanager_.remove("test");
-    data = psmanager_.load("test");
-    assertTrue("Expect data is null", data == null);
+    psmanager_.deregister(registrationContext);
+    registrationData = psmanager_.getRegistrationData(registrationContext);
+    assertTrue("Expect data is null", registrationData == null);
+    
+//    psmanager_.remove("test");
+//    data = psmanager_.load("test");
+//    assertTrue("Expect data is null", data == null);
   }
 }

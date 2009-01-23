@@ -20,11 +20,8 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp1.testConsumer.TestPortletRegistry;
-import org.exoplatform.services.wsrp1.testConsumer.TestProducerRegistry;
 import org.exoplatform.services.wsrp1.testConsumer.TestURLRewriter;
 import org.exoplatform.services.wsrp1.testConsumer.TestURLTemplateComposer;
-import org.exoplatform.services.wsrp1.testConsumer.TestUserRegistry;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008
@@ -39,13 +36,8 @@ public class SuiteForTestConsumer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/war_template1";
     System.setProperty("mock.portal.dir", newProperty);
 
-//    addTestSuite(TestConsumerEnvironement.class); //does nothing
-    addTestSuite(TestPortletRegistry.class);
-//    addTestSuite(TestProducer.class);
-    addTestSuite(TestProducerRegistry.class);
     addTestSuite(TestURLRewriter.class);
     addTestSuite(TestURLTemplateComposer.class);
-    addTestSuite(TestUserRegistry.class);
 
   }
 

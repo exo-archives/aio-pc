@@ -18,15 +18,15 @@
 package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
 
-import org.exoplatform.services.wsrp.BaseTest;
-import org.exoplatform.services.wsrp1.type.MarkupRequest;
-import org.exoplatform.services.wsrp1.type.MarkupResponse;
-import org.exoplatform.services.wsrp1.type.PortletContext;
-import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.ReleaseSessionsRequest;
-import org.exoplatform.services.wsrp1.type.ServiceDescription;
-import org.exoplatform.services.wsrp1.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp1.type.WS1GetMarkup;
+import org.exoplatform.services.wsrp1.type.WS1GetServiceDescription;
+import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
+import org.exoplatform.services.wsrp1.type.WS1PortletContext;
+import org.exoplatform.services.wsrp1.type.WS1ReleaseSessions;
+import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -40,54 +40,50 @@ public class TestWSRPSession extends BaseTest {
   }
 
   public void testSession() throws Exception {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
-    getServiceDescription.setDesiredLocales(new String[] { "en" });
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
+    WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
+    getServiceDescription.getDesiredLocales().add("en");
+    WS1ServiceDescription sd = getServiceDescription(getServiceDescription);
+    createRegistrationContext(sd);
     String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
-    PortletContext portletContext = new PortletContext();
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
-    markupParams.setMimeTypes(mimeTypes);
+    markupParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    WS1MarkupResponse response = getMarkup(getMarkup);
     String sessionID = response.getSessionContext().getSessionID();
     runtimeContext.setSessionID(sessionID);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
-    response = markupOperationsInterface.getMarkup(getMarkup);
+    response = getMarkup(getMarkup);
     assertEquals("attribute set in first call", response.getMarkupContext().getMarkupString());
   }
 
-  public void testReleaseSession() throws RemoteException {
-    ServiceDescriptionRequest getServiceDescription = new ServiceDescriptionRequest();
-    getServiceDescription.setDesiredLocales(new String[] { "en" });
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new RegistrationContext("", null, null);
-    PortletContext portletContext = new PortletContext();
+  public void testReleaseSession() throws Exception {
+    WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
+    getServiceDescription.getDesiredLocales().add("en");
+    WS1ServiceDescription sd = getServiceDescription(getServiceDescription);
+    createRegistrationContext(sd);
+    WS1PortletContext portletContext = new WS1PortletContext();
     String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     portletContext.setPortletHandle(portletHandle);
-    markupParams.setMimeTypes(mimeTypes);
+    markupParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:normal");
-    MarkupRequest getMarkup = getMarkup(rc, portletContext);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    WS1MarkupResponse response = getMarkup(getMarkup);
     String sessionID = response.getSessionContext().getSessionID();
-    ReleaseSessionsRequest releaseSessions = new ReleaseSessionsRequest();
-    releaseSessions.setRegistrationContext(rc);
-    releaseSessions.setSessionIDs(new String[] { sessionID });
-    markupOperationsInterface.releaseSessions(releaseSessions);
+    WS1ReleaseSessions releaseSessions = new WS1ReleaseSessions();
+    releaseSessions.setRegistrationContext(registrationContext);
+    releaseSessions.getSessionIDs().add(sessionID);
+    markupOperationsInterface.releaseSessions(WSRPTypesTransformer.getWS2ReleaseSessions(releaseSessions));
     runtimeContext.setSessionID(sessionID);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
     try {
-      markupOperationsInterface.getMarkup(getMarkup);
+      getMarkup(getMarkup);
       fail("Session should not exist anymore");
     } catch (RemoteException e) {
     }

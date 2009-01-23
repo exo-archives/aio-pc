@@ -17,14 +17,11 @@
 
 package org.exoplatform.services.wsrp1.test;
 
-import java.rmi.RemoteException;
-
 import org.exoplatform.services.wsrp1.type.WS1CacheControl;
 import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
 import org.exoplatform.services.wsrp1.type.WS1PortletContext;
-import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.WSRPConstants;
+import org.exoplatform.services.wsrp2.WSRPConstants;
 
 /*
  * @author  Mestrallet Benjamin
@@ -41,14 +38,12 @@ public class TestCachingMechanism extends BaseTest {
     System.out.println(">>>>>>>>>>>>>>> TestCachingMechanism.setUp()");
   }
 
-  public void testExistenceOfValidateTag() throws RemoteException {
+  public void testExistenceOfValidateTag() throws Exception {
     WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    WS1RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new WS1RegistrationContext("", null, null);
+    createRegistrationContext(sd);
     WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
-    WS1MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
+    WS1MarkupResponse response = getMarkup(getMarkup(registrationContext, portletContext));
     WS1CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(4, cacheControl.getExpires());
     assertEquals(WSRPConstants.WSRP_USER_SCOPE_CACHE, cacheControl.getUserScope());
@@ -66,14 +61,14 @@ public class TestCachingMechanism extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
 
     MarkupRequest getMarkup = getMarkup(rc, portletContext);
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    MarkupResponse response = getMarkup(getMarkup);
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     System.out.println("[test] validate tag key : " + cacheControl.getValidateTag());
     markupParams.setValidateTag(cacheControl.getValidateTag());
     runtimeContext.setSessionID(response.getSessionContext().getSessionID());
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
-    response = markupOperationsInterface.getMarkup(getMarkup);
+    response = getMarkup(getMarkup);
     assertTrue(response.getMarkupContext().getUseCachedMarkup().booleanValue());
   }
 
@@ -86,7 +81,7 @@ public class TestCachingMechanism extends BaseTest {
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/EmptyPortletWithGlobalCache");
 
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(rc, portletContext));
+    MarkupResponse response = getMarkup(getMarkup(rc, portletContext));
     CacheControl cacheControl = response.getMarkupContext().getCacheControl();
     assertEquals(-1, cacheControl.getExpires());
     assertEquals(WSRPConstants.WSRP_GLOBAL_SCOPE_CACHE, cacheControl.getUserScope());

@@ -18,20 +18,22 @@
 package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
+import java.util.Arrays;
 
 import javax.portlet.PortletPreferences;
 
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp1.type.WS1BlockingInteractionResponse;
+import org.exoplatform.services.wsrp1.type.WS1GetMarkup;
 import org.exoplatform.services.wsrp1.type.WS1InteractionParams;
 import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
 import org.exoplatform.services.wsrp1.type.WS1NamedString;
+import org.exoplatform.services.wsrp1.type.WS1PerformBlockingInteraction;
 import org.exoplatform.services.wsrp1.type.WS1PortletContext;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
 import org.exoplatform.services.wsrp1.type.WS1StateChange;
 import org.exoplatform.services.wsrp1.type.WS1UpdateResponse;
-import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
 
@@ -48,9 +50,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
 
   public void testSimplePerformBlockingInteraction() throws Exception {
     WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    WS1RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new WS1RegistrationContext("", null, null);
+    createRegistrationContext(sd);
     String portletHandle = CONTEXT_PATH + "/PortletToTestPerformBlockingInteraction";
     WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -64,12 +64,12 @@ public class TestPerformBlockingInteraction extends BaseTest {
     array[0] = nS1;
     array[1] = nS2;
     WS1InteractionParams params = new WS1InteractionParams();
-    params.setPortletStateChange(WS1StateChange.readWrite);
-    params.setFormParameters(array);
-    WS1BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    params.setPortletStateChange(WS1StateChange.READ_WRITE);
+    params.getFormParameters().addAll(Arrays.asList(array));
+    WS1PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
                                                                                              portletContext,
                                                                                              params);
-    WS1BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
+    WS1BlockingInteractionResponse response = performBlockingInteraction(performBlockingInteraction);
     WS1UpdateResponse updateResponse = response.getUpdateResponse();
     assertEquals(WindowStates._maximized_wsrp, updateResponse.getNewWindowState());
     assertEquals(Modes._edit_wsrp, updateResponse.getNewMode());
@@ -82,10 +82,10 @@ public class TestPerformBlockingInteraction extends BaseTest {
       portletContext.setPortletState(portletState);
     }
     runtimeContext.setSessionID(updateResponse.getSessionContext().getSessionID());
-    WS1MarkupRequest getMarkup = getMarkup(rc, portletContext);
+    WS1GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, getMarkup);
-    WS1MarkupResponse responseMarkup = markupOperationsInterface.getMarkup(getMarkup);
+    WS1MarkupResponse responseMarkup = getMarkup(getMarkup);
     assertEquals("value1", responseMarkup.getMarkupContext().getMarkupString());
     //test optimization cases
     if (updateResponse.getMarkupContext() != null)
@@ -93,72 +93,66 @@ public class TestPerformBlockingInteraction extends BaseTest {
                    updateResponse.getMarkupContext().getMarkupString());
   }
 
-  public void testSendRedirect() throws RemoteException {
+  public void testSendRedirect() throws Exception {
     WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    WS1RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new WS1RegistrationContext("", null, null);
-    WS1PortletContext portletContext = new PortletContext();
+    createRegistrationContext(sd);
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestSendRedirect");
     portletContext.setPortletState(null);//TODO
     WS1InteractionParams params = new WS1InteractionParams();
-    params.setPortletStateChange(WS1StateChange.readWrite);
-    WS1BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    params.setPortletStateChange(WS1StateChange.READ_WRITE);
+    WS1PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
                                                                                              portletContext,
                                                                                              params);
-    WS1BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
+    WS1BlockingInteractionResponse response = performBlockingInteraction(performBlockingInteraction);
     assertEquals("/path/to/redirect/to.jsp", response.getRedirectURL());
   }
 
-  public void testReadOnlyStateChange() throws RemoteException {
+  public void testReadOnlyStateChange() throws Exception {
     WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    WS1RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new WS1RegistrationContext("", null, null);
-    WS1PortletContext portletContext = new PortletContext();
+    createRegistrationContext(sd);
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser");
     WS1InteractionParams params = new WS1InteractionParams();
-    params.setPortletStateChange(WS1StateChange.readOnly);
-    WS1BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    params.setPortletStateChange(WS1StateChange.READ_ONLY);
+    WS1PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
                                                                                              portletContext,
                                                                                              params);
     try {
-      markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
+      performBlockingInteraction(performBlockingInteraction);
       fail("The portlet is in read only state!!!");
     } catch (RemoteException e) {
       e.printStackTrace();
     }
   }
 
-  public void testCloneBeforeWriteStateChange() throws RemoteException {
-    WS1RegistrationContext rc = registrationOperationsInterface.register(registrationData);
+  public void testCloneBeforeWriteStateChange() throws Exception {
+    WS1RegistrationContext rc = register(registrationData);
     WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser2");
     WS1InteractionParams params = new WS1InteractionParams();
-    params.setPortletStateChange(WS1StateChange.cloneBeforeWrite);
-    WS1BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    params.setPortletStateChange(WS1StateChange.CLONE_BEFORE_WRITE);
+    WS1PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(rc,
                                                                                              portletContext,
                                                                                              params);
-    WS1BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
+    WS1BlockingInteractionResponse response = performBlockingInteraction(performBlockingInteraction);
     assertNotSame(CONTEXT_PATH + "/Portlet2TestStateUser/windowID", response.getUpdateResponse()
                                                                             .getPortletContext()
                                                                             .getPortletHandle());
   }
 
-  public void testStateSaveOnConsumer() throws RemoteException {
+  public void testStateSaveOnConsumer() throws Exception {
     WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    WS1RegistrationContext rc = null;
-    if (sd.isRequiresRegistration())
-      rc = new WS1RegistrationContext("", null, null);
+    createRegistrationContext(sd);
     String portletHandle = CONTEXT_PATH + "/Portlet2TestStateUser3";
     WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(portletHandle);
     WS1InteractionParams params = new WS1InteractionParams();
-    params.setPortletStateChange(WS1StateChange.readWrite);
-    WS1BlockingInteractionRequest performBlockingInteraction = getPerformBlockingInteraction(rc,
+    params.setPortletStateChange(WS1StateChange.READ_WRITE);
+    WS1PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
                                                                                              portletContext,
                                                                                              params);
-    WS1UpdateResponse updateResponse = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction)
+    WS1UpdateResponse updateResponse = performBlockingInteraction(performBlockingInteraction)
                                                                 .getUpdateResponse();
     //look if we obtain the portlet state (case of consumer save state)
     byte[] portletState = updateResponse.getPortletContext().getPortletState();
@@ -182,7 +176,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     manageTemplatesOptimization(sd, portletHandle);
     manageUserContextOptimization(sd, portletHandle, performBlockingInteraction);
     portletContext.setPortletState(portletState);
-    updateResponse = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction)
+    updateResponse = performBlockingInteraction(performBlockingInteraction)
                                               .getUpdateResponse();
     portletState = updateResponse.getPortletContext().getPortletState();
     try {
@@ -194,10 +188,10 @@ public class TestPerformBlockingInteraction extends BaseTest {
     assertEquals("attValue2", ((PortletPreferences) o).getValue("attName2", "default"));
   }
 
-  private WS1BlockingInteractionRequest getPerformBlockingInteraction(WS1RegistrationContext rc,
+  private WS1PerformBlockingInteraction getPerformBlockingInteraction(WS1RegistrationContext rc,
                                                                       WS1PortletContext portletContext,
                                                                       WS1InteractionParams params) {
-    WS1BlockingInteractionRequest performBlockingInteraction = new WS1BlockingInteractionRequest();
+    WS1PerformBlockingInteraction performBlockingInteraction = new WS1PerformBlockingInteraction();
     performBlockingInteraction.setRegistrationContext(rc);
     performBlockingInteraction.setPortletContext(portletContext);
     performBlockingInteraction.setRuntimeContext(runtimeContext);

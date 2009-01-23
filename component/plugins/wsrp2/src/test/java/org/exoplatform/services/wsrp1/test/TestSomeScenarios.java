@@ -18,15 +18,15 @@
 package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
-import org.exoplatform.services.wsrp.BaseTest;
-import org.exoplatform.services.wsrp1.type.MarkupRequest;
-import org.exoplatform.services.wsrp1.type.MarkupResponse;
-import org.exoplatform.services.wsrp1.type.PortletContext;
-import org.exoplatform.services.wsrp1.type.PortletDescription;
-import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.ServiceDescription;
-import org.exoplatform.services.wsrp1.type.ServiceDescriptionRequest;
+import org.exoplatform.services.wsrp1.type.WS1GetMarkup;
+import org.exoplatform.services.wsrp1.type.WS1GetServiceDescription;
+import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
+import org.exoplatform.services.wsrp1.type.WS1PortletContext;
+import org.exoplatform.services.wsrp1.type.WS1PortletDescription;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
+import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
 
 /**
  * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 24
@@ -44,16 +44,15 @@ public class TestSomeScenarios extends BaseTest {
 
   public void testFirstConsumerScenario() throws Throwable, RemoteException {
     //get the service description through a monitor that listen on port 8081
-    ServiceDescriptionRequest request = new ServiceDescriptionRequest();
-    request.setDesiredLocales(new String[] { "en" });
-    ServiceDescription serviceDescription = null;
-    serviceDescription = serviceDescriptionInterface.getServiceDescription(request);
+    WS1GetServiceDescription request = new WS1GetServiceDescription();
+    request.getDesiredLocales().add("en");
+    WS1ServiceDescription ws1serviceDescription = getServiceDescription(request);
 
     //register or not
-    RegistrationContext rC = null;
-    if (serviceDescription.isRequiresRegistration()) {
+    WS1RegistrationContext rC = null;
+    if (ws1serviceDescription.isRequiresRegistration()) {
       System.out.println("[test] Registration required");
-      rC = registrationOperationsInterface.register(registrationData);
+      rC = register(registrationData);
       resolveRegistrationContext(rC);
     } else {
       System.out.println("[test] Registration non required");
@@ -61,9 +60,8 @@ public class TestSomeScenarios extends BaseTest {
 
     //test the existence of our portlet handle
     boolean go_on = false;
-    PortletDescription[] array = serviceDescription.getOfferedPortlets();
-    for (int i = 0; i < array.length; i++) {
-      PortletDescription portletDescription = array[i];
+    List<WS1PortletDescription> portletDescrList = ws1serviceDescription.getOfferedPortlets();
+    for (WS1PortletDescription portletDescription : portletDescrList) {
       if (PORTLET_HANDLE.equals(portletDescription.getPortletHandle())) {
         go_on = true;
         break;
@@ -73,12 +71,12 @@ public class TestSomeScenarios extends BaseTest {
       fail("The portlet " + PORTLET_HANDLE + " is not deployed");
 
     //prepare the request arguments
-    PortletContext portletContext = new PortletContext();
+    WS1PortletContext portletContext = new WS1PortletContext();
     portletContext.setPortletHandle(PORTLET_HANDLE);
-    MarkupRequest getMarkup = getMarkup(rC, portletContext);
+    WS1GetMarkup getMarkup = getMarkup(rC, portletContext);
 
     //get the markup
-    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    WS1MarkupResponse response = getMarkup(getMarkup);
     response.getSessionContext();
     response.getMarkupContext();
   }

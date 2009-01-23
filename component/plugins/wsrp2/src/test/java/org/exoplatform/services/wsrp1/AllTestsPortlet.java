@@ -39,8 +39,8 @@ public class AllTestsPortlet extends TestCase {
         || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
       assertTrue(ContainerStarter.start());
 
-    suite.addTestSuite(SuiteForTestProducer.class);
-    suite.addTestSuite(SuiteForTestConsumer.class);
+//    suite.addTestSuite(SuiteForTestProducer.class);
+//    suite.addTestSuite(SuiteForTestConsumer.class);
 
 //    suite.addTestSuite(TestPublicRenderParameters.class);
 //    suite.addTestSuite(TestFilters.class);

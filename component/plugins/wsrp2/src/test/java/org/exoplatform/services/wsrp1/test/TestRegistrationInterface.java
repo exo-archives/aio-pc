@@ -19,10 +19,11 @@ package org.exoplatform.services.wsrp1.test;
 
 import java.rmi.RemoteException;
 
-import org.exoplatform.services.wsrp.BaseTest;
-import org.exoplatform.services.wsrp1.type.ModifyRegistrationRequest;
-import org.exoplatform.services.wsrp1.type.RegistrationContext;
-import org.exoplatform.services.wsrp1.type.RegistrationState;
+import org.exoplatform.services.wsrp1.type.WS1ModifyRegistration;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
+import org.exoplatform.services.wsrp1.type.WS1RegistrationState;
+import org.exoplatform.services.wsrp2.type.Deregister;
+import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -35,15 +36,15 @@ public class TestRegistrationInterface extends BaseTest {
     System.out.println(">>>>>>>>>>>>>>> TestRegistrationInterface.setUp()");
   }
 
-  public void testRegistrationHandle() throws RemoteException {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+  public void testRegistrationHandle() throws Exception {
+    WS1RegistrationContext returnedContext = register(registrationData);
     assertNotNull(returnedContext.getRegistrationHandle());
   }
 
-  public void testIncorrectRegistrationData() throws RemoteException {
+  public void testIncorrectRegistrationData() throws Exception {
     registrationData.setConsumerAgent("exoplatform.1a.0b");
     try {
-      registrationOperationsInterface.register(registrationData);
+      register(registrationData);
 //      fail("the registration of the consumer should return a WS Fault");
 //   patch by Pascal LEMOINE avoids exception here
     } catch (RemoteException e) {
@@ -52,37 +53,39 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testModifyRegistration() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    WS1RegistrationContext returnedContext = register(registrationData);
     assertNotNull(returnedContext.getRegistrationHandle());
     resolveRegistrationContext(returnedContext);
-    ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
-    RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
+    WS1ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
+    WS1RegistrationState rS = WSRPTypesTransformer.getWS1RegistrationState(registrationOperationsInterface.modifyRegistration(WSRPTypesTransformer.getWS2ModifyRegistration(modifyRegistration)));
     assertNull(rS.getRegistrationState());
   }
 
   public void testIncorrectModifyRegistration() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    WS1RegistrationContext returnedContext = register(registrationData);
     registrationData.setConsumerAgent("exoplatform.1a.0b");
     resolveRegistrationContext(returnedContext);
-    ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
+    WS1ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     try {
-      registrationOperationsInterface.modifyRegistration(modifyRegistration);
+      WS1RegistrationState rS = WSRPTypesTransformer.getWS1RegistrationState(registrationOperationsInterface.modifyRegistration(WSRPTypesTransformer.getWS2ModifyRegistration(modifyRegistration)));
       fail("the modify registration of the consumer should return a WS Fault");
-    } catch (RemoteException e) {
+    } catch (Exception e) {
     }
   }
 
   public void testDeregister() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    WS1RegistrationContext returnedContext = register(registrationData);
     returnedContext.getRegistrationHandle();
     resolveRegistrationContext(returnedContext);
-    registrationOperationsInterface.deregister(returnedContext);
+    Deregister deregister = new Deregister();
+    deregister.setRegistrationContext(WSRPTypesTransformer.getWS2RegistrationContext(returnedContext));
+    registrationOperationsInterface.deregister(deregister);
     if (returnedContext.getRegistrationState() == null) {
-      ModifyRegistrationRequest modifyRegistration = getModifyRegistration(returnedContext);
+      WS1ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
       try {
-        registrationOperationsInterface.modifyRegistration(modifyRegistration);
+        WS1RegistrationState rS = WSRPTypesTransformer.getWS1RegistrationState(registrationOperationsInterface.modifyRegistration(WSRPTypesTransformer.getWS2ModifyRegistration(modifyRegistration)));
         fail("the modify registration of the consumer should return a WS Fault");
-      } catch (RemoteException e) {
+      } catch (Exception e) {
       }
     } else {
       System.out.println("[test] can not try to modify registration here as the state is saved on consumer");
@@ -90,18 +93,20 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testIncorrectDeregister() throws Exception {
-    RegistrationContext returnedContext = registrationOperationsInterface.register(registrationData);
+    WS1RegistrationContext returnedContext = register(registrationData);
     resolveRegistrationContext(returnedContext);
     returnedContext.setRegistrationHandle("chunkHandle");
     try {
-      registrationOperationsInterface.deregister(returnedContext);
+      Deregister deregister = new Deregister();
+      deregister.setRegistrationContext(WSRPTypesTransformer.getWS2RegistrationContext(returnedContext));
+      registrationOperationsInterface.deregister(deregister);
       fail("the deregistration of the consumer should return a WS Fault");
-    } catch (RemoteException e) {
+    } catch (Exception e) {
     }
   }
 
-  private ModifyRegistrationRequest getModifyRegistration(RegistrationContext registrationContext) {
-    ModifyRegistrationRequest modifyRegistration = new ModifyRegistrationRequest();
+  private WS1ModifyRegistration getModifyRegistration(WS1RegistrationContext registrationContext) {
+    WS1ModifyRegistration modifyRegistration = new WS1ModifyRegistration();
     modifyRegistration.setRegistrationContext(registrationContext);
     modifyRegistration.setRegistrationData(registrationData);
     return modifyRegistration;

@@ -21,11 +21,6 @@ import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 import junit.framework.TestCase;
 
@@ -38,27 +33,16 @@ import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
-import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp.PortletKey;
-import org.exoplatform.services.wsrp.PortletKeyAdapter;
-import org.exoplatform.services.wsrp.PortletRegistry;
-import org.exoplatform.services.wsrp.Producer;
-import org.exoplatform.services.wsrp.ProducerImpl;
-import org.exoplatform.services.wsrp.ProducerRegistry;
-import org.exoplatform.services.wsrp.URLGenerator;
-import org.exoplatform.services.wsrp.URLRewriter;
-import org.exoplatform.services.wsrp.User;
-import org.exoplatform.services.wsrp.UserAdapter;
-import org.exoplatform.services.wsrp.UserRegistry;
-import org.exoplatform.services.wsrp.WSRPHTTPContainer;
-import org.exoplatform.services.wsrp.WSRPPortlet;
-import org.exoplatform.services.wsrp.WSRPPortletAdapter;
-import org.exoplatform.services.wsrp1.type.PersonName;
-import org.exoplatform.services.wsrp1.type.PortletContext;
-import org.exoplatform.services.wsrp1.type.RegistrationData;
-import org.exoplatform.services.wsrp1.type.UserContext;
-import org.exoplatform.services.wsrp1.type.UserProfile;
-import org.exoplatform.test.mocks.servlet.MockHttpSession;
+import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
+import org.exoplatform.services.wsrp2.consumer.Producer;
+import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp2.consumer.URLGenerator;
+import org.exoplatform.services.wsrp2.consumer.URLRewriter;
+import org.exoplatform.services.wsrp2.consumer.UserRegistry;
+import org.exoplatform.services.wsrp2.type.PersonName;
+import org.exoplatform.services.wsrp2.type.RegistrationData;
+import org.exoplatform.services.wsrp2.type.UserContext;
+import org.exoplatform.services.wsrp2.type.UserProfile;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
@@ -172,57 +156,8 @@ public class BaseTest extends TestCase {
     Collection<String> roles = new ArrayList<String>();
     roles.add("auth-user");
 
-    mockServletContext = new MockServletContext("hello", "./war_template1");
-    mockServletContext.setInitParameter("test-param", "test-parame-value");
+//    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
 
-    portletApplicationRegister = (PortletApplicationRegister) container.getComponentInstanceOfType(PortletApplicationRegister.class);
-
-    portletApplicationRegister.registerPortletApplication(mockServletContext,
-                                                          portletApp_,
-                                                          roles,
-                                                          "war_template1");
-
-    producerRegistry = (ProducerRegistry) container.getComponentInstanceOfType(ProducerRegistry.class);
-    portletRegistry = (PortletRegistry) container.getComponentInstanceOfType(PortletRegistry.class);
-    userRegistry = (UserRegistry) container.getComponentInstanceOfType(UserRegistry.class);
-
-    registrationData = new RegistrationData();
-    registrationData.setConsumerName("www.exoplatform.com");
-    registrationData.setConsumerAgent("exoplatform.1.0");
-    registrationData.setMethodGetSupported(false);
-    registrationData.setConsumerModes(CONSUMER_MODES);
-    registrationData.setConsumerWindowStates(CONSUMER_STATES);
-    registrationData.setConsumerUserScopes(CONSUMER_SCOPES);
-    registrationData.setCustomUserProfileData(CONSUMER_CUSTOM_PROFILES);
-
-    producer = new ProducerImpl(container);
-    producer.setID(PRODUCER_ID);
-    producer.setDescription(PRODUCER_DESCRIPTION);
-    producer.setName(PRODUCER_NAME);
-    //producer.setMarkupInterfaceEndpoint(PRODUCER_MARKUP_INTERFACE_ENDPOINT);
-    producer.setPortletManagementInterfaceEndpoint(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT);
-    producer.setRegistrationInterfaceEndpoint(PRODUCER_REGISTRATION_INTERFACE_ENDPOINT);
-    producer.setServiceDescriptionInterfaceEndpoint(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT);
-
-    personName = new PersonName();
-    personName.setNickname("exotest");
-
-    userProfile = new UserProfile();
-    userProfile.setBdate(new GregorianCalendar());
-    userProfile.setGender("male");
-    userProfile.setName(personName);
-
-    userContext = new UserContext();
-    userContext.setUserCategories(USER_CATEGORIES_ARRAY);
-    userContext.setProfile(userProfile);
-    userContext.setUserContextKey("exotest");
-
-    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
-
-    mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
-    mockServletResponse = new MockServletResponse(new FakeHttpResponse());
-    WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
-                                     (HttpServletResponse) mockServletResponse);
   }
 
   public void tearDown() throws Exception {
@@ -235,21 +170,4 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected WSRPPortlet createPortlet(String portletHandle,
-                                      String parent,
-                                      PortletContext portletContext) {
-    PortletKey portletKey = new PortletKeyAdapter();
-    portletKey.setProducerId(PRODUCER_ID);
-    portletKey.setPortletHandle(portletHandle);
-
-    WSRPPortlet portlet = new WSRPPortletAdapter(portletKey);
-    return portlet;
-  }
-
-  protected User createUser(String userID) {
-    User user = new UserAdapter();
-    user.setUserID(userID);
-    user.setUserContext(userContext);
-    return user;
-  }
 }

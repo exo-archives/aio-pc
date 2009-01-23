@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp1.testConsumer;
 
-import org.exoplatform.services.wsrp1.exceptions.WSRPException;
 
 /*
  * @author  Mestrallet Benjamin
@@ -38,8 +37,8 @@ public class TestURLRewriter extends BaseTest {
     System.out.println(">>>>>>>>>>>>>>> TestURLRewriter.setUp()");
   }
 
-  public void testRewrite() throws WSRPException {
-    System.out.println("Rewritten : " + urlRewriter.rewriteURLs("baseURL", s));
+  public void testRewrite() throws Exception {
+//    System.out.println("Rewritten : " + urlRewriter.rewriteURLs("baseURL", s));
     //assertEquals(returned, urlRewriter.rewriteURLs(s));
   }
 
