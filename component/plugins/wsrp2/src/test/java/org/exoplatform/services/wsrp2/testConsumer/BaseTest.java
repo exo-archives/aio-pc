@@ -56,6 +56,8 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletMa
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.impl.ProducerImpl;
+import org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl;
+import org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData;
 import org.exoplatform.services.wsrp2.mocks.MockWSRPService;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
@@ -175,7 +177,18 @@ public class BaseTest extends TestCase {
       //container = PortalContainer.getInstance();
       //container = RootContainer.getInstance().getPortalContainer("portal");
 
+      
+    StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
+      
       container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
+      System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
+      
+      ProducerRegistryJCRImpl producerRegistry = (ProducerRegistryJCRImpl) container.getComponentInstanceOfType(ProducerRegistryJCRImpl.class);
+      System.out.println(">>> EXOMAN BaseTest.setUp() producerRegistry = "
+          + producerRegistry);
+      
+
+      
 //      StandaloneContainer.setConfigurationPath("src/test/java/conf/test-configuration.xml");
 //      container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
 
@@ -199,6 +212,8 @@ public class BaseTest extends TestCase {
                                                           "war_template2");
 
     producerRegistry = (ProducerRegistry) container.getComponentInstanceOfType(ProducerRegistry.class);
+    System.out.println(">>> EXOMAN BaseTest.setUp() producerRegistry = " + producerRegistry);
+    
     portletRegistry = (PortletRegistry) container.getComponentInstanceOfType(PortletRegistry.class);
     userRegistry = (UserRegistry) container.getComponentInstanceOfType(UserRegistry.class);
 
@@ -219,6 +234,8 @@ public class BaseTest extends TestCase {
     producer.setID(PRODUCER_ID);
     producer.setDescription(PRODUCER_DESCRIPTION);
     producer.setName(PRODUCER_NAME);
+    
+    System.out.println(">>> EXOMAN BaseTest.setUp() producer = " + producer); 
 
     WSRPService2 service = (WSRPService2) container.getComponentInstanceOfType(MockWSRPService.class);
     if (service != null) {
