@@ -17,6 +17,7 @@
 
     <module>component/plugins/wsrp2</module>
     <module>applications/wsrp</module>
+    <module>applications/test-portal</module>
 
   </modules>
   
@@ -176,7 +177,8 @@
         <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>
         <org.exoplatform.kernel.version>2.0.7-SNAPSHOT</org.exoplatform.kernel.version>
         <org.exoplatform.core.version>2.1.4-SNAPSHOT</org.exoplatform.core.version>
-        <org.exoplatform.ws.version>1.3.2-SNAPSHOT</org.exoplatform.ws.version>
+        <org.exoplatform.ws.version>2.0-SNAPSHOT</org.exoplatform.ws.version>
+        <org.exoplatform.jcr.version>1.11-SNAPSHOT</org.exoplatform.jcr.version>
         <org.exoplatform.pc.version>2.0.6-SNAPSHOT</org.exoplatform.pc.version>
         <org.exoplatform.pcnew.version>2.1-SNAPSHOT</org.exoplatform.pcnew.version>
       </properties>
