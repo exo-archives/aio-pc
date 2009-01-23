@@ -1,0 +1,183 @@
+[INFO] Scanning for projects...
+[INFO] Searching repository for plugin with prefix: 'dependency'.
+[INFO] ------------------------------------------------------------------------
+[INFO] Building eXo Portlet Container Demo Assembly
+[INFO]    task-segment: [dependency:tree]
+[INFO] ------------------------------------------------------------------------
+[INFO] [dependency:tree]
+[INFO] org.exoplatform.portletcontainer:assembly:ear:2.1-SNAPSHOT
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.applications.portal:exopc-war:2.0.6-SNAPSHOT:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.applications.wsrp:exopc-war:2.1-SNAPSHOT:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.applications.demos:exopc-war:2.0.6-SNAPSHOT:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.component.core:jar:2.0.6-SNAPSHOT:compile
+[INFO] |  +- javax.portlet:portlet-api:jar:2.0:compile
+[INFO] |  +- org.exoplatform.kernel:exo.kernel.commons:jar:2.0.7-SNAPSHOT:compile
+[INFO] |  |  +- commons-lang:commons-lang:jar:2.3:compile
+[INFO] |  |  \- xpp3:xpp3:jar:1.1.3.4.O:compile
+[INFO] |  \- org.exoplatform.kernel:exo.kernel.component.common:jar:2.0.7-SNAPSHOT:compile
+[INFO] |     +- log4j:log4j:jar:1.2.8:compile
+[INFO] |     +- jotm:jotm:jar:2.0.10:compile
+[INFO] |     |  +- jotm:jotm_jrmp_stubs:jar:2.0.10:compile
+[INFO] |     |  +- org.objectweb.carol:carol:jar:2.0.5:compile
+[INFO] |     |  \- howl:howl-logger:jar:0.1.11:compile
+[INFO] |     +- quartz:quartz:jar:1.5.0-RC2:compile
+[INFO] |     +- javax.mail:mail:jar:1.4:compile
+[INFO] |     \- javax.transaction:jta:jar:1.0.1B:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.component.plugins.pc:jar:2.0.6-SNAPSHOT:compile
+[INFO] |  +- org.exoplatform.kernel:exo.kernel.component.cache:jar:2.0.7-SNAPSHOT:compile
+[INFO] |  |  \- org.exoplatform.kernel:exo.kernel.component.remote:jar:2.0.7-SNAPSHOT:compile
+[INFO] |  +- org.exoplatform.core:exo.core.component.resources.api:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  +- org.exoplatform.core:exo.core.component.organization.api:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  |  +- javax.ejb:ejb:jar:2.1:compile
+[INFO] |  |  +- xdoclet:xdoclet-hibernate-module:jar:1.2.3:compile
+[INFO] |  |  +- xdoclet:xdoclet:jar:1.2.3:compile
+[INFO] |  |  +- xdoclet:xdoclet-xdoclet-module:jar:1.2:compile
+[INFO] |  |  \- xdoclet:xjavadoc:jar:1.0.3:compile
+[INFO] |  +- org.exoplatform.core:exo.core.component.xml-processing:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  |  +- jtidy:jtidy:jar:4aug2000r7-dev:compile
+[INFO] |  |  \- xml-resolver:xml-resolver:jar:1.1:compile
+[INFO] |  +- javax.servlet:jsp-api:jar:2.0:compile
+[INFO] |  +- javax.ccpp:ccpp:jar:1.0:compile
+[INFO] |  +- javax.xml.bind:jaxb-api:jar:2.1:compile
+[INFO] |  |  \- javax.xml.stream:stax-api:jar:1.0-2:compile
+[INFO] |  +- com.sun.xml.bind:jaxb-impl:jar:2.1.7:compile
+[INFO] |  \- commons-pool:commons-pool:jar:1.2:compile
+[INFO] |     \- xerces:xerces:jar:2.0.2:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.portal-framework:jar:2.0.6-SNAPSHOT:compile
+[INFO] |  +- javax.servlet:servlet-api:jar:2.5:compile
+[INFO] |  \- commons-logging:commons-logging:jar:1.0.4:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.portlets2events:jar:2.0.6-SNAPSHOT:compile
+[INFO] +- org.exoplatform.portletcontainer:exo.pc.component.plugins.wsrp2:jar:2.1-SNAPSHOT:compile
+[INFO] |  +- org.exoplatform.kernel:exo.kernel.container:jar:2.0.7-SNAPSHOT:compile
+[INFO] |  |  +- org.exoplatform.tool:exo.tool.framework.junit:jar:trunk:compile
+[INFO] |  |  |  +- junit:junit:jar:3.8.1:compile
+[INFO] |  |  |  \- javax.faces:jsf-api:jar:1.2:compile
+[INFO] |  |  +- picocontainer:picocontainer:jar:1.1:compile
+[INFO] |  |  |  +- jmock:jmock:jar:1.0.1:compile
+[INFO] |  |  |  \- xstream:xstream:jar:1.0.2:compile
+[INFO] |  |  +- commons-beanutils:commons-beanutils:jar:1.6:compile
+[INFO] |  |  +- org.jibx:jibx-run:jar:1.1.6a:compile
+[INFO] |  |  +- org.jibx:jibx-bind:jar:1.1.6a:compile
+[INFO] |  |  |  \- bcel:bcel:jar:5.1:compile
+[INFO] |  |  \- org.jibx:jibx-extras:jar:1.1.6a:compile
+[INFO] |  +- org.exoplatform.core:exo.core.component.organization.jdbc:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  +- org.exoplatform.core:exo.core.component.database:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  |  +- com.experlog:xapool:jar:1.5.0:compile
+[INFO] |  |  +- c3p0:c3p0:jar:0.9.1.2:runtime
+[INFO] |  |  \- org.hibernate:hibernate:jar:3.1.2:compile
+[INFO] |  |     +- ehcache:ehcache:jar:1.1:compile
+[INFO] |  |     +- cglib:cglib:jar:2.1_3:compile
+[INFO] |  |     +- dom4j:dom4j:jar:1.6.1:compile
+[INFO] |  |     \- antlr:antlr:jar:2.7.6rc1:compile
+[INFO] |  +- org.exoplatform.core:exo.core.component.security.core:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  +- org.exoplatform.ws:exo.ws.soap.cxf.jsr181:jar:2.0-SNAPSHOT:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-transports-http:jar:2.1.2:compile
+[INFO] |  |  |  \- org.springframework:spring-web:jar:2.0.8:compile
+[INFO] |  |  |     +- org.springframework:spring-beans:jar:2.0.8:compile
+[INFO] |  |  |     \- org.springframework:spring-context:jar:2.0.8:compile
+[INFO] |  |  |        \- aopalliance:aopalliance:jar:1.0:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-transports-http-jetty:jar:2.1.2:compile
+[INFO] |  |  |  +- org.slf4j:slf4j-jdk14:jar:1.3.1:runtime
+[INFO] |  |  |  |  \- org.slf4j:slf4j-api:jar:1.3.1:runtime
+[INFO] |  |  |  \- org.apache.geronimo.specs:geronimo-servlet_2.5_spec:jar:1.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-frontend-simple:jar:2.1.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-databinding-jaxb:jar:2.1.2:compile
+[INFO] |  |  |  +- org.apache.geronimo.specs:geronimo-javamail_1.4_spec:jar:1.3:compile
+[INFO] |  |  |  +- org.apache.geronimo.specs:geronimo-activation_1.1_spec:jar:1.0.2:compile
+[INFO] |  |  |  \- org.codehaus.woodstox:wstx-asl:jar:3.2.4:compile
+[INFO] |  |  +- org.apache.cxf:cxf-tools-java2ws:jar:2.1.2:compile
+[INFO] |  |  |  +- org.apache.cxf:cxf-tools-wsdlto-core:jar:2.1.2:compile
+[INFO] |  |  |  +- org.apache.cxf:cxf-tools-wsdlto-databinding-jaxb:jar:2.1.2:compile
+[INFO] |  |  |  +- org.apache.cxf:cxf-rt-javascript:jar:2.1.2:compile
+[INFO] |  |  |  |  +- net.java.dev.stax-utils:stax-utils:jar:20060502:compile
+[INFO] |  |  |  |  \- jaxen:jaxen:jar:1.1:compile
+[INFO] |  |  |  \- org.apache.cxf:cxf-rt-databinding-aegis:jar:2.1.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-transports-local:jar:2.1.2:compile
+[INFO] |  |  +- stax:stax-api:jar:1.0:compile
+[INFO] |  |  \- jdom:jdom:jar:1.0:compile
+[INFO] |  +- org.exoplatform.jcr:exo.jcr.component.core:jar:1.11-SNAPSHOT:compile
+[INFO] |  |  +- javax.jcr:jcr:jar:1.0:compile
+[INFO] |  |  +- org.exoplatform.kernel:exo.kernel.component.command:jar:2.0.7-SNAPSHOT:compile
+[INFO] |  |  +- org.exoplatform.core:exo.core.component.document:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  |  |  +- pdfbox:pdfbox:jar:0.7.2:compile
+[INFO] |  |  |  +- com.lowagie:itext:jar:2.1.0:compile
+[INFO] |  |  |  |  +- bouncycastle:bcmail-jdk14:jar:136:compile
+[INFO] |  |  |  |  \- bouncycastle:bcprov-jdk14:jar:136:compile
+[INFO] |  |  |  +- html-parser:html-parser:jar:1.6:compile
+[INFO] |  |  |  +- org.apache.poi:poi:jar:3.0.2-FINAL:compile
+[INFO] |  |  |  \- org.apache.poi:poi-scratchpad:jar:3.0.2-FINAL:compile
+[INFO] |  |  +- org.apache.lucene:lucene-core:jar:2.2.0:compile
+[INFO] |  |  +- org.apache.lucene:lucene-spellchecker:jar:2.2.0:compile
+[INFO] |  |  +- org.apache.lucene:lucene-memory:jar:2.2.0:compile
+[INFO] |  |  +- com.sun.xml.stream:sjsxp:jar:1.0:compile
+[INFO] |  |  +- hsqldb:hsqldb:jar:1.8.0.7:compile
+[INFO] |  |  +- commons-dbcp:commons-dbcp:jar:1.2.1:compile
+[INFO] |  |  +- javax.resource:connector-api:jar:1.5:compile
+[INFO] |  |  +- concurrent:concurrent:jar:1.3.4:compile
+[INFO] |  |  +- commons-collections:commons-collections:jar:3.1:compile
+[INFO] |  |  +- commons-codec:commons-codec:jar:1.2:compile
+[INFO] |  |  +- org.apache.ws.commons:ws-commons-util:jar:1.0.1:compile
+[INFO] |  |  \- mysql:mysql-connector-java:jar:5.0.5:compile
+[INFO] |  +- org.exoplatform.jcr:exo.jcr.component.ext:jar:1.11-SNAPSHOT:compile
+[INFO] |  |  +- org.exoplatform.core:exo.core.component.script.groovy:jar:2.1.4-SNAPSHOT:compile
+[INFO] |  |  |  \- org.codehaus.groovy:groovy-all:jar:1.5.7:compile
+[INFO] |  |  |     +- org.apache.ant:ant:jar:1.7.0:compile
+[INFO] |  |  |     |  \- org.apache.ant:ant-launcher:jar:1.7.0:compile
+[INFO] |  |  |     \- jline:jline:jar:0.9.94:compile
+[INFO] |  |  +- org.exoplatform.ws:exo.ws.rest.core:jar:2.0-SNAPSHOT:compile
+[INFO] |  |  |  +- org.exoplatform.ws:exo.ws.frameworks.json:jar:2.0-SNAPSHOT:compile
+[INFO] |  |  |  \- javax.ws.rs:jsr311-api:jar:1.0:compile
+[INFO] |  |  +- org.exoplatform.ws:exo.ws.rest.ext:jar:2.0-SNAPSHOT:compile
+[INFO] |  |  |  \- javax.annotation:jsr250-api:jar:1.0:compile
+[INFO] |  |  +- commons-chain:commons-chain:jar:1.0:compile
+[INFO] |  |  |  \- commons-digester:commons-digester:jar:1.6:compile
+[INFO] |  |  |     \- xml-apis:xml-apis:jar:1.0.b2:compile
+[INFO] |  |  +- org.exoplatform.ws:exo.ws.commons:jar:2.0-SNAPSHOT:compile
+[INFO] |  |  +- javagroups:jgroups-all:jar:2.5.2:compile
+[INFO] |  |  \- org.apache.velocity:velocity:jar:1.5:compile
+[INFO] |  |     \- oro:oro:jar:2.0.8:compile
+[INFO] |  +- org.apache.cxf:cxf-tools-misctools:jar:2.1.2:compile
+[INFO] |  |  +- velocity:velocity:jar:1.4:compile
+[INFO] |  |  |  \- velocity:velocity-dep:jar:1.4:runtime
+[INFO] |  |  +- com.sun.xml.bind:jaxb-xjc:jar:2.1.7:compile
+[INFO] |  |  +- javax.xml.soap:saaj-api:jar:1.3:compile
+[INFO] |  |  +- org.apache.cxf:cxf-tools-common:jar:2.1.2:compile
+[INFO] |  |  |  \- org.apache.geronimo.specs:geronimo-ws-metadata_2.0_spec:jar:1.1.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-tools-wsdlto-frontend-jaxws:jar:2.1.2:compile
+[INFO] |  |  \- org.apache.cxf:cxf-tools-validator:jar:2.1.2:compile
+[INFO] |  |     +- org.apache.ws.commons.schema:XmlSchema:jar:1.4.2:compile
+[INFO] |  |     +- org.apache.cxf:cxf-common-schemas:jar:2.1.2:compile
+[INFO] |  |     \- org.apache.geronimo.specs:geronimo-stax-api_1.0_spec:jar:1.0.1:compile
+[INFO] |  +- org.exoplatform.patches:exo-cxf-rt-frontend-jaxws:jar:2.1.2:compile
+[INFO] |  |  +- org.apache.geronimo.specs:geronimo-jaxws_2.1_spec:jar:1.0:compile
+[INFO] |  |  +- org.apache.cxf:cxf-api:jar:2.1.2:compile
+[INFO] |  |  |  +- org.apache.geronimo.specs:geronimo-annotation_1.0_spec:jar:1.1.1:compile
+[INFO] |  |  |  \- org.apache.neethi:neethi:jar:2.0.4:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-core:jar:2.1.2:compile
+[INFO] |  |  |  +- org.springframework:spring-core:jar:2.0.8:compile
+[INFO] |  |  |  \- com.sun.xml.fastinfoset:FastInfoset:jar:1.2.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-bindings-soap:jar:2.1.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-bindings-xml:jar:2.1.2:compile
+[INFO] |  |  +- org.apache.cxf:cxf-rt-ws-addr:jar:2.1.2:compile
+[INFO] |  |  \- com.sun.xml.messaging.saaj:saaj-impl:jar:1.3:compile
+[INFO] |  +- javax.activation:activation:jar:1.1:compile
+[INFO] |  +- org.mortbay.jetty:jetty:jar:6.1.9:compile
+[INFO] |  |  +- org.mortbay.jetty:jetty-util:jar:6.1.9:compile
+[INFO] |  |  \- org.mortbay.jetty:servlet-api-2.5:jar:6.1.9:compile
+[INFO] |  +- wsdl4j:wsdl4j:jar:1.6.1:compile
+[INFO] |  \- commons-discovery:commons-discovery:jar:0.2:compile
+[INFO] +- javax.servlet:jstl:jar:1.1.2:compile
+[INFO] +- taglibs:standard:jar:1.1.2:compile
+[INFO] +- commons-fileupload:commons-fileupload:jar:1.2:compile
+[INFO] +- commons-io:commons-io:jar:1.3:compile
+[INFO] +- asm:asm:jar:1.5.3:compile
+[INFO] +- org.exoplatform.patches:exo-asm:jar:2.2.3:compile
+[INFO] +- org.exoplatform.patches:exo-cxf-common-utilities:jar:2.1.2:compile
+[INFO] \- emma:emma:jar:2.0.5312:test
+[INFO] ------------------------------------------------------------------------
+[INFO] BUILD SUCCESSFUL
+[INFO] ------------------------------------------------------------------------
+[INFO] Total time: 8 seconds
+[INFO] Finished at: Wed Jan 21 12:57:31 GMT+02:00 2009
+[INFO] Final Memory: 24M/82M
+[INFO] ------------------------------------------------------------------------
