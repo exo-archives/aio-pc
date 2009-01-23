@@ -128,7 +128,6 @@
   <!--  </component>-->
 
 
-
   <!-- WSRP 2 -->
 
   <component>
@@ -172,7 +171,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryImpl</type>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
   </component>
 
   <component>
@@ -277,6 +276,8 @@
     <type>org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortTypeImpl</type>
   </component>
 
+
+
   <!-- Mixed external component plugins for both WSRP 1 and WSRP 2-->
 
   <external-component-plugins>
@@ -341,5 +342,8 @@
   <!--      </init-params>-->
   <!--    </component-plugin>-->
   <!--  </external-component-plugins>-->
+
+
+
 
 </configuration>
