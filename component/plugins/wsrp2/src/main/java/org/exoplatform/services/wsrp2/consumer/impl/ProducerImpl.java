@@ -131,13 +131,15 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   private void init1(ExoContainer container) {
-    this.ID = createProducerID("producer1");
+    if (this.ID == null)
+      this.ID = createProducerID("producer1");
     org.exoplatform.services.wsrp1.intf.WSRPService service = new org.exoplatform.services.wsrp1.intf.WSRPService(this.url);
     createAdapters1(service, container);
   }
 
   private void init2(ExoContainer container) {
-    this.ID = createProducerID("producer2");
+    if (this.ID == null)
+      this.ID = createProducerID("producer2");
     WSRPService2 service = new WSRPService2(this.url);
     createAdapters2(service, container);
   }

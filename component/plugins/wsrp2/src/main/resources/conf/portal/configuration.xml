@@ -170,6 +170,10 @@
     <type>org.exoplatform.services.wsrp2.consumer.impl.PortletDriverRegistryImpl</type>
   </component>
 
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.ProducerRegistryImpl</type>-->
+  <!--  </component>-->
+
   <component>
     <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
   </component>

@@ -390,7 +390,7 @@ public class WSRPAdminPortlet {
       }
       if (action.equals("deregister")) {
         String producerid = request.getParameter("producerid");
-
+        
         ProducerRegistry pregistry = consumer.getProducerRegistry();
         Producer producer = pregistry.getProducer(producerid);
         RegistrationContext registrationContext = producer.getRegistrationContext();
