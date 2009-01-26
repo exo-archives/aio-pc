@@ -18,7 +18,9 @@
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.io.ByteArrayInputStream;
+import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -27,6 +29,7 @@ import java.util.Map;
 import javax.jcr.Node;
 import javax.jcr.PathNotFoundException;
 import javax.jcr.Property;
+import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.logging.Log;
@@ -58,7 +61,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   private Map<String, Producer> producers;
 
-//  private Map<String, WSRPService> services;
+  //  private Map<String, WSRPService> services;
 
   private HibernateService      hservice_;
 
@@ -68,6 +71,8 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   private RepositoryService     repositoryService;
 
+  private Session               session          = null;
+
   public ProducerRegistryJCRImpl(ExoContainerContext ctx,
                                  HibernateService dbService,
                                  RepositoryService repositoryService) throws ConfigurationException {
@@ -75,7 +80,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     cont = ctx.getContainer();
     producers = null;//loadProducers();
-//    services = new HashMap<String, WSRPService>();
+    //    services = new HashMap<String, WSRPService>();
     lastModifiedTime_ = System.currentTimeMillis();
     this.repositoryService = repositoryService;
     // use jcr
@@ -107,7 +112,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     try {
       save(producer);
       producers.put(producer.getID(), producer);
-//      services.put(producer.getID(), new WSRPService(producer.getUrl()));
+      //      services.put(producer.getID(), new WSRPService(producer.getUrl()));
       lastModifiedTime_ = System.currentTimeMillis();
     } catch (Exception e) {
       e.printStackTrace();
@@ -128,7 +133,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       producers.remove(id);
       if (cont.getComponentInstance(id) == null)
         cont.unregisterComponent(id);
-//      services.remove(id);
+      //      services.remove(id);
       lastModifiedTime_ = System.currentTimeMillis();
       Producer producer = (Producer) producers.get(id);
       return producer;
@@ -141,7 +146,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
   public void removeAllProducers() throws Exception {
     removeAll();
     producers.clear();
-//    services.clear();
+    //    services.clear();
     lastModifiedTime_ = System.currentTimeMillis();
   }
 
@@ -158,58 +163,92 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
   }
 
   final private void save(Producer p) throws Exception {
-//    Session session = hservice_.openSession();
-//    WSRP2ProducerData data = load(p.getID());
-//    if (data == null) {
-//      data = new WSRP2ProducerData();
-//      data.setId(p.getID());
-//      data.setProducer(p);
-//      session.save(data);
-//    } else {
-//      data.setProducer(p);
-//      session.update(data);
-//    }
-//    session.flush();
+    //    Session session = hservice_.openSession();
+    //    WSRP2ProducerData data = load(p.getID());
+    //    if (data == null) {
+    //      data = new WSRP2ProducerData();
+    //      data.setId(p.getID());
+    //      data.setProducer(p);
+    //      session.save(data);
+    //    } else {
+    //      data.setProducer(p);
+    //      session.update(data);
+    //    }
+    //    session.flush();
   }
 
   final private Collection<WSRP2ProducerData> loadAll() throws Exception {
-//    Session session = hservice_.openSession();
-//    return session.createQuery(queryAllProducer).list();
-    return null;
+    //    Session session = hservice_.openSession();
+    //    return session.createQuery(queryAllProducer).list();
+    Collection<WSRP2ProducerData> loadAll = new ArrayList<WSRP2ProducerData>();
+    javax.jcr.NodeIterator nodeIter = session.getRootNode().getNodes();
+    while (nodeIter.hasNext()) {
+      Node elem = (Node) nodeIter.nextNode();
+      loadAll.add(getDataFromNode(elem));
+    }
+    return loadAll;
+
   }
 
   final private WSRP2ProducerData load(String id) throws Exception {
-//    Session session = hservice_.openSession();
-//    WSRP2ProducerData data = load(id, session);
-//    return data;
-    return null;
+    //    Session session = hservice_.openSession();
+    WSRP2ProducerData data = load(id, session);
+    return data;
   }
 
-  final public WSRP2ProducerData load(String id, Session session) throws Exception {
+  final public WSRP2ProducerData load(String id, Session session1) throws Exception {
+    //    List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
+    //    if (l.size() > 1) {
+    //      throw new Exception("Expect only one configuration but found" + l.size());
+    //    } else if (l.size() == 1) {
+    //      data = (WSRP2ProducerData) l.get(0);
+    //    }
+    Node root = session.getRootNode().getNode(id);
+    return getDataFromNode(root);
+  }
+
+  private WSRP2ProducerData getDataFromNode(Node node) throws PathNotFoundException, RepositoryException {
     WSRP2ProducerData data = null;
-//    List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
-//    if (l.size() > 1) {
-//      throw new Exception("Expect only one configuration but found" + l.size());
-//    } else if (l.size() == 1) {
-//      data = (WSRP2ProducerData) l.get(0);
-//    }
+    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.getDataFromNode() node = " + node);
+    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.getDataFromNode() node.getName() = " + node.getName());
+    Property prop = node.getProperty("content");
+    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.getDataFromNode() prop = " + prop);
+    ByteArrayInputStream bariStream = (ByteArrayInputStream) prop.getStream();
+    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.getDataFromNode() bariStream = " + bariStream);
+    int length = bariStream.available();
+    byte[] buff = new byte[length];
+    try {
+      bariStream.read(buff);
+    } catch (IOException e) {
+      log_.error(e.getMessage(), e);
+    }
+    
+
+    data = new WSRP2ProducerData();
+    data.setId(node.getName());
+    try {
+      data.setData(buff);      
+    } catch (Exception e) {
+      log_.error(e.getMessage(), e);
+    }
+
     return data;
   }
 
   final private void remove(String id) throws Exception {
-//    Session session = hservice_.openSession();
-//    Object obj = session.createQuery(queryProducer).setString(0, id).uniqueResult();
-//    session.delete(obj);
-//    session.flush();
+    //    Session session = hservice_.openSession();
+    //    Object obj = session.createQuery(queryProducer).setString(0, id).uniqueResult();
+    //    session.delete(obj);
+    //    session.flush();
   }
 
   final private void removeAll() throws Exception {
-//    Session session = hservice_.openSession();
-//    Collection<Object> c = session.createQuery(queryAllProducer).list();
-//    for (Iterator<Object> iterator = c.iterator(); iterator.hasNext();) {
-//      session.delete(iterator.next());
-//    }
-//    session.flush();
+    //    Session session = hservice_.openSession();
+    //    Collection<Object> c = session.createQuery(queryAllProducer).list();
+    //    for (Iterator<Object> iterator = c.iterator(); iterator.hasNext();) {
+    //      session.delete(iterator.next());
+    //    }
+    //    session.flush();
   }
 
   public void start() {
@@ -220,22 +259,19 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       System.out.println(">>> EXOMAN = ");
 
       ManageableRepository repository = this.repositoryService.getRepository("lightrep");
-      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.ProducerRegistryJCRImpl() repository = "
-          + repository);
+      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.ProducerRegistryJCRImpl() repository = " + repository);
 
       SessionProvider sessionProvider = SessionProvider.createSystemProvider();
       System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.ProducerRegistryJCRImpl() sessionProvider = "
           + sessionProvider);
 
-      Session session = sessionProvider.getSession("production", repository);
-      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.ProducerRegistryJCRImpl() session = "
-          + session);
+      session = sessionProvider.getSession("production", repository);
+      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.ProducerRegistryJCRImpl() session = " + session);
 
       InputStream xml = getClass().getResourceAsStream("ext-nodetypes-config.xml");
       System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() xml = " + xml);
 
-      repository.getNodeTypeManager().registerNodeTypes(xml,
-                                                        ExtendedNodeTypeManager.IGNORE_IF_EXISTS);
+      repository.getNodeTypeManager().registerNodeTypes(xml, ExtendedNodeTypeManager.IGNORE_IF_EXISTS);
       xml.close();
 
       System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() session.getRootNode().getName() = "
@@ -243,15 +279,13 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() session.getRootNode().getPath() = "
           + session.getRootNode().getPath());
 
-
       Node n = session.getRootNode().addNode("123", "exo:wsrp2ProducerData");
       n.setProperty("content", new ByteArrayInputStream("demo bytes array for test".getBytes()));
       session.save();
 
       Node root = session.getRootNode().getNode("123");//root_node + "/" + "exo:skins");
       System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() root = " + root);
-      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() root.getName() = "
-          + root.getName());
+      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() root.getName() = " + root.getName());
       Property prop = root.getProperty("content");
       System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.start() prop = " + prop);
       ByteArrayInputStream bariStream = (ByteArrayInputStream) prop.getStream();

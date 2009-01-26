@@ -116,6 +116,7 @@
     </dependency>
 
 
+
     <!-- eXo JCR deps -->
 
     <dependency>
@@ -286,16 +287,16 @@
 
   <build>
 
-<!--     <sourceDirectory>src/nosources</sourceDirectory> -->
-<!--    <testSourceDirectory>src/notest</testSourceDirectory>-->
+    <!--     <sourceDirectory>src/nosources</sourceDirectory> -->
+    <!--    <testSourceDirectory>src/notest</testSourceDirectory>-->
 
     <resources>
       <resource>
         <directory>src/main/java</directory>
         <includes>
-<!--          <include>**/*.xml</include>-->
-<!--          <include>**/*.java</include>-->
-<!--          <include>**/*.*</include>-->
+          <!--          <include>**/*.xml</include>-->
+          <!--          <include>**/*.java</include>-->
+          <!--          <include>**/*.*</include>-->
           <include>**/*</include>
         </includes>
       </resource>
@@ -448,9 +449,10 @@
             <phase>compile</phase>
             <configuration>
               <tasks>
-                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask" classpathref="maven.compile.classpath" />
-                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo" mergedir="target/classes" force="true"
-                  verbose="false">
+                <taskdef name="hibernatedoclet" classname="xdoclet.modules.hibernate.HibernateDocletTask"
+                  classpathref="maven.compile.classpath" />
+                <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo"
+                  mergedir="target/classes" force="true" verbose="false">
                   <fileset dir="${basedir}/src/main/java">
                     <!--                    <include name="org/exoplatform/services/wsrp1/consumer/impl/WSRP1ProducerData.java" />-->
                     <!--                    <include name="org/exoplatform/services/wsrp1/producer/impl/WSRP1StateData.java" />-->
@@ -478,8 +480,9 @@
                     <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
-                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/"
+                  debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}"
+                  optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
@@ -515,7 +518,8 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar" basedir="target/classes" />
+                <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar"
+                  basedir="target/classes" />
               </tasks>
             </configuration>
             <goals>
@@ -604,8 +608,8 @@
           <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
           <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>
           <additionalparam>
-            -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7 -operations -constructors
-            -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api
+            -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize
+            7 -operations -constructors -visibility -types -all -link http://java.sun.com/j2se/1.5/docs/api
           </additionalparam>
           <sourcepath>src/main/java</sourcepath>
         </configuration>
