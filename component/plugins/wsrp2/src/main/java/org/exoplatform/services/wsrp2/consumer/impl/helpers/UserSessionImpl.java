@@ -17,9 +17,9 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.exoplatform.services.wsrp2.consumer.GroupSession;
 import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
@@ -40,9 +40,8 @@ public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
   private String                      userID;
 
   public UserSessionImpl() {
-    super(null);
   }
-  
+
   public UserSessionImpl(String producerID) {
     super(producerID);
   }

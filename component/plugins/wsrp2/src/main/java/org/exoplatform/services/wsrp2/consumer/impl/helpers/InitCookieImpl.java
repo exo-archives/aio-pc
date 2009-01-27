@@ -25,6 +25,9 @@ import org.exoplatform.services.wsrp2.consumer.templates.InitCookieTemplate;
 public class InitCookieImpl extends InitCookieTemplate {
 
   private String producerID;
+  
+  public InitCookieImpl() {
+  }
 
   public InitCookieImpl(String producerID) {
     this.producerID = producerID;
