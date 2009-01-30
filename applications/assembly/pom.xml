@@ -13,7 +13,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portal</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>${org.exoplatform.pcnew.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
