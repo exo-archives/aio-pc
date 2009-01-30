@@ -18,7 +18,6 @@
 package org.exoplatform.services.wsrp2.consumer.templates;
 
 import org.exoplatform.services.wsrp2.consumer.InitCookieInfo;
-//import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
 
 /**
  * User: Benjamin Mestrallet Date: 11 mai 2004
@@ -29,6 +28,9 @@ public abstract class InitCookieTemplate implements InitCookieInfo {
 
   private boolean initCookieDone;
 
+  public InitCookieTemplate() {
+  }
+  
   public boolean isInitCookieRequired() {
     return initCookieRequired;
   }

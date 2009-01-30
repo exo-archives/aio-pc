@@ -19,13 +19,19 @@ package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
+import javax.jcr.Node;
+import javax.jcr.RepositoryException;
+import javax.jcr.Session;
+
 import org.apache.commons.logging.Log;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
-import org.exoplatform.services.database.HibernateService;
+import org.exoplatform.services.jcr.RepositoryService;
+import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
@@ -36,7 +42,6 @@ import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
-import org.hibernate.Session;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -50,15 +55,20 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
 
   private final Log           log            = ExoLogger.getLogger(getClass().getName());
 
+  protected ExoContainer      cont;
+
   private ExoCache            cache;
 
-  private HibernateService    hservice;
+  /**
+   * The service name.
+   */
+  private static final String SERVICE_NAME   = "PersistentStateManagerImpl";
 
-  public PersistentStateManagerImpl(CacheService cacheService,
-                                    HibernateService hservice,
+  public PersistentStateManagerImpl(ExoContainerContext ctx,
+                                    CacheService cacheService,
                                     WSRPConfiguration conf) throws Exception {
+    this.cont = ctx.getContainer();
     this.conf = conf;
-    this.hservice = hservice;
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
   }
@@ -204,6 +214,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       c.add(portletHandle);
+      save(registrationContext.getRegistrationHandle(), "java.util.Collection", c);
     } else {
       // If registration state on PRODUCER
       ConsumerContext consumerContext = null;
@@ -218,6 +229,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       consumerContext.addPortletHandle(portletHandle);
+      save(registrationContext.getRegistrationHandle(),
+           "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext",
+           consumerContext);
     }
   }
 
@@ -237,6 +251,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       c.remove(portletHandle);
+      save(registrationContext.getRegistrationHandle(), "java.util.Collection", c);
     } else {
       // If registration state on PRODUCER
       ConsumerContext consumerContext = null;
@@ -251,6 +266,10 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       consumerContext.removePortletHandle(portletHandle);
+      save(registrationContext.getRegistrationHandle(),
+           "org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext",
+           consumerContext);
+
     }
   }
 
@@ -273,39 +292,49 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
   }
 
-  final private void save(String key, String type, Object o) throws Exception {
-    WSRP2StateData data = load(key);
-    Session session = this.hservice.openSession();
-    if (data == null) {
-      data = new WSRP2StateData();
+  final private void save(String key, String type, Object o) throws WSRPException {
+    if (key == null || key.length() == 0)
+      throw new WSRPException("A key cannot be null or empty!");
+
+    if (o == null) {
+      remove(key);
+    } else {
+      WSRP2StateData data = new WSRP2StateData();
       data.setId(key);
       data.setDataType(type);
-      this.cache.put(key, data);
-    } else {
-      session.delete(data);
-      session.flush();
-      if (log.isDebugEnabled()) {
-        log.debug("Same data id is going to stored with: '" + data.getId() + "'");
+      data.setDataObject(o);
+      try {
+        String value = new String(data.getData());
+        saveNode(key, value);
+      } catch (Exception e) {
+        throw new WSRPException(e.getMessage());
       }
+      this.cache.put(key, data);
     }
-    data.setDataObject(o);
-    session.save(data);
-    session.flush();
   }
 
   // if present in cache return it
   // else look in hservice, if one obj put into cache and return it
   //   if more exception
   //   if none return null 
-  final private WSRP2StateData load(String key) throws Exception {
+  final private WSRP2StateData load(String key) throws WSRPException {
+    if (key == null || key.length() == 0)
+      throw new WSRPException("A key cannot be null or empty!");
+
     WSRP2StateData data = (WSRP2StateData) this.cache.get(key);
     if (data == null) {
-      Session session = this.hservice.openSession();
-      List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();
-      if (l.size() > 1) {
-      } else if (l.size() == 1) {
-        data = (WSRP2StateData) l.get(0);
+      data = new WSRP2StateData();
+      data.setId(key);
+      String value = loadNode(key);
+      if (value == null) {
+        return null;
+      } else {
         this.cache.put(key, data);
+      }
+      try {
+        data.setData(value.getBytes());
+      } catch (Exception e) {
+        throw new WSRPException(e.getMessage());
       }
     }
     return data;
@@ -316,22 +345,15 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   //  if more than one result throw exception
   //  if one result: get from DB and put into cache
   // else delete from DB
-  final private void remove(String key) throws Exception {
-    Session session = this.hservice.openSession();
-    WSRP2StateData data = (WSRP2StateData) this.cache.remove(key);
-    if (data == null) {
-      //  		List l = session.find(queryStateData, key, Hibernate.STRING);
-      List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();
-      if (l.size() > 1) {
-        throw new Exception("Expect only one configuration but found" + l.size());
-      } else if (l.size() == 1) {
-        data = (WSRP2StateData) l.get(0);
-        this.cache.put(key, data);
-      }
-    } else {
-      session.delete(data);
-      session.flush();
-    }
+  final private void remove(String key) throws WSRPException {
+    if (key == null || key.length() == 0)
+      throw new WSRPException("A key cannot be null or empty!");
+
+    WSRP2StateData data = load(key);
+    if (data == null)
+      return;
+    this.cache.remove(key);
+    saveNode(key, null);
   }
 
   public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException {
@@ -360,6 +382,8 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   private Map<String, String[]> getState(String state) throws WSRPException {
+    if (state == null || state.length() == 0)
+      return null;
     try {
       WSRP2StateData sD = load(state);
       if (sD == null) {
@@ -382,20 +406,20 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   }
 
   public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException {
-    return putLifetime(registrationHandle + "lifetime", lifetime);
+    return putLifetime(registrationHandle + "_registration_lifetime", lifetime);
   }
 
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException {
     log.debug("Look up getRegistrationLifetime");
-    return getLifetime(registrationContext.getRegistrationHandle() + "lifetime");
+    return getLifetime(registrationContext.getRegistrationHandle() + "_registration_lifetime");
   }
 
   public Lifetime putPortletLifetime(String portletHandle, Lifetime lifetime) throws WSRPException {
-    return putLifetime(portletHandle + "lifetime", lifetime);
+    return putLifetime(portletHandle + "_portlet_lifetime", lifetime);
   }
 
   public Lifetime getPortletLifetime(String portletHandle) throws WSRPException {
-    return getLifetime(portletHandle + "lifetime");
+    return getLifetime(portletHandle + "_portlet_lifetime");
   }
 
   private Lifetime getLifetime(String key) throws WSRPException {
@@ -433,6 +457,104 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       remove(key);
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
+  }
+
+  /**
+   * Save node. Null value for remove node.
+   * 
+   * @param id
+   * @param value
+   */
+  private void saveNode(String id, String value) {
+    String entryPath = "exo:services/" + SERVICE_NAME;
+    Session session = null;
+    try {
+      SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
+      String fullPath = "exo:registry" + "/" + entryPath;
+      RepositoryService repositoryService = (RepositoryService) cont.getComponentInstanceOfType(RepositoryService.class);
+      session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
+      javax.jcr.Node rootNode = session.getRootNode();
+
+      if (!rootNode.hasNode(fullPath)) {
+        rootNode.addNode(fullPath);
+        if (log.isDebugEnabled())
+          log.debug("add Node = fullPath = " + fullPath);
+      }
+
+      javax.jcr.Node customNode = rootNode.getNode(fullPath);
+
+      if (value == null) {
+        // to REMOVE: value is null
+        if (customNode.hasNode(id)) {
+          customNode = customNode.getNode(id);
+          Node parent = customNode.getParent();
+          customNode.remove();
+          parent.save();
+        }
+      } else {
+        // to SAVE
+        if (customNode.hasNode(id)) {
+          // to REMOVE: before write
+          customNode = customNode.getNode(id);
+          Node parent = customNode.getParent();
+          customNode.remove();
+          parent.save();
+        }
+        //WRITE
+        customNode = rootNode.getNode(fullPath);
+        customNode = customNode.addNode(id);
+        if (log.isDebugEnabled())
+          log.debug("add Node with id =" + id);
+        customNode.setProperty("value", value);
+
+        if (log.isDebugEnabled())
+          log.debug("setProperty '" + value + "' for id = " + id);
+
+      }
+
+      session.save();
+
+    } catch (RepositoryException e) {
+      e.printStackTrace();
+    } finally {
+      if (session != null)
+        session.logout();
+    }
+  }
+
+  /**
+   * Load node by node name (id).
+   * 
+   * @param id
+   * @return
+   */
+  private String loadNode(String id) {
+    String entryPath = "exo:services/" + SERVICE_NAME;
+    Session session = null;
+    try {
+      SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
+      String fullPath = "exo:registry" + "/" + entryPath;
+      RepositoryService repositoryService = (RepositoryService) cont.getComponentInstanceOfType(RepositoryService.class);
+      session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
+      javax.jcr.Node rootNode = session.getRootNode();
+      if (!rootNode.hasNode(fullPath)) {
+        rootNode.addNode(fullPath);
+      }
+      javax.jcr.Node customNode = rootNode.getNode(fullPath);
+
+      if (customNode.hasNode(id))
+        return customNode.getNode(id).getProperty("value").getValue().getString();
+
+      session.save();
+      return null;
+
+    } catch (RepositoryException e) {
+      e.printStackTrace();
+      return null;
+    } finally {
+      if (session != null)
+        session.logout();
     }
   }
 

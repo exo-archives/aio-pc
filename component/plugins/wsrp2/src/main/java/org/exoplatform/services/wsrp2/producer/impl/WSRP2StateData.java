@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
+import org.apache.commons.codec.binary.Base64;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 
 /**
@@ -62,11 +63,15 @@ public class WSRP2StateData {
    * @hibernate.property type="binary"
    */
   public byte[] getData() throws Exception {
-    return IOUtil.serialize(object_);
+    if (object_ == null)
+      return null;
+    return Base64.encodeBase64(IOUtil.serialize(object_));
   }
 
   public void setData(byte[] data) throws Exception {
-    object_ = IOUtil.deserialize(data);
+    if (data == null)
+      return;
+    object_ = IOUtil.deserialize(Base64.decodeBase64(data));
   }
 
   public Object getDataObject() {

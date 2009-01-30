@@ -31,6 +31,7 @@ import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
@@ -38,22 +39,22 @@ import org.hibernate.Session;
  *         févr. 2004 Time: 23:04:48
  */
 public class ProducerRegistryImpl implements ProducerRegistry {
-  private static final String      queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
+  private static final String   queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
 
-  private static final String      queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
-                                                        + "where pd.id = ?";
+  private static final String   queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
+                                                     + "where pd.id = ?";
 
-  private long                     lastModifiedTime_;
+  private long                  lastModifiedTime_;
 
-  private Map<String, Producer>    producers;
+  private Map<String, Producer> producers;
 
 //  private Map<String, WSRPService> services;
 
-  private HibernateService         hservice_;
+  private HibernateService      hservice_;
 
-  private Log                      log_;
+  private Log                   log_;
 
-  protected ExoContainer           cont;
+  protected ExoContainer        cont;
 
   public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService) throws ConfigurationException {
     hservice_ = dbService;
@@ -136,55 +137,82 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   final public void save(Producer p) throws Exception {
-    Session session = hservice_.openSession();
     WSRP2ProducerData data = load(p.getID());
-    if (data == null) {
-      data = new WSRP2ProducerData();
-      data.setId(p.getID());
-      data.setProducer(p);
-      session.save(data);
-    } else {
-      data.setProducer(p);
-      session.update(data);
-    }
-    session.flush();
+    Session session = hservice_.openSession();
+//    try {
+      if (data == null) {
+        data = new WSRP2ProducerData();
+        data.setId(p.getID());
+        data.setProducer(p);
+        session.save(data);
+      } else {
+        data.setProducer(p);
+        session.update(data);
+      }
+      session.flush();
+//    } catch (HibernateException e) {
+//      log_.error(e.getMessage(), e);
+//    } finally {
+//      session.flush();
+//    }
   }
 
   final public Collection<WSRP2ProducerData> loadAll() throws Exception {
     Session session = hservice_.openSession();
-    return session.createQuery(queryAllProducer).list();
+    List l = null;
+//    try {
+      l = session.createQuery(queryAllProducer).list();
+//    } catch (HibernateException e) {
+//      log_.error(e.getMessage(), e);
+//    } finally {
+//      session.flush();
+//    }
+    return l;
   }
 
   final public WSRP2ProducerData load(String id) throws Exception {
-    Session session = hservice_.openSession();
-    WSRP2ProducerData data = load(id, session);
-    return data;
-  }
-
-  final public WSRP2ProducerData load(String id, Session session) throws Exception {
     WSRP2ProducerData data = null;
-    List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
-    if (l.size() > 1) {
-      throw new Exception("Expect only one configuration but found" + l.size());
-    } else if (l.size() == 1) {
-      data = (WSRP2ProducerData) l.get(0);
-    }
+    Session session = hservice_.openSession();
+//    try {
+      List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
+      if (l.size() > 1) {
+        throw new Exception("Expect only one configuration but found" + l.size());
+      } else if (l.size() == 1) {
+        data = (WSRP2ProducerData) l.get(0);
+      }
+//    } catch (HibernateException e) {
+//      log_.error(e.getMessage(), e);
+//    } finally {
+//      session.flush();
+//    }
     return data;
   }
 
   final public void remove(String id) throws Exception {
     Session session = hservice_.openSession();
-    Object obj = session.createQuery(queryProducer).setString(0, id).uniqueResult();
-    session.delete(obj);
-    session.flush();
+//    try {
+      Object obj = session.createQuery(queryProducer).setString(0, id).uniqueResult();
+      session.delete(obj);
+      session.flush();
+//    } catch (HibernateException e) {
+//      log_.error(e.getMessage(), e);
+//    } finally {
+//      session.flush();
+//    }
   }
 
   final public void removeAll() throws Exception {
     Session session = hservice_.openSession();
-    Collection<Object> c = session.createQuery(queryAllProducer).list();
-    for (Iterator<Object> iterator = c.iterator(); iterator.hasNext();) {
-      session.delete(iterator.next());
-    }
-    session.flush();
+//    try {
+      Collection<Object> c = session.createQuery(queryAllProducer).list();
+      for (Iterator<Object> iterator = c.iterator(); iterator.hasNext();) {
+        session.delete(iterator.next());
+      }
+      session.flush();
+//    } catch (HibernateException e) {
+//      log_.error(e.getMessage(), e);
+//    } finally {
+//      session.flush();
+//    }
   }
 }

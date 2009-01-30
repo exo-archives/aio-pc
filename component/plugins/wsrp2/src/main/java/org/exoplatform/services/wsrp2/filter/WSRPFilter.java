@@ -87,8 +87,14 @@ public class WSRPFilter implements Filter {
 
   private void hibernateCloseSession() {
     List<HibernateService> list = container.getComponentInstancesOfType(HibernateService.class);
-    for (HibernateService hservice : list)
-      hservice.closeSession();
+    for (HibernateService hservice : list) {
+      try {
+        hservice.closeSession();  
+      } catch (Exception e) {
+        System.out.println(">>> ERROR      WSRPFilter.hibernateCloseSession() e.getMessage() = "
+            + e.getMessage());
+      }
+    }
   }
 
   private void setCurrentContainer() {

@@ -177,8 +177,9 @@ public class BaseTest extends TestCase {
       //container = PortalContainer.getInstance();
       //container = RootContainer.getInstance().getPortalContainer("portal");
 
-      StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
+//      StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
       container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
+      
       ProducerRegistryJCRImpl producerRegistry = (ProducerRegistryJCRImpl) container.getComponentInstanceOfType(ProducerRegistryJCRImpl.class);
 
 //      StandaloneContainer.setConfigurationPath("src/test/java/conf/test-configuration.xml");
@@ -221,10 +222,11 @@ public class BaseTest extends TestCase {
     register.setRegistrationData(registrationData);
     register.setUserContext(userContext);
 
-    producer = new ProducerImpl(container, null, 2);//"http://www.example.org/"
-    producer.setID(PRODUCER_ID);
-    producer.setDescription(PRODUCER_DESCRIPTION);
-    producer.setName(PRODUCER_NAME);
+    // EXOMAN for JCR
+//    producer = new ProducerImpl(container, null, 2);//"http://www.example.org/"
+//    producer.setID(PRODUCER_ID);
+//    producer.setDescription(PRODUCER_DESCRIPTION);
+//    producer.setName(PRODUCER_NAME);
 
     WSRPService2 service = (WSRPService2) container.getComponentInstanceOfType(MockWSRPService.class);
     if (service != null) {
@@ -237,12 +239,12 @@ public class BaseTest extends TestCase {
     System.out.println(">>> BaseTest.setUp() service = " + service);
     System.out.println(">>> BaseTest.setUp() container = " + container);
 
-    producer.createAdapters(service, container);
-
-    producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService()));
-    producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService()));
-    producer.setRegistrationAdapter(new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService()));
-    producer.setPortletManagementAdapter(new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService()));
+    // EXOMAN for JCR
+//    producer.createAdapters(service, container);
+//    producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService()));
+//    producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService()));
+//    producer.setRegistrationAdapter(new WSRPV2RegistrationPortTypeAdapter(service.getWSRPV2RegistrationService()));
+//    producer.setPortletManagementAdapter(new WSRPV2PortletManagementPortTypeAdapter(service.getWSRPV2PortletManagementService()));
 
 //    producer.setMarkupInterfaceEndpoint(PRODUCER_MARKUP_INTERFACE_ENDPOINT);
 //    producer.setPortletManagementInterfaceEndpoint(PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT);

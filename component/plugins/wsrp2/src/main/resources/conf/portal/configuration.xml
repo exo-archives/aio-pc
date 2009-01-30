@@ -2,132 +2,6 @@
 
 <configuration>
 
-  <!-- WSRP 1 -->
-
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.ServiceDescriptionInterfaceImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.RegistrationOperationsInterfaceImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.MarkupOperationsInterfaceImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.PortletManagementOperationsInterfaceImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.JSR168ContainerProxyImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.PersistentStateManagerImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.TransientStateManagerImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.PortletRegistryImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.PortletDriverRegistryImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.ProducerRegistryImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.UserRegistryImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.URLGeneratorImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.URLRewriterImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.ConsumerEnvironmentImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.URLTemplateComposerImpl</type>-->
-  <!--  </component>-->
-  <!---->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp.producer.impl1.WSRPConfiguration</type>-->
-  <!--    <init-params>-->
-  <!--      <values-param>-->
-  <!--        <name>exclude-list</name>-->
-  <!--        <value>wsrp/*</value>-->
-  <!--        <value>portal/*</value>-->
-  <!--        <value>eXoWidgetWeb/*</value>-->
-  <!--        <value>eXoSkinMac/*</value>-->
-  <!--        <value>cometd/*</value>-->
-  <!--        <value>web/*</value>-->
-  <!--        <value>exoadmin/*</value>-->
-  <!--        <value>rest/*</value>-->
-  <!--        <value>ecm/*</value>-->
-  <!--        <value>eXoSkinVista/*</value>-->
-  <!--        <value>workflow/*</value>-->
-  <!--      </values-param>-->
-  <!--      <properties-param>-->
-  <!--        <name>wsrp-conf</name>-->
-  <!--        <property name="wsrp.requires.registration" value="true" />-->
-  <!--        <property name="wsrp.has.user.specific.state" value="true" />-->
-  <!--        <property name="wsrp.does.url.template.processing" value="true" />-->
-  <!--        <property name="wsrp.templates.stored.in.session" value="false" />-->
-  <!--        <property name="wsrp.user.context.stored.in.session" value="false" />-->
-  <!--        <property name="wsrp.uses.method.get" value="false" />-->
-  <!--        <property name="wsrp.perform.blocking.interaction.optimized" value="false" />-->
-  <!--        <property name="wsrp.save.registration.state.on.consumer" value="false" />-->
-  <!--        <property name="wsrp.save.portlet.state.on.consumer" value="false" />-->
-  <!--      </properties-param>-->
-  <!--      <properties-param>-->
-  <!--        <name>wsrp-admin-portlet-conf</name>-->
-  <!--        <property name="portletTitle" value="WSRPAdminPortlet" />-->
-  <!--        <property name="consumerName" value="www.exoplatform.org" />-->
-  <!--        <property name="consumerAgent" value="exoplatform.1.0" />-->
-  <!--        <property name="producerName" value="exo producer" />-->
-  <!--        <property name="producerURL" value="http://localhost:8080/wsrp/services/" />-->
-  <!--        <property name="markupIntfEndpoint" value="WSRPMarkupService" />-->
-  <!--        <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService" />-->
-  <!--        <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />-->
-  <!--        <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService" />-->
-  <!--        <property name="description" value="" />-->
-  <!--      </properties-param>-->
-  <!--    </init-params>-->
-  <!--  </component>-->
-
-  <!-- Services for the SOAP WebService -->
-
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp1.bind.WSRPV2MarkupPortTypeImpl</type>-->
-  <!--  </component>-->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp1.bind.WSRPV2PortletManagementPortTypeImpl</type>-->
-  <!--  </component>-->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp1.bind.WSRPV2RegistrationPortTypeImpl</type>-->
-  <!--  </component>-->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp1.bind.WSRPV2ServiceDescriptionPortTypeImpl</type>-->
-  <!--  </component>-->
-  <!--  <component>-->
-  <!--    <type>org.exoplatform.services.wsrp1.bind.extensions.WSRPV2ServiceAdministrationPortTypeImpl</type>-->
-  <!--  </component>-->
-
-
   <!-- WSRP 2 -->
 
   <component>
@@ -314,12 +188,6 @@
 
   <external-component-plugins>
     <target-component>org.exoplatform.services.portletcontainer.PortletContainerService</target-component>
-    <!--    <component-plugin>-->
-    <!--      <name>wsrp1.plugin</name>-->
-    <!--      <set-method>addPlugin</set-method>-->
-    <!--      <type>org.exoplatform.services.wsrp.consumer.impl.WSRPConsumerPlugin</type>-->
-    <!--      <description>wsrp1 plugin</description>-->
-    <!--    </component-plugin>-->
     <component-plugin>
       <name>wsrp2.plugin</name>
       <set-method>addPlugin</set-method>
@@ -327,27 +195,6 @@
       <description>wsrp2 plugin</description>
     </component-plugin>
   </external-component-plugins>
-
-  <!--  <external-component-plugins>-->
-  <!--    <target-component>org.exoplatform.services.ws.impl.cxf.WebServiceLoader</target-component>-->
-  <!--    <component-plugin>-->
-  <!--      <name>WebService loader plugin</name>-->
-  <!--      <set-method>addPlugin</set-method>-->
-  <!--      <type>org.exoplatform.services.ws.impl.cxf.WebServiceLoaderPlugin</type>-->
-  <!--      <description>Custom service loader plugin</description>-->
-  <!--      <init-params>-->
-  <!--        <values-param>-->
-  <!--          <name></name>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.v2.WSRPV2MarkupPortTypeImpl</value>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.v2.WSRPV2PortletManagementPortTypeImpl</value>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.v2.WSRPV2RegistrationPortTypeImpl</value>-->
-  <!--          <value>org.exoplatform.services.wsrp2.bind.v2.WSRPV2ServiceDescriptionPortTypeImpl</value>-->
-  <!--        </values-param>-->
-  <!--      </init-params>-->
-  <!--    </component-plugin>-->
-  <!--  </external-component-plugins>-->
-
-
 
 
 </configuration>

@@ -17,36 +17,36 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
-import java.io.ByteArrayInputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.jcr.Node;
-import javax.jcr.NodeIterator;
 import javax.jcr.PathNotFoundException;
-import javax.jcr.Property;
 import javax.jcr.RepositoryException;
 import javax.jcr.Session;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.configuration.ConfigurationException;
 import org.exoplatform.services.jcr.RepositoryService;
-import org.exoplatform.services.jcr.core.ManageableRepository;
-import org.exoplatform.services.jcr.core.nodetype.ExtendedNodeTypeManager;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
-import org.exoplatform.services.jcr.impl.core.NodeImpl;
+import org.exoplatform.services.jcr.ext.registry.RegistryEntry;
+import org.exoplatform.services.jcr.ext.registry.RegistryService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.picocontainer.Startable;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.SAXException;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 2
@@ -58,23 +58,25 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   private Map<String, Producer> producers;
 
-  private Log                   log_;
+  private Log                   LOG;
 
   protected ExoContainer        cont;
 
-  private RepositoryService     repositoryService;
+  /**
+   * Registry service.
+   */
+  private RegistryService       registryService;
 
-  private Session               session           = null;
+  /**
+   * The service name.
+   */
+  private static final String   SERVICE_NAME = "ProducerRegistryJCRImpl";
 
-  private Node                  nodeForStorage;
-
-  private static final String   NODE_STORAGE_NAME = "exo:wsrp";
-
-  public ProducerRegistryJCRImpl(ExoContainerContext ctx, RepositoryService repositoryService) throws ConfigurationException {
-    log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
-    cont = ctx.getContainer();
-    lastModifiedTime_ = System.currentTimeMillis();
-    this.repositoryService = repositoryService;
+  public ProducerRegistryJCRImpl(ExoContainerContext ctx, RegistryService registryService) throws ConfigurationException {
+    this.LOG = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
+    this.cont = ctx.getContainer();
+    this.registryService = registryService;
+    this.lastModifiedTime_ = System.currentTimeMillis();
   }
 
   private Map<String, Producer> loadProducers() {
@@ -88,13 +90,13 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       for (Iterator<WSRP2ProducerData> iterator = c.iterator(); iterator.hasNext();) {
         WSRP2ProducerData wsrp2ProducerData = (WSRP2ProducerData) iterator.next();
         String producerUrl = wsrp2ProducerData.getProducer().getUrl().toExternalForm();
-        ProducerImpl prodImpl = (ProducerImpl)wsrp2ProducerData.getProducer();
+        ProducerImpl prodImpl = (ProducerImpl) wsrp2ProducerData.getProducer();
         prodImpl.setID(wsrp2ProducerData.getId());
         prodImpl.init(cont, producerUrl);
         map.put(wsrp2ProducerData.getId(), wsrp2ProducerData.getProducer());
       }
     } catch (Exception e) {
-      log_.error("Error", e);
+      LOG.error("Error", e);
     }
     return map;
   }
@@ -119,13 +121,12 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   public Producer removeProducer(String id) {
     try {
-      remove(id);
+      writeValueRegistryService(id, null);
       producers.remove(id);
       if (cont.getComponentInstance(id) == null)
         cont.unregisterComponent(id);
       lastModifiedTime_ = System.currentTimeMillis();
-      Producer producer = (Producer) producers.get(id);
-      return producer;
+      return getProducer(id);
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -150,114 +151,49 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     return lastModifiedTime_;
   }
 
-  final private void save(Producer p) throws Exception {
-    WSRP2ProducerData data = load(p.getID());
-    if (data == null) {
-      data = new WSRP2ProducerData();
-      data.setId(p.getID());
-      data.setProducer(p);
-      Node n = getNodeForStorage().addNode(p.getID(), "exo:wsrp2ProducerData");
-      n.setProperty("content", new ByteArrayInputStream(data.getData()));
-      session.save();
-    } else {
-      data.setProducer(p);
-      Node n = getNodeForStorage().getNode(p.getID());
-      n.setProperty("content", new ByteArrayInputStream(data.getData()));
-      session.save();
-    }
-  }
-
   final private Collection<WSRP2ProducerData> loadAll() throws Exception {
+    // load parent node, where are placed producer's registration
+    String entryPath = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME;
+    Element element = null;
+    try {
+      SessionProvider sessionProvider = SessionProvider.createSystemProvider();
+      RegistryEntry registryEntry = registryService.getEntry(sessionProvider, entryPath);
+      Document doc = registryEntry.getDocument();
+      element = doc.getDocumentElement();
+    } catch (PathNotFoundException e) {
+      return null;
+    } catch (RepositoryException e) {
+      return null;
+    }
+    if (element == null)
+      return null;
     Collection<WSRP2ProducerData> loadAll = null;
-    if (session != null && getNodeForStorage() != null && getNodeForStorage().hasNodes()) {
-      NodeIterator nodeIter = getNodeForStorage().getNodes();
-      while (nodeIter.hasNext()) {
-        Node elem = (Node) nodeIter.nextNode();
-        if (loadAll == null)
-          loadAll = new ArrayList<WSRP2ProducerData>();
-        loadAll.add(getDataFromNode(elem));
-      }
+    NodeList childNodes = element.getChildNodes();
+    for (int i = 0; i < childNodes.getLength(); i++) {
+      Node item = childNodes.item(i);
+      String value = loadValueRegistryService(item.getNodeName());
+      if (loadAll == null)
+        loadAll = new ArrayList<WSRP2ProducerData>();
+      WSRP2ProducerData data = new WSRP2ProducerData();
+      data.setId(item.getNodeName());
+      data.setData(value.getBytes());
+      loadAll.add(data);
     }
     return loadAll;
   }
 
-  final private WSRP2ProducerData load(String id) throws Exception {
-    WSRP2ProducerData data = load(id, session);
-    return data;
-  }
-
-  final private WSRP2ProducerData load(String id, Session session1) throws Exception {
-    if (getNodeForStorage().hasNode(id)) {
-      Node root = getNodeForStorage().getNode(id);
-      return getDataFromNode(root);
-    } else {
-      return null;
-    }
-  }
-
-  private WSRP2ProducerData getDataFromNode(Node node) throws PathNotFoundException,
-                                                      RepositoryException {
-
-    if (!node.hasProperty("content"))
-      return null;
-    Property prop = node.getProperty("content");
-    ByteArrayInputStream bariStream = (ByteArrayInputStream) prop.getStream();
-    int length = bariStream.available();
-    byte[] buff = new byte[length];
-    try {
-      bariStream.read(buff);
-    } catch (IOException e) {
-      log_.error(e.getMessage(), e);
-    }
-
-    WSRP2ProducerData data = null;
-    data = new WSRP2ProducerData();
-    data.setId(node.getName());
-    try {
-      data.setData(buff);
-    } catch (Exception e) {
-      log_.error(e.getMessage(), e);
-    }
-
-    return data;
-  }
-
-  final private void remove(String id) throws Exception {
-    if (getNodeForStorage().hasNode(id)) {
-      Node n = getNodeForStorage().getNode(id);
-      n.remove();
-      session.save();
-    }
-  }
-
   final private void removeAll() throws Exception {
-
-    if (getNodeForStorage().hasNodes()) {
-      NodeIterator nodeIter = getNodeForStorage().getNodes();
-      while (nodeIter.hasNext()) {
-        Node elem = (Node) nodeIter.nextNode();
-        elem.remove();
-      }
+    try {
+      String entryPath = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME;
+      SessionProvider sessionProvider = SessionProvider.createSystemProvider();
+      registryService.removeEntry(sessionProvider, entryPath);
+    } catch (RepositoryException e) {
+      // if there are no producer's registration yet - to do nothing
     }
   }
 
   public void start() {
-
     try {
-
-      ManageableRepository repository = this.repositoryService.getRepository("lightrep");
-
-      SessionProvider sessionProvider = SessionProvider.createSystemProvider();
-
-      session = sessionProvider.getSession("production", repository);
-
-      InputStream xml = getClass().getResourceAsStream("ext-nodetypes-config.xml");
-
-      repository.getNodeTypeManager().registerNodeTypes(xml,
-                                                        ExtendedNodeTypeManager.IGNORE_IF_EXISTS);
-      xml.close();
-
-      getNodeForStorage();
 
       producers = loadProducers();
 
@@ -267,27 +203,126 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   }
 
-  private Node getNodeForStorage() {
-    if (nodeForStorage != null)
-      return nodeForStorage;
-    try {
-      nodeForStorage = session.getRootNode().getNode(NODE_STORAGE_NAME);
-      // if node exo:wsrp exist
-      return nodeForStorage;
-    } catch (RepositoryException e1) {
-      // if node exo:wsrp doesn't exist
-      try {
-        nodeForStorage = session.getRootNode().addNode(NODE_STORAGE_NAME);
-        session.save();
-        return nodeForStorage;
-      } catch (Exception e) {
-        log_.error(e.getMessage(), e);
-      }
-      return null;
-    }
+  public void stop() {
   }
 
-  public void stop() {
+  final private void save(Producer p) throws Exception {
+    WSRP2ProducerData data = new WSRP2ProducerData();
+    data.setId(p.getID());
+    data.setProducer(p);
+    String value = new String(data.getData());
+    writeValueRegistryService(p.getID(), value);
+  }
+
+  private void writeValueRegistryService(String id, String value) throws IOException,
+                                                                 SAXException,
+                                                                 ParserConfigurationException,
+                                                                 RepositoryException {
+
+    String entryPath = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME + "/" + id;
+    if (LOG.isDebugEnabled())
+      LOG.debug(" entryPath = " + entryPath);
+    // if value = null and present than remove
+    if (value == null) {
+      String el = loadValueRegistryService(id);
+      if (el != null) {
+        // remove
+        if (LOG.isDebugEnabled())
+          LOG.debug(" +++  if value = null and present than remove = ");
+        SessionProvider sessionProvider = SessionProvider.createSystemProvider();
+        registryService.removeEntry(sessionProvider, entryPath);
+      }
+    } else {
+      // value != null
+      String el = loadValueRegistryService(id);
+      if (LOG.isDebugEnabled())
+        LOG.debug(" el = " + el);
+      if (el == null) {
+        // if not present than write
+        if (LOG.isDebugEnabled())
+          LOG.debug(" +++  if not present than write =");
+        SessionProvider sessionProvider = SessionProvider.createSystemProvider();
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        Element element = doc.createElement(id);
+        setAttributeSmart(element, "value", value);
+        doc.appendChild(element);
+        RegistryEntry serviceEntry = new RegistryEntry(doc);
+        registryService.createEntry(sessionProvider, RegistryService.EXO_SERVICES + "/"
+            + SERVICE_NAME, serviceEntry);
+      } else {
+        // if present than update
+        if (LOG.isDebugEnabled())
+          LOG.debug("if present than update =");
+        SessionProvider sessionProvider = SessionProvider.createSystemProvider();
+        Document doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
+        if (LOG.isDebugEnabled())
+          LOG.debug(" id = " + id);
+        Element element = doc.createElement(id);
+        setAttributeSmart(element, "value", value);
+        doc.appendChild(element);
+        RegistryEntry serviceEntry = new RegistryEntry(doc);
+        registryService.recreateEntry(sessionProvider, RegistryService.EXO_SERVICES + "/"
+            + SERVICE_NAME, serviceEntry);
+      }
+    }
+
+  }
+
+  final private WSRP2ProducerData load(String id) throws PathNotFoundException, RepositoryException {
+    String el = loadValueRegistryService(id);
+    if (el == null)
+      return null;
+    WSRP2ProducerData data = new WSRP2ProducerData();
+    data.setId(id);
+    try {
+      data.setData(el.getBytes());
+    } catch (Exception e) {
+      LOG.error(e.getMessage(), e);
+    }
+    return data;
+  }
+
+  private String loadValueRegistryService(String id) {
+
+    String entryPath = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME + "/" + id;
+    if (LOG.isDebugEnabled())
+      LOG.debug(" entryPath = " + entryPath);
+    Element element = null;
+    try {
+      SessionProvider sessionProvider = SessionProvider.createSystemProvider();
+      RegistryEntry registryEntry = registryService.getEntry(sessionProvider, entryPath);
+      Document doc = registryEntry.getDocument();
+      element = doc.getDocumentElement();
+      if (LOG.isDebugEnabled())
+        LOG.debug(" element = " + element);
+    } catch (PathNotFoundException e) {
+      if (LOG.isDebugEnabled())
+        LOG.debug(" e.getCause() = " + e.getCause());
+      return null;
+    } catch (RepositoryException e) {
+      if (LOG.isDebugEnabled())
+        LOG.debug(" e.getCause() = " + e.getCause());
+      return null;
+    }
+    if (element == null)
+      return null;
+    String el = getAttributeSmart(element, "value");
+    if (LOG.isDebugEnabled())
+      LOG.debug(" el = " + el);
+    return el;
+
+  }
+
+  private String getAttributeSmart(Element element, String attr) {
+    return element.hasAttribute(attr) ? element.getAttribute(attr) : null;
+  }
+
+  private void setAttributeSmart(Element element, String attr, String value) {
+    if (value == null) {
+      element.removeAttribute(attr);
+    } else {
+      element.setAttribute(attr, value);
+    }
   }
 
 }

@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
+import org.apache.commons.codec.binary.Base64;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 
@@ -49,11 +50,15 @@ public class WSRP2ProducerData {
    * @hibernate.property type="binary"
    */
   public byte[] getData() throws Exception {
-    return IOUtil.serialize(producer_);
+    if (producer_ == null)
+      return null;
+    return Base64.encodeBase64(IOUtil.serialize(producer_));
   }
 
   public void setData(byte[] data) throws Exception {
-    producer_ = (Producer) IOUtil.deserialize(data);
+    if (data == null)
+      return;
+    producer_ = (Producer) IOUtil.deserialize(Base64.decodeBase64(data));
   }
 
   public Producer getProducer() {

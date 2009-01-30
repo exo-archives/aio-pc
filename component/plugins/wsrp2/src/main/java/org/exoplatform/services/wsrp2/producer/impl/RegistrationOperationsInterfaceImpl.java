@@ -75,6 +75,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
       registrationState = stateManager.register(registrationHandle, data);
       stateManager.putRegistrationLifetime(registrationHandle, lifetime);
     } catch (WSRPException e) {
+      e.printStackTrace();
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
       throw new WSRPException();
