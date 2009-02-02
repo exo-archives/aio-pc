@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp1.test;
+package org.exoplatform.services.wsrp1.testProducer;
 
 import java.rmi.RemoteException;
 

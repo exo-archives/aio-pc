@@ -20,14 +20,14 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp1.test.TestCachingMechanism;
-import org.exoplatform.services.wsrp1.test.TestGetMarkup;
-import org.exoplatform.services.wsrp1.test.TestGetServiceDescriptionInterface;
-import org.exoplatform.services.wsrp1.test.TestPerformBlockingInteraction;
-import org.exoplatform.services.wsrp1.test.TestPortletManagementInterface;
-import org.exoplatform.services.wsrp1.test.TestRegistrationInterface;
-import org.exoplatform.services.wsrp1.test.TestSomeScenarios;
-import org.exoplatform.services.wsrp1.test.TestWSRPSession;
+import org.exoplatform.services.wsrp1.testProducer.TestCachingMechanism;
+import org.exoplatform.services.wsrp1.testProducer.TestGetMarkup;
+import org.exoplatform.services.wsrp1.testProducer.TestGetServiceDescriptionInterface;
+import org.exoplatform.services.wsrp1.testProducer.TestPerformBlockingInteraction;
+import org.exoplatform.services.wsrp1.testProducer.TestPortletManagementInterface;
+import org.exoplatform.services.wsrp1.testProducer.TestRegistrationInterface;
+import org.exoplatform.services.wsrp1.testProducer.TestSomeScenarios;
+import org.exoplatform.services.wsrp1.testProducer.TestWSRPSession;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008

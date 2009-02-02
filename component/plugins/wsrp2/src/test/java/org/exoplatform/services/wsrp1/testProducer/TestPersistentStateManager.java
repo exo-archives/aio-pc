@@ -15,13 +15,13 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp1.test;
+package org.exoplatform.services.wsrp1.testProducer;
 
 import java.util.Arrays;
 
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
+import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 
@@ -34,14 +34,14 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 public class TestPersistentStateManager extends BaseTest {
 
-  private PersistentStateManagerImpl psmanager_;
+  private PersistentStateManagerJCRImpl psmanager_;
 
   @Override
   public void setUp() throws Exception {
     super.setUp();
     System.out.println(">>>>>>>>>>>>>>> TestPersistentStateManager.setUp()");
     PortalContainer manager = PortalContainer.getInstance();
-    psmanager_ = (PersistentStateManagerImpl) manager.getComponentInstanceOfType(PersistentStateManager.class);
+    psmanager_ = (PersistentStateManagerJCRImpl) manager.getComponentInstanceOfType(PersistentStateManager.class);
   }
 
   public void testPersistentStateData() throws Exception {

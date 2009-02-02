@@ -22,7 +22,7 @@ import java.util.Arrays;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl;
+import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl;
 import org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
@@ -38,7 +38,7 @@ public class TestPersistentStateManager extends BaseTest {
 
   protected ExoContainer             container;
 
-  private PersistentStateManagerImpl psmanager_;
+  private PersistentStateManagerJCRImpl psmanager_;
 
   @Override
   public void setUp() throws Exception {
@@ -52,7 +52,7 @@ public class TestPersistentStateManager extends BaseTest {
     } catch (Throwable t) {
       t.printStackTrace();
     }
-    psmanager_ = (PersistentStateManagerImpl) container.getComponentInstanceOfType(PersistentStateManager.class);
+    psmanager_ = (PersistentStateManagerJCRImpl) container.getComponentInstanceOfType(PersistentStateManager.class);
   }
 
   public void testPersistentStateData() throws Exception {
