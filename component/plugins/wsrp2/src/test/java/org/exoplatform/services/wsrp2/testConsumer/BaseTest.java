@@ -34,9 +34,11 @@ import org.exoplatform.commons.Environment;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationProxy;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.consumer.PortletKey;
@@ -83,7 +85,10 @@ import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
 public class BaseTest extends TestCase {
 
-  protected static final String      CONTEXT_PATH                                    = "/war_template2";
+  protected static final String      PORTLET_APP_NAME                                = "war_template2";
+
+  protected static final String      CONTEXT_PATH                                    = "/"
+                                                                                         + PORTLET_APP_NAME;
 
   protected static final String      TEST_PATH                                       = (System.getProperty("testPath") == null ? "."
                                                                                                                               : System.getProperty("testPath"));
@@ -179,8 +184,6 @@ public class BaseTest extends TestCase {
 
       StandaloneContainer.addConfigurationPath("src/test/resources/jcr-exo-configuration.xml");
       container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
-      
-      ProducerRegistryJCRImpl producerRegistry = (ProducerRegistryJCRImpl) container.getComponentInstanceOfType(ProducerRegistryJCRImpl.class);
 
 //      StandaloneContainer.setConfigurationPath("src/test/java/conf/test-configuration.xml");
 //      container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
@@ -199,11 +202,12 @@ public class BaseTest extends TestCase {
 
     portletApplicationRegister = (PortletApplicationRegister) container.getComponentInstanceOfType(PortletApplicationRegister.class);
 
+    
     portletApplicationRegister.registerPortletApplication(mockServletContext,
                                                           portletApp_,
                                                           roles,
                                                           "war_template2");
-
+    
     producerRegistry = (ProducerRegistry) container.getComponentInstanceOfType(ProducerRegistry.class);
 
     portletRegistry = (PortletRegistry) container.getComponentInstanceOfType(PortletRegistry.class);
@@ -223,10 +227,10 @@ public class BaseTest extends TestCase {
     register.setUserContext(userContext);
 
     // EXOMAN for JCR
-//    producer = new ProducerImpl(container, null, 2);//"http://www.example.org/"
-//    producer.setID(PRODUCER_ID);
-//    producer.setDescription(PRODUCER_DESCRIPTION);
-//    producer.setName(PRODUCER_NAME);
+    producer = new ProducerImpl(container, null, 2);//"http://www.example.org/"
+    producer.setID(PRODUCER_ID);
+    producer.setDescription(PRODUCER_DESCRIPTION);
+    producer.setName(PRODUCER_NAME);
 
     WSRPService2 service = (WSRPService2) container.getComponentInstanceOfType(MockWSRPService.class);
     if (service != null) {
@@ -273,13 +277,25 @@ public class BaseTest extends TestCase {
   }
 
   public void tearDown() throws Exception {
+    System.out.println(">>> EXOMAN BaseTest.tearDown() 1 = DOWN" + 1);
+    PortletApplicationProxy proxy = (PortletApplicationProxy) container
+    .getComponentInstance(PORTLET_APP_NAME + PCConstants.PORTLET_APP_ENCODER);
+    System.out.println(">>> EXOMAN BaseTest.tearDown() proxy = 1111111 " + proxy);
+    assertNotNull(proxy);
+    
     try {
-      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template2");
+      //war_template2_portlet_app_
+      portletApplicationRegister.removePortletApplication(mockServletContext, PORTLET_APP_NAME);
       HibernateService hservice = (HibernateService) container.getComponentInstanceOfType(HibernateService.class);
       hservice.closeSession();
     } catch (Exception e) {
       e.printStackTrace();
     }
+    
+    proxy = (PortletApplicationProxy) container
+    .getComponentInstance(PORTLET_APP_NAME + PCConstants.PORTLET_APP_ENCODER);
+    System.out.println(">>> EXOMAN BaseTest.tearDown() proxy = 2222222" + proxy);
+    assertNull(proxy);
   }
 
   protected WSRPPortlet createPortlet(String portletHandle,

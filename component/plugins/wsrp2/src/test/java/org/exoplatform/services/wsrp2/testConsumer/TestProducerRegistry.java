@@ -30,6 +30,7 @@ public class TestProducerRegistry extends BaseTest {
   protected void setUp() throws Exception {
     super.setUp();
     log();
+    assertNotNull("producerRegistry must not be null", producerRegistry);
   }
 
   public void testAddProducer() {

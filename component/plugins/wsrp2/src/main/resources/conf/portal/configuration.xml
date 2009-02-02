@@ -30,6 +30,16 @@
 
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl</type>
+    <init-params>
+      <object-param>
+        <name>persister</name>
+        <object type="org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository">
+          <field name="path">
+            <string>PersistentStateManagerJCRImpl</string>
+          </field>
+        </object>
+      </object-param>
+    </init-params>
   </component>
 
   <component>
@@ -50,6 +60,16 @@
 
   <component>
     <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
+    <init-params>
+      <object-param>
+        <name>persister</name>
+        <object type="org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository">
+          <field name="path">
+            <string>ProducerRegistryJCRImpl</string>
+          </field>
+        </object>
+      </object-param>
+    </init-params>
   </component>
 
   <component>

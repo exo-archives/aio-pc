@@ -28,6 +28,8 @@ import javax.jcr.Session;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.container.xml.InitParams;
+import org.exoplatform.container.xml.ObjectParameter;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.jcr.RepositoryService;
@@ -36,6 +38,7 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.peristence.WSRPPersister;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.ConsumerContext;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
@@ -59,18 +62,26 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
 
   private ExoCache            cache;
 
+  protected WSRPPersister     persister;
+
   /**
    * The service name.
    */
   private static final String SERVICE_NAME   = "PersistentStateManagerJCRImpl";
 
-  public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
-                                    CacheService cacheService,
-                                    WSRPConfiguration conf) throws Exception {
+  public PersistentStateManagerJCRImpl(InitParams params,
+                                       ExoContainerContext ctx,
+                                       CacheService cacheService,
+                                       WSRPConfiguration conf) throws Exception {
     this.cont = ctx.getContainer();
     this.conf = conf;
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
+    // load persister
+    ObjectParameter param = params.getObjectParam("persister");
+    this.persister = (WSRPPersister) param.getObject();
+    System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.PersistentStateManagerJCRImpl() persister = "
+        + persister);
   }
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
@@ -305,7 +316,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       data.setDataObject(o);
       try {
         String value = new String(data.getData());
-        saveNode(key, value);
+        persister.putValue(key, value);
       } catch (Exception e) {
         throw new WSRPException(e.getMessage());
       }
@@ -325,7 +336,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     if (data == null) {
       data = new WSRP2StateData();
       data.setId(key);
-      String value = loadNode(key);
+      String value = persister.getValue(key);
       if (value == null) {
         return null;
       } else {
@@ -353,7 +364,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     if (data == null)
       return;
     this.cache.remove(key);
-    saveNode(key, null);
+    try {
+      persister.putValue(key, null);  
+    } catch (RepositoryException e) {
+      // TODO catch exception 
+      throw new WSRPException(e.getMessage(), e.getCause());
+    }
   }
 
   public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException {
@@ -457,104 +473,6 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       remove(key);
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
-    }
-  }
-
-  /**
-   * Save node. Null value for remove node.
-   * 
-   * @param id
-   * @param value
-   */
-  private void saveNode(String id, String value) {
-    String entryPath = "exo:services/" + SERVICE_NAME;
-    Session session = null;
-    try {
-      SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
-      String fullPath = "exo:registry" + "/" + entryPath;
-      RepositoryService repositoryService = (RepositoryService) cont.getComponentInstanceOfType(RepositoryService.class);
-      session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
-      javax.jcr.Node rootNode = session.getRootNode();
-
-      if (!rootNode.hasNode(fullPath)) {
-        rootNode.addNode(fullPath);
-        if (log.isDebugEnabled())
-          log.debug("add Node = fullPath = " + fullPath);
-      }
-
-      javax.jcr.Node customNode = rootNode.getNode(fullPath);
-
-      if (value == null) {
-        // to REMOVE: value is null
-        if (customNode.hasNode(id)) {
-          customNode = customNode.getNode(id);
-          Node parent = customNode.getParent();
-          customNode.remove();
-          parent.save();
-        }
-      } else {
-        // to SAVE
-        if (customNode.hasNode(id)) {
-          // to REMOVE: before write
-          customNode = customNode.getNode(id);
-          Node parent = customNode.getParent();
-          customNode.remove();
-          parent.save();
-        }
-        //WRITE
-        customNode = rootNode.getNode(fullPath);
-        customNode = customNode.addNode(id);
-        if (log.isDebugEnabled())
-          log.debug("add Node with id =" + id);
-        customNode.setProperty("value", value);
-
-        if (log.isDebugEnabled())
-          log.debug("setProperty '" + value + "' for id = " + id);
-
-      }
-
-      session.save();
-
-    } catch (RepositoryException e) {
-      e.printStackTrace();
-    } finally {
-      if (session != null)
-        session.logout();
-    }
-  }
-
-  /**
-   * Load node by node name (id).
-   * 
-   * @param id
-   * @return
-   */
-  private String loadNode(String id) {
-    String entryPath = "exo:services/" + SERVICE_NAME;
-    Session session = null;
-    try {
-      SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
-      String fullPath = "exo:registry" + "/" + entryPath;
-      RepositoryService repositoryService = (RepositoryService) cont.getComponentInstanceOfType(RepositoryService.class);
-      session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
-      javax.jcr.Node rootNode = session.getRootNode();
-      if (!rootNode.hasNode(fullPath)) {
-        rootNode.addNode(fullPath);
-      }
-      javax.jcr.Node customNode = rootNode.getNode(fullPath);
-
-      if (customNode.hasNode(id))
-        return customNode.getNode(id).getProperty("value").getValue().getString();
-
-      session.save();
-      return null;
-
-    } catch (RepositoryException e) {
-      e.printStackTrace();
-      return null;
-    } finally {
-      if (session != null)
-        session.logout();
     }
   }
 

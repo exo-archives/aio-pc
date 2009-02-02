@@ -20,10 +20,11 @@ import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 import javax.xml.parsers.DocumentBuilderFactory;
 
-import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.jcr.ext.registry.RegistryEntry;
 import org.exoplatform.services.jcr.ext.registry.RegistryService;
+import org.exoplatform.services.wsrp2.consumer.Producer;
+import org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl;
 import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 import org.w3c.dom.Node;
@@ -45,23 +46,27 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
     super.setUp();
     log();
 
-//    StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
-//    container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
-    System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
-
-//    ProducerRegistryJCRImpl producerRegistry = (ProducerRegistryJCRImpl) container.getComponentInstanceOfType(ProducerRegistryJCRImpl.class);
-//    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.testJCRConf() producerRegistry = "
-//        + producerRegistry);
-
     registryService = (RegistryService) container.getComponentInstanceOfType(RegistryService.class);
     System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.testJCRConf() registryService = "
         + registryService);
     
     System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.setUp() producerRegistry = "
         + producerRegistry);
-    
   }
-
+  
+  
+  public void test1() throws Exception {
+    if (!(producerRegistry instanceof ProducerRegistryJCRImpl)) {
+      fail("producerRegistry not instanceof ProducerRegistryJCRImpl");
+    }
+    Producer producer = producerRegistry.createProducerInstance(null, 2);
+//    producer.setName("testProducerName");
+//    producer.setDescription("testDescription");
+//    producer.getDesiredLocales().add("en");
+//    producerRegistry.addProducer(producer);
+  
+  }
+  
   public void testJCRConf1() throws Exception {
 
     String SERVICE_NAME = "ProducerRegistryJCRImpl";
@@ -88,7 +93,8 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
     sessionProvider2.close();
 
 //    //LOAD
-    load(registryService);
+    Element elementLoad1 = load(registryService);
+    assertNotNull("Item should be it registry", elementLoad1);
 
     //REMOVE
     SessionProvider sessionProvider4 = SessionProvider.createSystemProvider();
@@ -99,11 +105,12 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
     sessionProvider4.close();
 
 //    //LOAD
-    load(registryService);
+    Element elementLoad2 = load(registryService);
+    assertNull("Item shouldn't be it registry", elementLoad2);
 
   }
 
-  private void load(RegistryService registryService) {
+  private Element load(RegistryService registryService) {
     String SERVICE_NAME = "ProducerRegistryJCRImpl";
     String id = "a123456a";
     Document doc = null;
@@ -122,6 +129,7 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
       element = null;
     }
     System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.load() element = " + element);
+    return element;
   }
 
   private void loadAll(RegistryService registryService) throws Exception {

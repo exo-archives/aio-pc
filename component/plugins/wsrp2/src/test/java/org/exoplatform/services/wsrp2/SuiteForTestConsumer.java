@@ -41,16 +41,18 @@ public class SuiteForTestConsumer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/war_template2";
     System.setProperty("mock.portal.dir", newProperty);
 
-//    addTestSuite(TestPortletRegistry.class);
-//    addTestSuite(TestProducerRegistry.class);
-//    addTestSuite(TestURLRewriter.class);
-//    addTestSuite(TestURLTemplateComposer.class);
-//    addTestSuite(TestUserRegistry.class);
-//
-//    addTestSuite(TestProducer.class);
+    addTestSuite(TestProducerRegistry.class);
+    addTestSuite(TestProducerRegistryJCRImpl.class);
+    
+    addTestSuite(TestPortletRegistry.class);
+    addTestSuite(TestURLRewriter.class);
+    addTestSuite(TestURLTemplateComposer.class);
+    addTestSuite(TestUserRegistry.class);
+    addTestSuite(TestProducer.class);
+    
 //  addTestSuite(TestConsumerEnvironement.class); //does nothing
     
-    addTestSuite(TestProducerRegistryJCRImpl.class);
+
     
   }
 
