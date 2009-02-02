@@ -46,7 +46,7 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class PersistentStateManagerImpl implements PersistentStateManager {
+public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   private static final String queryStateData = "from sd in class org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData "
                                                  + "where sd.id = ?";
 
@@ -62,9 +62,9 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   /**
    * The service name.
    */
-  private static final String SERVICE_NAME   = "PersistentStateManagerImpl";
+  private static final String SERVICE_NAME   = "PersistentStateManagerJCRImpl";
 
-  public PersistentStateManagerImpl(ExoContainerContext ctx,
+  public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
                                     CacheService cacheService,
                                     WSRPConfiguration conf) throws Exception {
     this.cont = ctx.getContainer();

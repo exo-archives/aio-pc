@@ -29,7 +29,7 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl</type>
+    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl</type>
   </component>
 
   <component>
