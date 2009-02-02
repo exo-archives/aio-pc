@@ -50,7 +50,7 @@ public class SuiteForTestConsumer extends TestSuite {
 //    addTestSuite(TestProducer.class);
 //  addTestSuite(TestConsumerEnvironement.class); //does nothing
     
-//    addTestSuite(TestProducerRegistryJCRImpl.class);
+    addTestSuite(TestProducerRegistryJCRImpl.class);
     
   }
 

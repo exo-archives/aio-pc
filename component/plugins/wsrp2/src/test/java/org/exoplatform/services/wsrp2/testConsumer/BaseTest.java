@@ -177,7 +177,7 @@ public class BaseTest extends TestCase {
       //container = PortalContainer.getInstance();
       //container = RootContainer.getInstance().getPortalContainer("portal");
 
-//      StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
+      StandaloneContainer.addConfigurationPath("src/test/resources/jcr-exo-configuration.xml");
       container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
       
       ProducerRegistryJCRImpl producerRegistry = (ProducerRegistryJCRImpl) container.getComponentInstanceOfType(ProducerRegistryJCRImpl.class);

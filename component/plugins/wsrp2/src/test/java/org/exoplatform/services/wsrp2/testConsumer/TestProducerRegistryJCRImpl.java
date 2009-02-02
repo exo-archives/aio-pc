@@ -42,11 +42,11 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
 
   @Override
   protected void setUp() throws Exception {
-//    super.setUp();
+    super.setUp();
     log();
 
-    StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
-    container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
+//    StandaloneContainer.addConfigurationPath("src/main/resources/conf/portal/jcr-exo-configuration.xml");
+//    container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
     System.out.println(">>> EXOMAN BaseTest.setUp() container = " + container);
 
 //    ProducerRegistryJCRImpl producerRegistry = (ProducerRegistryJCRImpl) container.getComponentInstanceOfType(ProducerRegistryJCRImpl.class);
@@ -56,6 +56,10 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
     registryService = (RegistryService) container.getComponentInstanceOfType(RegistryService.class);
     System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.testJCRConf() registryService = "
         + registryService);
+    
+    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.setUp() producerRegistry = "
+        + producerRegistry);
+    
   }
 
   public void testJCRConf1() throws Exception {
@@ -84,7 +88,7 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
     sessionProvider2.close();
 
 //    //LOAD
-//    load(registryService);
+    load(registryService);
 
     //REMOVE
     SessionProvider sessionProvider4 = SessionProvider.createSystemProvider();
@@ -95,90 +99,7 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
     sessionProvider4.close();
 
 //    //LOAD
-//    load(registryService);
-
-  }
-
-  public void testJCRConf2() throws Exception {
-
-    String SERVICE_NAME = "ProducerRegistryJCRImpl";
-    String id = "a123456a";
-    Document doc = null;
-    Element element = null;
-    String entryPath = null;
-
-    //WRITE
-    SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.write() sessionProvider = "
-        + sessionProvider2);
-    doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.testJCRConf2() doc = " + doc);
-    
-    element = doc.createElement(id);
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.testJCRConf2() element = " + element);
-    setAttributeSmart(element, "value", "abcdef");
-    doc.appendChild(element);
-
-    RegistryEntry serviceEntry = new RegistryEntry(doc);
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.testJCRConf2() serviceEntry = "
-        + serviceEntry);
-    registryService.createEntry(sessionProvider2,
-                                RegistryService.EXO_SERVICES + "/" + SERVICE_NAME,
-                                serviceEntry);
-    sessionProvider2.close();
-
-    //LOAD
-//    load(registryService);
-
-    //REMOVE
-    SessionProvider sessionProvider4 = SessionProvider.createSystemProvider();
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.REMOVE() sessionProvider4 = "
-        + sessionProvider4);
-    String entryPath2 = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME + "/" + id;
-    registryService.removeEntry(sessionProvider4, entryPath2);
-    sessionProvider4.close();
-
-//    //LOAD
-//    load(registryService);
-  }
-
-  public void testJCRConf3() throws Exception {
-
-    String SERVICE_NAME = "ProducerRegistryJCRImpl";
-    String id = "a123456a";
-    Document doc = null;
-    Element element = null;
-    String entryPath = null;
-
-    //WRITE
-    SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.write() sessionProvider = "
-        + sessionProvider2);
-    doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-
-    element = doc.createElement(id);
-    setAttributeSmart(element, "value", "abcdef");
-    doc.appendChild(element);
-
-    RegistryEntry serviceEntry = new RegistryEntry(doc);
-    registryService.createEntry(sessionProvider2,
-                                RegistryService.EXO_SERVICES + "/" + SERVICE_NAME,
-                                serviceEntry);
-    sessionProvider2.close();
-
-    //LOAD
-//    load(registryService);
-
-    //REMOVE
-    SessionProvider sessionProvider4 = SessionProvider.createSystemProvider();
-    System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.REMOVE() sessionProvider4 = "
-        + sessionProvider4);
-    String entryPath2 = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME + "/" + id;
-    registryService.removeEntry(sessionProvider4, entryPath2);
-    sessionProvider4.close();
-
-//    //LOAD
-//    load(registryService);
+    load(registryService);
 
   }
 
@@ -261,20 +182,7 @@ public class TestProducerRegistryJCRImpl extends BaseTest {
   @Override
   public void tearDown() throws Exception {
     System.out.println(">>> EXOMAN TestProducerRegistryJCRImpl.tearDown() 1 = " + 1);
-
     super.tearDown();
-//    container.stopContainer();
-    // without results
-
-//    try {
-//      container.stop();
-//    } catch (Exception e) {
-//      e.printStackTrace();
-//    }
-//
-//    container = null;
-//    registryService = null;
-
   }
 
 }
