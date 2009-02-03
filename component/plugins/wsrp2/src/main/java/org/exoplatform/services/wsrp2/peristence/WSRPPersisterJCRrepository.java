@@ -25,11 +25,6 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.xml.InitParams;
-import org.exoplatform.container.xml.ObjectParameter;
-import org.exoplatform.container.xml.ValueParam;
 import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.log.ExoLogger;
@@ -48,24 +43,20 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
    * Example "exo:services/" + SERVICE_NAME. SERVICE_NAME =
    * "PersistentStateManagerJCRImpl".
    */
-  private String            path;
 
   private RepositoryService repositoryService;
 
-  public WSRPPersisterJCRrepository(InitParams params, RepositoryService repositoryService) {
-    path = params.getValueParam("path").getValue();
-    if (LOG.isDebugEnabled())
-      LOG.debug("path = " + path);
+  public WSRPPersisterJCRrepository(RepositoryService repositoryService) {
     this.repositoryService = repositoryService;
   }
 
-  public String getValue(String id) throws RepositoryException {
+  public String getValue(String path, String id) throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
       session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
       javax.jcr.Node rootNode = session.getRootNode();
-      init(rootNode);
+      init(rootNode, path);
       javax.jcr.Node customNode = rootNode.getNode(path);
       if (customNode.hasNode(id))
         return customNode.getNode(id).getProperty("value").getValue().getString();
@@ -81,13 +72,13 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
     }
   }
 
-  public void putValue(String id, String value) throws RepositoryException {
+  public void putValue(String path, String id, String value) throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
       session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
       javax.jcr.Node rootNode = session.getRootNode();
-      init(rootNode);
+      init(rootNode, path);
       javax.jcr.Node customNode = rootNode.getNode(path);
       if (value == null) {
         // to REMOVE: value is null
@@ -131,13 +122,13 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
     }
   }
 
-  public Map<String, String> loadAll() throws RepositoryException {
+  public Map<String, String> loadAll(String path) throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
       session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
       javax.jcr.Node rootNode = session.getRootNode();
-      init(rootNode);
+      init(rootNode, path);
       javax.jcr.Node customNode = rootNode.getNode(path);
 
       Map<String, String> loadAll = null;
@@ -163,13 +154,13 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
     }
   }
 
-  public void removeAll() throws RepositoryException {
+  public void removeAll(String path) throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
       session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
       javax.jcr.Node rootNode = session.getRootNode();
-      init(rootNode);
+      init(rootNode, path);
       javax.jcr.Node customNode = rootNode.getNode(path);
       // to REMOVE
       if (customNode.hasNode(path)) {
@@ -188,7 +179,7 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
     }
   }
 
-  private void init(Node rootNode) throws RepositoryException {
+  private void init(Node rootNode, String path) throws RepositoryException {
     if (!rootNode.hasNode(path)) {
       rootNode.addNode(path);
       if (LOG.isDebugEnabled()) {

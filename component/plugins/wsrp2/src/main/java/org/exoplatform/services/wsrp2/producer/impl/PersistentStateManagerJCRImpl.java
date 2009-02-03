@@ -26,6 +26,7 @@ import javax.jcr.RepositoryException;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.log.ExoLogger;
@@ -52,11 +53,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
 
   private final Log           log            = ExoLogger.getLogger(getClass().getName());
 
-  protected ExoContainer      cont;
+  private ExoContainer        cont;
 
   private ExoCache            cache;
 
-  protected WSRPPersister     persister;
+  private WSRPPersister       persister;
+
+  private String              path;
 
   /**
    * The service name.
@@ -66,13 +69,14 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
                                        CacheService cacheService,
                                        WSRPConfiguration conf,
-                                       WSRPPersister persister) throws Exception {
+                                       WSRPPersister persister,
+                                       InitParams params) throws Exception {
     this.cont = ctx.getContainer();
     this.conf = conf;
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
-    // load persister
     this.persister = persister;
+    this.path = params.getValueParam("path").getValue();
   }
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
@@ -307,7 +311,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       data.setDataObject(o);
       try {
         String value = new String(data.getData());
-        persister.putValue(key, value);
+        persister.putValue(path, key, value);
       } catch (Exception e) {
         throw new WSRPException(e.getMessage());
       }
@@ -329,7 +333,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       data.setId(key);
       String value = null;
       try {
-        value = persister.getValue(key);
+        value = persister.getValue(path, key);
       } catch (RepositoryException e) {
         throw new WSRPException(e.getMessage(), e);
       }
@@ -361,7 +365,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       return;
     this.cache.remove(key);
     try {
-      persister.putValue(key, null);
+      persister.putValue(path, key, null);
     } catch (RepositoryException e) {
       throw new WSRPException(e.getMessage(), e.getCause());
     }

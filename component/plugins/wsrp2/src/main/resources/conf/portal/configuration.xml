@@ -28,27 +28,14 @@
     <type>org.exoplatform.services.wsrp2.producer.impl.JSR286ContainerProxyImpl</type>
   </component>
 
+  <!--  HIBERNATE storage for consumer -->
   <!--  <component>-->
   <!--    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl</type>-->
   <!--  </component>-->
 
+  <!--  JCR storage for consumer -->
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl</type>
-  </component>
-
-<!--  <component>-->
-<!--    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository</type>-->
-<!--    <init-params>-->
-<!--      <value-param>-->
-<!--        <name>path</name>-->
-<!--        <description>Path for storage</description>-->
-<!--        <value>PersistentStateManagerJCRImpl</value>-->
-<!--      </value-param>-->
-<!--    </init-params>-->
-<!--  </component>-->
-
-  <component>
-    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry</type>
     <init-params>
       <value-param>
         <name>path</name>
@@ -57,6 +44,17 @@
       </value-param>
     </init-params>
   </component>
+
+  <!-- begin choise JCR storage type -->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository</type>
+  </component>
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry</type>-->
+  <!--  </component>-->
+
+  <!-- end choise -->
 
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.TransientStateManagerImpl</type>
@@ -70,12 +68,21 @@
     <type>org.exoplatform.services.wsrp2.consumer.impl.PortletDriverRegistryImpl</type>
   </component>
 
+  <!--  HIBERNATE storage for producer -->
   <!--  <component>-->
   <!--    <type>org.exoplatform.services.wsrp.consumer.impl.ProducerRegistryImpl</type>-->
   <!--  </component>-->
 
+  <!--  JCR storage for producer -->
   <component>
     <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
+    <init-params>
+      <value-param>
+        <name>path</name>
+        <description>Path for storage</description>
+        <value>ProducerRegistryJCRImpl</value>
+      </value-param>
+    </init-params>
   </component>
 
   <component>

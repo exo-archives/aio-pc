@@ -25,10 +25,6 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.xml.InitParams;
-import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.jcr.ext.registry.RegistryEntry;
 import org.exoplatform.services.jcr.ext.registry.RegistryService;
@@ -52,22 +48,18 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
    * Path = RegistryService.EXO_SERVICES + "/" + SERVICE_NAME + "/" + id.
    * SERVICE_NAME = "ProducerRegistryJCRImpl".
    */
-  private String           path;
+  private String           pathPrefix = RegistryService.EXO_SERVICES + "/";
 
   private RegistryService  registryService;
 
-  public WSRPPersisterJCRregistry(InitParams params, RegistryService registryService) {
-    path = RegistryService.EXO_SERVICES + "/" + params.getValueParam("path").getValue();
-    if (LOG.isDebugEnabled())
-      LOG.debug(" path = " + path);
+  public WSRPPersisterJCRregistry(RegistryService registryService) {
     this.registryService = registryService;
   }
 
-  public String getValue(String id) throws RepositoryException {
+  public String getValue(String path, String id) throws RepositoryException {
     if (LOG.isDebugEnabled())
       LOG.debug("id = " + id);
-    
-    String entryPath = path + "/" + id;
+    String entryPath = pathPrefix + path + "/" + id;
     if (LOG.isDebugEnabled())
       LOG.debug(" entryPath = " + entryPath);
     Element element = null;
@@ -96,15 +88,15 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
 
   }
 
-  public void putValue(String id, String value) throws RepositoryException {
+  public void putValue(String path, String id, String value) throws RepositoryException {
     if (LOG.isDebugEnabled())
       LOG.debug(" id = " + id);
-    String entryPath = path + "/" + id;
+    String entryPath = pathPrefix + path + "/" + id;
     if (LOG.isDebugEnabled())
       LOG.debug(" entryPath = " + entryPath);
     // if value = null and present than REMOVE it
     if (value == null) {
-      String el = getValue(id);
+      String el = getValue(path, id);
       if (el != null) {
         // remove
         if (LOG.isDebugEnabled())
@@ -114,7 +106,7 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
       }
     } else {
       // value != null
-      String el = getValue(id);
+      String el = getValue(path, id);
       if (LOG.isDebugEnabled())
         LOG.debug(" el = " + el);
       if (el == null) {
@@ -133,7 +125,7 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
         doc.appendChild(element);
         RegistryEntry serviceEntry = new RegistryEntry(doc);
         registryService.createEntry(sessionProvider,
-                                    path,
+                                    pathPrefix + path,
                                     serviceEntry);
       } else {
         // if present than update
@@ -153,21 +145,22 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
         doc.appendChild(element);
         RegistryEntry serviceEntry = new RegistryEntry(doc);
         registryService.recreateEntry(sessionProvider,
-                                      path,
+                                      pathPrefix + path,
                                       serviceEntry);
       }
     }
 
   }
 
-  public Map<String, String> loadAll() throws RepositoryException {
+  public Map<String, String> loadAll(String path) throws RepositoryException {
     if (LOG.isDebugEnabled())
       LOG.debug("entered");
+    String entryPath = pathPrefix + path;
     // load parent node, where are placed producer's registration
     Element element = null;
     try {
       SessionProvider sessionProvider = SessionProvider.createSystemProvider();
-      RegistryEntry registryEntry = registryService.getEntry(sessionProvider, path);
+      RegistryEntry registryEntry = registryService.getEntry(sessionProvider, entryPath);
       Document doc = registryEntry.getDocument();
       element = doc.getDocumentElement();
     } catch (PathNotFoundException e) {
@@ -182,7 +175,7 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
     for (int i = 0; i < childNodes.getLength(); i++) {
       Node item = childNodes.item(i);
       String key = item.getNodeName();
-      String value = getValue(item.getNodeName());
+      String value = getValue(path, item.getNodeName());
       if (loadAll == null)
         loadAll = new HashMap<String, String>();
       loadAll.put(key, value);
@@ -190,12 +183,13 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
     return loadAll;
   }
 
-  public void removeAll() throws RepositoryException {
+  public void removeAll(String path) throws RepositoryException {
     if (LOG.isDebugEnabled())
       LOG.debug("entered");
+    String entryPath = pathPrefix + path;
     try {
       SessionProvider sessionProvider = SessionProvider.createSystemProvider();
-      registryService.removeEntry(sessionProvider, path);
+      registryService.removeEntry(sessionProvider, entryPath);
     } catch (RepositoryException e) {
       // there is no data in JCR path yet - to do nothing
     }

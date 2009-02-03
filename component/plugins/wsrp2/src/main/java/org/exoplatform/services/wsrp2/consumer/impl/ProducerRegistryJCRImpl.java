@@ -29,6 +29,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.configuration.ConfigurationException;
+import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
@@ -49,20 +50,23 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   private Log                   LOG;
 
-  protected ExoContainer        cont;
+  private ExoContainer          cont;
 
-  protected WSRPPersister       persister;
+  private WSRPPersister         persister;
+
+  private String                path;
 
   /**
    * The service name.
    */
   private static final String   SERVICE_NAME = "ProducerRegistryJCRImpl";
 
-  public ProducerRegistryJCRImpl(ExoContainerContext ctx, WSRPPersister persister) throws ConfigurationException {
+  public ProducerRegistryJCRImpl(ExoContainerContext ctx, WSRPPersister persister, InitParams params) throws ConfigurationException {
     this.LOG = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     this.cont = ctx.getContainer();
     this.lastModifiedTime_ = System.currentTimeMillis();
     this.persister = persister;
+    this.path = params.getValueParam("path").getValue();
   }
 
   private Map<String, Producer> loadProducers() {
@@ -107,7 +111,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   public Producer removeProducer(String id) {
     try {
-      persister.putValue(id, null);
+      persister.putValue(path, id, null);
       producers.remove(id);
       if (cont.getComponentInstance(id) == null)
         cont.unregisterComponent(id);
@@ -120,7 +124,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
   }
 
   public void removeAllProducers() throws Exception {
-    persister.removeAll();
+    persister.removeAll(path);
     producers.clear();
     lastModifiedTime_ = System.currentTimeMillis();
   }
@@ -139,10 +143,12 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   final private Collection<WSRP2ProducerData> loadAll() throws WSRPException {
     // load parent node, where are placed producer's registration
+    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() path = " + path);
 
     Map<String, String> all = null;
     try {
-      all = persister.loadAll();
+      all = persister.loadAll(path);
+      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() all = " + all);
     } catch (RepositoryException e) {
       throw new WSRPException(e.getMessage(), e);
     }
@@ -151,17 +157,23 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       return null;
     Collection<WSRP2ProducerData> loadAll = null;
 
+    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() all.keySet() = "
+        + all.keySet());
     Iterator<String> keys = all.keySet().iterator();
     while (keys.hasNext()) {
       String key = (String) keys.next();
-
+      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() key = " + key);
       if (loadAll == null)
         loadAll = new ArrayList<WSRP2ProducerData>();
       WSRP2ProducerData data = new WSRP2ProducerData();
       data.setId(key);
       try {
+        System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() all.get(key) = "
+            + all.get(key));
         data.setData(all.get(key).getBytes());
+        LOG.info("Loaded producer with id = '" + key + "' SUCCESSFUL");
       } catch (Exception e) {
+        LOG.info("Cannot load producer with id = '" + key + "'");
         throw new WSRPException(e.getMessage(), e);
       }
       loadAll.add(data);
@@ -188,13 +200,13 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     data.setId(p.getID());
     data.setProducer(p);
     String value = new String(data.getData());
-    persister.putValue(p.getID(), value);
+    persister.putValue(path, p.getID(), value);
   }
 
   final private WSRP2ProducerData load(String id) throws WSRPException {
     String el = null;
     try {
-      persister.getValue(id);
+      persister.getValue(path, id);
     } catch (RepositoryException e) {
       throw new WSRPException(e.getMessage(), e);
     }
@@ -209,18 +221,6 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       LOG.error(e.getMessage(), e);
     }
     return data;
-  }
-
-  private String getAttributeSmart(Element element, String attr) {
-    return element.hasAttribute(attr) ? element.getAttribute(attr) : null;
-  }
-
-  private void setAttributeSmart(Element element, String attr, String value) {
-    if (value == null) {
-      element.removeAttribute(attr);
-    } else {
-      element.setAttribute(attr, value);
-    }
   }
 
 }
