@@ -23,18 +23,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import javax.jcr.PathNotFoundException;
 import javax.jcr.RepositoryException;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.container.configuration.ConfigurationException;
-import org.exoplatform.container.xml.InitParams;
-import org.exoplatform.container.xml.ObjectParameter;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.peristence.WSRPPersister;
 import org.picocontainer.Startable;
 import org.w3c.dom.Element;
@@ -60,15 +58,11 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
    */
   private static final String   SERVICE_NAME = "ProducerRegistryJCRImpl";
 
-  public ProducerRegistryJCRImpl(InitParams params, ExoContainerContext ctx, WSRPPersister persister) throws ConfigurationException {
+  public ProducerRegistryJCRImpl(ExoContainerContext ctx, WSRPPersister persister) throws ConfigurationException {
     this.LOG = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     this.cont = ctx.getContainer();
     this.lastModifiedTime_ = System.currentTimeMillis();
-    // load persister
-    ObjectParameter param = params.getObjectParam("persister");
-    this.persister = (WSRPPersister) param.getObject();
-    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.ProducerRegistryJCRImpl() persister = "
-        + persister);
+    this.persister = persister;
   }
 
   private Map<String, Producer> loadProducers() {
@@ -119,8 +113,8 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
         cont.unregisterComponent(id);
       lastModifiedTime_ = System.currentTimeMillis();
       return getProducer(id);
-    } catch (Exception e) {
-      e.printStackTrace();
+    } catch (RepositoryException e) {
+      LOG.error(e.getMessage(), e.getCause());
     }
     return null;
   }
@@ -143,10 +137,15 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     return lastModifiedTime_;
   }
 
-  final private Collection<WSRP2ProducerData> loadAll() throws Exception {
+  final private Collection<WSRP2ProducerData> loadAll() throws WSRPException {
     // load parent node, where are placed producer's registration
 
-    Map<String, String> all = persister.loadAll();
+    Map<String, String> all = null;
+    try {
+      all = persister.loadAll();
+    } catch (RepositoryException e) {
+      throw new WSRPException(e.getMessage(), e);
+    }
 
     if (all == null)
       return null;
@@ -160,7 +159,11 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
         loadAll = new ArrayList<WSRP2ProducerData>();
       WSRP2ProducerData data = new WSRP2ProducerData();
       data.setId(key);
-      data.setData(all.get(key).getBytes());
+      try {
+        data.setData(all.get(key).getBytes());
+      } catch (Exception e) {
+        throw new WSRPException(e.getMessage(), e);
+      }
       loadAll.add(data);
     }
     return loadAll;
@@ -188,8 +191,14 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     persister.putValue(p.getID(), value);
   }
 
-  final private WSRP2ProducerData load(String id) throws PathNotFoundException, RepositoryException {
-    String el = persister.getValue(id);
+  final private WSRP2ProducerData load(String id) throws WSRPException {
+    String el = null;
+    try {
+      persister.getValue(id);
+    } catch (RepositoryException e) {
+      throw new WSRPException(e.getMessage(), e);
+    }
+
     if (el == null)
       return null;
     WSRP2ProducerData data = new WSRP2ProducerData();

@@ -25,6 +25,11 @@ import javax.jcr.RepositoryException;
 import javax.jcr.Session;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.container.xml.InitParams;
+import org.exoplatform.container.xml.ObjectParameter;
+import org.exoplatform.container.xml.ValueParam;
 import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.log.ExoLogger;
@@ -47,15 +52,14 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
 
   private RepositoryService repositoryService;
 
-  public WSRPPersisterJCRrepository(RepositoryService repositoryService) {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRrepository.WSRPPersisterJCRrepository() repositoryService = "
-        + repositoryService);
+  public WSRPPersisterJCRrepository(InitParams params, RepositoryService repositoryService) {
+    path = params.getValueParam("path").getValue();
+    if (LOG.isDebugEnabled())
+      LOG.debug("path = " + path);
     this.repositoryService = repositoryService;
   }
 
-  public String getValue(String id) {//throws Exception {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRrepository.getValue() path = " + path);
-
+  public String getValue(String id) throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
@@ -67,9 +71,9 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
         return customNode.getNode(id).getProperty("value").getValue().getString();
       session.save();
       return null;
-    } catch (RepositoryException e) {
-      e.printStackTrace();
-      return null;
+//    } catch (RepositoryException e) {
+//      e.printStackTrace();
+//      return null;
     } finally {
       if (session != null) {
         session.logout();
@@ -78,7 +82,6 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
   }
 
   public void putValue(String id, String value) throws RepositoryException {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRrepository.putValue() path = " + path);
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
@@ -119,8 +122,8 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
 
       session.save();
 
-    } catch (RepositoryException e) {
-      e.printStackTrace();
+//    } catch (RepositoryException e) {
+//      e.printStackTrace();
     } finally {
       if (session != null) {
         session.logout();
@@ -128,7 +131,7 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
     }
   }
 
-  public Map<String, String> loadAll() throws Exception {
+  public Map<String, String> loadAll() throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
@@ -141,7 +144,7 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
 
       NodeIterator childNodes = customNode.getNodes();
       while (childNodes.hasNext()) {
-        Node item = (Node)childNodes.next();
+        Node item = (Node) childNodes.next();
         String key = item.getName();
         String value = item.getProperty("value").getValue().getString();
         if (loadAll == null)
@@ -150,9 +153,9 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
       }
       session.save();
       return loadAll;
-    } catch (RepositoryException e) {
-      e.printStackTrace();
-      return null;
+//    } catch (RepositoryException e) {
+//      e.printStackTrace();
+//      return null;
     } finally {
       if (session != null) {
         session.logout();
@@ -160,7 +163,7 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
     }
   }
 
-  public void removeAll() throws Exception {
+  public void removeAll() throws RepositoryException {
     Session session = null;
     try {
       SessionProvider sessionProvider2 = SessionProvider.createSystemProvider();
@@ -176,8 +179,8 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
         parent.save();
       }
       session.save();
-    } catch (RepositoryException e) {
-      e.printStackTrace();
+//    } catch (RepositoryException e) {
+//      e.printStackTrace();
     } finally {
       if (session != null) {
         session.logout();

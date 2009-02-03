@@ -21,19 +21,13 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
-import javax.jcr.Node;
 import javax.jcr.RepositoryException;
-import javax.jcr.Session;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.container.xml.InitParams;
-import org.exoplatform.container.xml.ObjectParameter;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
-import org.exoplatform.services.jcr.RepositoryService;
-import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
@@ -69,19 +63,16 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    */
   private static final String SERVICE_NAME   = "PersistentStateManagerJCRImpl";
 
-  public PersistentStateManagerJCRImpl(InitParams params,
-                                       ExoContainerContext ctx,
+  public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
                                        CacheService cacheService,
-                                       WSRPConfiguration conf) throws Exception {
+                                       WSRPConfiguration conf,
+                                       WSRPPersister persister) throws Exception {
     this.cont = ctx.getContainer();
     this.conf = conf;
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
     // load persister
-    ObjectParameter param = params.getObjectParam("persister");
-    this.persister = (WSRPPersister) param.getObject();
-    System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.PersistentStateManagerJCRImpl() persister = "
-        + persister);
+    this.persister = persister;
   }
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
@@ -336,7 +327,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     if (data == null) {
       data = new WSRP2StateData();
       data.setId(key);
-      String value = persister.getValue(key);
+      String value = null;
+      try {
+        value = persister.getValue(key);
+      } catch (RepositoryException e) {
+        throw new WSRPException(e.getMessage(), e);
+      }
       if (value == null) {
         return null;
       } else {
@@ -365,9 +361,8 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       return;
     this.cache.remove(key);
     try {
-      persister.putValue(key, null);  
+      persister.putValue(key, null);
     } catch (RepositoryException e) {
-      // TODO catch exception 
       throw new WSRPException(e.getMessage(), e.getCause());
     }
   }

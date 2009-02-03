@@ -28,17 +28,33 @@
     <type>org.exoplatform.services.wsrp2.producer.impl.JSR286ContainerProxyImpl</type>
   </component>
 
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl</type>-->
+  <!--  </component>-->
+
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl</type>
+  </component>
+
+<!--  <component>-->
+<!--    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository</type>-->
+<!--    <init-params>-->
+<!--      <value-param>-->
+<!--        <name>path</name>-->
+<!--        <description>Path for storage</description>-->
+<!--        <value>PersistentStateManagerJCRImpl</value>-->
+<!--      </value-param>-->
+<!--    </init-params>-->
+<!--  </component>-->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry</type>
     <init-params>
-      <object-param>
-        <name>persister</name>
-        <object type="org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository">
-          <field name="path">
-            <string>PersistentStateManagerJCRImpl</string>
-          </field>
-        </object>
-      </object-param>
+      <value-param>
+        <name>path</name>
+        <description>Path for storage</description>
+        <value>PersistentStateManagerJCRImpl</value>
+      </value-param>
     </init-params>
   </component>
 
@@ -60,16 +76,6 @@
 
   <component>
     <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
-    <init-params>
-      <object-param>
-        <name>persister</name>
-        <object type="org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository">
-          <field name="path">
-            <string>ProducerRegistryJCRImpl</string>
-          </field>
-        </object>
-      </object-param>
-    </init-params>
   </component>
 
   <component>
@@ -173,8 +179,6 @@
   <component>
     <type>org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortTypeImpl</type>
   </component>
-
-
 
   <!-- Mixed external component plugins for both WSRP 1 and WSRP 2-->
 

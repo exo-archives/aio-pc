@@ -25,6 +25,10 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.container.xml.InitParams;
+import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.jcr.ext.common.SessionProvider;
 import org.exoplatform.services.jcr.ext.registry.RegistryEntry;
 import org.exoplatform.services.jcr.ext.registry.RegistryService;
@@ -50,21 +54,19 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
    */
   private String           path;
 
-  /**
-   * Registry service.
-   */
   private RegistryService  registryService;
 
-  public WSRPPersisterJCRregistry(RegistryService registryService) {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.WSRPPersisterJCRregistry() registryService = "
-        + registryService);
+  public WSRPPersisterJCRregistry(InitParams params, RegistryService registryService) {
+    path = RegistryService.EXO_SERVICES + "/" + params.getValueParam("path").getValue();
+    if (LOG.isDebugEnabled())
+      LOG.debug(" path = " + path);
     this.registryService = registryService;
   }
 
-  public String getValue(String id) {//throws Exception {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.getValue() path = " + path);
-
-    String entryPath = RegistryService.EXO_SERVICES + "/" + path + "/" + id;
+  public String getValue(String id) throws RepositoryException {
+    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.getValue() id = " + id);
+    
+    String entryPath = path + "/" + id;
     if (LOG.isDebugEnabled())
       LOG.debug(" entryPath = " + entryPath);
     Element element = null;
@@ -79,10 +81,10 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
       if (LOG.isDebugEnabled())
         LOG.debug(" e.getCause() = " + e.getCause());
       return null;
-    } catch (RepositoryException e) {
-      if (LOG.isDebugEnabled())
-        LOG.debug(" e.getCause() = " + e.getCause());
-      return null;
+//    } catch (RepositoryException e) {
+//      if (LOG.isDebugEnabled())
+//        LOG.debug(" e.getCause() = " + e.getCause());
+//      return null;
     }
     if (element == null)
       return null;
@@ -94,9 +96,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
   }
 
   public void putValue(String id, String value) throws RepositoryException {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.putValue() path = " + path);
-
-    String entryPath = RegistryService.EXO_SERVICES + "/" + path + "/" + id;
+    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.putValue() id = " + id);
+    String entryPath = path + "/" + id;
     if (LOG.isDebugEnabled())
       LOG.debug(" entryPath = " + entryPath);
     // if value = null and present than REMOVE it
@@ -130,7 +131,7 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
         doc.appendChild(element);
         RegistryEntry serviceEntry = new RegistryEntry(doc);
         registryService.createEntry(sessionProvider,
-                                    RegistryService.EXO_SERVICES + "/" + path,
+                                    path,
                                     serviceEntry);
       } else {
         // if present than update
@@ -150,14 +151,15 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
         doc.appendChild(element);
         RegistryEntry serviceEntry = new RegistryEntry(doc);
         registryService.recreateEntry(sessionProvider,
-                                      RegistryService.EXO_SERVICES + "/" + path,
+                                      path,
                                       serviceEntry);
       }
     }
 
   }
 
-  public Map<String, String> loadAll() throws Exception {
+  public Map<String, String> loadAll() throws RepositoryException {
+    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.loadAll() 1 = " + 1);
     // load parent node, where are placed producer's registration
     Element element = null;
     try {
@@ -167,8 +169,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
       element = doc.getDocumentElement();
     } catch (PathNotFoundException e) {
       return null;
-    } catch (RepositoryException e) {
-      return null;
+//    } catch (RepositoryException e) {
+//      return null;
     }
     if (element == null)
       return null;
@@ -185,7 +187,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
     return loadAll;
   }
 
-  public void removeAll() throws Exception {
+  public void removeAll() throws RepositoryException {
+    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.removeAll() 1 = " + 1);
     try {
       SessionProvider sessionProvider = SessionProvider.createSystemProvider();
       registryService.removeEntry(sessionProvider, path);

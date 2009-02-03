@@ -29,12 +29,12 @@ import javax.jcr.RepositoryException;
  */
 public interface WSRPPersister {
 
-  String getValue(String id);//throws Exception;
+  String getValue(String id) throws RepositoryException;
 
   void putValue(String id, String value) throws RepositoryException;
 
-  Map<String, String> loadAll() throws Exception;
+  Map<String, String> loadAll() throws RepositoryException;
 
-  void removeAll() throws Exception;
+  void removeAll() throws RepositoryException;
 
 }
