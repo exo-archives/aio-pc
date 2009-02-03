@@ -28,7 +28,7 @@ import javax.servlet.ServletContext;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
-import org.exoplatform.services.log.LogUtil;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.ExoPortletContext;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 
@@ -68,7 +68,7 @@ public class PortletContextImpl implements PortletContext, ExoPortletContext {
   public PortletContextImpl(final ExoContainer cont,
       final ServletContext scontext,
       final Portlet portlet) {
-    this.log = LogUtil.getLog("org.exoplatform.services.portletcontainer");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
     servletContext = scontext;
     this.cont = cont;
     this.portlet = portlet;
