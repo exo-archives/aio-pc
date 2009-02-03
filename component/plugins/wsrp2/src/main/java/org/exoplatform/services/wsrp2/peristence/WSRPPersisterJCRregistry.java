@@ -64,7 +64,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
   }
 
   public String getValue(String id) throws RepositoryException {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.getValue() id = " + id);
+    if (LOG.isDebugEnabled())
+      LOG.debug("id = " + id);
     
     String entryPath = path + "/" + id;
     if (LOG.isDebugEnabled())
@@ -96,7 +97,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
   }
 
   public void putValue(String id, String value) throws RepositoryException {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.putValue() id = " + id);
+    if (LOG.isDebugEnabled())
+      LOG.debug(" id = " + id);
     String entryPath = path + "/" + id;
     if (LOG.isDebugEnabled())
       LOG.debug(" entryPath = " + entryPath);
@@ -159,7 +161,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
   }
 
   public Map<String, String> loadAll() throws RepositoryException {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.loadAll() 1 = " + 1);
+    if (LOG.isDebugEnabled())
+      LOG.debug("entered");
     // load parent node, where are placed producer's registration
     Element element = null;
     try {
@@ -188,7 +191,8 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
   }
 
   public void removeAll() throws RepositoryException {
-    System.out.println(">>> EXOMAN WSRPPersisterJCRregistry.removeAll() 1 = " + 1);
+    if (LOG.isDebugEnabled())
+      LOG.debug("entered");
     try {
       SessionProvider sessionProvider = SessionProvider.createSystemProvider();
       registryService.removeEntry(sessionProvider, path);

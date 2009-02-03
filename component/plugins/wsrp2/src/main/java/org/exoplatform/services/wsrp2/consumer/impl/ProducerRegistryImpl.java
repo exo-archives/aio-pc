@@ -105,8 +105,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     try {
       remove(id);
       producers.remove(id);
-      if (cont.getComponentInstance(id) == null)
-        cont.unregisterComponent(id);
 //      services.remove(id);
       lastModifiedTime_ = System.currentTimeMillis();
       Producer producer = (Producer) producers.get(id);
