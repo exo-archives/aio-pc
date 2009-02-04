@@ -39,7 +39,7 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
  * @version $Id: $ Dec 8, 2008
  */
 
-@WebServiceClient(name = "WSRPService2", wsdlLocation = "file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl")
+@WebServiceClient(name = "WSRPService2", wsdlLocation = "/WEB-INF/wsdl/wsrp-service.wsdl", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl")
 public class MockWSRPService extends WSRPService2 {
 
   public final static URL   WSDL_LOCATION;
