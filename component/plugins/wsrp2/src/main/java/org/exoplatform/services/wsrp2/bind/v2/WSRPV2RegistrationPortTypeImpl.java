@@ -42,7 +42,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                 MissingParameters,
                                                                                                                                 OperationFailed {
     LOG.info("Executing operation register");
-    System.out.println(register);
+        if (LOG.isDebugEnabled())
+      LOG.debug(register);
     try {
       RegistrationContext response = registrationOperationsInterface.register(register.getRegistrationData(),
                                                                               register.getUserContext(),
@@ -67,8 +68,10 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                               InvalidRegistration,
                                                                                                                               OperationFailed {
     LOG.info("Executing operation deregister");
-    System.out.println(registrationContext);
-    System.out.println(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
     try {
       ReturnAny response = registrationOperationsInterface.deregister(registrationContext,
                                                                       userContext);
@@ -94,7 +97,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getRegistrationLifetime");
-    System.out.println(getRegistrationLifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(getRegistrationLifetime);
     try {
       Lifetime response = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime.getRegistrationContext(),
                                                                                   getRegistrationLifetime.getUserContext());
@@ -120,7 +124,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                                                   OperationFailed {
     LOG.info("Executing operation setRegistrationLifetime");
-    System.out.println(setRegistrationLifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(setRegistrationLifetime);
     try {
       Lifetime response = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime.getRegistrationContext(),
                                                                                   setRegistrationLifetime.getUserContext(),
@@ -150,9 +155,12 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                MissingParameters,
                                                                                                                                OperationFailed {
     LOG.info("Executing operation modifyRegistration");
-    System.out.println(registrationContext);
-    System.out.println(registrationData);
-    System.out.println(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationData);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
     try {
       RegistrationState response = registrationOperationsInterface.modifyRegistration(registrationContext,
                                                                                       registrationData,

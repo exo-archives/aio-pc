@@ -63,7 +63,8 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                         MissingParameters,
                                                         OperationFailed {
 
-    System.out.println("Invoking register...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking register...");
     java.lang.String _register_consumerName = register.getRegistrationData().getConsumerName();
     java.lang.String _register_consumerAgent = register.getRegistrationData().getConsumerAgent();
     boolean _register_methodGetSupported = register.getRegistrationData().isMethodGetSupported();
@@ -94,17 +95,24 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                 _register_registrationHandle,
                                 _register_registrationState);
 
-      System.out.println("register._register_extensions=" + _register_extensions.value);
-      System.out.println("register._register_registrationHandle="
+      if (LOG.isDebugEnabled())
+      LOG.debug("register._register_extensions=" + _register_extensions.value);
+      if (LOG.isDebugEnabled())
+      LOG.debug("register._register_registrationHandle="
           + _register_registrationHandle.value);
-      System.out.println("register._register_registrationState="
+      if (LOG.isDebugEnabled())
+      LOG.debug("register._register_registrationState="
           + _register_registrationState.value);
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     RegistrationContext registrationContext = new RegistrationContext();
@@ -118,7 +126,8 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                     InvalidRegistration,
                                                     OperationFailed {
 
-    System.out.println("Invoking deregister...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking deregister...");
     java.lang.String _deregister_registrationHandle = deregister.getRegistrationContext()
                                                                 .getRegistrationHandle();
     byte[] _deregister_registrationState = deregister.getRegistrationContext()
@@ -131,13 +140,18 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                   _deregister_registrationState,
                                   _deregister_extensions);
 
-      System.out.println("deregister._deregister_extensions=" + _deregister_extensions.value);
+      if (LOG.isDebugEnabled())
+      LOG.debug("deregister._deregister_extensions=" + _deregister_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     Extension extension = null;
@@ -153,7 +167,8 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                                                     MissingParameters,
                                                                                     OperationFailed {
 
-    System.out.println("Invoking modifyRegistration...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking modifyRegistration...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _modifyRegistration_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(modifyRegistration.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1RegistrationData _modifyRegistration_registrationData = WSRPTypesTransformer.getWS1RegistrationData(modifyRegistration.getRegistrationData());
     javax.xml.ws.Holder<byte[]> _modifyRegistration_registrationState = new javax.xml.ws.Holder<byte[]>();
@@ -164,19 +179,27 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                           _modifyRegistration_registrationState,
                                           _modifyRegistration_extensions);
 
-      System.out.println("modifyRegistration._modifyRegistration_registrationState="
+      if (LOG.isDebugEnabled())
+      LOG.debug("modifyRegistration._modifyRegistration_registrationState="
           + _modifyRegistration_registrationState.value);
-      System.out.println("modifyRegistration._modifyRegistration_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("modifyRegistration._modifyRegistration_extensions="
           + _modifyRegistration_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     RegistrationState registrationState = new RegistrationState();
@@ -194,7 +217,8 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                                                           InvalidHandle,
                                                                                           ModifyRegistrationRequired,
                                                                                           OperationFailed {
-    System.out.println("Invoking getRegistrationLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getRegistrationLifetime...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -206,7 +230,8 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                                                           InvalidHandle,
                                                                                           ModifyRegistrationRequired,
                                                                                           OperationFailed {
-    System.out.println("Invoking setRegistrationLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setRegistrationLifetime...");
     // wsrp1 doesn't have this operation
     return null;
   }

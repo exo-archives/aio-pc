@@ -18,18 +18,14 @@
 package org.exoplatform.services.wsrp2.testProducer;
 
 import java.rmi.RemoteException;
-import java.util.Arrays;
 
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
-import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
-import org.exoplatform.services.wsrp2.type.UnsupportedModeFault;
-import org.exoplatform.services.wsrp2.type.UnsupportedWindowStateFault;
 
 /*
  * @author  Mestrallet Benjamin

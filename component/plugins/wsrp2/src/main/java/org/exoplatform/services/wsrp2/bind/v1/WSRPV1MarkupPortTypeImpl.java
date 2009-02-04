@@ -87,8 +87,10 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                                       WS1AccessDenied,
                                                                                                                                       WS1OperationFailed {
     LOG.info("Executing operation releaseSessions");
-    System.out.println(registrationContext);
-    System.out.println(sessionIDs);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(sessionIDs);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -146,11 +148,16 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                          WS1InconsistentParameters,
                                                                                                                          WS1OperationFailed {
     LOG.info("Executing operation getMarkup");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(runtimeContext);
-    System.out.println(userContext);
-    System.out.println(markupParams);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(runtimeContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(markupParams);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -226,7 +233,8 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                                                                     WS1AccessDenied,
                                                                                                                                                                     WS1OperationFailed {
     LOG.info("Executing operation initCookie");
-    System.out.println(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -281,12 +289,18 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                                           WS1InconsistentParameters,
                                                                                                                                           WS1OperationFailed {
     LOG.info("Executing operation performBlockingInteraction");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(runtimeContext);
-    System.out.println(userContext);
-    System.out.println(markupParams);
-    System.out.println(interactionParams);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(runtimeContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(markupParams);
+        if (LOG.isDebugEnabled())
+      LOG.debug(interactionParams);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);

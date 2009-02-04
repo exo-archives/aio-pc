@@ -62,8 +62,10 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                WS1InconsistentParameters,
                                                                                                                                WS1OperationFailed {
     LOG.info("Executing operation destroyPortlets");
-    System.out.println(registrationContext);
-    System.out.println(portletHandles);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletHandles);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -114,10 +116,14 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                     WS1InconsistentParameters,
                                                                                                                                     WS1OperationFailed {
     LOG.info("Executing operation setPortletProperties");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(propertyList);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(propertyList);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -181,9 +187,12 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                             WS1InconsistentParameters,
                                                                                                                             WS1OperationFailed {
     LOG.info("Executing operation clonePortlet");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -246,10 +255,14 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                      WS1InconsistentParameters,
                                                                                                                                      WS1OperationFailed {
     LOG.info("Executing operation getPortletDescription");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(desiredLocales);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(desiredLocales);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -312,10 +325,14 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                              WS1InconsistentParameters,
                                                                                                                                              WS1OperationFailed {
     LOG.info("Executing operation getPortletPropertyDescription");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(desiredLocales);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(desiredLocales);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -378,10 +395,14 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                     WS1InconsistentParameters,
                                                                                                                                     WS1OperationFailed {
     LOG.info("Executing operation getPortletProperties");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(names);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(names);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);

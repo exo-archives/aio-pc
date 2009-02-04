@@ -17,8 +17,6 @@
 
 package org.exoplatform.services.wsrp2.testProducer;
 
-import java.rmi.RemoteException;
-
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
 import org.exoplatform.services.wsrp2.type.Lifetime;

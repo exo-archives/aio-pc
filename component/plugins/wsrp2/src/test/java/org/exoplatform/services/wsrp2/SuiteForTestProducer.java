@@ -20,16 +20,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.testProducer.TestCachingMechanism;
 import org.exoplatform.services.wsrp2.testProducer.TestGetMarkup;
-import org.exoplatform.services.wsrp2.testProducer.TestGetServiceAdministration;
-import org.exoplatform.services.wsrp2.testProducer.TestGetServiceDescriptionInterface;
-import org.exoplatform.services.wsrp2.testProducer.TestPerformBlockingInteraction;
-import org.exoplatform.services.wsrp2.testProducer.TestPersistentStateManager;
-import org.exoplatform.services.wsrp2.testProducer.TestPortletManagementInterface;
-import org.exoplatform.services.wsrp2.testProducer.TestRegistrationInterface;
-import org.exoplatform.services.wsrp2.testProducer.TestSomeScenarios;
-import org.exoplatform.services.wsrp2.testProducer.TestWSRPSession;
 
 /**
  * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua 4.02.2008
@@ -45,15 +36,15 @@ public class SuiteForTestProducer extends TestSuite {
     System.setProperty("mock.portal.dir", newProperty);
 
     addTestSuite(TestGetMarkup.class);
-    addTestSuite(TestRegistrationInterface.class);
-    addTestSuite(TestCachingMechanism.class);
-    addTestSuite(TestGetServiceAdministration.class);
-    addTestSuite(TestGetServiceDescriptionInterface.class);
-    addTestSuite(TestPerformBlockingInteraction.class);
-    addTestSuite(TestPortletManagementInterface.class);
-    addTestSuite(TestSomeScenarios.class);
-    addTestSuite(TestWSRPSession.class);
-    addTestSuite(TestPersistentStateManager.class);
+//    addTestSuite(TestRegistrationInterface.class);
+//    addTestSuite(TestCachingMechanism.class);
+//    addTestSuite(TestGetServiceAdministration.class);
+//    addTestSuite(TestGetServiceDescriptionInterface.class);
+//    addTestSuite(TestPerformBlockingInteraction.class);
+//    addTestSuite(TestPortletManagementInterface.class);
+//    addTestSuite(TestSomeScenarios.class);
+//    addTestSuite(TestWSRPSession.class);
+//    addTestSuite(TestPersistentStateManager.class);
 
   }
 

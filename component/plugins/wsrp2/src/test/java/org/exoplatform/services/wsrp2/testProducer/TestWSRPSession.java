@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp2.testProducer;
 
-import java.rmi.RemoteException;
 import java.util.Arrays;
 
 import org.exoplatform.services.wsrp2.type.GetMarkup;

@@ -86,7 +86,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                       InconsistentParameters,
                                                                                                       OperationFailed {
 
-    System.out.println("Invoking getPortletDescription...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletDescription...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _getPortletDescription_registrationContext = null;
     org.exoplatform.services.wsrp2.type.PortletContext _getPortletDescription_portletContext = null;
     org.exoplatform.services.wsrp2.type.UserContext _getPortletDescription_userContext = null;
@@ -103,11 +104,14 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                 _getPortletDescription_resourceList,
                                                 _getPortletDescription_extensions);
 
-    System.out.println("getPortletDescription._getPortletDescription_portletDescription="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletDescription._getPortletDescription_portletDescription="
         + _getPortletDescription_portletDescription.value);
-    System.out.println("getPortletDescription._getPortletDescription_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletDescription._getPortletDescription_resourceList="
         + _getPortletDescription_resourceList.value);
-    System.out.println("getPortletDescription._getPortletDescription_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletDescription._getPortletDescription_extensions="
         + _getPortletDescription_extensions.value);
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
@@ -129,7 +133,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                MissingParameters,
                                                                InconsistentParameters,
                                                                OperationFailed {
-    System.out.println("Invoking clonePortlet...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking clonePortlet...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _clonePortlet_registrationContext = clonePortlet.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _clonePortlet_portletContext = clonePortlet.getPortletContext();
     org.exoplatform.services.wsrp2.type.UserContext _clonePortlet_userContext = clonePortlet.getUserContext();
@@ -148,13 +153,17 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                        _clonePortlet_scheduledDestruction,
                                        _clonePortlet_extensions);
 
-    System.out.println("clonePortlet._clonePortlet_portletHandle="
+    if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_portletHandle="
         + _clonePortlet_portletHandle.value);
-    System.out.println("clonePortlet._clonePortlet_portletState="
+    if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_portletState="
         + _clonePortlet_portletState.value);
-    System.out.println("clonePortlet._clonePortlet_scheduledDestruction="
+    if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_scheduledDestruction="
         + _clonePortlet_scheduledDestruction.value);
-    System.out.println("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
 
     PortletContext response = new PortletContext();
     response.setPortletHandle(_clonePortlet_portletHandle.value);
@@ -174,7 +183,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                  InconsistentParameters,
                                                                                  OperationFailed {
 
-    System.out.println("Invoking destroyPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking destroyPortlets...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _destroyPortlets_registrationContext = destroyPortlets.getRegistrationContext();
     java.util.List<java.lang.String> _destroyPortlets_portletHandles = destroyPortlets.getPortletHandles();
     org.exoplatform.services.wsrp2.type.UserContext _destroyPortlets_userContext = destroyPortlets.getUserContext();
@@ -187,9 +197,11 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                           _destroyPortlets_failedPortlets,
                                           _destroyPortlets_extensions);
 
-    System.out.println("destroyPortlets._destroyPortlets_failedPortlets="
+    if (LOG.isDebugEnabled())
+      LOG.debug("destroyPortlets._destroyPortlets_failedPortlets="
         + _destroyPortlets_failedPortlets.value);
-    System.out.println("destroyPortlets._destroyPortlets_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("destroyPortlets._destroyPortlets_extensions="
         + _destroyPortlets_extensions.value);
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
@@ -212,7 +224,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                        InconsistentParameters,
                                                                                        OperationFailed {
 
-    System.out.println("Invoking setPortletProperties...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setPortletProperties...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _setPortletProperties_registrationContext = setPortletProperties.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _setPortletProperties_portletContext = setPortletProperties.getPortletContext();
     org.exoplatform.services.wsrp2.type.UserContext _setPortletProperties_userContext = setPortletProperties.getUserContext();
@@ -231,13 +244,17 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                _setPortletProperties_scheduledDestruction,
                                                _setPortletProperties_extensions);
 
-    System.out.println("setPortletProperties._setPortletProperties_portletHandle="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_portletHandle="
         + _setPortletProperties_portletHandle.value);
-    System.out.println("setPortletProperties._setPortletProperties_portletState="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_portletState="
         + _setPortletProperties_portletState.value);
-    System.out.println("setPortletProperties._setPortletProperties_scheduledDestruction="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_scheduledDestruction="
         + _setPortletProperties_scheduledDestruction.value);
-    System.out.println("setPortletProperties._setPortletProperties_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_extensions="
         + _setPortletProperties_extensions.value);
 
     PortletContext response = new PortletContext();
@@ -260,7 +277,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                      MissingParameters,
                                                                                      InconsistentParameters,
                                                                                      OperationFailed {
-    System.out.println("Invoking getPortletProperties...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletProperties...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _getPortletProperties_registrationContext = getPortletProperties.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _getPortletProperties_portletContext = getPortletProperties.getPortletContext();
     org.exoplatform.services.wsrp2.type.UserContext _getPortletProperties_userContext = getPortletProperties.getUserContext();
@@ -277,11 +295,14 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                _getPortletProperties_resetProperties,
                                                _getPortletProperties_extensions);
 
-    System.out.println("getPortletProperties._getPortletProperties_properties="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletProperties._getPortletProperties_properties="
         + _getPortletProperties_properties.value);
-    System.out.println("getPortletProperties._getPortletProperties_resetProperties="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletProperties._getPortletProperties_resetProperties="
         + _getPortletProperties_resetProperties.value);
-    System.out.println("getPortletProperties._getPortletProperties_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletProperties._getPortletProperties_extensions="
         + _getPortletProperties_extensions.value);
 
     PropertyList response = new PropertyList();
@@ -306,7 +327,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                                                       InconsistentParameters,
                                                                                                                                       OperationFailed {
 
-    System.out.println("Invoking getPortletPropertyDescription...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletPropertyDescription...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _getPortletPropertyDescription_registrationContext = getPortletPropertyDescription.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _getPortletPropertyDescription_portletContext = getPortletPropertyDescription.getPortletContext();
     org.exoplatform.services.wsrp2.type.UserContext _getPortletPropertyDescription_userContext = getPortletPropertyDescription.getUserContext();
@@ -323,11 +345,14 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                         _getPortletPropertyDescription_resourceList,
                                                         _getPortletPropertyDescription_extensions);
 
-    System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
         + _getPortletPropertyDescription_modelDescription.value);
-    System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_resourceList="
         + _getPortletPropertyDescription_resourceList.value);
-    System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_extensions="
         + _getPortletPropertyDescription_extensions.value);
 
     PortletPropertyDescriptionResponse response = new PortletPropertyDescriptionResponse();
@@ -350,7 +375,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                      InconsistentParameters,
                                                                      OperationFailed {
 
-    System.out.println("Invoking copyPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking copyPortlets...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _copyPortlets_toRegistrationContext = copyPortlets.getFromRegistrationContext();
     org.exoplatform.services.wsrp2.type.UserContext _copyPortlets_toUserContext = copyPortlets.getFromUserContext();
     org.exoplatform.services.wsrp2.type.RegistrationContext _copyPortlets_fromRegistrationContext = copyPortlets.getFromRegistrationContext();
@@ -373,13 +399,17 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                        _copyPortlets_resourceList,
                                        _copyPortlets_extensions);
 
-    System.out.println("copyPortlets._copyPortlets_copiedPortlets="
+    if (LOG.isDebugEnabled())
+      LOG.debug("copyPortlets._copyPortlets_copiedPortlets="
         + _copyPortlets_copiedPortlets.value);
-    System.out.println("copyPortlets._copyPortlets_failedPortlets="
+    if (LOG.isDebugEnabled())
+      LOG.debug("copyPortlets._copyPortlets_failedPortlets="
         + _copyPortlets_failedPortlets.value);
-    System.out.println("copyPortlets._copyPortlets_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("copyPortlets._copyPortlets_resourceList="
         + _copyPortlets_resourceList.value);
-    System.out.println("copyPortlets._copyPortlets_extensions=" + _copyPortlets_extensions.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("copyPortlets._copyPortlets_extensions=" + _copyPortlets_extensions.value);
 
     CopyPortletsResponse response = new CopyPortletsResponse();
     if (_copyPortlets_copiedPortlets.value != null)
@@ -405,7 +435,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                              InconsistentParameters,
                                                                              OperationFailed {
 
-    System.out.println("Invoking exportPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking exportPortlets...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _exportPortlets_registrationContext = exportPortlets.getRegistrationContext();
     java.util.List<org.exoplatform.services.wsrp2.type.PortletContext> _exportPortlets_portletContext = exportPortlets.getPortletContext();
     org.exoplatform.services.wsrp2.type.UserContext _exportPortlets_userContext = exportPortlets.getUserContext();
@@ -429,16 +460,22 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                          _exportPortlets_resourceList,
                                          _exportPortlets_extensions);
 
-    System.out.println("exportPortlets._exportPortlets_lifetime=" + _exportPortlets_lifetime.value);
-    System.out.println("exportPortlets._exportPortlets_exportContext="
+    if (LOG.isDebugEnabled())
+      LOG.debug("exportPortlets._exportPortlets_lifetime=" + _exportPortlets_lifetime.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("exportPortlets._exportPortlets_exportContext="
         + _exportPortlets_exportContext.value);
-    System.out.println("exportPortlets._exportPortlets_exportedPortlet="
+    if (LOG.isDebugEnabled())
+      LOG.debug("exportPortlets._exportPortlets_exportedPortlet="
         + _exportPortlets_exportedPortlet.value);
-    System.out.println("exportPortlets._exportPortlets_failedPortlets="
+    if (LOG.isDebugEnabled())
+      LOG.debug("exportPortlets._exportPortlets_failedPortlets="
         + _exportPortlets_failedPortlets.value);
-    System.out.println("exportPortlets._exportPortlets_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("exportPortlets._exportPortlets_resourceList="
         + _exportPortlets_resourceList.value);
-    System.out.println("exportPortlets._exportPortlets_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("exportPortlets._exportPortlets_extensions="
         + _exportPortlets_extensions.value);
 
     ExportPortletsResponse response = new ExportPortletsResponse();
@@ -466,7 +503,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                              InconsistentParameters,
                                                                              OperationFailed {
 
-    System.out.println("Invoking importPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking importPortlets...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _importPortlets_registrationContext = importPortlets.getRegistrationContext();
     byte[] _importPortlets_importContext = importPortlets.getImportContext();
     java.util.List<org.exoplatform.services.wsrp2.type.ImportPortlet> _importPortlets_importPortlet = importPortlets.getImportPortlet();
@@ -487,13 +525,17 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                          _importPortlets_resourceList,
                                          _importPortlets_extensions);
 
-    System.out.println("importPortlets._importPortlets_importedPortlets="
+    if (LOG.isDebugEnabled())
+      LOG.debug("importPortlets._importPortlets_importedPortlets="
         + _importPortlets_importedPortlets.value);
-    System.out.println("importPortlets._importPortlets_importFailed="
+    if (LOG.isDebugEnabled())
+      LOG.debug("importPortlets._importPortlets_importFailed="
         + _importPortlets_importFailed.value);
-    System.out.println("importPortlets._importPortlets_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("importPortlets._importPortlets_resourceList="
         + _importPortlets_resourceList.value);
-    System.out.println("importPortlets._importPortlets_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("importPortlets._importPortlets_extensions="
         + _importPortlets_extensions.value);
 
     ImportPortletsResponse response = new ImportPortletsResponse();
@@ -508,7 +550,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
   }
 
   public ReturnAny releaseExport(ReleaseExport releaseExport) {
-    System.out.println("Invoking releaseExport...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking releaseExport...");
     return portletManagementPort.releaseExport(releaseExport);
   }
 
@@ -519,7 +562,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                         InvalidHandle,
                                                                         ModifyRegistrationRequired,
                                                                         OperationFailed {
-    System.out.println("Invoking setExportLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setExportLifetime...");
     return portletManagementPort.setExportLifetime(setExportLifetime);
   }
 
@@ -531,7 +575,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                  ModifyRegistrationRequired,
                                                                                                  InconsistentParameters,
                                                                                                  OperationFailed {
-    System.out.println("Invoking getPortletsLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletsLifetime...");
     return portletManagementPort.getPortletsLifetime(getPortletsLifetime);
   }
 
@@ -544,7 +589,8 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                  InconsistentParameters,
                                                                                                  OperationFailed {
 
-    System.out.println("Invoking setPortletsLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setPortletsLifetime...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _setPortletsLifetime_registrationContext = setPortletsLifetime.getRegistrationContext();
     java.util.List<org.exoplatform.services.wsrp2.type.PortletContext> _setPortletsLifetime_portletContext = setPortletsLifetime.getPortletContext();
     org.exoplatform.services.wsrp2.type.UserContext _setPortletsLifetime_userContext = setPortletsLifetime.getUserContext();
@@ -563,13 +609,17 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                               _setPortletsLifetime_resourceList,
                                               _setPortletsLifetime_extensions);
 
-    System.out.println("setPortletsLifetime._setPortletsLifetime_updatedPortlet="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletsLifetime._setPortletsLifetime_updatedPortlet="
         + _setPortletsLifetime_updatedPortlet.value);
-    System.out.println("setPortletsLifetime._setPortletsLifetime_failedPortlets="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletsLifetime._setPortletsLifetime_failedPortlets="
         + _setPortletsLifetime_failedPortlets.value);
-    System.out.println("setPortletsLifetime._setPortletsLifetime_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletsLifetime._setPortletsLifetime_resourceList="
         + _setPortletsLifetime_resourceList.value);
-    System.out.println("setPortletsLifetime._setPortletsLifetime_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("setPortletsLifetime._setPortletsLifetime_extensions="
         + _setPortletsLifetime_extensions.value);
 
     SetPortletsLifetimeResponse response = new SetPortletsLifetimeResponse();

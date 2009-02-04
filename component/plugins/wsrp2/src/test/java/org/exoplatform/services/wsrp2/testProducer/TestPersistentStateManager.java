@@ -23,7 +23,6 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl;
-import org.exoplatform.services.wsrp2.producer.impl.WSRP2StateData;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 

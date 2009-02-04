@@ -102,29 +102,41 @@ public class WSRPV2ServiceDescriptionPortTypeAdapter implements
         + _getServiceDescription_userCategoryDescriptions.value);
     System.out.println("getServiceDescription._getServiceDescription_extensionDescriptions="
         + _getServiceDescription_extensionDescriptions.value);
-    System.out.println("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
         + _getServiceDescription_customWindowStateDescriptions.value);
-    System.out.println("getServiceDescription._getServiceDescription_customModeDescriptions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_customModeDescriptions="
         + _getServiceDescription_customModeDescriptions.value);
-    System.out.println("getServiceDescription._getServiceDescription_requiresInitCookie="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_requiresInitCookie="
         + _getServiceDescription_requiresInitCookie.value);
-    System.out.println("getServiceDescription._getServiceDescription_registrationPropertyDescription="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_registrationPropertyDescription="
         + _getServiceDescription_registrationPropertyDescription.value);
-    System.out.println("getServiceDescription._getServiceDescription_locales="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_locales="
         + _getServiceDescription_locales.value);
-    System.out.println("getServiceDescription._getServiceDescription_resourceList="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_resourceList="
         + _getServiceDescription_resourceList.value);
-    System.out.println("getServiceDescription._getServiceDescription_eventDescriptions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_eventDescriptions="
         + _getServiceDescription_eventDescriptions.value);
-    System.out.println("getServiceDescription._getServiceDescription_schemaType="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_schemaType="
         + _getServiceDescription_schemaType.value);
-    System.out.println("getServiceDescription._getServiceDescription_supportedOptions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_supportedOptions="
         + _getServiceDescription_supportedOptions.value);
-    System.out.println("getServiceDescription._getServiceDescription_exportDescription="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_exportDescription="
         + _getServiceDescription_exportDescription.value);
-    System.out.println("getServiceDescription._getServiceDescription_mayReturnRegistrationState="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_mayReturnRegistrationState="
         + _getServiceDescription_mayReturnRegistrationState.value);
-    System.out.println("getServiceDescription._getServiceDescription_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_extensions="
         + _getServiceDescription_extensions.value);
 
     ServiceDescription response = new ServiceDescription();

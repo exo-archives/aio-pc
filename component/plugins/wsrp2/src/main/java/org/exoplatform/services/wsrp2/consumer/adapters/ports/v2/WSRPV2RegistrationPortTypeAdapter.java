@@ -58,7 +58,8 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
   public RegistrationContext register(Register register) throws OperationNotSupported,
                                                         MissingParameters,
                                                         OperationFailed {
-    System.out.println("Invoking register...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking register...");
     return registrationPort.register(register);
   }
 
@@ -66,7 +67,8 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     OperationFailed {
-    System.out.println("Invoking deregister...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking deregister...");
     return registrationPort.deregister(deregister.getRegistrationContext(),
                                        deregister.getUserContext());
   }
@@ -77,7 +79,8 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                                                     MissingParameters,
                                                                                     OperationFailed {
 
-    System.out.println("Invoking modifyRegistration...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking modifyRegistration...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _modifyRegistration_registrationContext = modifyRegistration.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.RegistrationData _modifyRegistration_registrationData = modifyRegistration.getRegistrationData();
     org.exoplatform.services.wsrp2.type.UserContext _modifyRegistration_userContext = modifyRegistration.getUserContext();
@@ -92,11 +95,14 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                         _modifyRegistration_scheduledDestruction,
                                         _modifyRegistration_extensions);
 
-    System.out.println("modifyRegistration._modifyRegistration_registrationState="
+    if (LOG.isDebugEnabled())
+      LOG.debug("modifyRegistration._modifyRegistration_registrationState="
         + _modifyRegistration_registrationState.value);
-    System.out.println("modifyRegistration._modifyRegistration_scheduledDestruction="
+    if (LOG.isDebugEnabled())
+      LOG.debug("modifyRegistration._modifyRegistration_scheduledDestruction="
         + _modifyRegistration_scheduledDestruction.value);
-    System.out.println("modifyRegistration._modifyRegistration_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("modifyRegistration._modifyRegistration_extensions="
         + _modifyRegistration_extensions.value);
 
     RegistrationState registrationState = new RegistrationState();
@@ -114,7 +120,8 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                                                           InvalidHandle,
                                                                                           ModifyRegistrationRequired,
                                                                                           OperationFailed {
-    System.out.println("Invoking getRegistrationLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getRegistrationLifetime...");
     return registrationPort.getRegistrationLifetime(getRegistrationLifetime);
   }
 
@@ -125,7 +132,8 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                                                                           InvalidHandle,
                                                                                           ModifyRegistrationRequired,
                                                                                           OperationFailed {
-    System.out.println("Invoking setRegistrationLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setRegistrationLifetime...");
     return registrationPort.setRegistrationLifetime(setRegistrationLifetime);
   }
 

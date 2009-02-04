@@ -18,14 +18,11 @@
 package org.exoplatform.services.wsrp2.testProducer;
 
 import java.util.List;
-import java.util.Map;
 
-import org.exoplatform.services.wsrp2.consumer.adapters.ports.ext.WSRPV0ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
-import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.MarkupType;

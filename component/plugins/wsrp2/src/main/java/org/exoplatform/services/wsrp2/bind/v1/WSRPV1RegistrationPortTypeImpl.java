@@ -50,8 +50,10 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
                                                                                                                                   WS1MissingParameters,
                                                                                                                                   WS1OperationFailed {
     LOG.info("Executing operation modifyRegistration");
-    System.out.println(registrationContext);
-    System.out.println(registrationData);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationData);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);
@@ -91,9 +93,12 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
                          javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> extensions) throws WS1InvalidRegistration,
                                                                                                                           WS1OperationFailed {
     LOG.info("Executing operation deregister");
-    System.out.println(registrationHandle);
-    System.out.println(registrationState);
-    System.out.println(extensions.value);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationHandle);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationState);
+        if (LOG.isDebugEnabled())
+      LOG.debug(extensions.value);
     try {
 
       RegistrationContext ws2registrationContext = new RegistrationContext();
@@ -138,15 +143,24 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
                        javax.xml.ws.Holder<byte[]> registrationState) throws WS1MissingParameters,
                                                                      WS1OperationFailed {
     LOG.info("Executing operation register");
-    System.out.println(consumerName);
-    System.out.println(consumerAgent);
-    System.out.println(methodGetSupported);
-    System.out.println(consumerModes);
-    System.out.println(consumerWindowStates);
-    System.out.println(consumerUserScopes);
-    System.out.println(customUserProfileData);
-    System.out.println(registrationProperties);
-    System.out.println(extensions.value);
+        if (LOG.isDebugEnabled())
+      LOG.debug(consumerName);
+        if (LOG.isDebugEnabled())
+      LOG.debug(consumerAgent);
+        if (LOG.isDebugEnabled())
+      LOG.debug(methodGetSupported);
+        if (LOG.isDebugEnabled())
+      LOG.debug(consumerModes);
+        if (LOG.isDebugEnabled())
+      LOG.debug(consumerWindowStates);
+        if (LOG.isDebugEnabled())
+      LOG.debug(consumerUserScopes);
+        if (LOG.isDebugEnabled())
+      LOG.debug(customUserProfileData);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationProperties);
+        if (LOG.isDebugEnabled())
+      LOG.debug(extensions.value);
     try {
 
       RegistrationData registrationData = new RegistrationData();

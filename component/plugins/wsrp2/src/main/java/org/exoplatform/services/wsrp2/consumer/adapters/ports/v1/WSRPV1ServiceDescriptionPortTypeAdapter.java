@@ -53,7 +53,8 @@ public class WSRPV1ServiceDescriptionPortTypeAdapter implements
                                                                                            ModifyRegistrationRequired,
                                                                                            OperationFailed {
 
-    System.out.println("Invoking getServiceDescription...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getServiceDescription...");
 
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getServiceDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(serviceDescription.getRegistrationContext());
     java.util.List<java.lang.String> _getServiceDescription_desiredLocales = serviceDescription.getDesiredLocales();
@@ -87,34 +88,49 @@ public class WSRPV1ServiceDescriptionPortTypeAdapter implements
                                                    _getServiceDescription_resourceList,
                                                    _getServiceDescription_extensions);
 
-      System.out.println("getServiceDescription._getServiceDescription_requiresRegistration="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_requiresRegistration="
           + _getServiceDescription_requiresRegistration.value);
-      System.out.println("getServiceDescription._getServiceDescription_offeredPortlets="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_offeredPortlets="
           + _getServiceDescription_offeredPortlets.value);
-      System.out.println("getServiceDescription._getServiceDescription_userCategoryDescriptions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_userCategoryDescriptions="
           + _getServiceDescription_userCategoryDescriptions.value);
-      System.out.println("getServiceDescription._getServiceDescription_customUserProfileItemDescriptions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_customUserProfileItemDescriptions="
           + _getServiceDescription_customUserProfileItemDescriptions.value);
-      System.out.println("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
           + _getServiceDescription_customWindowStateDescriptions.value);
-      System.out.println("getServiceDescription._getServiceDescription_customModeDescriptions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_customModeDescriptions="
           + _getServiceDescription_customModeDescriptions.value);
-      System.out.println("getServiceDescription._getServiceDescription_requiresInitCookie="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_requiresInitCookie="
           + _getServiceDescription_requiresInitCookie.value);
-      System.out.println("getServiceDescription._getServiceDescription_registrationPropertyDescription="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_registrationPropertyDescription="
           + _getServiceDescription_registrationPropertyDescription.value);
-      System.out.println("getServiceDescription._getServiceDescription_locales="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_locales="
           + _getServiceDescription_locales.value);
-      System.out.println("getServiceDescription._getServiceDescription_resourceList="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_resourceList="
           + _getServiceDescription_resourceList.value);
-      System.out.println("getServiceDescription._getServiceDescription_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getServiceDescription._getServiceDescription_extensions="
           + _getServiceDescription_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     // commented unused in wsrp1 items

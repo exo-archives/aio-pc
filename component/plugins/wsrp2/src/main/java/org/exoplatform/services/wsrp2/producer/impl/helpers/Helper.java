@@ -61,6 +61,8 @@ public class Helper {
     if (registrationContext == null)
       return true;
     RegistrationOperationsInterface roi = (RegistrationOperationsInterface) cont.getComponentInstanceOfType(RegistrationOperationsInterface.class);
+    System.out.println(">>> EXOMAN Helper.checkLifetime() registrationContext.getScheduledDestruction() = "
+        + registrationContext.getScheduledDestruction());
     Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
     if (lf != null) {
       if (lifetimeExpired(lf)) {

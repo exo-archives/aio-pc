@@ -68,10 +68,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                          InconsistentParameters,
                                                                                                                          OperationFailed {
     LOG.info("Executing operation clonePortlet");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(lifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(lifetime);
     try {
       PortletContext response = portletManagementOperationsInterface.clonePortlet(registrationContext,
                                                                                   portletContext,
@@ -118,11 +122,16 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                            InconsistentParameters,
                                                                                                                            OperationFailed {
     LOG.info("Executing operation exportPortlets");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(lifetime.value);
-    System.out.println(exportByValueRequired);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(lifetime.value);
+        if (LOG.isDebugEnabled())
+      LOG.debug(exportByValueRequired);
     try {
       ExportPortletsResponse response = portletManagementOperationsInterface.exportPortlets(registrationContext,
                                                                                             portletContext,
@@ -161,7 +170,8 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                                                          InconsistentParameters,
                                                                                                                                                                          OperationFailed {
     LOG.info("Executing operation getPortletsLifetime");
-    System.out.println(getPortletsLifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(getPortletsLifetime);
     try {
       GetPortletsLifetimeResponse response = portletManagementOperationsInterface.getPortletsLifetime(getPortletsLifetime.getRegistrationContext(),
                                                                                                       getPortletsLifetime.getPortletContext(),
@@ -197,10 +207,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                           InconsistentParameters,
                                                                                                                                           OperationFailed {
     LOG.info("Executing operation getPortletPropertyDescription");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(desiredLocales);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(desiredLocales);
     try {
       PortletPropertyDescriptionResponse response = portletManagementOperationsInterface.getPortletPropertyDescription(registrationContext,
                                                                                                                        portletContext,
@@ -241,10 +255,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                   InconsistentParameters,
                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getPortletDescription");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(desiredLocales);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(desiredLocales);
     try {
       PortletDescriptionResponse response = portletManagementOperationsInterface.getPortletDescription(registrationContext,
                                                                                                        portletContext,
@@ -270,7 +288,8 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
    */
   public org.exoplatform.services.wsrp2.type.ReturnAny releaseExport(org.exoplatform.services.wsrp2.type.ReleaseExport releaseExport) {
     LOG.info("Executing operation releaseExport");
-    System.out.println(releaseExport);
+        if (LOG.isDebugEnabled())
+      LOG.debug(releaseExport);
 
     ReturnAny response = portletManagementOperationsInterface.releaseExport(releaseExport.getExportContext(),
                                                                             releaseExport.getUserContext(),
@@ -302,12 +321,18 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                          InconsistentParameters,
                                                                                                                          OperationFailed {
     LOG.info("Executing operation copyPortlets");
-    System.out.println(toRegistrationContext);
-    System.out.println(toUserContext);
-    System.out.println(fromRegistrationContext);
-    System.out.println(fromUserContext);
-    System.out.println(fromPortletContexts);
-    System.out.println(lifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(toRegistrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(toUserContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(fromRegistrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(fromUserContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(fromPortletContexts);
+        if (LOG.isDebugEnabled())
+      LOG.debug(lifetime);
     try {
       CopyPortletsResponse response = portletManagementOperationsInterface.copyPortlets(toRegistrationContext,
                                                                                         toUserContext,
@@ -343,7 +368,8 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                                 ModifyRegistrationRequired,
                                                                                                                                                 OperationFailed {
     LOG.info("Executing operation setExportLifetime");
-    System.out.println(setExportLifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(setExportLifetime);
     try {
       Lifetime response = portletManagementOperationsInterface.setExportLifetime(setExportLifetime.getRegistrationContext(),
                                                                                  setExportLifetime.getExportContext(),
@@ -375,9 +401,12 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                             InconsistentParameters,
                                                                                                                             OperationFailed {
     LOG.info("Executing operation destroyPortlets");
-    System.out.println(registrationContext);
-    System.out.println(portletHandles);
-    System.out.println(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletHandles);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
     try {
       DestroyPortletsResponse response = portletManagementOperationsInterface.destroyPortlets(registrationContext,
                                                                                               portletHandles,
@@ -414,10 +443,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                 InconsistentParameters,
                                                                                                                                 OperationFailed {
     LOG.info("Executing operation setPortletsLifetime");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(lifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(lifetime);
     try {
       SetPortletsLifetimeResponse response = portletManagementOperationsInterface.setPortletsLifetime(registrationContext,
                                                                                                       portletContext,
@@ -461,10 +494,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                  InconsistentParameters,
                                                                                                                                  OperationFailed {
     LOG.info("Executing operation setPortletProperties");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(propertyList);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(propertyList);
     try {
       PortletContext response = portletManagementOperationsInterface.setPortletProperties(registrationContext,
                                                                                           portletContext,
@@ -507,10 +544,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                  InconsistentParameters,
                                                                                                                                  OperationFailed {
     LOG.info("Executing operation getPortletProperties");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(userContext);
-    System.out.println(names);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(names);
     try {
       PropertyList response = portletManagementOperationsInterface.getPortletProperties(registrationContext,
                                                                                         portletContext,
@@ -553,11 +594,16 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                            InconsistentParameters,
                                                                                                                            OperationFailed {
     LOG.info("Executing operation importPortlets");
-    System.out.println(registrationContext);
-    System.out.println(importContext);
-    System.out.println(importPortlet);
-    System.out.println(userContext);
-    System.out.println(lifetime);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(importContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(importPortlet);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(lifetime);
     try {
       ImportPortletsResponse response = portletManagementOperationsInterface.importPortlets(registrationContext,
                                                                                             importContext,

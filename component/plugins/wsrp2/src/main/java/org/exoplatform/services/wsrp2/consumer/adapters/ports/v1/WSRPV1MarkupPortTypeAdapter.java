@@ -97,7 +97,8 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                       OperationFailed,
                                                       UnsupportedLocale {
 
-    System.out.println("Invoking getMarkup...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getMarkup...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getMarkup_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getMarkup.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _getMarkup_portletContext = WSRPTypesTransformer.getWS1PortletContext(getMarkup.getPortletContext());
     org.exoplatform.services.wsrp1.type.WS1RuntimeContext _getMarkup_runtimeContext = WSRPTypesTransformer.getWS1RuntimeContext(getMarkup.getRuntimeContext());
@@ -116,53 +117,85 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                            _getMarkup_sessionContext,
                            _getMarkup_extensions);
 
-      System.out.println("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
-      System.out.println("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
-      System.out.println("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
+      if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
+      if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
+      if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
     } catch (WS1UnsupportedLocale e) {
-      System.out.println("Expected exception: UnsupportedLocale has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedLocale has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1UnsupportedMimeType e) {
-      System.out.println("Expected exception: UnsupportedMimeType has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedMimeType has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidCookie e) {
-      System.out.println("Expected exception: InvalidCookie has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidCookie has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1UnsupportedMode e) {
-      System.out.println("Expected exception: UnsupportedMode has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedMode has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidSession e) {
-      System.out.println("Expected exception: InvalidSession has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidSession has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1UnsupportedWindowState e) {
-      System.out.println("Expected exception: UnsupportedWindowState has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedWindowState has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
-    System.out.println("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
-    System.out.println("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
-    System.out.println("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
 
     MarkupResponse response = new MarkupResponse();
     response.setMarkupContext(WSRPTypesTransformer.getWS2MarkupContext(_getMarkup_markupContext.value));
@@ -190,7 +223,8 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                               InconsistentParameters,
                                                               OperationFailed,
                                                               UnsupportedLocale {
-    System.out.println("Invoking getResource...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getResource...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -212,7 +246,8 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                                                                       UnsupportedLocale,
                                                                                                                       PortletStateChangeRequired {
 
-    System.out.println("Invoking performBlockingInteraction...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking performBlockingInteraction...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _performBlockingInteraction_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(performBlockingInteraction.getRegistrationContext());
     ;
     org.exoplatform.services.wsrp1.type.WS1PortletContext _performBlockingInteraction_portletContext = WSRPTypesTransformer.getWS1PortletContext(performBlockingInteraction.getPortletContext());
@@ -234,54 +269,85 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                             _performBlockingInteraction_redirectURL,
                                             _performBlockingInteraction_extensions);
 
-      System.out.println("performBlockingInteraction._performBlockingInteraction_updateResponse="
+      if (LOG.isDebugEnabled())
+      LOG.debug("performBlockingInteraction._performBlockingInteraction_updateResponse="
           + _performBlockingInteraction_updateResponse.value);
-      System.out.println("performBlockingInteraction._performBlockingInteraction_redirectURL="
+      if (LOG.isDebugEnabled())
+      LOG.debug("performBlockingInteraction._performBlockingInteraction_redirectURL="
           + _performBlockingInteraction_redirectURL.value);
-      System.out.println("performBlockingInteraction._performBlockingInteraction_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("performBlockingInteraction._performBlockingInteraction_extensions="
           + _performBlockingInteraction_extensions.value);
     } catch (WS1UnsupportedLocale e) {
-      System.out.println("Expected exception: UnsupportedLocale has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedLocale has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1UnsupportedMimeType e) {
-      System.out.println("Expected exception: UnsupportedMimeType has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedMimeType has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidCookie e) {
-      System.out.println("Expected exception: InvalidCookie has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidCookie has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1UnsupportedMode e) {
-      System.out.println("Expected exception: UnsupportedMode has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedMode has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1PortletStateChangeRequired e) {
-      System.out.println("Expected exception: PortletStateChangeRequired has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: PortletStateChangeRequired has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidSession e) {
-      System.out.println("Expected exception: InvalidSession has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidSession has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1UnsupportedWindowState e) {
-      System.out.println("Expected exception: UnsupportedWindowState has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: UnsupportedWindowState has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     BlockingInteractionResponse response = new BlockingInteractionResponse();
@@ -312,7 +378,8 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                      UnsupportedLocale,
                                                                      PortletStateChangeRequired {
 
-    System.out.println("Invoking handleEvents...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking handleEvents...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -324,23 +391,31 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                     ModifyRegistrationRequired,
                                                     OperationFailed {
 
-    System.out.println("Invoking initCookie...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking initCookie...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _initCookie_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(initCookie.getRegistrationContext());
     java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _initCookie__return = null;
 
     try {
       _initCookie__return = markupPort.initCookie(_initCookie_registrationContext);
-      System.out.println("initCookie.result=" + _initCookie__return);
+      if (LOG.isDebugEnabled())
+      LOG.debug("initCookie.result=" + _initCookie__return);
 
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     return WSRPTypesTransformer.getWS2Extensions(_initCookie__return).get(0); // in a WSRP2 we have t oreturn just one Extension
@@ -354,27 +429,37 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                    MissingParameters,
                                                                    OperationFailed {
 
-    System.out.println("Invoking releaseSessions...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking releaseSessions...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _releaseSessions_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(releaseSessions.getRegistrationContext());
     java.util.List<java.lang.String> _releaseSessions_sessionIDs = releaseSessions.getSessionIDs();
     java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _releaseSessions__return = null;
     try {
       _releaseSessions__return = markupPort.releaseSessions(_releaseSessions_registrationContext,
                                                             _releaseSessions_sessionIDs);
-      System.out.println("releaseSessions.result=" + _releaseSessions__return);
+      if (LOG.isDebugEnabled())
+      LOG.debug("releaseSessions.result=" + _releaseSessions__return);
 
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     return WSRPTypesTransformer.getWS2Extensions(_releaseSessions__return).get(0); // in a WSRP2 we have t oreturn just one Extension

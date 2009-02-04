@@ -21,7 +21,6 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.test.TestStandardClasses;
 
 /**
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
@@ -36,24 +35,29 @@ public class AllTestsPortlet extends TestCase {
     System.out.println("TEST LOGGER: " + log);
     TestSuite suite = new TestSuite("portlet-container tests");
 
-//    if (System.getProperty("exo.test.cargo.skip") == null
-//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
-//      assertTrue(ContainerStarter.start());
-//    }
+    // Whether we skip cargo container. In case standalone Tomcat instance. 
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+      assertTrue(ContainerStarter.start());
+    }
 
-//    suite.addTestSuite(TestStandardClasses.class);
-    
-//    suite.addTestSuite(SuiteForTestProducer.class);
-    suite.addTestSuite(SuiteForTestConsumer.class);
+//    suite.addTestSuite(SuiteForTest.class);
 
-    
+    suite.addTestSuite(SuiteForTestProducer.class);
+
+//    suite.addTestSuite(SuiteForTestConsumer.class);
+
+    // for e.g. to run custom test
 //    suite.addTestSuite(WSRPServiceTestCase.class);
 
     return suite;
   }
 
   protected void tearDown() {
-//    assertFalse(ContainerStarter.stop());
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+      assertFalse(ContainerStarter.stop());
+    }
   }
 
 }

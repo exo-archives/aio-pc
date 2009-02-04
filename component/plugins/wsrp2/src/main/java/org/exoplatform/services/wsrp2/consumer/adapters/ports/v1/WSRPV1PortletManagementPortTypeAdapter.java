@@ -94,7 +94,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                       InconsistentParameters,
                                                                                                       OperationFailed {
 
-    System.out.println("Invoking getPortletDescription...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletDescription...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletDescription.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletDescription_portletContext = WSRPTypesTransformer.getWS1PortletContext(getPortletDescription.getPortletContext());
     org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletDescription_userContext = WSRPTypesTransformer.getWS1UserContext(getPortletDescription.getUserContext());
@@ -111,33 +112,50 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                   _getPortletDescription_resourceList,
                                                   _getPortletDescription_extensions);
 
-      System.out.println("getPortletDescription._getPortletDescription_portletDescription="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletDescription._getPortletDescription_portletDescription="
           + _getPortletDescription_portletDescription.value);
-      System.out.println("getPortletDescription._getPortletDescription_resourceList="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletDescription._getPortletDescription_resourceList="
           + _getPortletDescription_resourceList.value);
-      System.out.println("getPortletDescription._getPortletDescription_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletDescription._getPortletDescription_extensions="
           + _getPortletDescription_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
@@ -160,7 +178,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                MissingParameters,
                                                                InconsistentParameters,
                                                                OperationFailed {
-    System.out.println("Invoking clonePortlet...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking clonePortlet...");
 
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _clonePortlet_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(clonePortlet.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _clonePortlet_portletContext = WSRPTypesTransformer.getWS1PortletContext(clonePortlet.getPortletContext());
@@ -176,32 +195,49 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                          _clonePortlet_portletState,
                                          _clonePortlet_extensions);
 
-      System.out.println("clonePortlet._clonePortlet_portletHandle="
+      if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_portletHandle="
           + _clonePortlet_portletHandle.value);
-      System.out.println("clonePortlet._clonePortlet_portletState="
+      if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_portletState="
           + _clonePortlet_portletState.value);
-      System.out.println("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
+      if (LOG.isDebugEnabled())
+      LOG.debug("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     PortletContext response = new PortletContext();
@@ -222,7 +258,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                  InconsistentParameters,
                                                                                  OperationFailed {
 
-    System.out.println("Invoking destroyPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking destroyPortlets...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _destroyPortlets_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(destroyPortlets.getRegistrationContext());
     java.util.List<java.lang.String> _destroyPortlets_portletHandles = destroyPortlets.getPortletHandles();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1DestroyFailed>> _destroyPortlets_destroyFailed = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1DestroyFailed>>();
@@ -233,22 +270,32 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                             _destroyPortlets_destroyFailed,
                                             _destroyPortlets_extensions);
 
-      System.out.println("destroyPortlets._destroyPortlets_destroyFailed="
+      if (LOG.isDebugEnabled())
+      LOG.debug("destroyPortlets._destroyPortlets_destroyFailed="
           + _destroyPortlets_destroyFailed.value);
-      System.out.println("destroyPortlets._destroyPortlets_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("destroyPortlets._destroyPortlets_extensions="
           + _destroyPortlets_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
@@ -273,7 +320,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                        InconsistentParameters,
                                                                                        OperationFailed {
 
-    System.out.println("Invoking setPortletProperties...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setPortletProperties...");
 
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _setPortletProperties_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(setPortletProperties.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _setPortletProperties_portletContext = WSRPTypesTransformer.getWS1PortletContext(setPortletProperties.getPortletContext());
@@ -291,33 +339,50 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                  _setPortletProperties_portletState,
                                                  _setPortletProperties_extensions);
 
-      System.out.println("setPortletProperties._setPortletProperties_portletHandle="
+      if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_portletHandle="
           + _setPortletProperties_portletHandle.value);
-      System.out.println("setPortletProperties._setPortletProperties_portletState="
+      if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_portletState="
           + _setPortletProperties_portletState.value);
-      System.out.println("setPortletProperties._setPortletProperties_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("setPortletProperties._setPortletProperties_extensions="
           + _setPortletProperties_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     PortletContext response = new PortletContext();
@@ -341,7 +406,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                      InconsistentParameters,
                                                                                      OperationFailed {
 
-    System.out.println("Invoking getPortletProperties...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletProperties...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletProperties_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletProperties.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletProperties_portletContext = WSRPTypesTransformer.getWS1PortletContext(getPortletProperties.getPortletContext());
     org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletProperties_userContext = WSRPTypesTransformer.getWS1UserContext(getPortletProperties.getUserContext());
@@ -358,33 +424,50 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                  _getPortletProperties_resetProperties,
                                                  _getPortletProperties_extensions);
 
-      System.out.println("getPortletProperties._getPortletProperties_properties="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletProperties._getPortletProperties_properties="
           + _getPortletProperties_properties.value);
-      System.out.println("getPortletProperties._getPortletProperties_resetProperties="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletProperties._getPortletProperties_resetProperties="
           + _getPortletProperties_resetProperties.value);
-      System.out.println("getPortletProperties._getPortletProperties_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletProperties._getPortletProperties_extensions="
           + _getPortletProperties_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     PropertyList response = new PropertyList();
@@ -412,7 +495,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                                                       InconsistentParameters,
                                                                                                                                       OperationFailed {
 
-    System.out.println("Invoking getPortletPropertyDescription...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletPropertyDescription...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletPropertyDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletPropertyDescription.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _getPortletPropertyDescription_portletContext = WSRPTypesTransformer.getWS1PortletContext(getPortletPropertyDescription.getPortletContext());
     org.exoplatform.services.wsrp1.type.WS1UserContext _getPortletPropertyDescription_userContext = WSRPTypesTransformer.getWS1UserContext(getPortletPropertyDescription.getUserContext());
@@ -430,33 +514,50 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                           _getPortletPropertyDescription_resourceList,
                                                           _getPortletPropertyDescription_extensions);
 
-      System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
           + _getPortletPropertyDescription_modelDescription.value);
-      System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_resourceList="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_resourceList="
           + _getPortletPropertyDescription_resourceList.value);
-      System.out.println("getPortletPropertyDescription._getPortletPropertyDescription_extensions="
+      if (LOG.isDebugEnabled())
+      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_extensions="
           + _getPortletPropertyDescription_extensions.value);
     } catch (WS1InvalidRegistration e) {
-      System.out.println("Expected exception: InvalidRegistration has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidRegistration has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1MissingParameters e) {
-      System.out.println("Expected exception: MissingParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: MissingParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidUserCategory e) {
-      System.out.println("Expected exception: InvalidUserCategory has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1AccessDenied e) {
-      System.out.println("Expected exception: AccessDenied has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: AccessDenied has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InvalidHandle e) {
-      System.out.println("Expected exception: InvalidHandle has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InvalidHandle has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1InconsistentParameters e) {
-      System.out.println("Expected exception: InconsistentParameters has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: InconsistentParameters has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     } catch (WS1OperationFailed e) {
-      System.out.println("Expected exception: OperationFailed has occurred.");
-      System.out.println(e.toString());
+      if (LOG.isDebugEnabled())
+      LOG.debug("Expected exception: OperationFailed has occurred.");
+      if (LOG.isDebugEnabled())
+      LOG.debug(e.toString());
     }
 
     PortletPropertyDescriptionResponse response = new PortletPropertyDescriptionResponse();
@@ -480,7 +581,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                      InconsistentParameters,
                                                                      OperationFailed {
 
-    System.out.println("Invoking copyPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking copyPortlets...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -497,7 +599,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                              InconsistentParameters,
                                                                              OperationFailed {
 
-    System.out.println("Invoking exportPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking exportPortlets...");
     // wsrp1 doesn't have this operation
     return null;
 
@@ -514,13 +617,15 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                              InconsistentParameters,
                                                                              OperationFailed {
 
-    System.out.println("Invoking importPortlets...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking importPortlets...");
     // wsrp1 doesn't have this operation
     return null;
   }
 
   public ReturnAny releaseExport(ReleaseExport releaseExport) {
-    System.out.println("Invoking releaseExport...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking releaseExport...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -532,7 +637,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                         InvalidHandle,
                                                                         ModifyRegistrationRequired,
                                                                         OperationFailed {
-    System.out.println("Invoking setExportLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setExportLifetime...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -545,7 +651,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                  ModifyRegistrationRequired,
                                                                                                  InconsistentParameters,
                                                                                                  OperationFailed {
-    System.out.println("Invoking getPortletsLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getPortletsLifetime...");
     // wsrp1 doesn't have this operation
     return null;
   }
@@ -559,7 +666,8 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                  InconsistentParameters,
                                                                                                  OperationFailed {
 
-    System.out.println("Invoking setPortletsLifetime...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking setPortletsLifetime...");
     // wsrp1 doesn't have this operation
     return null;
 

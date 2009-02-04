@@ -55,10 +55,14 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getServiceDescription");
-    System.out.println(registrationContext);
-    System.out.println(desiredLocales);
-    System.out.println(portletHandles);
-    System.out.println(userContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(desiredLocales);
+        if (LOG.isDebugEnabled())
+      LOG.debug(portletHandles);
+        if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
 
     try {
 

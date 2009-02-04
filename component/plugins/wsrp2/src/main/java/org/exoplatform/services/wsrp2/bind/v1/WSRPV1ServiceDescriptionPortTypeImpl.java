@@ -49,8 +49,10 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
                                     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> extensions) throws WS1InvalidRegistration,
                                                                                                                                      WS1OperationFailed {
     LOG.info("Executing operation getServiceDescription");
-    System.out.println(registrationContext);
-    System.out.println(desiredLocales);
+        if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+        if (LOG.isDebugEnabled())
+      LOG.debug(desiredLocales);
     try {
 
       RegistrationContext ws2registrationContext = WSRPTypesTransformer.getWS2RegistrationContext(registrationContext);

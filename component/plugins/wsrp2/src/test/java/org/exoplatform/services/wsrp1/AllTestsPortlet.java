@@ -35,9 +35,11 @@ public class AllTestsPortlet extends TestCase {
     System.out.println("TEST LOGGER: " + log);
     TestSuite suite = new TestSuite("portlet-container tests");
 
+    // Whether we skip cargo container. In case standalone Tomcat instance. 
 //    if (System.getProperty("exo.test.cargo.skip") == null
-//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"))
+//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
 //      assertTrue(ContainerStarter.start());
+    //}
 
 //    suite.addTestSuite(SuiteForTestProducer.class);
 //    suite.addTestSuite(SuiteForTestConsumer.class);
@@ -49,7 +51,10 @@ public class AllTestsPortlet extends TestCase {
   }
 
   protected void tearDown() {
+//  if (System.getProperty("exo.test.cargo.skip") == null
+//  || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
 //    assertFalse(ContainerStarter.stop());
+    //}
   }
 
 }

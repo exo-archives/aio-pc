@@ -171,8 +171,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             UnsupportedLocale,
                                                             WSRPException {
 
-    checkRegistrationContext(registrationContext);
-    checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (checkRegistrationContext(registrationContext))
+      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
     // markupParams.getNavigationalContext().getPublicValues()
@@ -259,20 +259,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
     PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                runtimeContext,
-                                                                                session,
-                                                                                conf.isTemplatesStoredInSession(),
-                                                                                transientStateManager,
-                                                                                mimeType,
-                                                                                portletData.getSupports(),
-                                                                                markupParams.isSecureClientCommunication(),
-                                                                                portletHandle,
-                                                                                persistentStateManager,
-                                                                                sessionID,
-                                                                                portletData.getEscapeXml(),
-                                                                                ResourceURL.PAGE,
-                                                                                portletData.getSupportedPublicRenderParameter(),
-                                                                                ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          runtimeContext,
+                                                                                          session,
+                                                                                          conf.isTemplatesStoredInSession(),
+                                                                                          transientStateManager,
+                                                                                          mimeType,
+                                                                                          portletData.getSupports(),
+                                                                                          markupParams.isSecureClientCommunication(),
+                                                                                          portletHandle,
+                                                                                          persistentStateManager,
+                                                                                          sessionID,
+                                                                                          portletData.getEscapeXml(),
+                                                                                          ResourceURL.PAGE,
+                                                                                          portletData.getSupportedPublicRenderParameter(),
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
@@ -381,8 +381,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                                     PortletStateChangeRequired,
                                                                                                     WSRPException {
 
-    checkRegistrationContext(registrationContext);
-    checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (checkRegistrationContext(registrationContext))
+      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -425,20 +425,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
     PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                                  runtimeContext,
-                                                                                                  session,
-                                                                                                  conf.isTemplatesStoredInSession(),
-                                                                                                  transientStateManager,
-                                                                                                  mimeType,
-                                                                                                  portletData.getSupports(),
-                                                                                                  markupParams.isSecureClientCommunication(),
-                                                                                                  portletHandle,
-                                                                                                  persistentStateManager,
-                                                                                                  sessionID,
-                                                                                                  portletData.getEscapeXml(),
-                                                                                                  ResourceURL.PAGE,
-                                                                                                  portletData.getSupportedPublicRenderParameter(),
-                                                                                                  ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          runtimeContext,
+                                                                                          session,
+                                                                                          conf.isTemplatesStoredInSession(),
+                                                                                          transientStateManager,
+                                                                                          mimeType,
+                                                                                          portletData.getSupports(),
+                                                                                          markupParams.isSecureClientCommunication(),
+                                                                                          portletHandle,
+                                                                                          persistentStateManager,
+                                                                                          sessionID,
+                                                                                          portletData.getEscapeXml(),
+                                                                                          ResourceURL.PAGE,
+                                                                                          portletData.getSupportedPublicRenderParameter(),
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage portlet state
@@ -670,8 +670,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     UnsupportedLocale,
                                                                     WSRPException {
 
-    checkRegistrationContext(registrationContext);
-    checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (checkRegistrationContext(registrationContext))
+      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
 
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
@@ -764,20 +764,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // ---------- BEGIN CREATING FACTORY --------------
     PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                                  runtimeContext,
-                                                                                                  session,
-                                                                                                  conf.isTemplatesStoredInSession(),
-                                                                                                  transientStateManager,
-                                                                                                  mimeType,
-                                                                                                  portletData.getSupports(),
-                                                                                                  resourceParams.isSecureClientCommunication(),
-                                                                                                  portletHandle,
-                                                                                                  persistentStateManager,
-                                                                                                  sessionID,
-                                                                                                  portletData.getEscapeXml(),
-                                                                                                  ResourceURL.PAGE,
-                                                                                                  portletData.getSupportedPublicRenderParameter(),
-                                                                                                  ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          runtimeContext,
+                                                                                          session,
+                                                                                          conf.isTemplatesStoredInSession(),
+                                                                                          transientStateManager,
+                                                                                          mimeType,
+                                                                                          portletData.getSupports(),
+                                                                                          resourceParams.isSecureClientCommunication(),
+                                                                                          portletHandle,
+                                                                                          persistentStateManager,
+                                                                                          sessionID,
+                                                                                          portletData.getEscapeXml(),
+                                                                                          ResourceURL.PAGE,
+                                                                                          portletData.getSupportedPublicRenderParameter(),
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END CREATING FACTORY --------------
 
     // manage mode and states
@@ -881,8 +881,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                    PortletStateChangeRequired,
                                                                    WSRPException {
 
-    checkRegistrationContext(registrationContext);
-    checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (checkRegistrationContext(registrationContext))
+      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
 
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
@@ -925,20 +925,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // ---------- BEGIN CREATING FACTORY --------------
     PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                                  runtimeContext,
-                                                                                                  session,
-                                                                                                  conf.isTemplatesStoredInSession(),
-                                                                                                  transientStateManager,
-                                                                                                  mimeType,
-                                                                                                  portletData.getSupports(),
-                                                                                                  markupParams.isSecureClientCommunication(),
-                                                                                                  portletHandle,
-                                                                                                  persistentStateManager,
-                                                                                                  sessionID,
-                                                                                                  portletData.getEscapeXml(),
-                                                                                                  ResourceURL.PAGE,
-                                                                                                  portletData.getSupportedPublicRenderParameter(),
-                                                                                                  ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          runtimeContext,
+                                                                                          session,
+                                                                                          conf.isTemplatesStoredInSession(),
+                                                                                          transientStateManager,
+                                                                                          mimeType,
+                                                                                          portletData.getSupports(),
+                                                                                          markupParams.isSecureClientCommunication(),
+                                                                                          portletHandle,
+                                                                                          persistentStateManager,
+                                                                                          sessionID,
+                                                                                          portletData.getEscapeXml(),
+                                                                                          ResourceURL.PAGE,
+                                                                                          portletData.getSupportedPublicRenderParameter(),
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END CREATING FACTORY --------------
 
     // manage portlet state
@@ -1138,8 +1138,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                       PortletContext portletContext,
                                                       UserContext userContext) throws InvalidRegistration,
                                                                               WSRPException {
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.checkLifetimeForRegistrationAndPortlet() 1 = " + 1);
     try {
 
+      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.checkLifetimeForRegistrationAndPortlet() registrationContext.getRegistrationHandle() = "
+          + registrationContext.getRegistrationHandle());
       if (!Helper.checkLifetime(registrationContext, userContext)
           || !Helper.checkPortletLifetime(registrationContext,
                                           Arrays.asList(new PortletContext[] { portletContext }),
@@ -1162,8 +1165,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                                ModifyRegistrationRequired,
                                                                                                OperationFailed,
                                                                                                WSRPException {
-    checkRegistrationContext(registrationContext);
-    checkLifetimeRegistrationForRegistration(registrationContext, userContext);
+    if (checkRegistrationContext(registrationContext))
+      checkLifetimeRegistrationForRegistration(registrationContext, userContext);
     return new ReturnAny();
   }
 
@@ -1177,8 +1180,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                            MissingParameters,
                                                            OperationFailed,
                                                            WSRPException {
-    checkRegistrationContext(registrationContext);
-    checkLifetimeRegistrationForRegistration(registrationContext, userContext);
+    if (checkRegistrationContext(registrationContext))
+      checkLifetimeRegistrationForRegistration(registrationContext, userContext);
     for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {
       String name = iterator.next();
       transientStateManager.releaseSession(name);
@@ -1189,6 +1192,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private void checkLifetimeRegistrationForRegistration(RegistrationContext registrationContext,
                                                         UserContext userContext) throws InvalidRegistration,
                                                                                 WSRPException {
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.checkLifetimeRegistrationForRegistration() 1 = " + 1);
     try {
       if (!Helper.checkLifetime(registrationContext, userContext)) {
         throw new InvalidRegistration();
@@ -1231,14 +1235,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return portletHandle;
   }
 
-  private void checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
+  private boolean checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
     if (conf.isRegistrationRequired()) {
       log.debug("Registration required");
       if (registrationContext == null) {
         throw new InvalidRegistration();
       }
+      return true;
     } else {
       log.debug("Registration non required");
+      return false;
     }
   }
 
@@ -1327,8 +1333,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     log.debug("Save state on producer");
     return null;
   }
-
-
 
   private Integer getSessionTimePeriod() {
     try {

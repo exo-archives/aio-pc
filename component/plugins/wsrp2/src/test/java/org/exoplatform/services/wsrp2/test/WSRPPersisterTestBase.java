@@ -22,9 +22,7 @@ import junit.framework.TestCase;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
-import org.exoplatform.services.jcr.RepositoryService;
 import org.exoplatform.services.wsrp2.peristence.WSRPPersister;
-import org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository;
 
 /**
  * Created by The eXo Platform SAS .

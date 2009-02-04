@@ -92,8 +92,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         if (sD == null) {
           return null;
         }
+        System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.getRegistrationData() sD.getDataObject() = "
+            + sD.getDataObject());
+        System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.getRegistrationData() ((ConsumerContext) sD.getDataObject()).getRegistationData() = "
+            + ((ConsumerContext) sD.getDataObject()).getRegistationData());
         return ((ConsumerContext) sD.getDataObject()).getRegistationData();
       } catch (Exception e) {
+        e.printStackTrace();//EXOMAN
         log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
@@ -151,9 +156,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   }
 
   public boolean isRegistered(RegistrationContext registrationContext) throws WSRPException {
+    if (registrationContext.getRegistrationHandle()==null || registrationContext.getRegistrationHandle().equalsIgnoreCase(""))
+      return false;
     log.debug("Look up from a registration stored");
     try {
       WSRP2StateData sD = load(registrationContext.getRegistrationHandle());
+      System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.isRegistered() sD = " + sD);
       if (sD == null) {
         return false;
       }
@@ -324,6 +332,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   //   if more exception
   //   if none return null 
   final private WSRP2StateData load(String key) throws WSRPException {
+    System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.load() key = " + key);
     if (key == null || key.length() == 0)
       throw new WSRPException("A key cannot be null or empty!");
 
@@ -334,7 +343,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       String value = null;
       try {
         value = persister.getValue(path, key);
+        System.out.println(">>> EXOMAN PersistentStateManagerJCRImpl.load() value = " + value);
       } catch (RepositoryException e) {
+        e.printStackTrace();//EXOMAN
         throw new WSRPException(e.getMessage(), e);
       }
       if (value == null) {
@@ -345,6 +356,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       try {
         data.setData(value.getBytes());
       } catch (Exception e) {
+        e.printStackTrace();//EXOMAN
         throw new WSRPException(e.getMessage());
       }
     }

@@ -42,7 +42,7 @@ import org.w3c.dom.Document;
  *         Zavizionov</a>
  * @version $Id: $ Dec 2, 2008
  */
-public class TestStandardClasses extends TestCase {
+public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
 
   /**
    * Test marshalling String.

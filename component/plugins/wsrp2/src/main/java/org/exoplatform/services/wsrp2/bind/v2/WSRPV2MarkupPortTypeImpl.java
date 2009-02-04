@@ -72,11 +72,16 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                         OperationFailed,
                                                                                                                         UnsupportedLocale {
     LOG.info("Executing operation getResource");
-    System.out.println(registrationContext);
-    System.out.println(portletContext.value);
-    System.out.println(runtimeContext);
-    System.out.println(userContext);
-    System.out.println(resourceParams);
+    if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(portletContext.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug(runtimeContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(resourceParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
       ResourceResponse response = markupOperationsInterface.getResource(registrationContext,
@@ -110,8 +115,10 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                               ModifyRegistrationRequired,
                                                                                                                               OperationFailed {
     LOG.info("Executing operation initCookie");
-    System.out.println(registrationContext);
-    System.out.println(userContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
     try {
       ReturnAny response = markupOperationsInterface.initCookie(registrationContext, userContext);
       org.exoplatform.services.wsrp2.type.Extension _return = response.getExtensions();
@@ -153,12 +160,18 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                                        UnsupportedLocale,
                                                                                                                                        PortletStateChangeRequired {
     LOG.info("Executing operation performBlockingInteraction");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(runtimeContext);
-    System.out.println(userContext);
-    System.out.println(markupParams);
-    System.out.println(interactionParams);
+    if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(runtimeContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(markupParams);
+    if (LOG.isDebugEnabled())
+      LOG.debug(interactionParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
       BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(registrationContext,
@@ -208,11 +221,16 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                       OperationFailed,
                                                                                                                       UnsupportedLocale {
     LOG.info("Executing operation getMarkup");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(runtimeContext);
-    System.out.println(userContext);
-    System.out.println(markupParams);
+    if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(runtimeContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(markupParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
       MarkupResponse response = markupOperationsInterface.getMarkup(registrationContext,
@@ -249,9 +267,12 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                                    MissingParameters,
                                                                                                                                    OperationFailed {
     LOG.info("Executing operation releaseSessions");
-    System.out.println(registrationContext);
-    System.out.println(sessionIDs);
-    System.out.println(userContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(sessionIDs);
+    if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
     try {
       ReturnAny response = markupOperationsInterface.releaseSessions(registrationContext,
                                                                      sessionIDs,
@@ -296,12 +317,18 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                          UnsupportedLocale,
                                                                                                                          PortletStateChangeRequired {
     LOG.info("Executing operation handleEvents");
-    System.out.println(registrationContext);
-    System.out.println(portletContext);
-    System.out.println(runtimeContext);
-    System.out.println(userContext);
-    System.out.println(markupParams);
-    System.out.println(eventParams);
+    if (LOG.isDebugEnabled())
+      LOG.debug(registrationContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(portletContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(runtimeContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(userContext);
+    if (LOG.isDebugEnabled())
+      LOG.debug(markupParams);
+    if (LOG.isDebugEnabled())
+      LOG.debug(eventParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
       HandleEventsResponse response = markupOperationsInterface.handleEvents(registrationContext,

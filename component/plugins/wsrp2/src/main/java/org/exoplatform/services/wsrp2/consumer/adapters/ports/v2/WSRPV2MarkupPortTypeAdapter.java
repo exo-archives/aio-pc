@@ -81,7 +81,8 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                       InconsistentParameters,
                                                       OperationFailed,
                                                       UnsupportedLocale {
-    System.out.println("Invoking getMarkup...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getMarkup...");
 
     org.exoplatform.services.wsrp2.type.RegistrationContext _getMarkup_registrationContext = getMarkup.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _getMarkup_portletContext = getMarkup.getPortletContext();
@@ -101,9 +102,12 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                          _getMarkup_sessionContext,
                          _getMarkup_extensions);
 
-    System.out.println("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
-    System.out.println("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
-    System.out.println("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
 
     MarkupResponse response = new MarkupResponse();
     response.setMarkupContext(_getMarkup_markupContext.value);
@@ -130,7 +134,8 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                               InconsistentParameters,
                                                               OperationFailed,
                                                               UnsupportedLocale {
-    System.out.println("Invoking getResource...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking getResource...");
 
     org.exoplatform.services.wsrp2.type.RegistrationContext _getResource_registrationContext = getResource.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _getResource_portletContextVal = getResource.getPortletContext();
@@ -151,13 +156,17 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                            _getResource_sessionContext,
                            _getResource_extensions);
 
-    System.out.println("getResource._getResource_portletContext="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getResource._getResource_portletContext="
         + _getResource_portletContext.value);
-    System.out.println("getResource._getResource_resourceContext="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getResource._getResource_resourceContext="
         + _getResource_resourceContext.value);
-    System.out.println("getResource._getResource_sessionContext="
+    if (LOG.isDebugEnabled())
+      LOG.debug("getResource._getResource_sessionContext="
         + _getResource_sessionContext.value);
-    System.out.println("getResource._getResource_extensions=" + _getResource_extensions.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("getResource._getResource_extensions=" + _getResource_extensions.value);
 
     ResourceResponse response = new ResourceResponse();
     response.setPortletContext(_getResource_portletContext.value);
@@ -186,7 +195,8 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                                                                       UnsupportedLocale,
                                                                                                                       PortletStateChangeRequired {
 
-    System.out.println("Invoking performBlockingInteraction...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking performBlockingInteraction...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _performBlockingInteraction_registrationContext = performBlockingInteraction.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _performBlockingInteraction_portletContext = performBlockingInteraction.getPortletContext();
     org.exoplatform.services.wsrp2.type.RuntimeContext _performBlockingInteraction_runtimeContext = performBlockingInteraction.getRuntimeContext();
@@ -207,11 +217,14 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                           _performBlockingInteraction_redirectURL,
                                           _performBlockingInteraction_extensions);
 
-    System.out.println("performBlockingInteraction._performBlockingInteraction_updateResponse="
+    if (LOG.isDebugEnabled())
+      LOG.debug("performBlockingInteraction._performBlockingInteraction_updateResponse="
         + _performBlockingInteraction_updateResponse.value);
-    System.out.println("performBlockingInteraction._performBlockingInteraction_redirectURL="
+    if (LOG.isDebugEnabled())
+      LOG.debug("performBlockingInteraction._performBlockingInteraction_redirectURL="
         + _performBlockingInteraction_redirectURL.value);
-    System.out.println("performBlockingInteraction._performBlockingInteraction_extensions="
+    if (LOG.isDebugEnabled())
+      LOG.debug("performBlockingInteraction._performBlockingInteraction_extensions="
         + _performBlockingInteraction_extensions.value);
 
     BlockingInteractionResponse response = new BlockingInteractionResponse();
@@ -241,7 +254,8 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                      UnsupportedLocale,
                                                                      PortletStateChangeRequired {
 
-    System.out.println("Invoking handleEvents...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking handleEvents...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _handleEvents_registrationContext = handleEvents.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.PortletContext _handleEvents_portletContext = handleEvents.getPortletContext();
     org.exoplatform.services.wsrp2.type.RuntimeContext _handleEvents_runtimeContext = handleEvents.getRuntimeContext();
@@ -262,11 +276,14 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                             _handleEvents_failedEvents,
                             _handleEvents_extensions);
 
-    System.out.println("handleEvents._handleEvents_updateResponse="
+    if (LOG.isDebugEnabled())
+      LOG.debug("handleEvents._handleEvents_updateResponse="
         + _handleEvents_updateResponse.value);
-    System.out.println("handleEvents._handleEvents_failedEvents="
+    if (LOG.isDebugEnabled())
+      LOG.debug("handleEvents._handleEvents_failedEvents="
         + _handleEvents_failedEvents.value);
-    System.out.println("handleEvents._handleEvents_extensions=" + _handleEvents_extensions.value);
+    if (LOG.isDebugEnabled())
+      LOG.debug("handleEvents._handleEvents_extensions=" + _handleEvents_extensions.value);
 
     HandleEventsResponse response = new HandleEventsResponse();
     response.setUpdateResponse(_handleEvents_updateResponse.value);
@@ -284,13 +301,15 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                     InvalidRegistration,
                                                     ModifyRegistrationRequired,
                                                     OperationFailed {
-    System.out.println("Invoking initCookie...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking initCookie...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _initCookie_registrationContext = initCookie.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.UserContext _initCookie_userContext = initCookie.getUserContext();
 
     org.exoplatform.services.wsrp2.type.Extension _initCookie__return = markupPort.initCookie(_initCookie_registrationContext,
                                                                                               _initCookie_userContext);
-    System.out.println("initCookie.result=" + _initCookie__return);
+    if (LOG.isDebugEnabled())
+      LOG.debug("initCookie.result=" + _initCookie__return);
 
     return _initCookie__return;
   }
@@ -302,7 +321,8 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                    ModifyRegistrationRequired,
                                                                    MissingParameters,
                                                                    OperationFailed {
-    System.out.println("Invoking releaseSessions...");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Invoking releaseSessions...");
     org.exoplatform.services.wsrp2.type.RegistrationContext _releaseSessions_registrationContext = releaseSessions.getRegistrationContext();
     java.util.List<java.lang.String> _releaseSessions_sessionIDs = releaseSessions.getSessionIDs();
     org.exoplatform.services.wsrp2.type.UserContext _releaseSessions_userContext = releaseSessions.getUserContext();
@@ -310,7 +330,8 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     org.exoplatform.services.wsrp2.type.Extension _releaseSessions__return = markupPort.releaseSessions(_releaseSessions_registrationContext,
                                                                                                         _releaseSessions_sessionIDs,
                                                                                                         _releaseSessions_userContext);
-    System.out.println("releaseSessions.result=" + _releaseSessions__return);
+    if (LOG.isDebugEnabled())
+      LOG.debug("releaseSessions.result=" + _releaseSessions__return);
 
     return _releaseSessions__return;
   }
