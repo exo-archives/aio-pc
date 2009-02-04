@@ -23,7 +23,6 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.testConsumer.TestPortletRegistry;
 import org.exoplatform.services.wsrp2.testConsumer.TestProducer;
 import org.exoplatform.services.wsrp2.testConsumer.TestProducerRegistry;
-import org.exoplatform.services.wsrp2.testConsumer.TestProducerRegistryJCRImpl;
 import org.exoplatform.services.wsrp2.testConsumer.TestURLRewriter;
 import org.exoplatform.services.wsrp2.testConsumer.TestURLTemplateComposer;
 import org.exoplatform.services.wsrp2.testConsumer.TestUserRegistry;
@@ -42,7 +41,6 @@ public class SuiteForTestConsumer extends TestSuite {
     System.setProperty("mock.portal.dir", newProperty);
 
     addTestSuite(TestProducerRegistry.class);
-    addTestSuite(TestProducerRegistryJCRImpl.class);
     
     addTestSuite(TestPortletRegistry.class);
     addTestSuite(TestURLRewriter.class);

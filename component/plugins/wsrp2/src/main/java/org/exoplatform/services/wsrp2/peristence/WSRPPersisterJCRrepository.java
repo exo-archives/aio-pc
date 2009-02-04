@@ -161,7 +161,8 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
       session = sessionProvider2.getSession("production", repositoryService.getCurrentRepository());
       javax.jcr.Node rootNode = session.getRootNode();
       init(rootNode, path);
-      javax.jcr.Node customNode = rootNode.getNode(path);
+      
+      javax.jcr.Node customNode = rootNode;
       // to REMOVE
       if (customNode.hasNode(path)) {
         customNode = customNode.getNode(path);
@@ -182,6 +183,7 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
   private void init(Node rootNode, String path) throws RepositoryException {
     if (!rootNode.hasNode(path)) {
       rootNode.addNode(path);
+      rootNode.save();
       if (LOG.isDebugEnabled()) {
         LOG.debug("add Node = path = " + path);
       }

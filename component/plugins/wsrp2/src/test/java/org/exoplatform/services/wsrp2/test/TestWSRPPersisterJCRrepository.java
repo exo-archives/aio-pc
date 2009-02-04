@@ -16,8 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.test;
 
-import org.exoplatform.services.jcr.ext.registry.RegistryService;
-import org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry;
+import org.exoplatform.services.jcr.RepositoryService;
+import org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository;
 
 /**
  * Created by The eXo Platform SAS .
@@ -26,16 +26,16 @@ import org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry;
  *         Zavizionov</a>
  * @version $Id: $ Feb 3, 2009
  */
-public class TestWSRPPersisterJCRregistry extends WSRPPersisterTestBase {
+public class TestWSRPPersisterJCRrepository extends WSRPPersisterTestBase {
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
 
-    RegistryService registryService = (RegistryService) container.getComponentInstanceOfType(RegistryService.class);
-    assertNotNull(registryService);
+    RepositoryService repositoryService = (RepositoryService) container.getComponentInstanceOfType(RepositoryService.class);
+    assertNotNull(repositoryService);
 
-    wsrpPersister = new WSRPPersisterJCRregistry(registryService);
+    wsrpPersister = new WSRPPersisterJCRrepository(repositoryService);
   }
 
   @Override
