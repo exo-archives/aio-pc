@@ -36,7 +36,6 @@ import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.peristence.WSRPPersister;
 import org.picocontainer.Startable;
-import org.w3c.dom.Element;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 2
@@ -113,8 +112,8 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     try {
       persister.putValue(path, id, null);
       producers.remove(id);
-      if (cont.getComponentInstance(id) == null)
-        cont.unregisterComponent(id);
+//      if (cont.getComponentInstance(id) == null)
+//        cont.unregisterComponent(id);
       lastModifiedTime_ = System.currentTimeMillis();
       return getProducer(id);
     } catch (RepositoryException e) {
@@ -143,12 +142,10 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   final private Collection<WSRP2ProducerData> loadAll() throws WSRPException {
     // load parent node, where are placed producer's registration
-    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() path = " + path);
 
     Map<String, String> all = null;
     try {
       all = persister.loadAll(path);
-      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() all = " + all);
     } catch (RepositoryException e) {
       throw new WSRPException(e.getMessage(), e);
     }
@@ -157,19 +154,14 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       return null;
     Collection<WSRP2ProducerData> loadAll = null;
 
-    System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() all.keySet() = "
-        + all.keySet());
     Iterator<String> keys = all.keySet().iterator();
     while (keys.hasNext()) {
       String key = (String) keys.next();
-      System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() key = " + key);
       if (loadAll == null)
         loadAll = new ArrayList<WSRP2ProducerData>();
       WSRP2ProducerData data = new WSRP2ProducerData();
       data.setId(key);
       try {
-        System.out.println(">>> EXOMAN ProducerRegistryJCRImpl.loadAll() all.get(key) = "
-            + all.get(key));
         data.setData(all.get(key).getBytes());
         LOG.info("Loaded producer with id = '" + key + "' SUCCESSFUL");
       } catch (Exception e) {

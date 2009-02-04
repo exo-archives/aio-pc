@@ -27,7 +27,7 @@
     <init-params>
       <properties-param>
         <name>locations</name>
-        <property name="repository" value="lightrep" />
+        <property name="repository" value="wsrprep" />
       </properties-param>
     </init-params>
   </component>
