@@ -55,79 +55,79 @@ public class TestGetMarkup extends BaseTest {
     log();
   }
 
-//  public void testGetMarkupForSeveralModes() throws Exception {
-//    log();
-//    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-//    createRegistrationContext(sd, false);
-//    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
-//    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
-//    assertEquals("Everything is ok", response.getMarkupContext().getItemString());
-//    markupParams.setMode("wsrp:help");
-//    sessionParams.setSessionID(response.getSessionContext().getSessionID());
-//    runtimeContext = new RuntimeContext();
-//    runtimeContext.setSessionParams(sessionParams);
-//    manageTemplatesOptimization(sd, portletHandle);
-//    manageUserContextOptimization(sd, portletHandle, getMarkup);
-//    response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
-//    assertEquals("Everything is ok in Help mode", response.getMarkupContext().getItemString());
-//  }
-//
-//  public void testGetMarkupForSeveralWindowStates() throws Exception {
-//    log();
-//    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-//    createRegistrationContext(sd, false);
-//    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
-//    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
-//    assertEquals("Everything is ok", response.getMarkupContext().getItemString());
-//    markupParams.setWindowState("wsrp:maximized");
-//    sessionParams.setSessionID(response.getSessionContext().getSessionID());
-//    runtimeContext = new RuntimeContext();
-//    runtimeContext.setSessionParams(sessionParams);
-//    manageTemplatesOptimization(sd, portletHandle);
-//    manageUserContextOptimization(sd, portletHandle, getMarkup);
-//    response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
-//    assertEquals("Everything is ok in Maximized state", response.getMarkupContext().getItemString());
-//  }
-//
-//  public void testGetMarkupWithRewrittenURLInIt() throws Exception {
-//    log();
-//    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-//    createRegistrationContext(sd, false);
-//    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
-//    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-//    String s = response.getMarkupContext().getItemString();
-//    int index = s.indexOf("&ns=");
-//    s = s.substring(index + "&ns=".length());
-//    index = s.indexOf("&is=");
-//    s = StringUtils.left(s, index);
-//    markupParams.setMode("wsrp:view");
-//    markupParams.setWindowState("wsrp:maximized");
-//    navigationalContext.setOpaqueValue(s);
-//    markupParams.setNavigationalContext(navigationalContext);
-//    sessionParams.setSessionID(response.getSessionContext().getSessionID());
-//    runtimeContext = new RuntimeContext();
-//    runtimeContext.setSessionParams(sessionParams);
-//    manageTemplatesOptimization(sd, portletHandle);
-//    manageUserContextOptimization(sd, portletHandle, getMarkup);
-//    response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertEquals("value", response.getMarkupContext().getItemString());
-//  }
+  public void testGetMarkupForSeveralModes() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
+    assertEquals("Everything is ok", response.getMarkupContext().getItemString());
+    markupParams.setMode("wsrp:help");
+    sessionParams.setSessionID(response.getSessionContext().getSessionID());
+    runtimeContext = new RuntimeContext();
+    runtimeContext.setSessionParams(sessionParams);
+    manageTemplatesOptimization(sd, portletHandle);
+    manageUserContextOptimization(sd, portletHandle, getMarkup);
+    response = markupOperationsInterface.getMarkup(getMarkup);
+    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
+    assertEquals("Everything is ok in Help mode", response.getMarkupContext().getItemString());
+  }
+
+  public void testGetMarkupForSeveralWindowStates() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
+    assertEquals("Everything is ok", response.getMarkupContext().getItemString());
+    markupParams.setWindowState("wsrp:maximized");
+    sessionParams.setSessionID(response.getSessionContext().getSessionID());
+    runtimeContext = new RuntimeContext();
+    runtimeContext.setSessionParams(sessionParams);
+    manageTemplatesOptimization(sd, portletHandle);
+    manageUserContextOptimization(sd, portletHandle, getMarkup);
+    response = markupOperationsInterface.getMarkup(getMarkup);
+    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
+    assertEquals("Everything is ok in Maximized state", response.getMarkupContext().getItemString());
+  }
+
+  public void testGetMarkupWithRewrittenURLInIt() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    int index = s.indexOf("&ns=");
+    s = s.substring(index + "&ns=".length());
+    index = s.indexOf("&is=");
+    s = StringUtils.left(s, index);
+    markupParams.setMode("wsrp:view");
+    markupParams.setWindowState("wsrp:maximized");
+    navigationalContext.setOpaqueValue(s);
+    markupParams.setNavigationalContext(navigationalContext);
+    sessionParams.setSessionID(response.getSessionContext().getSessionID());
+    runtimeContext = new RuntimeContext();
+    runtimeContext.setSessionParams(sessionParams);
+    manageTemplatesOptimization(sd, portletHandle);
+    manageUserContextOptimization(sd, portletHandle, getMarkup);
+    response = markupOperationsInterface.getMarkup(getMarkup);
+    assertEquals("value", response.getMarkupContext().getItemString());
+  }
 
   public void testGetMarkupOfAClonedPortlet() throws Exception {
     log();
@@ -164,142 +164,142 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("Everything is more than ok", response.getMarkupContext().getItemString());
   }
 
-//  public void testGetResource() throws Exception {
-//    log();
-//    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-//    createRegistrationContext(sd, false);
-//    String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    GetResource getResource = getResource(registrationContext, portletContext);
-//    ResourceResponse response = markupOperationsInterface.getResource(getResource);
-//    assertEquals("Everything is ok", response.getResourceContext().getItemString());
-//
-//    NamedString formParameter = new NamedStringWrapper("goal", "image");
-////    formParameter.setName("goal");
-////    formParameter.setValue("image");
-//    resourceParams.getFormParameters().add(formParameter);
-//    response = markupOperationsInterface.getResource(getResource);
-//    assertEquals("image/jpeg", response.getResourceContext().getMimeType());
-//  }
-//
-//  public void testHandleEvents() throws Exception {
-//    log();
-//    ServiceDescription sd = getServiceDescription(new String[] { "en" });
-//    createRegistrationContext(sd, false);
-//    String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//
-//    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
-//                                                 new String("event-value"));
-//    Event event = JAXBEventTransformer.getEventMarshal(event286);
-//    eventParams.getEvents().add(event);
-//    HandleEvents handleEvents = handleEvents(registrationContext, portletContext);
-//    HandleEventsResponse response = markupOperationsInterface.handleEvents(handleEvents);
-//
-//    assertNotNull(response);
-//    UpdateResponse updateResponse = response.getUpdateResponse();
-//    assertNotNull(updateResponse);
-//
-//    List<Event> events = updateResponse.getEvents();
-//    assertNotNull(events);
-//    assertEquals(1, events.size());
-//
-//    Event event1 = events.get(0);
-//    assertEquals("MyEventPub", event1.getName().getLocalPart());
-//    assertEquals("org.exoplatform.services.portletcontainer.test.events.MyEventPub",
-//                 event1.getType().getLocalPart());
-//  }
-//
-//  public void testGetMarkupForSeveralModesWithLifetime() throws Exception {
-//    log();
-//    // WARNING: this test depends on time
-//    register.setLifetime(getLifetimeInSec(10));
-//    RegistrationContext rc = registrationOperationsInterface.register(register);
-//    assertNotNull(rc);
-//    assertNotNull(rc.getRegistrationHandle());
-//    assertNotNull(rc.getScheduledDestruction());
-//
-//    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    updateCurrentTime(rc);
-//    
-//    GetMarkup getMarkup = getMarkup(rc, portletContext);
-//    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertNotNull(response.getMarkupContext());
-//    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
-//    assertEquals("Everything is ok", response.getMarkupContext().getItemString());
-//    register.setLifetime(null);
-//  }
-//
-//  /**
-//   * WARNING: this test depends on time.
-//   * 
-//   * @throws Exception
-//   */
-//  public void testGetMarkupForSeveralModesWithInvalidLifetime() throws Exception {
-//    log();
-//    register.setLifetime(getLifetimeInSec(1));
-//    RegistrationContext rc = registrationOperationsInterface.register(register);
-//    assertNotNull(rc.getRegistrationHandle());
-//    assertNotNull(rc.getScheduledDestruction());
-//    Thread.currentThread().sleep(2000);
-//
-//    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    updateCurrentTime(rc);
-//
-//    GetMarkup getMarkup = getMarkup(rc, portletContext);
-//
-//    try {
-//      markupOperationsInterface.getMarkup(getMarkup);
-//      fail("the getMarkup of the markupOperationsInterface should return a WS Fault");
-//    } catch (Exception e) {
-//    }
-//    register.setLifetime(null);
-//  }
-//
-//
-//
-//  /**
-//   * WARNING: this test depends on time.
-//   * 
-//   * @throws Exception
-//   */
-//  public void testGetMarkupForSeveralModesWithLifetime2() throws Exception {
-//    log();
-//    register.setLifetime(getLifetimeInSec(3));
-//    RegistrationContext rc = registrationOperationsInterface.register(register);
-//    assertNotNull(rc.getRegistrationHandle());
-//    assertNotNull(rc.getScheduledDestruction());
-//
-//    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
-//    PortletContext portletContext = new PortletContext();
-//    portletContext.setPortletHandle(portletHandle);
-//    portletContext.setPortletState(null);
-//    updateCurrentTime(rc);
-//    
-//    GetMarkup getMarkup = getMarkup(rc, portletContext);
-//
-//    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-//    assertNotNull(response.getMarkupContext());
-//
-//    Thread.currentThread().sleep(3000);
-//
-//    updateCurrentTime(rc);
-//    try {
-//      markupOperationsInterface.getMarkup(getMarkup);
-//      fail("the getMarkup of the markupOperationsInterface should return a WS Fault");
-//    } catch (Exception e) {
-//    }
-//    register.setLifetime(null);
-//  }
+  public void testGetResource() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    GetResource getResource = getResource(registrationContext, portletContext);
+    ResourceResponse response = markupOperationsInterface.getResource(getResource);
+    assertEquals("Everything is ok", response.getResourceContext().getItemString());
+
+    NamedString formParameter = new NamedStringWrapper("goal", "image");
+//    formParameter.setName("goal");
+//    formParameter.setValue("image");
+    resourceParams.getFormParameters().add(formParameter);
+    response = markupOperationsInterface.getResource(getResource);
+    assertEquals("image/jpeg", response.getResourceContext().getMimeType());
+  }
+
+  public void testHandleEvents() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
+                                                 new String("event-value"));
+    Event event = JAXBEventTransformer.getEventMarshal(event286);
+    eventParams.getEvents().add(event);
+    HandleEvents handleEvents = handleEvents(registrationContext, portletContext);
+    HandleEventsResponse response = markupOperationsInterface.handleEvents(handleEvents);
+
+    assertNotNull(response);
+    UpdateResponse updateResponse = response.getUpdateResponse();
+    assertNotNull(updateResponse);
+
+    List<Event> events = updateResponse.getEvents();
+    assertNotNull(events);
+    assertEquals(1, events.size());
+
+    Event event1 = events.get(0);
+    assertEquals("MyEventPub", event1.getName().getLocalPart());
+    assertEquals("org.exoplatform.services.portletcontainer.test.events.MyEventPub",
+                 event1.getType().getLocalPart());
+  }
+
+  public void testGetMarkupForSeveralModesWithLifetime() throws Exception {
+    log();
+    // WARNING: this test depends on time
+    register.setLifetime(getLifetimeInSec(10));
+    RegistrationContext rc = registrationOperationsInterface.register(register);
+    assertNotNull(rc);
+    assertNotNull(rc.getRegistrationHandle());
+    assertNotNull(rc.getScheduledDestruction());
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    updateCurrentTime(rc);
+    
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    assertNotNull(response.getMarkupContext());
+    assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
+    assertEquals("Everything is ok", response.getMarkupContext().getItemString());
+    register.setLifetime(null);
+  }
+
+  /**
+   * WARNING: this test depends on time.
+   * 
+   * @throws Exception
+   */
+  public void testGetMarkupForSeveralModesWithInvalidLifetime() throws Exception {
+    log();
+    register.setLifetime(getLifetimeInSec(1));
+    RegistrationContext rc = registrationOperationsInterface.register(register);
+    assertNotNull(rc.getRegistrationHandle());
+    assertNotNull(rc.getScheduledDestruction());
+    Thread.currentThread().sleep(2000);
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    updateCurrentTime(rc);
+
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
+
+    try {
+      markupOperationsInterface.getMarkup(getMarkup);
+      fail("the getMarkup of the markupOperationsInterface should return a WS Fault");
+    } catch (Exception e) {
+    }
+    register.setLifetime(null);
+  }
+
+
+
+  /**
+   * WARNING: this test depends on time.
+   * 
+   * @throws Exception
+   */
+  public void testGetMarkupForSeveralModesWithLifetime2() throws Exception {
+    log();
+    register.setLifetime(getLifetimeInSec(3));
+    RegistrationContext rc = registrationOperationsInterface.register(register);
+    assertNotNull(rc.getRegistrationHandle());
+    assertNotNull(rc.getScheduledDestruction());
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    updateCurrentTime(rc);
+    
+    GetMarkup getMarkup = getMarkup(rc, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    assertNotNull(response.getMarkupContext());
+
+    Thread.currentThread().sleep(3000);
+
+    updateCurrentTime(rc);
+    try {
+      markupOperationsInterface.getMarkup(getMarkup);
+      fail("the getMarkup of the markupOperationsInterface should return a WS Fault");
+    } catch (Exception e) {
+    }
+    register.setLifetime(null);
+  }
 
 }
