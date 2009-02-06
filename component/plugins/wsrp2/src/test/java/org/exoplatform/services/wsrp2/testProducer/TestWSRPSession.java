@@ -43,7 +43,7 @@ public class TestWSRPSession extends BaseTest {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.getDesiredLocales().add("en");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -68,7 +68,7 @@ public class TestWSRPSession extends BaseTest {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.getDesiredLocales().add("en");
     ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     PortletContext portletContext = new PortletContext();
     String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
     portletContext.setPortletHandle(portletHandle);

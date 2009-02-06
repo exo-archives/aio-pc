@@ -1236,15 +1236,26 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private boolean checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
-    if (conf.isRegistrationRequired()) {
-      log.debug("Registration required");
-      if (registrationContext == null) {
-        throw new InvalidRegistration();
+    if (registrationContext != null && registrationContext.getRegistrationHandle() != null
+        && registrationContext.getRegistrationHandle().length() != 0) {
+      // present registrationHandle within RegistrationContext, so whether it is valid
+      try {
+        // does registered this registrationHandle
+        boolean isRegistered = persistentStateManager.isRegistered(registrationContext);
+        return isRegistered;
+      } catch (WSRPException e) {
+        // unknown registrationHandle or something else
+        throw new InvalidRegistration(e.getMessage(), e);
       }
-      return true;
     } else {
-      log.debug("Registration non required");
-      return false;
+      // haven't registrationHandle within RegistrationContext, whether it is required 
+      if (conf.isRegistrationRequired()) {
+        log.debug("Registration required");
+        throw new InvalidRegistration("Registration required, but haven't registrationHandle");
+      } else {
+        log.debug("Registration non required");
+        return false;
+      }
     }
   }
 

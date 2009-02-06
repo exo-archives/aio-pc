@@ -126,10 +126,17 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
 
   public void testRequiresRegistration() throws Exception {
     log();
-    GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    assertEquals(true, sd.isRequiresRegistration());
+    boolean isRequiredRegistration = getRequiresRegistration();
+    if (!isRequiredRegistration)
+      setRequiresRegistration(true);
+    try {
+      GetServiceDescription getServiceDescription = new GetServiceDescription();
+      getServiceDescription.getDesiredLocales().add("en");
+      ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+      assertEquals(true, sd.isRequiresRegistration());
+    } finally {
+      setRequiresRegistration(isRequiredRegistration);
+    }
   }
 
   public void testGetCustomModes() throws Exception {
@@ -238,7 +245,5 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
     }
     return null;
   }
-
-
 
 }

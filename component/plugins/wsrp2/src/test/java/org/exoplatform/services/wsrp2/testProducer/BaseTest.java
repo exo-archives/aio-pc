@@ -92,9 +92,9 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
 public class BaseTest extends TestCase {
 
 //  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRP_v2_Markup_Service?wsdl";
-protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService2/WSRP_v2_Markup_Service?wsdl";
+  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService2/WSRP_v2_Markup_Service?wsdl";
 
-  protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRP_v0_ServiceAdministration_Service";
+  protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
 
   protected static final String                      CONTEXT_PATH             = "hello";
 
@@ -239,7 +239,6 @@ protected static final String                      SERVICE_URL              = "h
 //        + "WSRPMarkupService"));
 //    portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
 //        + "WSRPPortletManagementService"));
-
     WSRPService2 service = new WSRPService2(new URL(SERVICE_URL));
     System.out.println(">>> ProducerImpl.init() service = " + service);
 
@@ -455,17 +454,16 @@ protected static final String                      SERVICE_URL              = "h
   }
 
   protected Lifetime getLifetimeInSec(int i) {
-    Calendar calendarCurrent = Calendar.getInstance();
     Calendar calendarTermination = Calendar.getInstance();
     calendarTermination.add(Calendar.SECOND, i);
     Lifetime lf = new Lifetime();
-    lf.setCurrentTime(CalendarUtils.convertCalendar(calendarCurrent));
+    lf.setCurrentTime(CalendarUtils.getNow());
     lf.setTerminationTime(CalendarUtils.convertCalendar(calendarTermination));
     return lf;
   }
 
-  protected void createRegistrationContext(ServiceDescription sd) throws Exception {
-    if (sd.isRequiresRegistration()) {
+  protected void createRegistrationContext(ServiceDescription sd, boolean createAnyway) throws Exception {
+    if (createAnyway || sd.isRequiresRegistration()) {
       registrationContext = new RegistrationContext();
       registrationContext.setRegistrationHandle("");
     } else {

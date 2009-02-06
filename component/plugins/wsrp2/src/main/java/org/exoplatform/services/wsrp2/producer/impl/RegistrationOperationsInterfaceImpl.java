@@ -33,6 +33,7 @@ import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
@@ -60,6 +61,8 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
                                                         MissingParameters,
                                                         OperationFailed,
                                                         WSRPException {
+
+    whetherLifetimeNullOrExpired(lifetime);
 
     String owner = null;
     if (userContext != null) {
@@ -98,6 +101,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
                                                                       MissingParameters,
                                                                       OperationFailed,
                                                                       WSRPException {
+
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
       if (log.isDebugEnabled())
@@ -144,7 +148,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Registration failed", e);
-      throw new  WSRPException();
+      throw new WSRPException();
     }
     return new ReturnAny();
   }
@@ -191,6 +195,8 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
                                                             ModifyRegistrationRequired,
                                                             OperationFailed,
                                                             WSRPException {
+    whetherLifetimeNullOrExpired(lifetime);
+
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
       if (log.isDebugEnabled())
@@ -213,6 +219,11 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
       throw new WSRPException();
     }
     return resultLifetime;
+  }
+
+  private void whetherLifetimeNullOrExpired(Lifetime lifetime) throws OperationFailed {
+    if (lifetime != null && Helper.lifetimeExpired(lifetime))
+      throw new OperationFailed("The provided lifetime has expired");
   }
 
   private void validateRegistrationDatas(RegistrationData data) throws WSRPException {

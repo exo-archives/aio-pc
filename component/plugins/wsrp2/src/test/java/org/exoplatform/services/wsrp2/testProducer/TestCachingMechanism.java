@@ -45,7 +45,7 @@ public class TestCachingMechanism extends BaseTest {
   public void testExistenceOfValidateTag() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup(registrationContext,
@@ -58,7 +58,7 @@ public class TestCachingMechanism extends BaseTest {
 
   public void testUseCacheReturn() throws RemoteException, Exception {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
 
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
@@ -80,7 +80,7 @@ public class TestCachingMechanism extends BaseTest {
 
   public void testExistenceOfGlobal() throws RemoteException, Exception {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
 
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle("hello/EmptyPortletWithGlobalCache");

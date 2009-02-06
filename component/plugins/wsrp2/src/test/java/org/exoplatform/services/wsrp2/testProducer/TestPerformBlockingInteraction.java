@@ -52,7 +52,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   public void testSimplePerformBlockingInteraction() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/PortletToTestPerformBlockingInteraction";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -100,7 +100,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   public void testSendRedirect() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestSendRedirect");
     portletContext.setPortletState(null);//TODO
@@ -116,7 +116,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   public void testReadOnlyStateChange() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser");
     InteractionParams params = new InteractionParams();
@@ -151,7 +151,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
   public void testStateSaveOnConsumer() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/Portlet2TestStateUser3";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);

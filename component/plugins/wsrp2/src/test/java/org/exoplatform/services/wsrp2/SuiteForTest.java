@@ -42,5 +42,8 @@ public class SuiteForTest extends TestSuite {
     addTestSuite(TestWSRPPersisterJCRrepository.class);
 
   }
+  
+  public void testVoid() throws Exception {
+  }
 
 }

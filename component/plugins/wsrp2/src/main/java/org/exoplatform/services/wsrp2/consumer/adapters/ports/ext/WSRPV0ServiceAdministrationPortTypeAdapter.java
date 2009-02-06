@@ -39,7 +39,7 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
 
 
   public WSRPV0ServiceAdministrationPortTypeAdapter(String address) {
-//    String address = "http://localhost:8080/hello/soap/services/WSRP_v0_ServiceAdministration_Service";
+//    String address = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
     JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
     client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
     client.setAddress(address);

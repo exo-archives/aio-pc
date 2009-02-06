@@ -124,7 +124,7 @@
       </values-param>
       <properties-param>
         <name>wsrp-conf</name>
-        <property name="wsrp.requires.registration" value="true" />
+        <property name="wsrp.requires.registration" value="false" />
         <property name="wsrp.has.user.specific.state" value="true" />
         <property name="wsrp.does.url.template.processing" value="true" />
         <property name="wsrp.templates.stored.in.session" value="false" />

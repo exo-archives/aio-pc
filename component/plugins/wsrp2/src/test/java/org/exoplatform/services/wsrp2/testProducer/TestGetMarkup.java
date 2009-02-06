@@ -57,7 +57,7 @@ public class TestGetMarkup extends BaseTest {
   public void testGetMarkupForSeveralModes() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -80,7 +80,7 @@ public class TestGetMarkup extends BaseTest {
   public void testGetMarkupForSeveralWindowStates() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -103,7 +103,7 @@ public class TestGetMarkup extends BaseTest {
   public void testGetMarkupWithRewrittenURLInIt() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -163,7 +163,7 @@ public class TestGetMarkup extends BaseTest {
   public void testGetResource() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -172,7 +172,7 @@ public class TestGetMarkup extends BaseTest {
     ResourceResponse response = markupOperationsInterface.getResource(getResource);
     assertEquals("Everything is ok", response.getResourceContext().getItemString());
 
-    NamedString formParameter = new NamedStringWrapper("goal","image");
+    NamedString formParameter = new NamedStringWrapper("goal", "image");
 //    formParameter.setName("goal");
 //    formParameter.setValue("image");
     resourceParams.getFormParameters().add(formParameter);
@@ -183,7 +183,7 @@ public class TestGetMarkup extends BaseTest {
   public void testHandleEvents() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
-    createRegistrationContext(sd);
+    createRegistrationContext(sd, false);
     String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(portletHandle);
@@ -232,9 +232,13 @@ public class TestGetMarkup extends BaseTest {
     register.setLifetime(null);
   }
 
+  /**
+   * WARNING: this test depends on time.
+   * 
+   * @throws Exception
+   */
   public void testGetMarkupForSeveralModesWithInvalidLifetime() throws Exception {
     log();
-    // WARNING: this test depends on time
     register.setLifetime(getLifetimeInSec(1));
     RegistrationContext rc = registrationOperationsInterface.register(register);
     assertNotNull(rc.getRegistrationHandle());
@@ -256,9 +260,13 @@ public class TestGetMarkup extends BaseTest {
     register.setLifetime(null);
   }
 
+  /**
+   * WARNING: this test depends on time.
+   * 
+   * @throws Exception
+   */
   public void testGetMarkupForSeveralModesWithLifetime2() throws Exception {
     log();
-    // WARNING: this test depends on time
     register.setLifetime(getLifetimeInSec(3));
     RegistrationContext rc = registrationOperationsInterface.register(register);
     assertNotNull(rc.getRegistrationHandle());
