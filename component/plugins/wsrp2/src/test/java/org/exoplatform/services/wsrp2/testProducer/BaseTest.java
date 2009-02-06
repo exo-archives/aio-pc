@@ -437,7 +437,7 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void resolveRegistrationContext(RegistrationContext registrationContext) throws Exception {
+  protected void assertRegistrationContext(RegistrationContext registrationContext) throws Exception {
     byte[] registrationState = registrationContext.getRegistrationState();
     if (registrationState != null) {
       System.out.println("[test] Save registration state on consumer");
@@ -460,6 +460,11 @@ public class BaseTest extends TestCase {
     lf.setCurrentTime(CalendarUtils.getNow());
     lf.setTerminationTime(CalendarUtils.convertCalendar(calendarTermination));
     return lf;
+  }
+
+  protected void updateCurrentTime(RegistrationContext rc) {
+    if (rc.getScheduledDestruction() != null)
+      rc.getScheduledDestruction().setCurrentTime(CalendarUtils.getNow());
   }
 
   protected void createRegistrationContext(ServiceDescription sd, boolean createAnyway) throws Exception {

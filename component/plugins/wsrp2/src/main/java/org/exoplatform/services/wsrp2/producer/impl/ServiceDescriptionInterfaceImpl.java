@@ -84,13 +84,15 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
 
   public ServiceDescriptionInterfaceImpl(PortletContainerProxy cont,
                                          WSRPConfiguration conf,
-                                         ExoContainerContext context) {
+                                         ExoContainerContext context,
+                                         PortletContainerConf pcConf,
+                                         PortletApplicationsHolder pcHolder) {
     this.proxy = cont;
     this.conf = conf;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     this.container = context.getContainer();
-    this.pcConf = (PortletContainerConf) container.getComponentInstanceOfType(PortletContainerConf.class);
-    this.pcHolder = (PortletApplicationsHolder) container.getComponentInstanceOfType(PortletApplicationsHolder.class);
+    this.pcConf = pcConf;//(PortletContainerConf) container.getComponentInstanceOfType(PortletContainerConf.class);
+    this.pcHolder = pcHolder;//(PortletApplicationsHolder) container.getComponentInstanceOfType(PortletApplicationsHolder.class);
   }
 
   private List<EventDescription> getEventDescriptions() {

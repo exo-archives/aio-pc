@@ -108,8 +108,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Clone a portlet for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
 
     String portletHandle = portletContext.getPortletHandle();
     String newPortletHandle = null;
@@ -167,8 +166,8 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = fromRegistrationContext.getRegistrationHandle();
     log.debug("Copying portlets for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(fromRegistrationContext,
-                                                                               stateManager);
+
+    RegistrationVerifier.checkRegistrationContext(toRegistrationContext);
     Collection<CopiedPortlet> copiedPortlets = new ArrayList<CopiedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
@@ -242,8 +241,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
     Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
@@ -304,8 +302,7 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                  WSRPException {
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
     Collection<ImportPortlet> importedPortlets = new ArrayList<ImportPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
@@ -373,8 +370,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Destroy portlet for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
 
     Collection<FailedPortlets> fails = new ArrayList<FailedPortlets>();
 
@@ -419,8 +415,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
 
     Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
@@ -464,8 +459,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
 
     Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
@@ -510,8 +504,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Get portlet description for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
 
     String portletHandle = portletContext.getPortletHandle();
 
@@ -553,8 +546,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
     String portletHandle = portletContext.getPortletHandle();
 
     try {
@@ -594,8 +586,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("get portlet properties for registration handle " + registrationHandle);
-    org.exoplatform.services.wsrp2.producer.impl.utils.Utils.checkRegistration(registrationContext,
-                                                                               stateManager);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
     String portletHandle = portletContext.getPortletHandle();
     try {
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {

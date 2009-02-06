@@ -59,7 +59,7 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     assertNotNull(returnedContext.getRegistrationHandle());
-    resolveRegistrationContext(returnedContext);
+    assertRegistrationContext(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
     assertNull(rS.getRegistrationState());
@@ -69,7 +69,7 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     registrationData.setConsumerAgent(incorrectConsumerAgent);
-    resolveRegistrationContext(returnedContext);
+    assertRegistrationContext(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     try {
       registrationOperationsInterface.modifyRegistration(modifyRegistration);
@@ -82,7 +82,7 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     returnedContext.getRegistrationHandle();
-    resolveRegistrationContext(returnedContext);
+    assertRegistrationContext(returnedContext);
     Deregister deregister = new Deregister();
     deregister.setRegistrationContext(returnedContext);
     deregister.setUserContext(userContext);
@@ -102,7 +102,8 @@ public class TestRegistrationInterface extends BaseTest {
   public void testIncorrectDeregister() throws Exception {
     log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
-    resolveRegistrationContext(returnedContext);
+    assertRegistrationContext(returnedContext);
+    
     returnedContext.setRegistrationHandle("chunkHandle");
     Deregister deregister = new Deregister();
     deregister.setRegistrationContext(returnedContext);
@@ -126,6 +127,7 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
+    
     register.setLifetime(null);
     
     register.setLifetime(getLifetimeInSec(-5));
@@ -142,6 +144,8 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
+    
+    updateCurrentTime(rC);
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
     Lifetime lifetime2 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
@@ -155,6 +159,7 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
+    
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
     Lifetime lifetime2 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
@@ -166,12 +171,15 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
+    
     SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
     setRegistrationLifetime.setRegistrationContext(rC);
     setRegistrationLifetime.setUserContext(userContext);
     setRegistrationLifetime.setLifetime(getLifetimeInSec(5));
     Lifetime lifetime2 = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
     assertNotNull(lifetime2);
+    
+    updateCurrentTime(rC);
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
     Lifetime lifetime3 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
@@ -185,12 +193,16 @@ public class TestRegistrationInterface extends BaseTest {
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
     assertNotNull(rC.getScheduledDestruction());
+    
+    updateCurrentTime(rC);
     SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
     setRegistrationLifetime.setRegistrationContext(rC);
     setRegistrationLifetime.setUserContext(userContext);
     setRegistrationLifetime.setLifetime(null);
     Lifetime lifetime2 = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
     assertNull(lifetime2);
+    
+    updateCurrentTime(rC);
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
     Lifetime lifetime3 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
@@ -203,8 +215,10 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     assertNotNull(returnedContext.getRegistrationHandle());
-    resolveRegistrationContext(returnedContext);
+    assertRegistrationContext(returnedContext);
     assertNotNull(returnedContext.getScheduledDestruction());
+    
+    updateCurrentTime(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
     assertNull(rS.getScheduledDestruction());

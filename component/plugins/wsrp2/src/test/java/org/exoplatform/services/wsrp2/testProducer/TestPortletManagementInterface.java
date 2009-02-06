@@ -70,7 +70,7 @@ public class TestPortletManagementInterface extends BaseTest {
       clonePortlet.setPortletContext(pC);
       clonePortlet.setUserContext(userContext);
       portletManagementOperationsInterface.clonePortlet(clonePortlet);
-      fail("The given registration handle was incorrect");
+      fail("Should be an exception, because the given registration handle was incorrect");
     } catch (Exception e) {
       e.printStackTrace();
     }

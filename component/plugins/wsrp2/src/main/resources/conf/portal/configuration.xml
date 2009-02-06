@@ -106,6 +106,14 @@
   </component>
 
   <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.RegistrationVerifier</type>
+  </component>
+
+  <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration</type>
     <init-params>
       <values-param>

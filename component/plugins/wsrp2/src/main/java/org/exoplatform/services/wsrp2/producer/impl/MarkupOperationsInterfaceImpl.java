@@ -72,13 +72,11 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.TransientStateManager;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.Helper;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.WSRPConsumerRewriterPortletURLFactory;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.WSRPProducerRewriterPortletURLFactory;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.WSRPRewriterPortletURLFactoryBuilder;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
@@ -101,7 +99,6 @@ import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.SessionContext;
 import org.exoplatform.services.wsrp2.type.StateChange;
-import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UpdateResponse;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
@@ -171,8 +168,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             UnsupportedLocale,
                                                             WSRPException {
 
-    if (checkRegistrationContext(registrationContext))
-      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
     // markupParams.getNavigationalContext().getPublicValues()
@@ -381,8 +378,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                                     PortletStateChangeRequired,
                                                                                                     WSRPException {
 
-    if (checkRegistrationContext(registrationContext))
-      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -670,8 +667,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     UnsupportedLocale,
                                                                     WSRPException {
 
-    if (checkRegistrationContext(registrationContext))
-      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
 
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
@@ -881,8 +878,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                    PortletStateChangeRequired,
                                                                    WSRPException {
 
-    if (checkRegistrationContext(registrationContext))
-      checkLifetimeForRegistrationAndPortlet(registrationContext, portletContext, userContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
 
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
@@ -1134,25 +1131,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return handleEventsResponse;
   }
 
-  private void checkLifetimeForRegistrationAndPortlet(RegistrationContext registrationContext,
-                                                      PortletContext portletContext,
-                                                      UserContext userContext) throws InvalidRegistration,
-                                                                              WSRPException {
-    try {
-      if (!Helper.checkLifetime(registrationContext, userContext)
-          || !Helper.checkPortletLifetime(registrationContext,
-                                          Arrays.asList(new PortletContext[] { portletContext }),
-                                          userContext)) {
-        throw new InvalidRegistration();
-      }
-
-    } catch (InvalidRegistration ir) {
-      throw ir;
-    } catch (Exception e) {
-      throw new InvalidRegistration(e.getMessage(), e);
-    }
-
-  }
 
   public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
                                                                                                AccessDenied,
@@ -1161,8 +1139,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                                ModifyRegistrationRequired,
                                                                                                OperationFailed,
                                                                                                WSRPException {
-    if (checkRegistrationContext(registrationContext))
-      checkLifetimeRegistrationForRegistration(registrationContext, userContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+      LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
     return new ReturnAny();
   }
 
@@ -1176,28 +1154,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                            MissingParameters,
                                                            OperationFailed,
                                                            WSRPException {
-    if (checkRegistrationContext(registrationContext))
-      checkLifetimeRegistrationForRegistration(registrationContext, userContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+      LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
     for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {
       String name = iterator.next();
       transientStateManager.releaseSession(name);
     }
     return new ReturnAny();
-  }
-
-  private void checkLifetimeRegistrationForRegistration(RegistrationContext registrationContext,
-                                                        UserContext userContext) throws InvalidRegistration,
-                                                                                WSRPException {
-    try {
-      if (!Helper.checkLifetime(registrationContext, userContext)) {
-        throw new InvalidRegistration();
-      }
-    } catch (InvalidRegistration ir) {
-      throw ir;
-    } catch (Exception e) {
-      throw new InvalidRegistration(e.getMessage(), e);
-    }
-
   }
 
   private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
@@ -1226,33 +1189,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
             + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
       }
     }
-    checkRegistrationContext(registrationContext);
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
     return portletHandle;
   }
 
-  private boolean checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
-    if (registrationContext != null && registrationContext.getRegistrationHandle() != null
-        && registrationContext.getRegistrationHandle().length() != 0) {
-      // present registrationHandle within RegistrationContext, so whether it is valid
-      try {
-        // does registered this registrationHandle
-        boolean isRegistered = persistentStateManager.isRegistered(registrationContext);
-        return isRegistered;
-      } catch (WSRPException e) {
-        // unknown registrationHandle or something else
-        throw new InvalidRegistration(e.getMessage(), e);
-      }
-    } else {
-      // haven't registrationHandle within RegistrationContext, whether it is required 
-      if (conf.isRegistrationRequired()) {
-        log.debug("Registration required");
-        throw new InvalidRegistration("Registration required, but haven't registrationHandle");
-      } else {
-        log.debug("Registration non required");
-        return false;
-      }
-    }
-  }
+
 
   private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws WSRPException {
     Map<String, String[]> map = null;

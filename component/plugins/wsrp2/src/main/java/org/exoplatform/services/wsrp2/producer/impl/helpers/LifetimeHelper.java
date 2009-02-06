@@ -16,13 +16,10 @@
  */
 package org.exoplatform.services.wsrp2.producer.impl.helpers;
 
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.datatype.DatatypeConstants;
 
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
@@ -41,33 +38,52 @@ import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletLifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.UserContext;
+import org.picocontainer.Startable;
 
 /**
  * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
  * @version $Id: $
  */
-public class Helper {
+public class LifetimeHelper implements Startable {
 
-  public static boolean checkLifetime(RegistrationContext registrationContext,
-                                      UserContext userContext) throws OperationNotSupported,
-                                                              AccessDenied,
-                                                              ResourceSuspended,
-                                                              InvalidRegistration,
-                                                              InvalidHandle,
-                                                              ModifyRegistrationRequired,
-                                                              OperationFailed,
-                                                              WSRPException {
-    ExoContainer cont = ExoContainerContext.getCurrentContainer();
+  private static RegistrationOperationsInterface      roi;
+
+  private static PortletManagementOperationsInterface pmoi;
+
+  public LifetimeHelper(RegistrationOperationsInterface roi,
+                        PortletManagementOperationsInterface pmoi) {
+    LifetimeHelper.roi = roi;
+    LifetimeHelper.pmoi = pmoi;
+  }
+
+  /**
+   * Throws InvalidRegistration when unregistered. Return false when lifetime is
+   * expired.
+   */
+  public static boolean checkRegistrationLifetime(RegistrationContext registrationContext,
+                                                  UserContext userContext) throws OperationNotSupported,
+                                                                          AccessDenied,
+                                                                          ResourceSuspended,
+                                                                          InvalidRegistration,
+                                                                          ModifyRegistrationRequired,
+                                                                          OperationFailed,
+                                                                          WSRPException {
     if (registrationContext == null)
       return true;
-    RegistrationOperationsInterface roi = (RegistrationOperationsInterface) cont.getComponentInstanceOfType(RegistrationOperationsInterface.class);
-    Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
-    if (lf != null) {
-      if (lifetimeExpired(lf)) {
-        roi.deregister(registrationContext, userContext);
-        return false;
+    try {
+
+      Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
+      if (lf != null && registrationContext.getScheduledDestruction() != null) {
+        lf.setCurrentTime(registrationContext.getScheduledDestruction().getCurrentTime());
+        if (lifetimeExpired(lf)) {
+//        roi.deregister(registrationContext, userContext);
+          return false;
+        }
       }
+    } catch (InvalidHandle ih) {
+      throw new OperationFailed(ih.getMessage(), ih);
     }
+
     return true;
   }
 
@@ -78,6 +94,22 @@ public class Helper {
       return false;
   }
 
+  /**
+   * @param registrationContext
+   * @param portletContexts
+   * @param userContext
+   * @return
+   * @throws OperationNotSupported
+   * @throws AccessDenied
+   * @throws ResourceSuspended
+   * @throws InvalidRegistration
+   * @throws InvalidHandle
+   * @throws ModifyRegistrationRequired
+   * @throws InconsistentParameters
+   * @throws OperationFailed
+   * @throws MissingParameters
+   * @throws WSRPException
+   */
   public static boolean checkPortletLifetime(RegistrationContext registrationContext,
                                              List<PortletContext> portletContexts,
                                              UserContext userContext) throws OperationNotSupported,
@@ -90,26 +122,22 @@ public class Helper {
                                                                      OperationFailed,
                                                                      MissingParameters,
                                                                      WSRPException {
-    ExoContainer cont = ExoContainerContext.getCurrentContainer();
-    PortletManagementOperationsInterface pmoi = (PortletManagementOperationsInterface) cont.getComponentInstanceOfType(PortletManagementOperationsInterface.class);
-
     if (registrationContext == null)
       return true;
     GetPortletsLifetimeResponse resp = pmoi.getPortletsLifetime(registrationContext,
                                                                 portletContexts,
                                                                 userContext);
-    if (resp != null) {
-      if (resp.getPortletLifetime() != null && resp.getPortletLifetime().size() != 0) {
-        PortletLifetime plf = resp.getPortletLifetime().get(0);
-        Lifetime lf = plf.getScheduledDestruction();
-        if (lf != null) {
-          if (lifetimeExpired(lf)) {
-            String portletHandle = portletContexts.get(0).getPortletHandle();
-            pmoi.destroyPortlets(registrationContext,
-                                 Arrays.asList(new String[] { portletHandle }),
-                                 userContext);
-            return false;
-          }
+    if (resp != null && resp.getPortletLifetime() != null && resp.getPortletLifetime().size() != 0) {
+      PortletLifetime plf = resp.getPortletLifetime().get(0);
+      Lifetime lf = plf.getScheduledDestruction();
+      if (lf != null && registrationContext.getScheduledDestruction() != null) {
+        lf.setCurrentTime(registrationContext.getScheduledDestruction().getCurrentTime());
+        if (lifetimeExpired(lf)) {
+//            String portletHandle = portletContexts.get(0).getPortletHandle();
+//            pmoi.destroyPortlets(registrationContext,
+//                                 Arrays.asList(new String[] { portletHandle }),
+//                                 userContext);
+          return false;
         }
       }
     }
@@ -126,4 +154,9 @@ public class Helper {
 //    }
 //  }
 
+  public void start() {
+  }
+
+  public void stop() {
+  }
 }

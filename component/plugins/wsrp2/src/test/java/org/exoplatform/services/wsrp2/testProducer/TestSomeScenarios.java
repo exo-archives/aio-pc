@@ -55,7 +55,7 @@ public class TestSomeScenarios extends BaseTest {
     if (serviceDescription.isRequiresRegistration()) {
       System.out.println("[test] Registration required");
       rC = registrationOperationsInterface.register(register);
-      resolveRegistrationContext(rC);
+      assertRegistrationContext(rC);
     } else {
       System.out.println("[test] Registration non required");
     }
