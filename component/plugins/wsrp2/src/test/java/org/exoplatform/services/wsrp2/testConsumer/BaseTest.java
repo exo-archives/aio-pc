@@ -224,7 +224,6 @@ public class BaseTest extends TestCase {
     register.setRegistrationData(registrationData);
     register.setUserContext(userContext);
 
-    // EXOMAN for JCR
     producer = new ProducerImpl(container, null, 2);//"http://www.example.org/"
     producer.setID(PRODUCER_ID);
     producer.setDescription(PRODUCER_DESCRIPTION);
@@ -241,7 +240,6 @@ public class BaseTest extends TestCase {
     System.out.println(">>> BaseTest.setUp() service = " + service);
     System.out.println(">>> BaseTest.setUp() container = " + container);
 
-    // EXOMAN for JCR
     producer.createAdapters(service, container);
     producer.setServiceDescriptionAdapter(new WSRPV2ServiceDescriptionPortTypeAdapter(service.getWSRPV2ServiceDescriptionService()));
     producer.setMarkupAdapter(new WSRPV2MarkupPortTypeAdapter(service.getWSRPV2MarkupService()));
@@ -275,10 +273,8 @@ public class BaseTest extends TestCase {
   }
 
   public void tearDown() throws Exception {
-    System.out.println(">>> EXOMAN BaseTest.tearDown() 1 = DOWN" + 1);
     PortletApplicationProxy proxy = (PortletApplicationProxy) container
     .getComponentInstance(PORTLET_APP_NAME + PCConstants.PORTLET_APP_ENCODER);
-    System.out.println(">>> EXOMAN BaseTest.tearDown() proxy = 1111111 " + proxy);
     assertNotNull(proxy);
     
     try {
@@ -292,7 +288,6 @@ public class BaseTest extends TestCase {
     
     proxy = (PortletApplicationProxy) container
     .getComponentInstance(PORTLET_APP_NAME + PCConstants.PORTLET_APP_ENCODER);
-    System.out.println(">>> EXOMAN BaseTest.tearDown() proxy = 2222222" + proxy);
     assertNull(proxy);
   }
 

@@ -1138,11 +1138,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                       PortletContext portletContext,
                                                       UserContext userContext) throws InvalidRegistration,
                                                                               WSRPException {
-    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.checkLifetimeForRegistrationAndPortlet() 1 = " + 1);
     try {
-
-      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.checkLifetimeForRegistrationAndPortlet() registrationContext.getRegistrationHandle() = "
-          + registrationContext.getRegistrationHandle());
       if (!Helper.checkLifetime(registrationContext, userContext)
           || !Helper.checkPortletLifetime(registrationContext,
                                           Arrays.asList(new PortletContext[] { portletContext }),
@@ -1192,7 +1188,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private void checkLifetimeRegistrationForRegistration(RegistrationContext registrationContext,
                                                         UserContext userContext) throws InvalidRegistration,
                                                                                 WSRPException {
-    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.checkLifetimeRegistrationForRegistration() 1 = " + 1);
     try {
       if (!Helper.checkLifetime(registrationContext, userContext)) {
         throw new InvalidRegistration();
