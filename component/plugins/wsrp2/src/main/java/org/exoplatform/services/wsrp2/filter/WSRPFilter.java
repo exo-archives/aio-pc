@@ -80,6 +80,12 @@ public class WSRPFilter implements Filter {
       filterChain.doFilter(servletRequest, servletResponse);
       } else {
         String path = "";
+        String serverName = servletRequest.getServerName();
+        int serverPort = servletRequest.getServerPort();
+        String scheme = servletRequest.getScheme();
+        String contextPath = ((HttpServletRequest) servletRequest).getContextPath();
+            
+        String urlPrefix = scheme + "://" + serverName + ":" + serverPort + contextPath;
         ConfigurationManagerImpl cImpl = new ConfigurationManagerImpl(sc);
         if (requestURI.indexOf("WSRPService2") >-1) {
          path = "/wsdl/wsrp-service.wsdl";
@@ -89,8 +95,10 @@ public class WSRPFilter implements Filter {
         InputStream stream = cImpl.getInputStream("war:" + path);
         byte[] b;
         b = new byte[stream.available()];
-        stream.read(b, 0, stream.available()); 
-        servletResponse.getOutputStream().write(b);
+        stream.read(b, 0, stream.available());
+        String out = new String(b);
+        out  = out.replaceAll("<soap:address location=\"(\\S+)\"/>", "<soap:address location=\"" + urlPrefix + "\"/>");
+        servletResponse.getOutputStream().write(out.getBytes());
         stream.close();
       }
     }catch (Exception e){
