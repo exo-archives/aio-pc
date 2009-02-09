@@ -71,8 +71,8 @@ public class WSRPFilter implements Filter {
       
       String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
       
-      if (requestURI.indexOf("WSRP_v1_Markup_Service") >-1 
-          || requestURI.indexOf("WSRP_v2_Markup_Service") >-1 )
+      if ((requestURI.indexOf("WSRP_v1_Markup_Service") > -1 || requestURI.indexOf("WSRP_v2_Markup_Service") > -1)
+          || (requestURI.indexOf("WSRPService2") < 0 && requestURI.indexOf("WSRPService1") < 0))
       {
       setCurrentContainer();
       WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest,
