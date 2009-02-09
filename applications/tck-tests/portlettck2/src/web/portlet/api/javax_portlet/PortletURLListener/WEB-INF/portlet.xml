@@ -1,0 +1,142 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletURLListener_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+
+	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckFilterActionURLTestPortlet  	               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckFilterActionURLTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckFilterActionURLTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckFilterActionURLTestPortlet</title>
+                <short-title>CheckFilterActionURLTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+  	
+  	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckFilterRenderURLTestPortlet  	               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckFilterRenderURLTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckFilterRenderURLTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckFilterRenderURLTestPortlet</title>
+                <short-title>CheckFilterRenderURLTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+  	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckFilterResourceURLTestPortlet  	               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckFilterResourceURLTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckFilterResourceURLTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckFilterResourceURLTestPortlet</title>
+                <short-title>CheckFilterResourceURLTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+  	
+  	<!-- **************************************************************** -->
+    <!-- *                                                              * -->
+    <!-- * Portlet:IsPortletURLInPortletURLGenerationListenerTestPortlet* -->
+    <!-- *                                                              * -->
+    <!-- **************************************************************** -->
+  	<portlet>
+    	<portlet-name>IsPortletURLInPortletURLGenerationListenerTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.IsPortletURLInPortletURLGenerationListenerTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>IsPortletURLInPortletURLGenerationListenerTestPortlet</title>
+                <short-title>IsPortletURLInPortletURLGenerationListenerTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+  	
+  	<!-- ***************************************************************** -->
+    <!-- *                                                               * -->
+    <!-- * Portlet:IsResourceURLInPortletURLGenerationListenerTestPortlet* -->
+    <!-- *                                                               * -->
+    <!-- ***************************************************************** -->
+  	<portlet>
+    	<portlet-name>IsResourceURLInPortletURLGenerationListenerTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.IsResourceURLInPortletURLGenerationListenerTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>IsResourceURLInPortletURLGenerationListenerTestPortlet</title>
+                <short-title>IsResourceURLInPortletURLGenerationListenerTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+  	
+  	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckPortletURLGenerationListenerChainTestPortlet   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckPortletURLGenerationListenerChainTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckPortletURLGenerationListenerChainTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckPortletURLGenerationListenerChainTestPortlet</title>
+                <short-title>CheckPortletURLGenerationListenerChainTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+	<listener>
+		<listener-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.URLFilter</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.IsPortletURLInPortletURLGenerationListenerTestFilter</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckPortletURLGenerationListenerChainTest_1_Filter</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckPortletURLGenerationListenerChainTest_2_Filter</listener-class>
+	</listener>
+	<listener>
+		<listener-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletURLListener.CheckPortletURLGenerationListenerChainTest_3_Filter</listener-class>
+	</listener>
+</portlet-app>

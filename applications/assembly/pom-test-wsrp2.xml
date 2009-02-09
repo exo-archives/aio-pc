@@ -29,7 +29,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>${org.exoplatform.pcnew.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
       <exclusions>
         <exclusion>
@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.wsrp</artifactId>
-      <version>${org.exoplatform.pcnew.version}</version>
+      <version>${org.exoplatform.pc.version}</version>
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
@@ -136,9 +136,9 @@
               <tasks>
  		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
 		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
-		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pcnew.version}/component/plugins/wsrp2/target/hello.war</echo>
+		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/hello.war</echo>
         		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
-			<fileset dir="${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pcnew.version}/component/plugins/wsrp2/target/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/">
 				<include name="**/hello.war" />
 			</fileset>
 			</copy>

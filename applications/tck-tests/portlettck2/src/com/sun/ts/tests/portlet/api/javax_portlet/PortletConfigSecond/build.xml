@@ -1,0 +1,12 @@
+<!DOCTYPE project [
+  <!ENTITY Common SYSTEM "file:../../../common/subProject.xml">
+]>
+<project name="portlet_jp_PortletConfigSecond" basedir="." default="usage" >
+
+    <!-- Properties to be defined before including Common -->
+	<property name="app.name"  value="portlet_jp_PortletConfigSecond" />
+	<property name="pkg.name"   value="api/javax_portlet/PortletConfigSecond" />
+
+    <!-- import common defs -->
+    &Common;
+</project>

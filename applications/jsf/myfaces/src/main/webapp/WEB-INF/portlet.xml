@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app version="1.0" xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+<portlet>
+  <description xml:lang="en">MyFaces Portlet</description>
+  <portlet-name>smyfacesportlet</portlet-name>
+  <display-name xml:lang="en">MyFaces Portlet</display-name>
+
+  <portlet-class>org.apache.myfaces.portlet.MyFacesGenericPortlet</portlet-class>
+
+  <init-param>
+    <name>default-view</name>
+    <value>/index.jsp</value>
+  </init-param>
+  <expiration-cache>0</expiration-cache>  
+  <supports>
+    <mime-type>text/html</mime-type>
+    <portlet-mode>view</portlet-mode>
+  </supports>
+  <supported-locale>en</supported-locale>
+  <portlet-info>
+    <title>MyFaces Portlet</title>
+    <short-title>MyFaces Portlet</short-title>
+    <keywords>MyFaces Portlet</keywords>
+  </portlet-info>
+  <security-role-ref>
+    <role-name>admin</role-name>
+    <role-link>admin</role-link>
+  </security-role-ref>
+  <security-role-ref>
+    <role-name>user</role-name>
+    <role-link>user</role-link>
+  </security-role-ref>
+</portlet>
+
+</portlet-app>

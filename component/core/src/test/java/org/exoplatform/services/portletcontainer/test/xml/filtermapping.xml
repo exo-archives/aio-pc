@@ -1,0 +1,4 @@
+ <filter-mapping>
+    <filter-name>LoggerFilter2</filter-name>
+    <portlet-name>PortletToTestFilters</portlet-name>
+</filter-mapping>

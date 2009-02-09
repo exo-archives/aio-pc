@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletSession_distributableapp_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" version="1.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: CheckPortletInDistributeAppTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckPortletInDistributeAppTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSessionDistributableapp.CheckPortletInDistributeAppTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+               <title>CheckPortletInDistributeAppTestPortlet</title>
+               <short-title>CheckPortletInDistributeAppTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>

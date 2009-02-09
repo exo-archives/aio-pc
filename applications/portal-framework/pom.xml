@@ -1,0 +1,136 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.portal-framework</artifactId>
+  <packaging>jar</packaging>
+  <name>eXo Portlet Container 2 Portal Framework</name>
+
+  <dependencies>
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+      <scope>test</scope>
+    </dependency>
+
+    <!-- non eXo dependencies **********************************-->
+    
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>2.0</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+      <scope>compile</scope>
+    </dependency>
+ 
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+      <scope>compile</scope>
+    </dependency>
+  </dependencies>
+
+  <build>
+
+<!--
+    <resources>
+      <resource>
+        <directory>src/main/resources</directory>
+        <includes>
+          <include>**/*.conf</include>
+        </includes>
+      </resource>
+    </resources>
+-->
+
+    <plugins>
+     <plugin>
+       <artifactId>maven-antrun-plugin</artifactId>
+       <version>1.2-SNAPSHOT</version>
+       <executions>
+         <execution>
+           <phase>generate-test-sources</phase>
+           <configuration>
+             <tasks>
+               <mkdir dir="${basedir}/target/test-classes/"/>
+               <copy todir="${basedir}/target/test-classes/">
+                 <fileset dir="${basedir}/war_template/src">
+                   <include name="**/*.properties"/>
+                 </fileset>
+               </copy>
+               <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
+                          debug="${maven.compile.debug}"
+                          deprecation="${maven.compile.deprecation}"
+                          optimize="${maven.compile.optimize}">
+                 <classpath>
+                   <path refid="maven.dependency.classpath"/>
+                   <pathelement path="${maven.build.dest}"/>
+                 </classpath>
+               </javac>
+             </tasks>
+           </configuration>
+           <goals>
+             <goal>run</goal>
+           </goals>
+         </execution>
+       </executions>
+     </plugin>
+
+     <plugin>
+       <groupId>org.apache.maven.plugins</groupId>
+       <artifactId>maven-surefire-plugin</artifactId>
+       <configuration>
+         <systemProperties>
+           <property>
+             <name>testPath</name>
+             <value>${basedir}</value>
+           </property>
+           <property>
+             <name>mock.portal.dir</name>
+             <value>${war.dir}</value>
+           </property>
+           <property>
+             <name>maven.exoplatform.dir</name>
+             <value>${war.dir}</value>
+           </property>
+           <property>
+             <name>emma.coverage.out.file</name>
+             <value>target/emma/coverage.ec</value>
+           </property>
+         </systemProperties>
+         <includes>
+           <include>**/AllTestsPortlet.java</include>
+           <!-- include>**/Test*.java</include -->
+         </includes>
+       </configuration>
+     </plugin>
+
+    </plugins>
+  </build>
+
+</project>

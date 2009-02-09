@@ -1,0 +1,28 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.applications.bridges</artifactId>
+  <packaging>pom</packaging>
+  <name>eXo Portlet Container 2 Applications Bridges</name>
+
+  <modules>
+    <module>jsf</module>
+    <!-- module>perl</module -->
+    <!-- module>php</module -->
+    <module>struts</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property><name>default</name></property>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+  </profiles>
+</project>

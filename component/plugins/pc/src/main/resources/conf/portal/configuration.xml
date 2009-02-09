@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configuration>
+
+  <!-- [PN] 08.12.07 to let it be overriden in portal configuration -->
+  <component>
+    <key>org.exoplatform.services.organization.OrganizationService</key>
+    <type>org.exoplatform.services.organization.hibernate.OrganizationServiceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.ResourceBundleDelegateImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHandler</type>
+  </component>
+
+  <component>
+    <key>javax.portlet.PortalContext</key>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortalContextImp</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.bundle.ResourceBundleManager</type>
+  </component>
+
+  <component>
+    <key>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.PersistenceManager</key>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.DefaultPersistenceManager</type>
+  </component>
+
+  <component>
+    <key>org.exoplatform.services.portletcontainer.PortletContainerService</key>
+    <type>org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl</type>
+    <component-plugins>
+      <component-plugin>
+        <name>jsr168.jsr286.plugin</name>
+        <set-method>addPlugin</set-method>
+        <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher</type>
+        <description>jsr168 jsr286 plugin</description>
+      </component-plugin>
+    </component-plugins>
+  </component>
+
+</configuration>

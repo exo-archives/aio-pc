@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- An example of file created by a vendor that maps TCK tests cases to a URLs. -->
+<test_case_urls xmlns="http://java.sun.com/xml/ns/portlet/portletTCKVendor_1_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portletTCKVendor_1_0.xsd
+http://java.sun.com/xml/ns/portlet/portletTCKVendor_1_0.xsd">
+	<test_case_url>
+		<test_name>com/sun/ts/tests/portlet/api/javax_portlet/ActionResponse/URLClient.java#SendRedirectTest</test_name>
+		<test_url>http://foo:8080/portal/portalPage=testCase1</test_url>
+	</test_case_url>
+	<test_case_url>
+		<test_name>com/sun/ts/tests/portlet/api/javax_portlet/ActionResponse/URLClient.java#SetRenderParametersTest</test_name>
+		<test_url>http://banana16.red.iplanet.com:80/portal/dt?action=content&provider=TCKContainer</test_url>
+	</test_case_url>
+</test_case_urls>

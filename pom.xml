@@ -14,13 +14,12 @@
   <packaging>pom</packaging>
 
   <modules>
-
+    <module>component/core</module>
+    <module>component/plugins/pc</module>
     <module>component/plugins/wsrp2</module>
-    <module>applications/wsrp</module>
-    <module>applications/test-portal</module>
-
+    <module>applications</module>
   </modules>
-  
+
   <dependencies>
     <dependency>
       <groupId>emma</groupId>
@@ -107,8 +106,8 @@
                 <taskdef resource="emma_ant.properties" classpathref="maven.dependency.classpath" />
                 <emma enabled="true">
                   <!-- merged file will be rewritted by last project -->
-                  <merge outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pcnew.version}/target/coverage.es">
-                    <fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pcnew.version}/">
+                  <merge outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/coverage.es">
+                    <fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/">
                       <include name="**/target/emma/*.e*" />
                       <include name="**/target/emma/*.e*" />
                     </fileset>
@@ -117,15 +116,15 @@
                   </merge>
                   <report>
                     <sourcepath>
-                      <dirset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pcnew.version}/">
+                      <dirset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/">
                         <include name="**/src/**/java" />
                       </dirset>
                     </sourcepath>
-                    <fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pcnew.version}/target/">
+                    <fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/">
                       <include name="*.es" />
                     </fileset>
-                    <html outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pcnew.version}/target/coverage.html" />
-                    <xml outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pcnew.version}/target/coverage.xml" />
+                    <html outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/coverage.html" />
+                    <xml outfile="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/target/coverage.xml" />
                   </report>
                 </emma>
               </tasks>
@@ -179,8 +178,7 @@
         <org.exoplatform.core.version>2.2</org.exoplatform.core.version>
         <org.exoplatform.ws.version>2.0</org.exoplatform.ws.version>
         <org.exoplatform.jcr.version>1.11-SNAPSHOT</org.exoplatform.jcr.version>
-        <org.exoplatform.pc.version>2.0.6-SNAPSHOT</org.exoplatform.pc.version>
-        <org.exoplatform.pcnew.version>2.1-SNAPSHOT</org.exoplatform.pcnew.version>
+        <org.exoplatform.pc.version>2.1-SNAPSHOT</org.exoplatform.pc.version>
       </properties>
     </profile>
   </profiles>

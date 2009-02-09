@@ -1,0 +1,289 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletFilter_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitFilterTestPortlet					      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitFilterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.InitFilterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitFilterTestPortlet</title>
+                <short-title>InitFilterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InterfaceFilterTestPortlet				      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InterfaceFilterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.InterfaceFilterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InterfaceFilterTestPortlet</title>
+                <short-title>InterfaceFilterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InterfaceFilterEventTestPortlet			      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InterfaceFilterEventTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.InterfaceFilterEventTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InterfaceFilterEventTestPortlet</title>
+                <short-title>InterfaceFilterEventTestPortlet</short-title>
+        </portlet-info>
+        <supported-processing-event>
+			<qname xmlns:x="http://www.event.de">x:InterfaceFilter</qname>
+        </supported-processing-event>
+        <supported-publishing-event>
+       		<qname xmlns:x="http://www.event.de">x:InterfaceFilter</qname>
+        </supported-publishing-event>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DestroyFilterTestPortlet				      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DestroyFilterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.DestroyFilterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>DestroyFilterTestPortlet</title>
+                <short-title>DestroyFilterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: WrapperTestPortlet						      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>WrapperTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.WrapperTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>WrapperTestPortlet</title>
+                <short-title>WrapperTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: OneFilterObjectPerJVMTestPortlet		      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>OneFilterObjectPerJVMTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.OneFilterObjectPerJVMTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>OneFilterObjectPerJVMTestPortlet</title>
+                <short-title>OneFilterObjectPerJVMTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: WildcardTestPortlet						      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>WildcardTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.WildcardTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>WildcardTestPortlet</title>
+                <short-title>WildcardTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: FilterNotRemoveTestPortlet				      	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>FilterNotRemoveTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.FilterNotRemoveTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>FilterNotRemoveTestPortlet</title>
+                <short-title>FilterNotRemoveTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Filter:  						                           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <filter>
+    	<filter-name>DestroyFilterTestFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.DestroyFilterTestFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>InitFilterTestFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.InitFilterTestFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>InterfaceFilterTestFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.InterfaceFilterTestFilter</filter-class>
+    	<lifecycle>ACTION_PHASE</lifecycle>
+    	<lifecycle>EVENT_PHASE</lifecycle>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    	<lifecycle>RESOURCE_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>WrapperTestFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.WrapperTestFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>OneFilterObjectPerJVMTestFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.OneFilterObjectPerJVMTestFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>WildcardTestFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.WildcardTestFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+        <filter>
+    	<filter-name>FilterNotRemoveTestOneFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.FilterNotRemoveTestOneFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>FilterNotRemoveTestTwoFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.FilterNotRemoveTestTwoFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter>
+    	<filter-name>FilterNotRemoveTestThreeFilter</filter-name>
+    	<filter-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletFilter.FilterNotRemoveTestThreeFilter</filter-class>
+    	<lifecycle>RENDER_PHASE</lifecycle>
+    </filter>
+    
+    <filter-mapping>
+    	<filter-name>DestroyFilterTestFilter</filter-name>
+    	<portlet-name>DestroyFilterTestPortlet</portlet-name>
+    </filter-mapping>
+
+    <filter-mapping>
+    	<filter-name>InitFilterTestFilter</filter-name>
+    	<portlet-name>InitFilterTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>InterfaceFilterTestFilter</filter-name>
+    	<portlet-name>InterfaceFilterTestPortlet</portlet-name>
+    	<portlet-name>InterfaceFilterEventTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>WrapperTestFilter</filter-name>
+    	<portlet-name>WrapperTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>OneFilterObjectPerJVMTestFilter</filter-name>
+    	<portlet-name>OneFilterObjectPerJVMTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>WildcardTestFilter</filter-name>
+    	<portlet-name>WildcardT*</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>FilterNotRemoveTestOneFilter</filter-name>
+    	<portlet-name>FilterNotRemoveTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>FilterNotRemoveTestTwoFilter</filter-name>
+    	<portlet-name>FilterNotRemoveTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <filter-mapping>
+    	<filter-name>FilterNotRemoveTestThreeFilter</filter-name>
+    	<portlet-name>FilterNotRemoveTestPortlet</portlet-name>
+    </filter-mapping>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Properties									               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:InterfaceFilter</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+
+</portlet-app>
