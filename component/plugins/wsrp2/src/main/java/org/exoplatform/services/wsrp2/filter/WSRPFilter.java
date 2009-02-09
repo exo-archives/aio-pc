@@ -86,7 +86,7 @@ public class WSRPFilter implements Filter {
         } else if (requestURI.indexOf("WSRPService1") >-1) {
          path = "/wsdl1/wsrp_service.wsdl";
         }
-        InputStream stream = cImpl.getInputStream("war:wsrp.war/WEB-INF" + path);
+        InputStream stream = cImpl.getInputStream("war:" + path);
         byte[] b;
         b = new byte[stream.available()];
         stream.read(b, 0, stream.available()); 
