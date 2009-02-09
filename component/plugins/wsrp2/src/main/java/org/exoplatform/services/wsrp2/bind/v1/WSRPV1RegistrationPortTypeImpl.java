@@ -28,7 +28,7 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 /**
  */
 
-@javax.jws.WebService(name = "WSRPV1RegistrationPortType", serviceName = "WSRPService", portName = "WSRP_v1_Registration_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1RegistrationPortType")
+@javax.jws.WebService(name = "WSRPV1RegistrationPortType", serviceName = "WSRPService1", portName = "WSRP_v1_Registration_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1RegistrationPortType")
 public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortType,
     AbstractSingletonWebService {
 

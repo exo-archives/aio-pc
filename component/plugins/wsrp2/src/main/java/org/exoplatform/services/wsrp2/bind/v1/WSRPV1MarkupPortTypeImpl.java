@@ -66,7 +66,7 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 /**
  */
 
-@javax.jws.WebService(name = "WSRPV1MarkupPortType", serviceName = "WSRPService", portName = "WSRP_v1_Markup_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType")
+@javax.jws.WebService(name = "WSRPV1MarkupPortType", serviceName = "WSRPService1", portName = "WSRP_v1_Markup_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType")
 public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractSingletonWebService {
 
   private MarkupOperationsInterface markupOperationsInterface;
