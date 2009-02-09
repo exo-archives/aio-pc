@@ -38,7 +38,7 @@ import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
-import org.exoplatform.services.wsrp1.intf.WSRPService;
+import org.exoplatform.services.wsrp1.intf.WSRPService1;
 import org.exoplatform.services.wsrp1.type.WS1BlockingInteractionResponse;
 import org.exoplatform.services.wsrp1.type.WS1ClientData;
 import org.exoplatform.services.wsrp1.type.WS1ClonePortlet;
@@ -179,7 +179,7 @@ public class BaseTest extends TestCase {
 
   public void setUp() throws Exception {
 
-    WSRPService service = new WSRPService(new URL(SERVICE_URL));
+    WSRPService1 service = new WSRPService1(new URL(SERVICE_URL));
     System.out.println(">>> ProducerImpl.init() service = " + service);
 
     String producerId = "producer2" + Integer.toString(SERVICE_URL.hashCode());
