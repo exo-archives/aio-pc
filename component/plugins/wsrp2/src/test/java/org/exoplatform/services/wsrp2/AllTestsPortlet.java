@@ -22,7 +22,6 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 
-
 /**
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
  * alexey.zavizionov@exoplatform.com.ua 4.02.2008
@@ -42,11 +41,11 @@ public class AllTestsPortlet extends TestCase {
       assertTrue(org.exoplatform.services.wsrp2.ContainerStarter.start());
     }
 
-    suite.addTestSuite(SuiteForTest.class);
+//    suite.addTestSuite(SuiteForTest.class);
 
-    suite.addTestSuite(org.exoplatform.services.wsrp2.SuiteForTestProducer.class);
+    suite.addTestSuite(SuiteForTestProducer.class);
 
-    suite.addTestSuite(SuiteForTestConsumer.class);
+//    suite.addTestSuite(SuiteForTestConsumer.class);
 
     // for e.g. to run custom test
 //    suite.addTestSuite(WSRPServiceTestCase.class);
@@ -55,6 +54,7 @@ public class AllTestsPortlet extends TestCase {
   }
 
   protected void tearDown() {
+    // Whether we skip cargo container. In case standalone Tomcat instance. 
     if (System.getProperty("exo.test.cargo.skip") == null
         || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
       assertFalse(org.exoplatform.services.wsrp2.ContainerStarter.stop());

@@ -17,9 +17,11 @@
 
 package org.exoplatform.services.wsrp2.testConsumer;
 
+import java.util.Arrays;
 import java.util.List;
 
 import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /*
  * @author  Mestrallet Benjamin
@@ -48,36 +50,6 @@ public class TestProducer extends BaseTest {
 //                 producer.getServiceDescriptionInterfaceEndpoint());
     producer.getServiceDescriptionAdapter();
   }
-
-  // ERROR: do not uncomment
-//  public void testServiceDescription() throws Exception {
-//    assertNull(producer.getServiceDescription(false));
-//    producer.setDesiredLocales(Arrays.asList(desiredLocales));
-//    ServiceDescription serviceDescription = producer.getServiceDescription();
-//    PortletDescription portletDescription = getHelloWorldPortlet(serviceDescription.getOfferedPortlets());
-//    assertEquals("Usual Hello World Portlet", portletDescription.getDescription().getValue());
-//  }
-//
-//  public void testPortletDescription() throws WSRPException {
-//    producer.setDesiredLocales(Arrays.asList(new String[] { "fr" }));
-//    PortletDescription portletDescription = producer.getPortletDescription(CONTEXT_PATH.substring(1) + "/HelloWorld");
-//    assertEquals("Salut le monde Portlet", portletDescription.getDescription().getValue());
-//  }
-//
-//  public void testRegistration() throws WSRPException {
-//    assertTrue(producer.isRegistrationAdapterSupported());
-//    producer.setDesiredLocales(Arrays.asList(desiredLocales));
-//    ServiceDescription serviceDescription = producer.getServiceDescription();
-//    assertEquals(producer.isRegistrationRequired(), serviceDescription.isRequiresRegistration());
-//    assertNull(producer.getRegistrationData());
-//    assertNotNull(producer.register(register));
-//    assertNotNull(producer.getRegistrationData());
-//    assertNotNull(producer.getRegistrationContext());
-//    Deregister deregister = new Deregister();
-//    deregister.setRegistrationContext(producer.getRegistrationContext());
-//    deregister.setUserContext(userContext);
-//    producer.deregister(deregister);
-//  }
 
   public void testPortletManagement() {
     log();

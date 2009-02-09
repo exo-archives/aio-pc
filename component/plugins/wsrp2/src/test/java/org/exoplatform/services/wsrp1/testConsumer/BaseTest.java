@@ -29,10 +29,6 @@ import org.exoplatform.commons.Environment;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
-import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
-import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
-import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
-import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
@@ -43,9 +39,6 @@ import org.exoplatform.services.wsrp2.type.PersonName;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
-import org.exoplatform.test.mocks.servlet.MockServletContext;
-import org.exoplatform.test.mocks.servlet.MockServletRequest;
-import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
 /*
  * @author  Mestrallet Benjamin
@@ -120,17 +113,17 @@ public class BaseTest extends TestCase {
 
   protected URLRewriter              urlRewriter;
 
-  private MockServletContext         mockServletContext;
-
-  private PortletApp                 portletApp_;
-
-  private PortletApplicationsHolder  holder;
-
-  private PortletApplicationRegister portletApplicationRegister;
-
-  private MockServletRequest         mockServletRequest;
-
-  private MockServletResponse        mockServletResponse;
+//  private MockServletContext         mockServletContext;
+//
+//  private PortletApp                 portletApp_;
+//
+//  private PortletApplicationsHolder  holder;
+//
+//  private PortletApplicationRegister portletApplicationRegister;
+//
+//  private MockServletRequest         mockServletRequest;
+//
+//  private MockServletResponse        mockServletResponse;
 
   protected int                      platform                                        = 0;
 
@@ -140,7 +133,7 @@ public class BaseTest extends TestCase {
 
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
     InputStream is = url.openStream();
-    portletApp_ = XMLParser.parse(is, false);
+//    portletApp_ = XMLParser.parse(is, false);
 
     try {
       // Leaving for compatibility reasons
@@ -162,7 +155,7 @@ public class BaseTest extends TestCase {
 
   public void tearDown() throws Exception {
     try {
-      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template1");
+//      portletApplicationRegister.removePortletApplication(mockServletContext, "war_template1");
       HibernateService hservice = (HibernateService) container.getComponentInstanceOfType(HibernateService.class);
       hservice.closeSession();
     } catch (Exception e) {

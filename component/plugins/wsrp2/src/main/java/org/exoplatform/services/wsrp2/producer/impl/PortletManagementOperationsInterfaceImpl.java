@@ -47,6 +47,7 @@ import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper;
 import org.exoplatform.services.wsrp2.type.CopiedPortlet;
 import org.exoplatform.services.wsrp2.type.CopyPortletsResponse;
 import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
@@ -108,7 +109,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Clone a portlet for the registered consumer : " + registrationHandle);
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
 
     String portletHandle = portletContext.getPortletHandle();
     String newPortletHandle = null;
@@ -415,7 +419,9 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
+    }
 
     Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
@@ -424,6 +430,9 @@ public class PortletManagementOperationsInterfaceImpl implements
       String portletHandle = portletContext.getPortletHandle();
       try {
         Lifetime lifetimeResult = stateManager.getPortletLifetime(portletHandle);
+        lifetimeResult.setCurrentTime(portletContext.getScheduledDestruction().getCurrentTime());
+        LifetimeHelper.lifetimeExpired(lifetimeResult);
+        
         PortletLifetime portletLifetime = new PortletLifetime();
         portletLifetime.setPortletContext(portletContext);
         portletLifetime.setScheduledDestruction(lifetimeResult);
@@ -459,7 +468,14 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
+      Iterator<PortletContext> portletContextsIterator = portletContexts.iterator();
+      while (portletContextsIterator.hasNext()) {
+        PortletContext portletContext = (PortletContext) portletContextsIterator.next();
+        LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+      }
+    }
 
     Collection<PortletLifetime> portletLifetimes = new ArrayList<PortletLifetime>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
@@ -504,7 +520,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Get portlet description for registration handle " + registrationHandle);
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
 
     String portletHandle = portletContext.getPortletHandle();
 
@@ -546,7 +565,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
     String portletHandle = portletContext.getPortletHandle();
 
     try {
@@ -586,7 +608,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("get portlet properties for registration handle " + registrationHandle);
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
+      LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
     String portletHandle = portletContext.getPortletHandle();
     try {
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {

@@ -92,7 +92,7 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
 public class BaseTest extends TestCase {
 
 //  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRP_v2_Markup_Service?wsdl";
-  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService2/WSRP_v2_Markup_Service?wsdl";
+  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService2/?wsdl";
 
   protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
 

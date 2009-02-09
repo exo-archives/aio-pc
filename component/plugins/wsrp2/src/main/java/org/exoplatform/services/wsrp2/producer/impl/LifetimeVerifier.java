@@ -64,11 +64,15 @@ public class LifetimeVerifier {
                                                                        ModifyRegistrationRequired,
                                                                        OperationFailed,
                                                                        ResourceSuspended,
-                                                                       OperationNotSupported,
+//                                                                       OperationNotSupported,
                                                                        AccessDenied,
                                                                        WSRPException {
-    if (!LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext)) {
-      throw new InvalidRegistration();
+    try {
+      if (!LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext)) {
+        throw new InvalidRegistration();
+      }
+    } catch (OperationNotSupported ons) {
+      throw new OperationFailed(ons.getMessage(), ons);
     }
   }
 
@@ -95,7 +99,7 @@ public class LifetimeVerifier {
                                                                   ResourceSuspended,
                                                                   AccessDenied,
                                                                   InconsistentParameters,
-                                                                  MissingParameters,
+//                                                                  MissingParameters,
                                                                   WSRPException {
     try {
       if (!LifetimeHelper.checkPortletLifetime(registrationContext,
@@ -103,12 +107,12 @@ public class LifetimeVerifier {
                                                userContext)) {
         throw new InvalidRegistration();
       }
-    } catch (InvalidRegistration ir) {
-      throw ir;
     } catch (InvalidHandle ih) {
       throw new InvalidRegistration(ih.getMessage(), ih);
     } catch (OperationNotSupported ons) {
       throw new OperationFailed(ons.getMessage(), ons);
+    } catch (MissingParameters mp) {
+      throw new OperationFailed(mp.getMessage(), mp);
     }
   }
 

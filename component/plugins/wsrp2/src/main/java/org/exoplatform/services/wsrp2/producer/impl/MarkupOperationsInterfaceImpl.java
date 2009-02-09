@@ -168,8 +168,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             UnsupportedLocale,
                                                             WSRPException {
 
-    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
+    
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
     // markupParams.getNavigationalContext().getPublicValues()
@@ -378,8 +381,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                                     PortletStateChangeRequired,
                                                                                                     WSRPException {
 
-    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -667,8 +672,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                     UnsupportedLocale,
                                                                     WSRPException {
 
-    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
+    }
 
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
@@ -878,9 +885,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                    PortletStateChangeRequired,
                                                                    WSRPException {
 
-    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
+    if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
-
+    }
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);

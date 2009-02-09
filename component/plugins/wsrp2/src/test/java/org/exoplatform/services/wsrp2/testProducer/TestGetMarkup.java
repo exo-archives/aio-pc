@@ -248,6 +248,8 @@ public class TestGetMarkup extends BaseTest {
     RegistrationContext rc = registrationOperationsInterface.register(register);
     assertNotNull(rc.getRegistrationHandle());
     assertNotNull(rc.getScheduledDestruction());
+    System.out.println(">>> EXOMAN TestGetMarkup.testGetMarkupForSeveralModesWithInvalidLifetime() rc.getScheduledDestruction().getTerminationTime() = "
+        + rc.getScheduledDestruction().getTerminationTime());
     Thread.currentThread().sleep(2000);
 
     String portletHandle = CONTEXT_PATH + "/HelloWorld2";
@@ -255,7 +257,12 @@ public class TestGetMarkup extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     updateCurrentTime(rc);
-
+    
+    System.out.println(">>> EXOMAN TestGetMarkup.testGetMarkupForSeveralModesWithInvalidLifetime() rc.getScheduledDestruction().getTerminationTime().toString() = "
+        + rc.getScheduledDestruction().getTerminationTime().toString());
+    System.out.println(">>> EXOMAN TestGetMarkup.testGetMarkupForSeveralModesWithInvalidLifetime() rc.getScheduledDestruction().getCurrentTime().toString() = "
+        + rc.getScheduledDestruction().getCurrentTime().toString());
+    
     GetMarkup getMarkup = getMarkup(rc, portletContext);
 
     try {

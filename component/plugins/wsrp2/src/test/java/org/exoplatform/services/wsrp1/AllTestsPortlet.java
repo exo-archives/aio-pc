@@ -39,22 +39,24 @@ public class AllTestsPortlet extends TestCase {
 //    if (System.getProperty("exo.test.cargo.skip") == null
 //        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
 //      assertTrue(ContainerStarter.start());
-    //}
+//    }
 
 //    suite.addTestSuite(SuiteForTestProducer.class);
+    
 //    suite.addTestSuite(SuiteForTestConsumer.class);
 
-//    suite.addTestSuite(TestPublicRenderParameters.class);
-//    suite.addTestSuite(TestFilters.class);
-
+    // for e.g. to run custom test
+//  suite.addTestSuite(WSRPServiceTestCase.class);
+    
     return suite;
   }
 
   protected void tearDown() {
-//  if (System.getProperty("exo.test.cargo.skip") == null
-//  || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
-//    assertFalse(ContainerStarter.stop());
-    //}
+    // Whether we skip cargo container. In case standalone Tomcat instance. 
+//    if (System.getProperty("exo.test.cargo.skip") == null
+//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+//      assertFalse(ContainerStarter.stop());
+//    }
   }
 
 }

@@ -81,7 +81,7 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService1/WSRP_v1_Markup_Service?wsdl";
+  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService1/?wsdl";
 
   protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRPService1/WSRP_v0_ServiceAdministration_Service";
 
@@ -184,6 +184,7 @@ public class BaseTest extends TestCase {
 
     String producerId = "producer2" + Integer.toString(SERVICE_URL.hashCode());
 
+    StandaloneContainer.addConfigurationPath("src/test/resources/jcr-exo-configuration.xml");
     container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()); //OK
     System.out.println(">>> BaseTest.setUp() container = " + container);
     if (container.getComponentInstance(producerId) == null)
