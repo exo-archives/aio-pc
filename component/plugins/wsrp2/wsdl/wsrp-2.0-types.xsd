@@ -186,7 +186,7 @@
 
   <complexType name="SessionParams">
     <sequence>
-      <element name="extensions" type="types:Extension" minOccurs="0" />
+      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded" />
     </sequence>
     <attribute name="sessionID" type="xsd:string" use="optional" />
   </complexType>
@@ -255,7 +255,7 @@
 
   <complexType name="Lifetime">
     <sequence>
-      <element name="extensions" type="types:Extension" minOccurs="0" />
+      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded" />
     </sequence>
     <!--
       The following two attributes are marked as optional despite the spec
@@ -890,7 +890,7 @@
 
   <complexType name="ReturnAny">
     <sequence>
-      <element name="extensions" type="types:Extension" minOccurs="0" />
+      <element name="extensions" type="types:Extension" minOccurs="0" maxOccurs="unbounded" />
     </sequence>
   </complexType>
 
