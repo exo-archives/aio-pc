@@ -19,13 +19,16 @@ package org.exoplatform.services.wsrp2.filter;
 
 import java.io.IOException;
 import java.util.List;
+import java.io.InputStream;
 
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
+import javax.servlet.ServletContext;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -35,6 +38,8 @@ import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
+import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.container.configuration.ConfigurationManagerImpl;
 
 /**
  * User: Benjamin Mestrallet Date: 26 juil. 2004
@@ -44,12 +49,15 @@ public class WSRPFilter implements Filter {
   private String       containerName = "portal";
 
   private ExoContainer container;
+  
+  private ServletContext  sc;
 
   private Log          log           = ExoLogger.getLogger(WSRPFilter.class);
 
   public void init(FilterConfig filterConfig) throws ServletException {
     this.log = ExoLogger.getLogger(this.getClass().getName());
     String containerName = filterConfig.getInitParameter("portal-container-name");
+    this.sc = filterConfig.getServletContext();
     if (containerName != null)
       this.containerName = containerName;
     if (log.isDebugEnabled())
@@ -60,10 +68,33 @@ public class WSRPFilter implements Filter {
                                     ServletResponse servletResponse,
                                     FilterChain filterChain) throws IOException, ServletException {
     try {
+      
+      String requestURI = ((HttpServletRequest) servletRequest).getRequestURI();
+      
+      if (requestURI.indexOf("WSRP_v1_Markup_Service") >-1 
+          || requestURI.indexOf("WSRP_v2_Markup_Service") >-1 )
+      {
       setCurrentContainer();
       WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest,
                                        (HttpServletResponse) servletResponse);
       filterChain.doFilter(servletRequest, servletResponse);
+      } else {
+        String path = "";
+        ConfigurationManagerImpl cImpl = new ConfigurationManagerImpl(sc);
+        if (requestURI.indexOf("WSRPService2") >-1) {
+         path = "/wsdl/wsrp-service.wsdl";
+        } else if (requestURI.indexOf("WSRPService1") >-1) {
+         path = "/wsdl1/wsrp_service.wsdl";
+        }
+        InputStream stream = cImpl.getInputStream("war:wsrp.war/WEB-INF" + path);
+        byte[] b;
+        b = new byte[stream.available()];
+        stream.read(b, 0, stream.available()); 
+        servletResponse.getOutputStream().write(b);
+        stream.close();
+      }
+    }catch (Exception e){
+      e.printStackTrace();
     } finally {
       if (container != null) {
         try {
