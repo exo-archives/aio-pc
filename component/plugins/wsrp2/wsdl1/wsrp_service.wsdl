@@ -11,21 +11,21 @@
   <import namespace="urn:oasis:names:tc:wsrp:v1:bind"
           location="wsrp_v1_bindings.wsdl"/>
 
-  <wsdl:service name="WSRPService">
+  <wsdl:service name="WSRPService1">
     <wsdl:port binding="bind:WSRP_v1_Markup_Binding_SOAP" name="WSRPMarkupService">
-      <soap:address location="http://my.service:8081/WSRPService"/>
+      <soap:address location="http://my.service:8081/WSRPService1"/>
     </wsdl:port>
 
     <wsdl:port binding="bind:WSRP_v1_ServiceDescription_Binding_SOAP" name="WSRPServiceDescriptionService">
-      <soap:address location="http://my.service:8081/WSRPService"/>
+      <soap:address location="http://my.service:8081/WSRPService1"/>
     </wsdl:port>
     
     <wsdl:port binding="bind:WSRP_v1_Registration_Binding_SOAP" name="WSRPRegistrationService">
-      <soap:address location="http://my.service:8081/WSRPService"/>
+      <soap:address location="http://my.service:8081/WSRPService1"/>
     </wsdl:port>
 
     <wsdl:port binding="bind:WSRP_v1_PortletManagement_Binding_SOAP" name="WSRPPortletManagementService">
-      <soap:address location="http://my.service:8081/WSRPService"/>
+      <soap:address location="http://my.service:8081/WSRPService1"/>
     </wsdl:port>
   </wsdl:service>
   
