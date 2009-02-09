@@ -133,7 +133,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   private void init1(ExoContainer container) {
     if (this.ID == null)
       this.ID = createProducerID("producer1");
-    org.exoplatform.services.wsrp1.intf.WSRPService service = new org.exoplatform.services.wsrp1.intf.WSRPService(this.url);
+    org.exoplatform.services.wsrp1.intf.WSRPService1 service = new org.exoplatform.services.wsrp1.intf.WSRPService1(this.url);
     createAdapters1(service, container);
   }
 
@@ -149,12 +149,12 @@ public class ProducerImpl implements Producer, java.io.Serializable {
    */
   public void createAdapters(javax.xml.ws.Service service, ExoContainer container) {
     if (this.version == 1)
-      createAdapters1((org.exoplatform.services.wsrp1.intf.WSRPService) service, container);
+      createAdapters1((org.exoplatform.services.wsrp1.intf.WSRPService1) service, container);
     else
       createAdapters2((WSRPService2) service, container);
   }
 
-  private void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService service,
+  private void createAdapters1(org.exoplatform.services.wsrp1.intf.WSRPService1 service,
                                ExoContainer container) {
 //    WSRPV1ServiceDescriptionPortType SDpt = service.getWSRPServiceDescriptionService();
 //    setTimeOut(ClientProxy.getClient(SDpt));
