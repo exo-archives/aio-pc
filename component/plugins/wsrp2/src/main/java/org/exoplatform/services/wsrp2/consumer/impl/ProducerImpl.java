@@ -345,7 +345,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   public ReturnAny deregister(Deregister deregister) throws WSRPException {
     try {
-      Extension extension = registrationAdapter.deregister(deregister);
+      List<Extension> extension = registrationAdapter.deregister(deregister);
     } catch (Exception e) {
       throw new WSRPException(Faults.INVALID_REGISTRATION_FAULT, e);
     } finally {

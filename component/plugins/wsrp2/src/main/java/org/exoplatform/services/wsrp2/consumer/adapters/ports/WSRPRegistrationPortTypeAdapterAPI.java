@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
@@ -47,7 +49,7 @@ public interface WSRPRegistrationPortTypeAdapterAPI {
                                                         MissingParameters,
                                                         OperationFailed;
 
-  public Extension deregister(Deregister deregister) throws OperationNotSupported,
+  public List<Extension> deregister(Deregister deregister) throws OperationNotSupported,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     OperationFailed;

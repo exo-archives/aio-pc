@@ -1,4 +1,3 @@
-
 package org.exoplatform.services.wsrp2.bind.v1;
 
 import java.util.ArrayList;
@@ -68,7 +67,7 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  */
 
 @javax.jws.WebService(name = "WSRPV1MarkupPortType", serviceName = "WSRPService", portName = "WSRP_v1_Markup_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType")
-public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractSingletonWebService  {
+public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractSingletonWebService {
 
   private MarkupOperationsInterface markupOperationsInterface;
 
@@ -87,9 +86,9 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                                       WS1AccessDenied,
                                                                                                                                       WS1OperationFailed {
     LOG.info("Executing operation releaseSessions");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(sessionIDs);
     try {
 
@@ -100,7 +99,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                       null);
 
       java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = new ArrayList<WS1Extension>();
-      _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions()));
+      _return.addAll(WSRPTypesTransformer.getWS1Extensions(returnAny.getExtensions()));
       return _return;
 
     } catch (InvalidRegistration ir) {
@@ -148,15 +147,15 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                          WS1InconsistentParameters,
                                                                                                                          WS1OperationFailed {
     LOG.info("Executing operation getMarkup");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(runtimeContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(markupParams);
     try {
 
@@ -167,7 +166,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       MarkupParams ws2markupParams = WSRPTypesTransformer.getWS2MarkupParams(markupParams);
 
       WSRPHTTPContainer.getInstance().setVersion(1);
-      
+
       MarkupResponse markupResponse = markupOperationsInterface.getMarkup(ws2registrationContext,
                                                                           ws2portletContext,
                                                                           ws2runtimeContext,
@@ -233,7 +232,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                                                                     WS1AccessDenied,
                                                                                                                                                                     WS1OperationFailed {
     LOG.info("Executing operation initCookie");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     try {
 
@@ -242,7 +241,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       ReturnAny returnAny = markupOperationsInterface.initCookie(ws2registrationContext, null);
 
       java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension> _return = new ArrayList<WS1Extension>();
-      _return.add(WSRPTypesTransformer.getWS1Extension(returnAny.getExtensions())); // in a wsrp1 we have to return a list of Extensions
+      _return.addAll(WSRPTypesTransformer.getWS1Extensions(returnAny.getExtensions())); // in a wsrp1 we have to return a list of Extensions
       return _return;
 
     } catch (InvalidRegistration ir) {
@@ -289,17 +288,17 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                                           WS1InconsistentParameters,
                                                                                                                                           WS1OperationFailed {
     LOG.info("Executing operation performBlockingInteraction");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(runtimeContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(markupParams);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(interactionParams);
     try {
 
@@ -311,7 +310,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       InteractionParams ws2interactionParams = WSRPTypesTransformer.getWS2InteractionParams(interactionParams);
 
       WSRPHTTPContainer.getInstance().setVersion(1);
-      
+
       BlockingInteractionResponse blockingInteractionResponse = markupOperationsInterface.performBlockingInteraction(ws2registrationContext,
                                                                                                                      ws2portletContext,
                                                                                                                      ws2runtimeContext,

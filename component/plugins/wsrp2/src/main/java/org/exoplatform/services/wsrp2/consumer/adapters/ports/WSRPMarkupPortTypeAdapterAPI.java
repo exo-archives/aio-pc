@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
@@ -122,14 +124,14 @@ public interface WSRPMarkupPortTypeAdapterAPI {
                                                                      UnsupportedLocale,
                                                                      PortletStateChangeRequired;
 
-  public Extension initCookie(InitCookie initCookie) throws OperationNotSupported,
+  public List<Extension> initCookie(InitCookie initCookie) throws OperationNotSupported,
                                                     AccessDenied,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     ModifyRegistrationRequired,
                                                     OperationFailed;
 
-  public Extension releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
+  public List<Extension> releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
                                                                    AccessDenied,
                                                                    ResourceSuspended,
                                                                    InvalidRegistration,

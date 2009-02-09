@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports.v2;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
@@ -63,7 +65,7 @@ public class WSRPV2RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
     return registrationPort.register(register);
   }
 
-  public Extension deregister(Deregister deregister) throws OperationNotSupported,
+  public List<Extension> deregister(Deregister deregister) throws OperationNotSupported,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     OperationFailed {

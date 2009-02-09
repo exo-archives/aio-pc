@@ -1,4 +1,3 @@
-
 package org.exoplatform.services.wsrp2.bind.v1;
 
 import java.util.ArrayList;
@@ -30,7 +29,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  */
 
 @javax.jws.WebService(name = "WSRPV1RegistrationPortType", serviceName = "WSRPService", portName = "WSRP_v1_Registration_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1RegistrationPortType")
-public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortType, AbstractSingletonWebService  {
+public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortType,
+    AbstractSingletonWebService {
 
   private final Log                       LOG = ExoLogger.getLogger(WSRPV1RegistrationPortTypeImpl.class);
 
@@ -50,9 +50,9 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
                                                                                                                                   WS1MissingParameters,
                                                                                                                                   WS1OperationFailed {
     LOG.info("Executing operation modifyRegistration");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationData);
     try {
 
@@ -93,11 +93,11 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
                          javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> extensions) throws WS1InvalidRegistration,
                                                                                                                           WS1OperationFailed {
     LOG.info("Executing operation deregister");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationHandle);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationState);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(extensions.value);
     try {
 
@@ -108,7 +108,8 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
       ReturnAny response = registrationOperationsInterface.deregister(ws2registrationContext, null);
 
       List<Extension> ws2Extensions = new ArrayList<Extension>();
-      ws2Extensions.add(response.getExtensions());
+      if (response.getExtensions() != null)
+        ws2Extensions.addAll(response.getExtensions());
       extensions.value = WSRPTypesTransformer.getWS1Extensions(ws2Extensions);
 
     } catch (InvalidRegistration ir) {
@@ -143,23 +144,23 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
                        javax.xml.ws.Holder<byte[]> registrationState) throws WS1MissingParameters,
                                                                      WS1OperationFailed {
     LOG.info("Executing operation register");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(consumerName);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(consumerAgent);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(methodGetSupported);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(consumerModes);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(consumerWindowStates);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(consumerUserScopes);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(customUserProfileData);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationProperties);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(extensions.value);
     try {
 

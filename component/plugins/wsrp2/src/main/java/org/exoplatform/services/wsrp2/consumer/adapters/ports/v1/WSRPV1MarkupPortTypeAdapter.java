@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports.v1;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;
@@ -384,7 +386,7 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     return null;
   }
 
-  public Extension initCookie(InitCookie initCookie) throws OperationNotSupported,
+  public List<Extension> initCookie(InitCookie initCookie) throws OperationNotSupported,
                                                     AccessDenied,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
@@ -418,10 +420,10 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
       LOG.debug(e.toString());
     }
 
-    return WSRPTypesTransformer.getWS2Extensions(_initCookie__return).get(0); // in a WSRP2 we have t oreturn just one Extension
+    return WSRPTypesTransformer.getWS2Extensions(_initCookie__return); // in a WSRP2 we have t oreturn just one Extension
   }
 
-  public Extension releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
+  public List<Extension> releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
                                                                    AccessDenied,
                                                                    ResourceSuspended,
                                                                    InvalidRegistration,
@@ -462,7 +464,7 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
       LOG.debug(e.toString());
     }
 
-    return WSRPTypesTransformer.getWS2Extensions(_releaseSessions__return).get(0); // in a WSRP2 we have t oreturn just one Extension
+    return WSRPTypesTransformer.getWS2Extensions(_releaseSessions__return); // in a WSRP2 we have t oreturn just one Extension
   }
 
 }

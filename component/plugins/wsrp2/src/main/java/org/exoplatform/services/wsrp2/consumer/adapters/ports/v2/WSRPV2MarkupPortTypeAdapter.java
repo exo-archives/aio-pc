@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports.v2;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
@@ -295,7 +297,7 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
 
   }
 
-  public Extension initCookie(InitCookie initCookie) throws OperationNotSupported,
+  public List<Extension> initCookie(InitCookie initCookie) throws OperationNotSupported,
                                                     AccessDenied,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
@@ -306,7 +308,7 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     org.exoplatform.services.wsrp2.type.RegistrationContext _initCookie_registrationContext = initCookie.getRegistrationContext();
     org.exoplatform.services.wsrp2.type.UserContext _initCookie_userContext = initCookie.getUserContext();
 
-    org.exoplatform.services.wsrp2.type.Extension _initCookie__return = markupPort.initCookie(_initCookie_registrationContext,
+    List<org.exoplatform.services.wsrp2.type.Extension> _initCookie__return = markupPort.initCookie(_initCookie_registrationContext,
                                                                                               _initCookie_userContext);
     if (LOG.isDebugEnabled())
       LOG.debug("initCookie.result=" + _initCookie__return);
@@ -314,7 +316,7 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     return _initCookie__return;
   }
 
-  public Extension releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
+  public List<Extension> releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
                                                                    AccessDenied,
                                                                    ResourceSuspended,
                                                                    InvalidRegistration,
@@ -327,7 +329,7 @@ public class WSRPV2MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     java.util.List<java.lang.String> _releaseSessions_sessionIDs = releaseSessions.getSessionIDs();
     org.exoplatform.services.wsrp2.type.UserContext _releaseSessions_userContext = releaseSessions.getUserContext();
 
-    org.exoplatform.services.wsrp2.type.Extension _releaseSessions__return = markupPort.releaseSessions(_releaseSessions_registrationContext,
+    List<org.exoplatform.services.wsrp2.type.Extension> _releaseSessions__return = markupPort.releaseSessions(_releaseSessions_registrationContext,
                                                                                                         _releaseSessions_sessionIDs,
                                                                                                         _releaseSessions_userContext);
     if (LOG.isDebugEnabled())

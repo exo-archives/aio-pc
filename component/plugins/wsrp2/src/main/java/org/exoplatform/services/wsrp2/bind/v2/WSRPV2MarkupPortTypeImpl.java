@@ -1,5 +1,7 @@
 package org.exoplatform.services.wsrp2.bind.v2;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
@@ -107,7 +109,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
   /* (non-Javadoc)
    * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
    */
-  public org.exoplatform.services.wsrp2.type.Extension initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
+  public List<org.exoplatform.services.wsrp2.type.Extension> initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                                                                   org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
                                                                                                                               AccessDenied,
                                                                                                                               ResourceSuspended,
@@ -121,7 +123,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       LOG.debug(userContext);
     try {
       ReturnAny response = markupOperationsInterface.initCookie(registrationContext, userContext);
-      org.exoplatform.services.wsrp2.type.Extension _return = response.getExtensions();
+      List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
       LOG.error(wsrpe.getMessage(), wsrpe);
@@ -257,7 +259,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
   /* (non-Javadoc)
    * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)java.util.List<java.lang.String>  sessionIDs ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
    */
-  public org.exoplatform.services.wsrp2.type.Extension releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
+  public List<org.exoplatform.services.wsrp2.type.Extension> releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                                                                        java.util.List<java.lang.String> sessionIDs,
                                                                        org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
                                                                                                                                    AccessDenied,
@@ -277,7 +279,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       ReturnAny response = markupOperationsInterface.releaseSessions(registrationContext,
                                                                      sessionIDs,
                                                                      userContext);
-      org.exoplatform.services.wsrp2.type.Extension _return = response.getExtensions();
+      List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
       LOG.error(wsrpe.getMessage(), wsrpe);

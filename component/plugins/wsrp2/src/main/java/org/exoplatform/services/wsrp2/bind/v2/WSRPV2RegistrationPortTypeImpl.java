@@ -1,5 +1,7 @@
 package org.exoplatform.services.wsrp2.bind.v2;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
@@ -62,7 +64,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
   /* (non-Javadoc)
    * @see org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType#deregister(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
    */
-  public org.exoplatform.services.wsrp2.type.Extension deregister(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
+  public List<org.exoplatform.services.wsrp2.type.Extension> deregister(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                                                                   org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
                                                                                                                               ResourceSuspended,
                                                                                                                               InvalidRegistration,
@@ -75,7 +77,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     try {
       ReturnAny response = registrationOperationsInterface.deregister(registrationContext,
                                                                       userContext);
-      org.exoplatform.services.wsrp2.type.Extension _return = response.getExtensions();
+      List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
       LOG.error(wsrpe.getMessage(), wsrpe);

@@ -16,6 +16,8 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports.v1;
 
+import java.util.List;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp1.intf.WS1InvalidRegistration;
@@ -121,7 +123,7 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
     return registrationContext;
   }
 
-  public Extension deregister(Deregister deregister) throws OperationNotSupported,
+  public List<Extension> deregister(Deregister deregister) throws OperationNotSupported,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     OperationFailed {
@@ -154,9 +156,9 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
       LOG.debug(e.toString());
     }
 
-    Extension extension = null;
+    List<Extension> extension = null;
     if (!_deregister_extensions.value.isEmpty()) {
-      extension = WSRPTypesTransformer.getWS2Extension(_deregister_extensions.value.get(0)); // in a WSRP2 we have to return just one Extension
+      extension = WSRPTypesTransformer.getWS2Extensions(_deregister_extensions.value); // in a WSRP2 we have to return just one Extension
     }
     return extension;
   }

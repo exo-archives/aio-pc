@@ -440,7 +440,7 @@ public class PortletDriverImpl implements PortletDriver {
     ReturnAny response = null;
     try {
       /* MAIN INVOKE */
-      Extension extension = markupPort.releaseSessions(request);
+      List<Extension> extension = markupPort.releaseSessions(request);
       response = new ReturnAny();
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
@@ -461,7 +461,7 @@ public class PortletDriverImpl implements PortletDriver {
     try {
       LOG.debug("Call initCookie on Markup Port");
       /* MAIN INVOKE */
-      Extension extension = markupPort.initCookie(request);
+      List<Extension> extension = markupPort.initCookie(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
 //    } catch (java.rmi.RemoteException wsrpFault) {
