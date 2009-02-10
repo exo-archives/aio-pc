@@ -128,7 +128,7 @@ public class WSRPFilter implements Filter {
     String path = "";
     String pathInfo = httpRequest.getPathInfo();
     if (pathInfo.startsWith("/WSRPService2/")) {
-      path += "/wsdl";
+      path += "/wsdl2";
       if (httpRequest.getQueryString() != null && httpRequest.getQueryString().equalsIgnoreCase("wsdl"))
         path += "/wsrp-service.wsdl";
       else
