@@ -127,13 +127,13 @@ public class WSRPFilter implements Filter {
   private String processResourcePath(HttpServletRequest httpRequest) {
     String path = "";
     String pathInfo = httpRequest.getPathInfo();
-    if (pathInfo.startsWith("/WSRPService2/")) {
+    if (pathInfo.startsWith("/WSRPService2")) {
       path += "/wsdl2";
       if (httpRequest.getQueryString() != null && httpRequest.getQueryString().equalsIgnoreCase("wsdl"))
         path += "/wsrp-service.wsdl";
       else
         path += pathInfo.substring("/WSRPService2".length());
-    } else if (pathInfo.startsWith("/WSRPService1/")) {
+    } else if (pathInfo.startsWith("/WSRPService1")) {
       path += "/wsdl1";
       if (httpRequest.getQueryString() != null && httpRequest.getQueryString().equalsIgnoreCase("wsdl"))
         path += "/wsrp_service.wsdl";
@@ -176,6 +176,10 @@ public class WSRPFilter implements Filter {
     //whether required service description wsdl
     if (pathInfo.equalsIgnoreCase("/WSRPService1/") || pathInfo.equalsIgnoreCase("/WSRPService2/"))
       return true;
+
+    if ( (pathInfo.equalsIgnoreCase("/WSRPService1") && httpServletRequest.getParameterMap().containsKey("wsdl") )  || (pathInfo.equalsIgnoreCase("/WSRPService2") && httpServletRequest.getParameterMap().containsKey("wsdl")))
+      return true;
+
     //whether required other wsdl with prefix
     if (pathInfo.startsWith("/WSRPService1/wsrp_") || pathInfo.startsWith("/WSRPService2/wsrp-"))
       return true;
