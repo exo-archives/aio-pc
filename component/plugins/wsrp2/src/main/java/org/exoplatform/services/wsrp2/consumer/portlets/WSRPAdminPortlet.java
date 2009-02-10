@@ -493,7 +493,7 @@ public class WSRPAdminPortlet {
     consumerName = "www.exoplatform.org";
     consumerAgent = "exoplatform.2.0";
     producerName = "exo producer";
-    producerURL = "http://localhost:8080/wsrp/soap/services/WSRPService/WSRP_v2_Markup_Service?wsdl";//"http://localhost:8080/wsrp/services2/";
+    producerURL = "http://localhost:8080/wsrp/soap/services/WSRPService2/?wsdl";//"http://localhost:8080/wsrp/services2/";
     markupIntfEndpoint = "WSRPMarkupService";
     portletManagementIntfEndpoint = "WSRPPortletManagementService";
     registrationIntfEndpoint = "WSRPRegistrationService";
