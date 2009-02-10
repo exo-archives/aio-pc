@@ -148,7 +148,7 @@
         <property name="consumerName" value="www.exoplatform.org" />
         <property name="consumerAgent" value="exoplatform.2.0" />
         <property name="producerName" value="exo producer" />
-        <property name="producerURL" value="http://localhost:8080/wsrp/soap/services/WSRPService2/?wsdl" />
+        <property name="producerURL" value="http://localhost:8080/wsrp/soap/services/WSRPService2?wsdl" />
         <property name="markupIntfEndpoint" value="WSRPMarkupService" />
         <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService" />
         <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />
