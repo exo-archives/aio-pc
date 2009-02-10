@@ -16,7 +16,7 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
 /**
  */
 
-@javax.jws.WebService(name = "WSRPV2ServiceDescriptionPortType", serviceName = "WSRPService2", portName = "WSRP_v2_ServiceDescription_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl", wsdlLocation = "/WEB-INF/wsdl/wsrp-service.wsdl", endpointInterface = "org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType")
+@javax.jws.WebService(name = "WSRPV2ServiceDescriptionPortType", serviceName = "WSRPService2", portName = "WSRP_v2_ServiceDescription_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl", wsdlLocation = "/WEB-INF/wsdl2/wsrp-service.wsdl", endpointInterface = "org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType")
 public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescriptionPortType,
     AbstractSingletonWebService {
 

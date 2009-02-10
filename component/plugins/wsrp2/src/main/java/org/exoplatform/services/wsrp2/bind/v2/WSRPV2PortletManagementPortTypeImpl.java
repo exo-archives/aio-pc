@@ -35,7 +35,7 @@ import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
 /**
  */
 
-@javax.jws.WebService(name = "WSRPV2PortletManagementPortType", serviceName = "WSRPService2", portName = "WSRP_v2_PortletManagement_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl", wsdlLocation = "/WEB-INF/wsdl/wsrp-service.wsdl", endpointInterface = "org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType")
+@javax.jws.WebService(name = "WSRPV2PortletManagementPortType", serviceName = "WSRPService2", portName = "WSRP_v2_PortletManagement_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl", wsdlLocation = "/WEB-INF/wsdl2/wsrp-service.wsdl", endpointInterface = "org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType")
 public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagementPortType,
     AbstractSingletonWebService {
 
