@@ -120,25 +120,30 @@ public class WSRPFilter implements Filter {
   }
 
   private int getServiceVersion(HttpServletRequest httpRequest) {
-    int version = httpRequest.getPathInfo().startsWith("/WSRPService1/") ? 1 : 2;
-    return version;
+    if ( httpRequest.getPathInfo().startsWith("/WSRPService1") ||httpRequest.getPathInfo().startsWith("/wsrp_") )
+      return 1;
+    if(httpRequest.getPathInfo().startsWith("/WSRPService2") ||httpRequest.getPathInfo().startsWith("/wsrp-")  )
+      return 2; 
+    return 0;
   }
 
   private String processResourcePath(HttpServletRequest httpRequest) {
     String path = "";
     String pathInfo = httpRequest.getPathInfo();
-    if (pathInfo.startsWith("/WSRPService2")) {
+    if (getServiceVersion(httpRequest)==2) {
       path += "/wsdl2";
       if (httpRequest.getQueryString() != null && httpRequest.getQueryString().equalsIgnoreCase("wsdl"))
         path += "/wsrp-service.wsdl";
       else
-        path += pathInfo.substring("/WSRPService2".length());
-    } else if (pathInfo.startsWith("/WSRPService1")) {
+        path += pathInfo;
+    } else if (getServiceVersion(httpRequest)==1 ) {
       path += "/wsdl1";
       if (httpRequest.getQueryString() != null && httpRequest.getQueryString().equalsIgnoreCase("wsdl"))
         path += "/wsrp_service.wsdl";
       else
-        path += pathInfo.substring("/WSRPService1".length());
+        path += pathInfo;
+    }else if (pathInfo.equalsIgnoreCase("/xml.xsd") ) {
+      path += "/wsdl1" + "/xml.xsd";
     }
     return path;
   }
@@ -174,17 +179,17 @@ public class WSRPFilter implements Filter {
     if (pathInfo == null)
       return false;
     //whether required service description wsdl
-    if (pathInfo.equalsIgnoreCase("/WSRPService1/") || pathInfo.equalsIgnoreCase("/WSRPService2/"))
+    if (pathInfo.equalsIgnoreCase("/WSRPService1") || pathInfo.equalsIgnoreCase("/WSRPService2"))
       return true;
 
-    if ( (pathInfo.equalsIgnoreCase("/WSRPService1") && httpServletRequest.getParameterMap().containsKey("wsdl") )  || (pathInfo.equalsIgnoreCase("/WSRPService2") && httpServletRequest.getParameterMap().containsKey("wsdl")))
-      return true;
+//    if ( (pathInfo.equalsIgnoreCase("/WSRPService1") && httpServletRequest.getParameterMap().containsKey("wsdl") )  || (pathInfo.equalsIgnoreCase("/WSRPService2") && httpServletRequest.getParameterMap().containsKey("wsdl")))
+//      return true;
 
     //whether required other wsdl with prefix
-    if (pathInfo.startsWith("/WSRPService1/wsrp_") || pathInfo.startsWith("/WSRPService2/wsrp-"))
+    if (pathInfo.startsWith("/wsrp_") || pathInfo.startsWith("/wsrp-"))
       return true;
     //whether required xml.xsd
-    if (pathInfo.equalsIgnoreCase("/WSRPService1/xml.xsd") || pathInfo.equalsIgnoreCase("/WSRPService2/xml.xsd"))
+    if (pathInfo.equalsIgnoreCase("/xml.xsd") || pathInfo.equalsIgnoreCase("/xml.xsd"))
       return true;
     //otherwise do not self handle
     return false;
