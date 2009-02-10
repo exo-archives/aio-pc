@@ -118,7 +118,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, false);
     PortletContext portletContext = new PortletContext();
-    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser1");
     InteractionParams params = new InteractionParams();
     params.setPortletStateChange(StateChange.READ_ONLY);
     PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
@@ -143,7 +143,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
                                                                                           portletContext,
                                                                                           params);
     BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
-    assertNotSame(CONTEXT_PATH + "/Portlet2TestStateUser/windowID", response.getUpdateResponse()
+    assertNotSame(CONTEXT_PATH + "/Portlet2TestStateUser2/windowID", response.getUpdateResponse()
                                                                   .getPortletContext()
                                                                   .getPortletHandle());
   }

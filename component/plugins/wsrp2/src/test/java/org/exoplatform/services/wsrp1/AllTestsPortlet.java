@@ -36,27 +36,27 @@ public class AllTestsPortlet extends TestCase {
     TestSuite suite = new TestSuite("portlet-container tests");
 
     // Whether we skip cargo container. In case standalone Tomcat instance. 
-//    if (System.getProperty("exo.test.cargo.skip") == null
-//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
-//      assertTrue(ContainerStarter.start());
-//    }
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+      assertTrue(ContainerStarter.start());
+    }
 
-//    suite.addTestSuite(SuiteForTestProducer.class);
-    
-//    suite.addTestSuite(SuiteForTestConsumer.class);
+    suite.addTestSuite(SuiteForTestProducer.class);
+
+    suite.addTestSuite(SuiteForTestConsumer.class);
 
     // for e.g. to run custom test
 //  suite.addTestSuite(WSRPServiceTestCase.class);
-    
+
     return suite;
   }
 
   protected void tearDown() {
     // Whether we skip cargo container. In case standalone Tomcat instance. 
-//    if (System.getProperty("exo.test.cargo.skip") == null
-//        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
-//      assertFalse(ContainerStarter.stop());
-//    }
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+      assertFalse(ContainerStarter.stop());
+    }
   }
 
 }

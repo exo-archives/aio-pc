@@ -17,11 +17,10 @@
 
 package org.exoplatform.services.wsrp1.testProducer;
 
-import java.rmi.RemoteException;
-
 import org.exoplatform.services.wsrp1.type.WS1ModifyRegistration;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationState;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
@@ -47,7 +46,7 @@ public class TestRegistrationInterface extends BaseTest {
       register(registrationData);
 //      fail("the registration of the consumer should return a WS Fault");
 //   patch by Pascal LEMOINE avoids exception here
-    } catch (RemoteException e) {
+    } catch (WSRPException e) {
       //e.printStackTrace();
     }
   }

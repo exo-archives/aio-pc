@@ -36,8 +36,11 @@ import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
 import org.exoplatform.services.wsrp2.type.Lifetime;
+import org.exoplatform.services.wsrp2.type.MissingParametersFault;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
+import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
@@ -98,23 +101,16 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                 _register_registrationState);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("register._register_extensions=" + _register_extensions.value);
+        LOG.debug("register._register_extensions=" + _register_extensions.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("register._register_registrationHandle="
-          + _register_registrationHandle.value);
+        LOG.debug("register._register_registrationHandle=" + _register_registrationHandle.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("register._register_registrationState="
-          + _register_registrationState.value);
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("register._register_registrationState=" + _register_registrationState.value);
+
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     RegistrationContext registrationContext = new RegistrationContext();
@@ -124,9 +120,9 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
   }
 
   public List<Extension> deregister(Deregister deregister) throws OperationNotSupported,
-                                                    ResourceSuspended,
-                                                    InvalidRegistration,
-                                                    OperationFailed {
+                                                          ResourceSuspended,
+                                                          InvalidRegistration,
+                                                          OperationFailed {
 
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking deregister...");
@@ -143,17 +139,12 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                   _deregister_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("deregister._deregister_extensions=" + _deregister_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("deregister._deregister_extensions=" + _deregister_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     List<Extension> extension = null;
@@ -182,26 +173,18 @@ public class WSRPV1RegistrationPortTypeAdapter implements WSRPRegistrationPortTy
                                           _modifyRegistration_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("modifyRegistration._modifyRegistration_registrationState="
-          + _modifyRegistration_registrationState.value);
+        LOG.debug("modifyRegistration._modifyRegistration_registrationState="
+            + _modifyRegistration_registrationState.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("modifyRegistration._modifyRegistration_extensions="
-          + _modifyRegistration_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("modifyRegistration._modifyRegistration_extensions="
+            + _modifyRegistration_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     RegistrationState registrationState = new RegistrationState();

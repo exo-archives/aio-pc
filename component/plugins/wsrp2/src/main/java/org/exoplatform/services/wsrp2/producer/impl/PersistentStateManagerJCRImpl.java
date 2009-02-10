@@ -94,7 +94,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         return ((ConsumerContext) sD.getDataObject()).getRegistationData();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store");
+//        log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
     }
@@ -109,12 +109,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         try {
           save(registrationHandle, "java.util.Collection", new ArrayList());
         } catch (Exception e) {
-          log.error("Persistence error");
+//          log.error("Persistence error");
           throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
         }
         return bytes;
       } catch (Exception e) {
-        log.error("Can not serialize RegistrationData", e);
+//        log.error("Can not serialize RegistrationData", e);
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
     } else {
@@ -127,7 +127,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
              cC);
         return null;
       } catch (Exception e) {
-        log.error("Persistence error");
+//        log.error("Persistence error");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
     }
@@ -163,7 +163,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         return true;
       }
     } catch (Exception e) {
-      log.error("Can not extract Registration data from persistent store");
+//      log.error("Can not extract Registration data from persistent store");
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     log.debug("Look up failed");
@@ -182,7 +182,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         c = (Collection) sD.getDataObject();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store", e);
+//        log.error("Can not extract Registration data from persistent store", e);
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       if (c.contains(portletHandle)) {
@@ -199,7 +199,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         consumerContext = (ConsumerContext) sD.getDataObject();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store");
+//        log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       return consumerContext.isPortletHandleRegistered(portletHandle);
@@ -218,7 +218,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         c = (Collection) sD.getDataObject();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store");
+//        log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       c.add(portletHandle);
@@ -233,7 +233,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         consumerContext = (ConsumerContext) sD.getDataObject();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store");
+//        log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       consumerContext.addPortletHandle(portletHandle);
@@ -255,7 +255,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         c = (Collection) sD.getDataObject();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store");
+//        log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       c.remove(portletHandle);
@@ -270,7 +270,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         }
         consumerContext = (ConsumerContext) sD.getDataObject();
       } catch (Exception e) {
-        log.error("Can not extract Registration data from persistent store");
+//        log.error("Can not extract Registration data from persistent store");
         throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
       }
       consumerContext.removePortletHandle(portletHandle);
@@ -290,13 +290,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     try {
       o = IOUtil.deserialize(registrationState);
     } catch (Exception e) {
-      log.error("Can not deserialize the RegistrationData object sent by the consumer");
+//      log.error("Can not deserialize the RegistrationData object sent by the consumer");
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     if (o instanceof RegistrationData) {
       return (RegistrationData) o;
     }
-    log.error("The registration state is not of type RegistrationData");
+//    log.error("The registration state is not of type RegistrationData");
     throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
   }
 
@@ -408,7 +408,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       }
       return (Map<String, String[]>) sD.getDataObject();
     } catch (Exception e) {
-      log.error("Can not extract Render Parameters Map from persistent store", e);
+//      log.error("Can not extract Render Parameters Map from persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
@@ -417,7 +417,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     try {
       save(state, "java.util.Map", parameters);
     } catch (Exception e) {
-      log.error("Can not save Render Parameters Map to persistent store", e);
+//      log.error("Can not save Render Parameters Map to persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
@@ -450,7 +450,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       lf.setCurrentTime(CalendarUtils.getNow());
       return lf;
     } catch (Exception e) {
-      log.error("Can not extract Registration Lifetime from persistent store", e);
+//      log.error("Can not extract Registration Lifetime from persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
@@ -463,7 +463,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     try {
       save(key, "org.exoplatform.services.wsrp2.type.Lifetime", lifetime);
     } catch (Exception e) {
-      log.error("Can not save Registration Lifetime to persistent store", e);
+//      log.error("Can not save Registration Lifetime to persistent store", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
     return lifetime;

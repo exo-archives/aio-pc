@@ -37,6 +37,8 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
 
   public void testGetDescription() throws Exception {
     WS1PortletDescription ps = getHelloWorldPortlet("en");
+    assertNotNull(ps);
+    assertNotNull(ps.getDescription());
     assertEquals("Usual Hello World Portlet", ps.getDescription().getValue());
 
     ps = getHelloWorldPortlet("fr");
@@ -111,10 +113,17 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   }
 
   public void testRequiresRegistration() throws Exception {
-    WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    WS1ServiceDescription sd = getServiceDescription(getServiceDescription);
-    assertEquals(true, sd.isRequiresRegistration());
+    boolean saveRequiresRegistration = getRequiresRegistration();
+    if (!saveRequiresRegistration)
+      setRequiresRegistration(true);
+    try {
+      WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
+      getServiceDescription.getDesiredLocales().add("en");
+      WS1ServiceDescription sd = getServiceDescription(getServiceDescription);
+      assertEquals(true, sd.isRequiresRegistration());
+    } finally {
+      setRequiresRegistration(saveRequiresRegistration);
+    }
   }
 
   public void testGetCustomModes() throws Exception {

@@ -35,7 +35,21 @@ import org.exoplatform.services.wsrp1.intf.WS1UnsupportedMimeType;
 import org.exoplatform.services.wsrp1.intf.WS1UnsupportedMode;
 import org.exoplatform.services.wsrp1.intf.WS1UnsupportedWindowState;
 import org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType;
+import org.exoplatform.services.wsrp1.type.WS1AccessDeniedFault;
+import org.exoplatform.services.wsrp1.type.WS1InconsistentParametersFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidCookieFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidHandleFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidRegistrationFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidSessionFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidUserCategoryFault;
+import org.exoplatform.services.wsrp1.type.WS1MissingParametersFault;
+import org.exoplatform.services.wsrp1.type.WS1OperationFailedFault;
+import org.exoplatform.services.wsrp1.type.WS1UnsupportedLocaleFault;
+import org.exoplatform.services.wsrp1.type.WS1UnsupportedMimeTypeFault;
+import org.exoplatform.services.wsrp1.type.WS1UnsupportedModeFault;
+import org.exoplatform.services.wsrp1.type.WS1UnsupportedWindowStateFault;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
@@ -53,17 +67,31 @@ import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
 import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
+import org.exoplatform.services.wsrp2.type.AccessDeniedFault;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.HandleEvents;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
+import org.exoplatform.services.wsrp2.type.InconsistentParametersFault;
 import org.exoplatform.services.wsrp2.type.InitCookie;
+import org.exoplatform.services.wsrp2.type.InvalidCookieFault;
+import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
+import org.exoplatform.services.wsrp2.type.InvalidSessionFault;
+import org.exoplatform.services.wsrp2.type.InvalidUserCategoryFault;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.MissingParametersFault;
+import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.PerformBlockingInteraction;
+import org.exoplatform.services.wsrp2.type.PortletStateChangeRequiredFault;
 import org.exoplatform.services.wsrp2.type.ReleaseSessions;
 import org.exoplatform.services.wsrp2.type.ResourceResponse;
+import org.exoplatform.services.wsrp2.type.UnsupportedLocaleFault;
+import org.exoplatform.services.wsrp2.type.UnsupportedMimeTypeFault;
+import org.exoplatform.services.wsrp2.type.UnsupportedModeFault;
+import org.exoplatform.services.wsrp2.type.UnsupportedWindowStateFault;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
@@ -99,8 +127,10 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                       OperationFailed,
                                                       UnsupportedLocale {
 
+
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking getMarkup...");
+    
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getMarkup_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getMarkup.getRegistrationContext());
     org.exoplatform.services.wsrp1.type.WS1PortletContext _getMarkup_portletContext = WSRPTypesTransformer.getWS1PortletContext(getMarkup.getPortletContext());
     org.exoplatform.services.wsrp1.type.WS1RuntimeContext _getMarkup_runtimeContext = WSRPTypesTransformer.getWS1RuntimeContext(getMarkup.getRuntimeContext());
@@ -109,6 +139,7 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1MarkupContext> _getMarkup_markupContext = new javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1MarkupContext>();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1SessionContext> _getMarkup_sessionContext = new javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1SessionContext>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> _getMarkup_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>>();
+    
     try {
       markupPort.getMarkup(_getMarkup_registrationContext,
                            _getMarkup_portletContext,
@@ -119,85 +150,41 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                            _getMarkup_sessionContext,
                            _getMarkup_extensions);
 
-      if (LOG.isDebugEnabled())
-      LOG.debug("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
-      if (LOG.isDebugEnabled())
-      LOG.debug("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
-      if (LOG.isDebugEnabled())
-      LOG.debug("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
-    } catch (WS1UnsupportedLocale e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedLocale has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1UnsupportedMimeType e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedMimeType has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidCookie e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidCookie has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1UnsupportedMode e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedMode has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidSession e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidSession has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1UnsupportedWindowState e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedWindowState has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    }
 
-    if (LOG.isDebugEnabled())
-      LOG.debug("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
-    if (LOG.isDebugEnabled())
-      LOG.debug("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
-    if (LOG.isDebugEnabled())
-      LOG.debug("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
+      if (LOG.isDebugEnabled())
+        LOG.debug("getMarkup._getMarkup_markupContext=" + _getMarkup_markupContext.value);
+      if (LOG.isDebugEnabled())
+        LOG.debug("getMarkup._getMarkup_sessionContext=" + _getMarkup_sessionContext.value);
+      if (LOG.isDebugEnabled())
+        LOG.debug("getMarkup._getMarkup_extensions=" + _getMarkup_extensions.value);
+
+    } catch (WS1UnsupportedLocale ir) {
+      throw new UnsupportedLocale(ir.getMessage(), new UnsupportedLocaleFault());
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1UnsupportedMimeType ir) {
+      throw new UnsupportedMimeType(ir.getMessage(), new UnsupportedMimeTypeFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidCookie ir) {
+      throw new InvalidCookie(ir.getMessage(), new InvalidCookieFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1UnsupportedMode mp) {
+      throw new UnsupportedMode(mp.getMessage(), new UnsupportedModeFault());
+    } catch (WS1InvalidSession ad) {
+      throw new InvalidSession(ad.getMessage(), new InvalidSessionFault());
+    } catch (WS1UnsupportedWindowState mp) {
+      throw new UnsupportedWindowState(mp.getMessage(), new UnsupportedWindowStateFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    }
 
     MarkupResponse response = new MarkupResponse();
     response.setMarkupContext(WSRPTypesTransformer.getWS2MarkupContext(_getMarkup_markupContext.value));
@@ -248,10 +235,10 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                                                                                                       UnsupportedLocale,
                                                                                                                       PortletStateChangeRequired {
 
+
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking performBlockingInteraction...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _performBlockingInteraction_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(performBlockingInteraction.getRegistrationContext());
-    ;
     org.exoplatform.services.wsrp1.type.WS1PortletContext _performBlockingInteraction_portletContext = WSRPTypesTransformer.getWS1PortletContext(performBlockingInteraction.getPortletContext());
     org.exoplatform.services.wsrp1.type.WS1RuntimeContext _performBlockingInteraction_runtimeContext = WSRPTypesTransformer.getWS1RuntimeContext(performBlockingInteraction.getRuntimeContext());
     org.exoplatform.services.wsrp1.type.WS1UserContext _performBlockingInteraction_userContext = WSRPTypesTransformer.getWS1UserContext(performBlockingInteraction.getUserContext());
@@ -272,84 +259,43 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
                                             _performBlockingInteraction_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("performBlockingInteraction._performBlockingInteraction_updateResponse="
-          + _performBlockingInteraction_updateResponse.value);
+        LOG.debug("performBlockingInteraction._performBlockingInteraction_updateResponse="
+            + _performBlockingInteraction_updateResponse.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("performBlockingInteraction._performBlockingInteraction_redirectURL="
-          + _performBlockingInteraction_redirectURL.value);
+        LOG.debug("performBlockingInteraction._performBlockingInteraction_redirectURL="
+            + _performBlockingInteraction_redirectURL.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("performBlockingInteraction._performBlockingInteraction_extensions="
-          + _performBlockingInteraction_extensions.value);
-    } catch (WS1UnsupportedLocale e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedLocale has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1UnsupportedMimeType e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedMimeType has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidCookie e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidCookie has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1UnsupportedMode e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedMode has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1PortletStateChangeRequired e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: PortletStateChangeRequired has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidSession e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidSession has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1UnsupportedWindowState e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: UnsupportedWindowState has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("performBlockingInteraction._performBlockingInteraction_extensions="
+            + _performBlockingInteraction_extensions.value);
+
+    } catch (WS1UnsupportedLocale ir) {
+      throw new UnsupportedLocale(ir.getMessage(), new UnsupportedLocaleFault());
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1UnsupportedMimeType ir) {
+      throw new UnsupportedMimeType(ir.getMessage(), new UnsupportedMimeTypeFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidCookie ir) {
+      throw new InvalidCookie(ir.getMessage(), new InvalidCookieFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1UnsupportedMode mp) {
+      throw new UnsupportedMode(mp.getMessage(), new UnsupportedModeFault());
+    } catch (WS1PortletStateChangeRequired ad) {
+      throw new PortletStateChangeRequired(ad.getMessage(), new PortletStateChangeRequiredFault());
+    } catch (WS1InvalidSession ad) {
+      throw new InvalidSession(ad.getMessage(), new InvalidSessionFault());
+    } catch (WS1UnsupportedWindowState mp) {
+      throw new UnsupportedWindowState(mp.getMessage(), new UnsupportedWindowStateFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     BlockingInteractionResponse response = new BlockingInteractionResponse();
@@ -387,11 +333,11 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
   }
 
   public List<Extension> initCookie(InitCookie initCookie) throws OperationNotSupported,
-                                                    AccessDenied,
-                                                    ResourceSuspended,
-                                                    InvalidRegistration,
-                                                    ModifyRegistrationRequired,
-                                                    OperationFailed {
+                                                          AccessDenied,
+                                                          ResourceSuspended,
+                                                          InvalidRegistration,
+                                                          ModifyRegistrationRequired,
+                                                          OperationFailed {
 
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking initCookie...");
@@ -401,35 +347,26 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     try {
       _initCookie__return = markupPort.initCookie(_initCookie_registrationContext);
       if (LOG.isDebugEnabled())
-      LOG.debug("initCookie.result=" + _initCookie__return);
+        LOG.debug("initCookie.result=" + _initCookie__return);
 
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1AccessDenied ad) {
+      throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     return WSRPTypesTransformer.getWS2Extensions(_initCookie__return); // in a WSRP2 we have t oreturn just one Extension
   }
 
   public List<Extension> releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
-                                                                   AccessDenied,
-                                                                   ResourceSuspended,
-                                                                   InvalidRegistration,
-                                                                   ModifyRegistrationRequired,
-                                                                   MissingParameters,
-                                                                   OperationFailed {
+                                                                         AccessDenied,
+                                                                         ResourceSuspended,
+                                                                         InvalidRegistration,
+                                                                         ModifyRegistrationRequired,
+                                                                         MissingParameters,
+                                                                         OperationFailed {
 
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking releaseSessions...");
@@ -440,28 +377,16 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
       _releaseSessions__return = markupPort.releaseSessions(_releaseSessions_registrationContext,
                                                             _releaseSessions_sessionIDs);
       if (LOG.isDebugEnabled())
-      LOG.debug("releaseSessions.result=" + _releaseSessions__return);
+        LOG.debug("releaseSessions.result=" + _releaseSessions__return);
 
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (WS1AccessDenied ad) {
+      throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     return WSRPTypesTransformer.getWS2Extensions(_releaseSessions__return); // in a WSRP2 we have t oreturn just one Extension

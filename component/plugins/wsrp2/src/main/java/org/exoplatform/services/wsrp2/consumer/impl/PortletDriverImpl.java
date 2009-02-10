@@ -472,6 +472,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   public PortletDescriptionResponse getPortletDescription(UserSessionMgr userSession,
                                                           List<String> desiredLocales) throws WSRPException {
+    
     GetPortletDescription request = new GetPortletDescription();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {

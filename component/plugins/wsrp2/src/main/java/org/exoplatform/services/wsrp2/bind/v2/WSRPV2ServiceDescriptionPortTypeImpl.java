@@ -55,13 +55,13 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getServiceDescription");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletHandles);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
 
     try {
@@ -103,10 +103,8 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
 

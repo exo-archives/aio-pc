@@ -31,6 +31,7 @@ import org.exoplatform.services.wsrp1.type.WS1Property;
 import org.exoplatform.services.wsrp1.type.WS1PropertyList;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1SetPortletProperties;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
@@ -67,7 +68,7 @@ public class TestPortletManagementInterface extends BaseTest {
       clonePortlet.setUserContext(userContext);
       clonePortlet(clonePortlet);
       fail("The given registration handle was incorrect");
-    } catch (RemoteException e) {
+    } catch (InvalidHandle e) {
       e.printStackTrace();
     }
   }
@@ -82,7 +83,7 @@ public class TestPortletManagementInterface extends BaseTest {
       clonePortlet.setUserContext(userContext);
       clonePortlet(clonePortlet);
       fail("The given portlet handle was incorrect");
-    } catch (RemoteException e) {
+    } catch (InvalidHandle e) {
       e.printStackTrace();
     }
   }

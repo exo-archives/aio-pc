@@ -26,6 +26,13 @@ import org.exoplatform.services.wsrp1.intf.WS1InvalidUserCategory;
 import org.exoplatform.services.wsrp1.intf.WS1MissingParameters;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType;
+import org.exoplatform.services.wsrp1.type.WS1AccessDeniedFault;
+import org.exoplatform.services.wsrp1.type.WS1InconsistentParametersFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidHandleFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidRegistrationFault;
+import org.exoplatform.services.wsrp1.type.WS1InvalidUserCategoryFault;
+import org.exoplatform.services.wsrp1.type.WS1MissingParametersFault;
+import org.exoplatform.services.wsrp1.type.WS1OperationFailedFault;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
@@ -39,6 +46,7 @@ import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.type.AccessDeniedFault;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.CopyPortlets;
 import org.exoplatform.services.wsrp2.type.CopyPortletsResponse;
@@ -53,7 +61,13 @@ import org.exoplatform.services.wsrp2.type.GetPortletsLifetime;
 import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
 import org.exoplatform.services.wsrp2.type.ImportPortlets;
 import org.exoplatform.services.wsrp2.type.ImportPortletsResponse;
+import org.exoplatform.services.wsrp2.type.InconsistentParametersFault;
+import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
+import org.exoplatform.services.wsrp2.type.InvalidUserCategoryFault;
 import org.exoplatform.services.wsrp2.type.Lifetime;
+import org.exoplatform.services.wsrp2.type.MissingParametersFault;
+import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.PortletPropertyDescriptionResponse;
@@ -73,7 +87,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  *         Zavizionov</a>
  * @version $Id: $ Nov 25, 2008
  */
-public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManagementPortTypeAdapterAPI {
+public class WSRPV1PortletManagementPortTypeAdapter implements
+    WSRPPortletManagementPortTypeAdapterAPI {
 
   private WSRPV1PortletManagementPortType portletManagementPort;
 
@@ -94,6 +109,7 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                                                       InconsistentParameters,
                                                                                                       OperationFailed {
 
+
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking getPortletDescription...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletDescription.getRegistrationContext());
@@ -113,49 +129,29 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                   _getPortletDescription_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletDescription._getPortletDescription_portletDescription="
-          + _getPortletDescription_portletDescription.value);
+        LOG.debug("getPortletDescription._getPortletDescription_portletDescription="
+            + _getPortletDescription_portletDescription.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletDescription._getPortletDescription_resourceList="
-          + _getPortletDescription_resourceList.value);
+        LOG.debug("getPortletDescription._getPortletDescription_resourceList="
+            + _getPortletDescription_resourceList.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletDescription._getPortletDescription_extensions="
-          + _getPortletDescription_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("getPortletDescription._getPortletDescription_extensions="
+            + _getPortletDescription_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
@@ -196,48 +192,26 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                          _clonePortlet_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("clonePortlet._clonePortlet_portletHandle="
-          + _clonePortlet_portletHandle.value);
+        LOG.debug("clonePortlet._clonePortlet_portletHandle=" + _clonePortlet_portletHandle.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("clonePortlet._clonePortlet_portletState="
-          + _clonePortlet_portletState.value);
+        LOG.debug("clonePortlet._clonePortlet_portletState=" + _clonePortlet_portletState.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("clonePortlet._clonePortlet_extensions=" + _clonePortlet_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     PortletContext response = new PortletContext();
@@ -271,31 +245,20 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                             _destroyPortlets_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("destroyPortlets._destroyPortlets_destroyFailed="
-          + _destroyPortlets_destroyFailed.value);
+        LOG.debug("destroyPortlets._destroyPortlets_destroyFailed="
+            + _destroyPortlets_destroyFailed.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("destroyPortlets._destroyPortlets_extensions="
-          + _destroyPortlets_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("destroyPortlets._destroyPortlets_extensions="
+            + _destroyPortlets_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InconsistentParameters ir) {
+      throw new InconsistentParameters(ir.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     DestroyPortletsResponse response = new DestroyPortletsResponse();
@@ -340,49 +303,29 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                  _setPortletProperties_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("setPortletProperties._setPortletProperties_portletHandle="
-          + _setPortletProperties_portletHandle.value);
+        LOG.debug("setPortletProperties._setPortletProperties_portletHandle="
+            + _setPortletProperties_portletHandle.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("setPortletProperties._setPortletProperties_portletState="
-          + _setPortletProperties_portletState.value);
+        LOG.debug("setPortletProperties._setPortletProperties_portletState="
+            + _setPortletProperties_portletState.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("setPortletProperties._setPortletProperties_extensions="
-          + _setPortletProperties_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("setPortletProperties._setPortletProperties_extensions="
+            + _setPortletProperties_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     PortletContext response = new PortletContext();
@@ -425,49 +368,29 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                  _getPortletProperties_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletProperties._getPortletProperties_properties="
-          + _getPortletProperties_properties.value);
+        LOG.debug("getPortletProperties._getPortletProperties_properties="
+            + _getPortletProperties_properties.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletProperties._getPortletProperties_resetProperties="
-          + _getPortletProperties_resetProperties.value);
+        LOG.debug("getPortletProperties._getPortletProperties_resetProperties="
+            + _getPortletProperties_resetProperties.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletProperties._getPortletProperties_extensions="
-          + _getPortletProperties_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("getPortletProperties._getPortletProperties_extensions="
+            + _getPortletProperties_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     PropertyList response = new PropertyList();
@@ -515,49 +438,29 @@ public class WSRPV1PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                           _getPortletPropertyDescription_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
-          + _getPortletPropertyDescription_modelDescription.value);
+        LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_modelDescription="
+            + _getPortletPropertyDescription_modelDescription.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_resourceList="
-          + _getPortletPropertyDescription_resourceList.value);
+        LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_resourceList="
+            + _getPortletPropertyDescription_resourceList.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_extensions="
-          + _getPortletPropertyDescription_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1MissingParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: MissingParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidUserCategory e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidUserCategory has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1AccessDenied e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: AccessDenied has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InvalidHandle e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidHandle has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1InconsistentParameters e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InconsistentParameters has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("getPortletPropertyDescription._getPortletPropertyDescription_extensions="
+            + _getPortletPropertyDescription_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1MissingParameters ir) {
+      throw new MissingParameters(ir.getMessage(), new MissingParametersFault());
+    } catch (WS1InvalidUserCategory ir) {
+      throw new InvalidUserCategory(ir.getMessage(), new InvalidUserCategoryFault());
+    } catch (WS1AccessDenied ir) {
+      throw new AccessDenied(ir.getMessage(), new AccessDeniedFault());
+    } catch (WS1InvalidHandle ir) {
+      throw new InvalidHandle(ir.getMessage(), new InvalidHandleFault());
+    } catch (WS1InconsistentParameters ad) {
+      throw new InconsistentParameters(ad.getMessage(), new InconsistentParametersFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     PortletPropertyDescriptionResponse response = new PortletPropertyDescriptionResponse();

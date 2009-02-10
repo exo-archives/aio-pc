@@ -1,4 +1,3 @@
-
 package org.exoplatform.services.wsrp2.bind.v1;
 
 import org.apache.commons.logging.Log;
@@ -41,7 +40,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  */
 
 @javax.jws.WebService(name = "WSRPV1PortletManagementPortType", serviceName = "WSRPService1", portName = "WSRP_v1_PortletManagement_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType")
-public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagementPortType, AbstractSingletonWebService  {
+public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagementPortType,
+    AbstractSingletonWebService {
 
   private static final Log                     LOG = ExoLogger.getLogger(WSRPV1PortletManagementPortTypeImpl.class.getName());
 
@@ -62,9 +62,9 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                WS1InconsistentParameters,
                                                                                                                                WS1OperationFailed {
     LOG.info("Executing operation destroyPortlets");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletHandles);
     try {
 
@@ -78,22 +78,22 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InconsistentParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InconsistentParameters(ir.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+//      LOG.error(of.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+//      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+//      LOG.error(e.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 
@@ -116,13 +116,13 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                     WS1InconsistentParameters,
                                                                                                                                     WS1OperationFailed {
     LOG.info("Executing operation setPortletProperties");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(propertyList);
     try {
 
@@ -141,31 +141,31 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 
@@ -187,11 +187,11 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                             WS1InconsistentParameters,
                                                                                                                             WS1OperationFailed {
     LOG.info("Executing operation clonePortlet");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
 
@@ -209,31 +209,31 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
   }
@@ -254,14 +254,15 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                      WS1InvalidHandle,
                                                                                                                                      WS1InconsistentParameters,
                                                                                                                                      WS1OperationFailed {
+
     LOG.info("Executing operation getPortletDescription");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
     try {
 
@@ -279,31 +280,31 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
   }
@@ -325,13 +326,13 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                              WS1InconsistentParameters,
                                                                                                                                              WS1OperationFailed {
     LOG.info("Executing operation getPortletPropertyDescription");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
     try {
 
@@ -349,31 +350,31 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
   }
@@ -395,13 +396,13 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                     WS1InconsistentParameters,
                                                                                                                                     WS1OperationFailed {
     LOG.info("Executing operation getPortletProperties");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(names);
     try {
 
@@ -419,31 +420,31 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 

@@ -21,7 +21,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  */
 
 @javax.jws.WebService(name = "WSRPV1ServiceDescriptionPortType", serviceName = "WSRPService1", portName = "WSRP_v1_ServiceDescription_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v1:wsdl", wsdlLocation = "/WEB-INF/wsdl1/wsrp_service.wsdl", endpointInterface = "org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType")
-public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescriptionPortType, AbstractSingletonWebService  {
+public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescriptionPortType,
+    AbstractSingletonWebService {
 
   private static final Log            LOG = ExoLogger.getLogger(WSRPV1ServiceDescriptionPortTypeImpl.class.getName());
 
@@ -48,10 +49,12 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
                                     javax.xml.ws.Holder<org.exoplatform.services.wsrp1.type.WS1ResourceList> resourceList,
                                     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> extensions) throws WS1InvalidRegistration,
                                                                                                                                      WS1OperationFailed {
+
+
     LOG.info("Executing operation getServiceDescription");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
     try {
 
@@ -62,6 +65,7 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
                                                                                       null,
                                                                                       null);
 
+
       requiresRegistration.value = response.isRequiresRegistration();
       offeredPortlets.value = WSRPTypesTransformer.getWS1PortletDescriptions(response.getOfferedPortlets());
       userCategoryDescriptions.value = WSRPTypesTransformer.getWS1ItemDescriptions(response.getUserCategoryDescriptions());
@@ -70,21 +74,21 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
       customModeDescriptions.value = WSRPTypesTransformer.getWS1ItemDescriptions(response.getCustomModeDescriptions());
       requiresInitCookie.value = WSRPTypesTransformer.getWS1CookieProtocol(response.getRequiresInitCookie());
       registrationPropertyDescription.value = WSRPTypesTransformer.getWS1ModelDescription(response.getRegistrationPropertyDescription());
-      locales.value = null;
-      resourceList.value = null;
-      extensions.value = null;
+      locales.value = response.getLocales();
+      resourceList.value = WSRPTypesTransformer.getWS1ResourceList(response.getResourceList());
+      extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 

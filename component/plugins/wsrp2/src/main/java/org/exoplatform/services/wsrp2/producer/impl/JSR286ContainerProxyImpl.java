@@ -93,6 +93,11 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
     String pcPortletHandle = key[0] + Constants.PORTLET_HANDLE_ENCODER + key[1];
     if (pcPortletHandle != null) {
+      Set<String> keys = this.pcService.getAllPortletMetaData().keySet();
+      for (String aKey : keys) {
+      }
+      
+      
       if (this.pcService.getAllPortletMetaData().get(pcPortletHandle) != null) {
         return true;
       }
@@ -114,7 +119,10 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       LOG.debug("get description of portlet in application: " + portletApplicationName);
       LOG.debug("get description of portlet: " + portletName);
     }
+    
     Map<String, PortletData> portletMetaDatas = pcService.getAllPortletMetaData();
+    Set<String> keys = portletMetaDatas.keySet();
+    
     PortletData portlet = (PortletData) portletMetaDatas.get(portletApplicationName
         + Constants.PORTLET_META_DATA_ENCODER + portletName);
     PortletDescription pD = new PortletDescription();
@@ -126,11 +134,12 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setOnlySecure(new Boolean(portlet.isSecure()));
     pD.setDefaultMarkupSecure(new Boolean(portlet.isSecure()));
     List<Description> portletDescriptions = portlet.getDescription();
-    if (!(portletDescriptions == null || portletDescriptions.size() == 0)) {
-      pD.setDescription(getDescription(portletDescriptions, desiredLocales));
+    if (portletDescriptions != null && portletDescriptions.size() != 0) {
+      LocalizedString lzStr = getDescription(portletDescriptions, desiredLocales);
+      pD.setDescription(lzStr);
     }
     List<DisplayName> portletDisplayNames = portlet.getDisplayName();
-    if (!(portletDisplayNames == null || portletDisplayNames.size() == 0)) {
+    if (portletDisplayNames != null && portletDisplayNames.size() != 0) {
       pD.setDisplayName(getDisplayName(portletDisplayNames, desiredLocales));
     }
     pD.setGroupID(portletApplicationName);
@@ -144,8 +153,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.getUserCategories().clear();
 
     pD.getPortletManagedModes()
-    .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
-                                                                 portletName)));
+      .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
+                                                                   portletName)));
 
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
@@ -208,7 +217,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     try {
       pcService.setPortletPreference(input, propertiesMap);
     } catch (Exception e) {
-      LOG.error("error while storing preferences", e);
+//      LOG.error("error while storing preferences", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
     }
   }
@@ -232,13 +241,14 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
   }
 
   /**
-   * For exclude register remote to remote use pcService.getAllPortletMetaData(true).
-   * For include that use pcService.getAllPortletMetaData().
+   * For exclude register remote to remote use
+   * pcService.getAllPortletMetaData(true). For include that use
+   * pcService.getAllPortletMetaData().
    */
   public Map<String, PortletData> getAllPortletMetaData() {
     return pcService.getAllPortletMetaData(true);
   }
-  
+
   // public Collection getWindowStates(String s) {
   // return service.getWindowStates(s);
   // }
@@ -290,7 +300,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
         String key = (String) iterator.next();
         if (key.startsWith(PCConstants.EXCEPTION)) {
-          LOG.error("Error body : " + propertiesMap.get(key));
+//          LOG.error("Error body : " + propertiesMap.get(key));
           throw new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT);
         }
       }
@@ -445,7 +455,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       WSRPHttpServletResponse response = WSRPHTTPContainer.getInstance().getResponse();
       return pcService.getBundle(request, response, portletAppName, portletName, locale);
     } catch (PortletContainerException e) {
-      LOG.error("Error in the method JSR286ContainerProxyImpl.getBundle(): " + e.getMessage(), e);
+//      LOG.error("Error in the method JSR286ContainerProxyImpl.getBundle(): " + e.getMessage(), e);
       return null;
     }
   }

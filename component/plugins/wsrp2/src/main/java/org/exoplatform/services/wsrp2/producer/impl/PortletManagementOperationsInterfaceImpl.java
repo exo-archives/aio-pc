@@ -140,7 +140,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         stateManager.putPortletLifetime(newPortletHandle, lifetime);
       }
     } catch (WSRPException e) {
-      log.error("Can not clone portlet", e);
+//      log.error("Can not clone portlet", e);
       throw new WSRPException();
     }
     log.debug("New portlet handle : " + newPortletHandle);
@@ -432,7 +432,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         Lifetime lifetimeResult = stateManager.getPortletLifetime(portletHandle);
         lifetimeResult.setCurrentTime(portletContext.getScheduledDestruction().getCurrentTime());
         LifetimeHelper.lifetimeExpired(lifetimeResult);
-        
+
         PortletLifetime portletLifetime = new PortletLifetime();
         portletLifetime.setPortletContext(portletContext);
         portletLifetime.setScheduledDestruction(lifetimeResult);
@@ -517,6 +517,7 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                                       InconsistentParameters,
                                                                                       OperationFailed,
                                                                                       WSRPException {
+    
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Get portlet description for registration handle " + registrationHandle);
@@ -581,7 +582,7 @@ public class PortletManagementOperationsInterfaceImpl implements
       throw new WSRPException();
     }
 
-    String userID = userContext.getUserContextKey();
+    String userID = userContext != null ? userContext.getUserContextKey() : null;
 
     try {
       proxy.setPortletProperties(portletHandle, userID, propertyList);
@@ -622,7 +623,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     } catch (WSRPException e) {
       throw new WSRPException();
     }
-    String userID = userContext.getUserContextKey();
+    String userID = userContext != null ? userContext.getUserContextKey() : null;
     Map<String, String[]> properties = null;
     try {
       properties = proxy.getPortletProperties(portletHandle, userID);

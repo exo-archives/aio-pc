@@ -44,7 +44,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                 MissingParameters,
                                                                                                                                 OperationFailed {
     LOG.info("Executing operation register");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(register);
     try {
       RegistrationContext response = registrationOperationsInterface.register(register.getRegistrationData(),
@@ -53,10 +53,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.RegistrationContext _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -65,14 +63,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
    * @see org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType#deregister(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
    */
   public List<org.exoplatform.services.wsrp2.type.Extension> deregister(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
-                                                                  org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
-                                                                                                                              ResourceSuspended,
-                                                                                                                              InvalidRegistration,
-                                                                                                                              OperationFailed {
+                                                                        org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
+                                                                                                                                    ResourceSuspended,
+                                                                                                                                    InvalidRegistration,
+                                                                                                                                    OperationFailed {
     LOG.info("Executing operation deregister");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       ReturnAny response = registrationOperationsInterface.deregister(registrationContext,
@@ -80,10 +78,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -99,7 +95,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getRegistrationLifetime");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(getRegistrationLifetime);
     try {
       Lifetime response = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime.getRegistrationContext(),
@@ -107,10 +103,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -126,7 +120,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                                                   OperationFailed {
     LOG.info("Executing operation setRegistrationLifetime");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(setRegistrationLifetime);
     try {
       Lifetime response = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime.getRegistrationContext(),
@@ -135,10 +129,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -157,11 +149,11 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                MissingParameters,
                                                                                                                                OperationFailed {
     LOG.info("Executing operation modifyRegistration");
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationData);
-        if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       RegistrationState response = registrationOperationsInterface.modifyRegistration(registrationContext,
@@ -174,10 +166,8 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }

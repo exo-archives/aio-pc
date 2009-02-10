@@ -306,6 +306,7 @@ public class WSRPTypesTransformer {
     ws1UpdateResponse.setNewMode(updateResponse.getNewMode());
     ws1UpdateResponse.setPortletContext(getWS1PortletContext(updateResponse.getPortletContext()));
     ws1UpdateResponse.setSessionContext(getWS1SessionContext(updateResponse.getSessionContext()));
+    ws1UpdateResponse.setNewWindowState(updateResponse.getNewWindowState());
     return ws1UpdateResponse;
   }
 
@@ -1213,6 +1214,8 @@ public class WSRPTypesTransformer {
     ws1sd.getOfferedPortlets().addAll(getWS1PortletDescriptions(sd.getOfferedPortlets()));
     ws1sd.getUserCategoryDescriptions()
          .addAll(getWS1ItemDescriptions(sd.getUserCategoryDescriptions()));
+    if (sd.getLocales() != null)
+      ws1sd.getLocales().addAll(sd.getLocales());
     return ws1sd;
   }
 
@@ -1528,7 +1531,7 @@ public class WSRPTypesTransformer {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setRegistrationContext(getWS2RegistrationContext(ws1GetServiceDescription.getRegistrationContext()));
 //    getServiceDescription.setUserContext());
-    getServiceDescription.getDesiredLocales();
+    getServiceDescription.getDesiredLocales().addAll(ws1GetServiceDescription.getDesiredLocales());
     getServiceDescription.getPortletHandles();
     return getServiceDescription;
   }
@@ -1587,7 +1590,8 @@ public class WSRPTypesTransformer {
     WS1BlockingInteractionResponse ws1BlockingInteractionResponse = new WS1BlockingInteractionResponse();
     ws1BlockingInteractionResponse.setRedirectURL(ws2PerformBlockingInteraction.getRedirectURL());
     ws1BlockingInteractionResponse.setUpdateResponse(getWS1UpdateResponse(ws2PerformBlockingInteraction.getUpdateResponse()));
-    ws1BlockingInteractionResponse.getExtensions().addAll(getWS1Extensions(ws2PerformBlockingInteraction.getExtensions()));
+    ws1BlockingInteractionResponse.getExtensions()
+                                  .addAll(getWS1Extensions(ws2PerformBlockingInteraction.getExtensions()));
     return ws1BlockingInteractionResponse;
   }
 
@@ -1610,8 +1614,10 @@ public class WSRPTypesTransformer {
 
   public static WS1DestroyPortletsResponse getWS1DestroyPortletsResponse(DestroyPortletsResponse ws2DestroyPortlets) {
     WS1DestroyPortletsResponse ws1DestroyPortletsResponse = new WS1DestroyPortletsResponse();
-    ws1DestroyPortletsResponse.getDestroyFailed().addAll(getWS1DestroyFailed(ws2DestroyPortlets.getFailedPortlets()));
-    ws1DestroyPortletsResponse.getExtensions().addAll(getWS1Extensions(ws2DestroyPortlets.getExtensions()));
+    ws1DestroyPortletsResponse.getDestroyFailed()
+                              .addAll(getWS1DestroyFailed(ws2DestroyPortlets.getFailedPortlets()));
+    ws1DestroyPortletsResponse.getExtensions()
+                              .addAll(getWS1Extensions(ws2DestroyPortlets.getExtensions()));
     return ws1DestroyPortletsResponse;
   }
 
@@ -1634,7 +1640,8 @@ public class WSRPTypesTransformer {
   public static WS1RegistrationState getWS1RegistrationState(RegistrationState ws2ModifyRegistration) {
     WS1RegistrationState ws1RegistrationState = new WS1RegistrationState();
     ws1RegistrationState.setRegistrationState(ws2ModifyRegistration.getRegistrationState());
-    ws1RegistrationState.getExtensions().addAll(getWS1Extensions(ws2ModifyRegistration.getExtensions()));
+    ws1RegistrationState.getExtensions()
+                        .addAll(getWS1Extensions(ws2ModifyRegistration.getExtensions()));
     return ws1RegistrationState;
   }
 

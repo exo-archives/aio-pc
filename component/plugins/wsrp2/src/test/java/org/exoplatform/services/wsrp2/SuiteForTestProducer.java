@@ -45,15 +45,15 @@ public class SuiteForTestProducer extends TestSuite {
     System.setProperty("mock.portal.dir", newProperty);
 
     addTestSuite(TestGetMarkup.class);
-//    addTestSuite(TestRegistrationInterface.class);
-//    addTestSuite(TestCachingMechanism.class);
-//    addTestSuite(TestGetServiceAdministration.class);
-//    addTestSuite(TestGetServiceDescriptionInterface.class);
-//    addTestSuite(TestPerformBlockingInteraction.class);
-//    addTestSuite(TestPortletManagementInterface.class);
-//    addTestSuite(TestSomeScenarios.class);
-//    addTestSuite(TestWSRPSession.class);
-//    addTestSuite(TestPersistentStateManager.class);
+    addTestSuite(TestRegistrationInterface.class);
+    addTestSuite(TestCachingMechanism.class);
+    addTestSuite(TestGetServiceAdministration.class);
+    addTestSuite(TestGetServiceDescriptionInterface.class);
+    addTestSuite(TestPerformBlockingInteraction.class);
+    addTestSuite(TestPortletManagementInterface.class);
+    addTestSuite(TestSomeScenarios.class);
+    addTestSuite(TestWSRPSession.class);
+    addTestSuite(TestPersistentStateManager.class);
 
   }
 

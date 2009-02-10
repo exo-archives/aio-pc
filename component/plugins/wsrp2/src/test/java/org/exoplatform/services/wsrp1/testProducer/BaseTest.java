@@ -23,6 +23,7 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -39,6 +40,7 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp1.intf.WSRPService1;
+import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp1.type.WS1BlockingInteractionResponse;
 import org.exoplatform.services.wsrp1.type.WS1ClientData;
 import org.exoplatform.services.wsrp1.type.WS1ClonePortlet;
@@ -62,10 +64,12 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortType
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.ext.WSRPV0ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1MarkupPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1PortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1RegistrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v1.WSRPV1ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.Register;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
@@ -83,7 +87,7 @@ public class BaseTest extends TestCase {
 
   protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService1?wsdl";
 
-  protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRPService1/WSRP_v0_ServiceAdministration_Service";
+  protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
 
   protected static final String                      CONTEXT_PATH             = "hello";
 
@@ -190,7 +194,10 @@ public class BaseTest extends TestCase {
     if (container.getComponentInstance(producerId) == null)
       container.registerComponentInstance(producerId, service);
 
-    this.serviceDescriptionInterface = new WSRPV1ServiceDescriptionPortTypeAdapter(service.getWSRPServiceDescriptionService());
+    
+    WSRPV1ServiceDescriptionPortType serviceDescriptionPort = service.getWSRPServiceDescriptionService();
+    
+    this.serviceDescriptionInterface = new WSRPV1ServiceDescriptionPortTypeAdapter(serviceDescriptionPort);
     this.markupOperationsInterface = new WSRPV1MarkupPortTypeAdapter(service.getWSRPMarkupService());
     this.registrationOperationsInterface = new WSRPV1RegistrationPortTypeAdapter(service.getWSRPRegistrationService());
     this.portletManagementOperationsInterface = new WSRPV1PortletManagementPortTypeAdapter(service.getWSRPPortletManagementService());
@@ -344,6 +351,37 @@ public class BaseTest extends TestCase {
       registrationContext = null;
     }
   }
+  
+  protected void setRequiresRegistration(boolean isRequiresRegistration) {
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    String requestProps = WSRPConfiguration.REQUIRES_REGISTRATION.concat("=")
+                                                                 .concat(String.valueOf(isRequiresRegistration));
+    responseProps = administrationPort.getServiceAdministration(requestProps);
+    if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
+      fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
+    }
+    if (!responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION)
+                      .equalsIgnoreCase(String.valueOf(isRequiresRegistration))) {
+      fail("WSRPConfiguration doesn't return properly modified REQUIRES_REGISTRATION property");
+    }
+  }
+
+  protected boolean getRequiresRegistration() {
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    responseProps = administrationPort.getServiceAdministration("");
+    if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
+      fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
+    }
+    if (responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION) == null) {
+      fail("WSRPConfiguration returns null REQUIRES_REGISTRATION property");
+    }
+    return Boolean.parseBoolean(responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION));
+  }
+  
 
   protected WS1MarkupResponse getMarkup(WS1GetMarkup ws1GetMarkup) throws Exception {
     return WSRPTypesTransformer.getWS1MarkupResponse(markupOperationsInterface.getMarkup(WSRPTypesTransformer.getWS2GetMarkup(ws1GetMarkup)));

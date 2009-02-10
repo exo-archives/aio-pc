@@ -46,7 +46,7 @@ public class Utils {
   public static LocalizedString getLocalizedString(String value, String lang, String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
-    //tmp.setLang(lang);
+    tmp.setLang(lang);
     tmp.setResourceName(rn);
     return tmp;
   }
@@ -54,7 +54,7 @@ public class Utils {
   public static LocalizedString getLocalizedString(String value, String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
-    //tmp.setLang(lang);
+    tmp.setLang(lang);
     return tmp;
   }
 

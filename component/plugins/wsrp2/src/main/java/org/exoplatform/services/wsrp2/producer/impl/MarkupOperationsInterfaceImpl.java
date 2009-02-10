@@ -168,11 +168,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             UnsupportedLocale,
                                                             WSRPException {
 
+
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
-    
+
     // runtimeContext.getPageState()
     // runtimeContext.getPortletStates()
     // markupParams.getNavigationalContext().getPublicValues()
@@ -218,6 +219,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         }
       } catch (WSRPException e) {
         log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
+        e.printStackTrace();
         throw new WSRPException();
       }
     }
@@ -254,6 +256,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
+      e.printStackTrace();
       throw new WSRPException();
     }
 
@@ -318,6 +321,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         throw new WSRPException("render output hasError");
     } catch (WSRPException e) {
       log.debug("The call to render method was a failure ", e);
+      e.printStackTrace();
       throw new WSRPException();
     }
 
@@ -326,6 +330,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       cacheControl = transientStateManager.getCacheControl(portletData);
     } catch (WSRPException e) {
+      e.printStackTrace();
       throw new WSRPException();
     }
 
@@ -475,6 +480,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // if an attempt to change the state is done (means change the portlet
       // pref in JSR 168)
       // then a fault will be launched
+      throw new PortletStateChangeRequired("StateChange is READ_ONLY");
     } else {
       log.debug("The submited portlet state change value : " + stateChange + " is not supported");
       throw new PortletStateChangeRequired();
@@ -1139,7 +1145,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     return handleEventsResponse;
   }
 
-
   public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
                                                                                                AccessDenied,
                                                                                                ResourceSuspended,
@@ -1200,8 +1205,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     RegistrationVerifier.checkRegistrationContext(registrationContext);
     return portletHandle;
   }
-
-
 
   private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws WSRPException {
     Map<String, String[]> map = null;

@@ -27,6 +27,8 @@ import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
+import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
@@ -89,48 +91,43 @@ public class WSRPV1ServiceDescriptionPortTypeAdapter implements
                                                    _getServiceDescription_extensions);
 
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_requiresRegistration="
-          + _getServiceDescription_requiresRegistration.value);
+        LOG.debug("getServiceDescription._getServiceDescription_requiresRegistration="
+            + _getServiceDescription_requiresRegistration.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_offeredPortlets="
-          + _getServiceDescription_offeredPortlets.value);
+        LOG.debug("getServiceDescription._getServiceDescription_offeredPortlets="
+            + _getServiceDescription_offeredPortlets.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_userCategoryDescriptions="
-          + _getServiceDescription_userCategoryDescriptions.value);
+        LOG.debug("getServiceDescription._getServiceDescription_userCategoryDescriptions="
+            + _getServiceDescription_userCategoryDescriptions.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_customUserProfileItemDescriptions="
-          + _getServiceDescription_customUserProfileItemDescriptions.value);
+        LOG.debug("getServiceDescription._getServiceDescription_customUserProfileItemDescriptions="
+            + _getServiceDescription_customUserProfileItemDescriptions.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
-          + _getServiceDescription_customWindowStateDescriptions.value);
+        LOG.debug("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
+            + _getServiceDescription_customWindowStateDescriptions.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_customModeDescriptions="
-          + _getServiceDescription_customModeDescriptions.value);
+        LOG.debug("getServiceDescription._getServiceDescription_customModeDescriptions="
+            + _getServiceDescription_customModeDescriptions.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_requiresInitCookie="
-          + _getServiceDescription_requiresInitCookie.value);
+        LOG.debug("getServiceDescription._getServiceDescription_requiresInitCookie="
+            + _getServiceDescription_requiresInitCookie.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_registrationPropertyDescription="
-          + _getServiceDescription_registrationPropertyDescription.value);
+        LOG.debug("getServiceDescription._getServiceDescription_registrationPropertyDescription="
+            + _getServiceDescription_registrationPropertyDescription.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_locales="
-          + _getServiceDescription_locales.value);
+        LOG.debug("getServiceDescription._getServiceDescription_locales="
+            + _getServiceDescription_locales.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_resourceList="
-          + _getServiceDescription_resourceList.value);
+        LOG.debug("getServiceDescription._getServiceDescription_resourceList="
+            + _getServiceDescription_resourceList.value);
       if (LOG.isDebugEnabled())
-      LOG.debug("getServiceDescription._getServiceDescription_extensions="
-          + _getServiceDescription_extensions.value);
-    } catch (WS1InvalidRegistration e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: InvalidRegistration has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
-    } catch (WS1OperationFailed e) {
-      if (LOG.isDebugEnabled())
-      LOG.debug("Expected exception: OperationFailed has occurred.");
-      if (LOG.isDebugEnabled())
-      LOG.debug(e.toString());
+        LOG.debug("getServiceDescription._getServiceDescription_extensions="
+            + _getServiceDescription_extensions.value);
+
+    } catch (WS1InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (WS1OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 
     // commented unused in wsrp1 items

@@ -67,19 +67,19 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 
@@ -113,16 +113,16 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
       extensions.value = WSRPTypesTransformer.getWS1Extensions(ws2Extensions);
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 
@@ -186,16 +186,16 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
       registrationState.value = response.getRegistrationState();
 
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+      //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+      //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 

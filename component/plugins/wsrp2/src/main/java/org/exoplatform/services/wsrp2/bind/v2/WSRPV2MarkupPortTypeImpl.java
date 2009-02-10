@@ -98,10 +98,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -110,12 +108,12 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
    * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
    */
   public List<org.exoplatform.services.wsrp2.type.Extension> initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
-                                                                  org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
-                                                                                                                              AccessDenied,
-                                                                                                                              ResourceSuspended,
-                                                                                                                              InvalidRegistration,
-                                                                                                                              ModifyRegistrationRequired,
-                                                                                                                              OperationFailed {
+                                                                        org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
+                                                                                                                                    AccessDenied,
+                                                                                                                                    ResourceSuspended,
+                                                                                                                                    InvalidRegistration,
+                                                                                                                                    ModifyRegistrationRequired,
+                                                                                                                                    OperationFailed {
     LOG.info("Executing operation initCookie");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
@@ -126,10 +124,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -189,10 +185,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -247,10 +241,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
 
@@ -260,14 +252,14 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
    * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)java.util.List<java.lang.String>  sessionIDs ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
    */
   public List<org.exoplatform.services.wsrp2.type.Extension> releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
-                                                                       java.util.List<java.lang.String> sessionIDs,
-                                                                       org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
-                                                                                                                                   AccessDenied,
-                                                                                                                                   ResourceSuspended,
-                                                                                                                                   InvalidRegistration,
-                                                                                                                                   ModifyRegistrationRequired,
-                                                                                                                                   MissingParameters,
-                                                                                                                                   OperationFailed {
+                                                                             java.util.List<java.lang.String> sessionIDs,
+                                                                             org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
+                                                                                                                                         AccessDenied,
+                                                                                                                                         ResourceSuspended,
+                                                                                                                                         InvalidRegistration,
+                                                                                                                                         ModifyRegistrationRequired,
+                                                                                                                                         MissingParameters,
+                                                                                                                                         OperationFailed {
     LOG.info("Executing operation releaseSessions");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
@@ -282,10 +274,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }
@@ -346,10 +336,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
       throw new OperationFailed(e.getMessage(), new OperationFailedFault());
     }
   }

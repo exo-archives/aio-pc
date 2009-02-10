@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp1.testProducer;
 
-import java.rmi.RemoteException;
 import java.util.Arrays;
 
 import org.exoplatform.services.wsrp1.type.WS1GetMarkup;
@@ -26,6 +25,7 @@ import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
 import org.exoplatform.services.wsrp1.type.WS1PortletContext;
 import org.exoplatform.services.wsrp1.type.WS1ReleaseSessions;
 import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
@@ -85,7 +85,7 @@ public class TestWSRPSession extends BaseTest {
     try {
       getMarkup(getMarkup);
       fail("Session should not exist anymore");
-    } catch (RemoteException e) {
+    } catch (InvalidSession e) {
     }
 
   }

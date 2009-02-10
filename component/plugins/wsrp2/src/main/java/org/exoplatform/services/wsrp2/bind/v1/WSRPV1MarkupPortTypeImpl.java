@@ -103,22 +103,22 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       return _return;
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters mp) {
-      LOG.error(mp.getMessage(), mp);
+//      LOG.error(mp.getMessage(), mp);
       throw new WS1MissingParameters(mp.getMessage(), new WS1MissingParametersFault());
     } catch (AccessDenied ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1AccessDenied(ad.getMessage(), new WS1AccessDeniedFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+//      LOG.error(of.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+//      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+//      LOG.error(e.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
   }
@@ -146,6 +146,7 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                                                                          WS1UnsupportedWindowState,
                                                                                                                          WS1InconsistentParameters,
                                                                                                                          WS1OperationFailed {
+
     LOG.info("Executing operation getMarkup");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
@@ -174,53 +175,54 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
                                                                           ws2markupParams);
 
       markupContext.value = WSRPTypesTransformer.getWS1MarkupContext(markupResponse.getMarkupContext());
+
       sessionContext.value = WSRPTypesTransformer.getWS1SessionContext(markupResponse.getSessionContext());
       extensions.value = WSRPTypesTransformer.getWS1Extensions(markupResponse.getExtensions());
 
     } catch (UnsupportedLocale ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1UnsupportedLocale(ir.getMessage(), new WS1UnsupportedLocaleFault());
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (UnsupportedMimeType ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1UnsupportedMimeType(ir.getMessage(), new WS1UnsupportedMimeTypeFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidCookie ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidCookie(ir.getMessage(), new WS1InvalidCookieFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (UnsupportedMode mp) {
-      LOG.error(mp.getMessage(), mp);
+//      LOG.error(mp.getMessage(), mp);
       throw new WS1UnsupportedMode(mp.getMessage(), new WS1UnsupportedModeFault());
     } catch (InvalidSession ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1InvalidSession(ad.getMessage(), new WS1InvalidSessionFault());
     } catch (UnsupportedWindowState mp) {
-      LOG.error(mp.getMessage(), mp);
+//      LOG.error(mp.getMessage(), mp);
       throw new WS1UnsupportedWindowState(mp.getMessage(), new WS1UnsupportedWindowStateFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+//      LOG.error(of.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+//      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+//      LOG.error(e.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
   }
@@ -245,19 +247,19 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       return _return;
 
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (AccessDenied ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1AccessDenied(ad.getMessage(), new WS1AccessDeniedFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+//      LOG.error(of.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+//      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+//      LOG.error(e.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
   }
@@ -323,53 +325,53 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
       extensions.value = WSRPTypesTransformer.getWS1Extensions(blockingInteractionResponse.getExtensions());
 
     } catch (UnsupportedLocale ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1UnsupportedLocale(ir.getMessage(), new WS1UnsupportedLocaleFault());
     } catch (InvalidRegistration ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (InvalidUserCategory ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (UnsupportedMimeType ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1UnsupportedMimeType(ir.getMessage(), new WS1UnsupportedMimeTypeFault());
     } catch (MissingParameters ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidCookie ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidCookie(ir.getMessage(), new WS1InvalidCookieFault());
     } catch (AccessDenied ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      LOG.error(ir.getMessage(), ir);
+//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (UnsupportedMode mp) {
-      LOG.error(mp.getMessage(), mp);
+//      LOG.error(mp.getMessage(), mp);
       throw new WS1UnsupportedMode(mp.getMessage(), new WS1UnsupportedModeFault());
     } catch (PortletStateChangeRequired ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1PortletStateChangeRequired(ad.getMessage(),
                                               new WS1PortletStateChangeRequiredFault());
     } catch (InvalidSession ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1InvalidSession(ad.getMessage(), new WS1InvalidSessionFault());
     } catch (UnsupportedWindowState mp) {
-      LOG.error(mp.getMessage(), mp);
+//      LOG.error(mp.getMessage(), mp);
       throw new WS1UnsupportedWindowState(mp.getMessage(), new WS1UnsupportedWindowStateFault());
     } catch (InconsistentParameters ad) {
-      LOG.error(ad.getMessage(), ad);
+//      LOG.error(ad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      LOG.error(of.getMessage(), of);
+//      LOG.error(of.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      LOG.error(wsrpe.getMessage(), wsrpe);
+//      LOG.error(wsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      LOG.error(e.getMessage(), e);
+//      LOG.error(e.getMessage(), e);
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 

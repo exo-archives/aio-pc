@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp1.testProducer;
 
-import java.rmi.RemoteException;
 import java.util.Arrays;
 
 import javax.portlet.PortletPreferences;
@@ -34,6 +33,7 @@ import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
 import org.exoplatform.services.wsrp1.type.WS1StateChange;
 import org.exoplatform.services.wsrp1.type.WS1UpdateResponse;
+import org.exoplatform.services.wsrp2.intf.PortletStateChangeRequired;
 import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
 
@@ -112,7 +112,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     WS1ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd);
     WS1PortletContext portletContext = new WS1PortletContext();
-    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser");
+    portletContext.setPortletHandle(CONTEXT_PATH + "/Portlet2TestStateUser1");
     WS1InteractionParams params = new WS1InteractionParams();
     params.setPortletStateChange(WS1StateChange.READ_ONLY);
     WS1PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
@@ -121,7 +121,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     try {
       performBlockingInteraction(performBlockingInteraction);
       fail("The portlet is in read only state!!!");
-    } catch (RemoteException e) {
+    } catch (PortletStateChangeRequired e) {
       e.printStackTrace();
     }
   }
