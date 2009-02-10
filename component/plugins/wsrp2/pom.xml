@@ -377,7 +377,7 @@
               <sourceRoot>${src.gen.dir}</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
-                  <wsdl>${basedir}/wsdl/wsrp-service.wsdl</wsdl>
+                  <wsdl>${basedir}/wsdl2/wsrp-service.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-validate</extraarg>
                     <extraarg>-all</extraarg>
