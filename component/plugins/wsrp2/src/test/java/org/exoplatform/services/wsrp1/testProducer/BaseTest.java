@@ -346,9 +346,9 @@ public class BaseTest extends TestCase {
       sd = getServiceDescription(new String[] { "en" });
     if (sd.isRequiresRegistration()) {
       registrationContext = new WS1RegistrationContext();
-      registrationContext.setRegistrationHandle("");
+//      registrationContext.setRegistrationHandle("");
     } else {
-      registrationContext = null;
+      registrationContext = new WS1RegistrationContext();
     }
   }
   
