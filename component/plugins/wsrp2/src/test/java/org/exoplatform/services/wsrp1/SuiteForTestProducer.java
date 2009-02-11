@@ -42,14 +42,14 @@ public class SuiteForTestProducer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/war_template1";
     System.setProperty("mock.portal.dir", newProperty);
 
-    addTestSuite(TestCachingMechanism.class);
-    addTestSuite(TestGetMarkup.class);
-    addTestSuite(TestGetServiceDescriptionInterface.class);
-    addTestSuite(TestPerformBlockingInteraction.class);
+//    addTestSuite(TestCachingMechanism.class);
+//    addTestSuite(TestGetMarkup.class);
+//    addTestSuite(TestGetServiceDescriptionInterface.class);
+//    addTestSuite(TestPerformBlockingInteraction.class);
     addTestSuite(TestPortletManagementInterface.class);
-    addTestSuite(TestRegistrationInterface.class);
-    addTestSuite(TestSomeScenarios.class);
-    addTestSuite(TestWSRPSession.class);
+//    addTestSuite(TestRegistrationInterface.class);
+//    addTestSuite(TestSomeScenarios.class);
+//    addTestSuite(TestWSRPSession.class);
 
     //addTestSuite(TestPersistentStateManager.class);
   }

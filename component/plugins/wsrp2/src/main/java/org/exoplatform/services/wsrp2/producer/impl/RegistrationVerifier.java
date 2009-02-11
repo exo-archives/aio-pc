@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.producer.impl;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
@@ -53,7 +54,8 @@ public class RegistrationVerifier implements Startable {
    * @return
    * @throws InvalidRegistration
    */
-  public static boolean checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
+  public static boolean checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration,
+                                                                                         InvalidHandle {
     if (registrationContext != null && registrationContext.getRegistrationHandle() != null
         && registrationContext.getRegistrationHandle().length() != 0) {
       // present registrationHandle within RegistrationContext, so whether it is valid
@@ -63,8 +65,10 @@ public class RegistrationVerifier implements Startable {
         if (LOG.isDebugEnabled())
           LOG.debug(" isRegistered = " + isRegistered);
         if (!isRegistered) {
-          throw new InvalidRegistration("Provided '" + registrationContext.getRegistrationHandle()
+          throw new InvalidHandle("Provided '" + registrationContext.getRegistrationHandle()
               + "' registrationHandle is unegistered.");
+//          throw new InvalidRegistration("Provided '" + registrationContext.getRegistrationHandle()
+//              + "' registrationHandle is unegistered.");
         }
         return true;
       } catch (WSRPException e) {

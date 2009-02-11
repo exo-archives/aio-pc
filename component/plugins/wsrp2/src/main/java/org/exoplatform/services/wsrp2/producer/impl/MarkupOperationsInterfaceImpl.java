@@ -168,7 +168,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             UnsupportedLocale,
                                                             WSRPException {
 
-
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
@@ -225,8 +224,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName
-        + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER
+        + portletName);
 
     // PROCESS PARAMETERS    
 
@@ -237,7 +236,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // process opaque (navigational) values
     Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
+    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext
+        .getPublicValues());
 
     // create render params map for input
     Map<String, String[]> renderParameters = new HashMap<String, String[]>();
@@ -261,21 +261,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                          runtimeContext,
-                                                                                          session,
-                                                                                          conf.isTemplatesStoredInSession(),
-                                                                                          transientStateManager,
-                                                                                          mimeType,
-                                                                                          portletData.getSupports(),
-                                                                                          markupParams.isSecureClientCommunication(),
-                                                                                          portletHandle,
-                                                                                          persistentStateManager,
-                                                                                          sessionID,
-                                                                                          portletData.getEscapeXml(),
-                                                                                          ResourceURL.PAGE,
-                                                                                          portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf
+        .isDoesUrlTemplateProcessing(), runtimeContext, session, conf.isTemplatesStoredInSession(),
+        transientStateManager, mimeType, portletData.getSupports(), markupParams.isSecureClientCommunication(),
+        portletHandle, persistentStateManager, sessionID, portletData.getEscapeXml(), ResourceURL.PAGE, portletData
+            .getSupportedPublicRenderParameter(), ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
@@ -283,10 +273,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
 
     // prepare the call to the portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // for get params within included jsp struts
@@ -418,8 +406,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     log.debug("Owner Context : " + owner);
 
     // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName
-        + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER
+        + portletName);
 
     // manage mime type
     String mimeType = null;
@@ -431,21 +419,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                          runtimeContext,
-                                                                                          session,
-                                                                                          conf.isTemplatesStoredInSession(),
-                                                                                          transientStateManager,
-                                                                                          mimeType,
-                                                                                          portletData.getSupports(),
-                                                                                          markupParams.isSecureClientCommunication(),
-                                                                                          portletHandle,
-                                                                                          persistentStateManager,
-                                                                                          sessionID,
-                                                                                          portletData.getEscapeXml(),
-                                                                                          ResourceURL.PAGE,
-                                                                                          portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf
+        .isDoesUrlTemplateProcessing(), runtimeContext, session, conf.isTemplatesStoredInSession(),
+        transientStateManager, mimeType, portletData.getSupports(), markupParams.isSecureClientCommunication(),
+        portletHandle, persistentStateManager, sessionID, portletData.getEscapeXml(), ResourceURL.PAGE, portletData
+            .getSupportedPublicRenderParameter(), ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage portlet state
@@ -465,10 +443,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
       try {
-        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
-                                                                           portletContext,
-                                                                           userContext,
-                                                                           portletContext.getScheduledDestruction());
+        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext, portletContext,
+            userContext, portletContext.getScheduledDestruction());
 
       } catch (OperationNotSupported e) {
         throw new OperationFailed(e.getMessage(), e);
@@ -495,31 +471,30 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // process opaque (navigational) values
     Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
+    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext
+        .getPublicValues());
     // manage form parameters
-    Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(interactionParams.getFormParameters());
+    Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(interactionParams
+        .getFormParameters());
     // manage interaction state
-    Map<String, String[]> persistentInteractionParameters = processInteractionState(interactionParams.getInteractionState());
+    Map<String, String[]> persistentInteractionParameters = processInteractionState(interactionParams
+        .getInteractionState());
 
     // create render params map for input
     Map<String, String[]> renderParameters = new HashMap<String, String[]>();
     if (formParameters != null && !formParameters.isEmpty()) { // default
       renderParameters = formParameters;
-    } else if (persistentInteractionParameters != null
-        && !persistentInteractionParameters.isEmpty()) {
+    } else if (persistentInteractionParameters != null && !persistentInteractionParameters.isEmpty()) {
       renderParameters = persistentInteractionParameters;
-    } else if (persistentNavigationalParameters != null
-        && !persistentNavigationalParameters.isEmpty()) {
+    } else if (persistentNavigationalParameters != null && !persistentNavigationalParameters.isEmpty()) {
       renderParameters = persistentNavigationalParameters;
     }
 
     replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
     // prepare objects for portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // for get params within included jsp struts
@@ -564,20 +539,15 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     BlockingInteractionResponse blockingInteractionResponse = new BlockingInteractionResponse();
 
     if (output.getProperties().get(ActionOutput.SEND_REDIRECT) != null) {
-      log.debug("Redirect the response to : "
-          + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
-      blockingInteractionResponse.setRedirectURL((String) output.getProperties()
-                                                                .get(ActionOutput.SEND_REDIRECT));
+      log.debug("Redirect the response to : " + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
+      blockingInteractionResponse.setRedirectURL((String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
       blockingInteractionResponse.setUpdateResponse(null);
     } else {
       MarkupContext markupContext = null;
       if (conf.isBlockingInteractionOptimized()) {
         // markupParams.setWindowState(ns);
-        MarkupResponse markupResponse = getMarkup(registrationContext,
-                                                  portletContext,
-                                                  runtimeContext,
-                                                  userContext,
-                                                  markupParams);
+        MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext,
+            markupParams);
         markupContext = markupResponse.getMarkupContext();
       }
 
@@ -624,8 +594,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       NavigationalContext newNavigationalContext = new NavigationalContext();
       newNavigationalContext.setOpaqueValue(navigationalState);
       newNavigationalContext.getPublicValues().clear();
-      newNavigationalContext.getPublicValues()
-                            .addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
+      newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
       newNavigationalContext.getExtensions().clear();
       updateResponse.setNavigationalContext(newNavigationalContext);
 
@@ -638,7 +607,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   }
 
-//delete all public and put new public from input
+  //delete all public and put new public from input
   private void replacePublicParams(Map<String, String[]> renderParameters,
                                    List<String> publicParamNames,
                                    Map<String, String[]> navigationalParameters) {
@@ -729,8 +698,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     //    }
 
     // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName
-        + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER
+        + portletName);
 
     // PROCESS PARAMETERS
 
@@ -741,9 +710,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // process opaque (navigational) values
     Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
+    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext
+        .getPublicValues());
     // manage form parameters
-    Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(resourceParams.getFormParameters());
+    Map<String, String[]> formParameters = Utils.getMapParametersFromNamedStringArray(resourceParams
+        .getFormParameters());
     // process resource parameters
     Map<String, String[]> persistentResourceParameters = processResourceState(resourceParams.getResourceState());
 
@@ -754,8 +725,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       renderParameters = formParameters;
     } else if (persistentResourceParameters != null && !persistentResourceParameters.isEmpty()) {
       renderParameters = persistentResourceParameters;
-    } else if (persistentNavigationalParameters != null
-        && !persistentNavigationalParameters.isEmpty()) {
+    } else if (persistentNavigationalParameters != null && !persistentNavigationalParameters.isEmpty()) {
       renderParameters = persistentNavigationalParameters;
     }
 
@@ -773,21 +743,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                          runtimeContext,
-                                                                                          session,
-                                                                                          conf.isTemplatesStoredInSession(),
-                                                                                          transientStateManager,
-                                                                                          mimeType,
-                                                                                          portletData.getSupports(),
-                                                                                          resourceParams.isSecureClientCommunication(),
-                                                                                          portletHandle,
-                                                                                          persistentStateManager,
-                                                                                          sessionID,
-                                                                                          portletData.getEscapeXml(),
-                                                                                          ResourceURL.PAGE,
-                                                                                          portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf
+        .isDoesUrlTemplateProcessing(), runtimeContext, session, conf.isTemplatesStoredInSession(),
+        transientStateManager, mimeType, portletData.getSupports(), resourceParams.isSecureClientCommunication(),
+        portletHandle, persistentStateManager, sessionID, portletData.getEscapeXml(), ResourceURL.PAGE, portletData
+            .getSupportedPublicRenderParameter(), ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END CREATING FACTORY --------------
 
     // manage mode and states
@@ -795,10 +755,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     WindowState windowState = WindowStates.getJsrWindowState(resourceParams.getWindowState());
 
     // prepare the call to the portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
 
     // for get params within included jsp struts
@@ -923,8 +881,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     log.debug("Owner Context : " + owner);
 
     // get portlet data
-    PortletData portletData = getPortletMetaData(portletApplicationName
-        + Constants.PORTLET_META_DATA_ENCODER + portletName);
+    PortletData portletData = getPortletMetaData(portletApplicationName + Constants.PORTLET_META_DATA_ENCODER
+        + portletName);
 
     // manage mime type
     String mimeType = null;
@@ -935,21 +893,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     // ---------- BEGIN CREATING FACTORY --------------
-    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
-                                                                                          runtimeContext,
-                                                                                          session,
-                                                                                          conf.isTemplatesStoredInSession(),
-                                                                                          transientStateManager,
-                                                                                          mimeType,
-                                                                                          portletData.getSupports(),
-                                                                                          markupParams.isSecureClientCommunication(),
-                                                                                          portletHandle,
-                                                                                          persistentStateManager,
-                                                                                          sessionID,
-                                                                                          portletData.getEscapeXml(),
-                                                                                          ResourceURL.PAGE,
-                                                                                          portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+    PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf
+        .isDoesUrlTemplateProcessing(), runtimeContext, session, conf.isTemplatesStoredInSession(),
+        transientStateManager, mimeType, portletData.getSupports(), markupParams.isSecureClientCommunication(),
+        portletHandle, persistentStateManager, sessionID, portletData.getEscapeXml(), ResourceURL.PAGE, portletData
+            .getSupportedPublicRenderParameter(), ((PortletDataImp) portletData).getWrappedPortletTyped());
     // ---------- END CREATING FACTORY --------------
 
     // manage portlet state
@@ -968,10 +916,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       isStateChangeAuthorized = true;
     } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
       log.debug("cloneBeforWrite state change");
-      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
-                                                                         portletContext,
-                                                                         userContext,
-                                                                         portletContext.getScheduledDestruction());
+      portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext, portletContext,
+          userContext, portletContext.getScheduledDestruction());
       // any modification will be made on the
       isStateChangeAuthorized = true;
     } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
@@ -1001,7 +947,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // process opaque (navigational) values
     Map<String, String[]> persistentNavigationalParameters = processNavigationalState(navigationalContext);
     // get navigational (public) values
-    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext.getPublicValues());
+    Map<String, String[]> navigationalParameters = Utils.getMapParametersFromNamedStringArray(navigationalContext
+        .getPublicValues());
 
     // create render params map for input
     Map<String, String[]> renderParameters = new HashMap<String, String[]>();
@@ -1013,10 +960,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     replacePublicParams(renderParameters, publicParamNames, navigationalParameters);
 
     // prepare objects for portlet container
-    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance()
-                                                                               .getRequest();
-    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance()
-                                                                                  .getResponse();
+    WSRPHttpServletRequest request = (WSRPHttpServletRequest) WSRPHTTPContainer.getInstance().getRequest();
+    WSRPHttpServletResponse response = (WSRPHttpServletResponse) WSRPHTTPContainer.getInstance().getResponse();
     WSRPHTTPContainer.getInstance().getRequest().setWsrpSession(session);
     // putInteractionParameterInRequest(request, eventParams);
 
@@ -1068,8 +1013,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         if (output.hasError())
           throw new WSRPException("processEvent output hasError");
       } catch (WSRPException e) {
-        log.debug("The call to processEvent with event: '" + event.getName()
-            + "' method was a failure ", e);
+        log.debug("The call to processEvent with event: '" + event.getName() + "' method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();
         //        handleEventsFailed.setErrorCode(ErrorCodes.fromValue(new QName(e.getFault())));
         LocalizedString reason = new LocalizedString();
@@ -1101,8 +1045,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
 
     UpdateResponse updateResponse = new UpdateResponse();
-    updateResponse.getEvents()
-                  .addAll(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
+    updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(resultNativeEventsList));
     if (output.getNextMode() != null)
       updateResponse.setNewMode(Modes.getWSRPModeString(output.getNextMode()));
     if (output.getNextState() != null)
@@ -1133,8 +1076,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // create navigational context
     NavigationalContext newNavigationalContext = new NavigationalContext();
     newNavigationalContext.setOpaqueValue(navigationalState);
-    newNavigationalContext.getPublicValues()
-                          .addAll(Utils.getNamedStringListParametersFromMap(publicParameters));
+    newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));
     updateResponse.setNavigationalContext(navigationalContext);
 
     handleEventsResponse.setUpdateResponse(updateResponse);
@@ -1152,8 +1094,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                                ModifyRegistrationRequired,
                                                                                                OperationFailed,
                                                                                                WSRPException {
-    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
-      LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
+    try {
+      if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+        LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
+      }
+    } catch (InvalidHandle ih) {
+      throw new InvalidRegistration(ih.getMessage(), ih);
+    }
     return new ReturnAny();
   }
 
@@ -1167,8 +1114,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                            MissingParameters,
                                                            OperationFailed,
                                                            WSRPException {
-    if (RegistrationVerifier.checkRegistrationContext(registrationContext))
-      LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
+    try {
+      if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+        LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
+      }
+    } catch (InvalidHandle ih) {
+      throw new InvalidRegistration(ih.getMessage(), ih);
+    }
     for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {
       String name = iterator.next();
       transientStateManager.releaseSession(name);
@@ -1198,8 +1150,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } else {
       String[] keys = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
       if (keys.length == 2) {
-        portletHandle += Constants.PORTLET_HANDLE_ENCODER
-            + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
+        portletHandle += Constants.PORTLET_HANDLE_ENCODER + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
       }
     }
     RegistrationVerifier.checkRegistrationContext(registrationContext);
@@ -1294,9 +1245,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private Integer getSessionTimePeriod() {
     try {
-      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance()
-                                                                           .getRequest()
-                                                                           .getSession();
+      WSRPHttpSession wsrpHttpSession = (WSRPHttpSession) WSRPHTTPContainer.getInstance().getRequest().getSession();
       return wsrpHttpSession.getMaxInactiveInterval();
     } catch (Exception e) {
       System.out.println("MarkupOperationsInterfaceImpl.getSessionTimePeriod: = " + e.getCause());
@@ -1313,10 +1262,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       return "";
     for (int i = 0; i < in.length(); i++) {
       current = in.charAt(i);
-      if ((current == 0x9) || (current == 0xA) || (current == 0xD)
-          || ((current >= 0x20) && (current <= 0xD7FF))
-          || ((current >= 0xE000) && (current <= 0xFFFD))
-          || ((current >= 0x10000) && (current <= 0x10FFFF)))
+      if ((current == 0x9) || (current == 0xA) || (current == 0xD) || ((current >= 0x20) && (current <= 0xD7FF))
+          || ((current >= 0xE000) && (current <= 0xFFFD)) || ((current >= 0x10000) && (current <= 0x10FFFF)))
         out.append(current);
     }
     return out.toString();

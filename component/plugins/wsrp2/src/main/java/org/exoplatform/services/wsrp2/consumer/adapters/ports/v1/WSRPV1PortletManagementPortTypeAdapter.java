@@ -258,6 +258,7 @@ public class WSRPV1PortletManagementPortTypeAdapter implements
     } catch (WS1InconsistentParameters ir) {
       throw new InconsistentParameters(ir.getMessage(), new InconsistentParametersFault());
     } catch (WS1OperationFailed of) {
+      of.printStackTrace();
       throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     }
 

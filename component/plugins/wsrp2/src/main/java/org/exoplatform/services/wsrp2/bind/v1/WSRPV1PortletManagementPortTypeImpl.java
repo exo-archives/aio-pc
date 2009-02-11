@@ -88,12 +88,15 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       throw new WS1InconsistentParameters(ir.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
 //      LOG.error(of.getMessage(), of);
+      of.printStackTrace();
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
 //      LOG.error(wsrpe.getMessage(), wsrpe);
+      wsrpe.printStackTrace();
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
 //      LOG.error(e.getMessage(), e);
+      e.printStackTrace();
       throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
     }
 

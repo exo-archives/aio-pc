@@ -227,10 +227,8 @@ public class WSRPTypesTransformer {
     InteractionParams interactionParams = new InteractionParams();
     interactionParams.setInteractionState(ws1InteractionParams.getInteractionState());
     interactionParams.setPortletStateChange(getWS2StateChange(ws1InteractionParams.getPortletStateChange()));
-    interactionParams.getFormParameters()
-                     .addAll(getWS2FormParameters(ws1InteractionParams.getFormParameters()));
-    interactionParams.getUploadContexts()
-                     .addAll(getWS2UploadContext(ws1InteractionParams.getUploadContexts()));
+    interactionParams.getFormParameters().addAll(getWS2FormParameters(ws1InteractionParams.getFormParameters()));
+    interactionParams.getUploadContexts().addAll(getWS2UploadContext(ws1InteractionParams.getUploadContexts()));
     return interactionParams;
   }
 
@@ -300,8 +298,7 @@ public class WSRPTypesTransformer {
     ws1UpdateResponse.setMarkupContext(getWS1MarkupContext(updateResponse.getMarkupContext()));
 
     if (updateResponse.getNavigationalContext() != null) {
-      ws1UpdateResponse.setNavigationalState(updateResponse.getNavigationalContext()
-                                                           .getOpaqueValue());
+      ws1UpdateResponse.setNavigationalState(updateResponse.getNavigationalContext().getOpaqueValue());
     }
     ws1UpdateResponse.setNewMode(updateResponse.getNewMode());
     ws1UpdateResponse.setPortletContext(getWS1PortletContext(updateResponse.getPortletContext()));
@@ -474,8 +471,7 @@ public class WSRPTypesTransformer {
     UploadContext uploadContext = new UploadContext();
     uploadContext.setMimeType(ws1UploadContext.getMimeType());
     uploadContext.setUploadData(ws1UploadContext.getUploadData());
-    uploadContext.getMimeAttributes()
-                 .addAll(getWS2NamedStrings(ws1UploadContext.getMimeAttributes()));
+    uploadContext.getMimeAttributes().addAll(getWS2NamedStrings(ws1UploadContext.getMimeAttributes()));
     uploadContext.getExtensions().addAll(getWS2Extensions(ws1UploadContext.getExtensions()));
     return uploadContext;
   }
@@ -647,12 +643,9 @@ public class WSRPTypesTransformer {
     portletDescription.setTitle(getWS2LocalizedString(ws1portletDescription.getTitle()));
     portletDescription.setUserContextStoredInSession(ws1portletDescription.isUserContextStoredInSession());
     portletDescription.setUsesMethodGet(ws1portletDescription.isUsesMethodGet());
-    portletDescription.getExtensions()
-                      .addAll(getWS2Extensions(ws1portletDescription.getExtensions()));
-    portletDescription.getKeywords()
-                      .addAll(getWS2LocalizedStrings(ws1portletDescription.getKeywords()));
-    portletDescription.getMarkupTypes()
-                      .addAll(getWS2MarkupTypes(ws1portletDescription.getMarkupTypes()));
+    portletDescription.getExtensions().addAll(getWS2Extensions(ws1portletDescription.getExtensions()));
+    portletDescription.getKeywords().addAll(getWS2LocalizedStrings(ws1portletDescription.getKeywords()));
+    portletDescription.getMarkupTypes().addAll(getWS2MarkupTypes(ws1portletDescription.getMarkupTypes()));
     portletDescription.getUserProfileItems().addAll(ws1portletDescription.getUserProfileItems());
 
     return portletDescription;
@@ -697,8 +690,8 @@ public class WSRPTypesTransformer {
     ModelDescription modelDescription = new ModelDescription();
     modelDescription.setModelTypes(getWS2ModelTypes(ws1modelDescription.getModelTypes()));
     modelDescription.getExtensions().addAll(getWS2Extensions(ws1modelDescription.getExtensions()));
-    modelDescription.getPropertyDescriptions()
-                    .addAll(getWS2PropertyDescriptions(ws1modelDescription.getPropertyDescriptions()));
+    modelDescription.getPropertyDescriptions().addAll(
+        getWS2PropertyDescriptions(ws1modelDescription.getPropertyDescriptions()));
     return modelDescription;
   }
 
@@ -883,12 +876,9 @@ public class WSRPTypesTransformer {
     ws1portletDescription.setTitle(getWS1LocalizedString(portletDescription.getTitle()));
     ws1portletDescription.setUserContextStoredInSession(portletDescription.isUserContextStoredInSession());
     ws1portletDescription.setUsesMethodGet(portletDescription.isUsesMethodGet());
-    ws1portletDescription.getExtensions()
-                         .addAll(getWS1Extensions(portletDescription.getExtensions()));
-    ws1portletDescription.getKeywords()
-                         .addAll(getWS1LocalizedStrings(portletDescription.getKeywords()));
-    ws1portletDescription.getMarkupTypes()
-                         .addAll(getWS1MarkupTypes(portletDescription.getMarkupTypes()));
+    ws1portletDescription.getExtensions().addAll(getWS1Extensions(portletDescription.getExtensions()));
+    ws1portletDescription.getKeywords().addAll(getWS1LocalizedStrings(portletDescription.getKeywords()));
+    ws1portletDescription.getMarkupTypes().addAll(getWS1MarkupTypes(portletDescription.getMarkupTypes()));
     ws1portletDescription.getUserProfileItems().addAll(portletDescription.getUserProfileItems());
 
     return ws1portletDescription;
@@ -919,8 +909,8 @@ public class WSRPTypesTransformer {
     WS1ModelDescription ws1modelDescription = new WS1ModelDescription();
     ws1modelDescription.setModelTypes(getWS1ModelTypes(modelDescription.getModelTypes()));
     ws1modelDescription.getExtensions().addAll(getWS1Extensions(modelDescription.getExtensions()));
-    ws1modelDescription.getPropertyDescriptions()
-                       .addAll(getWS1PropertyDescriptions(modelDescription.getPropertyDescriptions()));
+    ws1modelDescription.getPropertyDescriptions().addAll(
+        getWS1PropertyDescriptions(modelDescription.getPropertyDescriptions()));
     return ws1modelDescription;
   }
 
@@ -1106,8 +1096,7 @@ public class WSRPTypesTransformer {
     }
     PropertyList propertyList = new PropertyList();
     propertyList.getProperties().addAll(getWS2Properties(ws1propertyList.getProperties()));
-    propertyList.getResetProperties()
-                .addAll(getWS2ResetProperties(ws1propertyList.getResetProperties()));
+    propertyList.getResetProperties().addAll(getWS2ResetProperties(ws1propertyList.getResetProperties()));
     propertyList.getExtensions().addAll(getWS2Extensions(ws1propertyList.getExtensions()));
     return propertyList;
   }
@@ -1141,8 +1130,7 @@ public class WSRPTypesTransformer {
     }
     WS1PropertyList ws1propertyList = new WS1PropertyList();
     ws1propertyList.getProperties().addAll(getWS1Properties(propertyList.getProperties()));
-    ws1propertyList.getResetProperties()
-                   .addAll(getWS1ResetProperties(propertyList.getResetProperties()));
+    ws1propertyList.getResetProperties().addAll(getWS1ResetProperties(propertyList.getResetProperties()));
     ws1propertyList.getExtensions().addAll(getWS1Extensions(propertyList.getExtensions()));
     return ws1propertyList;
   }
@@ -1176,7 +1164,7 @@ public class WSRPTypesTransformer {
     }
     WS1Property ws1property = new WS1Property();
     ws1property.setLang(property.getLang());
-    ws1property.setName(property.getName().toString());
+    ws1property.setName(property.getName().getLocalPart());
     ws1property.setStringValue(property.getStringValue());
     return ws1property;
   }
@@ -1206,14 +1194,11 @@ public class WSRPTypesTransformer {
     ws1sd.setRequiresInitCookie(getWS1CookieProtocol(sd.getRequiresInitCookie()));
     ws1sd.setRequiresRegistration(sd.isRequiresRegistration());
     ws1sd.setResourceList(getWS1ResourceList(sd.getResourceList()));
-    ws1sd.getCustomModeDescriptions()
-         .addAll(getWS1ItemDescriptions(sd.getCustomModeDescriptions()));
-    ws1sd.getCustomWindowStateDescriptions()
-         .addAll(getWS1ItemDescriptions(sd.getCustomWindowStateDescriptions()));
+    ws1sd.getCustomModeDescriptions().addAll(getWS1ItemDescriptions(sd.getCustomModeDescriptions()));
+    ws1sd.getCustomWindowStateDescriptions().addAll(getWS1ItemDescriptions(sd.getCustomWindowStateDescriptions()));
     ws1sd.getExtensions().addAll(getWS1Extensions(sd.getExtensions()));
     ws1sd.getOfferedPortlets().addAll(getWS1PortletDescriptions(sd.getOfferedPortlets()));
-    ws1sd.getUserCategoryDescriptions()
-         .addAll(getWS1ItemDescriptions(sd.getUserCategoryDescriptions()));
+    ws1sd.getUserCategoryDescriptions().addAll(getWS1ItemDescriptions(sd.getUserCategoryDescriptions()));
     if (sd.getLocales() != null)
       ws1sd.getLocales().addAll(sd.getLocales());
     return ws1sd;
@@ -1264,7 +1249,8 @@ public class WSRPTypesTransformer {
       return null;
     }
     WS1DestroyFailed ws1destroyFailed = new WS1DestroyFailed();
-    ws1destroyFailed.setPortletHandle(fp.getPortletHandles().get(0));
+    if (fp.getPortletHandles() != null && fp.getPortletHandles().size() != 0)
+      ws1destroyFailed.setPortletHandle(fp.getPortletHandles().get(0));
     ws1destroyFailed.setReason(fp.getReason().getValue());
     return ws1destroyFailed;
   }
@@ -1439,12 +1425,9 @@ public class WSRPTypesTransformer {
     WS1InteractionParams ws1InteractionParams = new WS1InteractionParams();
     ws1InteractionParams.setPortletStateChange(getWS1StateChange(interactionParams.getPortletStateChange()));
     ws1InteractionParams.setInteractionState(interactionParams.getInteractionState());
-    ws1InteractionParams.getFormParameters()
-                        .addAll(getWS1NamedStrings(interactionParams.getFormParameters()));
-    ws1InteractionParams.getUploadContexts()
-                        .addAll(getWS1UploadContexts(interactionParams.getUploadContexts()));
-    ws1InteractionParams.getExtensions()
-                        .addAll(getWS1Extensions(interactionParams.getExtensions()));
+    ws1InteractionParams.getFormParameters().addAll(getWS1NamedStrings(interactionParams.getFormParameters()));
+    ws1InteractionParams.getUploadContexts().addAll(getWS1UploadContexts(interactionParams.getUploadContexts()));
+    ws1InteractionParams.getExtensions().addAll(getWS1Extensions(interactionParams.getExtensions()));
     return ws1InteractionParams;
   }
 
@@ -1466,8 +1449,7 @@ public class WSRPTypesTransformer {
     WS1UploadContext ws1UploadContext = new WS1UploadContext();
     ws1UploadContext.setMimeType(uploadContext.getMimeType());
     ws1UploadContext.setUploadData(uploadContext.getUploadData());
-    ws1UploadContext.getMimeAttributes()
-                    .addAll(getWS1NamedStrings(uploadContext.getMimeAttributes()));
+    ws1UploadContext.getMimeAttributes().addAll(getWS1NamedStrings(uploadContext.getMimeAttributes()));
     ws1UploadContext.getExtensions().addAll(getWS1Extensions(uploadContext.getExtensions()));
     return ws1UploadContext;
   }
@@ -1519,18 +1501,20 @@ public class WSRPTypesTransformer {
       return null;
     }
     FailedPortlets failedPortlets = new FailedPortlets();
-//    failedPortlets.setErrorCode(value);
+    //    failedPortlets.setErrorCode(value);
+    failedPortlets.getPortletHandles().add(ws1DestroyFailed.getPortletHandle());
     LocalizedString reason = new LocalizedString();
     reason.setValue(ws1DestroyFailed.getReason());
     failedPortlets.setReason(reason);
-//    failedPortlets.setResourceList(value);
+//        failedPortlets.setResourceList(value);
     return failedPortlets;
   }
 
   public static GetServiceDescription getWS2GetServiceDescription(WS1GetServiceDescription ws1GetServiceDescription) {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.setRegistrationContext(getWS2RegistrationContext(ws1GetServiceDescription.getRegistrationContext()));
-//    getServiceDescription.setUserContext());
+    getServiceDescription.setRegistrationContext(getWS2RegistrationContext(ws1GetServiceDescription
+        .getRegistrationContext()));
+    //    getServiceDescription.setUserContext());
     getServiceDescription.getDesiredLocales().addAll(ws1GetServiceDescription.getDesiredLocales());
     getServiceDescription.getPortletHandles();
     return getServiceDescription;
@@ -1542,7 +1526,7 @@ public class WSRPTypesTransformer {
     getMarkup.setPortletContext(getWS2PortletContext(ws1GetMarkup.getPortletContext()));
     getMarkup.setRegistrationContext(getWS2RegistrationContext(ws1GetMarkup.getRegistrationContext()));
     getMarkup.setRuntimeContext(getWS2RuntimeContext(ws1GetMarkup.getRuntimeContext()));
-//    getMarkup.setUserContext(value);
+    //    getMarkup.setUserContext(value);
     return getMarkup;
   }
 
@@ -1562,14 +1546,15 @@ public class WSRPTypesTransformer {
     clonePortlet.setPortletContext(getWS2PortletContext(ws1ClonePortlet.getPortletContext()));
     clonePortlet.setRegistrationContext(getWS2RegistrationContext(ws1ClonePortlet.getRegistrationContext()));
     clonePortlet.setUserContext(getWS2UserContext(ws1ClonePortlet.getUserContext()));
-//    clonePortlet.setLifetime(value);
+    //    clonePortlet.setLifetime(value);
     return clonePortlet;
   }
 
   public static SetPortletProperties getWS2SetPortletProperties(WS1SetPortletProperties ws1SetPortletProperties) {
     SetPortletProperties setPortletProperties = new SetPortletProperties();
     setPortletProperties.setPortletContext(getWS2PortletContext(ws1SetPortletProperties.getPortletContext()));
-    setPortletProperties.setRegistrationContext(getWS2RegistrationContext(ws1SetPortletProperties.getRegistrationContext()));
+    setPortletProperties.setRegistrationContext(getWS2RegistrationContext(ws1SetPortletProperties
+        .getRegistrationContext()));
     setPortletProperties.setUserContext(getWS2UserContext(ws1SetPortletProperties.getUserContext()));
     setPortletProperties.setPropertyList(getWS2PropertyList(ws1SetPortletProperties.getPropertyList()));
     return setPortletProperties;
@@ -1577,11 +1562,15 @@ public class WSRPTypesTransformer {
 
   public static PerformBlockingInteraction getWS2PerformBlockingInteraction(WS1PerformBlockingInteraction ws1PerformBlockingInteraction) {
     PerformBlockingInteraction performBlockingInteraction = new PerformBlockingInteraction();
-    performBlockingInteraction.setInteractionParams(getWS2InteractionParams(ws1PerformBlockingInteraction.getInteractionParams()));
+    performBlockingInteraction.setInteractionParams(getWS2InteractionParams(ws1PerformBlockingInteraction
+        .getInteractionParams()));
     performBlockingInteraction.setMarkupParams(getWS2MarkupParams(ws1PerformBlockingInteraction.getMarkupParams()));
-    performBlockingInteraction.setPortletContext(getWS2PortletContext(ws1PerformBlockingInteraction.getPortletContext()));
-    performBlockingInteraction.setRegistrationContext(getWS2RegistrationContext(ws1PerformBlockingInteraction.getRegistrationContext()));
-    performBlockingInteraction.setRuntimeContext(getWS2RuntimeContext(ws1PerformBlockingInteraction.getRuntimeContext()));
+    performBlockingInteraction
+        .setPortletContext(getWS2PortletContext(ws1PerformBlockingInteraction.getPortletContext()));
+    performBlockingInteraction.setRegistrationContext(getWS2RegistrationContext(ws1PerformBlockingInteraction
+        .getRegistrationContext()));
+    performBlockingInteraction
+        .setRuntimeContext(getWS2RuntimeContext(ws1PerformBlockingInteraction.getRuntimeContext()));
     performBlockingInteraction.setUserContext(getWS2UserContext(ws1PerformBlockingInteraction.getUserContext()));
     return performBlockingInteraction;
   }
@@ -1589,16 +1578,18 @@ public class WSRPTypesTransformer {
   public static WS1BlockingInteractionResponse getWS1BlockingInteractionResponse(BlockingInteractionResponse ws2PerformBlockingInteraction) {
     WS1BlockingInteractionResponse ws1BlockingInteractionResponse = new WS1BlockingInteractionResponse();
     ws1BlockingInteractionResponse.setRedirectURL(ws2PerformBlockingInteraction.getRedirectURL());
-    ws1BlockingInteractionResponse.setUpdateResponse(getWS1UpdateResponse(ws2PerformBlockingInteraction.getUpdateResponse()));
-    ws1BlockingInteractionResponse.getExtensions()
-                                  .addAll(getWS1Extensions(ws2PerformBlockingInteraction.getExtensions()));
+    ws1BlockingInteractionResponse.setUpdateResponse(getWS1UpdateResponse(ws2PerformBlockingInteraction
+        .getUpdateResponse()));
+    ws1BlockingInteractionResponse.getExtensions().addAll(
+        getWS1Extensions(ws2PerformBlockingInteraction.getExtensions()));
     return ws1BlockingInteractionResponse;
   }
 
   public static GetPortletProperties getWS2GetPortletProperties(WS1GetPortletProperties ws1GetPortletProperties) {
     GetPortletProperties getPortletProperties = new GetPortletProperties();
     getPortletProperties.setPortletContext(getWS2PortletContext(ws1GetPortletProperties.getPortletContext()));
-    getPortletProperties.setRegistrationContext(getWS2RegistrationContext(ws1GetPortletProperties.getRegistrationContext()));
+    getPortletProperties.setRegistrationContext(getWS2RegistrationContext(ws1GetPortletProperties
+        .getRegistrationContext()));
     getPortletProperties.setUserContext(getWS2UserContext(ws1GetPortletProperties.getUserContext()));
     getPortletProperties.getNames().addAll(ws1GetPortletProperties.getNames());
     return getPortletProperties;
@@ -1607,41 +1598,39 @@ public class WSRPTypesTransformer {
   public static DestroyPortlets getWS2DestroyPortlets(WS1DestroyPortlets ws1DestroyPortlets) {
     DestroyPortlets destroyPortlets = new DestroyPortlets();
     destroyPortlets.setRegistrationContext(getWS2RegistrationContext(ws1DestroyPortlets.getRegistrationContext()));
-//    destroyPortlets.setUserContext();
+    //    destroyPortlets.setUserContext();
     destroyPortlets.getPortletHandles().addAll(ws1DestroyPortlets.getPortletHandles());
     return destroyPortlets;
   }
 
   public static WS1DestroyPortletsResponse getWS1DestroyPortletsResponse(DestroyPortletsResponse ws2DestroyPortlets) {
     WS1DestroyPortletsResponse ws1DestroyPortletsResponse = new WS1DestroyPortletsResponse();
-    ws1DestroyPortletsResponse.getDestroyFailed()
-                              .addAll(getWS1DestroyFailed(ws2DestroyPortlets.getFailedPortlets()));
-    ws1DestroyPortletsResponse.getExtensions()
-                              .addAll(getWS1Extensions(ws2DestroyPortlets.getExtensions()));
+    ws1DestroyPortletsResponse.getDestroyFailed().addAll(getWS1DestroyFailed(ws2DestroyPortlets.getFailedPortlets()));
+    ws1DestroyPortletsResponse.getExtensions().addAll(getWS1Extensions(ws2DestroyPortlets.getExtensions()));
     return ws1DestroyPortletsResponse;
   }
 
   public static ReleaseSessions getWS2ReleaseSessions(WS1ReleaseSessions ws1ReleaseSessions) {
     ReleaseSessions releaseSessions = new ReleaseSessions();
     releaseSessions.setRegistrationContext(getWS2RegistrationContext(ws1ReleaseSessions.getRegistrationContext()));
-//    releaseSessions.setUserContext();
+    //    releaseSessions.setUserContext();
     releaseSessions.getSessionIDs().addAll(ws1ReleaseSessions.getSessionIDs());
     return releaseSessions;
   }
 
   public static ModifyRegistration getWS2ModifyRegistration(WS1ModifyRegistration ws1ModifyRegistration) {
     ModifyRegistration modifyRegistration = new ModifyRegistration();
-    modifyRegistration.setRegistrationContext(getWS2RegistrationContext(ws1ModifyRegistration.getRegistrationContext()));
+    modifyRegistration
+        .setRegistrationContext(getWS2RegistrationContext(ws1ModifyRegistration.getRegistrationContext()));
     modifyRegistration.setRegistrationData(getWS2RegistrationData(ws1ModifyRegistration.getRegistrationData()));
-//    modifyRegistration.setUserContext(value);
+    //    modifyRegistration.setUserContext(value);
     return modifyRegistration;
   }
 
   public static WS1RegistrationState getWS1RegistrationState(RegistrationState ws2ModifyRegistration) {
     WS1RegistrationState ws1RegistrationState = new WS1RegistrationState();
     ws1RegistrationState.setRegistrationState(ws2ModifyRegistration.getRegistrationState());
-    ws1RegistrationState.getExtensions()
-                        .addAll(getWS1Extensions(ws2ModifyRegistration.getExtensions()));
+    ws1RegistrationState.getExtensions().addAll(getWS1Extensions(ws2ModifyRegistration.getExtensions()));
     return ws1RegistrationState;
   }
 
