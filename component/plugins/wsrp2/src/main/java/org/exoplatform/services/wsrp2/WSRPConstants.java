@@ -162,6 +162,8 @@ public class WSRPConstants {
   public static final String WAP_description                    = "description";
 
   public static final String WAP_version                        = "version";
+  
+  public static final String WAP_lifetime                        = "lifetime";
 
   public static final String DEFAULT_consumerAgentName          = "exoplatform.2.0";
 
