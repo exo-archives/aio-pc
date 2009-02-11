@@ -191,7 +191,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage session
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.getMarkup() runtimeContext.getSessionParams() = "
+        + runtimeContext.getSessionParams());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.getMarkup() userContext = "
+        + userContext);
     String user = userContext != null ? userContext.getUserContextKey() : null;
     WSRPHttpSession session = resolveSession(sessionID, user, sessiontimeperiod);
 
@@ -334,7 +338,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     markupContext.setPreferredTitle(output.getTitle());
     markupContext.setRequiresRewriting(!conf.isDoesUrlTemplateProcessing());
     markupContext.setUseCachedItem(false);
-    markupContext.getValidNewModes().clear();// was: setValidNewModes(null);
+//    markupContext.getValidNewModes().addAll(c);// was: setValidNewModes(null);
 
     // preparing markup response
     MarkupResponse markupResponse = new MarkupResponse();
@@ -563,7 +567,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       if (conf.isSavePortletStateOnConsumer())
         portletContext.setPortletState(output.getPortletState());
       updateResponse.setPortletContext(portletContext);
-      updateResponse.getExtensions().clear();//was:setExtensions(null);
+//      updateResponse.getExtensions().addAll(c);//was:setExtensions(null);
 
       // get render parameters
       renderParameters = output.getRenderParameters();
@@ -593,9 +597,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // create navigational context
       NavigationalContext newNavigationalContext = new NavigationalContext();
       newNavigationalContext.setOpaqueValue(navigationalState);
-      newNavigationalContext.getPublicValues().clear();
+//      newNavigationalContext.getPublicValues().addAll(c);
       newNavigationalContext.getPublicValues().addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
-      newNavigationalContext.getExtensions().clear();
+//      newNavigationalContext.getExtensions().addAll(c);
       updateResponse.setNavigationalContext(newNavigationalContext);
 
       updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(output.getEvents()));
@@ -1060,7 +1064,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     //    }
     updateResponse.setMarkupContext(markupContext);
     updateResponse.setPortletContext(portletContext);
-    updateResponse.getExtensions().clear();
+//    updateResponse.getExtensions().addAll(c);
 
     // get public parameters
     Map<String, String[]> publicParameters = new HashMap<String, String[]>();
@@ -1129,11 +1133,18 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
+    System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.resolveSession() 1 = " + 1);
     WSRPHttpSession session = null;
     try {
+      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.resolveSession() sessionID = "
+          + sessionID);
+      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.resolveSession() user = " + user);
+      System.out.println(">>> EXOMAN MarkupOperationsInterfaceImpl.resolveSession() sessiontimeperiod = "
+          + sessiontimeperiod);
       session = transientStateManager.resolveSession(sessionID, user, sessiontimeperiod);
 
     } catch (WSRPException e) {
+      e.printStackTrace();
       log.debug("Can not lookup or create new session, sessionID parameter : " + sessionID);
       throw new WSRPException();
     }

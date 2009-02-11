@@ -235,7 +235,6 @@ public class PortletDriverImpl implements PortletDriver {
     runtimeContext.setSessionParams(sessionParams);
     runtimeContext.setPageState(null);//pageState);
     runtimeContext.setPortletStates(null);//portletStates);
-    runtimeContext.getExtensions().clear();
     return runtimeContext;
   }
 
@@ -703,7 +702,6 @@ public class PortletDriverImpl implements PortletDriver {
 
     params.setNavigationalContext(getNavigationalContext(request));
 
-    params.getExtensions().clear();
   }
 
   private NavigationalContext getNavigationalContext(WSRPBaseRequest request) {
@@ -759,7 +757,6 @@ public class PortletDriverImpl implements PortletDriver {
                       .equalsIgnoreCase(StateChange.READ_WRITE.value())) {
       eventParams.setPortletStateChange(StateChange.CLONE_BEFORE_WRITE);
     }
-    eventParams.getExtensions().clear();
     return eventParams;
   }
 

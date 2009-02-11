@@ -155,6 +155,8 @@
         <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService" />
         <property name="description" value="" />
         <property name="version" value="2" />
+        <property name="userAttributes" value="" />
+        <property name="userDataConstraint" value="" />
       </properties-param>
     </init-params>
   </component>

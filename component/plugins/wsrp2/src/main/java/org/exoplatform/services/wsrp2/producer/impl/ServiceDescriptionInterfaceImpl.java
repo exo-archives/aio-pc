@@ -117,7 +117,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
         ed.setSchemaType(null);
         ed.setLabel(null);
         ed.setHint(null);
-        ed.getExtensions().clear();
+//        ed.getExtensions().addAll(c);
         eventDescriptions.add(ed);
       }
     }
@@ -184,13 +184,13 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       log.debug("Owner Context : " + owner);
     }
 
-    List<PortletDescription> pdescription = new ArrayList<PortletDescription>(keys.size());
+    List<PortletDescription> portletDescriptions = new ArrayList<PortletDescription>(keys.size());
     int i = 0;
     for (Iterator<String> iter = keys.iterator(); iter.hasNext(); i++) {
       String producerOfferedPortletHandle = (String) iter.next();
       log.debug("fill service description with portlet description: "
           + producerOfferedPortletHandle);
-      pdescription.add(proxy.getPortletDescription(producerOfferedPortletHandle,
+      portletDescriptions.add(proxy.getPortletDescription(producerOfferedPortletHandle,
                                                    desiredLocales.toArray(new String[] {})));
     }
     ServiceDescription sD = new ServiceDescription();
@@ -203,11 +203,11 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     sD.getCustomWindowStateDescriptions()
       .addAll(getCustomWindowStateDescriptions(pcConf.getSupportedWindowStatesWithDescriptions()));
     sD.getLocales().addAll(LOCALES);
-    sD.getOfferedPortlets().addAll(pdescription);
+    sD.getOfferedPortlets().addAll(portletDescriptions);
     sD.setResourceList(new ResourceList());
 
     // WSRP v2 spec
-    sD.getExtensionDescriptions().clear();
+//    sD.getExtensionDescriptions().addAll(c);
     sD.getEventDescriptions().addAll(getEventDescriptions());
     sD.getSupportedOptions().addAll(SUPPORTED_OPTIONS);
     sD.setExportDescription(null);

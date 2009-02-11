@@ -165,6 +165,10 @@ public class WSRPConstants {
   
   public static final String WAP_lifetime                        = "lifetime";
 
+  public static final String WAP_userAttributes                 = "userAttributes";
+
+  public static final String WAP_userDataConstraint             = "userDataConstraint";
+
   public static final String DEFAULT_consumerAgentName          = "exoplatform.2.0";
 
 }

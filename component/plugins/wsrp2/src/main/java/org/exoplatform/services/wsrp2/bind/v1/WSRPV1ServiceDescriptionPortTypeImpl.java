@@ -88,8 +88,11 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
       //LOG.errorwsrpe.getMessage(), wsrpe);
       throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
     } catch (Exception e) {
-      //LOG.errore.getMessage(), e);
-      throw new WS1OperationFailed(e.getMessage(), new WS1OperationFailedFault());
+      throw new WS1OperationFailed("Error '" + e.toString()
+                                       + "'on a PRODUCER side with exception at '"
+                                       + e.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   e);
     }
 
   }

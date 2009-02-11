@@ -51,6 +51,7 @@ import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 import org.exoplatform.services.portletcontainer.pci.model.Description;
 import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
+import org.exoplatform.services.portletcontainer.pci.model.SecurityRoleRef;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
@@ -149,10 +150,11 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
 
     pD.getUserProfileItems().addAll(getUserProfileItems(portlet.getUserAttributes()));
-    pD.getUserCategories().clear();
+    pD.getUserCategories().addAll(getUserCategories(portlet.getSecurityRoleRef()));
 
-    pD.getPortletManagedModes().addAll(
-        Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName, portletName)));
+    pD.getPortletManagedModes()
+      .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
+                                                                   portletName)));
 
     // WSRP from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
@@ -164,19 +166,30 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     // WSRP v2
     pD.getPublishedEvents().addAll(portlet.getSupportedPublishingEvent());
     pD.getHandledEvents().addAll(portlet.getSupportedProcessingEvent());
-    pD.getNavigationalPublicValueDescriptions().addAll(
-        getNavigationalPublicValueDescriptions(portlet.getSupportedPublicRenderParameter()));
+    pD.getNavigationalPublicValueDescriptions()
+      .addAll(getNavigationalPublicValueDescriptions(portlet.getSupportedPublicRenderParameter()));
     pD.setMayReturnPortletState(false);
-    pD.getExtensions().clear();
+//    pD.getExtensions().addAll(c);
 
     return pD;
+  }
+
+  private Collection<String> getUserCategories(List<SecurityRoleRef> securityRoleRef) {
+    Collection<String> userCategories = null;
+    Iterator<SecurityRoleRef> securityRoleRefIter = securityRoleRef.iterator();
+    while (securityRoleRefIter.hasNext()) {
+      SecurityRoleRef elem = securityRoleRefIter.next();
+      if (userCategories == null)
+        userCategories = new ArrayList<String>();
+      userCategories.add(elem.getRoleName());
+    }
+    return userCategories;
   }
 
   private List<ParameterDescription> getNavigationalPublicValueDescriptions(List<String> supportedPublicRenderParameter) {
     if (supportedPublicRenderParameter == null)
       return null;
-    List<ParameterDescription> parameterDescriptions = new ArrayList<ParameterDescription>(
-        supportedPublicRenderParameter.size());
+    List<ParameterDescription> parameterDescriptions = new ArrayList<ParameterDescription>(supportedPublicRenderParameter.size());
     int i = 0;
     for (String parameterString : (List<String>) supportedPublicRenderParameter) {
       ParameterDescription parameterDescription = new ParameterDescription();
@@ -256,7 +269,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return pcService.getSupportedWindowStates();
   }
 
-  public RenderOutput render(WSRPHttpServletRequest request, WSRPHttpServletResponse response, RenderInput input) throws WSRPException {
+  public RenderOutput render(WSRPHttpServletRequest request,
+                             WSRPHttpServletResponse response,
+                             RenderInput input) throws WSRPException {
     try {
       RenderOutput renderOut = pcService.render(request, response, input);
       return renderOut;
@@ -276,7 +291,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     }
   }
 
-  public EventOutput processEvent(WSRPHttpServletRequest request, WSRPHttpServletResponse response, EventInput input) throws WSRPException {
+  public EventOutput processEvent(WSRPHttpServletRequest request,
+                                  WSRPHttpServletResponse response,
+                                  EventInput input) throws WSRPException {
     try {
       EventOutput eventOut = pcService.processEvent(request, response, input);
       return eventOut;
@@ -285,7 +302,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     }
   }
 
-  public ActionOutput processAction(WSRPHttpServletRequest request, WSRPHttpServletResponse response, ActionInput input) throws WSRPException {
+  public ActionOutput processAction(WSRPHttpServletRequest request,
+                                    WSRPHttpServletResponse response,
+                                    ActionInput input) throws WSRPException {
     try {
       ActionOutput actionOut = pcService.processAction(request, response, input);
       Map<String, Object> propertiesMap = actionOut.getProperties();
@@ -308,7 +327,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       String desiredLocale = desiredLocales[i];
       for (Iterator<Description> iter = list.iterator(); iter.hasNext();) {
         Description desc = (Description) iter.next();
-        if (desc != null && desc.getLang() != null && desc.getLang().equalsIgnoreCase(desiredLocale)) {
+        if (desc != null && desc.getLang() != null
+            && desc.getLang().equalsIgnoreCase(desiredLocale)) {
           return Utils.getLocalizedString(desc.getDescription(), desiredLocale);
         }
       }
@@ -330,14 +350,19 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return null;
   }
 
-  private List<LocalizedString> getKeyWords(String portletAppName, String portletName, String[] desiredLocales) {
+  private List<LocalizedString> getKeyWords(String portletAppName,
+                                            String portletName,
+                                            String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      java.util.ResourceBundle resourceBundle = getBundle(portletAppName, portletName, new Locale(desiredLocale));
+      java.util.ResourceBundle resourceBundle = getBundle(portletAppName,
+                                                          portletName,
+                                                          new Locale(desiredLocale));
       System.out.println(" ---- " + portletAppName + "/" + portletName + "/" + desiredLocale);
       System.out.println(" ---- 1:" + resourceBundle);
       System.out.println(" ---- 2:" + resourceBundle.getLocale());
-      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale) || i == desiredLocales.length - 1) {
+      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
+          || i == desiredLocales.length - 1) {
         try {
           String keyWords = resourceBundle.getString(PortletData.KEYWORDS);
           String[] a = StringUtils.split(keyWords, ",");
@@ -385,24 +410,36 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return result;
   }
 
-  private LocalizedString getTitle(String portletAppName, String portletName, String[] desiredLocales) {
+  private LocalizedString getTitle(String portletAppName,
+                                   String portletName,
+                                   String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      java.util.ResourceBundle resourceBundle = getBundle(portletAppName, portletName, new Locale(desiredLocale));
-      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale) || i == desiredLocales.length - 1) {
-        return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_TITLE), desiredLocale);
+      java.util.ResourceBundle resourceBundle = getBundle(portletAppName,
+                                                          portletName,
+                                                          new Locale(desiredLocale));
+      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
+          || i == desiredLocales.length - 1) {
+        return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_TITLE),
+                                        desiredLocale);
       }
     }
     return null;
   }
 
-  private LocalizedString getShortTitle(String portletAppName, String portletName, String[] desiredLocales) {
+  private LocalizedString getShortTitle(String portletAppName,
+                                        String portletName,
+                                        String[] desiredLocales) {
     for (int i = 0; i < desiredLocales.length; i++) {
       String desiredLocale = desiredLocales[i];
-      java.util.ResourceBundle resourceBundle = getBundle(portletAppName, portletName, new Locale(desiredLocale));
-      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale) || i == desiredLocales.length - 1) {
+      java.util.ResourceBundle resourceBundle = getBundle(portletAppName,
+                                                          portletName,
+                                                          new Locale(desiredLocale));
+      if (resourceBundle.getLocale().getLanguage().equalsIgnoreCase(desiredLocale)
+          || i == desiredLocales.length - 1) {
         try {
-          return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_SHORT_TITLE), desiredLocale);
+          return Utils.getLocalizedString(resourceBundle.getString(PortletData.PORTLET_SHORT_TITLE),
+                                          desiredLocale);
         } catch (MissingResourceException ex) {
           LOG.debug("No short title defined for the portlet " + portletAppName + "/" + portletName);
           return null;
@@ -422,7 +459,9 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return toReturnList;
   }
 
-  private java.util.ResourceBundle getBundle(String portletAppName, String portletName, Locale locale) {
+  private java.util.ResourceBundle getBundle(String portletAppName,
+                                             String portletName,
+                                             Locale locale) {
     try {
       WSRPHttpServletRequest request = WSRPHTTPContainer.getInstance().getRequest();
       WSRPHttpServletResponse response = WSRPHTTPContainer.getInstance().getResponse();

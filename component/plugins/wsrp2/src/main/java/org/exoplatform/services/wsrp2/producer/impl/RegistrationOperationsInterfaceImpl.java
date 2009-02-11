@@ -72,17 +72,19 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     String registrationHandle = null;
     byte[] registrationState = null;
-    try {
+    //EXOMAN
+//    try {
       validateRegistrationDatas(data);
       registrationHandle = IdentifierUtil.generateUUID(data);
       registrationState = stateManager.register(registrationHandle, data);
       stateManager.putRegistrationLifetime(registrationHandle, lifetime);
-    } catch (WSRPException e) {
-      e.printStackTrace();
-      if (log.isDebugEnabled())
-        log.debug("Registration failed", e);
-      throw new WSRPException();
-    }
+//    } catch (WSRPException e) {
+//      e.printStackTrace();
+//      if (log.isDebugEnabled())
+//        log.debug("Registration failed", e);
+//      throw new WSRPException();
+//    }
+      
     RegistrationContext rC = new RegistrationContext();
     rC.setRegistrationHandle(registrationHandle);
     rC.setRegistrationState(registrationState);

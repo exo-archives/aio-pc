@@ -83,17 +83,22 @@ public class WSRPAdminPortlet {
 
   private String                  serviceDescriptionIntfEndpoint;
 
-  private String                  description    = "";
+  private String                  description        = "";
 
-  private Integer                 version        = 2;
+  private Integer                 version            = 2;
 
-  private List<String>            consumerModes  = new ArrayList<String>();
+//security
+  private String                  userAttributes     = null;
 
-  private List<String>            consumerStates = new ArrayList<String>();
+  private String                  userDataConstraint = null;
 
-  private String                  consumerName   = "www.exoplatform.org";
+  private List<String>            consumerModes      = new ArrayList<String>();
 
-  private String                  consumerAgent  = "exoplatform.2.0";
+  private List<String>            consumerStates     = new ArrayList<String>();
+
+  private String                  consumerName       = "www.exoplatform.org";
+
+  private String                  consumerAgent      = "exoplatform.2.0";
 
   private ConsumerEnvironment     consumer;
 
@@ -103,7 +108,7 @@ public class WSRPAdminPortlet {
 
   private PortletContainerService pcService;
 
-  private final Log               log            = ExoLogger.getLogger(getClass().getName());
+  private final Log               log                = ExoLogger.getLogger(getClass().getName());
 
   public void init(ExoContainer cont) {
 
@@ -559,6 +564,11 @@ public class WSRPAdminPortlet {
                                                       .get(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
         description = (String) conf.getAdminPortletParams().get(WSRPConstants.WAP_description);
         version = Integer.valueOf(conf.getAdminPortletParams().get(WSRPConstants.WAP_version));
+        //security
+        userAttributes = (String) conf.getAdminPortletParams()
+                                      .get(WSRPConstants.WAP_userAttributes);
+        userDataConstraint = (String) conf.getAdminPortletParams()
+                                          .get(WSRPConstants.WAP_userDataConstraint);
         return;
       }
     }
@@ -573,6 +583,9 @@ public class WSRPAdminPortlet {
     serviceDescriptionIntfEndpoint = "WSRPServiceDescriptionService";
     description = "";
     version = 2;
+    //security
+    userAttributes = null;
+    userDataConstraint = null;
   }
 
   protected String getValue(LocalizedString s) {

@@ -109,7 +109,6 @@ public class WSRPV1PortletManagementPortTypeAdapter implements
                                                                                                       InconsistentParameters,
                                                                                                       OperationFailed {
 
-
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking getPortletDescription...");
     org.exoplatform.services.wsrp1.type.WS1RegistrationContext _getPortletDescription_registrationContext = WSRPTypesTransformer.getWS1RegistrationContext(getPortletDescription.getRegistrationContext());

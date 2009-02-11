@@ -69,6 +69,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
   }
 
   public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
+    System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 1 = " + 1);
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
     WSRPHttpSession session = null;
@@ -77,9 +78,14 @@ public class TransientStateManagerImpl implements TransientStateManager {
     try {
       // !!! it's a very dirty hack and it will be removed as soon as possible
       session = (WSRPHttpSession) cache.get(sessionID);
+      System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() session = "
+          + session);
       WindowInfosContainer.createInstance(cont, sessionID, user);
       if (session != null) {
+        System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 11111 = " + 11111);
         if (sessionID != null && session.isInvalidated()) {
+          System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() session.isInvalidated() = "
+              + session.isInvalidated());
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         } else {
           session.setLastAccessTime(System.currentTimeMillis());
@@ -87,14 +93,18 @@ public class TransientStateManagerImpl implements TransientStateManager {
         if (log.isDebugEnabled())
           log.debug("Lookup session success");
       } else if (sessionID != null && session == null) {
+        System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 2222 = " + 2222);
         throw new Exception("Session doesn't exist anymore");
       } else {
+        System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 3333 = " + 3333);
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
         if (log.isDebugEnabled())
           log.debug("Create new session with ID : " + sessionID);
       }
+      System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() session = "
+          + session);
       return session;
     } catch (Exception e) {
       throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);

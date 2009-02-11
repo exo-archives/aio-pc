@@ -76,7 +76,8 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class PortletManagementOperationsInterfaceImpl implements PortletManagementOperationsInterface {
+public class PortletManagementOperationsInterfaceImpl implements
+    PortletManagementOperationsInterface {
 
   private PortletContainerProxy  proxy;
 
@@ -105,8 +106,11 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
                                                        InconsistentParameters,
                                                        OperationFailed,
                                                        WSRPException {
+    System.out.println(">>> EXOMAN PortletManagementOperationsInterfaceImpl.clonePortlet() 1 = " + 1);
     // TODO verify the userContext content
     String registrationHandle = registrationContext.getRegistrationHandle();
+    System.out.println(">>> EXOMAN PortletManagementOperationsInterfaceImpl.clonePortlet() registrationHandle = "
+        + registrationHandle);
     log.debug("Clone a portlet for the registered consumer : " + registrationHandle);
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
@@ -114,11 +118,17 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
     }
 
     String portletHandle = portletContext.getPortletHandle();
+    System.out.println(">>> EXOMAN PortletManagementOperationsInterfaceImpl.clonePortlet() portletHandle = "
+        + portletHandle);
+
     String newPortletHandle = null;
     try {
       if (stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
         log.debug("Clone a Consumer Configured Portlet with handle : " + portletHandle);
-        PropertyList list = getPortletProperties(registrationContext, portletContext, userContext, null);
+        PropertyList list = getPortletProperties(registrationContext,
+                                                 portletContext,
+                                                 userContext,
+                                                 null);
         newPortletHandle = createNewPortletHandle(portletHandle);
         stateManager.addConsumerConfiguredPortletHandle(newPortletHandle, registrationContext);
         portletContext.setPortletHandle(newPortletHandle);
@@ -131,23 +141,7 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
             listOne.getResetProperties().addAll(list.getResetProperties());
             setPortletProperties(registrationContext, portletContext, userContext, listOne);
           } catch (Exception e) {
-            System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.clonePortlet CATCH = ");
             e.printStackTrace();
-            System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.clonePortlet e.getMessage() = "
-                + e.getMessage());
-            try {
-              if (e.getCause() != null) {
-                e.getCause().printStackTrace();
-                System.out
-                    .println(">>>alexey:PortletManagementOperationsInterfaceImpl.clonePortlet e.getCause().getMessage() = "
-                        + e.getCause().getMessage());
-                System.out
-                    .println(">>>alexey:PortletManagementOperationsInterfaceImpl.clonePortlet e.getCause().getCause() = "
-                        + e.getCause().getCause());
-              }
-            } catch (Exception e2) {
-              e2.printStackTrace();
-            }
           }
         }
       } else {
@@ -204,7 +198,10 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
 
       try {
 
-        PropertyList list = getPortletProperties(fromRegistrationContext, fromPortletContext, fromUserContext, null);
+        PropertyList list = getPortletProperties(fromRegistrationContext,
+                                                 fromPortletContext,
+                                                 fromUserContext,
+                                                 null);
         newPortletHandle = createNewPortletHandle(portletHandle);
 
         PortletContext newPortletContext = new PortletContext();
@@ -362,7 +359,9 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
 
   }
 
-  public ReturnAny releaseExport(byte[] exportContext, UserContext userContext, RegistrationContext registrationContext) {
+  public ReturnAny releaseExport(byte[] exportContext,
+                                 UserContext userContext,
+                                 RegistrationContext registrationContext) {
     return new ReturnAny();
 
   }
@@ -420,14 +419,14 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
           log.debug("Can't destroy a portlet that did not exist : " + portletHandle);
           FailedPortlets failedPortlets = new FailedPortlets();
           failedPortlets.getPortletHandles().add(portletHandle);
-          System.out
-              .println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets failedPortlets.getPortletHandles().size() = "
-                  + failedPortlets.getPortletHandles().size());
+          System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets failedPortlets.getPortletHandles().size() = "
+              + failedPortlets.getPortletHandles().size());
           LocalizedString reason = new LocalizedString();
           reason.setValue("Can't destroy a portlet that did not exist");
           failedPortlets.setReason(reason);
           fails.add(failedPortlets);
-          System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets fails = " + fails);
+          System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets fails = "
+              + fails);
         }
       } catch (WSRPException e) {
         throw new WSRPException();
@@ -443,13 +442,15 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
         + failedPortletsIter);
     while (failedPortletsIter.hasNext()) {
       FailedPortlets elem = (FailedPortlets) failedPortletsIter.next();
-      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets elem = " + elem);
+      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets elem = "
+          + elem);
       Iterator<String> portletHandlesIter = elem.getPortletHandles().iterator();
       System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets portletHandlesIter = "
           + portletHandlesIter);
       while (portletHandlesIter.hasNext()) {
         String elem2 = (String) portletHandlesIter.next();
-        System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets elem2 = " + elem2);
+        System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.destroyPortlets elem2 = "
+            + elem2);
 
       }
     }
@@ -583,15 +584,16 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
 
     try {
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-        log.debug("This portlet handle " + portletHandle + " is not valid in the scope of that registration ");
+        log.debug("This portlet handle " + portletHandle
+            + " is not valid in the scope of that registration ");
         throw new AccessDenied();
       }
     } catch (WSRPException e) {
       throw new WSRPException();
     }
 
-    PortletDescription pD = proxy.getPortletDescription(portletHandle, desiredLocales.toArray(new String[desiredLocales
-        .size()]));
+    PortletDescription pD = proxy.getPortletDescription(portletHandle,
+                                                        desiredLocales.toArray(new String[desiredLocales.size()]));
     ResourceList resourceList = proxy.getResourceList(desiredLocales.toArray(new String[desiredLocales.size()]));
 
     PortletDescriptionResponse response = new PortletDescriptionResponse();
@@ -626,7 +628,8 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
 
     //    try {
     if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-      log.debug("This portlet handle " + portletHandle + " is not valid in the scope of that registration ");
+      log.debug("This portlet handle " + portletHandle
+          + " is not valid in the scope of that registration ");
       throw new AccessDenied();
     }
     //    } catch (WSRPException e) {
@@ -673,7 +676,8 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
     String portletHandle = portletContext.getPortletHandle();
     try {
       if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-        log.debug("This portlet handle " + portletHandle + " is not valid in the scope of that registration ");
+        log.debug("This portlet handle " + portletHandle
+            + " is not valid in the scope of that registration ");
         throw new AccessDenied();
       }
     } catch (WSRPException e) {
@@ -693,23 +697,32 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
         + properties);
     System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties properties.size() = "
         + properties.size());
-    Collection<Property> properties2return = new ArrayList<Property>();
+    Collection<Property> properties2return = null;
     Set<String> keys = properties.keySet();
     for (Iterator<String> iterator = keys.iterator(); iterator.hasNext();) {
       String key = (String) iterator.next();
-      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties key = " + key);
-      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties names = " + names);
-      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties names.size() = "
-          + names.size());
-      if (names == null || names.size()==0 || names.contains(key)) {
-        
+      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties key = "
+          + key);
+      System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties names = "
+          + names);
+      
+      // EXOMAN NULLPOINTER !!!
+      
+      if (names != null)
+        System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties names.size() = "
+            + names.size());
+      if (names == null || names.size() == 0 || names.contains(key)) {
+
         String[] values = (String[]) properties.get(key);
         Property prop = new Property();
         prop.setName(new QName(key));
         System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties values[0] = "
             + values[0]);
         prop.setStringValue(values[0]);
-        System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties prop = " + prop);
+        System.out.println(">>>alexey:PortletManagementOperationsInterfaceImpl.getPortletProperties prop = "
+            + prop);
+        if (properties2return == null)
+          properties2return = new ArrayList<Property>();
         properties2return.add(prop);
       }
     }
@@ -737,9 +750,9 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
                                                                                                       WSRPException {
     PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
     ModelDescription modelDescription = new ModelDescription();
-    modelDescription.getPropertyDescriptions().clear();
+//    modelDescription.getPropertyDescriptions().addAll(c);
     ResourceList resourceList = new ResourceList();
-    resourceList.getResources().clear();
+//    resourceList.getResources().addAll(c);
     portletPropertyDescriptionResponse.setModelDescription(null);
     portletPropertyDescriptionResponse.setResourceList(null);
     return portletPropertyDescriptionResponse;
@@ -747,8 +760,8 @@ public class PortletManagementOperationsInterfaceImpl implements PortletManageme
 
   private String createNewPortletHandle(String portletHandle) {
     String[] keys = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
-    String newPortletHandle = keys[0] + Constants.PORTLET_HANDLE_ENCODER + keys[1] + Constants.PORTLET_HANDLE_ENCODER
-        + IdentifierUtil.generateUUID(portletHandle);
+    String newPortletHandle = keys[0] + Constants.PORTLET_HANDLE_ENCODER + keys[1]
+        + Constants.PORTLET_HANDLE_ENCODER + IdentifierUtil.generateUUID(portletHandle);
     return newPortletHandle;
   }
 

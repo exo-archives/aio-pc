@@ -39,27 +39,27 @@ public class TestWSRPSession extends BaseTest {
     System.out.println(">>>>>>>>>>>>>>> TestWSRPSession.setUp()");
   }
 
-  public void testSession() throws Exception {
-    WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    WS1ServiceDescription sd = getServiceDescription(getServiceDescription);
-    createRegistrationContext(sd);
-    String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
-    WS1PortletContext portletContext = new WS1PortletContext();
-    portletContext.setPortletHandle(portletHandle);
-    portletContext.setPortletState(null);
-    markupParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
-    markupParams.setMode("wsrp:view");
-    markupParams.setWindowState("wsrp:normal");
-    WS1GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
-    WS1MarkupResponse response = getMarkup(getMarkup);
-    String sessionID = response.getSessionContext().getSessionID();
-    runtimeContext.setSessionID(sessionID);
-    manageTemplatesOptimization(sd, portletHandle);
-    manageUserContextOptimization(sd, portletHandle, getMarkup);
-    response = getMarkup(getMarkup);
-    assertEquals("attribute set in first call", response.getMarkupContext().getMarkupString());
-  }
+//  public void testSession() throws Exception {
+//    WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
+//    getServiceDescription.getDesiredLocales().add("en");
+//    WS1ServiceDescription sd = getServiceDescription(getServiceDescription);
+//    createRegistrationContext(sd);
+//    String portletHandle = CONTEXT_PATH + "/PortletToTestSession";
+//    WS1PortletContext portletContext = new WS1PortletContext();
+//    portletContext.setPortletHandle(portletHandle);
+//    portletContext.setPortletState(null);
+//    markupParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
+//    markupParams.setMode("wsrp:view");
+//    markupParams.setWindowState("wsrp:normal");
+//    WS1GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+//    WS1MarkupResponse response = getMarkup(getMarkup);
+//    String sessionID = response.getSessionContext().getSessionID();
+//    runtimeContext.setSessionID(sessionID);
+//    manageTemplatesOptimization(sd, portletHandle);
+//    manageUserContextOptimization(sd, portletHandle, getMarkup);
+//    response = getMarkup(getMarkup);
+//    assertEquals("attribute set in first call", response.getMarkupContext().getMarkupString());
+//  }
 
   public void testReleaseSession() throws Exception {
     WS1GetServiceDescription getServiceDescription = new WS1GetServiceDescription();
