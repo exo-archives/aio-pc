@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2008 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -48,7 +48,6 @@ public class ContainerStarter {
 
   protected static final String          PORTLET_WAR_PATH = TEST_PATH + "/target/hello.war";
 
-  //protected static final String                 WSRP_STARTER_PATH        =  TEST_PATH + "/../../../applications/wsrp1-starter/target/wsrp1.war";
   protected static final String          WSRP_LIB_PATH    = TEST_PATH + "/target/test";
 
   protected static boolean               isStarted;

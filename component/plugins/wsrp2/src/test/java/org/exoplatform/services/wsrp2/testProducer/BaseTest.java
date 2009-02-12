@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -100,8 +100,6 @@ public class BaseTest extends TestCase {
 
   protected static final String                      TEST_PATH                = (System.getProperty("testPath") == null ? "."
                                                                                                                        : System.getProperty("testPath"));
-
-  //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
 
   protected static final String                      serviceUrlString         = SERVICE_URL.substring(0,
                                                                                                       SERVICE_URL.length() - 1);
