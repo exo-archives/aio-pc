@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -143,16 +143,6 @@ public class LifetimeHelper implements Startable {
     }
     return true;
   }
-
-//  private void checkRegistrationContext(RegistrationContext registrationContext) throws InvalidRegistration {
-//    ExoContainer cont = ExoContainerContext.getCurrentContainer();
-//    WSRPConfiguration conf = (WSRPConfiguration) cont.getComponentInstanceOfType(WSRPConfiguration.class);
-//    if (conf.isRegistrationRequired()) {
-//      if (registrationContext == null) {
-//        throw new InvalidRegistration();
-//      }
-//    }
-//  }
 
   public void start() {
   }
