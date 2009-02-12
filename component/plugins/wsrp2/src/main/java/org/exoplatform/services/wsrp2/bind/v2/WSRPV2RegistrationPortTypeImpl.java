@@ -70,9 +70,15 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.RegistrationContext _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" + wsrpe.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                + wsrpe.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     } catch (Exception e) {
-      throw new OperationFailed(e.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" + e.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                +  e.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     }
   }
 
@@ -95,9 +101,15 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" + wsrpe.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                + wsrpe.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     } catch (Exception e) {
-      throw new OperationFailed(e.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" +  e.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                +  e.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     }
   }
 
@@ -120,9 +132,15 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" + wsrpe.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                + wsrpe.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     } catch (Exception e) {
-      throw new OperationFailed(e.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" +  e.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                +  e.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     }
   }
 
@@ -146,9 +164,15 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" + wsrpe.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                + wsrpe.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     } catch (Exception e) {
-      throw new OperationFailed(e.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" +  e.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                +  e.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     }
   }
 
@@ -183,9 +207,15 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      throw new OperationFailed(wsrpe.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" + wsrpe.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                + wsrpe.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     } catch (Exception e) {
-      throw new OperationFailed(e.getMessage(), new OperationFailedFault());
+      throw new OperationFailed("Error '" +  e.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                +  e.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     }
   }
 }
