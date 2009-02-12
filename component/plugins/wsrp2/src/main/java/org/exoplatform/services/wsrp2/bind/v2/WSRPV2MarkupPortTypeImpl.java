@@ -116,11 +116,16 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
+      
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
           + "'on a PRODUCER side with exception at '"
           + e.getStackTrace()[0].toString() + "'",
@@ -148,11 +153,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + e.getStackTrace()[0].toString() + "'",
@@ -215,11 +224,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + e.getStackTrace()[0].toString() + "'",
@@ -277,11 +290,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + e.getStackTrace()[0].toString() + "'",
@@ -316,11 +333,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + e.getStackTrace()[0].toString() + "'",
@@ -384,11 +405,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + e.getStackTrace()[0].toString() + "'",

@@ -92,13 +92,16 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
       //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      //LOG.errorwsrpe.getMessage(), wsrpe);
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
                                    + "'on a PRODUCER side with exception at '"
                                    + wsrpe.getStackTrace()[0].toString() + "'",
                                new WS1OperationFailedFault(),
                                wsrpe);
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+         e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",
@@ -142,13 +145,16 @@ public class WSRPV1RegistrationPortTypeImpl implements WSRPV1RegistrationPortTyp
       //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-      //LOG.errorwsrpe.getMessage(), wsrpe);
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
                                    + "'on a PRODUCER side with exception at '"
                                    + wsrpe.getStackTrace()[0].toString() + "'",
                                new WS1OperationFailedFault(),
                                wsrpe);
     } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+         e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",
