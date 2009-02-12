@@ -238,7 +238,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (isReadOnly(s))
-      throw new ReadOnlyException("the value " + s + " can not be changed");
+      throw new ReadOnlyException("The value '" + s + "' can not be changed");
 
     Preference wrapper = new Preference();
     wrapper.setName(s);
@@ -315,7 +315,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     if (s == null)
       throw new IllegalArgumentException("the key given is null");
     if (isReadOnly(s))
-      throw new ReadOnlyException("the value " + s + " can not be changed");
+      throw new ReadOnlyException("The value '" + s + "' can not be changed");
     Preference preferenceType = null;
     if (defaultPreferences != null)
       preferenceType = defaultPreferences.get(s);
