@@ -224,7 +224,7 @@ public class WSRPAdminPortlet {
       
       w.println("    <tr><td><label style=\"font-size:12px; font-weight:bold;\">Lifetime</label></td>");
       w.println("      <td><input type=\"text\" id=\"" + WSRPConstants.WAP_lifetime + "\" name=\"" + WSRPConstants.WAP_lifetime + "\">"); 
-      w.println( "</input></td></tr>");
+      w.println( "</input>&nbsp; <span style=\"font-size:12px; \" >e.g.: \"2h\", \"30m\"</span></td></tr>");
 
 
       w.println("    <tr><td colspan='2' align='center'>");
