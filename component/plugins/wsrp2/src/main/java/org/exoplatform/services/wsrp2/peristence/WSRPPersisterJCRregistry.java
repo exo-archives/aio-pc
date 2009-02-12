@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -74,10 +74,6 @@ public class WSRPPersisterJCRregistry implements WSRPPersister {
       if (LOG.isDebugEnabled())
         LOG.debug(" e.getCause() = " + e.getCause());
       return null;
-//    } catch (RepositoryException e) {
-//      if (LOG.isDebugEnabled())
-//        LOG.debug(" e.getCause() = " + e.getCause());
-//      return null;
     }
     if (element == null)
       return null;
