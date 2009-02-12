@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -140,27 +140,6 @@ public class Utils {
    *          "wsrp-" prefix
    * @return
    */
-//  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
-//                                                                   boolean selectOnlyNonWSRP) {
-//    if (params == null)
-//      return null;
-//    if (params.isEmpty())
-//      return new NamedString[] {};
-//    List<NamedString> listNamedStringParams = getNamedStringListParametersFromMap(params,
-//                                                                                  selectOnlyNonWSRP);
-//    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
-//  }
-  /**
-   * Convert from input.getRenderParameters() to
-   * baseRequest.setNavigationalValues(NamedString[]). Convert those parameters
-   * from output.getRenderParameters() which are public to
-   * newNavigationalContext.setPublicValues.
-   * 
-   * @param parameters Map<String, String[]>
-   * @param boolean value to store only those parameters which starting with
-   *          "wsrp-" prefix
-   * @return
-   */
   public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params,
                                                                       boolean selectOnlyNonWSRP) {
     if (params == null)
@@ -204,16 +183,6 @@ public class Utils {
           } else {
             // next added parameter
             Arrays.asList(result.get(name)).add(value);
-//            String[] oldArray = result.get(name);
-//            String[] newArray = new String[oldArray.length + 1];
-//            int i = 0;
-//            if (oldArray != null) {
-//              for (String v : oldArray) {
-//                newArray[i++] = v;
-//              }
-//            }
-//            newArray[i] = value;
-//            result.put(name, newArray);
           }
         }
       }
@@ -243,16 +212,6 @@ public class Utils {
           } else {
             // next added parameter
             Arrays.asList(result.get(name)).add(value);
-//            String[] oldArray = result.get(name);
-//            String[] newArray = new String[oldArray.length + 1];
-//            int i = 0;
-//            if (oldArray != null) {
-//              for (String v : oldArray) {
-//                newArray[i++] = v;
-//              }
-//            }
-//            newArray[i] = value;
-//            result.put(name, newArray);
           }
         }
       }
