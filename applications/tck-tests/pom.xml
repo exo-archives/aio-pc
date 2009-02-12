@@ -223,12 +223,6 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-    </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
       <version>${org.exoplatform.pc.version}</version>
     </dependency>
@@ -466,7 +460,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>0.3.1</version>
             <executions>
               <execution>
                 <id>deploysa</id>
@@ -672,13 +666,6 @@
                   <dependency>
                     <groupId>org.exoplatform.portletcontainer</groupId>
                     <artifactId>exo.pc.component.plugins.pc</artifactId>
-                  </dependency>
-
-                  <dependency>
-                    <groupId>org.exoplatform.portletcontainer</groupId>
-                    <artifactId>
-                      exo.pc.component.plugins.wsrp1
-                    </artifactId>
                   </dependency>
 
                   <dependency>
@@ -1295,7 +1282,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>0.3.1</version>
             <executions>
               <execution>
                 <id>stop</id>
