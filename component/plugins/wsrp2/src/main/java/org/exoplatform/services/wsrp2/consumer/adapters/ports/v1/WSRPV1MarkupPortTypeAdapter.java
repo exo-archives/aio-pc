@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -35,21 +35,7 @@ import org.exoplatform.services.wsrp1.intf.WS1UnsupportedMimeType;
 import org.exoplatform.services.wsrp1.intf.WS1UnsupportedMode;
 import org.exoplatform.services.wsrp1.intf.WS1UnsupportedWindowState;
 import org.exoplatform.services.wsrp1.intf.WSRPV1MarkupPortType;
-import org.exoplatform.services.wsrp1.type.WS1AccessDeniedFault;
-import org.exoplatform.services.wsrp1.type.WS1InconsistentParametersFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidCookieFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidHandleFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidRegistrationFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidSessionFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidUserCategoryFault;
-import org.exoplatform.services.wsrp1.type.WS1MissingParametersFault;
-import org.exoplatform.services.wsrp1.type.WS1OperationFailedFault;
-import org.exoplatform.services.wsrp1.type.WS1UnsupportedLocaleFault;
-import org.exoplatform.services.wsrp1.type.WS1UnsupportedMimeTypeFault;
-import org.exoplatform.services.wsrp1.type.WS1UnsupportedModeFault;
-import org.exoplatform.services.wsrp1.type.WS1UnsupportedWindowStateFault;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
-import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;

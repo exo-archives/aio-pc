@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -26,13 +26,6 @@ import org.exoplatform.services.wsrp1.intf.WS1InvalidUserCategory;
 import org.exoplatform.services.wsrp1.intf.WS1MissingParameters;
 import org.exoplatform.services.wsrp1.intf.WS1OperationFailed;
 import org.exoplatform.services.wsrp1.intf.WSRPV1PortletManagementPortType;
-import org.exoplatform.services.wsrp1.type.WS1AccessDeniedFault;
-import org.exoplatform.services.wsrp1.type.WS1InconsistentParametersFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidHandleFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidRegistrationFault;
-import org.exoplatform.services.wsrp1.type.WS1InvalidUserCategoryFault;
-import org.exoplatform.services.wsrp1.type.WS1MissingParametersFault;
-import org.exoplatform.services.wsrp1.type.WS1OperationFailedFault;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;

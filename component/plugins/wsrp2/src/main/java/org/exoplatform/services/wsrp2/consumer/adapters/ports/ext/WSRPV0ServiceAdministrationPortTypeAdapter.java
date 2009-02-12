@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -39,7 +39,6 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
 
 
   public WSRPV0ServiceAdministrationPortTypeAdapter(String address) {
-//    String address = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
     JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
     client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
     client.setAddress(address);
@@ -50,9 +49,6 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
   }
 
   public Map<String, String> getServiceAdministration(String propString) {
-
-//    propString = "{wsrp.uses.method.get=false, wsrp.has.user.specific.state=true, wsrp.requires.registration=true, wsrp.perform.blocking.interaction.optimized=false, wsrp.user.context.stored.in.session=false, wsrp.save.portlet.state.on.consumer=false, wsrp.templates.stored.in.session=false, wsrp.does.url.template.processing=true, wsrp.save.registration.state.on.consumer=false}";
-
     javax.xml.ws.Holder<String> properties = new javax.xml.ws.Holder<String>(propString);
     serviceAdministrationPort.getServiceAdministration(properties);
 
