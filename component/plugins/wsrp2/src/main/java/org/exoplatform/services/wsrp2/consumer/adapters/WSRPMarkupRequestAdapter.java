@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -20,7 +20,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters;
 import org.exoplatform.services.wsrp2.consumer.WSRPMarkupRequest;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 
-/*
+/**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 7 févr. 2004
