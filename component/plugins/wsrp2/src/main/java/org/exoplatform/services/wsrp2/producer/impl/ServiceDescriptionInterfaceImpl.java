@@ -192,7 +192,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
     ServiceDescription sD = new ServiceDescription();
     sD.setRequiresRegistration(conf.isRegistrationRequired());
     sD.setRegistrationPropertyDescription(new ModelDescription());// extension of the WSRP specs
-    sD.setRequiresInitCookie(CookieProtocol.NONE);
+    sD.setRequiresInitCookie(CookieProtocol.fromValue(conf.getCookieProtocol()));
     sD.getCustomModeDescriptions()
       .addAll(getCustomModeDescriptions(pcConf.getSupportedPortletModesWithDescriptions()));
     //sD.setCustomUserProfileItemDescriptions(new ItemDescription[0]);

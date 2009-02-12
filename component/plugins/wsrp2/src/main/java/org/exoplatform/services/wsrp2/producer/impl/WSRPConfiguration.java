@@ -53,9 +53,10 @@ public class WSRPConfiguration {
   public static final String      BLOCKING_INTERACTION_OPTIMIZED      = "wsrp.perform.blocking.interaction.optimized";
 
   public static final String      SAVE_REGISTRATION_STATE_ON_CONSUMER = "wsrp.save.registration.state.on.consumer";
-
+  
   public static final String      SAVE_PORTLET_STATE_ON_CONSUMER      = "wsrp.save.portlet.state.on.consumer";
 
+  public static final String      COOKIE_PROTOCOL                     = "wsrp.coockie.protocol";
 
   private HashMap<String, String> properties;
 
@@ -80,7 +81,7 @@ public class WSRPConfiguration {
   }
 
   private void init(ExoProperties props) {
-    
+
     if (properties == null)
       properties = new HashMap<String, String>();
     properties.putAll(props);
@@ -110,8 +111,11 @@ public class WSRPConfiguration {
                            props.getProperty(WSRPConstants.WAP_serviceDescriptionIntfEndpoint));
     adminPortletParams.put(WSRPConstants.WAP_description,
                            props.getProperty(WSRPConstants.WAP_description));
-    adminPortletParams.put(WSRPConstants.WAP_version,
-                           props.getProperty(WSRPConstants.WAP_version));
+    adminPortletParams.put(WSRPConstants.WAP_version, props.getProperty(WSRPConstants.WAP_version));
+    adminPortletParams.put(WSRPConstants.WAP_userAttributes,
+                           props.getProperty(WSRPConstants.WAP_userAttributes));
+    adminPortletParams.put(WSRPConstants.WAP_userDataConstraint,
+                           props.getProperty(WSRPConstants.WAP_userDataConstraint));
   }
 
   public boolean isHasUserSpecificState() {
@@ -148,6 +152,10 @@ public class WSRPConfiguration {
 
   public boolean isSavePortletStateOnConsumer() {
     return Boolean.parseBoolean(properties.get(WSRPConfiguration.SAVE_PORTLET_STATE_ON_CONSUMER));
+  }
+
+  public String getCookieProtocol() {
+    return properties.get(WSRPConfiguration.COOKIE_PROTOCOL);
   }
 
   public List<String> getExcludeList() {

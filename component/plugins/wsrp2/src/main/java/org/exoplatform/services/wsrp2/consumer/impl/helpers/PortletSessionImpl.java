@@ -39,6 +39,7 @@ public class PortletSessionImpl extends PortletSessionTemplate implements java.i
   public PortletWindowSession getPortletWindowSession(String windowID) {
     PortletWindowSession session = (PortletWindowSession) this.portletWindowSessions.get(windowID);
     if (session == null) {
+      // create new session with provided windowID
       session = new PortletWindowSessionAdapter();
       ((PortletWindowSessionAdapter) session).setWindowID(windowID);
       ((PortletWindowSessionAdapter) session).setPortletSession(this);

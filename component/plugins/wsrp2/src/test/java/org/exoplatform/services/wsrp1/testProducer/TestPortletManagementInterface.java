@@ -127,8 +127,6 @@ public class TestPortletManagementInterface extends BaseTest {
     WS1DestroyPortlets ws1DestroyPortlets = new WS1DestroyPortlets();
     ws1DestroyPortlets.setRegistrationContext(rC);
     ws1DestroyPortlets.getPortletHandles().addAll(Arrays.asList(array));
-    System.out.println(">>>alexey:TestPortletManagementInterface.testDestroyPortlet ws1DestroyPortlets = "
-        + ws1DestroyPortlets);
     WS1DestroyPortletsResponse response = destroyPortlets(ws1DestroyPortlets);
     assertTrue(response.getDestroyFailed() == null || response.getDestroyFailed().size() == 0);
   }
@@ -142,9 +140,6 @@ public class TestPortletManagementInterface extends BaseTest {
     WS1DestroyPortletsResponse response = WSRPTypesTransformer
         .getWS1DestroyPortletsResponse(portletManagementOperationsInterface.destroyPortlets(WSRPTypesTransformer
             .getWS2DestroyPortlets(destroyPortlets)));
-    System.out
-        .println(">>>alexey:TestPortletManagementInterface.testDestroyNonClonedPortlet response.getDestroyFailed().size() = "
-            + response.getDestroyFailed().size());
     assertEquals(CONTEXT_PATH + "/HelloWorld/dummy", response.getDestroyFailed().iterator().next().getPortletHandle());
   }
 
@@ -166,13 +161,8 @@ public class TestPortletManagementInterface extends BaseTest {
     WS1PropertyList list = WSRPTypesTransformer.getWS1PropertyList(portletManagementOperationsInterface
         .getPortletProperties(WSRPTypesTransformer.getWS2GetPortletProperties(getPortletProperties)));
     List<WS1Property> propArray = list.getProperties();
-    System.out.println(">>>alexey:TestPortletManagementInterface.testGetPortletProperty propArray = " + propArray);
-    System.out.println(">>>alexey:TestPortletManagementInterface.testGetPortletProperty propArray.size() = "
-        + propArray.size());
     for (int i = 0; i < propArray.size(); i++) {
       WS1Property property = propArray.get(i);
-      System.out.println(">>>alexey:TestPortletManagementInterface.testGetPortletProperty property.getName() = "
-          + property.getName());
       if ("time-format".equals(property.getName())) {
         assertEquals("HH", property.getStringValue());
         return;

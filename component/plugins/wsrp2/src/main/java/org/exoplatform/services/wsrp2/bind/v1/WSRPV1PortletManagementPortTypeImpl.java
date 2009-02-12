@@ -225,7 +225,6 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                             WS1InvalidHandle,
                                                                                                                             WS1InconsistentParameters,
                                                                                                                             WS1OperationFailed {
-    System.out.println(">>> EXOMAN WSRPV1PortletManagementPortTypeImpl.clonePortlet() 1 = " + 1);
     LOG.info("Executing operation clonePortlet");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);

@@ -147,8 +147,12 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.setTitle(getTitle(portletApplicationName, portletName, desiredLocales));
     pD.setShortTitle(getShortTitle(portletApplicationName, portletName, desiredLocales));
 
-    pD.getUserProfileItems().addAll(getUserProfileItems(portlet.getUserAttributes()));
-    pD.getUserCategories().addAll(getUserCategories(portlet.getSecurityRoleRef()));
+    Collection<? extends String> userProfileItemsList = getUserProfileItems(portlet.getUserAttributes());
+    if (userProfileItemsList != null)
+      pD.getUserProfileItems().addAll(userProfileItemsList);
+    Collection<? extends String> userCategoriesList = getUserCategories(portlet.getSecurityRoleRef());
+    if (userCategoriesList != null)
+      pD.getUserCategories().addAll(userCategoriesList);
 
     pD.getPortletManagedModes()
       .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
@@ -441,6 +445,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
   }
 
   private List<String> getUserProfileItems(List<UserAttribute> userAttributes) {
+    if (userAttributes == null)
+      return null;
     List<String> toReturnList = new ArrayList<String>(userAttributes.size());
     int i = 0;
     for (Iterator<UserAttribute> iter = userAttributes.iterator(); iter.hasNext(); i++) {

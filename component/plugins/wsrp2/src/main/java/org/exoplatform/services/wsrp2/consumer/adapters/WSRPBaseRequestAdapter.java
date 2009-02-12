@@ -57,13 +57,13 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   private ClientData    clientData;
 
-  private List<String>      markupCharacterSets = new ArrayList<String>();      //modified
+  private List<String>      markupCharacterSets = new ArrayList<String>();
 
   private String        validateTag;              //WSRP2
 
-  private List<String>      validNewModes = new ArrayList<String>();            //modified
+  private List<String>      validNewModes = new ArrayList<String>();
 
-  private List<String>      validNewWindowStates = new ArrayList<String>();     //modified
+  private List<String>      validNewWindowStates = new ArrayList<String>();
 
   private List<Extension>   extensions;               //WSRP2
 

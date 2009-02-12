@@ -42,6 +42,7 @@ import org.exoplatform.services.wsrp2.consumer.WSRPResourceRequest;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
@@ -118,7 +119,7 @@ public class PortletDriverImpl implements PortletDriver {
       this.initCookie = serviceDescription.getRequiresInitCookie();
       LOG.debug("Requires cookie initialization : " + initCookie.value());
       if (initCookie == null) {
-        initCookie = CookieProtocol.NONE; // TODO - get from config
+        initCookie = CookieProtocol.NONE;
       }
     }
   }
@@ -175,12 +176,13 @@ public class PortletDriverImpl implements PortletDriver {
         }
       } else {
         // means either we have no service description from the producer
-        // containg the portlet
+        // contain the portlet
         // or the producer specified initCookieRequired perGroup but didn't
         // provide
         // a groupID in the portlet description
       }
     } else {
+      // cookie NONE
 //      this.markupPort = userSession.getWSRPMarkupService();
     }
   }
@@ -336,8 +338,12 @@ public class PortletDriverImpl implements PortletDriver {
           }
         }
       }
+    } catch (InvalidCookie cookieFault) {
+      LOG.error("Problem with cookies ", cookieFault);
+      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
+      resetInitCookie(userSession);
+      getMarkup(markupRequest, userSession, baseURL);
     } catch (Exception exc) {
-      exc.printStackTrace();
       LOG.error("Problem with :" + exc);
     }
     return response;
@@ -365,6 +371,10 @@ public class PortletDriverImpl implements PortletDriver {
 
       /* MAIN INVOKE */
       response = markupPort.performBlockingInteraction(request);
+
+    } catch (InvalidCookie ic) {
+      resetInitCookie(userSession);
+      performBlockingInteraction(actionRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -426,8 +436,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = new ReturnAny();
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -445,7 +453,7 @@ public class PortletDriverImpl implements PortletDriver {
       /* MAIN INVOKE */
       List<Extension> extension = markupPort.initCookie(request);
     } catch (Exception exc) {
-      LOG.error("Problem with :" + exc);
+      LOG.error("Problem while initializing cookies :" + exc);
     }
   }
 
@@ -604,6 +612,11 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
 
+    } catch (InvalidCookie cookieFault) {
+      LOG.error("Problem with cookies ", cookieFault);
+      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
+      resetInitCookie(userSession);
+      getResource(resourceRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -697,6 +710,9 @@ public class PortletDriverImpl implements PortletDriver {
       }
 
       response = markupPort.handleEvents(request);
+    } catch (InvalidCookie cookieFault) {
+      resetInitCookie(userSession);
+      handleEvents(eventRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }

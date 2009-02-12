@@ -149,6 +149,7 @@ public class WSRPFilter implements Filter {
   }
 
   private InputStream getResourceStream(String path) throws IOException, ServletException {
+    System.out.println(">>> EXOMAN WSRPFilter.getResourceStream() path = " + path);
     URL url = sc.getResource("/WEB-INF" + path);
     InputStream stream = url.openStream();
     //      ConfigurationManagerImpl cImpl = new ConfigurationManagerImpl(sc);

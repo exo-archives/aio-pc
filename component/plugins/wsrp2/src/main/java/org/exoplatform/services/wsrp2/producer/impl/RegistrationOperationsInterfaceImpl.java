@@ -72,6 +72,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     String registrationHandle = null;
     byte[] registrationState = null;
+
       validateRegistrationDatas(data);
       registrationHandle = IdentifierUtil.generateUUID(data);
       registrationState = stateManager.register(registrationHandle, data);

@@ -244,7 +244,6 @@ public class WSRPV1MarkupPortTypeImpl implements WSRPV1MarkupPortType, AbstractS
 //      LOG.error(ad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      System.out.println(">>> EXOMAN WSRPV1MarkupPortTypeImpl.getMarkup() of = " + of);
       of.printStackTrace();
 //      LOG.error(of.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());

@@ -29,6 +29,7 @@ import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.producer.TransientStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.CacheControlProxy;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
@@ -68,51 +69,49 @@ public class TransientStateManagerImpl implements TransientStateManager {
     cont = ctx.getContainer();
   }
 
-  public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
-    System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 1 = " + 1);
+  public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
     WSRPHttpSession session = null;
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
-    try {
-      // !!! it's a very dirty hack and it will be removed as soon as possible
+//    try {
       session = (WSRPHttpSession) cache.get(sessionID);
-      System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() session = "
-          + session);
-      WindowInfosContainer.createInstance(cont, sessionID, user);
       if (session != null) {
-        System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 11111 = " + 11111);
-        if (sessionID != null && session.isInvalidated()) {
-          System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() session.isInvalidated() = "
-              + session.isInvalidated());
+        // get from cache
+        // session != null && sessionID != null
+        if (session.isInvalidated()) {
+          //create a new fresh session
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+          cache.remove(sessionID);
+          cache.put(sessionID, session);
         } else {
           session.setLastAccessTime(System.currentTimeMillis());
         }
         if (log.isDebugEnabled())
           log.debug("Lookup session success");
-      } else if (sessionID != null && session == null) {
-        System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 2222 = " + 2222);
-        throw new Exception("Session doesn't exist anymore");
+      } else if (sessionID != null) {
+        throw new InvalidSession("Session doesn't exist anymore with sessionID = '" + sessionID + "'");
       } else {
-        System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() 3333 = " + 3333);
+        // session == null && sessionID == null
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
+        
+        WSRPHttpSession sessionNewFromCache = (WSRPHttpSession) cache.get(sessionID);
+          
         if (log.isDebugEnabled())
           log.debug("Create new session with ID : " + sessionID);
       }
-      System.out.println(">>> EXOMAN TransientStateManagerImpl.resolveSession() session = "
-          + session);
       return session;
-    } catch (Exception e) {
-      throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);
-    }
+//    } catch (Exception e) {
+//      throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);
+//    }
   }
 
   public void releaseSession(String sessionID) {
     try {
+      WSRPHttpSession session = (WSRPHttpSession) cache.get(sessionID);
       cache.remove(sessionID);
       WindowInfosContainer.removeInstance(cont, sessionID);
     } catch (Exception e) {

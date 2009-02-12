@@ -96,7 +96,7 @@ public class BaseTest extends TestCase {
   protected static final String                      CONTEXT_PATH             = "hello";
 
   protected static final String                      TEST_PATH                = (System.getProperty("testPath") == null ? "."
-                                                                                  : System.getProperty("testPath"));
+                                                                                                                       : System.getProperty("testPath"));
 
 
   static boolean                                     initService_             = true;
@@ -135,13 +135,16 @@ public class BaseTest extends TestCase {
 
   protected WS1RegistrationContext                   registrationContext;
 
-  protected static final String[]                    USER_CATEGORIES_ARRAY    = { "full", "standard", "minimal" };
+  protected static final String[]                    USER_CATEGORIES_ARRAY    = { "full",
+      "standard", "minimal"                                                  };
 
   public static String[]                             localesArray             = { "en" };
 
-  public static String[]                             markupCharacterSets      = { "UF-08", "ISO-8859-1" };
+  public static String[]                             markupCharacterSets      = { "UF-08",
+      "ISO-8859-1"                                                           };
 
-  public static String[]                             mimeTypes                = { "text/html", "text/xhtml" };
+  public static String[]                             mimeTypes                = { "text/html",
+      "text/xhtml"                                                           };
 
   public static final String                         BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
                                                                                   + Constants.DEFAUL_PORTAL_OWNER;
@@ -161,9 +164,11 @@ public class BaseTest extends TestCase {
                                                                                   + "&ns={wsrp-navigationalState}"
                                                                                   + "&is={wsrp-interactionState}";
 
-  public static final String[]                       CONSUMER_MODES           = { "wsrp:view", "wsrp:edit" };
+  public static final String[]                       CONSUMER_MODES           = { "wsrp:view",
+      "wsrp:edit"                                                            };
 
-  public static final String[]                       CONSUMER_STATES          = { "wsrp:normal", "wsrp:maximized" };
+  public static final String[]                       CONSUMER_STATES          = { "wsrp:normal",
+      "wsrp:maximized"                                                       };
 
   public static final String[]                       CONSUMER_SCOPES          = { "chunk_data" };
 
@@ -194,8 +199,7 @@ public class BaseTest extends TestCase {
     this.serviceDescriptionInterface = new WSRPV1ServiceDescriptionPortTypeAdapter(serviceDescriptionPort);
     this.markupOperationsInterface = new WSRPV1MarkupPortTypeAdapter(service.getWSRPMarkupService());
     this.registrationOperationsInterface = new WSRPV1RegistrationPortTypeAdapter(service.getWSRPRegistrationService());
-    this.portletManagementOperationsInterface = new WSRPV1PortletManagementPortTypeAdapter(service
-        .getWSRPPortletManagementService());
+    this.portletManagementOperationsInterface = new WSRPV1PortletManagementPortTypeAdapter(service.getWSRPPortletManagementService());
 
     //    serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
     //        + "WSRPServiceDescriptionService"));
@@ -258,8 +262,8 @@ public class BaseTest extends TestCase {
 
     mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
-    WSRPHTTPContainer
-        .createInstance((HttpServletRequest) mockServletRequest, (HttpServletResponse) mockServletResponse);
+    WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
+                                     (HttpServletResponse) mockServletResponse);
   }
 
   public void tearDown() throws Exception {
@@ -295,7 +299,9 @@ public class BaseTest extends TestCase {
     }
   }
 
-  protected void manageUserContextOptimization(WS1ServiceDescription sd, String portletHandle, WS1GetMarkup getMarkup) {
+  protected void manageUserContextOptimization(WS1ServiceDescription sd,
+                                               String portletHandle,
+                                               WS1GetMarkup getMarkup) {
     List<WS1PortletDescription> list = sd.getOfferedPortlets();
     for (WS1PortletDescription portletDescription : list) {
       if (portletDescription.getPortletHandle().equals(portletHandle)) {
@@ -339,7 +345,7 @@ public class BaseTest extends TestCase {
       sd = getServiceDescription(new String[] { "en" });
     if (sd.isRequiresRegistration()) {
       registrationContext = new WS1RegistrationContext();
-      //      registrationContext.setRegistrationHandle("");
+      registrationContext.setRegistrationHandle("");
     } else {
       registrationContext = new WS1RegistrationContext();
     }
@@ -349,14 +355,14 @@ public class BaseTest extends TestCase {
     WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
     Map<String, String> responseProps = null;
     administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
-    String requestProps = WSRPConfiguration.REQUIRES_REGISTRATION.concat("=").concat(
-        String.valueOf(isRequiresRegistration));
+    String requestProps = WSRPConfiguration.REQUIRES_REGISTRATION.concat("=")
+                                                                 .concat(String.valueOf(isRequiresRegistration));
     responseProps = administrationPort.getServiceAdministration(requestProps);
     if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
       fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
     }
-    if (!responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION).equalsIgnoreCase(
-        String.valueOf(isRequiresRegistration))) {
+    if (!responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION)
+                      .equalsIgnoreCase(String.valueOf(isRequiresRegistration))) {
       fail("WSRPConfiguration doesn't return properly modified REQUIRES_REGISTRATION property");
     }
   }
@@ -376,8 +382,7 @@ public class BaseTest extends TestCase {
   }
 
   protected WS1MarkupResponse getMarkup(WS1GetMarkup ws1GetMarkup) throws Exception {
-    return WSRPTypesTransformer.getWS1MarkupResponse(markupOperationsInterface.getMarkup(WSRPTypesTransformer
-        .getWS2GetMarkup(ws1GetMarkup)));
+    return WSRPTypesTransformer.getWS1MarkupResponse(markupOperationsInterface.getMarkup(WSRPTypesTransformer.getWS2GetMarkup(ws1GetMarkup)));
   }
 
   protected WS1RegistrationContext register(WS1RegistrationData ws1RegistrationData) throws Exception {
@@ -387,31 +392,26 @@ public class BaseTest extends TestCase {
   }
 
   protected WS1PortletContext clonePortlet(WS1ClonePortlet clonePortlet) throws Exception {
-    return WSRPTypesTransformer.getWS1PortletContext(portletManagementOperationsInterface
-        .clonePortlet(WSRPTypesTransformer.getWS2ClonePortlet(clonePortlet)));
+    return WSRPTypesTransformer.getWS1PortletContext(portletManagementOperationsInterface.clonePortlet(WSRPTypesTransformer.getWS2ClonePortlet(clonePortlet)));
   }
 
   protected WS1DestroyPortletsResponse destroyPortlets(WS1DestroyPortlets ws1DestroyPortlets) throws Exception {
     DestroyPortlets destroyPortlets = WSRPTypesTransformer.getWS2DestroyPortlets(ws1DestroyPortlets);
-    DestroyPortletsResponse destroyPortletsResponse = portletManagementOperationsInterface
-        .destroyPortlets(destroyPortlets);
+    DestroyPortletsResponse destroyPortletsResponse = portletManagementOperationsInterface.destroyPortlets(destroyPortlets);
     WS1DestroyPortletsResponse response = WSRPTypesTransformer.getWS1DestroyPortletsResponse(destroyPortletsResponse);
     return response;
   }
 
   protected WS1PortletContext setPortletProperties(WS1SetPortletProperties setPortletProperties) throws Exception {
-    return WSRPTypesTransformer.getWS1PortletContext(portletManagementOperationsInterface
-        .setPortletProperties(WSRPTypesTransformer.getWS2SetPortletProperties(setPortletProperties)));
+    return WSRPTypesTransformer.getWS1PortletContext(portletManagementOperationsInterface.setPortletProperties(WSRPTypesTransformer.getWS2SetPortletProperties(setPortletProperties)));
   }
 
   protected WS1ServiceDescription getServiceDescription(WS1GetServiceDescription getServiceDescription) throws Exception {
-    return WSRPTypesTransformer.getWS1ServiceDescription(serviceDescriptionInterface
-        .getServiceDescription(WSRPTypesTransformer.getWS2GetServiceDescription(getServiceDescription)));
+    return WSRPTypesTransformer.getWS1ServiceDescription(serviceDescriptionInterface.getServiceDescription(WSRPTypesTransformer.getWS2GetServiceDescription(getServiceDescription)));
   }
 
   protected WS1BlockingInteractionResponse performBlockingInteraction(WS1PerformBlockingInteraction performBlockingInteraction) throws Exception {
-    return WSRPTypesTransformer.getWS1BlockingInteractionResponse(markupOperationsInterface
-        .performBlockingInteraction(WSRPTypesTransformer.getWS2PerformBlockingInteraction(performBlockingInteraction)));
+    return WSRPTypesTransformer.getWS1BlockingInteractionResponse(markupOperationsInterface.performBlockingInteraction(WSRPTypesTransformer.getWS2PerformBlockingInteraction(performBlockingInteraction)));
   }
 
 }

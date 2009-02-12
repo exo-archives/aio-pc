@@ -34,21 +34,21 @@ import org.exoplatform.services.wsrp2.type.ResourceContext;
 
 public class PortletWindowSessionAdapter implements PortletWindowSession {
 
-  private String          windowID;
+  private String            windowID;
 
-  private PortletSession  portletSession;
+  private PortletSession    portletSession;
 
-  private MarkupContext   markupContext;
+  private MarkupContext     markupContext;
 
-  private String          navigationalState;
+  private String            navigationalState;
 
-  private ResourceContext resourceContext;
+  private ResourceContext   resourceContext;
 
-  private List<NamedString>   navigationalValues;
+  private List<NamedString> navigationalValues;
 
-  private String          interactionState;
+  private String            interactionState;
 
-  private String          resourceState;
+  private String            resourceState;
 
   public String getWindowID() {
     return windowID;
@@ -74,13 +74,13 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
     this.portletSession = portletSession;
   }
 
-  public MarkupContext getMarkupContext() {
-    return markupContext;
-  }
-
-  public void setMarkupContext(MarkupContext markupContext) {
-    this.markupContext = markupContext;
-  }
+//  public MarkupContext getMarkupContext() {
+//    return markupContext;
+//  }
+//
+//  public void setMarkupContext(MarkupContext markupContext) {
+//    this.markupContext = markupContext;
+//  }
 
   public String getNavigationalState() {
     return navigationalState;

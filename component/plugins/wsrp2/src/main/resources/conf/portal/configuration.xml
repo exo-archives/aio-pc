@@ -141,6 +141,7 @@
         <property name="wsrp.perform.blocking.interaction.optimized" value="false" />
         <property name="wsrp.save.registration.state.on.consumer" value="false" />
         <property name="wsrp.save.portlet.state.on.consumer" value="false" />
+        <property name="wsrp.coockie.protocol" value="none" />
       </properties-param>
       <properties-param>
         <name>wsrp-admin-portlet-conf</name>

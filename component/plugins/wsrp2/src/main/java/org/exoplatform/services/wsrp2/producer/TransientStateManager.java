@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.producer;
 
 import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.Templates;
@@ -32,7 +33,7 @@ public interface TransientStateManager {
 
   public static int SESSION_TIME_PERIOD = 900; // seconds
 
-  public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException;
+  public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession;
 
   public void releaseSession(String sessionID);
 
