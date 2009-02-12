@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -50,7 +50,7 @@ public class WSRPV2ServiceDescriptionPortTypeAdapter implements
                                                                                            ModifyRegistrationRequired,
                                                                                            OperationFailed {
 
-    System.out.println("Invoking getServiceDescription...");
+    LOG.info("Invoking getServiceDescription...");
 
     org.exoplatform.services.wsrp2.type.RegistrationContext _getServiceDescription_registrationContext = serviceDescription.getRegistrationContext();
     java.util.List<java.lang.String> _getServiceDescription_desiredLocales = serviceDescription.getDesiredLocales();
@@ -94,13 +94,13 @@ public class WSRPV2ServiceDescriptionPortTypeAdapter implements
                                                  _getServiceDescription_mayReturnRegistrationState,
                                                  _getServiceDescription_extensions);
 
-    System.out.println("getServiceDescription._getServiceDescription_requiresRegistration="
+    LOG.info("getServiceDescription._getServiceDescription_requiresRegistration="
         + _getServiceDescription_requiresRegistration.value);
-    System.out.println("getServiceDescription._getServiceDescription_offeredPortlets="
+    LOG.info("getServiceDescription._getServiceDescription_offeredPortlets="
         + _getServiceDescription_offeredPortlets.value);
-    System.out.println("getServiceDescription._getServiceDescription_userCategoryDescriptions="
+    LOG.info("getServiceDescription._getServiceDescription_userCategoryDescriptions="
         + _getServiceDescription_userCategoryDescriptions.value);
-    System.out.println("getServiceDescription._getServiceDescription_extensionDescriptions="
+    LOG.info("getServiceDescription._getServiceDescription_extensionDescriptions="
         + _getServiceDescription_extensionDescriptions.value);
     if (LOG.isDebugEnabled())
       LOG.debug("getServiceDescription._getServiceDescription_customWindowStateDescriptions="
