@@ -1,6 +1,18 @@
-/**
- * Copyright 2001-2007 The eXo Platform SAS         All rights reserved.
- * Please look at license.txt in info directory for more license detail.
+/*
+ * Copyright (C) 2003-2009 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
 package org.exoplatform.services.wsrp2.producer.impl;
@@ -44,23 +56,6 @@ public class WSRPConfiguration {
 
   public static final String      SAVE_PORTLET_STATE_ON_CONSUMER      = "wsrp.save.portlet.state.on.consumer";
 
-//  private boolean                 hasUserSpecificState;
-//
-//  private boolean                 doesUrlTemplateProcessing;
-//
-//  private boolean                 templatesStoredInSession;
-//
-//  private boolean                 userContextStoredInSession;
-//
-//  private boolean                 usesMethodGet;
-//
-//  private boolean                 requiresRegistration;
-//
-//  private boolean                 blockingInteractionOptimized;
-//
-//  private boolean                 saveRegistrationStateOnConsumer;
-//
-//  private boolean                 savePortletStateOnConsumer;
 
   private HashMap<String, String> properties;
 
@@ -89,41 +84,6 @@ public class WSRPConfiguration {
     if (properties == null)
       properties = new HashMap<String, String>();
     properties.putAll(props);
-    
-//    properties.put(WSRPConfiguration.HAS_USER_SPECIFIC_STATE, String.valueOf(hasUserSpecificState));
-//    properties.put(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING,
-//                   String.valueOf(doesUrlTemplateProcessing));
-//    properties.put(WSRPConfiguration.TEMPLATES_STORED_IN_SESSION,
-//                   String.valueOf(templatesStoredInSession));
-//    properties.put(WSRPConfiguration.USER_CONTEXT_STORED_IN_SESSION,
-//                   String.valueOf(userContextStoredInSession));
-//    properties.put(WSRPConfiguration.USES_METHOD_GET, String.valueOf(usesMethodGet));
-//    properties.put(WSRPConfiguration.REQUIRES_REGISTRATION, String.valueOf(requiresRegistration));
-//    properties.put(WSRPConfiguration.BLOCKING_INTERACTION_OPTIMIZED,
-//                   String.valueOf(blockingInteractionOptimized));
-//    properties.put(WSRPConfiguration.SAVE_REGISTRATION_STATE_ON_CONSUMER,
-//                   String.valueOf(saveRegistrationStateOnConsumer));
-//    properties.put(WSRPConfiguration.SAVE_PORTLET_STATE_ON_CONSUMER,
-//                   String.valueOf(savePortletStateOnConsumer));
-//    
-//    
-//    hasUserSpecificState = props.getProperty(WSRPConfiguration.HAS_USER_SPECIFIC_STATE)
-//                                .equals("true");
-//    doesUrlTemplateProcessing = props.getProperty(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)
-//                                     .equals("true");
-//    templatesStoredInSession = props.getProperty(WSRPConfiguration.TEMPLATES_STORED_IN_SESSION)
-//                                    .equals("true");
-//    userContextStoredInSession = props.getProperty(WSRPConfiguration.USER_CONTEXT_STORED_IN_SESSION)
-//                                      .equals("true");
-//    usesMethodGet = props.getProperty(WSRPConfiguration.USES_METHOD_GET).equals("true");
-//    requiresRegistration = props.getProperty(WSRPConfiguration.REQUIRES_REGISTRATION)
-//                                .equals("true");
-//    blockingInteractionOptimized = props.getProperty(WSRPConfiguration.BLOCKING_INTERACTION_OPTIMIZED)
-//                                        .equals("true");
-//    saveRegistrationStateOnConsumer = props.getProperty(WSRPConfiguration.SAVE_REGISTRATION_STATE_ON_CONSUMER)
-//                                           .equals("true");
-//    savePortletStateOnConsumer = props.getProperty(WSRPConfiguration.SAVE_PORTLET_STATE_ON_CONSUMER)
-//                                      .equals("true");
 
   }
 

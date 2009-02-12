@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -95,8 +95,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     String pcPortletHandle = key[0] + Constants.PORTLET_HANDLE_ENCODER + key[1];
     if (pcPortletHandle != null) {
       Set<String> keys = this.pcService.getAllPortletMetaData().keySet();
-      for (String aKey : keys) {
-      }
 
       if (this.pcService.getAllPortletMetaData().get(pcPortletHandle) != null) {
         return true;
@@ -229,7 +227,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     try {
       pcService.setPortletPreference(input, propertiesMap);
     } catch (Exception e) {
-      //      LOG.error("error while storing preferences", e);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
@@ -260,10 +257,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
   public Map<String, PortletData> getAllPortletMetaData() {
     return pcService.getAllPortletMetaData(true);
   }
-
-  // public Collection getWindowStates(String s) {
-  // return service.getWindowStates(s);
-  // }
 
   public Collection<WindowState> getSupportedWindowStates() {
     return pcService.getSupportedWindowStates();
@@ -312,7 +305,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       for (Iterator<String> iterator = set.iterator(); iterator.hasNext();) {
         String key = (String) iterator.next();
         if (key.startsWith(PCConstants.EXCEPTION)) {
-          //          LOG.error("Error body : " + propertiesMap.get(key));
           throw new WSRPException(Faults.PORTLET_STATE_CHANGE_REQUIRED_FAULT);
         }
       }
@@ -372,7 +364,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
           }
           return b;
         } catch (MissingResourceException ex) {
-          //          LOG.error("No keyword defined for the portlet " + portletAppName + "/" + portletName, ex);
           return new ArrayList<LocalizedString>();
         }
       }
@@ -467,7 +458,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       WSRPHttpServletResponse response = WSRPHTTPContainer.getInstance().getResponse();
       return pcService.getBundle(request, response, portletAppName, portletName, locale);
     } catch (PortletContainerException e) {
-      //      LOG.error("Error in the method JSR286ContainerProxyImpl.getBundle(): " + e.getMessage(), e);
       return null;
     }
   }

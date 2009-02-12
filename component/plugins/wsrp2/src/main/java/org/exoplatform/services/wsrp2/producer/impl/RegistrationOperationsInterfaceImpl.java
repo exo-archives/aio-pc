@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -72,18 +72,10 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     }
     String registrationHandle = null;
     byte[] registrationState = null;
-    //EXOMAN
-//    try {
       validateRegistrationDatas(data);
       registrationHandle = IdentifierUtil.generateUUID(data);
       registrationState = stateManager.register(registrationHandle, data);
       stateManager.putRegistrationLifetime(registrationHandle, lifetime);
-//    } catch (WSRPException e) {
-//      e.printStackTrace();
-//      if (log.isDebugEnabled())
-//        log.debug("Registration failed", e);
-//      throw new WSRPException();
-//    }
       
     RegistrationContext rC = new RegistrationContext();
     rC.setRegistrationHandle(registrationHandle);

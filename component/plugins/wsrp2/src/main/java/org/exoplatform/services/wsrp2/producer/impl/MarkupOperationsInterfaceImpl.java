@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -126,8 +126,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private TransientStateManager                transientStateManager;
 
   private PortletManagementOperationsInterface portletManagementOperationsInterface;
-
-  //  private OrganizationService              orgService;
 
   private WSRPPortletPreferencesPersister      persister;
 
@@ -307,7 +305,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     RenderOutput output = null;
     try {
-      /* MAIN INVOKE */
+      //INVOKE
       output = proxy.render(request, response, input);
       if (output.hasError())
         throw new WSRPException("render output hasError");
@@ -529,7 +527,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     ActionOutput output = null;
     try {
 
-      /* MAIN INVOKE */
+      // INVOKE
       output = proxy.processAction(request, response, input);
       if (output.hasError()) {
         throw new WSRPException("processAction output hasError()");
