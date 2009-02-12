@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -226,7 +226,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     consumer.setMimeTypes(mimeTypes);
     consumer.setPortletStateChange(StateChange.READ_WRITE);
     // TODO modes and states should be getting from producer
-    //
     // consumer.setSupportedModes(getPortletModes(Collections.list(pcConf.getSupportedPortletModes())));
     List<String> supportedPortletModes = getPortletModes(pcService.getSupportedPortletModes());
     if (supportedPortletModes != null)
@@ -760,8 +759,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                 log.debug("set new required window state : " + newWindowState);
                 output.setNextState(WindowStates.getJsrWindowState(newWindowState));
               }
-              //              output.setPortletState(portletState);
-              //              output.setSessionMap(map);
             }
           }
 
@@ -830,17 +827,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public RenderOutput render(HttpServletRequest request,
                              HttpServletResponse response,
                              RenderInput input) throws PortletContainerException {
-
-    // input.isStateSaveOnClient()
-    // input.isUpdateCache()
-    // input.getUserAttributes()
-    // input.getPortletState()
-    // input.getPortletPreferencesPersister()
-    // input.getEscapeXml()
-    // input.getCacheability()
-    // input.getRenderParameters()
-    // input.getPublicParamNames()
-    // input.getTitle()
 
     log.debug("Render method in WSRPConsumerPlugin entered");
     if (!init)

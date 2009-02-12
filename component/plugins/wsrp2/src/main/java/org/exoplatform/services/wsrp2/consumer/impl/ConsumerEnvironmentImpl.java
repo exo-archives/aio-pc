@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -35,7 +35,7 @@ import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLRewriterImpl2;
 import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLTemplateComposerImpl2;
 import org.exoplatform.services.wsrp2.type.StateChange;
 
-/*
+/**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 2 févr. 2004
@@ -90,11 +90,6 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.urlRewriter1 = new URLRewriterImpl1(new URLGeneratorImpl1());
     this.urlRewriter2 = new URLRewriterImpl2(new URLGeneratorImpl2());
 
-//    this.supportedLocales = new ArrayList<String>();
-//    this.supportedModes = new ArrayList<String>();
-//    this.windowStates = new ArrayList<String>();
-//    this.characterEncodingSet = new ArrayList<String>();
-//    this.mimeTypes = new ArrayList<String>();
   }
 
   public PortletRegistry getPortletRegistry() {

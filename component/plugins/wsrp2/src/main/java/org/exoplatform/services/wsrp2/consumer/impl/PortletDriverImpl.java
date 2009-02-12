@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -339,14 +339,6 @@ public class PortletDriverImpl implements PortletDriver {
     } catch (Exception exc) {
       exc.printStackTrace();
       LOG.error("Problem with :" + exc);
-//    } catch (InvalidCookieFault cookieFault) {
-//      LOG.error("Problem with cookies ", cookieFault);
-//      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
-//      resetInitCookie(userSession);
-//      getMarkup(markupRequest, userSession, baseURL);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      LOG.error("Remote exception ", wsrpFault);
-//      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
     }
     return response;
   }
@@ -375,11 +367,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = markupPort.performBlockingInteraction(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (InvalidCookieFault cookieFault) {
-//      resetInitCookie(userSession);
-//      performBlockingInteraction(actionRequest, userSession, baseURL);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -400,8 +387,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = portletManagementPort.clonePortlet(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -421,8 +406,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = portletManagementPort.destroyPortlets(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -463,9 +446,6 @@ public class PortletDriverImpl implements PortletDriver {
       List<Extension> extension = markupPort.initCookie(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      LOG.error("Problem while initializing cookies", wsrpFault);
-//      throw new WSRPException("Problem while initializing cookies", wsrpFault);
     }
   }
 
@@ -490,8 +470,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = portletManagementPort.getPortletDescription(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -514,8 +492,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = portletManagementPort.getPortletPropertyDescription(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -538,8 +514,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = portletManagementPort.getPortletProperties(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -561,8 +535,6 @@ public class PortletDriverImpl implements PortletDriver {
       response = portletManagementPort.setPortletProperties(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
@@ -591,7 +563,6 @@ public class PortletDriverImpl implements PortletDriver {
           request.setUserContext(userCtx);
         }
 
-        /* MAIN INVOKE */
         response = markupPort.getResource(request);
       } else {
         LOG.debug("get cached resource");
@@ -635,14 +606,6 @@ public class PortletDriverImpl implements PortletDriver {
 
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (InvalidCookieFault cookieFault) {
-//      LOG.error("Problem with cookies ", cookieFault);
-//      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
-//      resetInitCookie(userSession);
-//      getResource(resourceRequest, userSession, baseURL);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      LOG.error("Remote exception ", wsrpFault);
-//      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
     }
     return response;
   }
@@ -733,15 +696,9 @@ public class PortletDriverImpl implements PortletDriver {
         request.setUserContext(userCtx);
       }
 
-      /* MAIN INVOKE */
       response = markupPort.handleEvents(request);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
-//    } catch (InvalidCookieFault cookieFault) {
-//      resetInitCookie(userSession);
-//      handleEvents(eventRequest, userSession, baseURL);
-//    } catch (java.rmi.RemoteException wsrpFault) {
-//      throw new WSRPException();
     }
     return response;
   }
