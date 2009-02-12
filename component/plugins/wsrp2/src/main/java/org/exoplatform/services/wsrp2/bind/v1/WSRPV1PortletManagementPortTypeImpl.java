@@ -1,3 +1,20 @@
+/*
+ * Copyright (C) 2003-2009 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
+
 package org.exoplatform.services.wsrp2.bind.v1;
 
 import org.apache.commons.logging.Log;
@@ -168,7 +185,11 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       //LOG.errorwsrpe.getMessage(), wsrpe);
-      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
+      throw new WS1OperationFailed("Error '" + wsrpe.toString()
+                                   + "'on a PRODUCER side with exception at '"
+                                   + wsrpe.getStackTrace()[0].toString() + "'",
+                               new WS1OperationFailedFault(),
+                               wsrpe);
     } catch (Exception e) {
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
@@ -240,9 +261,12 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault(), of);
     } catch (WSRPException wsrpe) {
-//      wsrpe.printStackTrace();
       //LOG.errorwsrpe.getMessage(), wsrpe);
-      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault(), wsrpe);
+      throw new WS1OperationFailed("Error '" + wsrpe.toString()
+                                   + "'on a PRODUCER side with exception at '"
+                                   + wsrpe.getStackTrace()[0].toString() + "'",
+                               new WS1OperationFailedFault(),
+                               wsrpe);
     } catch (Exception e) {
       //LOG.errore.getMessage(), e);
       throw new WS1OperationFailed("Error '" + e.toString()
@@ -317,7 +341,11 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       //LOG.errorwsrpe.getMessage(), wsrpe);
-      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
+      throw new WS1OperationFailed("Error '" + wsrpe.toString()
+                                   + "'on a PRODUCER side with exception at '"
+                                   + wsrpe.getStackTrace()[0].toString() + "'",
+                               new WS1OperationFailedFault(),
+                               wsrpe);
     } catch (Exception e) {
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
@@ -390,7 +418,11 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       //LOG.errorwsrpe.getMessage(), wsrpe);
-      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
+      throw new WS1OperationFailed("Error '" + wsrpe.toString()
+                                   + "'on a PRODUCER side with exception at '"
+                                   + wsrpe.getStackTrace()[0].toString() + "'",
+                               new WS1OperationFailedFault(),
+                               wsrpe);
     } catch (Exception e) {
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
@@ -463,7 +495,11 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       //LOG.errorwsrpe.getMessage(), wsrpe);
-      throw new WS1OperationFailed(wsrpe.getMessage(), new WS1OperationFailedFault());
+      throw new WS1OperationFailed("Error '" + wsrpe.toString()
+                                   + "'on a PRODUCER side with exception at '"
+                                   + wsrpe.getStackTrace()[0].toString() + "'",
+                               new WS1OperationFailedFault(),
+                               wsrpe);
     } catch (Exception e) {
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
