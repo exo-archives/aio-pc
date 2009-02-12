@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -24,7 +24,7 @@ import org.exoplatform.Constants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
-/*
+/**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
  * févr. 2004 Time: 13:05:01
  */
@@ -108,18 +108,11 @@ public class URLTemplateComposerImpl2 implements URLTemplateComposer {
   }
 
   private void manageServerPath(StringBuffer sB, String path, Boolean isSecure) {
-//    manageServerProtocol(sB,isSecure);
     sB.append(path);
   }
 
   private void appendParameters(StringBuffer stringBuffer, String path) {
     // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
-    //
-    //    if (path == null || path.equals("") || !path.contains("?")) {
-    //      stringBuffer.append("/?");
-    //    } else {
-    //      stringBuffer.append("&");
-    //    }
 
     // JSR-168, 286
     stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}");
