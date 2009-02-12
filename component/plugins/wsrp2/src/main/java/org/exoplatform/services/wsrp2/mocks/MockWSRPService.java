@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -16,7 +16,6 @@
  */
 package org.exoplatform.services.wsrp2.mocks;
 
-import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.namespace.QName;
@@ -63,26 +62,8 @@ public class MockWSRPService extends WSRPService2 {
   
   static {
     URL url = null;
-//    try {
-//      url = new URL("file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl");
-//    } catch (MalformedURLException e) {
-//      System.err.println("Can not initialize the default wsdl from file:/home/alexey/java/eXoProjects/portlet-container/branches/2.1/component/plugins/wsrp2/wsdl/wsrp-service.wsdl");
-//      // e.printStackTrace();
-//    }
     WSDL_LOCATION = url;
   }
-
-//      public MockWSRPService2(URL wsdlLocation) {
-//          super(wsdlLocation, SERVICE);
-//      }
-//
-//      public MockWSRPService2(URL wsdlLocation, QName serviceName) {
-//          super(wsdlLocation, serviceName);
-//      }
-//
-//      public MockWSRPService2() {
-//          super(WSDL_LOCATION, SERVICE);
-//      }
 
   public MockWSRPService(ExoContainer container) {
     super(null, null);
