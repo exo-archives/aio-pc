@@ -38,13 +38,13 @@ import com.sun.image.codec.jpeg.JPEGCodec;
 import com.sun.image.codec.jpeg.JPEGImageEncoder;
 
 /**
- * Created by The eXo Platform SAS
- * Author : Alexey Zavizionov
- *          alexey.zavizionov@exoplatform.com.ua
+ * Created by The eXo Platform SAS Author : Alexey Zavizionov
+ * alexey.zavizionov@exoplatform.com.ua
  */
 public class ResourceDemo extends GenericPortlet {
 
-  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException, IOException {
+  protected void doView(RenderRequest renderRequest, RenderResponse renderResponse) throws PortletException,
+                                                                                   IOException {
 
     renderResponse.setContentType("text/html; charset=utf-8");
     PrintWriter w = renderResponse.getWriter();
@@ -59,14 +59,19 @@ public class ResourceDemo extends GenericPortlet {
     PortletRequestDispatcher rd = context.getRequestDispatcher("/script.jsp");
     rd.include(renderRequest, renderResponse);
 
+    ResourceURL resourceURL2 = renderResponse.createResourceURL();
+    w.println("<input type=\"hidden\" id=\"resourceURL\" value=\"" + resourceURL2.toString()
+        + "/>\">");
+
     w.println("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~<br>");
   }
 
-  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
-      throws PortletException, IOException {
+  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse) throws PortletException,
+                                                                                       IOException {
   }
 
-  public void serveResource(ResourceRequest request, ResourceResponse response) throws PortletException, IOException {
+  public void serveResource(ResourceRequest request, ResourceResponse response) throws PortletException,
+                                                                               IOException {
     String goal = request.getParameter("goal");
     if (goal != null && goal.equals("image")) {
       response.setContentType("image/jpeg");
@@ -78,9 +83,9 @@ public class ResourceDemo extends GenericPortlet {
       graphics.setColor(Color.white);
       graphics.fillRect(0, 0, bi.getWidth(), bi.getHeight());
       graphics.setColor(Color.green);
-      graphics.drawLine( 0, 24,  9, 24);
-      graphics.drawLine( 9, 24, 19,  0);
-      graphics.drawLine(19,  0, 29, 49);
+      graphics.drawLine(0, 24, 9, 24);
+      graphics.drawLine(9, 24, 19, 0);
+      graphics.drawLine(19, 0, 29, 49);
       graphics.drawLine(29, 49, 39, 24);
       graphics.drawLine(39, 24, 49, 24);
       encoder.encode(bi);
