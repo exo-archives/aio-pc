@@ -460,8 +460,12 @@ public class WSRPAdminPortlet {
         Deregister deregister = new Deregister();
         deregister.setRegistrationContext(registrationContext);
         deregister.setUserContext(userContext);
-        if (producer.isRegistrationRequired())
+        try {
           producer.deregister(deregister);
+        } catch (Exception e){
+          if (log.isDebugEnabled())
+            log.debug("Exception deregistering producer: " + producer.getID());
+        }
 
         pregistry.removeProducer(producerid);
       }
