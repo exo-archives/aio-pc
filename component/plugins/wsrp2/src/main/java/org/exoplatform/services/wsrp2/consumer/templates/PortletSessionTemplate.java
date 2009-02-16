@@ -49,10 +49,12 @@ public abstract class PortletSessionTemplate implements PortletSession {
   }
 
   public SessionContext getSessionContext() {
+    System.out.println(">>>alexey:PortletSessionTemplate.getSessionContext sessionContext = " + sessionContext);
     return sessionContext;
   }
 
   public void setSessionContext(SessionContext sessionContext) {
+    System.out.println(">>>alexey:PortletSessionTemplate.setSessionContext sessionContext = " + sessionContext);
     this.sessionContext = sessionContext;
   }
 

@@ -72,13 +72,13 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getServiceDescription");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletHandles);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
 
     try {
@@ -120,14 +120,14 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"

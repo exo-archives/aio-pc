@@ -85,13 +85,13 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                          InconsistentParameters,
                                                                                                                          OperationFailed {
     LOG.info("Executing operation clonePortlet");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(lifetime);
     try {
       PortletContext response = portletManagementOperationsInterface.clonePortlet(registrationContext,
@@ -107,14 +107,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -147,15 +147,15 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                            InconsistentParameters,
                                                                                                                            OperationFailed {
     LOG.info("Executing operation exportPortlets");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(lifetime.value);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(exportByValueRequired);
     try {
       ExportPortletsResponse response = portletManagementOperationsInterface.exportPortlets(registrationContext,
@@ -175,14 +175,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -203,7 +203,7 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                                                          InconsistentParameters,
                                                                                                                                                                          OperationFailed {
     LOG.info("Executing operation getPortletsLifetime");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(getPortletsLifetime);
     try {
       GetPortletsLifetimeResponse response = portletManagementOperationsInterface.getPortletsLifetime(getPortletsLifetime.getRegistrationContext(),
@@ -212,14 +212,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -248,13 +248,13 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                           InconsistentParameters,
                                                                                                                                           OperationFailed {
     LOG.info("Executing operation getPortletPropertyDescription");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
     try {
       PortletPropertyDescriptionResponse response = portletManagementOperationsInterface.getPortletPropertyDescription(registrationContext,
@@ -268,14 +268,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -304,13 +304,13 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                   InconsistentParameters,
                                                                                                                                   OperationFailed {
     LOG.info("Executing operation getPortletDescription");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(desiredLocales);
     try {
       PortletDescriptionResponse response = portletManagementOperationsInterface.getPortletDescription(registrationContext,
@@ -324,14 +324,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -345,7 +345,7 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
    */
   public org.exoplatform.services.wsrp2.type.ReturnAny releaseExport(org.exoplatform.services.wsrp2.type.ReleaseExport releaseExport) {
     LOG.info("Executing operation releaseExport");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(releaseExport);
 
     ReturnAny response = portletManagementOperationsInterface.releaseExport(releaseExport.getExportContext(),
@@ -378,17 +378,17 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                          InconsistentParameters,
                                                                                                                          OperationFailed {
     LOG.info("Executing operation copyPortlets");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(toRegistrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(toUserContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(fromRegistrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(fromUserContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(fromPortletContexts);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(lifetime);
     try {
       CopyPortletsResponse response = portletManagementOperationsInterface.copyPortlets(toRegistrationContext,
@@ -406,14 +406,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -433,7 +433,7 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                                 ModifyRegistrationRequired,
                                                                                                                                                 OperationFailed {
     LOG.info("Executing operation setExportLifetime");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(setExportLifetime);
     try {
       Lifetime response = portletManagementOperationsInterface.setExportLifetime(setExportLifetime.getRegistrationContext(),
@@ -443,14 +443,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -474,11 +474,11 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                             InconsistentParameters,
                                                                                                                             OperationFailed {
     LOG.info("Executing operation destroyPortlets");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletHandles);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       DestroyPortletsResponse response = portletManagementOperationsInterface.destroyPortlets(registrationContext,
@@ -489,14 +489,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -524,13 +524,13 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                 InconsistentParameters,
                                                                                                                                 OperationFailed {
     LOG.info("Executing operation setPortletsLifetime");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(lifetime);
     try {
       SetPortletsLifetimeResponse response = portletManagementOperationsInterface.setPortletsLifetime(registrationContext,
@@ -546,14 +546,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -583,13 +583,13 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                  InconsistentParameters,
                                                                                                                                  OperationFailed {
     LOG.info("Executing operation setPortletProperties");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(propertyList);
     try {
       PortletContext response = portletManagementOperationsInterface.setPortletProperties(registrationContext,
@@ -605,14 +605,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -641,13 +641,13 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                                  InconsistentParameters,
                                                                                                                                  OperationFailed {
     LOG.info("Executing operation getPortletProperties");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(names);
     try {
       PropertyList response = portletManagementOperationsInterface.getPortletProperties(registrationContext,
@@ -661,14 +661,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -699,15 +699,15 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                                            InconsistentParameters,
                                                                                                                            OperationFailed {
     LOG.info("Executing operation importPortlets");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(importContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(importPortlet);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(lifetime);
     try {
       ImportPortletsResponse response = portletManagementOperationsInterface.importPortlets(registrationContext,
@@ -724,14 +724,14 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"

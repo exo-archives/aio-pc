@@ -233,6 +233,8 @@ public class PortletDriverImpl implements PortletDriver {
     }
 
     SessionParams sessionParams = new SessionParams();
+    System.out.println(">>>alexey:PortletDriverImpl.getRuntimeContext request.getSessionID() = "
+        + request.getSessionID());
     sessionParams.setSessionID(request.getSessionID());
     runtimeContext.setSessionParams(sessionParams);
     runtimeContext.setPageState(null);//pageState);
@@ -259,6 +261,8 @@ public class PortletDriverImpl implements PortletDriver {
 
   private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
+    System.out.println(">>>alexey:PortletDriverImpl.getInteractionParams consumer.getPortletStateChange().value() = "
+        + consumer.getPortletStateChange().value());
     interactionParams.setPortletStateChange(consumer.getPortletStateChange());
     if (!portlet.isConsumerConfigured()
         && interactionParams.getPortletStateChange()

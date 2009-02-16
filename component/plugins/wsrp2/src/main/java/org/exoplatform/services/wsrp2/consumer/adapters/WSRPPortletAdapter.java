@@ -22,10 +22,8 @@ import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 8 févr. 2004
- * Time: 23:11:40
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 8
+ *         févr. 2004 Time: 23:11:40
  */
 
 public class WSRPPortletAdapter implements WSRPPortlet {
@@ -38,7 +36,12 @@ public class WSRPPortletAdapter implements WSRPPortlet {
 
   public WSRPPortletAdapter(PortletKey portletKey) {
     this.portletKey = portletKey;
-    this.parentHandle = portletKey.getPortletHandle();
+    System.out.println(">>>alexey:WSRPPortletAdapter.WSRPPortletAdapter portletKey.getPortletHandle() = "
+        + portletKey.getPortletHandle());
+    if (portletKey.getPortletHandle().contains("/"))
+      this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle().indexOf("/")+1);
+    System.out.println(">>>alexey:WSRPPortletAdapter.WSRPPortletAdapter parentHandle = " + parentHandle);
+    
   }
 
   public PortletKey getPortletKey() {
@@ -77,6 +80,9 @@ public class WSRPPortletAdapter implements WSRPPortlet {
   }
 
   public boolean isConsumerConfigured() {
+    System.out.println(">>>alexey:WSRPPortletAdapter.isConsumerConfigured parentHandle = " + parentHandle);
+    System.out.println(">>>alexey:WSRPPortletAdapter.isConsumerConfigured portletKey.getPortletHandle() = "
+        + portletKey.getPortletHandle());
     return !getParent().equals(portletKey.getPortletHandle());
   }
 

@@ -192,10 +192,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
+    System.out
+        .println(">>>alexey:MarkupOperationsInterfaceImpl.getMarkup runtimeContext.getSessionParams().getSessionID() = "
+            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
     sessionID = session.getId(); // whether renew ID if it is null
+    System.out.println(">>>alexey:MarkupOperationsInterfaceImpl.getMarkup FRESH sessionID = " + sessionID);
 
     // manage USER
     // if isUserContextStoredInSession: if userContext is null get user context from cache, else put to cache
@@ -410,10 +414,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
+    System.out
+        .println(">>>alexey:MarkupOperationsInterfaceImpl.performBlockingInteraction runtimeContext.getSessionParams().getSessionID() = "
+            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
     sessionID = session.getId(); // whether renew ID if it is null
+    System.out.println(">>>alexey:MarkupOperationsInterfaceImpl.performBlockingInteraction FRESH sessionID = " + sessionID);
 
     // manage USER
     // if isUserContextStoredInSession: if userContext is null get user context from cache, else put to cache
@@ -711,6 +719,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
+    System.out
+        .println(">>>alexey:MarkupOperationsInterfaceImpl.getResource runtimeContext.getSessionParams().getSessionID() = "
+            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
@@ -929,6 +940,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
+    System.out
+        .println(">>>alexey:MarkupOperationsInterfaceImpl.handleEvents runtimeContext.getSessionParams().getSessionID() = "
+            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
@@ -1218,6 +1232,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
+    System.out.println(">>>alexey:MarkupOperationsInterfaceImpl.resolveSession sessionID = " + sessionID);
     WSRPHttpSession session = null;
 
     session = transientStateManager.resolveSession(sessionID, sessiontimeperiod);

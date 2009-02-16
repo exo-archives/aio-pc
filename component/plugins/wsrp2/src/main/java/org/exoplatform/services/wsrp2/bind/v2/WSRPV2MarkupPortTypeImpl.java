@@ -92,15 +92,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                         OperationFailed,
                                                                                                                         UnsupportedLocale {
     LOG.info("Executing operation getResource");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext.value);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(runtimeContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(resourceParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
@@ -116,7 +116,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -124,7 +124,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                             new OperationFailed());
       
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
           + "'on a PRODUCER side with exception at '"
@@ -144,23 +144,23 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                                     ModifyRegistrationRequired,
                                                                                                                                     OperationFailed {
     LOG.info("Executing operation initCookie");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       ReturnAny response = markupOperationsInterface.initCookie(registrationContext, userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -197,17 +197,17 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                                        UnsupportedLocale,
                                                                                                                                        PortletStateChangeRequired {
     LOG.info("Executing operation performBlockingInteraction");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(runtimeContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(markupParams);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(interactionParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
@@ -224,14 +224,14 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -266,15 +266,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                       OperationFailed,
                                                                                                                       UnsupportedLocale {
     LOG.info("Executing operation getMarkup");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(runtimeContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(markupParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
@@ -290,14 +290,14 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -320,11 +320,11 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                                          MissingParameters,
                                                                                                                                          OperationFailed {
     LOG.info("Executing operation releaseSessions");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(sessionIDs);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       ReturnAny response = markupOperationsInterface.releaseSessions(registrationContext,
@@ -333,14 +333,14 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -378,17 +378,17 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                                                                          UnsupportedLocale,
                                                                                                                          PortletStateChangeRequired {
     LOG.info("Executing operation handleEvents");
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(portletContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(runtimeContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(userContext);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(markupParams);
-    if (LOG.isDebugEnabled())
+    //if (LOG.isDebugEnabled())
       LOG.debug(eventParams);
     try {
       WSRPHTTPContainer.getInstance().setVersion(2);
@@ -405,14 +405,14 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      if (LOG.isDebugEnabled())
+      //if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"

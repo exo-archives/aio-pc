@@ -22,6 +22,7 @@ import java.io.Writer;
 import java.net.URLDecoder;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -140,11 +141,11 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
-  private static final List<String> characterEncodings = new ArrayList<String>(); // = { "UTF-8" };
+  private List<String> characterEncodings = new ArrayList<String>(); // = { "UTF-8" };
 
-  private static final List<String> mimeTypes          = new ArrayList<String>(); //= { "text/html", "text/wml" };
+  private List<String> mimeTypes          = new ArrayList<String>(); //= { "text/html", "text/wml" };
 
-  public static final List<String>  SUPPORTED_LOCALES  = new ArrayList<String>(); //= { "en", "fr" };
+  public List<String>  SUPPORTED_LOCALES  = new ArrayList<String>(); //= { "en", "fr" };
 
   private static final String       consumerAgent      = "exoplatform.3.0";
 
@@ -187,6 +188,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     this.pcConf = pcConf;
     this.conf = conf;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
+    this.characterEncodings = Arrays.asList("UTF-8");
+    this.mimeTypes          = Arrays.asList("text/html", "text/wml");
+    this.SUPPORTED_LOCALES  = Arrays.asList("en", "fr");
     initConsumer();
   }
 
@@ -881,8 +885,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           }
 
           try {
+            System.out.println(">>>alexey:WSRPConsumerPlugin.render request.getSession() = " + request.getSession());
             UserSessionMgr userSession = getUserSession(request.getSession(),
                                                         portletKey.getProducerId());
+            System.out.println(">>>alexey:WSRPConsumerPlugin.render userSession = " + userSession);
             WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
             // below I add the uniqueID to the portlet handle within PortletContext
             String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
@@ -914,6 +920,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                                                            userSession,
                                                                            baseURL);
             if (mResponse != null) {
+              System.out.println(">>>alexey:WSRPConsumerPlugin.render portletWindowSession = " + portletWindowSession);
               if (portletWindowSession != null) {
                 updateSessionContext(mResponse.getSessionContext(),
                                      portletWindowSession.getPortletSession());
@@ -968,6 +975,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     UserSessionMgr userSession = (UserSessionMgr) httpSession.getAttribute(USER_SESSIONS_KEY
         + producerID);
+    System.out.println(">>>alexey:WSRPConsumerPlugin.getUserSession userSession = " + userSession);
     if (userSession == null) {
       log.debug("Create new UserSession");
       userSession = new UserSessionImpl(producerID);//getProducer(producerID).getMarkupInterfaceEndpoint());
@@ -1070,6 +1078,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                                 WSRPPortlet portlet,
                                                 UserSession userSession,
                                                 String windowID) throws WSRPException {
+    System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession portletKey = " + portletKey);
+    System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession userSession = " + userSession);
     if (userSession != null) {
       log.debug("get group session form user session");
       String groupID = getPortletDescription(portlet).getGroupID();
@@ -1081,7 +1091,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         org.exoplatform.services.wsrp2.consumer.PortletSession portletSession = groupSession.getPortletSession(portletKey.getPortletHandle());
         log.debug("portlet handle : " + portletKey.getPortletHandle());
         if (portletSession != null) {
+          System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession windowID = " + windowID);
           PortletWindowSession windowSession = portletSession.getPortletWindowSession(windowID);
+          System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession SUCCESS windowSession = " + windowSession);
           log.debug("success in extraction of the window session");
           return windowSession;
         } else {
@@ -1181,8 +1193,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       baseRequest.setNavigationalValues(Utils.getNamedStringListParametersFromMap(input.getPublicParameterMap()));
 
     // For RuntimeContext
+    System.out.println(">>>alexey:WSRPConsumerPlugin.fillMimeRequest portletWindowSession.getPortletSession() = "
+        + portletWindowSession.getPortletSession());
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();
     if (sc != null) {
+      System.out.println(">>>alexey:WSRPConsumerPlugin.fillMimeRequest sc.getSessionID() = " + sc.getSessionID());
       baseRequest.setSessionID(sc.getSessionID());
     }
     baseRequest.setPortletInstanceKey(input.getInternalWindowID().getUniqueID());
@@ -1252,6 +1267,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   }
 
   private void updateSessionContext(SessionContext sessionContext, PortletSession portletSession) {
+    System.out.println(">>>alexey:WSRPConsumerPlugin.updateSessionContext sessionContext = " + sessionContext);
+    System.out.println(">>>alexey:WSRPConsumerPlugin.updateSessionContext portletSession = " + portletSession);
     if (sessionContext != null) {
       log.debug("update session context");
       if (portletSession != null) {

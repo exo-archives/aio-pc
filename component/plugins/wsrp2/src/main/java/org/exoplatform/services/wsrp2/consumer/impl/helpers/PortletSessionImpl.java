@@ -37,14 +37,19 @@ public class PortletSessionImpl extends PortletSessionTemplate implements java.i
   }
 
   public PortletWindowSession getPortletWindowSession(String windowID) {
+    System.out.println(">>>alexey:PortletSessionImpl.getPortletWindowSession !!! windowID = " + windowID);
     PortletWindowSession session = (PortletWindowSession) this.portletWindowSessions.get(windowID);
     if (session == null) {
       // create new session with provided windowID
       session = new PortletWindowSessionAdapter();
       ((PortletWindowSessionAdapter) session).setWindowID(windowID);
       ((PortletWindowSessionAdapter) session).setPortletSession(this);
+      System.out
+          .println(">>>alexey:PortletSessionImpl.getPortletWindowSession ((PortletWindowSessionAdapter) session).getWindowID() = "
+              + ((PortletWindowSessionAdapter) session).getWindowID());
       this.portletWindowSessions.put(windowID, session);
     }
+    System.out.println(">>>alexey:PortletSessionImpl.getPortletWindowSession session = " + session);
     return session;
   }
 
