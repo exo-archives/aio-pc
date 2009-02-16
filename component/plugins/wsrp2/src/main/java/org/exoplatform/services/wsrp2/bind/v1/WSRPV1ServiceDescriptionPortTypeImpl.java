@@ -66,8 +66,8 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
                                     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp1.type.WS1Extension>> extensions) throws WS1InvalidRegistration,
                                                                                                                                      WS1OperationFailed {
 
-
-    LOG.info("Executing operation getServiceDescription");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation getServiceDescription");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -80,7 +80,6 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
                                                                                       desiredLocales,
                                                                                       null,
                                                                                       null);
-
 
       requiresRegistration.value = response.isRequiresRegistration();
       offeredPortlets.value = WSRPTypesTransformer.getWS1PortletDescriptions(response.getOfferedPortlets());
@@ -95,22 +94,20 @@ public class WSRPV1ServiceDescriptionPortTypeImpl implements WSRPV1ServiceDescri
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (OperationFailed of) {
-      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",

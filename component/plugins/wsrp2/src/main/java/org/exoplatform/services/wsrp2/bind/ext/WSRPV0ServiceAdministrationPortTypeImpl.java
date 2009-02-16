@@ -58,7 +58,6 @@ public class WSRPV0ServiceAdministrationPortTypeImpl implements
       properties.value = response.getPropertiesAsString();
 
     } catch (Exception ex) {
-      ex.printStackTrace();
       throw new RuntimeException(ex);
     }
   }

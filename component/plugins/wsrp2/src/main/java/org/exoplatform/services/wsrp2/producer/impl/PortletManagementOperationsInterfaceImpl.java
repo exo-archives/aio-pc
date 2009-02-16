@@ -184,10 +184,10 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                              WSRPException {
 
     // TODO verify the userContext content
-    String registrationHandle = null;
-    if (fromRegistrationContext != null) {
-      registrationHandle = fromRegistrationContext.getRegistrationHandle();
+    if (fromRegistrationContext == null) {
+      throw new InvalidRegistration("registrationContext is null");
     }
+    String registrationHandle = fromRegistrationContext.getRegistrationHandle();
     log.debug("Copying portlets for the registered consumer : " + registrationHandle);
 
     RegistrationVerifier.checkRegistrationContext(toRegistrationContext);
@@ -262,10 +262,10 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                              OperationFailed,
                                                                              WSRPException {
     // TODO verify the userContext content
-    String registrationHandle = null;
-    if (registrationContext != null) {
-      registrationHandle = registrationContext.getRegistrationHandle();
+    if (registrationContext == null) {
+      throw new InvalidRegistration("registrationContext is null");
     }
+    String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
     RegistrationVerifier.checkRegistrationContext(registrationContext);
     Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
@@ -326,10 +326,10 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                  InconsistentParameters,
                                                                  OperationFailed,
                                                                  WSRPException {
-    String registrationHandle = null;
-    if (registrationContext != null) {
-      registrationHandle = registrationContext.getRegistrationHandle();
+    if (registrationContext == null) {
+      throw new InvalidRegistration("registrationContext is null");
     }
+    String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Exporting portlets for the registered consumer : " + registrationHandle);
     try {
       RegistrationVerifier.checkRegistrationContext(registrationContext);
@@ -466,10 +466,10 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                                  WSRPException {
 
     // TODO verify the userContext content
-    String registrationHandle = null;
-    if (registrationContext != null) {
-      registrationHandle = registrationContext.getRegistrationHandle();
+    if (registrationContext == null) {
+      throw new InvalidRegistration("registrationContext is null");
     }
+    String registrationHandle = registrationContext.getRegistrationHandle();
     log.debug("Set portlet properties for registration handle " + registrationHandle);
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
@@ -728,6 +728,10 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                                                       InconsistentParameters,
                                                                                                       OperationFailed,
                                                                                                       WSRPException {
+    if (registrationContext == null) {
+      throw new InvalidRegistration("registrationContext is null");
+    }
+    String registrationHandle = registrationContext.getRegistrationHandle();
     PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
     ModelDescription modelDescription = new ModelDescription();
     //    modelDescription.getPropertyDescriptions().addAll(c);

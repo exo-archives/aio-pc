@@ -49,8 +49,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
 
   private Map<String, Producer> producers;
 
-//  private Map<String, WSRPService> services;
-
   private HibernateService      hservice_;
 
   private Log                   log_;
@@ -62,7 +60,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     log_ = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     cont = ctx.getContainer();
     producers = loadProducers();
-//    services = new HashMap<String, WSRPService>();
     lastModifiedTime_ = System.currentTimeMillis();
   }
 
@@ -92,7 +89,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     try {
       save(producer);
       producers.put(producer.getID(), producer);
-//      services.put(producer.getID(), new WSRPService(producer.getUrl()));
       lastModifiedTime_ = System.currentTimeMillis();
     } catch (Exception e) {
       e.printStackTrace();
@@ -111,7 +107,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     try {
       remove(id);
       producers.remove(id);
-//      services.remove(id);
       lastModifiedTime_ = System.currentTimeMillis();
       Producer producer = (Producer) producers.get(id);
       return producer;
@@ -124,7 +119,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   public void removeAllProducers() throws Exception {
     removeAll();
     producers.clear();
-//    services.clear();
     lastModifiedTime_ = System.currentTimeMillis();
   }
 
@@ -143,7 +137,6 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   final public void save(Producer p) throws Exception {
     WSRP2ProducerData data = load(p.getID());
     Session session = hservice_.openSession();
-//    try {
     if (data == null) {
       data = new WSRP2ProducerData();
       data.setId(p.getID());
@@ -154,69 +147,40 @@ public class ProducerRegistryImpl implements ProducerRegistry {
       session.update(data);
     }
     session.flush();
-//    } catch (HibernateException e) {
-//      log_.error(e.getMessage(), e);
-//    } finally {
-//      session.flush();
-//    }
   }
 
   final public Collection<WSRP2ProducerData> loadAll() throws Exception {
     Session session = hservice_.openSession();
     List l = null;
-//    try {
     l = session.createQuery(queryAllProducer).list();
-//    } catch (HibernateException e) {
-//      log_.error(e.getMessage(), e);
-//    } finally {
-//      session.flush();
-//    }
     return l;
   }
 
   final public WSRP2ProducerData load(String id) throws Exception {
     WSRP2ProducerData data = null;
     Session session = hservice_.openSession();
-//    try {
     List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
     if (l.size() > 1) {
       throw new Exception("Expect only one configuration but found" + l.size());
     } else if (l.size() == 1) {
       data = (WSRP2ProducerData) l.get(0);
     }
-//    } catch (HibernateException e) {
-//      log_.error(e.getMessage(), e);
-//    } finally {
-//      session.flush();
-//    }
     return data;
   }
 
   final public void remove(String id) throws Exception {
     Session session = hservice_.openSession();
-//    try {
     Object obj = session.createQuery(queryProducer).setString(0, id).uniqueResult();
     session.delete(obj);
     session.flush();
-//    } catch (HibernateException e) {
-//      log_.error(e.getMessage(), e);
-//    } finally {
-//      session.flush();
-//    }
   }
 
   final public void removeAll() throws Exception {
     Session session = hservice_.openSession();
-//    try {
     Collection<Object> c = session.createQuery(queryAllProducer).list();
     for (Iterator<Object> iterator = c.iterator(); iterator.hasNext();) {
       session.delete(iterator.next());
     }
     session.flush();
-//    } catch (HibernateException e) {
-//      log_.error(e.getMessage(), e);
-//    } finally {
-//      session.flush();
-//    }
   }
 }

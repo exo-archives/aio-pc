@@ -60,8 +60,9 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
   public org.exoplatform.services.wsrp2.type.RegistrationContext register(org.exoplatform.services.wsrp2.type.Register register) throws OperationNotSupported,
                                                                                                                                 MissingParameters,
                                                                                                                                 OperationFailed {
-    LOG.info("Executing operation register");
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation register");
+    if (LOG.isDebugEnabled())
       LOG.debug(register);
     try {
       RegistrationContext response = registrationOperationsInterface.register(register.getRegistrationData(),
@@ -70,14 +71,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.RegistrationContext _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -94,10 +95,11 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                     ResourceSuspended,
                                                                                                                                     InvalidRegistration,
                                                                                                                                     OperationFailed {
-    LOG.info("Executing operation deregister");
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation deregister");
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       ReturnAny response = registrationOperationsInterface.deregister(registrationContext,
@@ -105,14 +107,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (WSRPException wsrpe) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -131,8 +133,9 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                                                   InvalidHandle,
                                                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                                                   OperationFailed {
-    LOG.info("Executing operation getRegistrationLifetime");
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation getRegistrationLifetime");
+    if (LOG.isDebugEnabled())
       LOG.debug(getRegistrationLifetime);
     try {
       Lifetime response = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime.getRegistrationContext(),
@@ -140,14 +143,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -166,8 +169,9 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                                                   InvalidHandle,
                                                                                                                                                                   ModifyRegistrationRequired,
                                                                                                                                                                   OperationFailed {
-    LOG.info("Executing operation setRegistrationLifetime");
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation setRegistrationLifetime");
+    if (LOG.isDebugEnabled())
       LOG.debug(setRegistrationLifetime);
     try {
       Lifetime response = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime.getRegistrationContext(),
@@ -176,14 +180,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (WSRPException wsrpe) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"
@@ -205,12 +209,13 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                                                                InvalidRegistration,
                                                                                                                                MissingParameters,
                                                                                                                                OperationFailed {
-    LOG.info("Executing operation modifyRegistration");
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation modifyRegistration");
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(registrationData);
-    //if (LOG.isDebugEnabled())
+    if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
       RegistrationState response = registrationOperationsInterface.modifyRegistration(registrationContext,
@@ -223,14 +228,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (WSRPException wsrpe) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
     } catch (Exception e) {
-      //if (LOG.isDebugEnabled())
+      if (LOG.isDebugEnabled())
          e.printStackTrace();
       throw new OperationFailed("Error '" +  e.toString()
                                 + "'on a PRODUCER side with exception at '"

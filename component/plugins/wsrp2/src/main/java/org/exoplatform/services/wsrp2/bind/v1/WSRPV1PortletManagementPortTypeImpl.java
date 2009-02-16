@@ -78,7 +78,8 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                WS1MissingParameters,
                                                                                                                                WS1InconsistentParameters,
                                                                                                                                WS1OperationFailed {
-    LOG.info("Executing operation destroyPortlets");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation destroyPortlets");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -95,30 +96,24 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-//      LOG.error(ir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InconsistentParameters ir) {
-//      LOG.error(ir.getMessage(), ir);
       throw new WS1InconsistentParameters(ir.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-//      LOG.error(of.getMessage(), of);
-      of.printStackTrace();
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
-//      LOG.error(wsrpe.getMessage(), wsrpe);
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",
@@ -144,7 +139,8 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                     WS1InvalidHandle,
                                                                                                                                     WS1InconsistentParameters,
                                                                                                                                     WS1OperationFailed {
-    LOG.info("Executing operation setPortletProperties");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation setPortletProperties");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -170,37 +166,30 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-//      LOG.error(ir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",
@@ -225,7 +214,8 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                             WS1InvalidHandle,
                                                                                                                             WS1InconsistentParameters,
                                                                                                                             WS1OperationFailed {
-    LOG.info("Executing operation clonePortlet");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation clonePortlet");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -248,38 +238,30 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-//      of.printStackTrace();
-      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault(), of);
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",
@@ -305,7 +287,8 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                      WS1InconsistentParameters,
                                                                                                                                      WS1OperationFailed {
 
-    LOG.info("Executing operation getPortletDescription");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation getPortletDescription");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -330,37 +313,30 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",
@@ -385,7 +361,8 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                              WS1InvalidHandle,
                                                                                                                                              WS1InconsistentParameters,
                                                                                                                                              WS1OperationFailed {
-    LOG.info("Executing operation getPortletPropertyDescription");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation getPortletPropertyDescription");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -410,34 +387,27 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();
@@ -465,7 +435,8 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
                                                                                                                                     WS1InvalidHandle,
                                                                                                                                     WS1InconsistentParameters,
                                                                                                                                     WS1OperationFailed {
-    LOG.info("Executing operation getPortletProperties");
+    if (LOG.isDebugEnabled())
+      LOG.debug("Executing operation getPortletProperties");
     if (LOG.isDebugEnabled())
       LOG.debug(registrationContext);
     if (LOG.isDebugEnabled())
@@ -490,37 +461,30 @@ public class WSRPV1PortletManagementPortTypeImpl implements WSRPV1PortletManagem
       extensions.value = WSRPTypesTransformer.getWS1Extensions(response.getExtensions());
 
     } catch (InvalidRegistration ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidRegistration(ir.getMessage(), new WS1InvalidRegistrationFault());
     } catch (MissingParameters ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1MissingParameters(ir.getMessage(), new WS1MissingParametersFault());
     } catch (InvalidUserCategory ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidUserCategory(ir.getMessage(), new WS1InvalidUserCategoryFault());
     } catch (AccessDenied ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1AccessDenied(ir.getMessage(), new WS1AccessDeniedFault());
     } catch (InvalidHandle ir) {
-      //LOG.errorir.getMessage(), ir);
       throw new WS1InvalidHandle(ir.getMessage(), new WS1InvalidHandleFault());
     } catch (InconsistentParameters ad) {
-      //LOG.errorad.getMessage(), ad);
       throw new WS1InconsistentParameters(ad.getMessage(), new WS1InconsistentParametersFault());
     } catch (OperationFailed of) {
-      //LOG.errorof.getMessage(), of);
       throw new WS1OperationFailed(of.getMessage(), new WS1OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new WS1OperationFailed("Error '" + wsrpe.toString()
-                                   + "'on a PRODUCER side with exception at '"
-                                   + wsrpe.getStackTrace()[0].toString() + "'",
-                               new WS1OperationFailedFault(),
-                               wsrpe);
+                                       + "'on a PRODUCER side with exception at '"
+                                       + wsrpe.getStackTrace()[0].toString() + "'",
+                                   new WS1OperationFailedFault(),
+                                   wsrpe);
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new WS1OperationFailed("Error '" + e.toString()
                                        + "'on a PRODUCER side with exception at '"
                                        + e.getStackTrace()[0].toString() + "'",

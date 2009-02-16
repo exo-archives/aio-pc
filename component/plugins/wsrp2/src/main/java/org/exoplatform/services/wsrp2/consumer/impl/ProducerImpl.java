@@ -21,17 +21,14 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
 import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.frontend.ClientProxy;
 import org.apache.cxf.transport.http.HTTPConduit;
 import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp1.intf.WSRPV1ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
@@ -47,7 +44,6 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2Registrat
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapter;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
@@ -65,15 +61,13 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
 import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 2 févr. 2004
- * Time: 23:10:08
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 2
+ *         févr. 2004 Time: 23:10:08
  */
 
 public class ProducerImpl implements Producer, java.io.Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long                                  serialVersionUID = 1L;
 
   private String                                             name;
 
@@ -95,13 +89,13 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   private RegistrationContext                                registrationContext;
 
-  private List<String>                                       desiredLocales = new ArrayList<String>();
+  private List<String>                                       desiredLocales   = new ArrayList<String>();
 
   private URL                                                url;
 
-  private int                                                version        = 2;
+  private int                                                version          = 2;
 
-  private static final Log                                   LOG            = ExoLogger.getLogger(ProducerImpl.class);
+  private static final Log                                   LOG              = ExoLogger.getLogger(ProducerImpl.class);
 
   public ProducerImpl(ExoContainer container, String producerURL, Integer version) {
 //    this.desiredLocales = new ArrayList<String>();
@@ -327,7 +321,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
       this.registrationContext = registrationAdapter.register(register);
       this.registrationData = register.getRegistrationData();
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new WSRPException(e.getMessage(), e);
     }
     return registrationContext;
   }
