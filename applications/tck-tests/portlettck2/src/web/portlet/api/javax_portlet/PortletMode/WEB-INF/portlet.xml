@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletMode_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:EqualsTestPortlet               		               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>EqualsTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.EqualsTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>EqualsTestPortlet</title>
+                <short-title>EqualsTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:HashCodeTestPortlet               	               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>HashCodeTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.HashCodeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>HashCodeTestPortlet</title>
+                <short-title>HashCodeTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:ToStringTestPortlet 					               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>ToStringTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.ToStringTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ToStringTestPortlet</title>
+                <short-title>ToStringTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckPortletModeEditTestPortlet 				       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckPortletModeEditTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.CheckPortletModeEditTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckPortletModeEditTestPortlet</title>
+                <short-title>CheckPortletModeEditTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckPortletModeHelpTestPortlet 				       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckPortletModeHelpTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.CheckPortletModeHelpTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckPortletModeHelpTestPortlet</title>
+                <short-title>CheckPortletModeHelpTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckPortletModeViewTestPortlet 				       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckPortletModeViewTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.CheckPortletModeViewTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckPortletModeViewTestPortlet</title>
+                <short-title>CheckPortletModeViewTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:ViewSupportedByDefaultTestPortlet 				   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>ViewSupportedByDefaultTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.ViewSupportedByDefaultTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ViewSupportedByDefaultTestPortlet</title>
+                <short-title>ViewSupportedByDefaultTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+  	
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: CheckPortletModeNotTroublingParametersTestPortlet  * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>CheckPortletModeNotTroublingParametersTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletMode.CheckPortletModeNotTroublingParametersTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+         <portlet-mode>edit</portlet-mode>
+       </supports>
+        <portlet-info>
+                <title>CheckPortletModeNotTroublingParametersTestPortlet</title>
+                <short-title>CheckPortletModeNotTroublingParametersTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+  	
+</portlet-app>

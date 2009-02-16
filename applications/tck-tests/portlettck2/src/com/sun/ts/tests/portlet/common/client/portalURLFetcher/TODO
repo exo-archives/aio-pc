@@ -1,0 +1,4 @@
+ - xsd files needs to be hosted on java.sun.com
+ - xml files in install/portlet/bin directory should point to xsd files listed there.
+ - resolve the name of the test issue.
+

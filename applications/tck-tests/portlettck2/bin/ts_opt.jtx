@@ -1,0 +1,142 @@
+# @(#)ts.jtx	1.4 02/06/05
+# Copyright 1995-2002 by Sun Microsystems, Inc.,
+# All rights reserved.
+#
+# This software is the confidential and proprietary information
+# of Sun Microsystems, Inc. ("Confidential Information").  You
+# shall not disclose such Confidential Information and shall use
+# it only in accordance with the terms of the license agreement
+# you entered into with Sun.
+#
+
+#
+# These tests are disabled because of a bug/feature in HttpClient that we are
+# using. HttpClient disallow redirect for the POST. The test strategy for the
+# the following tests uses POST data put by the Client.(BugTraq ID 4956116)
+#
+#
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetContentLengthTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetContentTypeTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetReaderInProcessActionTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetReaderIllegalStateAfterInputStreamTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetReaderIllegalStateWithApplFormPostDataTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetInputStreamInProcessActionTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetInputStreamIllegalStateAfterReaderTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetInputStreamIllegalStateWithApplFormPostDataTest
+com/sun/ts/tests/portlet/api/javax_portlet/ActionRequest/URLClient.java#GetCharacterEncodingTest
+
+#
+# These tests are disabled because of a gap in the JSP Tag Library
+# APIs.  They will be enabled after this issue is clarified (currently 
+# [CLR-58] of the JSP 2.1 specification)(BugTraq #4956120).
+#
+com/sun/ts/tests/portlet/ee/taglib/SpecURLClient.java#ActionURLVarOverwriteTest
+com/sun/ts/tests/portlet/ee/taglib/SpecURLClient.java#RenderURLVarOverwriteTest
+
+#
+# The Problem with the two tests is that Tomcat 4.1.27 is not spec
+# compliant. If an include is made from one wepapp to another they share the
+# same session. This is a violation of the servlet Spec 2.3 as described in
+# SRV 7.3 last paragraph. It seems that the session used is always the one
+# which belongs to the webapp the client request was directed to. This
+# behavior should be fixed with Tomcat 5.0.7 as stated in
+# http://issues.apache.org/bugzilla/show_bug.cgi?id=4690(BugTraq #4956122).
+#
+
+com/sun/ts/tests/portlet/api/javax_portlet/PortletSession/SpecURLClient.java#CheckSessionValueForPortletsInDiffAppTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletSession/SpecURLClient.java#ComparePortletAndHttpSessionTest
+
+#
+# Test shouldn't have assumed that the container can't create
+# a new session, when the old session has expired. A better test
+# would be to add something to the session as an attribute then set the timeout.
+# On the next request, verify that the attribute is not there, else fail. 
+# (BugTraq 4956125)
+# 
+#
+com/sun/ts/tests/portlet/api/javax_portlet/PortletSession/URLClient.java#GetMaxInactiveIntervalTimeoutTest
+
+#
+# These tests are optional. The list contains tests, which uses
+# the optional futures Event and Public Render Parameter.
+#
+
+com/sun/ts/tests/portlet/api/javax_portlet/PortletConfig/SpecURLClient.java#GetPublicRenderParameterNamesTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletConfig/SpecURLClient.java#GetPublishingProcessingEventQNamesTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletConfig/SpecURLClient.java#GetPublishingProcessingEventNamesTest
+com/sun/ts/tests/portlet/api/javax_portlet/RenderRequest/SpecURLClient.java#GetPublicParameterOnlySeenByTargetTest
+com/sun/ts/tests/portlet/api/javax_portlet/RenderRequest/SpecURLClient.java#GetPublicParameterOnlySeenByTargetTest
+com/sun/ts/tests/portlet/api/javax_portlet/RenderRequest/SpecURLClient.java#GetPublicParameterMapTest
+com/sun/ts/tests/portlet/api/javax_portlet/RenderRequest/SpecURLClient.java#GetPublicParameterTest
+com/sun/ts/tests/portlet/api/javax_portlet/RenderRequest/SpecURLClient.java#GetPublicParameterTest
+com/sun/ts/tests/portlet/api/javax_portlet/RenderRequest/SpecURLClient.java#GetPublicParameterLastEntryTest
+com/sun/ts/tests/portlet/api/javax_portlet/Portlet/URLClient.java#ProcessEventUnavailableExceptionTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#AccessToPathEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#IncludedRequestAttributesEventingTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#QueryStringParametersEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsAttributeMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsGetInputStreamEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsGetReaderEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsGetRequestDispatcherEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsLocaleMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsMiscMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsParameterMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsReturn0EventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsReturnNullEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsReturnPathInfoEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsSecondMiscMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsSessionMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsGetOutputStreamEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsGetWriterEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsMiscMiscEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsReturnNullEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#SameThreadEventingIncludeTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#AccessToPathEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#MultipleForwardsEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#PathNotSetEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsAttributeMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsGetInputStreamEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsGetReaderEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsGetRequestDispatcherEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsLocaleMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsMiscMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsParameterMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsReturn0EventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsReturnNullEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsReturnPathInfoEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsSecondMiscMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#RequestMethodsSessionMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsGetOutputStreamEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsGetWriterEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsMiscMiscEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletRequestDispatcher/SpecURLClient.java#ResponseMethodsReturnNullEventingForwardTest
+com/sun/ts/tests/portlet/api/javax_portlet/PortletFilter/SpecURLClient.java#InterfaceFilterEventTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetParameterValuesTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckSingleParameterValuesTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckEventRequestParameterRenderTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckEventRequestParameterEventTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetParameterMapTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetParameterMapEmptyTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetParameterOnlySeenByTargetTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetParameterOnlySeenByTargetTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetLifecyclePhaseAttributeTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetContextPathSyntaxTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetAuthTypeWithoutProtectionTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetResponseContentTypesTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#GetEventNameTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckEventPayloadTypeTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#SetEventLocalPartUseXmlDefaultTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckEventNameInDDTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckProcessOneEventTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckFinishedBeforRenderTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventRequest/SpecURLClient.java#CheckDestroyTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#SetRenderParametersTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#CheckSendEventTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#SetMultipleEventsProcessActionTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#SetEventLocalPartTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#CheckOpIgnoredTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#SetRenderParametersReplaceTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#GetNamespaceSameValueTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#SetUndeclaredPortletModeTest
+com/sun/ts/tests/portlet/api/javax_portlet/EventResponse/SpecURLClient.java#SetUndeclaredWindowStateTest
+com/sun/ts/tests/portlet/ee/taglib/SpecURLClient.java#DefineObjectsProcessEventTest

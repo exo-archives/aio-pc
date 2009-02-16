@@ -1,0 +1,5 @@
+<filter>
+    <filter-name>LoggerFilter2</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.filter.LoggerFilter2</filter-class>
+    <lifecycle>RENDER_PHASE</lifecycle>
+</filter>

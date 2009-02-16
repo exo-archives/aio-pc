@@ -1,0 +1,1043 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_RenderRequest_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAttributeIllegalArgumentExceptionTestPortlet    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAttributeIllegalArgumentExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetAttributeIllegalArgumentExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAttributeIllegalArgumentExceptionTestPortlet</title>
+                <short-title>GetAttributeIllegalArgumentExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAttributeNamesTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAttributeNamesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetAttributeNamesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAttributeNamesTestPortlet</title>
+                <short-title>GetAttributeNamesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAttributeTestPortlet                            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAttributeTestPortlet</title>
+                <short-title>GetAttributeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAttributeInvalidTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAttributeInvalidTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetAttributeInvalidTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAttributeInvalidTestPortlet</title>
+                <short-title>GetAttributeInvalidTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAuthTypeWithoutProtectionTestPortlet            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAuthTypeWithoutProtectionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetAuthTypeWithoutProtectionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAuthTypeWithoutProtectionTestPortlet</title>
+                <short-title>GetAuthTypeWithoutProtectionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetContextPathTestPortlet                          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetContextPathTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetContextPathTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetContextPathTestPortlet</title>
+                <short-title>GetContextPathTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetContextPathSyntaxTestPortlet               	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetContextPathSyntaxTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetContextPathSyntaxTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetContextPathSyntaxTestPortlet </title>
+                <short-title>GetContextPathSyntaxTestPortlet </short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetLocaleTestPortlet                               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetLocaleTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetLocaleTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetLocaleTestPortlet</title>
+                <short-title>GetLocaleTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetLocalesTestPortlet                              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetLocalesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetLocalesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetLocalesTestPortlet</title>
+                <short-title>GetLocalesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterIllegalArgumentExceptionTestPortlet    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterIllegalArgumentExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterIllegalArgumentExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterIllegalArgumentExceptionTestPortlet</title>
+                <short-title>GetParameterIllegalArgumentExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterNamesTestPortlet                       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterNamesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterNamesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterNamesTestPortlet</title>
+                <short-title>GetParameterNamesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterTestPortlet                            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterTestPortlet</title>
+                <short-title>GetParameterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterValuesIllegalArgumentExceptionTestPortlet * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterValuesIllegalArgumentExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterValuesIllegalArgumentExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterValuesIllegalArgumentExceptionTestPortlet</title>
+                <short-title>GetParameterValuesIllegalArgumentExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterValuesTestPortlet 					   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterValuesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterValuesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterValuesTestPortlet</title>
+                <short-title>GetParameterValuesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPortletModeTestPortlet  						   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPortletModeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPortletModeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+         <portlet-mode>EDIT</portlet-mode>
+       </supports>
+        <portlet-info>
+                <title>GetPortletModeTestPortlet</title>
+                <short-title>GetPortletModeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPortalContextTestPortlet  					   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPortalContextTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPortalContextTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPortalContextTestPortlet</title>
+                <short-title>GetPortalContextTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPreferencesTestPortlet  					       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPreferencesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPreferencesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPreferencesTestPortlet</title>
+                <short-title>GetPreferencesTestPortlet</short-title>
+        </portlet-info>
+		<portlet-preferences>
+			<preference>
+				<name>preferredLanguage</name>
+				<value>Java</value>
+			</preference>
+		</portlet-preferences>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPortletSessionTestPortlet  				   	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPortletSessionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPortletSessionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPortletSessionTestPortlet</title>
+                <short-title>GetPortletSessionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPortletSessionParamTestPortlet  				   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPortletSessionParamTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPortletSessionParamTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPortletSessionParamTestPortlet</title>
+                <short-title>GetPortletSessionParamTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetWindowStateTestPortlet  						   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetWindowStateTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetWindowStateTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetWindowStateTestPortlet</title>
+                <short-title>GetWindowStateTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterMapTestPortlet 						   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterMapTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterMapTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterMapTestPortlet</title>
+                <short-title>GetParameterMapTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterMapEmptyTestPortlet 						   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterMapEmptyTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterMapEmptyTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterMapEmptyTestPortlet</title>
+                <short-title>GetParameterMapEmptyTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterNamesEmptyTestPortlet 						   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterNamesEmptyTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterNamesEmptyTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterNamesEmptyTestPortlet</title>
+                <short-title>GetParameterNamesEmptyTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetInvalidParameterTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetInvalidParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetInvalidParameterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetInvalidParameterTestPortlet</title>
+                <short-title>GetInvalidParameterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetRemoteUserNullTestPortlet                       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetRemoteUserNullTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetRemoteUserNullTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetRemoteUserNullTestPortlet</title>
+                <short-title>GetRemoteUserNullTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResponseContentTypeTestPortlet                  * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResponseContentTypeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetResponseContentTypeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetResponseContentTypeTestPortlet</title>
+                <short-title>GetResponseContentTypeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResponseContentTypesTestPortlet                 * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResponseContentTypesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetResponseContentTypesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetResponseContentTypesTestPortlet</title>
+                <short-title>GetResponseContentTypesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetSchemeTestPortlet                               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetSchemeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetSchemeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetSchemeTestPortlet</title>
+                <short-title>GetSchemeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetServerNameTestPortlet                           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetServerNameTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetServerNameTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetServerNameTestPortlet</title>
+                <short-title>GetServerNameTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetServerPortTestPortlet                           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetServerPortTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetServerPortTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetServerPortTestPortlet</title>
+                <short-title>GetServerPortTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: CheckIsPortletModeAllowedTestPortlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckIsPortletModeAllowedTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.CheckIsPortletModeAllowedTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckIsPortletModeAllowedTestPortlet</title>
+                <short-title>CheckIsPortletModeAllowedTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- **************************************************************** -->
+    <!-- *                                                              * -->
+    <!-- * Portlet: IsRequestedSessionIdValidForValidSessionTestPortlet * -->
+    <!-- *                                                              * -->
+    <!-- **************************************************************** -->
+    <portlet>
+        <portlet-name>IsRequestedSessionIdValidForValidSessionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.IsRequestedSessionIdValidForValidSessionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+          <title>IsRequestedSessionIdValidForValidSessionTestPortlet</title>
+          <short-title>IsRequestedSessionIdValidForValidSessionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- ****************************************************************** -->
+    <!-- *                                                                * -->
+    <!-- * Portlet: IsRequestedSessionIdValidForInvalidSessionTestPortlet * -->
+    <!-- *                                                                * -->
+    <!-- ****************************************************************** -->
+    <portlet>
+        <portlet-name>IsRequestedSessionIdValidForInvalidSessionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.IsRequestedSessionIdValidForInvalidSessionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+          <title>IsRequestedSessionIdValidForInvalidSessionTestPortlet</title>
+          <short-title>IsRequestedSessionIdValidForInvalidSessionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: CheckIsWindowStateAllowedTestPortlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckIsWindowStateAllowedTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.CheckIsWindowStateAllowedTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckIsWindowStateAllowedTestPortlet</title>
+                <short-title>CheckIsWindowStateAllowedTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RemoveAttributeIllegalArgumentExceptionTestPortlet * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RemoveAttributeIllegalArgumentExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.RemoveAttributeIllegalArgumentExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RemoveAttributeIllegalArgumentExceptionTestPortlet</title>
+                <short-title>RemoveAttributeIllegalArgumentExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RemoveAttributeTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RemoveAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.RemoveAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RemoveAttributeTestPortlet </title>
+                <short-title>RemoveAttributeTestPortlet </short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: SetAttributeIllegalArgumentExceptionTestPortlet    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>SetAttributeIllegalArgumentExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.SetAttributeIllegalArgumentExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>SetAttributeIllegalArgumentExceptionTestPortlet</title>
+                <short-title>SetAttributeIllegalArgumentExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: SetAttributeTestPortlet                            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>SetAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.SetAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>SetAttributeTestPortlet</title>
+                <short-title>SetAttributeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetRenderParametersForOnlyTargetTestPortlet        * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetRenderParametersForOnlyTargetTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetRenderParametersForOnlyTargetTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+              <title>GetRenderParametersForOnlyTargetTestPortlet</title>
+              <short-title>GetRenderParametersForOnlyTargetTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetRenderParametersForOnlyTargetTest_1_Portlet     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetRenderParametersForOnlyTargetTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetRenderParametersForOnlyTargetTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+              <title>GetRenderParametersForOnlyTargetTest_1_Portlet</title>
+              <short-title>GetRenderParametersForOnlyTargetTest_1_Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterOnlySeenByTargetTestPortlet            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterOnlySeenByTargetTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterOnlySeenByTargetTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+              <title>GetParameterOnlySeenByTargetTestPortlet</title>
+              <short-title>GetParameterOnlySeenByTargetTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterOnlySeenByTargetTest_1_Portlet         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterOnlySeenByTargetTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetParameterOnlySeenByTargetTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+           <title>GetParameterOnlySeenByTargetTest_1_Portlet</title>
+           <short-title>GetParameterOnlySeenByTargetTest_1_Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: CheckSingleParameterValuesTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckSingleParameterValuesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.CheckSingleParameterValuesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckSingleParameterValuesTestPortlet</title>
+                <short-title>CheckSingleParameterValuesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResponseContentTypesOnlySupportedByPortletTestPortlet * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResponseContentTypesOnlySupportedByPortletTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.ResponseContentTypesOnlySupportedByPortletTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResponseContentTypesOnlySupportedByPortletTestPortlet</title>
+                <short-title>ResponseContentTypesOnlySupportedByPortletTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterOnlySeenByTargetTestPortlet      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterOnlySeenByTargetTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterOnlySeenByTargetTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterOnlySeenByTargetTestPortlet</title>
+                <short-title>GetPublicParameterOnlySeenByTargetTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-public-render-parameter>public-parameter</supported-public-render-parameter>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterOnlySeenByTargetTest_1_Portlet   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterOnlySeenByTargetTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterOnlySeenByTargetTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterOnlySeenByTargetTest_1_Portlet</title>
+                <short-title>GetPublicParameterOnlySeenByTargetTest_1_Portlet</short-title>
+        </portlet-info>
+        
+        <supported-public-render-parameter>public-parameter</supported-public-render-parameter>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterOnlySeenByTargetTest_2_Portlet   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterOnlySeenByTargetTest_2_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterOnlySeenByTargetTest_2_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterOnlySeenByTargetTest_2_Portlet</title>
+                <short-title>GetPublicParameterOnlySeenByTargetTest_2_Portlet</short-title>
+        </portlet-info>
+           
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterMapTestPortlet                   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterMapTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterMapTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterMapTestPortlet</title>
+                <short-title>GetPublicParameterMapTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-public-render-parameter>public-parameter</supported-public-render-parameter>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterTestPortlet                      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterTestPortlet</title>
+                <short-title>GetPublicParameterTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-public-render-parameter>public-parameter</supported-public-render-parameter>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterTest_1_Portlet                   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterTest_1_Portlet</title>
+                <short-title>GetPublicParameterTest_1_Portlet</short-title>
+        </portlet-info>
+        
+        <supported-public-render-parameter>public-parameter</supported-public-render-parameter>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicParameterLastEntryTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicParameterLastEntryTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetPublicParameterLastEntryTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicParameterLastEntryTestPortlet</title>
+                <short-title>GetPublicParameterLastEntryTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-public-render-parameter>public-parameter</supported-public-render-parameter>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetLifecyclePhaseAttributeTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetLifecyclePhaseAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetLifecyclePhaseAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetLifecyclePhaseAttributeTestPortlet</title>
+                <short-title>GetLifecyclePhaseAttributeTestPortlet</short-title>
+        </portlet-info>
+           
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResponseContentTypeOnlyIncludesMimeTypesTestPortlet* -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResponseContentTypeOnlyIncludesMimeTypesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.ResponseContentTypeOnlyIncludesMimeTypesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResponseContentTypeOnlyIncludesMimeTypesTestPortlet</title>
+                <short-title>ResponseContentTypeOnlyIncludesMimeTypesTestPortlet</short-title>
+        </portlet-info>
+           
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetWindowIDPortletScopeTestPortlet                 * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetWindowIDPortletScopeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetWindowIDPortletScopeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetWindowIDPortletScopeTestPortlet</title>
+                <short-title>GetWindowIDPortletScopeTestPortlet</short-title>
+        </portlet-info>
+           
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetCCPPAttributeTestPortlet                        * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetCCPPAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.RenderRequest.GetCCPPAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetCCPPAttributeTestPortlet</title>
+                <short-title>GetCCPPAttributeTestPortlet</short-title>
+        </portlet-info>
+           
+    </portlet>
+    
+    <public-render-parameter>
+    	<identifier>public-parameter</identifier>
+    	<qname xmlns:x="http://example.com/params">x:foo</qname>
+    </public-render-parameter>
+
+</portlet-app>

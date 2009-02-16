@@ -1,0 +1,714 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_taglib_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+<!-- ******************************************** ActionURL-Tag ********************************************************************** -->    
+    
+    <!-- ******************************************************************** -->
+    <!-- *                                                             		* -->
+    <!-- * Portlet: ActionURLCopyCurrentRenderParametersAppendTestPortlet   * -->
+    <!-- *                                                             		* -->
+    <!-- ******************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLCopyCurrentRenderParametersAppendTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLCopyCurrentRenderParametersAppendTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLCopyCurrentRenderParametersAppendTestPortlet</title>
+                <short-title>ActionURLCopyCurrentRenderParametersAppendTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLCopyCurrentRenderParametersTestPortlet    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLCopyCurrentRenderParametersTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLCopyCurrentRenderParametersTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLCopyCurrentRenderParametersTestPortlet</title>
+                <short-title>ActionURLCopyCurrentRenderParametersTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLEscapeXmlTestPortlet                      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLEscapeXmlTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLEscapeXmlTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLEscapeXmlTestPortlet</title>
+                <short-title>ActionURLEscapeXmlTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLIllegalPortletModeTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLIllegalPortletModeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLIllegalPortletModeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLIllegalPortletModeTestPortlet</title>
+                <short-title>ActionURLIllegalPortletModeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLIllegalWindowStateTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLIllegalWindowStateTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLIllegalWindowStateTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLIllegalWindowStateTestPortlet</title>
+                <short-title>ActionURLIllegalWindowStateTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLPortletModeNotSetTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLPortletModeNotSetTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLPortletModeNotSetTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLPortletModeNotSetTestPortlet</title>
+                <short-title>ActionURLPortletModeNotSetTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLPortletModeTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLPortletModeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLPortletModeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+         <portlet-mode>EDIT</portlet-mode>
+       </supports>
+        <portlet-info>
+                <title>ActionURLPortletModeTestPortlet</title>
+                <short-title>ActionURLPortletModeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLTestPortlet                               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLTestPortlet</title>
+                <short-title>ActionURLTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLVarInLoopTestPortlet                      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLVarInLoopTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLVarInLoopTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLVarInLoopTestPortlet</title>
+                <short-title>ActionURLVarInLoopTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLVarOverwriteTestPortlet                   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLVarOverwriteTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLVarOverwriteTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLVarOverwriteTestPortlet</title>
+                <short-title>ActionURLVarOverwriteTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ActionURLVarTestPortlet                            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ActionURLVarTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ActionURLVarTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ActionURLVarTestPortlet</title>
+                <short-title>ActionURLVarTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+<!-- ******************************************** DefineObjects-Tag ********************************************************************** -->
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DefineObjectsProcessActionTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DefineObjectsProcessActionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.DefineObjectsProcessActionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>DefineObjectsProcessActionTestPortlet</title>
+                <short-title>DefineObjectsProcessActionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+      
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DefineObjectsProcessEventTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DefineObjectsProcessEventTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.DefineObjectsProcessEventTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>DefineObjectsProcessEventTestPortlet</title>
+                <short-title>DefineObjectsProcessEventTestPortlet</short-title>
+        </portlet-info>
+        <supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:DefineObjectsProcessEventTest</qname>
+		</supported-processing-event>        
+        <supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:DefineObjectsProcessEventTest</qname>
+	  	</supported-publishing-event>          
+    </portlet>       
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DefineObjectsRenderTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DefineObjectsRenderTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.DefineObjectsRenderTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>DefineObjectsRenderTestPortlet</title>
+                <short-title>DefineObjectsRenderTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+      
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DefineObjectsServeResourceTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DefineObjectsServeResourceTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.DefineObjectsServeResourceTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>DefineObjectsServeResourceTestPortlet</title>
+                <short-title>DefineObjectsServeResourceTestPortlet</short-title>
+        </portlet-info>
+    </portlet>         
+
+<!-- ******************************************** Namespace-Tag ********************************************************************** -->
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: NamespaceTagUniquenessTestPortlet                  * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>NamespaceTagUniquenessTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.NamespaceTagUniquenessTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>NamespaceTagUniquenessTestPortlet</title>
+                <short-title>NamespaceTagUniquenessTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+<!-- ******************************************** PortletTaglib-Implemented *********************************************************** -->
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: PortletTaglibImplementedTestPortlet                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>PortletTaglibImplementedTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.PortletTaglibImplementedTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletTaglibImplementedTestPortlet</title>
+                <short-title>PortletTaglibImplementedTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+<!-- ******************************************** RenderURL-Tag ************************************************************************ -->
+
+    <!-- ******************************************************************** -->
+    <!-- *                                                             		* -->
+    <!-- * Portlet: RenderURLCopyCurrentRenderParametersAppendTestPortlet   * -->
+    <!-- *                                                             		* -->
+    <!-- ******************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLCopyCurrentRenderParametersAppendTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLCopyCurrentRenderParametersAppendTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLCopyCurrentRenderParametersAppendTestPortlet</title>
+                <short-title>RenderURLCopyCurrentRenderParametersAppendTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- ******************************************************************** -->
+    <!-- *                                                             		* -->
+    <!-- * Portlet: RenderURLCopyCurrentRenderParametersTestPortlet   * -->
+    <!-- *                                                             		* -->
+    <!-- ******************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLCopyCurrentRenderParametersTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLCopyCurrentRenderParametersTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLCopyCurrentRenderParametersTestPortlet</title>
+                <short-title>RenderURLCopyCurrentRenderParametersTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLEscapeXmlTestPortlet                      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLEscapeXmlTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLEscapeXmlTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLEscapeXmlTestPortlet</title>
+                <short-title>RenderURLEscapeXmlTestPortlet</short-title>
+        </portlet-info>
+    </portlet>    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLIllegalPortletModeTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLIllegalPortletModeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLIllegalPortletModeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLIllegalPortletModeTestPortlet</title>
+                <short-title>RenderURLIllegalPortletModeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLIllegalWindowStateTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLIllegalWindowStateTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLIllegalWindowStateTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLIllegalWindowStateTestPortlet</title>
+                <short-title>RenderURLIllegalWindowStateTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLPortletModeNotSetTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLPortletModeNotSetTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLPortletModeNotSetTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLPortletModeNotSetTestPortlet</title>
+                <short-title>RenderURLPortletModeNotSetTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLPortletModeTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLPortletModeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLPortletModeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+         <portlet-mode>EDIT</portlet-mode>
+       </supports>
+        <portlet-info>
+                <title>RenderURLPortletModeTestPortlet</title>
+                <short-title>RenderURLPortletModeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLTestPortlet                               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLTestPortlet</title>
+                <short-title>RenderURLTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLVarInLoopTestPortlet                      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLVarInLoopTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLVarInLoopTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLVarInLoopTestPortlet</title>
+                <short-title>RenderURLVarInLoopTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLVarOverwriteTestPortlet                   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLVarOverwriteTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLVarOverwriteTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLVarOverwriteTestPortlet</title>
+                <short-title>RenderURLVarOverwriteTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderURLVarTestPortlet                            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderURLVarTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.RenderURLVarTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderURLVarTestPortlet</title>
+                <short-title>RenderURLVarTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+<!-- ******************************************** ResourceURL-Tag ************************************************************* -->
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLAppendParameterTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLAppendParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLAppendParameterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLAppendParameterTestPortlet</title>
+                <short-title>ResourceURLAppendParameterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLEscapeXmlTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLEscapeXmlTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLEscapeXmlTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLEscapeXmlTestPortlet</title>
+                <short-title>ResourceURLEscapeXmlTestPortlet</short-title>
+        </portlet-info>
+    </portlet>    
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLPerservesPortletModeTestPortlet         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLPreservesPortletModeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLPreservesPortletModeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLPreservesPortletModeTestPortlet</title>
+                <short-title>ResourceURLPreservesPortletModeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLPerservesRenderParametersTestPortlet    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLPreservesRenderParametersTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLPreservesRenderParametersTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLPreservesRenderParametersTestPortlet</title>
+                <short-title>ResourceURLPreservesRenderParametersTestPortlet</short-title>
+        </portlet-info>
+    </portlet>    
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLPerservesWindowStateTestPortlet         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLPreservesWindowStateTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLPreservesWindowStateTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLPreservesWindowStateTestPortlet</title>
+                <short-title>ResourceURLPreservesWindowStateTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLTestPortlet                             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLTestPortlet</title>
+                <short-title>ResourceURLTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLVarInLoopTestPortlet                          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLVarInLoopTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLVarInLoopTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLVarInLoopTestPortlet</title>
+                <short-title>ResourceURLVarInLoopTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLVarOverwriteTestPortlet                 * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLVarOverwriteTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLVarOverwriteTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLVarOverwriteTestPortlet</title>
+                <short-title>ResourceURLVarOverwriteTestPortlet</short-title>
+        </portlet-info>
+    </portlet>        
+    
+	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ResourceURLVarTestPortlet                          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ResourceURLVarTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.ee.taglib.ResourceURLVarTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ResourceURLVarTestPortlet</title>
+                <short-title>ResourceURLVarTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    
+    
+<!-- ******************************************** EVENT-DEFINITION ************************************************************* -->
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Events:                                                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    <event-definition>
+	 <qname xmlns:x="http://acme.com/events">x:DefineObjectsProcessEventTest</qname>
+	 <value-type>java.lang.String</value-type>
+	</event-definition>
+</portlet-app>

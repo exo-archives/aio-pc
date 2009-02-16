@@ -1,0 +1,243 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<configuration>
+
+  <!-- WSRP 2 -->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.ServiceDescriptionInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.MarkupOperationsInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.RegistrationOperationsInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.PortletManagementOperationsInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.ServiceAdministrationInterfaceImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.JSR286ContainerProxyImpl</type>
+  </component>
+
+  <!--  HIBERNATE storage for consumer -->
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl</type>-->
+  <!--  </component>-->
+
+  <!--  JCR storage for consumer -->
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl</type>
+    <init-params>
+      <value-param>
+        <name>path</name>
+        <description>Path for storage</description>
+        <value>PersistentStateManagerJCRImpl</value>
+      </value-param>
+    </init-params>
+  </component>
+
+  <!-- begin choise JCR storage type -->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository</type>
+  </component>
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry</type>-->
+  <!--  </component>-->
+
+  <!-- end choise -->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.TransientStateManagerImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.PortletRegistryImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.PortletDriverRegistryImpl</type>
+  </component>
+
+  <!--  HIBERNATE storage for producer -->
+  <!--  <component>-->
+  <!--    <type>org.exoplatform.services.wsrp.consumer.impl.ProducerRegistryImpl</type>-->
+  <!--  </component>-->
+
+  <!--  JCR storage for producer -->
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
+    <init-params>
+      <value-param>
+        <name>path</name>
+        <description>Path for storage</description>
+        <value>ProducerRegistryJCRImpl</value>
+      </value-param>
+    </init-params>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.UserRegistryImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLGeneratorImpl2</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLRewriterImpl2</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.ConsumerEnvironmentImpl</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls2.URLTemplateComposerImpl2</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.RegistrationVerifier</type>
+  </component>
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration</type>
+    <init-params>
+      <values-param>
+        <name>exclude-list</name>
+        <value>wsrp/*</value>
+        <value>portal/*</value>
+        <value>eXoWidgetWeb/*</value>
+        <value>eXoSkinMac/*</value>
+        <value>cometd/*</value>
+        <value>web/*</value>
+        <value>exoadmin/*</value>
+        <value>rest/*</value>
+        <value>ecm/*</value>
+        <value>eXoSkinVista/*</value>
+        <value>workflow/*</value>
+      </values-param>
+      <properties-param>
+        <name>wsrp-conf</name>
+        <property name="wsrp.requires.registration" value="false" />
+        <property name="wsrp.has.user.specific.state" value="true" />
+        <property name="wsrp.does.url.template.processing" value="true" />
+        <property name="wsrp.templates.stored.in.session" value="false" />
+        <property name="wsrp.user.context.stored.in.session" value="false" />
+        <property name="wsrp.uses.method.get" value="false" />
+        <property name="wsrp.perform.blocking.interaction.optimized" value="false" />
+        <property name="wsrp.handle.events.optimized" value="false" />
+        <property name="wsrp.save.registration.state.on.consumer" value="false" />
+        <property name="wsrp.save.portlet.state.on.consumer" value="false" />
+        <property name="wsrp.coockie.protocol" value="none" />
+      </properties-param>
+      <properties-param>
+        <name>wsrp-admin-portlet-conf</name>
+        <property name="portletTitle" value="WSRPAdminPortlet" />
+        <property name="consumerName" value="www.exoplatform.org" />
+        <property name="consumerAgent" value="exoplatform.2.0" />
+        <property name="producerName" value="exo producer" />
+        <property name="producerURL" value="http://localhost:8080/wsrp/soap/services/WSRPService2?wsdl" />
+        <property name="markupIntfEndpoint" value="WSRPMarkupService" />
+        <property name="portletManagementIntfEndpoint" value="WSRPPortletManagementService" />
+        <property name="registrationIntfEndpoint" value="WSRPRegistrationService" />
+        <property name="serviceDescriptionIntfEndpoint" value="WSRPServiceDescriptionService" />
+        <property name="description" value="" />
+        <property name="version" value="2" />
+        <property name="userAttributes" value="" />
+        <property name="userDataConstraint" value="" />
+      </properties-param>
+    </init-params>
+  </component>
+
+  <!-- Services for the WSRP v1 SOAP WebService -->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v1.WSRPV1MarkupPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v1.WSRPV1PortletManagementPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v1.WSRPV1RegistrationPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v1.WSRPV1ServiceDescriptionPortTypeImpl</type>
+  </component>
+
+  <!-- Services for the WSRP v2 SOAP WebService -->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v2.WSRPV2MarkupPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v2.WSRPV2PortletManagementPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v2.WSRPV2RegistrationPortTypeImpl</type>
+  </component>
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.v2.WSRPV2ServiceDescriptionPortTypeImpl</type>
+  </component>
+
+  <!-- Services for the WSRP v0 SOAP WebService Extensions-->
+
+  <component>
+    <type>org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortTypeImpl</type>
+  </component>
+
+  <!-- Mixed external component plugins for both WSRP 1 and WSRP 2-->
+
+  <external-component-plugins>
+    <target-component>org.exoplatform.services.database.HibernateService</target-component>
+    <!--    <component-plugin>-->
+    <!--      <name>add.hibernate.mapping</name>-->
+    <!--      <set-method>addPlugin</set-method>-->
+    <!--      <type>org.exoplatform.services.database.impl.AddHibernateMappingPlugin</type>-->
+    <!--      <init-params>-->
+    <!--        <values-param>-->
+    <!--          <name>hibernate.mapping</name>-->
+    <!--          <value>org/exoplatform/services/wsrp/consumer/impl/WSRP1ProducerData.hbm.xml</value>-->
+    <!--          <value>org/exoplatform/services/wsrp/producer/impl/WSRP1StateData.hbm.xml</value>-->
+    <!--        </values-param>-->
+    <!--      </init-params>-->
+    <!--    </component-plugin>-->
+    <component-plugin>
+      <name>add.hibernate.mapping</name>
+      <set-method>addPlugin</set-method>
+      <type>org.exoplatform.services.database.impl.AddHibernateMappingPlugin</type>
+      <init-params>
+        <values-param>
+          <name>hibernate.mapping</name>
+          <value>org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.hbm.xml</value>
+          <value>org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.hbm.xml</value>
+        </values-param>
+      </init-params>
+    </component-plugin>
+  </external-component-plugins>
+
+  <external-component-plugins>
+    <target-component>org.exoplatform.services.portletcontainer.PortletContainerService</target-component>
+    <component-plugin>
+      <name>wsrp2.plugin</name>
+      <set-method>addPlugin</set-method>
+      <type>org.exoplatform.services.wsrp2.consumer.impl.WSRPConsumerPlugin</type>
+      <description>wsrp2 plugin</description>
+    </component-plugin>
+  </external-component-plugins>
+
+
+</configuration>

@@ -1,0 +1,39 @@
+<map>
+  <entry>
+    <string>winID</string>
+    <map>
+      <entry>
+        <string>time-format</string>
+        <preference>
+          <name>time-format</name>
+          <readOnly>false</readOnly>
+          <values class="list">
+            <string>HH</string>
+            <string>mm</string>
+            <string>ss</string>
+          </values>
+        </preference>
+      </entry>
+      <entry>
+        <string>time-server</string>
+        <preference>
+          <name>time-server</name>
+          <readOnly>false</readOnly>
+          <values class="list">
+            <string>http://timeserver.myco.com</string>
+          </values>
+        </preference>
+      </entry>
+      <entry>
+        <string>port</string>
+        <preference>
+          <name>port</name>
+          <readOnly>true</readOnly>
+          <values class="list">
+            <string>404</string>
+          </values>
+        </preference>
+      </entry>
+    </map>
+  </entry>
+</map>

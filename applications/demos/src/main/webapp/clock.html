@@ -1,0 +1,160 @@
+<!--
+ * Created by The eXo Platform SAS
+ * Author : Alexey Zavizionov
+ *          alexey.zavizionov@exoplatform.com.ua
+-->
+	<style type="text/css">
+		
+		#clock {
+			text-align: center;
+			font-family: arial,sans-serif;
+		}
+		
+    #greeting {
+      font-size: 12px;
+      font-weight: bold;
+      margin-top: 16px;
+      color: #000000;
+		}
+		
+		#timer {
+      font-weight: bold;
+		}
+		
+		#time {
+      font-size: 36px;
+      color: #000000;
+		}
+		
+		#ampm {
+      font-size:16px;
+      margin-left:5px;
+      color: #000000;
+		}
+
+		#date {
+      font-size: 12px;
+      color: #000000;
+		}
+	</style>
+
+    	<div id="clock">
+      	<div id="greeting"></div>
+        <div id="timer">
+          <span id="time"></span>
+          <span id="ampm"></span>
+        </div>
+      	<div id="date"></div>
+    	</div>
+
+
+<script type="text/javascript">
+
+  try {
+    startClock();
+  } catch(e) {}
+
+function startClock() {
+	/*output("Loading...", "greeting");*/
+	window.setTimeout("updateClock()", 0);
+	window.setInterval("updateClock()", 1000);
+}
+
+function output(content, element) {
+	document.getElementById(element).innerHTML = content;
+}
+
+function updateClock() {
+
+	cDate = new Date;
+
+	c = new clock(cDate);
+			
+	// Datenausgabe
+	output(c.greeting,	"greeting");
+	output(c.time, 		"time");
+	output(c.ampm, 		"ampm");
+	output(c.date, 		"date");
+}
+
+function clock(cDate) {
+	t = cDate.getTime();
+	offset = cDate.getTimezoneOffset();
+	
+	//if (prefs["daylight"] == true) {
+		offset = offset + 60;
+	//}
+	
+	cDate.setTime(t + ( 1 * 60 * 60 * 1000) + (offset * 60 * 1000));//prefs["gmtoffset"] * 60 * 60 * 1000) + (offset * 60 * 1000));
+	
+	h = cDate.getHours();
+	m = cDate.getMinutes();
+	s = cDate.getSeconds();
+	
+
+	m = (m < 10 ? "0" + m : m );
+	s = (s < 10 ? "0" + s : s );
+	
+	//if (prefs["seconds"] == true) {
+		s = ":" + s;
+	//} else {
+	//	s = '';
+	//}
+	
+	time_format = new Array();
+	time_format[0] = (h > 12 ? h - 12 : h) + ":" + m + s;
+	time_format[1] = h + ":" + m + s;
+	
+	//if (prefs["time_format"] == 0) {
+	//	this.ampm = ( h + 12 < 24 ? "AM" : "PM" );
+	//} else {
+		this.ampm = '';
+	//}
+	
+	if (h >= 5 && h < 12) {
+		this.greeting = "Good Morning";
+	} else if (h >= 12 && h < 18) {
+		this.greeting = "Good Day";
+	} else if (h >= 18 && h < 24) {
+		this.greeting = "Good Evening";	
+	} else if (h < 5) {
+		this.greeting = "Good Night";
+	}
+	
+	this.greeting = "";
+	
+	d		= cDate.getDate();
+	dofw		= cDate.getDay();
+	mo		= cDate.getMonth();
+	y		= cDate.getFullYear();
+
+	days = new Array(
+	"Sunday", "Monday", "Tuesday", "Wednesday",
+	"Thursday", "Friday", "Saturday"
+	);
+	
+	months = new Array(
+	"January", "February", "March", "April",
+	"May", "June", "July", "August",
+	"September", "October", "November", "December"
+	);
+	
+	month = months[mo];
+
+//	if (prefs["dayofweek"] == true) {
+		dayofweek = days[dofw] + ', ';
+//	} else {
+//		dayofweek = '';
+//	}
+	
+	date_format = new Array();
+	date_format[0] = dayofweek + month + ' ' + d + ', ' + y;
+	date_format[1] = dayofweek + d + ' ' + month + ' ' + y; 
+	date_format[2] = dayofweek + y + ', ' + month + ' ' + d;
+	date_format[3] = dayofweek + d + '. ' + month + ' ' + y; 
+	
+	this.time = time_format[1];//prefs["time_format"]];
+	this.date = date_format[1];//prefs["date_format"]];
+
+}
+</script>

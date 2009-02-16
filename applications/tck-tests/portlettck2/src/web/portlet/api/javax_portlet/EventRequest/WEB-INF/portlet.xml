@@ -1,0 +1,586 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_EventRequest_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:GetParameterValuesTestPortlet                       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterValuesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetParameterValuesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterValuesTestPortlet</title>
+                <short-title>GetParameterValuesTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetParameterValuesTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetParameterValuesTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckSingleParameterValuesTestPortlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckSingleParameterValuesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckSingleParameterValuesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckSingleParameterValuesTestPortlet</title>
+                <short-title>CheckSingleParameterValuesTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:CheckSingleParameterValuesTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:CheckSingleParameterValuesTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckEventRequestParameterRenderTestPortlet         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckEventRequestParameterRenderTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckEventRequestParameterRenderTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckEventRequestParameterRenderTestPortlet</title>
+                <short-title>CheckEventRequestParameterRenderTestPortlet</short-title>
+        </portlet-info>
+        	
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:CheckEventRequestParameterRenderTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:CheckEventRequestParameterRenderTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckEventRequestParameterEventTestPortlet          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckEventRequestParameterEventTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckEventRequestParameterEventTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckEventRequestParameterEventTestPortlet</title>
+                <short-title>CheckEventRequestParameterEventTestPortlet</short-title>
+        </portlet-info>
+        
+       	<supported-processing-event><qname xmlns:x="http://acme.com/events">x:CheckEventRequestParameterEventTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:CheckEventRequestParameterEventTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterMapTestPortlet                          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterMapTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetParameterMapTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterMapTestPortlet</title>
+                <short-title>GetParameterMapTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetParameterMapTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetParameterMapTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterMapEmptyTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterMapEmptyTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetParameterMapEmptyTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterMapEmptyTestPortlet</title>
+                <short-title>GetParameterMapEmptyTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetParameterMapEmptyTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetParameterMapEmptyTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterOnlySeenByTargetTestPortlet            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterOnlySeenByTargetTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetParameterOnlySeenByTargetTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterOnlySeenByTargetTestPortlet</title>
+                <short-title>GetParameterOnlySeenByTargetTestPortlet</short-title>
+        </portlet-info>
+        
+ 		<supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetParameterOnlySeenByTargetTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetParameterOnlySeenByTargetTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterOnlySeenByTargetTest_1_Portlet         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterOnlySeenByTargetTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetParameterOnlySeenByTargetTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterOnlySeenByTargetTest_1_Portlet</title>
+                <short-title>GetParameterOnlySeenByTargetTest_1_Portlet</short-title>
+        </portlet-info>
+        		
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetParameterOnlySeenByTargetTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetParameterOnlySeenByTargetTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetLifecyclePhaseAttributeTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetLifecyclePhaseAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetLifecyclePhaseAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetLifecyclePhaseAttributeTestPortlet</title>
+                <short-title>GetLifecyclePhaseAttributeTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetLifecyclePhaseAttributeTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetLifecyclePhaseAttributeTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetContextPathSyntaxTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetContextPathSyntaxTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetContextPathSyntaxTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetContextPathSyntaxTestPortlet</title>
+                <short-title>GetContextPathSyntaxTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetContextPathSyntaxTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetContextPathSyntaxTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAuthTypeWithoutProtectionTestPortlet            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAuthTypeWithoutProtectionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetAuthTypeWithoutProtectionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAuthTypeWithoutProtectionTestPortlet</title>
+                <short-title>GetAuthTypeWithoutProtectionTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetAuthTypeWithoutProtectionTest_String</qname></supported-processing-event> 
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetAuthTypeWithoutProtectionTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResponseContentTypesTestPortlet                 * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResponseContentTypesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetResponseContentTypesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetResponseContentTypesTestPortlet</title>
+                <short-title>GetResponseContentTypesTestPortlet</short-title>
+        </portlet-info>
+        
+        <supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetResponseContentTypesTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetResponseContentTypesTest_String</qname></supported-publishing-event>
+        
+    </portlet>
+    
+    <!-- Begin Chapter 15 -->
+    
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: GetEventNameTestPortlet                            * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>GetEventNameTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.GetEventNameTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>GetEventNameTestPortlet</title>
+			<short-title>GetEventNameTestPortlet</short-title>
+		</portlet-info>
+
+		<supported-processing-event><qname xmlns:x="http://acme.com/events">x:GetEventNameTest_String</qname></supported-processing-event>
+       	<supported-publishing-event><qname xmlns:x="http://acme.com/events">x:GetEventNameTest_String</qname></supported-publishing-event>
+	
+	</portlet>
+	
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: CheckEventPayloadTypeTestPortlet                   * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>CheckEventPayloadTypeTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckEventPayloadTypeTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>CheckEventPayloadTypeTestPortlet</title>
+			<short-title>CheckEventPayloadTypeTestPortlet</short-title>
+		</portlet-info>
+
+	  	<supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:CheckEventPayloadTypeTest_Address</qname>
+		</supported-processing-event>
+		<supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:CheckEventPayloadTypeTest_Address</qname>
+	  	</supported-publishing-event>
+		
+
+	</portlet>
+	
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: SetEventLocalPartUseXmlDefaultTestPortlet          * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>SetEventLocalPartUseXmlDefaultTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.SetEventLocalPartUseXmlDefaultTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>SetEventLocalPartUseXmlDefaultTestPortlet</title>
+			<short-title>SetEventLocalPartUseXmlDefaultTestPortlet</short-title>
+		</portlet-info>
+
+		<supported-processing-event>
+			<name>SetEventLocalPartUseXmlDefaultTest_String</name>
+		</supported-processing-event>
+	  	<supported-publishing-event>
+	  		<name>SetEventLocalPartUseXmlDefaultTest_String</name>
+	  	</supported-publishing-event>
+		
+
+	</portlet>
+	    
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: CheckEventNameInDDTestPortlet                      * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>CheckEventNameInDDTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckEventNameInDDTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>CheckEventNameInDDTestPortlet</title>
+			<short-title>CheckEventNameInDDTestPortlet</short-title>
+		</portlet-info>
+
+		<supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:CheckEventNameInDDTest_String</qname>
+		</supported-processing-event>
+	  	<supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:CheckEventNameInDDTest_String</qname>
+	  	</supported-publishing-event>
+
+
+	</portlet>
+	
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: CheckProcessOneEventTestPortlet                    * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>CheckProcessOneEventTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckProcessOneEventTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>CheckProcessOneEventTestPortlet</title>
+			<short-title>CheckProcessOneEventTestPortlet</short-title>
+		</portlet-info>
+
+		<supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:CheckProcessOneEventTest_String</qname>
+		</supported-processing-event>
+		<supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:CheckProcessOneEventTest_Address</qname>
+		</supported-processing-event>
+		
+	  	<supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:CheckProcessOneEventTest_String</qname>
+	  	</supported-publishing-event>
+		
+	  	<supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:CheckProcessOneEventTest_Address</qname>
+	  	</supported-publishing-event>
+
+
+	</portlet>
+	
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: CheckFinishedBeforRenderTestPortlet                * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>CheckFinishedBeforRenderTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckFinishedBeforRenderTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>CheckFinishedBeforRenderTestPortlet</title>
+			<short-title>CheckFinishedBeforRenderTestPortlet</short-title>
+		</portlet-info>
+
+		<supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:CheckFinishedBeforRenderTest_String</qname>
+		</supported-processing-event>
+	  	<supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:CheckFinishedBeforRenderTest_String</qname>
+	  	</supported-publishing-event>
+
+
+	</portlet>
+	
+	<!-- *************************************************************** -->
+	<!-- *                                                             * -->
+	<!-- * Portlet: CheckDestroyTestPortlet                            * -->
+	<!-- *                                                             * -->
+	<!-- *************************************************************** -->
+	<portlet>
+		<portlet-name>CheckDestroyTestPortlet</portlet-name>
+		<portlet-class>
+			com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.CheckDestroyTestPortlet
+		</portlet-class>
+		<expiration-cache>0</expiration-cache>
+		<supports>
+			<mime-type>text/html</mime-type>
+		</supports>
+		<portlet-info>
+			<title>CheckDestroyTestPortlet</title>
+			<short-title>CheckDestroyTestPortlet</short-title>
+		</portlet-info>
+
+		<supported-processing-event>
+			<qname xmlns:x="http://acme.com/events">x:CheckDestroyTest_String</qname>
+		</supported-processing-event>
+	  	<supported-publishing-event>
+	  		<qname xmlns:x="http://acme.com/events">x:CheckDestroyTest_String</qname>
+	  	</supported-publishing-event>
+
+	
+	</portlet>
+    
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetParameterValuesTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckSingleParameterValuesTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckEventRequestParameterRenderTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckEventRequestParameterEventTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetParameterMapTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetParameterMapEmptyTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+    <event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetParameterOnlySeenByTargetTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetLifecyclePhaseAttributeTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetContextPathSyntaxTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetAuthTypeWithoutProtectionTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetResponseContentTypesTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<!-- Begin Chapter 15 -->
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:GetEventNameTest_String</qname>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckEventPayloadTypeTest_Address</qname>
+	 	<value-type>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.Address</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<name>SetEventLocalPartUseXmlDefaultTest_String</name>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckEventNameInDDTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckProcessOneEventTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckProcessOneEventTest_Address</qname>
+	 	<value-type>com.sun.ts.tests.portlet.api.javax_portlet.EventRequest.Address</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckFinishedBeforRenderTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+	 	<qname xmlns:x="http://acme.com/events">x:CheckDestroyTest_String</qname>
+	 	<value-type>java.lang.String</value-type>
+	</event-definition>
+
+</portlet-app>

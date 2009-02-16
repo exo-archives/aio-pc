@@ -1,0 +1,5 @@
+ <custom-portlet-mode>
+    <description xml:lang="EN">Pre-defined custom portlet mode CONFIG</description>
+    <portlet-mode>CONFIG</portlet-mode>
+ </custom-portlet-mode>
+ 

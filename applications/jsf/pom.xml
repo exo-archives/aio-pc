@@ -1,0 +1,28 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.1</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.applications.jsf</artifactId>
+  <packaging>pom</packaging>
+  <name>eXo Portlet Container 2 Applications JSF</name>
+
+  <modules>
+    <module>myfaces</module>
+    <module>sunfaces</module>
+    <module>tapestry</module>
+    <module>webwork</module>
+  </modules>
+
+  <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property><name>default</name></property>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+    </profile>
+  </profiles>
+</project>
