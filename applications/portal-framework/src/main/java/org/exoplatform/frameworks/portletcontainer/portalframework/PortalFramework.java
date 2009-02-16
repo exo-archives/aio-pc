@@ -1480,7 +1480,6 @@ public class PortalFramework {
         PortletInfo pinfo = renderPortlet(plt);
         portletInfos.add(pinfo);
       } else {
-        System.out.println(">>> EXOMAN PortalFramework.processRenderList() 222222222222 = " );
         PortletInfo pinfo = Helper.createPortletInfo(this, plt);
         portletInfos.add(pinfo);
       }
