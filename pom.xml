@@ -13,6 +13,11 @@
   <version>2.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <scm>
+    <connection>scm:svn:http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.1</connection>
+    <developerConnection>scm:svn:http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.1</developerConnection>
+  </scm>
+
   <modules>
     <module>component/core</module>
     <module>component/plugins/pc</module>
