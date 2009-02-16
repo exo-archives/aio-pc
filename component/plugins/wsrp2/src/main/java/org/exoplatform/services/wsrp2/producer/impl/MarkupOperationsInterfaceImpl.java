@@ -175,10 +175,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
 
-    // runtimeContext.getPageState()
-    // runtimeContext.getPortletStates()
-    // markupParams.getNavigationalContext().getPublicValues()
-
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -411,6 +407,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
+    
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -931,6 +928,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
+    
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -1207,6 +1205,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (InvalidHandle ih) {
       throw new InvalidRegistration(ih.getMessage(), ih);
     }
+    
     WSRPHTTPContainer.getInstance().getRequest().getSession();
     return new ReturnAny();
   }
@@ -1229,6 +1228,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (InvalidHandle ih) {
       throw new InvalidRegistration(ih.getMessage(), ih);
     }
+    
     for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {
       String name = iterator.next();
       transientStateManager.releaseSession(name);
