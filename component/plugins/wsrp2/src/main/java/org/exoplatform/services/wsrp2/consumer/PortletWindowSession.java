@@ -57,7 +57,7 @@ public interface PortletWindowSession {
    * Update the cache which holds the markup context. This might be useful to
    * store the markup which was returned by
    * <code>performBlockingInteraction</code> calls in order to save an
-   * additional <code>getMarkup</code> call. Updateing the cache with a null
+   * additional <code>getMarkup</code> call. Updating the cache with a null
    * value clears the markup cache.
    */
   public void updateMarkupCache(MarkupContext markupContext);

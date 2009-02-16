@@ -36,12 +36,16 @@ public class WSRPPortletAdapter implements WSRPPortlet {
 
   public WSRPPortletAdapter(PortletKey portletKey) {
     this.portletKey = portletKey;
-    System.out.println(">>>alexey:WSRPPortletAdapter.WSRPPortletAdapter portletKey.getPortletHandle() = "
-        + portletKey.getPortletHandle());
-    if (portletKey.getPortletHandle().contains("/"))
-      this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle().indexOf("/")+1);
-    System.out.println(">>>alexey:WSRPPortletAdapter.WSRPPortletAdapter parentHandle = " + parentHandle);
-    
+
+    if (portletKey.getPortletHandle() != null) {
+      if (portletKey.getPortletHandle().contains("/")) {
+        this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle()
+                                                                              .indexOf("/") + 1);
+      } else {
+        this.parentHandle = portletKey.getPortletHandle();
+      }
+    }
+
   }
 
   public PortletKey getPortletKey() {
@@ -55,7 +59,12 @@ public class WSRPPortletAdapter implements WSRPPortlet {
         this.portletContext.setPortletHandle(portletKey.getPortletHandle());
       }
       if (parentHandle == null) {
-        parentHandle = portletKey.getPortletHandle();
+        if (portletKey.getPortletHandle().contains("/")) {
+          this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle()
+                                                                                .indexOf("/") + 1);
+        } else {
+          this.parentHandle = portletKey.getPortletHandle();
+        }
       }
     }
   }
@@ -76,13 +85,13 @@ public class WSRPPortletAdapter implements WSRPPortlet {
   }
 
   public void setParent(String portletHandle) {
-    this.parentHandle = portletHandle;
+    if (portletHandle.contains("/"))
+      this.parentHandle = portletHandle.substring(portletHandle.indexOf("/") + 1);
+    else
+      this.parentHandle = portletHandle;
   }
 
   public boolean isConsumerConfigured() {
-    System.out.println(">>>alexey:WSRPPortletAdapter.isConsumerConfigured parentHandle = " + parentHandle);
-    System.out.println(">>>alexey:WSRPPortletAdapter.isConsumerConfigured portletKey.getPortletHandle() = "
-        + portletKey.getPortletHandle());
     return !getParent().equals(portletKey.getPortletHandle());
   }
 

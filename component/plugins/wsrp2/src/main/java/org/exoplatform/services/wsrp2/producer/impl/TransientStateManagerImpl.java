@@ -70,7 +70,6 @@ public class TransientStateManagerImpl implements TransientStateManager {
   }
 
   public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
-    System.out.println(">>>alexey:TransientStateManagerImpl.resolveSession sessionID = " + sessionID);
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
     WSRPHttpSession session = null;
@@ -78,7 +77,6 @@ public class TransientStateManagerImpl implements TransientStateManager {
       log.debug("Try to lookup session with ID : " + sessionID);
 //    try {
       session = (WSRPHttpSession) cache.get(sessionID);
-      System.out.println(">>>alexey:TransientStateManagerImpl.resolveSession from CACHE session = " + session);
       if (session != null) {
         // get from cache
         // session != null && sessionID != null
@@ -97,13 +95,10 @@ public class TransientStateManagerImpl implements TransientStateManager {
       } else {
         // session == null && sessionID == null
         sessionID = IdentifierUtil.generateUUID(this);
-        System.out.println(">>>alexey:TransientStateManagerImpl.resolveSession CREATE NEW sessionID = " + sessionID);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
         
         WSRPHttpSession sessionNewFromCache = (WSRPHttpSession) cache.get(sessionID);
-        System.out.println(">>>alexey:TransientStateManagerImpl.resolveSession sessionNewFromCache = "
-            + sessionNewFromCache);
           
         if (log.isDebugEnabled())
           log.debug("Create new session with ID : " + sessionID);

@@ -171,7 +171,6 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     pD.getNavigationalPublicValueDescriptions()
       .addAll(getNavigationalPublicValueDescriptions(portlet.getSupportedPublicRenderParameter()));
     pD.setMayReturnPortletState(false);
-//    pD.getExtensions().addAll(c);
 
     return pD;
   }

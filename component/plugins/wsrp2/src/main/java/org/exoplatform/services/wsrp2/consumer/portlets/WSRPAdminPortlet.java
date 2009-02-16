@@ -503,7 +503,6 @@ public class WSRPAdminPortlet {
 //          registrationData.getExtensionDescriptions().addAll(null);
 //          registrationData.getRegistrationProperties().addAll(null);
 //          registrationData.getResourceList().getResources().addAll(null);
-//          registrationData.getExtensions().addAll(null);
 
           Register register = new Register();
           register.setRegistrationData(registrationData);

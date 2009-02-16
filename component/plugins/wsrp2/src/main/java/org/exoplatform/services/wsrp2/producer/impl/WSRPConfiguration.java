@@ -52,8 +52,10 @@ public class WSRPConfiguration {
 
   public static final String      BLOCKING_INTERACTION_OPTIMIZED      = "wsrp.perform.blocking.interaction.optimized";
 
+  public static final String      HANDLE_EVENTS_OPTIMIZED             = "wsrp.handle.events.optimized";
+
   public static final String      SAVE_REGISTRATION_STATE_ON_CONSUMER = "wsrp.save.registration.state.on.consumer";
-  
+
   public static final String      SAVE_PORTLET_STATE_ON_CONSUMER      = "wsrp.save.portlet.state.on.consumer";
 
   public static final String      COOKIE_PROTOCOL                     = "wsrp.coockie.protocol";
@@ -144,6 +146,10 @@ public class WSRPConfiguration {
 
   public boolean isBlockingInteractionOptimized() {
     return Boolean.parseBoolean(properties.get(WSRPConfiguration.BLOCKING_INTERACTION_OPTIMIZED));
+  }
+
+  public boolean isHandleEventsOptimized() {
+    return Boolean.parseBoolean(properties.get(WSRPConfiguration.HANDLE_EVENTS_OPTIMIZED));
   }
 
   public boolean isSaveRegistrationStateOnConsumer() {

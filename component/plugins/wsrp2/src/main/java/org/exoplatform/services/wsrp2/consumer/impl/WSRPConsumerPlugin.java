@@ -141,11 +141,11 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
-  private List<String> characterEncodings = new ArrayList<String>(); // = { "UTF-8" };
+  private List<String>              characterEncodings = new ArrayList<String>(); // = { "UTF-8" };
 
-  private List<String> mimeTypes          = new ArrayList<String>(); //= { "text/html", "text/wml" };
+  private List<String>              mimeTypes          = new ArrayList<String>(); //= { "text/html", "text/wml" };
 
-  public List<String>  SUPPORTED_LOCALES  = new ArrayList<String>(); //= { "en", "fr" };
+  public List<String>               SUPPORTED_LOCALES  = new ArrayList<String>(); //= { "en", "fr" };
 
   private static final String       consumerAgent      = "exoplatform.3.0";
 
@@ -189,8 +189,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     this.conf = conf;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
     this.characterEncodings = Arrays.asList("UTF-8");
-    this.mimeTypes          = Arrays.asList("text/html", "text/wml");
-    this.SUPPORTED_LOCALES  = Arrays.asList("en", "fr");
+    this.mimeTypes = Arrays.asList("text/html", "text/wml");
+    this.SUPPORTED_LOCALES = Arrays.asList("en", "fr");
     initConsumer();
   }
 
@@ -750,8 +750,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               // set events
               output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
               if (windowSession != null) {
+                // store session context
                 updateSessionContext(updateResponse.getSessionContext(),
                                      windowSession.getPortletSession());
+                // update markup cache 
                 windowSession.updateMarkupCache(updateResponse.getMarkupContext());
               }
               updatePortletContext(updateResponse.getPortletContext(), portlet);
@@ -885,10 +887,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           }
 
           try {
-            System.out.println(">>>alexey:WSRPConsumerPlugin.render request.getSession() = " + request.getSession());
             UserSessionMgr userSession = getUserSession(request.getSession(),
                                                         portletKey.getProducerId());
-            System.out.println(">>>alexey:WSRPConsumerPlugin.render userSession = " + userSession);
             WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
             // below I add the uniqueID to the portlet handle within PortletContext
             String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
@@ -920,17 +920,21 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                                                            userSession,
                                                                            baseURL);
             if (mResponse != null) {
-              System.out.println(">>>alexey:WSRPConsumerPlugin.render portletWindowSession = " + portletWindowSession);
+
+              // store session context
               if (portletWindowSession != null) {
                 updateSessionContext(mResponse.getSessionContext(),
                                      portletWindowSession.getPortletSession());
               }
+              // update markup cache if doesn't use cached item
+              if (!mResponse.getMarkupContext().isUseCachedItem() && portletWindowSession != null) {
+                log.debug("Update cache");
+                portletWindowSession.updateMarkupCache(mResponse.getMarkupContext());
+              }
+              // write output
               processMarkupContext(mResponse.getMarkupContext(), output);
             }
-            if (portletWindowSession != null) {
-              log.debug("Update cache");
-              portletWindowSession.updateMarkupCache(mResponse.getMarkupContext());
-            }
+
             if (input.getTitle() != null) {
               output.setTitle(input.getTitle());
             }
@@ -975,7 +979,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     UserSessionMgr userSession = (UserSessionMgr) httpSession.getAttribute(USER_SESSIONS_KEY
         + producerID);
-    System.out.println(">>>alexey:WSRPConsumerPlugin.getUserSession userSession = " + userSession);
     if (userSession == null) {
       log.debug("Create new UserSession");
       userSession = new UserSessionImpl(producerID);//getProducer(producerID).getMarkupInterfaceEndpoint());
@@ -1078,8 +1081,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                                 WSRPPortlet portlet,
                                                 UserSession userSession,
                                                 String windowID) throws WSRPException {
-    System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession portletKey = " + portletKey);
-    System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession userSession = " + userSession);
     if (userSession != null) {
       log.debug("get group session form user session");
       String groupID = getPortletDescription(portlet).getGroupID();
@@ -1091,9 +1092,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         org.exoplatform.services.wsrp2.consumer.PortletSession portletSession = groupSession.getPortletSession(portletKey.getPortletHandle());
         log.debug("portlet handle : " + portletKey.getPortletHandle());
         if (portletSession != null) {
-          System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession windowID = " + windowID);
           PortletWindowSession windowSession = portletSession.getPortletWindowSession(windowID);
-          System.out.println(">>>alexey:WSRPConsumerPlugin.getWindowSession SUCCESS windowSession = " + windowSession);
           log.debug("success in extraction of the window session");
           return windowSession;
         } else {
@@ -1114,7 +1113,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     log.debug("getPortletDescription entered");
     String producerID = portlet.getPortletKey().getProducerId();
     Producer producer = getProducer(producerID);
-    PortletDescription portletDesc = producer.getPortletDescription(portlet.getParent());
+    PortletDescription portletDesc = producer.getPortletDescription(portlet.getPortletKey()
+                                                                           .getPortletHandle());
     if (portletDesc == null) {
       throw new WSRPException(Faults.UNKNOWN_PORTLET_DESCRIPTION);
     }
@@ -1193,14 +1193,18 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       baseRequest.setNavigationalValues(Utils.getNamedStringListParametersFromMap(input.getPublicParameterMap()));
 
     // For RuntimeContext
-    System.out.println(">>>alexey:WSRPConsumerPlugin.fillMimeRequest portletWindowSession.getPortletSession() = "
-        + portletWindowSession.getPortletSession());
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();
     if (sc != null) {
-      System.out.println(">>>alexey:WSRPConsumerPlugin.fillMimeRequest sc.getSessionID() = " + sc.getSessionID());
       baseRequest.setSessionID(sc.getSessionID());
     }
     baseRequest.setPortletInstanceKey(input.getInternalWindowID().getUniqueID());
+
+    if (portletWindowSession.getCachedMarkup() != null
+        && portletWindowSession.getCachedMarkup().getCacheControl() != null) {
+      baseRequest.setValidateTag(portletWindowSession.getCachedMarkup()
+                                                     .getCacheControl()
+                                                     .getValidateTag());
+    }
   }
 
   private ClientData getClientData() {
@@ -1267,8 +1271,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   }
 
   private void updateSessionContext(SessionContext sessionContext, PortletSession portletSession) {
-    System.out.println(">>>alexey:WSRPConsumerPlugin.updateSessionContext sessionContext = " + sessionContext);
-    System.out.println(">>>alexey:WSRPConsumerPlugin.updateSessionContext portletSession = " + portletSession);
     if (sessionContext != null) {
       log.debug("update session context");
       if (portletSession != null) {
@@ -1288,7 +1290,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         PortletKey newPortletKey = new PortletKeyAdapter();
         portletKey.setPortletHandle(newPortletHandle);
         portletKey.setPortletHandle(producerID);
-        portlet = createPortlet(newPortletKey, portlet.getParent());
+        portlet = createPortlet(newPortletKey, portlet.getPortletKey().getPortletHandle());
         consumer.getPortletRegistry().addPortlet(portlet);
       }
       portlet.setPortletContext(portletContext);
@@ -1299,6 +1301,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                              PortletWindowSession portletWindowSession) {
     WSRPMarkupRequestAdapter markupRequest = new WSRPMarkupRequestAdapter();
     fillMimeRequest(markupRequest, input, portletWindowSession);
+    // if we need this
     markupRequest.setCachedMarkup(portletWindowSession.getCachedMarkup());
     return markupRequest;
   }
@@ -1319,11 +1322,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   // Below changes of WSRP2 spec
 
   private Collection<PortletMode> getPortletModesFromStrings(List<String> validNewModes) {
-    if (validNewModes == null)
+    if (validNewModes == null || validNewModes.isEmpty())
       return null;
     Collection<PortletMode> portletModes = new ArrayList<PortletMode>();
     for (String mode : validNewModes) {
-      portletModes.add(new PortletMode(mode));
+      portletModes.add(Modes.getJsrPortletMode(mode));
     }
     return portletModes;
   }
@@ -1411,15 +1414,21 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
             if (resResponse != null) {
               if (portletWindowSession != null) {
+
+                // store session context
                 updateSessionContext(resResponse.getSessionContext(),
                                      portletWindowSession.getPortletSession());
+                // update resource cache if doesn't use cached item
+                if (!resResponse.getResourceContext().isUseCachedItem()
+                    && portletWindowSession != null) {
+                  log.debug("Update cache");
+                  portletWindowSession.updateResourceCache(resResponse.getResourceContext());
+                }
               }
+              // write output
               processResourceContext(resResponse.getResourceContext(), output);
             }
-            if (portletWindowSession != null) {
-              log.debug("Update cache");
-              portletWindowSession.updateMarkupCache(null);
-            }
+
             if (input.getTitle() != null) {
               output.setTitle(input.getTitle());
             }
@@ -1473,6 +1482,14 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     // resourceRequest.setUploadContexts(uploadContexts);
     // resourceRequest.setPortletStateChange(portletStateChange);
+
+    if (portletWindowSession.getCachedMarkup() != null
+        && portletWindowSession.getCachedMarkup().getCacheControl() != null) {
+      resourceRequest.setValidateTag(portletWindowSession.getCachedMarkup()
+                                                         .getCacheControl()
+                                                         .getValidateTag());
+    }
+
     return resourceRequest;
   }
 
@@ -1501,12 +1518,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   private void processMimeResponse(MimeResponse mimeResponse, RenderOutput output) throws WSRPException {
     log.debug("process resource context for returned markup");
     if (mimeResponse != null && output != null) {
-      // resourceContext.getCacheControl()
-      // resourceContext.getCcppProfileWarning()
-      // resourceContext.getExtensions()
-      // resourceContext.getLocale()
-      // resourceContext.getRequiresRewriting()
-      // resourceContext.getUseCachedItem()
       if (mimeResponse.getMimeType() != null) {
         output.setContentType(mimeResponse.getMimeType());
       }
@@ -1610,8 +1621,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
             // set events
             output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
             if (windowSession != null) {
+              // store session context
               updateSessionContext(updateResponse.getSessionContext(),
                                    windowSession.getPortletSession());
+              // update markup cache 
               windowSession.updateMarkupCache(updateResponse.getMarkupContext());
             }
             updatePortletContext(updateResponse.getPortletContext(), portlet);

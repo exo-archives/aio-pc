@@ -20,6 +20,7 @@ package org.exoplatform.services.wsrp2.producer.impl;
 import java.math.BigInteger;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -192,14 +193,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
-    System.out
-        .println(">>>alexey:MarkupOperationsInterfaceImpl.getMarkup runtimeContext.getSessionParams().getSessionID() = "
-            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
     sessionID = session.getId(); // whether renew ID if it is null
-    System.out.println(">>>alexey:MarkupOperationsInterfaceImpl.getMarkup FRESH sessionID = " + sessionID);
 
     // manage USER
     // if isUserContextStoredInSession: if userContext is null get user context from cache, else put to cache
@@ -223,13 +220,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         if (transientStateManager.validateCache(markupParams.getValidateTag())) {
           MarkupContext markupContext = new MarkupContext();
           markupContext.setUseCachedItem(new Boolean(true));
-          MarkupResponse markup = new MarkupResponse();
-          markup.setMarkupContext(markupContext);
-          markup.setSessionContext(sessionContext);
-          return markup;
+          MarkupResponse markupResponse = new MarkupResponse();
+          markupResponse.setMarkupContext(markupContext);
+          markupResponse.setSessionContext(sessionContext);
+          return markupResponse;
         }
       } catch (WSRPException e) {
-        log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
+        log.debug("Can not validate markup cache for validateTag : "
+            + markupParams.getValidateTag());
         e.printStackTrace();
         throw new WSRPException();
       }
@@ -357,7 +355,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     markupContext.setPreferredTitle(output.getTitle());
     markupContext.setRequiresRewriting(!conf.isDoesUrlTemplateProcessing());
     markupContext.setUseCachedItem(false);
-//    markupContext.getValidNewModes().addAll(c);// was: setValidNewModes(null);
+    Collection<PortletMode> portletModes = output.getNextPossiblePortletModes();
+    if (portletModes != null && !portletModes.isEmpty())
+      markupContext.getValidNewModes().addAll(getValidNewModes(portletModes));
 
     // preparing markup response
     MarkupResponse markupResponse = new MarkupResponse();
@@ -365,6 +365,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     markupResponse.setSessionContext(sessionContext);
 
     return markupResponse;
+  }
+
+  private Collection<String> getValidNewModes(Collection<PortletMode> portletModes) {
+    if (portletModes == null || portletModes.isEmpty())
+      return null;
+    List<String> validNewModes = new ArrayList<String>();
+    for (PortletMode mode : portletModes) {
+      validNewModes.add(Modes.addPrefixWSRP(mode.toString()));
+    }
+    return validNewModes;
   }
 
   private PortletData getPortletMetaData(String portletHandle) {
@@ -414,14 +424,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
-    System.out
-        .println(">>>alexey:MarkupOperationsInterfaceImpl.performBlockingInteraction runtimeContext.getSessionParams().getSessionID() = "
-            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
     sessionID = session.getId(); // whether renew ID if it is null
-    System.out.println(">>>alexey:MarkupOperationsInterfaceImpl.performBlockingInteraction FRESH sessionID = " + sessionID);
 
     // manage USER
     // if isUserContextStoredInSession: if userContext is null get user context from cache, else put to cache
@@ -593,6 +599,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       blockingInteractionResponse.setUpdateResponse(null);
     } else {
       MarkupContext markupContext = null;
+
+      // call render to optimized 
       if (conf.isBlockingInteractionOptimized()) {
         // markupParams.setWindowState(ns);
         MarkupResponse markupResponse = getMarkup(registrationContext,
@@ -615,7 +623,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       if (conf.isSavePortletStateOnConsumer())
         portletContext.setPortletState(output.getPortletState());
       updateResponse.setPortletContext(portletContext);
-//      updateResponse.getExtensions().addAll(c);//was:setExtensions(null);
 
       // get render parameters
       renderParameters = output.getRenderParameters();
@@ -648,7 +655,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 //      newNavigationalContext.getPublicValues().addAll(c);
       newNavigationalContext.getPublicValues()
                             .addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
-//      newNavigationalContext.getExtensions().addAll(c);
       updateResponse.setNavigationalContext(newNavigationalContext);
 
       updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(output.getEvents()));
@@ -719,9 +725,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
-    System.out
-        .println(">>>alexey:MarkupOperationsInterfaceImpl.getResource runtimeContext.getSessionParams().getSessionID() = "
-            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
@@ -744,21 +747,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     sessionContext.setExpires(sessiontimeperiod);
 
     // manage cache
-    //    if (markupParams.getValidateTag() != null) {
-    //      try {
-    //        if (transientStateManager.validateCache(markupParams.getValidateTag())) {
-    //          MarkupContext markupContext = new MarkupContext();
-    //          markupContext.setUseCachedMarkup(new Boolean(true));
-    //          MarkupResponse markup = new MarkupResponse();
-    //          markup.setMarkupContext(markupContext);
-    //          markup.setSessionContext(sessionContext);
-    //          return markup;
-    //        }
-    //      } catch (WSRPException e) {
-    //        log.debug("Can not validate Cache for validateTag : " + markupParams.getValidateTag());
-    //        throw new WSRPException();
-    //      }
-    //    }
+    if (resourceParams.getValidateTag() != null) {
+      try {
+        if (transientStateManager.validateCache(resourceParams.getValidateTag())) {
+          ResourceContext resourceContext = new ResourceContext();
+          resourceContext.setUseCachedItem(new Boolean(true));
+          ResourceResponse resourceResponse = new ResourceResponse();
+          resourceResponse.setResourceContext(resourceContext);
+          resourceResponse.setSessionContext(sessionContext);
+          return resourceResponse;
+        }
+      } catch (WSRPException e) {
+        log.debug("Can not validate resource cache for validateTag : "
+            + resourceParams.getValidateTag());
+        throw new WSRPException();
+      }
+    }
 
     // get portlet data
     PortletData portletData = getPortletMetaData(portletApplicationName
@@ -940,9 +944,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
     // manage SESSION
-    System.out
-        .println(">>>alexey:MarkupOperationsInterfaceImpl.handleEvents runtimeContext.getSessionParams().getSessionID() = "
-            + runtimeContext.getSessionParams().getSessionID());
     String sessionID = runtimeContext.getSessionParams().getSessionID();
     //get session from cache or create a new one
     WSRPHttpSession session = resolveSession(sessionID, sessiontimeperiod);
@@ -1151,15 +1152,19 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
     updateResponse.setSessionContext(sessionContext);
     MarkupContext markupContext = null;
-    // call render to optimized // TODO new conf param for
-    //    if (conf.isHandleEventsOptimized()) {
-    //      // markupParams.setWindowState(ns);
-    //      MarkupResponse markupResponse = getMarkup(registrationContext, portletContext, runtimeContext, userContext, markupParams);
-    //      markupContext = markupResponse.getMarkupContext();
-    //    }
+
+    // call render to optimized 
+    if (conf.isHandleEventsOptimized()) {
+      // markupParams.setWindowState(ns);
+      MarkupResponse markupResponse = getMarkup(registrationContext,
+                                                portletContext,
+                                                runtimeContext,
+                                                userContext,
+                                                markupParams);
+      markupContext = markupResponse.getMarkupContext();
+    }
     updateResponse.setMarkupContext(markupContext);
     updateResponse.setPortletContext(portletContext);
-//    updateResponse.getExtensions().addAll(c);
 
     // get public parameters
     Map<String, String[]> publicParameters = new HashMap<String, String[]>();
@@ -1232,7 +1237,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
-    System.out.println(">>>alexey:MarkupOperationsInterfaceImpl.resolveSession sessionID = " + sessionID);
     WSRPHttpSession session = null;
 
     session = transientStateManager.resolveSession(sessionID, sessiontimeperiod);

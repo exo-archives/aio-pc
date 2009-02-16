@@ -139,6 +139,7 @@
         <property name="wsrp.user.context.stored.in.session" value="false" />
         <property name="wsrp.uses.method.get" value="false" />
         <property name="wsrp.perform.blocking.interaction.optimized" value="false" />
+        <property name="wsrp.handle.events.optimized" value="false" />
         <property name="wsrp.save.registration.state.on.consumer" value="false" />
         <property name="wsrp.save.portlet.state.on.consumer" value="false" />
         <property name="wsrp.coockie.protocol" value="none" />

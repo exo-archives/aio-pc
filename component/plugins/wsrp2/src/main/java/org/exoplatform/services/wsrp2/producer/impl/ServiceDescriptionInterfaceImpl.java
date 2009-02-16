@@ -117,7 +117,6 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
         ed.setSchemaType(null);
         ed.setLabel(null);
         ed.setHint(null);
-//        ed.getExtensions().addAll(c);
         eventDescriptions.add(ed);
       }
     }

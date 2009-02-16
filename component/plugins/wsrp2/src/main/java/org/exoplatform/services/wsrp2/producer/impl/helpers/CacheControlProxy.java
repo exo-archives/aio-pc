@@ -34,7 +34,7 @@ public class CacheControlProxy {
 
   public CacheControlProxy(CacheControl cacheControl) {
     this.cacheControl = cacheControl;
-    creationTime = System.currentTimeMillis();
+    this.creationTime = System.currentTimeMillis();
   }
 
   public CacheControl getCacheControl() {

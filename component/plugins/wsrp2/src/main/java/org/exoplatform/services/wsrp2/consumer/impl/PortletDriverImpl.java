@@ -134,7 +134,8 @@ public class PortletDriverImpl implements PortletDriver {
       userSession.setInitCookieDone(false);
     } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
       PortletDescription portletDescription = null;
-      portletDescription = producer.getPortletDescription(getPortlet().getParent());
+      portletDescription = producer.getPortletDescription(getPortlet().getPortletKey()
+                                                                      .getPortletHandle());
       String groupID = null;
       if (portletDescription != null) {
         groupID = portletDescription.getGroupID();
@@ -159,7 +160,8 @@ public class PortletDriverImpl implements PortletDriver {
       }
     } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
       LOG.debug("cookies management per group");
-      PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getParent());
+      PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getPortletKey()
+                                                                                         .getPortletHandle());
       String groupID = null;
       if (portletDescription != null) {
         groupID = portletDescription.getGroupID();
@@ -206,7 +208,8 @@ public class PortletDriverImpl implements PortletDriver {
 
       Boolean doesUrlTemplateProcess = null;
       Boolean getTemplatesStoredInSession = null;
-      PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
+      PortletDescription desc = producer.getPortletDescription(getPortlet().getPortletKey()
+                                                                           .getPortletHandle());
       if (desc != null) {
         doesUrlTemplateProcess = desc.isDoesUrlTemplateProcessing();
         getTemplatesStoredInSession = desc.isTemplatesStoredInSession();
@@ -233,8 +236,6 @@ public class PortletDriverImpl implements PortletDriver {
     }
 
     SessionParams sessionParams = new SessionParams();
-    System.out.println(">>>alexey:PortletDriverImpl.getRuntimeContext request.getSessionID() = "
-        + request.getSessionID());
     sessionParams.setSessionID(request.getSessionID());
     runtimeContext.setSessionParams(sessionParams);
     runtimeContext.setPageState(null);//pageState);
@@ -261,8 +262,6 @@ public class PortletDriverImpl implements PortletDriver {
 
   private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
-    System.out.println(">>>alexey:PortletDriverImpl.getInteractionParams consumer.getPortletStateChange().value() = "
-        + consumer.getPortletStateChange().value());
     interactionParams.setPortletStateChange(consumer.getPortletStateChange());
     if (!portlet.isConsumerConfigured()
         && interactionParams.getPortletStateChange()
@@ -275,8 +274,6 @@ public class PortletDriverImpl implements PortletDriver {
       interactionParams.getFormParameters().addAll(actionRequest.getFormParameters());
     if (actionRequest.getUploadContexts() != null)
       interactionParams.getUploadContexts().addAll(actionRequest.getUploadContexts());
-    if (actionRequest.getExtensions() != null)
-      interactionParams.getExtensions().addAll(actionRequest.getExtensions());
     return interactionParams;
   }
 
@@ -286,30 +283,37 @@ public class PortletDriverImpl implements PortletDriver {
     checkInitCookie(userSession);
     MarkupResponse response = null;
     try {
-      MarkupContext markupContext = markupRequest.getCachedMarkup();
-      if (markupContext == null) {
-        LOG.debug("get non cached markup");
-        GetMarkup request = new GetMarkup();
-        request.setPortletContext(getPortlet().getPortletContext());
-        request.setMarkupParams(getMarkupParams(markupRequest));
-        request.setRuntimeContext(getRuntimeContext(markupRequest, baseURL));
-        RegistrationContext regCtx = producer.getRegistrationContext();
-        if (regCtx != null) {
-          LOG.debug("Registration context used in getMarkup : " + regCtx.getRegistrationHandle());
-          request.setRegistrationContext(regCtx);
-        }
-        UserContext userCtx = getUserContext(userSession);
-        if (userCtx != null) {
-          request.setUserContext(userCtx);
-        }
-        /* MAIN INVOKE */
-        response = markupPort.getMarkup(request);
-      } else {
-        LOG.debug("get cached markup");
-        response = new MarkupResponse();
-        response.setMarkupContext(markupContext);
+
+      GetMarkup request = new GetMarkup();
+      request.setPortletContext(getPortlet().getPortletContext());
+      request.setMarkupParams(getMarkupParams(markupRequest));
+      request.setRuntimeContext(getRuntimeContext(markupRequest, baseURL));
+      RegistrationContext regCtx = producer.getRegistrationContext();
+      if (regCtx != null) {
+        LOG.debug("Registration context used in getMarkup : " + regCtx.getRegistrationHandle());
+        request.setRegistrationContext(regCtx);
       }
-      markupContext = response.getMarkupContext();
+      UserContext userCtx = getUserContext(userSession);
+      if (userCtx != null) {
+        request.setUserContext(userCtx);
+      }
+
+      /* MAIN INVOKE */
+      response = markupPort.getMarkup(request);
+
+      if (response.getMarkupContext().isUseCachedItem()) {
+        if (markupRequest.getCachedMarkup() != null) {
+          LOG.debug("get cached markup");
+          response = new MarkupResponse();
+          response.setMarkupContext(markupRequest.getCachedMarkup());
+          response.setSessionContext(response.getSessionContext());
+          return response;
+        } else {
+          //throw exc when producer wants to use cached and consumer haven't it
+        }
+      }
+
+      MarkupContext markupContext = response.getMarkupContext();
       Boolean requiresRewriting = markupContext.isRequiresRewriting();
       LOG.debug("requires URL rewriting : " + requiresRewriting);
       String content = getContent(markupContext);
@@ -343,7 +347,7 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
     } catch (InvalidCookie cookieFault) {
-      LOG.error("Problem with cookies ", cookieFault);
+      LOG.info("Problem with cookies ", cookieFault);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
       getMarkup(markupRequest, userSession, baseURL);
@@ -463,7 +467,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   public PortletDescriptionResponse getPortletDescription(UserSessionMgr userSession,
                                                           List<String> desiredLocales) throws WSRPException {
-    
+
     GetPortletDescription request = new GetPortletDescription();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {
@@ -559,30 +563,35 @@ public class PortletDriverImpl implements PortletDriver {
     checkInitCookie(userSession);
     ResourceResponse response = null;
     try {
-      ResourceContext resourceContext = resourceRequest.getCachedResource();
-      if (resourceContext == null) {
-        LOG.debug("get non cached resource");
-        GetResource request = new GetResource();
-        request.setPortletContext(getPortlet().getPortletContext());
-        request.setResourceParams(getResourceParams(resourceRequest));
-        request.setRuntimeContext(getRuntimeContext(resourceRequest, baseURL));
-        RegistrationContext regCtx = producer.getRegistrationContext();
-        if (regCtx != null) {
-          request.setRegistrationContext(regCtx);
-        }
-        UserContext userCtx = getUserContext(userSession);
-        if (userCtx != null) {
-          request.setUserContext(userCtx);
-        }
 
-        response = markupPort.getResource(request);
-      } else {
-        LOG.debug("get cached resource");
-        response = new ResourceResponse();
-        response.setResourceContext(resourceContext);
+      GetResource request = new GetResource();
+      request.setPortletContext(getPortlet().getPortletContext());
+      request.setResourceParams(getResourceParams(resourceRequest));
+      request.setRuntimeContext(getRuntimeContext(resourceRequest, baseURL));
+      RegistrationContext regCtx = producer.getRegistrationContext();
+      if (regCtx != null) {
+        request.setRegistrationContext(regCtx);
+      }
+      UserContext userCtx = getUserContext(userSession);
+      if (userCtx != null) {
+        request.setUserContext(userCtx);
       }
 
-      resourceContext = response.getResourceContext();
+      response = markupPort.getResource(request);
+
+      if (response.getResourceContext().isUseCachedItem()) {
+        if (resourceRequest.getCachedResource() != null) {
+          LOG.debug("get cached resource");
+          response = new ResourceResponse();
+          response.setResourceContext(resourceRequest.getCachedResource());
+          response.setSessionContext(response.getSessionContext());
+          return response;
+        } else {
+          //throw exc when producer wants to use cached and consumer haven't it
+        }
+      }
+
+      ResourceContext resourceContext = response.getResourceContext();
       Boolean requiresRewriting = resourceContext.isRequiresRewriting();
       LOG.debug("requires URL rewriting : " + requiresRewriting);
       String content = getContent(resourceContext);
@@ -689,7 +698,6 @@ public class PortletDriverImpl implements PortletDriver {
     navCont.setOpaqueValue(request.getNavigationalState());
     if (request.getNavigationalValues() != null)
       navCont.getPublicValues().addAll(request.getNavigationalValues());
-//    navCont.getExtensions().addAll(null);
     return navCont;
   }
 
