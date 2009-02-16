@@ -213,18 +213,22 @@ public class WSRPAdminPortlet {
           + "</textarea></td></tr>");
 
       w.println("    <tr><td><label style=\"font-size:12px; font-weight:bold;\">Version</label></td>");
-      w.println("      <td><select id=\"" + WSRPConstants.WAP_version + "\" name=\"" + WSRPConstants.WAP_version + "\">"); 
-      w.println("<option value=\"1\""); 
-         if (version == 1) w.println(" SELECTED");
-     w.println( ">WSRP v.1"); 
+      w.println("      <td><select id=\"" + WSRPConstants.WAP_version + "\" name=\""
+          + WSRPConstants.WAP_version + "\">");
+      w.println("<option value=\"1\"");
+      if (version == 1)
+        w.println(" SELECTED");
+      w.println(">WSRP v.1");
       w.println("<option value=\"2\"");
-        if (version == 2) w.println(" SELECTED");
-      w.println( ">WSRP v.2");
-      w.println( "</select></td></tr>");
-      
+      if (version == 2)
+        w.println(" SELECTED");
+      w.println(">WSRP v.2");
+      w.println("</select></td></tr>");
+
       w.println("    <tr><td><label style=\"font-size:12px; font-weight:bold;\">Lifetime</label></td>");
-      w.println("      <td><input type=\"text\" id=\"" + WSRPConstants.WAP_lifetime + "\" name=\"" + WSRPConstants.WAP_lifetime + "\">"); 
-      w.println( "</input>&nbsp; <span style=\"font-size:12px; \" >e.g.: \"2h\", \"30m\"</span></td></tr>");
+      w.println("      <td><input type=\"text\" id=\"" + WSRPConstants.WAP_lifetime + "\" name=\""
+          + WSRPConstants.WAP_lifetime + "\">");
+      w.println("</input>&nbsp; <span style=\"font-size:12px; \" >e.g.: \"2h\", \"30m\"</span></td></tr>");
 
 
       w.println("    <tr><td colspan='2' align='center'>");
@@ -267,21 +271,26 @@ public class WSRPAdminPortlet {
         w.println("</td>");
 
         RegistrationContext rContext = producer.getRegistrationContext();
-        if (rContext != null){
-        Lifetime destruction = rContext.getScheduledDestruction();
-        if (destruction != null) {
-       GregorianCalendar calend = destruction.getTerminationTime().toGregorianCalendar();
-       SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-        w.println("<td>");
-        w.println("<label style=\"font-size:12px; \">&nbsp;" +   format.format(calend.getTime()) + "&nbsp;" + "</label>");
-        w.println("</td>");
+        if (rContext != null) {
+          Lifetime destruction = rContext.getScheduledDestruction();
+          if (destruction != null) {
+            GregorianCalendar calend = destruction.getTerminationTime().toGregorianCalendar();
+            SimpleDateFormat format = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+            w.println("<td>");
+            w.println("<label style=\"font-size:12px; \">&nbsp;" + format.format(calend.getTime())
+                + "&nbsp;" + "</label>");
+            w.println("</td>");
+          } else {
+            w.println("<td>");
+            w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
+            w.println("</td>");
           }
-        }else {
+        } else {
           w.println("<td>");
           w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
           w.println("</td>");
         }
-        
+
         w.println("<td>");
         w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
             + producer.getID() + "\"  style=\"font-size:12px; \">Deregister</a><br>");
@@ -491,7 +500,7 @@ public class WSRPAdminPortlet {
         producer.setDescription(description);
         producer.getDesiredLocales().add("en");
 
-        if (producer.isRegistrationRequired()) {
+        if (producer.isRegistrationRequired() ||request.getParameter(WSRPConstants.WAP_lifetime)!= null) {
           List<String> CONSUMER_SCOPES = new ArrayList<String>();
           CONSUMER_SCOPES.add("chunk_data");
           String[] CONSUMER_CUSTOM_PROFILES = { "what_more" };
