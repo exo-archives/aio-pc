@@ -32,6 +32,7 @@ import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -74,7 +75,7 @@ public class LifetimeHelper implements Startable {
 
       Lifetime lf = roi.getRegistrationLifetime(registrationContext, userContext);
       if (lf != null && registrationContext.getScheduledDestruction() != null) {
-        lf.setCurrentTime(registrationContext.getScheduledDestruction().getCurrentTime());
+        lf.setCurrentTime(CalendarUtils.getNow());
         if (lifetimeExpired(lf)) {
 //        roi.deregister(registrationContext, userContext);
           return false;
@@ -131,7 +132,7 @@ public class LifetimeHelper implements Startable {
       PortletLifetime plf = resp.getPortletLifetime().get(0);
       Lifetime lf = plf.getScheduledDestruction();
       if (lf != null && registrationContext.getScheduledDestruction() != null) {
-        lf.setCurrentTime(registrationContext.getScheduledDestruction().getCurrentTime());
+        lf.setCurrentTime(CalendarUtils.getNow());
         if (lifetimeExpired(lf)) {
 //            String portletHandle = portletContexts.get(0).getPortletHandle();
 //            pmoi.destroyPortlets(registrationContext,

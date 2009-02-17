@@ -391,7 +391,8 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
         return null;
       }
       Lifetime lf = (Lifetime) sD.getDataObject();
-      lf.setCurrentTime(CalendarUtils.getNow());
+      if (lf != null)
+        lf.setCurrentTime(CalendarUtils.getNow());
       return lf;
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);

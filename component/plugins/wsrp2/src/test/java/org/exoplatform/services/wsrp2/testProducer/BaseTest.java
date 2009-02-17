@@ -461,6 +461,8 @@ public class BaseTest extends TestCase {
   }
 
   protected void updateCurrentTime(RegistrationContext rc) {
+    System.out.println(">>> BaseTest.updateCurrentTime() rc.getScheduledDestruction() = "
+        + rc.getScheduledDestruction());
     if (rc.getScheduledDestruction() != null)
       rc.getScheduledDestruction().setCurrentTime(CalendarUtils.getNow());
   }
