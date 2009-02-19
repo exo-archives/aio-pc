@@ -34,6 +34,7 @@ import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper;
+import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
@@ -176,6 +177,8 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     Lifetime lifetime = null;
     try {
       lifetime = stateManager.getRegistrationLifetime(registrationContext);
+      if (lifetime != null)
+        lifetime.setCurrentTime(CalendarUtils.getNow());
     } catch (WSRPException e) {
       if (log.isDebugEnabled())
         log.debug("Get registration lifetime failed", e);

@@ -48,6 +48,7 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper;
+import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.CopiedPortlet;
 import org.exoplatform.services.wsrp2.type.CopyPortletsResponse;
 import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
@@ -506,7 +507,8 @@ public class PortletManagementOperationsInterfaceImpl implements
       String portletHandle = portletContext.getPortletHandle();
       try {
         Lifetime lifetimeResult = stateManager.getPortletLifetime(portletHandle);
-        lifetimeResult.setCurrentTime(portletContext.getScheduledDestruction().getCurrentTime());
+        if (lifetimeResult != null)
+          lifetimeResult.setCurrentTime(CalendarUtils.getNow());
         LifetimeHelper.lifetimeExpired(lifetimeResult);
 
         PortletLifetime portletLifetime = new PortletLifetime();

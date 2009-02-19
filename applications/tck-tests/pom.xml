@@ -504,7 +504,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>0.3.1</version>
+            <version>1.0-beta-2</version>
             <executions>
               <execution>
                 <id>deploysa</id>
@@ -520,7 +520,7 @@
             <configuration>
               <wait>false</wait>
               <container>
-                <containerId>tomcat5x</containerId>
+                <containerId>tomcat6x</containerId>
                 <zipUrlInstaller>
                   <url>
                     http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip
@@ -1501,7 +1501,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>0.3.1</version>
+            <version>1.0-beta-2</version>
             <executions>
               <execution>
                 <id>stop</id>
