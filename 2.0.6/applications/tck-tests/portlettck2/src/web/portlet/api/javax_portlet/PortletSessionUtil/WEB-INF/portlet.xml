@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletSessionUtil_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" version="1.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DecodeAttributeNameAppScopeTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DecodeAttributeNameAppScopeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSessionUtil.DecodeAttributeNameAppScopeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+            <title>DecodeAttributeNameAppScopeTestPortlet</title>
+            <short-title>DecodeAttributeNameAppScopeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DecodeScopeAppScopeTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DecodeScopeAppScopeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSessionUtil.DecodeScopeAppScopeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+            <title>DecodeScopeAppScopeTestPortlet</title>
+            <short-title>DecodeScopeAppScopeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DecodeAttributeNamePortletScopeTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DecodeAttributeNamePortletScopeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSessionUtil.DecodeAttributeNamePortletScopeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+            <title>DecodeAttributeNamePortletScopeTestPortlet</title>
+            <short-title>DecodeAttributeNamePortletScopeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DecodeScopePortletScopeTestPortlet                 * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DecodeScopePortletScopeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSessionUtil.DecodeScopePortletScopeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+            <title>DecodeScopePortletScopeTestPortlet</title>
+            <short-title>DecodeScopePortletScopeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>

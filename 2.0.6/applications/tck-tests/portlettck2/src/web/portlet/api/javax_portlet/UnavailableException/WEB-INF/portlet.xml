@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_UnavailableException_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd" version="1.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:UnavailableExceptionCtr1TestPortlet  		       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>UnavailableExceptionCtr1TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.UnavailableException.UnavailableExceptionCtr1TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>UnavailableExceptionCtr1TestPortlet</title>
+                <short-title>UnavailableExceptionCtr1TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:UnavailableExceptionCtr2TestPortlet  		       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>UnavailableExceptionCtr2TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.UnavailableException.UnavailableExceptionCtr2TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>UnavailableExceptionCtr2TestPortlet</title>
+                <short-title>UnavailableExceptionCtr2TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:IsPermanentTestPortlet  		                       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>IsPermanentTestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.UnavailableException.IsPermanentTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>IsPermanentTestPortlet</title>
+                <short-title>IsPermanentTestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+</portlet-app>

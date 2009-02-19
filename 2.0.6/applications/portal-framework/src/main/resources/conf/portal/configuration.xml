@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<configuration>
+
+
+<!--  config replication for IPv4   --> 
+
+<!--
+  <component>
+    <type>org.exoplatform.frameworks.portletcontainer.portalframework.replication.SessionReplicator</type>
+    <init-params>
+      <properties-param>
+        <name>replication-properties</name>
+          <property name="channel-config" value="UDP(mcast_addr=228.1.2.3;mcast_port=45266;ip_ttl=32;mcast_send_buf_size=64000;mcast_recv_buf_size=64000):PING(timeout=2000;num_initial_members=3):MERGE2(min_interval=5000;max_interval=10000):FD(timeout=5000):VERIFY_SUSPECT(timeout=1500):pbcast.NAKACK(max_xmit_size=8096;gc_lag=50;retransmit_timeout=600,1200,2400,4800):UNICAST(timeout=600,1200,2400,4800):pbcast.STABLE(desired_avg_gossip=20000):FRAG(frag_size=8096;):pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=false;print_local_addr=true)"/>
+          <property name="group-name" value="TestGroup"/>
+      </properties-param>
+    </init-params>
+  </component>
+-->
+<!--  config replication for IPv6   --> 
+<!-- 
+  <component>
+    <type>org.exoplatform.frameworks.portletcontainer.portalframework.replication.SessionReplicator</type>
+    <init-params>
+      <properties-param>
+        <name>replication-properties</name>
+          <property name="channel-config" value="UDP(bind_addr=192.168.0.23;ip_ttl=32;mcast_send_buf_size=64000;mcast_recv_buf_size=64000):PING(timeout=2000;num_initial_members=3):MERGE2(min_interval=5000;max_interval=10000):FD(timeout=5000):VERIFY_SUSPECT(timeout=1500):pbcast.NAKACK(max_xmit_size=8096;gc_lag=50;retransmit_timeout=600,1200,2400,4800):UNICAST(timeout=600,1200,2400,4800):pbcast.STABLE(desired_avg_gossip=20000):pbcast.GMS(join_timeout=5000;join_retry_timeout=2000;shun=false;print_local_addr=true)"/>
+          <property name="group-name" value="TestGroup"/>
+      </properties-param>
+    </init-params>
+  </component>
+ -->
+
+</configuration>

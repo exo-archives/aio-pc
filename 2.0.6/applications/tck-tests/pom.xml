@@ -1,0 +1,1315 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.0.6-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.applications.tck-tests</artifactId>
+  <name>eXo Portlet Container 2 TCK tests por portlet container</name>
+  <description>eXo Portlet Container 2 TCK tests por portlet container</description>
+  <repositories>
+    <repository>
+      <id>Codehaus snapshot repository</id>
+      <url>http://snapshots.repository.codehaus.org</url>
+    </repository>
+  </repositories>
+
+  <dependencies>
+    <dependency>
+      <groupId>javax.activation</groupId>
+      <artifactId>activation</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>ant</groupId>
+      <artifactId>ant</artifactId>
+      <version>1.6.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>antlr</groupId>
+      <artifactId>antlr</artifactId>
+      <version>2.7.6rc1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>1.5.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>axis</groupId>
+      <artifactId>axis</artifactId>
+      <version>1.4-0231</version>
+    </dependency>
+
+    <dependency>
+      <groupId>axis</groupId>
+      <artifactId>axis-jaxrpc</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>axis</groupId>
+      <artifactId>axis-saaj</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>axis</groupId>
+      <artifactId>axis-wsdl4j</artifactId>
+      <version>1.5.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>c3p0</groupId>
+      <artifactId>c3p0</artifactId>
+      <version>0.8.4.5</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.ccpp</groupId>
+      <artifactId>ccpp</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>cglib</groupId>
+      <artifactId>cglib</artifactId>
+      <version>2.1_3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-beanutils</groupId>
+      <artifactId>commons-beanutils</artifactId>
+      <version>1.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>2.1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-el</groupId>
+      <artifactId>commons-el</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-discovery</groupId>
+      <artifactId>commons-discovery</artifactId>
+      <version>0.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-lang</groupId>
+      <artifactId>commons-lang</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-pool</groupId>
+      <artifactId>commons-pool</artifactId>
+      <version>1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>dom4j</groupId>
+      <artifactId>dom4j</artifactId>
+      <version>1.6.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.ejb</groupId>
+      <artifactId>ejb</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.database</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.api</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.organization.jdbc</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.resources.api</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.security.core</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.core</groupId>
+      <artifactId>exo.core.component.xml-processing</artifactId>
+      <version>${org.exoplatform.core.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.commons</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.component.cache</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.component.common</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.component.remote</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.container</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.applications.portal</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.portal-framework</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.portlets2events</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.tool</groupId>
+      <artifactId>exo.tool.framework.junit</artifactId>
+      <version>${org.exoplatform.tool.version}</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.geronimo.specs</groupId>
+      <artifactId>geronimo-j2ee-deployment_1.1_spec</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.hibernate</groupId>
+      <artifactId>hibernate</artifactId>
+      <version>3.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>hsqldb</groupId>
+      <artifactId>hsqldb</artifactId>
+      <version>1.8.0.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jaxb-api</artifactId>
+      <version>2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sun.xml.bind</groupId>
+      <artifactId>jaxb-impl</artifactId>
+      <version>2.1.7</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.xml</groupId>
+      <artifactId>jaxrpc-api</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.jcr</groupId>
+      <artifactId>jcr</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javagroups</groupId>
+      <artifactId>jgroups-all</artifactId>
+      <version>2.5.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jibx</groupId>
+      <artifactId>jibx-extras</artifactId>
+      <version>1.1.6a</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.jibx</groupId>
+      <artifactId>jibx-run</artifactId>
+      <version>1.1.6a</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.xml.bind</groupId>
+      <artifactId>jsr173_api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jstl</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>jsp-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.transaction</groupId>
+      <artifactId>jta</artifactId>
+      <version>1.0.1B</version>
+    </dependency>
+
+    <dependency>
+      <groupId>jtidy</groupId>
+      <artifactId>jtidy</artifactId>
+      <version>4aug2000r7-dev</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.jasper</groupId>
+      <artifactId>jasper-compiler</artifactId>
+      <version>5.5.23</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.jasper</groupId>
+      <artifactId>jasper-runtime</artifactId>
+      <version>5.5.15</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>javax.mail</groupId>
+      <artifactId>mail</artifactId>
+      <version>1.4</version>
+    </dependency>
+
+    <dependency>
+      <groupId>picocontainer</groupId>
+      <artifactId>picocontainer</artifactId>
+      <version>1.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>2.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.servlet</groupId>
+      <artifactId>servlet-api</artifactId>
+      <version>2.5</version>
+    </dependency>
+
+
+    <dependency>
+      <groupId>quartz</groupId>
+      <artifactId>quartz</artifactId>
+      <version>1.5.0-RC2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>taglibs</groupId>
+      <artifactId>standard</artifactId>
+      <version>1.1.2</version>
+    </dependency>
+
+    <dependency>
+      <groupId>javax.xml.stream</groupId>
+      <artifactId>stax-api</artifactId>
+      <version>1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>wsdl4j</groupId>
+      <artifactId>wsdl4j</artifactId>
+      <version>1.5.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.codehaus.woodstox</groupId>
+      <artifactId>wstx-asl</artifactId>
+      <version>3.2.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>xalan</groupId>
+      <artifactId>xalan</artifactId>
+      <version>2.6.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.experlog</groupId>
+      <artifactId>xapool</artifactId>
+      <version>1.5.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>xpp3</groupId>
+      <artifactId>xpp3</artifactId>
+      <version>1.1.3.4.O</version>
+    </dependency>
+
+    <dependency>
+      <groupId>xstream</groupId>
+      <artifactId>xstream</artifactId>
+      <version>1.0.2</version>
+    </dependency>
+  </dependencies>
+
+  <profiles>
+
+    <profile>
+      <activation>
+        <property>
+          <name>exo.test.skip</name>
+          <value>true</value>
+        </property>
+      </activation>
+      <build></build>
+    </profile>
+
+    <profile>
+      <id>test</id>
+      <activation>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <build>
+        <plugins>
+
+<!-- 
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+            </executions>
+          </plugin>
+
+-->
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <executions>
+              <execution>
+                <id>deploysa</id>
+                <phase>pre-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                  <goal>start</goal>
+                  <goal>deployer-deploy</goal>
+                </goals>
+              </execution>
+            </executions>
+
+            <configuration>
+              <wait>false</wait>
+              <container>
+                <containerId>tomcat5x</containerId>
+                <zipUrlInstaller>
+                  <url>
+                    http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip
+                    <!--   http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip  -->
+                  </url>
+                  <installDir>
+                    ${java.io.tmpdir}/cargoinstall
+                  </installDir>
+                </zipUrlInstaller>
+                <output>
+                  ${project.build.directory}/log/container.log
+                </output>
+                <append>false</append>
+                <log>${project.build.directory}/log/cargo.log</log>
+
+                <dependencies>
+                  <dependency>
+                    <groupId>javax.activation</groupId>
+                    <artifactId>activation</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>ant</groupId>
+                    <artifactId>ant</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>antlr</groupId>
+                    <artifactId>antlr</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>asm</groupId>
+                    <artifactId>asm</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>axis</groupId>
+                    <artifactId>axis</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>axis</groupId>
+                    <artifactId>axis-jaxrpc</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>axis</groupId>
+                    <artifactId>axis-saaj</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>axis</groupId>
+                    <artifactId>axis-wsdl4j</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>c3p0</groupId>
+                    <artifactId>c3p0</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.ccpp</groupId>
+                    <artifactId>ccpp</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>cglib</groupId>
+                    <artifactId>cglib</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-beanutils</groupId>
+                    <artifactId>commons-beanutils</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-collections</groupId>
+                    <artifactId>commons-collections</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-el</groupId>
+                    <artifactId>commons-el</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-discovery</groupId>
+                    <artifactId>commons-discovery</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-lang</groupId>
+                    <artifactId>commons-lang</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-logging</groupId>
+                    <artifactId>commons-logging</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>commons-pool</groupId>
+                    <artifactId>commons-pool</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>dom4j</groupId>
+                    <artifactId>dom4j</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.ejb</groupId>
+                    <artifactId>ejb</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.core</groupId>
+                    <artifactId>exo.core.component.database</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.core</groupId>
+                    <artifactId>
+                      exo.core.component.organization.api
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.core</groupId>
+                    <artifactId>
+                      exo.core.component.organization.jdbc
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.core</groupId>
+                    <artifactId>
+                      exo.core.component.resources.api
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.core</groupId>
+                    <artifactId>
+                      exo.core.component.security.core
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.core</groupId>
+                    <artifactId>
+                      exo.core.component.xml-processing
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.kernel</groupId>
+                    <artifactId>exo.kernel.commons</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.kernel</groupId>
+                    <artifactId>exo.kernel.component.cache</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.kernel</groupId>
+                    <artifactId>exo.kernel.component.common</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.kernel</groupId>
+                    <artifactId>exo.kernel.component.remote</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.kernel</groupId>
+                    <artifactId>exo.kernel.container</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>exo.pc.component.core</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>exo.pc.component.plugins.pc</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>
+                      exo.pc.component.plugins.wsrp1
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>
+                      exo.pc.component.plugins.wsrp2
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>exo.pc.portal-framework</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>exo.pc.portlets2events</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.exoplatform.tool</groupId>
+                    <artifactId>exo.tool.framework.junit</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.apache.geronimo.specs</groupId>
+                    <artifactId>
+                      geronimo-j2ee-deployment_1.1_spec
+                    </artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.hibernate</groupId>
+                    <artifactId>hibernate</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>hsqldb</groupId>
+                    <artifactId>hsqldb</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jaxb-api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>com.sun.xml.bind</groupId>
+                    <artifactId>jaxb-impl</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.xml</groupId>
+                    <artifactId>jaxrpc-api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.jcr</groupId>
+                    <artifactId>jcr</artifactId>
+                  </dependency>
+
+
+                  <dependency>
+                    <groupId>org.apache.jasper</groupId>
+                    <artifactId>jasper-compiler</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jsp-api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.apache.jasper</groupId>
+                    <artifactId>jasper-runtime</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javagroups</groupId>
+                    <artifactId>jgroups-all</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.jibx</groupId>
+                    <artifactId>jibx-extras</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.jibx</groupId>
+                    <artifactId>jibx-run</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.xml.bind</groupId>
+                    <artifactId>jsr173_api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>jstl</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.servlet</groupId>
+                    <artifactId>servlet-api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.transaction</groupId>
+                    <artifactId>jta</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>jtidy</groupId>
+                    <artifactId>jtidy</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.mail</groupId>
+                    <artifactId>mail</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>picocontainer</groupId>
+                    <artifactId>picocontainer</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.portlet</groupId>
+                    <artifactId>portlet-api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>quartz</groupId>
+                    <artifactId>quartz</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>taglibs</groupId>
+                    <artifactId>standard</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>javax.xml.stream</groupId>
+                    <artifactId>stax-api</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>wsdl4j</groupId>
+                    <artifactId>wsdl4j</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>org.codehaus.woodstox</groupId>
+                    <artifactId>wstx-asl</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>xalan</groupId>
+                    <artifactId>xalan</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>com.experlog</groupId>
+                    <artifactId>xapool</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>xpp3</groupId>
+                    <artifactId>xpp3</artifactId>
+                  </dependency>
+
+                  <dependency>
+                    <groupId>xstream</groupId>
+                    <artifactId>xstream</artifactId>
+                  </dependency>
+                </dependencies>
+
+              </container>
+
+              <configuration>
+                <type>existing</type>
+                <home>${basedir}/configuration/conf</home>
+                <properties>
+                  <cargo.logging>high</cargo.logging>
+                  <cargo.jvmargs>-Xmx1000m</cargo.jvmargs>
+                </properties>
+                <deployables>
+                  <deployable>
+                    <location>
+                      ${basedir}/../test-portal/target/portal.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+                </deployables>
+              </configuration>
+
+              <deployer>
+                <deployables>
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ActionRequest_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ActionResponse_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ClassLoader_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_EventRequest_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_EventResponse_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_GenericPortlet_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortalContext_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_Portlet_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletConfig_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletConfigSecond_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletContext_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletFilter_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletMode_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletModeException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletPreferences_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletRequestDispatcher_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSecurityException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSession_appscope_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSession_distributableapp_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSession_privatescope_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSession_secondapp_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSession_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletSessionUtil_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletURL_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_PortletURLListener_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ReadOnlyException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_RenderRequest_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_RenderResponse_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ResourceRequest_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ResourceResponse_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ResourceServing_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_sig_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_taglib_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_UnavailableException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_ValidatorException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_WindowState_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                  <deployable>
+                    <location>
+                      ${basedir}/tck-webapps/portlet_jp_WindowStateException_web.war
+                    </location>
+                    <type>war</type>
+                  </deployable>
+
+                </deployables>
+              </deployer>
+            </configuration>
+          </plugin>
+
+          <plugin>
+            <groupId>org.apache.maven.plugins</groupId>
+            <artifactId>maven-antrun-plugin</artifactId>
+            <executions>
+               <execution>
+                <id>cleaning</id>
+                <phase>clean</phase>
+                <configuration>
+                  <tasks>
+                    <delete includeEmptyDirs="true" failonerror="false">
+                      <fileset
+                        dir="${basedir}/configuration/conf/webapps"
+                        includes="**/*" />
+                    </delete>
+                  </tasks>
+                </configuration>
+                 <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+            
+              <execution>
+                <id>0</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <sleep minutes="1" />
+                  </tasks>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>1</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <property environment="env" />
+                    <chmod file="${basedir}/portlettck2/bin/tsant.sh"
+                      perm="ugo+rx" />
+                    <chmod
+                      file="${basedir}/portlettck2/tools/ant/bin/ant"
+                      perm="ugo+rx" />
+                    <exec
+                      os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
+                      dir="${basedir}/portlettck2/src/com/sun/ts"
+                      executable="${basedir}/portlettck2/bin/tsant.bat">
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="clean" />
+                    </exec>
+                    <exec os="Unix, Linux, Mac Os X"
+                      dir="${basedir}/portlettck2/src/com/sun/ts"
+                      executable="${basedir}/portlettck2/bin/tsant.sh">
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="clean" />
+                    </exec>
+                  </tasks>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>2</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <property environment="env" />
+                    <exec
+                      os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
+                      dir="${basedir}/portlettck2/src/com/sun/ts"
+                      executable="${basedir}/portlettck2/bin/tsant.bat">
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="build" />
+                    </exec>
+                    <exec os="Unix, Linux, Mac Os X"
+                      dir="${basedir}/portlettck2/src/com/sun/ts"
+                      executable="${basedir}/portlettck2/bin/tsant.sh">
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="build" />
+                    </exec>
+                  </tasks>
+                </configuration>
+              </execution>
+
+
+              <execution>
+                <id>3</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <property environment="env" />
+                    <exec
+                      os="Windows 2000, Windows XP, Windows 2003, Windows Vista"
+                      dir="${basedir}/portlettck2/src/com/sun/ts/tests"
+                      executable="${basedir}/portlettck2/bin/tsant.bat">
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="runclient" />
+                    </exec>
+                    <exec os="Unix, Linux, Mac Os X"
+                      dir="${basedir}/portlettck2/src/com/sun/ts/tests"
+                      executable="${basedir}/portlettck2/bin/tsant.sh">
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="runclient" />
+                    </exec>
+                  </tasks>
+                </configuration>
+              </execution>
+
+              <execution>
+                <id>4</id>
+                <phase>integration-test</phase>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+                <configuration>
+                  <tasks>
+                    <loadfile property="result.log"
+                      srcFile="/tmp/JTwork/jtData/harness.trace"
+                      failonerror="false" />
+                    <fail message="There are TCK tests error(s)!">
+                      <condition>
+                        <contains string="${result.log}"
+                          substring="Some tests did not pass"
+                          casesensitive="false" />
+                      </condition>
+                    </fail>
+                  </tasks>
+                </configuration>
+              </execution>
+
+
+            </executions>
+          </plugin>
+          <plugin>
+            <groupId>org.codehaus.cargo</groupId>
+            <artifactId>cargo-maven2-plugin</artifactId>
+            <version>0.3-SNAPSHOT</version>
+            <executions>
+              <execution>
+                <id>stop</id>
+                <phase>post-integration-test</phase>
+                <goals>
+                  <goal>stop</goal>
+                </goals>
+              </execution>
+            </executions>
+          </plugin>
+        </plugins>
+      </build>
+    </profile>
+  </profiles>
+</project>
+
+

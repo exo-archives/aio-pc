@@ -1,0 +1,431 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_Portlet_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RefreshPortlet                                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RefreshPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.common.portlet.RefreshPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RefreshPortlet</title>
+                <short-title>RefreshPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: DestroyTestPortlet                                 * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>DestroyTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.DestroyTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>DestroyTestPortlet</title>
+                <short-title>DestroyTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitFailedDestroyNotCalledTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitFailedDestroyNotCalledTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.InitFailedDestroyNotCalledTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitFailedDestroyNotCalledTestPortlet</title>
+                <short-title>InitFailedDestroyNotCalledTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitFailedDestroyNotCalledTest_1_Portlet           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitFailedDestroyNotCalledTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.InitFailedDestroyNotCalledTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitFailedDestroyNotCalledTest_1_Portlet</title>
+                <short-title>InitFailedDestroyNotCalledTest_1_Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitPortletExceptionTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitPortletExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.InitPortletExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitPortletExceptionTestPortlet</title>
+                <short-title>InitPortletExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitRuntimeExceptionTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitRuntimeExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.InitRuntimeExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitRuntimeExceptionTestPortlet</title>
+                <short-title>InitRuntimeExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitTestPortlet                                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.InitTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitTestPortlet</title>
+                <short-title>InitTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: InitUnavailableExceptionTestPortlet                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>InitUnavailableExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.InitUnavailableExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>InitUnavailableExceptionTestPortlet</title>
+                <short-title>InitUnavailableExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: NoActionProcessActionTestPortlet                   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>NoActionProcessActionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.NoActionProcessActionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>NoActionProcessActionTestPortlet</title>
+                <short-title>NoActionProcessActionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: OnePortletObjectPerJVMTestPortlet                  * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>OnePortletObjectPerJVMTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.OnePortletObjectPerJVMTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>OnePortletObjectPerJVMTestPortlet</title>
+                <short-title>OnePortletObjectPerJVMTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: PermanentlyUnavailableTestPortlet                  * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>PermanentlyUnavailableTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.PermanentlyUnavailableTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PermanentlyUnavailableTestPortlet</title>
+                <short-title>PermanentlyUnavailableTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: PermanentlyUnavailableTest_1_Portlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>PermanentlyUnavailableTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.PermanentlyUnavailableTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PermanentlyUnavailableTest_1_Portlet</title>
+                <short-title>PermanentlyUnavailableTest_1_Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ProcessActionFinishBeforeRenderTestPortlet         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ProcessActionFinishBeforeRenderTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.ProcessActionFinishBeforeRenderTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ProcessActionFinishBeforeRenderTestPortlet</title>
+                <short-title>ProcessActionFinishBeforeRenderTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ProcessActionFinishBeforeRenderTest_1_Portlet      * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ProcessActionFinishBeforeRenderTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.ProcessActionFinishBeforeRenderTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ProcessActionFinishBeforeRenderTest_1_Portlet</title>
+                <short-title>ProcessActionFinishBeforeRenderTest_1_Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ProcessActionTestPortlet                           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ProcessActionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.ProcessActionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ProcessActionTestPortlet</title>
+                <short-title>ProcessActionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: AnnotatedProcessActionTestPortlet                           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>AnnotatedProcessActionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.AnnotatedProcessActionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>AnnotatedProcessActionTestPortlet</title>
+                <short-title>AnnotatedProcessActionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ServeResourceTestPortlet                           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ServeResourceTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.ServeResourceTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ServeResourceTestPortlet</title>
+                <short-title>ServeResourceTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ProcessActionUnavailableExceptionTestPortlet       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ProcessActionUnavailableExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.ProcessActionUnavailableExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ProcessActionUnavailableExceptionTestPortlet</title>
+                <short-title>ProcessActionUnavailableExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: ProcessEventUnavailableExceptionTestPortlet    	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>ProcessEventUnavailableExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.ProcessEventUnavailableExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>ProcessEventUnavailableExceptionTestPortlet</title>
+                <short-title>ProcessEventUnavailableExceptionTestPortlet</short-title>
+        </portlet-info>
+        <supported-processing-event>
+			<qname xmlns:x="http://www.event.de">x:ProcessEventUnavailableException</qname>
+        </supported-processing-event>
+        <supported-publishing-event>
+       		<qname xmlns:x="http://www.event.de">x:ProcessEventUnavailableException</qname>
+        </supported-publishing-event>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderInvokedForAllPortletsTestPortlet             * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderInvokedForAllPortletsTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.RenderInvokedForAllPortletsTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderInvokedForAllPortletsTestPortlet</title>
+                <short-title>RenderInvokedForAllPortletsTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderInvokedForAllPortletsTest_1_Portlet          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderInvokedForAllPortletsTest_1_Portlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.RenderInvokedForAllPortletsTest_1_Portlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderInvokedForAllPortletsTest_1_Portlet</title>
+                <short-title>RenderInvokedForAllPortletsTest_1_Portlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: RenderTestPortlet                                  * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>RenderTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.Portlet.RenderTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>RenderTestPortlet</title>
+                <short-title>RenderTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+	<!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Properties									               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:ProcessEventUnavailableException</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+</portlet-app>

@@ -1,0 +1,196 @@
+<project>
+	<parent>
+		<groupId>org.exoplatform.portletcontainer</groupId>
+		<artifactId>config</artifactId>
+		<version>2.0.6-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>assembly</artifactId>
+	<packaging>jar</packaging>
+	<name>eXo PC Product</name>
+	<url>http://www.exoplatform.org</url>
+	<description>eXo PC Product</description>
+	
+	<dependencies>
+	    <dependency>
+	      <groupId>_jonas_patches</groupId>
+	      <artifactId>naming-core</artifactId>
+	      <version>0.8</version>
+	      <type>jar</type>
+	      <scope>compile</scope>
+	 </dependency>
+
+             <dependency>
+                  <groupId>_jonas_patches</groupId>
+                  <artifactId>naming-java</artifactId>
+                 <version>0.8</version>
+                 <type>jar</type>
+                 <scope>compile</scope>
+             </dependency>
+             
+	    <dependency>
+	      <groupId>_jonas_patches</groupId>
+	      <artifactId>stax-api</artifactId>
+	      <version>1.0.1</version>
+	      <type>jar</type>
+	      <scope>compile</scope>
+	 </dependency>
+
+             <dependency>
+                  <groupId>_jonas_patches</groupId>
+                  <artifactId>xapool</artifactId>
+                 <version>1.5.0</version>
+                 <type>jar</type>
+                 <scope>compile</scope>
+             </dependency>
+
+	 <dependency>
+	      <groupId>_jonas_patches</groupId>
+	      <artifactId>mail</artifactId>
+	      <version>1.4</version>
+	      <type>jar</type>
+	      <scope>compile</scope>
+	 </dependency>
+
+             <dependency>
+                  <groupId>_jonas_patches</groupId>
+                  <artifactId>jsf-api</artifactId>
+                 <version>1.2</version>
+                 <type>jar</type>
+                 <scope>compile</scope>
+             </dependency>
+             
+            <dependency>
+	      <groupId>_jonas_patches</groupId>
+	      <artifactId>jibx-extras</artifactId>
+	      <version>1.1.6a</version>
+	      <type>jar</type>
+	      <scope>compile</scope>
+	 </dependency>
+
+             <dependency>
+                  <groupId>_jonas_patches</groupId>
+                  <artifactId>jaxb-impl</artifactId>
+                 <version>2.0.2</version>
+                 <type>jar</type>
+                 <scope>compile</scope>
+             </dependency>
+          </dependencies>
+
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptors>
+						<descriptor>product-descriptor.xml</descriptor>
+					</descriptors>
+					<finalName>lib</finalName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+					 	<delete
+							dir="${exo.projects.directory.working}/exo-jonas"
+							includeEmptyDirs="true" quiet="yes" />
+						<copy
+							todir="${exo.projects.directory.working}/exo-jonas"
+							verbose="false" overwrite="true">
+							<fileset
+								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jonas.version}" />
+						</copy>
+						<!-- copy portlet-container.ear to autoload directory-->
+						<copy
+							todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
+							verbose="true" overwrite="true">
+							<fileset  dir="${basedir}/target/">
+							  <filename name="**/*.ear"/>
+							</fileset>  
+						</copy>
+						<!-- copy jonas bin -->			
+						<copy
+							todir="${exo.projects.directory.working}/exo-jonas/bin/"
+							verbose="true" overwrite="true">
+							<fileset
+								dir="${basedir}/patches/jonas/bin"> 
+								<exclude name="**/WEB*" />
+							</fileset>	
+						</copy>
+						<!-- copy jonas conf -->
+						<copy
+							todir="${exo.projects.directory.working}/exo-jonas/conf/"
+							verbose="true" flatten="true" overwrite="true">
+							<fileset
+								dir="${basedir}/patches/jonas/conf"
+								casesensitive="yes">
+							</fileset>
+						</copy>
+						<!-- copy portal.war temporary to jonas autoload -->
+						<copy
+							todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
+							verbose="true"  overwrite="true">
+							<fileset
+								dir="${basedir}/target/ear/"
+								casesensitive="yes">
+        							<filename name="portal.war"/>
+							</fileset>
+						</copy>
+						
+						<touch file="${basedir}/patches/jonas/WEB-INF/classes/conf/exo-configuration.xml"/>
+						<!-- copy WEB-INF to portal.war -->
+						<war 
+						      destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war"  update="true">
+             	                                                      <webinf dir="${basedir}/patches/jonas/WEB-INF/">
+						      </webinf>
+						</war>
+						
+					         <touch>
+					                    <fileset dir="${basedir}/target/lib-trunk.dir/" >
+						            <filename name="**/*.jar" /> 
+						            <exclude name="**/assembly*" />
+						         </fileset>
+					          </touch>
+					        <!-- copy several jars into ear -->  
+						<ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
+						          <fileset dir="${basedir}/target/lib-trunk.dir/">
+						              <filename name="**/*.jar" /> 
+						              <exclude name="**/assembly*" />
+						          </fileset>
+					           </ear>	
+					          <!-- copy modified portal.war --> 
+					          <ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
+						          <fileset dir="${exo.projects.directory.working}/exo-jonas/apps/autoload/">
+						            <filename name="portal.war"/> 
+						          </fileset>
+					           </ear>	
+						<!-- delete temporary file portal.war-->
+						<delete
+							file="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war" />
+							
+						<delete>
+							 <fileset dir="${exo.projects.directory.working}/exo-jonas/lib/endorsed/">
+							   <include name="xalan*.jar" /> 
+							   <include name="xerces*.jar" /> 
+							   <include name="xml*.jar" /> 
+						             </fileset>
+					        </delete>
+					</tasks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

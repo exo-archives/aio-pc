@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<!DOCTYPE struts-config PUBLIC
+          "-//Apache Software Foundation//DTD Struts Configuration 1.2//EN"
+          "http://jakarta.apache.org/struts/dtds/struts-config_1_2.dtd">
+
+<struts-config>
+  <form-beans>
+    <form-bean name="dummy" type="org.apache.struts.action.DynaActionForm">
+      <form-property name="abc" type="java.lang.String" />
+    </form-bean>
+    <form-bean name="file" type="org.apache.struts.action.DynaActionForm">
+      <form-property name="file" type="org.apache.struts.upload.FormFile" />
+    </form-bean>
+<!--    <form-bean type="org.exoplatform.portletcontainer.applications.sbridgestrutsportlet.Attachment" name="file"/> -->
+  </form-beans>
+  <global-exceptions>
+    <exception key="errors.general" type="java.lang.Exception" path="/error.jsp" />
+  </global-exceptions>
+  <global-forwards>
+    <forward name="view" path="/View.do" />
+    <forward name="failure" path="/Error.do" />
+    <forward name="error" path="/Error.do" />
+  </global-forwards>
+  <action-mappings>
+    <action path="/View" forward="/view.jsp" />
+    <action path="/Edit" forward="/edit.jsp" />
+    <action path="/Error" forward="/error.jsp"/>
+    <action name="dummy" path="/ViewSubmit" scope="request" type="org.exoplatform.portletcontainer.applications.sbridgestrutsportlet.SubmitAction" unknown="false"
+      validate="false">
+      <forward name="success" path="/View.do" />
+    </action>
+    <action name="file" path="/file" scope="request" type="org.exoplatform.portletcontainer.applications.sbridgestrutsportlet.SubmitAction" unknown="false"
+      validate="false">
+      <forward name="success" path="/View.do" />
+    </action>
+  </action-mappings>
+  <controller pagePattern="$M$P" inputForward="false" processorClass="org.apache.portals.bridges.struts.SpringDelegatingPortletProcessor" />
+</struts-config>

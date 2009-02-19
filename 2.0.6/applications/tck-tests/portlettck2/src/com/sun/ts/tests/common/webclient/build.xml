@@ -1,0 +1,39 @@
+<!--
+ Copyright 2003 Sun Microsystems, Inc. All rights reserved.
+ SUN PROPRIETARY/CONFIDENTIAL. Use is subject to license terms.
+-->
+
+<!--
+ @(#)build.xml	1.2 03/01/31
+-->
+
+<project name="tests_common_webclient" basedir="." default="usage" >
+	<property name="pkg.dir"   value="com.sun.ts.tests.common.webclient" />
+
+	<target name="build" depends="compile"/>
+
+	<target name="buildall" >
+		<ant antfile="build.xml" dir="${ts.home}/bin" target="buildall" />
+	</target>
+
+
+
+	<target name="clean" >
+		<ant antfile="build.xml" dir="${ts.home}/bin" target="clean" />
+	</target>
+	
+	<target name="compile" >
+		<ant antfile="build.xml" dir="${ts.home}/bin" target="compile" />
+	</target>
+	
+	<target name="deploy"/>
+
+	<target name="package"/>
+
+	<target name="runclient"/>
+
+	<target name="usage" >
+		<ant antfile="build.xml" dir="${ts.home}/bin" target="usage" />
+	</target>
+
+</project>

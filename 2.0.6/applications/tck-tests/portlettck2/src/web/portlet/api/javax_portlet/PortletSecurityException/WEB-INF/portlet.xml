@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<portlet-app id="portlet_jp_PortletSecurityException_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:PortletSecurityExceptionCtr1TestPortlet  		   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>PortletSecurityExceptionCtr1TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSecurityException.PortletSecurityExceptionCtr1TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletSecurityExceptionCtr1TestPortlet</title>
+                <short-title>PortletSecurityExceptionCtr1TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:PortletSecurityExceptionCtr2TestPortlet  		   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>PortletSecurityExceptionCtr2TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSecurityException.PortletSecurityExceptionCtr2TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletSecurityExceptionCtr2TestPortlet</title>
+                <short-title>PortletSecurityExceptionCtr2TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:PortletSecurityExceptionCtr3TestPortlet  		   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>PortletSecurityExceptionCtr3TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletSecurityException.PortletSecurityExceptionCtr3TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletSecurityExceptionCtr3TestPortlet</title>
+                <short-title>PortletSecurityExceptionCtr3TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+</portlet-app>
