@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.WSRPResourceRequest;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.ResourceContext;
@@ -29,9 +31,9 @@ import org.exoplatform.services.wsrp2.type.UploadContext;
 public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implements
     WSRPResourceRequest {
 
-  private NamedString[]   formParameters;
+  private List<NamedString>   formParameters;
 
-  private UploadContext[] uploadContexts;      //WSRP2
+  private List<UploadContext> uploadContexts;      //WSRP2
 
   private String          resourceID;
 
@@ -59,11 +61,11 @@ public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implement
     this.resourceState = resourceState;
   }
 
-  public NamedString[] getFormParameters() {
+  public List<NamedString> getFormParameters() {
     return formParameters;
   }
 
-  public void setFormParameters(NamedString[] formParameters) {
+  public void setFormParameters(List<NamedString> formParameters) {
     this.formParameters = formParameters;
   }
 
@@ -77,11 +79,11 @@ public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implement
 
   // WSRP2
 
-  public UploadContext[] getUploadContexts() {
+  public List<UploadContext> getUploadContexts() {
     return uploadContexts;
   }
 
-  public void setUploadContexts(UploadContext[] uploadContexts) {
+  public void setUploadContexts(List<UploadContext> uploadContexts) {
     this.uploadContexts = uploadContexts;
   }
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2008 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -20,6 +20,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.testConsumer.TestConsumerEnvironement;
 import org.exoplatform.services.wsrp2.testConsumer.TestPortletRegistry;
 import org.exoplatform.services.wsrp2.testConsumer.TestProducer;
 import org.exoplatform.services.wsrp2.testConsumer.TestProducerRegistry;
@@ -37,17 +38,18 @@ public class SuiteForTestConsumer extends TestSuite {
   public SuiteForTestConsumer() {
     log.info("Preparing SuiteForTestProducer tests....");
 
-    String newProperty = System.getProperty("basedir") + "/war_template";
+    String newProperty = System.getProperty("basedir") + "/war_template2";
     System.setProperty("mock.portal.dir", newProperty);
 
-    addTestSuite(TestPortletRegistry.class);
     addTestSuite(TestProducerRegistry.class);
+    addTestSuite(TestPortletRegistry.class);
     addTestSuite(TestURLRewriter.class);
     addTestSuite(TestURLTemplateComposer.class);
     addTestSuite(TestUserRegistry.class);
-
     addTestSuite(TestProducer.class);
-//  addTestSuite(TestConsumerEnvironement.class); //does nothing
+
+    addTestSuite(TestConsumerEnvironement.class); //does nothing
+
   }
 
   public void testVoid() throws Exception {

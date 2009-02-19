@@ -1,9 +1,31 @@
+/*
+ * Copyright (C) 2003-2009 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
+
 package org.exoplatform.services.wsrp2.consumer;
 
+import java.net.URL;
+import java.util.List;
+
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
+import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPServiceDescriptionPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
@@ -26,9 +48,9 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  */
 public interface Producer {
 
-  public String[] getDesiredLocales();
+  public List<String> getDesiredLocales();
 
-  public void setDesiredLocales(String[] desiredLocales);
+  public void setDesiredLocales(List<String> desiredLocales);
 
   /**
    * Get the name of the producer.
@@ -52,11 +74,21 @@ public interface Producer {
   public String getID();
 
   /**
+   * @return
+   */
+  public int getVersion();
+
+  /**
    * Set the ID of the producer to he given value.
    * 
    * @param id ID of the producer.
    */
   public void setID(String id);
+
+  /**
+   * @param version
+   */
+  public void setVersion(int version);
 
   /**
    * Get a description of the producer.
@@ -73,79 +105,72 @@ public interface Producer {
   public void setDescription(String description);
 
   /**
-   * Get the URL of the producers service description interface.
+   * Get the URL of the producers service description Adapter.
    * 
-   * @return URL of the service description interface.
+   * @return URL of the service description Adapter.
    */
-  public String getServiceDescriptionInterfaceEndpoint();
+//  public String getServiceDescriptionAdapterEndpoint();
+  /**
+   * Set the URL of the producers service description Adapter.
+   * 
+   * @param url of the service description Adapter.
+   */
+//  public void setServiceDescriptionAdapterEndpoint(String url);
+  /**
+   * Get the producers service description Adapter.
+   * 
+   * @return service description Adapter.
+   */
+  public WSRPServiceDescriptionPortTypeAdapterAPI getServiceDescriptionAdapter();
 
   /**
-   * Set the URL of the producers service description interface.
+   * Get the URL of the producers markup Adapter.
    * 
-   * @param url of the service description interface.
+   * @return URL of the markup Adapter.
    */
-  public void setServiceDescriptionInterfaceEndpoint(String url);
+  public WSRPMarkupPortTypeAdapterAPI getMarkupAdapter();
 
   /**
-   * Get the producers service description interface.
+   * Set the URL of the producers markup Adapter.
    * 
-   * @return service description interface.
+   * @param url of the markup Adapter.
    */
-  public WSRP_v2_ServiceDescription_PortType getServiceDescriptionInterface();
+//  public void setMarkupAdapterEndpoint(String url);
+  /**
+   * Get the URL of the producers portlet management Adapter.
+   * 
+   * @return URL of the portlet management Adapter.
+   */
+//  public String getPortletManagementAdapterEndpoint();
+  /**
+   * Set the URL of the producers portlet management Adapter.
+   * 
+   * @param url of the portlet management Adapter.
+   */
+//  public void setPortletManagementAdapterEndpoint(String url);
+  /**
+   * Get the producers portlet management Adapter.
+   * 
+   * @return portlet management Adapter.
+   */
+  public WSRPPortletManagementPortTypeAdapterAPI getPortletManagementAdapter();
 
   /**
-   * Get the URL of the producers markup interface.
+   * Get the URL of the producers registration Adapter.
    * 
-   * @return URL of the markup interface.
+   * @return URL of the registration Adapter.
    */
-  public String getMarkupInterfaceEndpoint();
-
+//  public String getRegistrationAdapterEndpoint();
   /**
-   * Set the URL of the producers markup interface.
+   * Set the URL of the producers registration Adapter.
+   */
+//  public void setRegistrationAdapterEndpoint(String url);
+  /**
+   * Get the producers registration Adapter.
    * 
-   * @param url of the markup interface.
+   * @return registration Adapter.
    */
-  public void setMarkupInterfaceEndpoint(String url);
-
-  /**
-   * Get the URL of the producers portlet management interface.
-   * 
-   * @return URL of the portlet management interface.
-   */
-  public String getPortletManagementInterfaceEndpoint();
-
-  /**
-   * Set the URL of the producers portlet management interface.
-   * 
-   * @param url of the portlet management interface.
-   */
-  public void setPortletManagementInterfaceEndpoint(String url);
-
-  /**
-   * Get the producers portlet management interface.
-   * 
-   * @return portlet management interface.
-   */
-  public WSRP_v2_PortletManagement_PortType getPortletManagementInterface();
-
-  /**
-   * Get the URL of the producers registration interface.
-   * 
-   * @return URL of the registration interface.
-   */
-  public String getRegistrationInterfaceEndpoint();
-
-  /**
-   * Set the URL of the producers registration interface.
-   */
-  public void setRegistrationInterfaceEndpoint(String url);
-
-  /**
-   * Get the producers registration interface.
-   * 
-   * @return registration interface.
-   */
-  public WSRP_v2_Registration_PortType getRegistrationInterface();
+  public WSRPRegistrationPortTypeAdapterAPI getRegistrationAdapter();
 
   /**
    * Indicates wether or not the producer requires consumer registration.
@@ -226,17 +251,36 @@ public interface Producer {
   public ReturnAny deregister(Deregister deregister) throws WSRPException;
 
   /**
-   * Check wether the optional registration interface is supported
+   * Check wether the optional registration Adapter is supported
    * 
-   * @return true if a registration interface endpoint URL is set
+   * @return true if a registration Adapter endpoint URL is set
    */
-  public boolean isRegistrationInterfaceSupported();
+  public boolean isRegistrationAdapterSupported();
 
   /**
-   * Check wether the optional portlet management interface is supported
+   * Check wether the optional portlet management Adapter is supported
    * 
-   * @return true if a portlet management interface endpoint URL is set
+   * @return true if a portlet management Adapter endpoint URL is set
    */
   public boolean isPortletManagementInferfaceSupported();
+
+  /**
+   * Get producer URL.
+   * 
+   * @return
+   */
+  public URL getUrl();
+
+  public void setServiceDescriptionAdapter(WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter);
+
+  public void setMarkupAdapter(WSRPMarkupPortTypeAdapterAPI markupAdapter);
+
+  public void setRegistrationAdapter(WSRPRegistrationPortTypeAdapterAPI registrationAdapter);
+
+  public void setPortletManagementAdapter(WSRPPortletManagementPortTypeAdapterAPI portletManagementAdapter);
+
+  public void init(ExoContainer container, String producerURL);
+
+  public void createAdapters(javax.xml.ws.Service service, ExoContainer container);
 
 }

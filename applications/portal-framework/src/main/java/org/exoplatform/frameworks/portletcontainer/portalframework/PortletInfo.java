@@ -28,55 +28,55 @@ import java.util.HashMap;
  */
 
 /**
- * PortletInfo class transfers generated portlet data (title, markup, etc.) from the portal
- * framework to a portal that will finally render its page.
+ * PortletInfo class transfers generated portlet data (title, markup, etc.) from
+ * the portal framework to a portal that will finally render its page.
  */
 public class PortletInfo implements Serializable {
 
   /**
    * Window ID.
    */
-  private String wid;
+  private String                  wid;
 
   /**
    * Portlet name.
    */
-  private String portlet;
+  private String                  portlet;
 
   /**
    * Portlet title.
    */
-  private String title;
+  private String                  title;
 
   /**
    * Portlet output.
    */
-  private String out;
+  private String                  out;
 
   /**
    * Current portlet mode.
    */
-  private String mode;
+  private String                  mode;
 
   /**
    * Current window state.
    */
-  private String state;
+  private String                  state;
 
   /**
    * Available portlet modes.
    */
-  private ArrayList<String> modes = new ArrayList<String>();
+  private ArrayList<String>       modes  = new ArrayList<String>();
 
   /**
    * Available window states.
    */
-  private ArrayList<String> states = new ArrayList<String>();
+  private ArrayList<String>       states = new ArrayList<String>();
 
   /**
    * Portlet name.
    */
-  private String name;
+  private String                  name;
 
   /**
    * Session map is needed for session replication.
@@ -86,11 +86,11 @@ public class PortletInfo implements Serializable {
   /**
    * Either the portlet has to be rendered.
    */
-  private boolean isToRender;
+  private boolean                 isToRender;
 
   /**
    * Getter for window ID.
-   *
+   * 
    * @return window ID
    */
   public final String getWid() {
@@ -99,7 +99,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for window ID.
-   *
+   * 
    * @param wid window ID
    */
   public final void setWid(final String wid) {
@@ -108,7 +108,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for portlet name.
-   *
+   * 
    * @return portlet name
    */
   public final String getPortlet() {
@@ -117,7 +117,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for portlet name.
-   *
+   * 
    * @param portlet portlet name
    */
   public final void setPortlet(final String portlet) {
@@ -126,7 +126,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for portlet title.
-   *
+   * 
    * @return portlet title
    */
   public final String getTitle() {
@@ -135,7 +135,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for portlet title.
-   *
+   * 
    * @param title portlet title to show
    */
   public final void setTitle(final String title) {
@@ -144,7 +144,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for portlet output.
-   *
+   * 
    * @return portlet output
    */
   public final String getOut() {
@@ -153,7 +153,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for portlet output.
-   *
+   * 
    * @param out portlet output
    */
   public final void setOut(final String out) {
@@ -162,7 +162,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for current portlet mode.
-   *
+   * 
    * @return current portlet mode
    */
   public final String getMode() {
@@ -171,7 +171,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for current portlet mode.
-   *
+   * 
    * @param mode current portlet mode
    */
   public final void setMode(final String mode) {
@@ -180,7 +180,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for current window state.
-   *
+   * 
    * @return current window state
    */
   public final String getState() {
@@ -189,7 +189,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for current window state.
-   *
+   * 
    * @param state current window state
    */
   public final void setState(final String state) {
@@ -198,7 +198,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for available portlet modes.
-   *
+   * 
    * @return list of available portlet modes
    */
   public final ArrayList<String> getModes() {
@@ -207,7 +207,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for available portlet modes.
-   *
+   * 
    * @param modes list of available portlet modes
    */
   public final void setModes(final ArrayList<String> modes) {
@@ -216,7 +216,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for available window states.
-   *
+   * 
    * @return list of available window states
    */
   public final ArrayList<String> getStates() {
@@ -225,7 +225,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for available window states.
-   *
+   * 
    * @param states list of available window states
    */
   public final void setStates(final ArrayList<String> states) {
@@ -234,7 +234,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for session map.
-   *
+   * 
    * @return session map
    */
   public final HashMap<String, Object> getSessionMap() {
@@ -243,7 +243,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for session map.
-   *
+   * 
    * @param sessionMap session map
    */
   public final void setSessionMap(final HashMap<String, Object> sessionMap) {
@@ -252,7 +252,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Getter for isToRender.
-   *
+   * 
    * @return either the portlet has to be rendered
    */
   public final boolean isToRender() {
@@ -261,7 +261,7 @@ public class PortletInfo implements Serializable {
 
   /**
    * Setter for isToRender.
-   *
+   * 
    * @param isToRender1 has the portlet to be rendered
    */
   public final void setToRender(final boolean isToRender1) {

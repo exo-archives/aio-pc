@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2008 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -21,7 +21,6 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-//import org.exoplatform.services.wsrp2.wsdl.WSRPServiceTestCase;
 
 /**
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
@@ -36,21 +35,30 @@ public class AllTestsPortlet extends TestCase {
     System.out.println("TEST LOGGER: " + log);
     TestSuite suite = new TestSuite("portlet-container tests");
 
+    // Whether we skip cargo container. In case standalone Tomcat instance. 
     if (System.getProperty("exo.test.cargo.skip") == null
         || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
-      assertTrue(ContainerStarter.start());
+      assertTrue(org.exoplatform.services.wsrp2.ContainerStarter.start());
     }
 
+    suite.addTestSuite(SuiteForTest.class);
+
     suite.addTestSuite(SuiteForTestProducer.class);
+
     suite.addTestSuite(SuiteForTestConsumer.class);
-    
+
+    // for e.g. to run custom test
 //    suite.addTestSuite(WSRPServiceTestCase.class);
 
     return suite;
   }
 
   protected void tearDown() {
-    assertFalse(ContainerStarter.stop());
+    // Whether we skip cargo container. In case standalone Tomcat instance. 
+    if (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+      assertFalse(org.exoplatform.services.wsrp2.ContainerStarter.stop());
+    }
   }
 
 }

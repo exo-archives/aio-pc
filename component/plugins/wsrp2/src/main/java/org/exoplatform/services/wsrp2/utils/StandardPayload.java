@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -16,15 +16,12 @@
  */
 package org.exoplatform.services.wsrp2.utils;
 
-import java.io.StringReader;
-
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.stream.StreamSource;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
@@ -69,18 +66,18 @@ public class StandardPayload<T> {
   }
 
   public T getUnmarshalledObject(QName type, EventPayload payload) {
-    org.w3c.dom.Element messageElement = payload.get_any()[0];
+    org.w3c.dom.Element messageElement = (org.w3c.dom.Element) payload.getAny();
     if (log.isDebugEnabled())
       log.debug("StandardPayload.getUnmarshalledObject() messageElement = " + messageElement);
     if (log.isDebugEnabled())
       log.debug("StandardPayload.getUnmarshalledObject() type.getLocalPart() = "
           + type.getLocalPart());
+
     try {
       JAXBContext jaxb = JAXBContext.newInstance(Class.forName(type.getLocalPart()));
       Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-      StringReader reader = new StringReader(messageElement.toString());
-      JAXBElement<T> stdElement = unmarshaller.unmarshal(new StreamSource(reader),
-                                                         (Class<T>) Class.forName(type.getLocalPart()));
+      Class<T> classT = (Class<T>) Class.forName(type.getLocalPart());
+      JAXBElement<T> stdElement = unmarshaller.unmarshal(messageElement, classT);
       if (log.isDebugEnabled())
         log.debug("StandardPayload.getUnmarshalledObject() boolInput.getValue() = "
             + stdElement.getValue());

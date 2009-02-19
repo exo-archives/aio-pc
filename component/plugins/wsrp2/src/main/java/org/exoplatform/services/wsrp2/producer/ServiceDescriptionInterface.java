@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,6 +17,13 @@
 
 package org.exoplatform.services.wsrp2.producer;
 
+import java.util.List;
+
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.UserContext;
@@ -26,8 +33,12 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public interface ServiceDescriptionInterface {
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
-                                                  String[] desiredLocales,
-                                                  String[] portletHandles,
-                                                  UserContext userContext) throws java.rmi.RemoteException;
+                                                  List<String> desiredLocales,
+                                                  List<String> portletHandles,
+                                                  UserContext userContext) throws ResourceSuspended,
+                                                                          InvalidRegistration,
+                                                                          ModifyRegistrationRequired,
+                                                                          OperationFailed,
+                                                                          WSRPException;
 
 }

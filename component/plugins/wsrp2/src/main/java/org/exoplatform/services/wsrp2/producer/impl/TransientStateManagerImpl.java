@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -29,6 +29,7 @@ import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.producer.TransientStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.CacheControlProxy;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
@@ -36,7 +37,7 @@ import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
-/*
+/**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 25
  * janv. 2004 Time: 17:53:18
  */
@@ -68,41 +69,49 @@ public class TransientStateManagerImpl implements TransientStateManager {
     cont = ctx.getContainer();
   }
 
-  public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
+  public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
     WSRPHttpSession session = null;
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
-    try {
-      // !!! it's a very dirty hack and it will be removed as soon as possible
+//    try {
       session = (WSRPHttpSession) cache.get(sessionID);
-      WindowInfosContainer.createInstance(cont, sessionID, user);
       if (session != null) {
-        if (sessionID != null && session.isInvalidated()) {
+        // get from cache
+        // session != null && sessionID != null
+        if (session.isInvalidated()) {
+          //create a new fresh session
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+          cache.remove(sessionID);
+          cache.put(sessionID, session);
         } else {
           session.setLastAccessTime(System.currentTimeMillis());
         }
         if (log.isDebugEnabled())
           log.debug("Lookup session success");
-      } else if (sessionID != null && session == null) {
-        throw new Exception("Session doesn't exist anymore");
+      } else if (sessionID != null) {
+        throw new InvalidSession("Session doesn't exist anymore with sessionID = '" + sessionID + "'");
       } else {
+        // session == null && sessionID == null
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
+        
+        WSRPHttpSession sessionNewFromCache = (WSRPHttpSession) cache.get(sessionID);
+          
         if (log.isDebugEnabled())
           log.debug("Create new session with ID : " + sessionID);
       }
       return session;
-    } catch (Exception e) {
-      throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);
-    }
+//    } catch (Exception e) {
+//      throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);
+//    }
   }
 
   public void releaseSession(String sessionID) {
     try {
+      WSRPHttpSession session = (WSRPHttpSession) cache.get(sessionID);
       cache.remove(sessionID);
       WindowInfosContainer.removeInstance(cont, sessionID);
     } catch (Exception e) {

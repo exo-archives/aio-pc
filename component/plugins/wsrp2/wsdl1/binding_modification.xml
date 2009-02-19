@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+        
+<bindings 
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/"    
+    wsdlLocation="wsrp_v1_bindings.wsdl"
+    xmlns="http://java.sun.com/xml/ns/jaxws"
+    xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/"
+    xmlns:v1bind ="urn:oasis:names:tc:wsrp:v1:bind"
+    xmlns:wsrp="urn:oasis:names:tc:wsrp:v2:wsdl">          
+        
+   <package name="org.exoplatform.services.wsrp1"/> 
+
+</bindings> 
+

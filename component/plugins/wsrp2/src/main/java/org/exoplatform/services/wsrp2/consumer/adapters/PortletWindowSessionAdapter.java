@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,13 +17,15 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.PortletSession;
 import org.exoplatform.services.wsrp2.consumer.PortletWindowSession;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.ResourceContext;
 
-/*
+/**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 9 févr. 2004
@@ -32,21 +34,21 @@ import org.exoplatform.services.wsrp2.type.ResourceContext;
 
 public class PortletWindowSessionAdapter implements PortletWindowSession {
 
-  private String          windowID;
+  private String            windowID;
 
-  private PortletSession  portletSession;
+  private PortletSession    portletSession;
 
-  private MarkupContext   markupContext;
+  private MarkupContext     markupContext;
 
-  private String          navigationalState;
+  private String            navigationalState;
 
-  private ResourceContext resourceContext;
+  private ResourceContext   resourceContext;
 
-  private NamedString[]   navigationalValues;
+  private List<NamedString> navigationalValues;
 
-  private String          interactionState;
+  private String            interactionState;
 
-  private String          resourceState;
+  private String            resourceState;
 
   public String getWindowID() {
     return windowID;
@@ -72,13 +74,13 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
     this.portletSession = portletSession;
   }
 
-  public MarkupContext getMarkupContext() {
-    return markupContext;
-  }
-
-  public void setMarkupContext(MarkupContext markupContext) {
-    this.markupContext = markupContext;
-  }
+//  public MarkupContext getMarkupContext() {
+//    return markupContext;
+//  }
+//
+//  public void setMarkupContext(MarkupContext markupContext) {
+//    this.markupContext = markupContext;
+//  }
 
   public String getNavigationalState() {
     return navigationalState;
@@ -106,11 +108,11 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
     this.resourceContext = resourceContext;
   }
 
-  public NamedString[] getNavigationalValues() {
+  public List<NamedString> getNavigationalValues() {
     return navigationalValues;
   }
 
-  public void setNavigationalValues(NamedString[] navigationalValues) {
+  public void setNavigationalValues(List<NamedString> navigationalValues) {
     this.navigationalValues = navigationalValues;
   }
 

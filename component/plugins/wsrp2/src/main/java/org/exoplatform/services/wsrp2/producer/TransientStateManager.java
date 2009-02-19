@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -19,20 +19,21 @@ package org.exoplatform.services.wsrp2.producer;
 
 import org.exoplatform.services.portletcontainer.pci.PortletData;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
-/*
- * User: azer Date: 25 janv. 2004 Time: 17:47:02
+/**
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 
 public interface TransientStateManager {
 
   public static int SESSION_TIME_PERIOD = 900; // seconds
 
-  public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException;
+  public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession;
 
   public void releaseSession(String sessionID);
 

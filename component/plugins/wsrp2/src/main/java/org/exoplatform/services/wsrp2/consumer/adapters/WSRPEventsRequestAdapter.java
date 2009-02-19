@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,6 +17,9 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exoplatform.services.wsrp2.consumer.WSRPEventsRequest;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.StateChange;
@@ -26,24 +29,15 @@ import org.exoplatform.services.wsrp2.type.StateChange;
  */
 public class WSRPEventsRequestAdapter extends WSRPBaseRequestAdapter implements WSRPEventsRequest {
 
-  private Event[]     events;
+  private List<Event> events;
 
-  private StateChange portletStateChange; //WSRP2
+  private StateChange portletStateChange;
 
-  public org.exoplatform.services.wsrp2.type.Event[] getEvents() {
-    return events;
-  }
-
-  public void setEvents(org.exoplatform.services.wsrp2.type.Event[] events) {
-    this.events = events;
-  }
-
-  public org.exoplatform.services.wsrp2.type.Event getEvents(int i) {
-    return events[i];
-  }
-
-  public void setEvents(int i, org.exoplatform.services.wsrp2.type.Event _value) {
-    this.events[i] = _value;
+  public List<Event> getEvents() {
+    if (events == null) {
+      events = new ArrayList<Event>();
+    }
+    return this.events;
   }
 
   public StateChange getPortletStateChange() {

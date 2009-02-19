@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -72,6 +72,8 @@ public class WSRPConstants {
   // was: WSRP_CACHELEVEL = "wsrp-cacheLevel"
   public static final String WSRP_RESOURCE_CACHEABILITY         = "wsrp-resourceCacheability";
 
+  public static final String WSRP1_CACHELEVEL                   = "wsrp-cacheLevel";
+
   // ResourceBooleanName
   public static final String WSRP_REQUIRES_REWRITE              = "wsrp-requiresRewrite";
 
@@ -114,10 +116,14 @@ public class WSRPConstants {
 
   public static final String CERTIFICATE_USER_AUTHENTIFICATION  = WSRP_PREFIX + "certificate";
 
-  // FOR WSRP STARTER
-  public static final String WSRP_ID                            = "WSRP2";
+//  /**
+//   * FOR WSRP STARTER
+//   */
+//  public static final String WSRP_ID                            = "WSRP2";
 
-  // WSRP ADMIN
+  /**
+   * WSRP ADMIN
+   */
   public static final String WSRP_PRODUCER_APP_ENCODER          = "@";
 
   public static final String WSRP_ADMIN_PORTLET_APP             = WSRP_PRODUCER_APP_ENCODER
@@ -132,7 +138,9 @@ public class WSRPConstants {
                                                                     + Constants.PORTLET_META_DATA_ENCODER
                                                                     + WSRP_ADMIN_PORTLET_NAME;
 
-  // WSRP REGISTRATION PARAMS
+  /**
+   * WSRP REGISTRATION PARAMS
+   */
   public static final String WAP_portletTitle                   = "portletTitle";
 
   public static final String WAP_consumerName                   = "consumerName";
@@ -152,6 +160,14 @@ public class WSRPConstants {
   public static final String WAP_serviceDescriptionIntfEndpoint = "serviceDescriptionIntfEndpoint";
 
   public static final String WAP_description                    = "description";
+
+  public static final String WAP_version                        = "version";
+  
+  public static final String WAP_lifetime                        = "lifetime";
+
+  public static final String WAP_userAttributes                 = "userAttributes";
+
+  public static final String WAP_userDataConstraint             = "userDataConstraint";
 
   public static final String DEFAULT_consumerAgentName          = "exoplatform.2.0";
 

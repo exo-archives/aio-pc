@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -27,10 +27,8 @@ import java.util.Set;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
-import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.NamedString;
 
@@ -48,7 +46,7 @@ public class Utils {
   public static LocalizedString getLocalizedString(String value, String lang, String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
-    //tmp.setLang(lang);
+    tmp.setLang(lang);
     tmp.setResourceName(rn);
     return tmp;
   }
@@ -56,7 +54,7 @@ public class Utils {
   public static LocalizedString getLocalizedString(String value, String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
-    //tmp.setLang(lang);
+    tmp.setLang(lang);
     return tmp;
   }
 
@@ -106,27 +104,29 @@ public class Utils {
   }
 
   // replace extensions for template
-  @Deprecated
-  public static void fillExtensions(String temp, Extension[] extensions) {
-    if (extensions != null)
-      if (extensions[0] != null)
-        if (extensions[0].get_any() != null)
-          if (extensions[0].get_any()[0] != null) {
-            // TODO iterate foreach element of array 
-            try {
-              temp = StringUtils.replace(temp,
-                                         "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
-                                         extensions[0].get_any()[0].getAsString());
-            } catch (Exception e) {
-              e.printStackTrace();
-            }
-          } else {
-            temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
-          }
-  }
+//  @Deprecated
+//  public static void fillExtensions(String temp, Extension[] extensions) {
+//    if (extensions != null && extensions[0] != null && extensions[0].getAny() != null
+//        && extensions[0].getAny() != null) {
+//      // TODO iterate foreach element of array 
+//      try {
+//        temp = StringUtils.replace(temp,
+//                                   "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
+//                                   (String)extensions[0].getAny());
+//      } catch (Exception e) {
+//        e.printStackTrace();
+//      }
+//    } else {
+//      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
+//    }
+//  }
 
-  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params) {
-    return getNamedStringArrayParametersFromMap(params, false);
+//  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params) {
+//    return getNamedStringArrayParametersFromMap(params, false);
+//  }
+
+  public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params) {
+    return getNamedStringListParametersFromMap(params, false);
   }
 
   /**
@@ -140,12 +140,12 @@ public class Utils {
    *          "wsrp-" prefix
    * @return
    */
-  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params,
-                                                                   boolean selectOnlyNonWSRP) {
+  public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params,
+                                                                      boolean selectOnlyNonWSRP) {
     if (params == null)
       return null;
     if (params.isEmpty())
-      return new NamedString[] {};
+      return new ArrayList<NamedString>();
     Set<String> keys = params.keySet();
     List<NamedString> listNamedStringParams = new ArrayList<NamedString>();
     Iterator<String> iteratorKeys = keys.iterator();
@@ -159,7 +159,7 @@ public class Utils {
         }
       }
     }
-    return (NamedString[]) listNamedStringParams.toArray(new NamedString[listNamedStringParams.size()]);
+    return listNamedStringParams;
   }
 
   /**
@@ -183,18 +183,67 @@ public class Utils {
           } else {
             // next added parameter
             Arrays.asList(result.get(name)).add(value);
-//            String[] oldArray = result.get(name);
-//            String[] newArray = new String[oldArray.length + 1];
-//            int i = 0;
-//            if (oldArray != null) {
-//              for (String v : oldArray) {
-//                newArray[i++] = v;
-//              }
-//            }
-//            newArray[i] = value;
-//            result.put(name, newArray);
           }
         }
+      }
+    }
+    return result;
+  }
+
+  /**
+   * Convert from <code>List<NamedString></code> to
+   * <code>Map<String, String[]></code>.
+   * 
+   * @param NamedString[]
+   * @return Map<String, String[]>
+   */
+  public static Map<String, String[]> getMapParametersFromNamedStringArray(List<NamedString> array) {
+    if (array == null)
+      return null;
+    Map<String, String[]> result = new HashMap<String, String[]>();
+    if (array != null) {
+      for (NamedString namedString : array) {
+        String name = namedString.getName();
+        String value = namedString.getValue();
+        if (value != null) {
+          if (result.get(name) == null) {
+            // new added parameter
+            result.put(name, new String[] { value });
+          } else {
+            // next added parameter
+            Arrays.asList(result.get(name)).add(value);
+          }
+        }
+      }
+    }
+
+    return result;
+  }
+
+  public static Map<String, String> getMapFromString(String properties) {
+    if (properties==null)
+      return null;
+    Map<String, String> result = new HashMap<String, String>();
+    if (properties.length() == 0)
+      return result;
+
+    if (properties.startsWith("{"))
+      properties = properties.substring(1);
+    if (properties.endsWith("}"))
+      properties = properties.substring(0, properties.length() - 2);
+
+    String[] props = properties.split(",");
+    for (String string : props) {
+      string = string.trim();
+
+      String[] aprops = string.split("=");
+      if (aprops.length == 1) {
+        String key = aprops[0];
+        result.put(key, null);
+      } else if (aprops.length == 2) {
+        String key = aprops[0];
+        String value = aprops[1];
+        result.put(key, value);
       }
     }
     return result;

@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>2.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assembly</artifactId>
@@ -25,7 +25,7 @@
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
-
+<!--
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portlets</artifactId>
@@ -41,7 +41,7 @@
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
-
+-->
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.demos</artifactId>
@@ -62,6 +62,12 @@
       <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
+      <exclusions>
+              <exclusion>
+	                <groupId>commons-collections</groupId>
+			          <artifactId>commons-collections</artifactId>
+				          </exclusion>
+					        </exclusions>      
     </dependency>
 
     <dependency>
@@ -78,19 +84,39 @@
       <scope>compile</scope>
     </dependency>
 
+  <!--
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
     </dependency>
+    -->
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
       <version>${org.exoplatform.pc.version}</version>
       <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>asm</groupId>
+          <artifactId>asm</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>org.apache.cxf</groupId>
+          <artifactId>cxf-common-utilities</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
+    
+    <dependency>
+      <groupId>org.exoplatform.ws</groupId>
+      <artifactId>exo.ws.frameworks.servlet</artifactId>
+      <version>${org.exoplatform.ws.version}</version>
+      <scope>compile</scope>
+    </dependency>    
+    
 
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -118,6 +144,24 @@
       <version>1.3</version>
     </dependency>
 
+    <dependency>
+      <groupId>asm</groupId>
+      <artifactId>asm</artifactId>
+      <version>1.5.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-asm</artifactId>
+      <version>2.2.3</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-cxf-common-utilities</artifactId>
+      <version>2.1.2</version>
+    </dependency>
+
   </dependencies>
 
   <build>
@@ -143,15 +187,15 @@
           <excludeProjects>
             junit, jmock, bcel, ehcache,cargo-core-api-container,cargo-core-api-generic,cargo-core-api-module,xercesImpl, msv, servlet-api, jibx-bind, isorelax,
             relaxngDatatype, cargo-core-api-util, cargo-core-container-tomcat,velocity-dep, saxpath, exo-platform.test.framework,
-            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, jaxen,
             xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
-            saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            exo-weblogic-authproviders, exo-weblogic-loginmodule,
             carol, drools-base, drools-core, drools-java,
             drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
-            exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jotm, jotm_jrmp_stubs, log4j, soap, velocity, naming-core, naming-java, jsf-api, xerces
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, janino,
+            log4j, soap, velocity, naming-core, naming-java, jsf-api, xerces
           </excludeProjects>
         </configuration>
       </plugin>

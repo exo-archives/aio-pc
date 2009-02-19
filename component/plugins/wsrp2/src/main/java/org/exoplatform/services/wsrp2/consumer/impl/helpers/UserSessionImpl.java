@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,16 +17,16 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 import org.exoplatform.services.wsrp2.consumer.GroupSession;
 import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp2.consumer.UserSessionMgr;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
-/*
+/**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 9 févr. 2004
@@ -34,20 +34,25 @@ import org.exoplatform.services.wsrp2.exceptions.WSRPException;
  */
 
 public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
+  
+  private static final long serialVersionUID = 1L;
 
   protected Map<String, GroupSession> groupSessions = new HashMap<String, GroupSession>();
 
   private String                      userID;
 
-  public UserSessionImpl(String markupInterfaceURL) {
-    super(markupInterfaceURL);
+  public UserSessionImpl() {
+  }
+
+  public UserSessionImpl(String producerID) {
+    super(producerID);
   }
 
   public GroupSessionMgr getGroupSession(String groupID) throws WSRPException {
     if (groupID != null) {
       GroupSessionMgr groupSession = (GroupSessionMgr) groupSessions.get(groupID);
       if (groupSession == null) {
-        groupSession = new GroupSessionImpl(groupID, getMarkupInterfaceURL());
+        groupSession = new GroupSessionImpl(groupID, getProducerID());
         addGroupSession(groupSession);
       }
       return groupSession;

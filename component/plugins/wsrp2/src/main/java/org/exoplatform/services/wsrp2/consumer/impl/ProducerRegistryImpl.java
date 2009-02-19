@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -31,6 +31,8 @@ import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
@@ -62,17 +64,24 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   private Map<String, Producer> loadProducers() {
+
     Map<String, Producer> map = new HashMap<String, Producer>();
+    Collection<WSRP2ProducerData> c = null;
     try {
-      Collection<WSRP2ProducerData> c = loadAll();
-      for (Iterator<WSRP2ProducerData> iterator = c.iterator(); iterator.hasNext();) {
-        WSRP2ProducerData wsrp2ProducerData = (WSRP2ProducerData) iterator.next();
-        ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont);
-        map.put(wsrp2ProducerData.getId(), wsrp2ProducerData.getProducer());
-      }
+      c = loadAll();
     } catch (Exception e) {
-      log_.error("Error", e);
+      log_.error("Cannot load all producers with", e);
+      return map;
     }
+
+    for (Iterator<WSRP2ProducerData> iterator = c.iterator(); iterator.hasNext();) {
+      WSRP2ProducerData wsrp2ProducerData = (WSRP2ProducerData) iterator.next();
+      String producerUrl = wsrp2ProducerData.getProducer().getUrl().toExternalForm();
+      ((ProducerImpl) wsrp2ProducerData.getProducer()).init(cont, producerUrl);
+      map.put(wsrp2ProducerData.getId(), wsrp2ProducerData.getProducer());
+      log_.info("Loaded producer with id = '" + wsrp2ProducerData.getId() + "' SUCCESSFUL");
+    }
+
     return map;
   }
 
@@ -117,8 +126,8 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return producers.containsKey(id);
   }
 
-  public Producer createProducerInstance() {
-    return new ProducerImpl(cont);
+  public Producer createProducerInstance(String producerURL, int version) {
+    return new ProducerImpl(cont, producerURL, version);
   }
 
   public long getLastModifiedTime() {
@@ -126,8 +135,8 @@ public class ProducerRegistryImpl implements ProducerRegistry {
   }
 
   final public void save(Producer p) throws Exception {
-    Session session = hservice_.openSession();
     WSRP2ProducerData data = load(p.getID());
+    Session session = hservice_.openSession();
     if (data == null) {
       data = new WSRP2ProducerData();
       data.setId(p.getID());
@@ -142,17 +151,14 @@ public class ProducerRegistryImpl implements ProducerRegistry {
 
   final public Collection<WSRP2ProducerData> loadAll() throws Exception {
     Session session = hservice_.openSession();
-    return session.createQuery(queryAllProducer).list();
+    List l = null;
+    l = session.createQuery(queryAllProducer).list();
+    return l;
   }
 
   final public WSRP2ProducerData load(String id) throws Exception {
-    Session session = hservice_.openSession();
-    WSRP2ProducerData data = load(id, session);
-    return data;
-  }
-
-  final public WSRP2ProducerData load(String id, Session session) throws Exception {
     WSRP2ProducerData data = null;
+    Session session = hservice_.openSession();
     List<WSRP2ProducerData> l = session.createQuery(queryProducer).setString(0, id).list();
     if (l.size() > 1) {
       throw new Exception("Expect only one configuration but found" + l.size());

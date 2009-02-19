@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,49 +17,24 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
-import javax.xml.rpc.ServiceException;
-
-import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.wsrp2.consumer.templates.InitCookieTemplate;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
-import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
 
 /**
  * User: Benjamin Mestrallet Date: 11 mai 2004
  */
 public class InitCookieImpl extends InitCookieTemplate {
-  private WSRPService             service;
 
-  private String                  markupInterfaceURL;
-
-  private WSRP_v2_Markup_PortType markupPort;
-
-  public InitCookieImpl(String markupInterfaceURL) {
-    service = (WSRPService) (ExoContainerContext.getCurrentContainer().getComponentInstanceOfType(WSRPService.class));
-    ((WSRPServiceLocator) service).setMaintainSession(true);
-    this.markupInterfaceURL = markupInterfaceURL;
-    try {
-      this.markupPort = service.getWSRPMarkupService(new URL(markupInterfaceURL));
-    } catch (ServiceException e) {
-      e.printStackTrace();
-    } catch (MalformedURLException e) {
-      e.printStackTrace();
-    }
+  private String producerID;
+  
+  public InitCookieImpl() {
   }
 
-  public String getMarkupInterfaceURL() {
-    return markupInterfaceURL;
+  public InitCookieImpl(String producerID) {
+    this.producerID = producerID;
   }
 
-  public WSRP_v2_Markup_PortType getWSRPMarkupService() {
-    return markupPort;
+  public String getProducerID() {
+    return producerID;
   }
 
-  public void setWSRPMarkupService(WSRP_v2_Markup_PortType markupPortType) {
-    this.markupPort = markupPortType;
-  }
 }

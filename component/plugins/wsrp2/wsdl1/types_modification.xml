@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+
+<jaxb:bindings version="1.0" xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:jaxb="http://java.sun.com/xml/ns/jaxb"
+  xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/">
+  <jaxb:bindings schemaLocation="wsrp_v1_types.xsd" node="/xs:schema">
+    <jaxb:schemaBindings xmlns:jaxb="http://java.sun.com/xml/ns/jaxb">
+      <jaxb:package name="org.exoplatform.services.wsrp1.type" />
+      <jaxb:nameXmlTransform>
+        <jaxb:elementName prefix="WS1" />
+        <jaxb:typeName prefix="WS1" />
+        <jaxb:modelGroupName prefix="WS1" />
+        <jaxb:anonymousTypeName prefix="WS1" />
+      </jaxb:nameXmlTransform>
+    </jaxb:schemaBindings>
+  </jaxb:bindings>
+</jaxb:bindings>

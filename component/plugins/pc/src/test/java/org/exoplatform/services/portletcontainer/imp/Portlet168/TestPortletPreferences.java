@@ -102,7 +102,7 @@ public class TestPortletPreferences extends BaseTest {
     try {
       pP.setValue("port", "NotPossible");
     } catch (ReadOnlyException e) {
-      assertEquals("the value port can not be changed", e.getMessage());
+      assertEquals("The value 'port' can not be changed", e.getMessage());
     }
 
     //add a new preference (not defined in xml)
@@ -127,7 +127,7 @@ public class TestPortletPreferences extends BaseTest {
     try {
       pP.setValues("port", new String[]{"NotPossible"});
     } catch (ReadOnlyException e) {
-      assertEquals("the value port can not be changed", e.getMessage());
+      assertEquals("The value 'port' can not be changed", e.getMessage());
     }
 
     //add a new preference (not defined in xml)

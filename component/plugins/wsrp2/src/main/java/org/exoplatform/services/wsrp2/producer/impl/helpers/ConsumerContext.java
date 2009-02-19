@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -21,7 +21,6 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
 
 /**
@@ -32,18 +31,18 @@ public class ConsumerContext implements Serializable {
   /**
    * 
    */
-  private static final long  serialVersionUID = -7301320553261412108L;
+  private static final long  serialVersionUID     = -7301320553261412108L;
 
   private String             registrationHandle;
 
   private RegistrationData   datas;
 
-  private Collection<String> clonedPortletHandles;
+  private Collection<String> clonedPortletHandles = new ArrayList<String>();
 
   public ConsumerContext(String registrationHandle, RegistrationData datas) {
     this.registrationHandle = registrationHandle;
     this.datas = datas;
-    this.clonedPortletHandles = new ArrayList<String>();
+//    this.clonedPortletHandles = new ArrayList<String>();
   }
 
   public void addPortletHandle(String portletHandle) {

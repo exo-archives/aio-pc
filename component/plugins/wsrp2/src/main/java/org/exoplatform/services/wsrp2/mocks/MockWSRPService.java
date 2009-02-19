@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -14,147 +14,136 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-
 package org.exoplatform.services.wsrp2.mocks;
 
 import java.net.URL;
-import java.rmi.Remote;
 
 import javax.xml.namespace.QName;
-import javax.xml.rpc.Call;
-import javax.xml.rpc.ServiceException;
-import javax.xml.rpc.encoding.TypeMappingRegistry;
-import javax.xml.rpc.handler.HandlerRegistry;
+import javax.xml.ws.WebEndpoint;
+import javax.xml.ws.WebServiceClient;
+import javax.xml.ws.WebServiceFeature;
 
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_Markup_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_PortletManagement_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_Registration_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.bind.WSRP_v2_ServiceDescription_Binding_SOAPImpl;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_PortletManagement_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Registration_PortType;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_ServiceDescription_PortType;
-import org.exoplatform.services.wsrp2.wsdl.WSRPService;
-import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
+import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
+import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 
-/*
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 3 févr. 2004
- * Time: 02:59:48
+/**
+ * Created by The eXo Platform SAS .
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Dec 8, 2008
  */
 
-public class MockWSRPService extends WSRPServiceLocator implements WSRPService {
-  private WSRP_v2_ServiceDescription_Binding_SOAPImpl serviceDescriptionInterface;
+@WebServiceClient(name = "WSRPService2", wsdlLocation = "/WEB-INF/wsdl2/wsrp-service.wsdl", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl")
+public class MockWSRPService extends WSRPService2 {
 
-  private WSRP_v2_Registration_Binding_SOAPImpl       registrationOperationsInterface;
+  public final static URL   WSDL_LOCATION;
 
-  private WSRP_v2_Markup_Binding_SOAPImpl             markupOperationsInterface;
+  public final static QName SERVICE                         = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
+                                                                        "WSRPService2");
 
-  private WSRP_v2_PortletManagement_Binding_SOAPImpl  portletManagementOperationsInterface;
+  public final static QName WSRPV2ServiceDescriptionService = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
+                                                                        "WSRP_v2_ServiceDescription_Service");
 
-  public MockWSRPService() {
-    serviceDescriptionInterface = new WSRP_v2_ServiceDescription_Binding_SOAPImpl();
-    registrationOperationsInterface = new WSRP_v2_Registration_Binding_SOAPImpl();
-    markupOperationsInterface = new WSRP_v2_Markup_Binding_SOAPImpl();
-    portletManagementOperationsInterface = new WSRP_v2_PortletManagement_Binding_SOAPImpl();
+  public final static QName WSRPV2MarkupService             = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
+                                                                        "WSRP_v2_Markup_Service");
+
+  public final static QName WSRPV2RegistrationService       = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
+                                                                        "WSRP_v2_Registration_Service");
+
+  public final static QName WSRPV2PortletManagementService  = new QName("urn:oasis:names:tc:wsrp:v2:wsdl",
+                                                                        "WSRP_v2_PortletManagement_Service");
+  
+  private ExoContainer container;
+  
+  static {
+    URL url = null;
+    WSDL_LOCATION = url;
   }
 
-  public String getWSRPPortletManagementServiceAddress() {
-    return "Mock";
+  public MockWSRPService(ExoContainer container) {
+    super(null, null);
+    this.container = container;
   }
 
-  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService() throws ServiceException {
-    return portletManagementOperationsInterface;
+  /**
+   * @return returns WSRPV2ServiceDescriptionPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_ServiceDescription_Service")
+  public WSRPV2ServiceDescriptionPortType getWSRPV2ServiceDescriptionService() {
+    return (WSRPV2ServiceDescriptionPortType) container.getComponentInstanceOfType(WSRPV2ServiceDescriptionPortType.class);
   }
 
-  public WSRP_v2_PortletManagement_PortType getWSRPPortletManagementService(URL portAddress) throws ServiceException {
-    return portletManagementOperationsInterface;
+  /**
+   * @param features A list of {@link javax.xml.ws.WebServiceFeature} to
+   *          configure on the proxy. Supported features not in the
+   *          <code>features</code> parameter will have their default values.
+   * @return returns WSRPV2ServiceDescriptionPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_ServiceDescription_Service")
+  public WSRPV2ServiceDescriptionPortType getWSRPV2ServiceDescriptionService(WebServiceFeature... features) {
+    return null;
   }
 
-  public String getWSRPRegistrationServiceAddress() {
-    return "Mock";
+  /**
+   * @return returns WSRPV2MarkupPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_Markup_Service")
+  public WSRPV2MarkupPortType getWSRPV2MarkupService() {
+    return (WSRPV2MarkupPortType) container.getComponentInstanceOfType(WSRPV2MarkupPortType.class);
   }
 
-  public WSRP_v2_Registration_PortType getWSRPRegistrationService() throws ServiceException {
-    return registrationOperationsInterface;
+  /**
+   * @param features A list of {@link javax.xml.ws.WebServiceFeature} to
+   *          configure on the proxy. Supported features not in the
+   *          <code>features</code> parameter will have their default values.
+   * @return returns WSRPV2MarkupPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_Markup_Service")
+  public WSRPV2MarkupPortType getWSRPV2MarkupService(WebServiceFeature... features) {
+    return null;
   }
 
-  public WSRP_v2_Registration_PortType getWSRPRegistrationService(URL portAddress) throws ServiceException {
-    return registrationOperationsInterface;
+  /**
+   * @return returns WSRPV2RegistrationPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_Registration_Service")
+  public WSRPV2RegistrationPortType getWSRPV2RegistrationService() {
+    return (WSRPV2RegistrationPortType) container.getComponentInstanceOfType(WSRPV2RegistrationPortType.class);
   }
 
-  public String getWSRPMarkupServiceAddress() {
-    return "Mock";
+  /**
+   * @param features A list of {@link javax.xml.ws.WebServiceFeature} to
+   *          configure on the proxy. Supported features not in the
+   *          <code>features</code> parameter will have their default values.
+   * @return returns WSRPV2RegistrationPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_Registration_Service")
+  public WSRPV2RegistrationPortType getWSRPV2RegistrationService(WebServiceFeature... features) {
+    return null;
   }
 
-  public WSRP_v2_Markup_PortType getWSRPMarkupService() throws ServiceException {
-    return markupOperationsInterface;
+  /**
+   * @return returns WSRPV2PortletManagementPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_PortletManagement_Service")
+  public WSRPV2PortletManagementPortType getWSRPV2PortletManagementService() {
+    return (WSRPV2PortletManagementPortType) container.getComponentInstanceOfType(WSRPV2PortletManagementPortType.class);
   }
 
-  public WSRP_v2_Markup_PortType getWSRPMarkupService(URL portAddress) throws ServiceException {
-    return markupOperationsInterface;
+  /**
+   * @param features A list of {@link javax.xml.ws.WebServiceFeature} to
+   *          configure on the proxy. Supported features not in the
+   *          <code>features</code> parameter will have their default values.
+   * @return returns WSRPV2PortletManagementPortType
+   */
+  @WebEndpoint(name = "WSRP_v2_PortletManagement_Service")
+  public WSRPV2PortletManagementPortType getWSRPV2PortletManagementService(WebServiceFeature... features) {
+    return null;
   }
 
-  public String getWSRPServiceDescriptionServiceAddress() {
-    return "Mock";
-  }
-
-  public WSRP_v2_ServiceDescription_PortType getWSRPServiceDescriptionService() throws ServiceException {
-    return serviceDescriptionInterface;
-  }
-
-  public WSRP_v2_ServiceDescription_PortType getWSRPServiceDescriptionService(URL portAddress) throws ServiceException {
-    return serviceDescriptionInterface;
-  }
-
-  ///not necessary to implement
-
-  public Remote getPort(QName qName, Class aClass) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Remote getPort(Class aClass) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call[] getCalls(QName qName) throws ServiceException {
-    return new Call[0]; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall(QName qName) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall(QName qName, QName qName1) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall(QName qName, String string) throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public Call createCall() throws ServiceException {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public QName getServiceName() {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  /*  public Iterator getPorts() throws ServiceException {
-      return null;  //To change body of implemented methods use File | Settings | File Templates.
-    }*/
-
-  public URL getWSDLDocumentLocation() {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public TypeMappingRegistry getTypeMappingRegistry() {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
-
-  public HandlerRegistry getHandlerRegistry() {
-    return null; //To change body of implemented methods use File | Settings | File Templates.
-  }
 }

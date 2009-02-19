@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,6 +17,15 @@
 
 package org.exoplatform.services.wsrp2.producer;
 
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
+import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
+import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
+import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationData;
@@ -31,18 +40,44 @@ public interface RegistrationOperationsInterface {
 
   public RegistrationContext register(RegistrationData data,
                                       UserContext userContext,
-                                      Lifetime lifetime) throws java.rmi.RemoteException;
+                                      Lifetime lifetime) throws OperationNotSupported,
+                                                        MissingParameters,
+                                                        OperationFailed,
+                                                        WSRPException;
 
   public RegistrationState modifyRegistration(RegistrationContext context,
                                               RegistrationData data,
-                                              UserContext userContext) throws java.rmi.RemoteException;
+                                              UserContext userContext) throws OperationNotSupported,
+                                                                      ResourceSuspended,
+                                                                      InvalidRegistration,
+                                                                      MissingParameters,
+                                                                      OperationFailed,
+                                                                      WSRPException;
 
-  public ReturnAny deregister(RegistrationContext context, UserContext userContext) throws java.rmi.RemoteException;
+  public ReturnAny deregister(RegistrationContext context, UserContext userContext) throws OperationNotSupported,
+                                                                                   ResourceSuspended,
+                                                                                   InvalidRegistration,
+                                                                                   OperationFailed,
+                                                                                   WSRPException;
 
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext,
-                                          UserContext userContext) throws java.rmi.RemoteException;
+                                          UserContext userContext) throws OperationNotSupported,
+                                                                  AccessDenied,
+                                                                  ResourceSuspended,
+                                                                  InvalidRegistration,
+                                                                  InvalidHandle,
+                                                                  ModifyRegistrationRequired,
+                                                                  OperationFailed,
+                                                                  WSRPException;
 
   public Lifetime setRegistrationLifetime(RegistrationContext registrationContext,
                                           UserContext userContext,
-                                          Lifetime lifetime) throws java.rmi.RemoteException;
+                                          Lifetime lifetime) throws OperationNotSupported,
+                                                            AccessDenied,
+                                                            ResourceSuspended,
+                                                            InvalidRegistration,
+                                                            InvalidHandle,
+                                                            ModifyRegistrationRequired,
+                                                            OperationFailed,
+                                                            WSRPException;
 }

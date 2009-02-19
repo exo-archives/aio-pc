@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -17,31 +17,18 @@
 
 package org.exoplatform.services.wsrp2.utils;
 
-import java.awt.Image;
 import java.io.Serializable;
-import java.io.StringReader;
-import java.math.BigDecimal;
-import java.math.BigInteger;
-import java.net.URI;
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 
-import javax.activation.DataHandler;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
 import javax.xml.bind.JAXBException;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
-import javax.xml.datatype.Duration;
-import javax.xml.datatype.XMLGregorianCalendar;
 import javax.xml.namespace.QName;
 import javax.xml.parsers.DocumentBuilderFactory;
-import javax.xml.transform.Source;
-import javax.xml.transform.stream.StreamSource;
 
-import org.apache.axis.message.MessageElement;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
@@ -55,17 +42,11 @@ public class JAXBEventTransformer {
 
   private static final Log log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.utils.JAXBEventTransformer");
 
-  // convert from "javax.portlet.Event" to "org.exoplatform.services.wsrp2.type.Event[1]"
-  public static Event[] getEventsMarshal(javax.portlet.Event event) {
-    return new Event[] { getEventMarshal(event) };
-  }
-
   // convert from "List<javax.portlet.Event>" to "org.exoplatform.services.wsrp2.type.Event[]"
-  public static Event[] getEventsMarshal(List<javax.portlet.Event> eventsList) {
-    Event[] events = new Event[eventsList.size()];
-    int i = 0;
+  public static List<Event> getEventsMarshal(List<javax.portlet.Event> eventsList) {
+    List<Event> events = new ArrayList<Event>();
     for (javax.portlet.Event event : eventsList) {
-      events[i++] = getEventMarshal(event);
+      events.add(getEventMarshal(event));
     }
     return events;
   }
@@ -83,24 +64,32 @@ public class JAXBEventTransformer {
     if (log.isDebugEnabled())
       log.debug("JAXBEventTransformer.getEventMarshal() eventValue = " + eventValue);
 
-    Event newEvent = new Event();
-    newEvent.setName(eventName);
+    QName eventType = null;
+    EventPayload eventPayload = null;
 
     if (eventValue != null) {
 
-      String eventType = eventValue.getClass().getName();
-
-      newEvent.setType(new QName(eventType));
+      eventType = new QName(eventValue.getClass().getName());
 
       org.w3c.dom.Document doc = getMarshalledDocument(eventValue, eventName);
 
       if (doc == null) {
         try {
           doc = DocumentBuilderFactory.newInstance().newDocumentBuilder().newDocument();
-          
-          JAXBContext jaxb = JAXBContext.newInstance(eventValue.getClass());
-          Marshaller marshaller = jaxb.createMarshaller();
-          marshaller.marshal(eventValue, doc);
+          try {
+            JAXBContext jaxbContext = JAXBContext.newInstance(eventValue.getClass());
+            Marshaller marshaller = jaxbContext.createMarshaller();
+            marshaller.marshal(eventValue, doc);
+          } catch (Exception e) {
+            JAXBContext jaxbContext = JAXBContext.newInstance(eventValue.getClass()
+                                                                        .getPackage()
+                                                                        .getName());
+            jaxbContext.createMarshaller()
+                       .marshal(new JAXBElement(new QName("", eventValue.getClass().getSimpleName()),
+                                                eventValue.getClass(),
+                                                eventValue),
+                                doc);
+          }
         } catch (JAXBException je) {
           je.printStackTrace();
         } catch (Exception e) {
@@ -109,50 +98,57 @@ public class JAXBEventTransformer {
           t.printStackTrace();
         }
       }
-      org.apache.axis.message.MessageElement messageElement = new MessageElement(doc.getDocumentElement());
-      org.apache.axis.message.MessageElement[] anyArray = new MessageElement[] { messageElement };
-      EventPayload eventPayload = new EventPayload();
-      eventPayload.set_any(anyArray);
-      newEvent.setPayload(eventPayload);
+      org.w3c.dom.Element messageElement = doc.getDocumentElement();
+      eventPayload = new EventPayload();
+      eventPayload.setAny(messageElement);
     }
+
+    Event newEvent = new Event();
+    newEvent.setName(eventName);
+    newEvent.setType(eventType);
+    newEvent.setPayload(eventPayload);
     return newEvent;
   }
 
   // convert from "org.exoplatform.services.wsrp2.type.Event[]" to "List<javax.portlet.Event>"
-  public static List<javax.portlet.Event> getEventsUnmarshal(Event[] eventArray) {
-    if (eventArray == null)
+  public static List<javax.portlet.Event> getEventsUnmarshal(List<Event> eventList) {
+    if (eventList == null)
       return null;
     List<javax.portlet.Event> eventsList = new ArrayList<javax.portlet.Event>();
-    int i = 0;
-    for (Event event : eventArray) {
-      Object obj = getUnmarshalledObject(event.getType(), event.getPayload());
+    for (Event event : eventList) {
 
-      if (obj == null) {
-        try {
-          String clazz = event.getType().getLocalPart();
-          String pkg = clazz.substring(0, clazz.lastIndexOf("."));
-          ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
-          org.w3c.dom.Element messageElement = event.getPayload().get_any()[0];
+      Object obj = null;
+      if (event.getType() != null && event.getPayload() != null) {
+        obj = getUnmarshalledObject(event.getType(), event.getPayload());
 
-          JAXBContext jaxb = JAXBContext.newInstance(pkg, cle);
-          Unmarshaller unmarshaller = jaxb.createUnmarshaller();
-          obj = unmarshaller.unmarshal(messageElement);
-        } catch (JAXBException je) {
-          je.printStackTrace();
-        } catch (Exception e) {
-          e.printStackTrace();
-        } catch (Throwable t) {
-          t.printStackTrace();
+        if (obj == null) {
+          try {
+            String clazz = event.getType().getLocalPart();
+
+            String pkg = clazz.substring(0, clazz.lastIndexOf("."));
+            ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
+            org.w3c.dom.Element messageElement = (org.w3c.dom.Element) event.getPayload().getAny();
+
+            JAXBContext jaxbContext = JAXBContext.newInstance(pkg, cle);
+            Unmarshaller unmarshaller = jaxbContext.createUnmarshaller();
+            obj = unmarshaller.unmarshal(messageElement);
+            //TODO do we need to do something with value which doesn't contain an XmlRootElement?
+          } catch (JAXBException je) {
+            je.printStackTrace();
+          } catch (Exception e) {
+            e.printStackTrace();
+          } catch (Throwable t) {
+            t.printStackTrace();
+          }
         }
+
+        if (log.isDebugEnabled())
+          log.debug("JAXBEventTransformer.getEventsUnmarshal() o = " + obj);
+
       }
-
-      if (log.isDebugEnabled())
-        log.debug("JAXBEventTransformer.getEventsUnmarshal() o = " + obj);
-
       javax.portlet.Event ev = new EventImpl(event.getName(), obj != null ? (Serializable) obj
                                                                          : null);
       eventsList.add(ev);
-      i++;
     }
     return eventsList;
   }
@@ -181,8 +177,8 @@ public class JAXBEventTransformer {
 
   private static Object getUnmarshalledObject(QName type, EventPayload payload) {
     try {
-      String source = type.getLocalPart();
-      String toenum = source.substring(source.lastIndexOf(".") + 1);
+      String eventType = type.getLocalPart();
+      String toenum = eventType.substring(eventType.lastIndexOf(".") + 1);
       if (log.isDebugEnabled())
         log.debug("JAXBEventTransformer.getUnmarshalledObject() toenum = " + toenum);
       StandardClasses t = null;

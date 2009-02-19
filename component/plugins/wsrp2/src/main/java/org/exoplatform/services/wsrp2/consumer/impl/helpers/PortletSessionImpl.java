@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -21,7 +21,7 @@ import org.exoplatform.services.wsrp2.consumer.PortletWindowSession;
 import org.exoplatform.services.wsrp2.consumer.adapters.PortletWindowSessionAdapter;
 import org.exoplatform.services.wsrp2.consumer.templates.PortletSessionTemplate;
 
-/*
+/**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 9 févr. 2004
@@ -30,6 +30,8 @@ import org.exoplatform.services.wsrp2.consumer.templates.PortletSessionTemplate;
 
 public class PortletSessionImpl extends PortletSessionTemplate implements java.io.Serializable {
 
+  private static final long serialVersionUID = 1L;
+
   public PortletSessionImpl(String portletHandle) {
     super.portletHandle = portletHandle;
   }
@@ -37,6 +39,7 @@ public class PortletSessionImpl extends PortletSessionTemplate implements java.i
   public PortletWindowSession getPortletWindowSession(String windowID) {
     PortletWindowSession session = (PortletWindowSession) this.portletWindowSessions.get(windowID);
     if (session == null) {
+      // create new session with provided windowID
       session = new PortletWindowSessionAdapter();
       ((PortletWindowSessionAdapter) session).setWindowID(windowID);
       ((PortletWindowSessionAdapter) session).setPortletSession(this);

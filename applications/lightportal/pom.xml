@@ -2,7 +2,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.6-SNAPSHOT</version>
+    <version>2.1-SNAPSHOT</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>lightportal</artifactId>
@@ -139,7 +139,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <org.exoplatform.jcr.version>1.10.2-SNAPSHOT</org.exoplatform.jcr.version>
+        <org.exoplatform.jcr.version>1.11</org.exoplatform.jcr.version>
       </properties>
     </profile>
   </profiles>

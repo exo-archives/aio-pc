@@ -1,4 +1,23 @@
+/*
+ * Copyright (C) 2003-2009 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
+
 package org.exoplatform.services.wsrp2.consumer;
+
+import java.util.List;
 
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
@@ -60,24 +79,24 @@ public interface PortletDriver {
   /**
    * Destroy the producer portlets specified in the entiyHandles array.
    */
-  public DestroyPortletsResponse destroyPortlets(String[] portletHandles, UserSessionMgr userSession) throws WSRPException;
+  public DestroyPortletsResponse destroyPortlets(List<String> portletHandles, UserSessionMgr userSession) throws WSRPException;
 
   /**
    * Inform the producer that the sessions specified in the sessionIDs array
    * will no longer be used by the consumer and can therefor be released.
    */
-  public ReturnAny releaseSessions(String[] sessionIDs, UserSessionMgr userSession) throws WSRPException;
+  public ReturnAny releaseSessions(List<String> sessionIDs, UserSessionMgr userSession) throws WSRPException;
 
   public PortletDescriptionResponse getPortletDescription(UserSessionMgr userSession,
-                                                          String[] desiredLocales) throws WSRPException;
+                                                          List<String> desiredLocales) throws WSRPException;
 
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(UserSessionMgr userSession) throws WSRPException;
 
-  public PropertyList getPortletProperties(String[] names, UserSessionMgr userSession) throws WSRPException;
+  public PropertyList getPortletProperties(List<String> names, UserSessionMgr userSession) throws WSRPException;
 
   public PortletContext setPortletProperties(PropertyList properties, UserSessionMgr userSession) throws WSRPException;
 
-  // Below changes of WSRP2 spec
+  // WSRP2 spec
 
   public ResourceResponse getResource(WSRPResourceRequest resourceRequest,
                                       UserSessionMgr userSession,

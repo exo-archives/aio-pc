@@ -34,6 +34,8 @@ import org.exoplatform.container.StandaloneContainer;
  */
 public class AppListener implements ServletContextListener {
 
+  private StandaloneContainer cont;
+  
   /**
    * Creates stand-alone container when context have just been initialized.
    *
@@ -46,7 +48,7 @@ public class AppListener implements ServletContextListener {
       // it's needed to switch off default behavior -- searching for /conf/portal/configuration.xml in all
       // available jars
       // StandaloneContainer.setConfigurationURL(null);
-      StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
+      cont = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader()/*sce.getClass().getClassLoader()*/,
         components);
     } catch (Exception e) {
       System.out.println(" !!! AppListener.contextInitialized exception: " + e);
@@ -59,6 +61,8 @@ public class AppListener implements ServletContextListener {
    *
    * @param sce servlet context event
    */
-  public final void contextDestroyed(final ServletContextEvent sce) { }
+  public final void contextDestroyed(final ServletContextEvent sce) {
+//    cont.stop();
+  }
 
 }

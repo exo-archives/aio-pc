@@ -81,6 +81,6 @@ function clearContent() {
 <b>Press the button below to get a piece of markup via AJAX</b>
 <br><br>
 <input type="button" id="mainbut" value="Get markup" onclick="asynchGetXMLHttpRequest()">
-<input type="hidden" id="resourceURL" value="<portlet:resourceURL />">
+<!-- input type="hidden" id="resourceURL" value="<portlet:resourceURL />" -->
 <br>
 <div id="portletcontent"><p id='resource_inactive'>Resource inactive<p></div>

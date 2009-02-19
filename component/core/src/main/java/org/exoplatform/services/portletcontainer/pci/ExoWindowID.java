@@ -180,6 +180,7 @@ public class ExoWindowID implements WindowID {
    * @return generated key
    * @see org.exoplatform.services.portletcontainer.pci.WindowID#generateKey()
    */
+  @Deprecated
   public final String generateKey() {
     return uniqueID;
   }

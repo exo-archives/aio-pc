@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -21,11 +21,9 @@ import org.exoplatform.services.wsrp2.consumer.PortletKey;
 import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 
-/*
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 8 févr. 2004
- * Time: 23:11:40
+/**
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 8
+ *         févr. 2004 Time: 23:11:40
  */
 
 public class WSRPPortletAdapter implements WSRPPortlet {
@@ -38,7 +36,16 @@ public class WSRPPortletAdapter implements WSRPPortlet {
 
   public WSRPPortletAdapter(PortletKey portletKey) {
     this.portletKey = portletKey;
-    this.parentHandle = portletKey.getPortletHandle();
+
+    if (portletKey.getPortletHandle() != null) {
+      if (portletKey.getPortletHandle().contains("/")) {
+        this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle()
+                                                                              .indexOf("/") + 1);
+      } else {
+        this.parentHandle = portletKey.getPortletHandle();
+      }
+    }
+
   }
 
   public PortletKey getPortletKey() {
@@ -52,7 +59,12 @@ public class WSRPPortletAdapter implements WSRPPortlet {
         this.portletContext.setPortletHandle(portletKey.getPortletHandle());
       }
       if (parentHandle == null) {
-        parentHandle = portletKey.getPortletHandle();
+        if (portletKey.getPortletHandle().contains("/")) {
+          this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle()
+                                                                                .indexOf("/") + 1);
+        } else {
+          this.parentHandle = portletKey.getPortletHandle();
+        }
       }
     }
   }
@@ -73,7 +85,10 @@ public class WSRPPortletAdapter implements WSRPPortlet {
   }
 
   public void setParent(String portletHandle) {
-    this.parentHandle = portletHandle;
+    if (portletHandle.contains("/"))
+      this.parentHandle = portletHandle.substring(portletHandle.indexOf("/") + 1);
+    else
+      this.parentHandle = portletHandle;
   }
 
   public boolean isConsumerConfigured() {

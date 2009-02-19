@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -30,6 +30,7 @@ import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.portletcontainer.pci.model.UserAttribute;
+import org.exoplatform.services.portletcontainer.pci.model.UserDataConstraint;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletDataImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 
@@ -42,6 +43,7 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
 
   public WSRPAdminPortletDataImp(ExoContainer cont, Map<String, String> adminPortletParams) {
     super(cont, null, null, new ArrayList<UserAttribute>(), false);
+
     portlet = new Portlet();
     portlet.setPortletName(WSRPConstants.WSRP_ADMIN_PORTLET_NAME);
     portlet.setPortletClass(WSRPConstants.WSRP_ADMIN_PORTLET_CLASS);
@@ -59,6 +61,11 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
     Supports supports = new Supports();
     supports.setMimeType("text/html");
     portlet.setSupports(supports);
+
+    //security
+    super.userAttributes = getUserAttributesList((String) adminPortletParams.get(WSRPConstants.WAP_userAttributes));
+    super.userDataConstraintType = getUserDataConstraintType((String) adminPortletParams.get(WSRPConstants.WAP_userDataConstraint));
+
     portletObj = new WSRPAdminPortlet();
     portletObj.init(cont);
   }
@@ -106,6 +113,26 @@ public class WSRPAdminPortletDataImp extends PortletDataImp {
       if (portletName.equals(WSRPConstants.WSRP_ADMIN_PORTLET_NAME))
         return true;
     return false;
+  }
+
+  // PortletData.isSecure
+  private UserDataConstraint getUserDataConstraintType(String transportGuarantee) {
+    if (transportGuarantee == null || transportGuarantee.length() == 0)
+      return null;
+    UserDataConstraint userDataConstraint = new UserDataConstraint();
+    userDataConstraint.setTransportGuarantie(transportGuarantee);
+    return userDataConstraint;
+  }
+
+  // PortletData.getUserAttributes
+  private List<UserAttribute> getUserAttributesList(String name) {
+    if (name == null || name.length() == 0)
+      return null;
+    UserAttribute userAttribute = new UserAttribute();
+    userAttribute.setName(name);
+    List<UserAttribute> userAttributeList = new ArrayList<UserAttribute>();
+    userAttributeList.add(userAttribute);
+    return userAttributeList;
   }
 
 }

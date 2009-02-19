@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -18,7 +18,6 @@
 package org.exoplatform.services.wsrp2.consumer.templates;
 
 import org.exoplatform.services.wsrp2.consumer.InitCookieInfo;
-import org.exoplatform.services.wsrp2.intf.WSRP_v2_Markup_PortType;
 
 /**
  * User: Benjamin Mestrallet Date: 11 mai 2004
@@ -29,6 +28,9 @@ public abstract class InitCookieTemplate implements InitCookieInfo {
 
   private boolean initCookieDone;
 
+  public InitCookieTemplate() {
+  }
+  
   public boolean isInitCookieRequired() {
     return initCookieRequired;
   }
@@ -44,11 +46,5 @@ public abstract class InitCookieTemplate implements InitCookieInfo {
   public void setInitCookieDone(boolean initCookieDone) {
     this.initCookieDone = initCookieDone;
   }
-
-  public abstract String getMarkupInterfaceURL();
-
-  public abstract WSRP_v2_Markup_PortType getWSRPMarkupService();
-
-  public abstract void setWSRPMarkupService(WSRP_v2_Markup_PortType markupPortType);
 
 }

@@ -18,6 +18,7 @@ package org.exoplatform.services.portletcontainer.helper;
 
 import java.io.ByteArrayInputStream;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
@@ -47,7 +48,7 @@ public class IOUtil {
     return result;
   }
 
-  static public Object deserialize(byte[] bytes) throws Exception {
+  static public Object deserialize(byte[] bytes) throws IOException, ClassNotFoundException {
     if (bytes == null)
       return null;
     ByteArrayInputStream is = new ByteArrayInputStream(bytes);

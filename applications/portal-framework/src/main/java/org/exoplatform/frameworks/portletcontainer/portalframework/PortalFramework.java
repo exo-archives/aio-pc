@@ -1476,10 +1476,13 @@ public class PortalFramework {
     ArrayList<PortletInfo> portletInfos = new ArrayList<PortletInfo>();
     for (Iterator<String> pagePortletsIterator = getPagePortlets().iterator(); pagePortletsIterator.hasNext();) {
       String plt = pagePortletsIterator.next();
-      if (portlets2render != null && portlets2render.contains(plt))
-        portletInfos.add(renderPortlet(plt));
-      else
-        portletInfos.add(Helper.createPortletInfo(this, plt));
+      if (portlets2render != null && portlets2render.contains(plt)) {
+        PortletInfo pinfo = renderPortlet(plt);
+        portletInfos.add(pinfo);
+      } else {
+        PortletInfo pinfo = Helper.createPortletInfo(this, plt);
+        portletInfos.add(pinfo);
+      }
     }
     return portletInfos;
   }

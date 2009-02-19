@@ -1,5 +1,5 @@
 /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
+ * Copyright (C) 2003-2009 eXo Platform SAS.
  *
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU Affero General Public License
@@ -24,7 +24,7 @@ import java.util.Map;
 import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp2.consumer.PortletSession;
 
-/*
+/**
  * @author  Mestrallet Benjamin
  *          benjmestrallet@users.sourceforge.net
  * Date: 9 févr. 2004
@@ -34,12 +34,17 @@ import org.exoplatform.services.wsrp2.consumer.PortletSession;
 public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
     java.io.Serializable {
 
+  private static final long serialVersionUID = 0L;
+
   protected String                      groupID;
 
   protected Map<String, PortletSession> portletSessions = new HashMap<String, PortletSession>();
 
-  public GroupSessionImpl(String groupID, String markupURL) {
-    super(markupURL);
+  public GroupSessionImpl() {
+  }
+
+  public GroupSessionImpl(String groupID, String producerID) {
+    super(producerID);
     this.groupID = groupID;
   }
 
