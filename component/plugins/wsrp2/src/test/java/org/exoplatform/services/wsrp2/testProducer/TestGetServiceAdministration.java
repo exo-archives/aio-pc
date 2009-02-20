@@ -35,7 +35,6 @@ import org.exoplatform.services.wsrp2.utils.Utils;
  */
 public class TestGetServiceAdministration extends BaseTest {
 
-
   public void setUp() throws Exception {
     super.setUp();
     log();
@@ -71,7 +70,8 @@ public class TestGetServiceAdministration extends BaseTest {
                                                           .concat(value.equalsIgnoreCase("true") ? "false"
                                                                                                 : "true");
     } else {
-      fail();
+      fail("realProps doesn't contain Key 'WSRPConfiguration.REQUIRES_REGISTRATION' = "
+          + WSRPConfiguration.REQUIRES_REGISTRATION);
     }
 
     // it changes boolean value property on a producer
@@ -89,7 +89,8 @@ public class TestGetServiceAdministration extends BaseTest {
                                                           .concat(value.equalsIgnoreCase("true") ? "false"
                                                                                                 : "true");
     } else {
-      fail();
+      fail("realProps doesn't contain Key 'WSRPConfiguration.REQUIRES_REGISTRATION' = "
+          + WSRPConfiguration.REQUIRES_REGISTRATION);
     }
 
     // it changes back boolean value property on a producer
@@ -114,7 +115,8 @@ public class TestGetServiceAdministration extends BaseTest {
       String value = realProps.get(WSRPConfiguration.REQUIRES_REGISTRATION);
       assertNotNull(value);
     } else {
-      fail();
+      fail("realProps doesn't contain Key 'WSRPConfiguration.REQUIRES_REGISTRATION' = "
+          + WSRPConfiguration.REQUIRES_REGISTRATION);
     }
   }
 

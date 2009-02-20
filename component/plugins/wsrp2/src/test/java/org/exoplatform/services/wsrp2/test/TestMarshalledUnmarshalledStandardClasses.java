@@ -55,7 +55,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
     try {
       t = StandardClasses.valueOf(toenum.toUpperCase());
     } catch (java.lang.IllegalArgumentException e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
     org.w3c.dom.Document doc = t.getMarshalledDocument(value, name);
 
@@ -82,7 +83,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
     try {
       t = StandardClasses.valueOf(toenum.toUpperCase());
     } catch (java.lang.IllegalArgumentException e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
     org.w3c.dom.Document doc = t.getMarshalledDocument(value, name);
 
@@ -113,7 +115,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
       Date outDate = sdf.parse(outDateString);
       return outDate;
     } catch (Exception e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
     return null;
   }
@@ -127,7 +130,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
       StreamResult result = new StreamResult(System.out);
       transformer.transform(source2, result);
     } catch (Exception e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
   }
 
@@ -153,7 +157,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
       Document document = builder.parse(bis1);
       messageElement = document.getDocumentElement();
     } catch (Exception e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
 
     EventPayload eventPayload = new EventPayload();
@@ -169,7 +174,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
     try {
       t2 = StandardClasses.valueOf(toenum2.toUpperCase());
     } catch (java.lang.IllegalArgumentException e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
 
     Object result = t2.getUnmarshalledObject(newEvent.getType(), newEvent.getPayload());
@@ -196,7 +202,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
       Document document = builder.parse(bis1);
       messageElement = document.getDocumentElement();
     } catch (Exception e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
 
     EventPayload eventPayload = new EventPayload();
@@ -212,7 +219,8 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
     try {
       t2 = StandardClasses.valueOf(toenum2.toUpperCase());
     } catch (java.lang.IllegalArgumentException e) {
-      fail();
+      e.printStackTrace();
+      fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
     }
 
     Object result = t2.getUnmarshalledObject(newEvent.getType(), newEvent.getPayload());
