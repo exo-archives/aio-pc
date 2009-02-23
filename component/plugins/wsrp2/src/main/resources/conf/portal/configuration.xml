@@ -28,12 +28,12 @@
     <type>org.exoplatform.services.wsrp2.producer.impl.JSR286ContainerProxyImpl</type>
   </component>
 
-  <!--  HIBERNATE storage for consumer -->
+  <!--  HIBERNATE storage for a consumer -->
   <!--  <component>-->
   <!--    <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerImpl</type>-->
   <!--  </component>-->
 
-  <!--  JCR storage for consumer -->
+  <!--  JCR storage for a consumer -->
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl</type>
     <init-params>
@@ -45,7 +45,7 @@
     </init-params>
   </component>
 
-  <!-- begin choise JCR storage type -->
+  <!-- begin selection block of JCR storage type -->
 
   <component>
     <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRrepository</type>
@@ -54,7 +54,7 @@
   <!--    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry</type>-->
   <!--  </component>-->
 
-  <!-- end choise -->
+  <!-- end selection -->
 
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.TransientStateManagerImpl</type>
@@ -68,12 +68,12 @@
     <type>org.exoplatform.services.wsrp2.consumer.impl.PortletDriverRegistryImpl</type>
   </component>
 
-  <!--  HIBERNATE storage for producer -->
+  <!--  HIBERNATE storage for a producer -->
   <!--  <component>-->
   <!--    <type>org.exoplatform.services.wsrp.consumer.impl.ProducerRegistryImpl</type>-->
   <!--  </component>-->
 
-  <!--  JCR storage for producer -->
+  <!--  JCR storage for a producer -->
   <component>
     <type>org.exoplatform.services.wsrp2.consumer.impl.ProducerRegistryJCRImpl</type>
     <init-params>
