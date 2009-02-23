@@ -466,7 +466,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>1.0-beta-2</version>
             <executions>
               <execution>
                 <id>deploysa</id>
@@ -482,10 +482,11 @@
             <configuration>
               <wait>false</wait>
               <container>
-                <containerId>tomcat5x</containerId>
+                <containerId>tomcat6x</containerId>
                 <zipUrlInstaller>
                   <url>
-                    http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip
+		    http://www.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip
+                    <!--   http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip  -->
                     <!--   http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip  -->
                   </url>
                   <installDir>
@@ -1295,7 +1296,7 @@
           <plugin>
             <groupId>org.codehaus.cargo</groupId>
             <artifactId>cargo-maven2-plugin</artifactId>
-            <version>0.3-SNAPSHOT</version>
+            <version>1.0-beta-2</version>
             <executions>
               <execution>
                 <id>stop</id>

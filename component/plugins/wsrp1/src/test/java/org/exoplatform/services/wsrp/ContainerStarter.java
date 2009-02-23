@@ -57,11 +57,11 @@ public class ContainerStarter {
 
     //Configuring & starting an Tomcat5x container
     try {
-      Installer installer = new ZipURLInstaller(new java.net.URL("http://www.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip"),
+      Installer installer = new ZipURLInstaller(new java.net.URL("http://www.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip"),
                                                 System.getProperty("java.io.tmpdir"));
       installer.install();
 
-      LocalConfiguration configuration = (LocalConfiguration) new DefaultConfigurationFactory().createConfiguration("tomcat5x",
+      LocalConfiguration configuration = (LocalConfiguration) new DefaultConfigurationFactory().createConfiguration("tomcat6x",
                                                                                                                     ContainerType.INSTALLED,
                                                                                                                     ConfigurationType.STANDALONE);
 
@@ -71,7 +71,7 @@ public class ContainerStarter {
       configuration.addDeployable(new WAR(PORTLET_WAR_PATH));
       // configuration.addDeployable(new WAR(WSRP_STARTER_PATH));
 
-      container = (InstalledLocalContainer) new DefaultContainerFactory().createContainer("tomcat5x",
+      container = (InstalledLocalContainer) new DefaultContainerFactory().createContainer("tomcat6x",
                                                                                           ContainerType.INSTALLED,
                                                                                           configuration);
 
