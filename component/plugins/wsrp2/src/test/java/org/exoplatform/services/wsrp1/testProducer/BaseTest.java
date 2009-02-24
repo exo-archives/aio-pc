@@ -267,7 +267,11 @@ public class BaseTest extends TestCase {
   }
 
   public void tearDown() throws Exception {
-
+    this.serviceDescriptionInterface = null;
+    this.markupOperationsInterface = null;
+    this.portletManagementOperationsInterface = null;
+    this.registrationOperationsInterface = null;
+    System.gc();
   }
 
   protected WS1ServiceDescription getServiceDescription(String[] locales) throws Exception {
