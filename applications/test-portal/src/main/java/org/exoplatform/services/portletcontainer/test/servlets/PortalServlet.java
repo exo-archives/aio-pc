@@ -128,10 +128,28 @@ public class PortalServlet extends HttpServlet {
           w.println("  checkPortlet.listCollapsed.value = 'true';");
           w.println("  checkPortlet.submit();");
           w.println("}");
+          w.println("function portletCheck() {");
+          w.println(" var checkbx =  document.getElementById('checkbx')");
+          w.println("  if  (checkbx.checked == true) {");
+          w.println("       checkAll();");
+          w.println("       checkbx.checked=true");
+          w.println(" } else {");
+          w.println("  unCheckAll();");
+          w.println("       checkbx.checked=false }");
+          w.println("}");
+          w.println("function setChecked(is) {");
+          w.println("   document.getElementById('checkbx').checked = is");
+          w.println("}");
           w.println("function checkAll() {");
           w.println("  for (var i = 0; i < checkPortlet.elements.length; i++)");
           w.println("    if (checkPortlet.elements[i].name.charAt(0) == 'n')");
           w.println("      checkPortlet.elements[i].checked = true;");
+          w.println("  checkPortlet.submit();");
+          w.println("}");
+          w.println("function unCheckAll() {");
+          w.println("  for (var i = 0; i < checkPortlet.elements.length; i++)");
+          w.println("    if (checkPortlet.elements[i].name.charAt(0) == 'n')");
+          w.println("      checkPortlet.elements[i].checked = false;");
           w.println("  checkPortlet.submit();");
           w.println("}");
           w.println("</script>");
@@ -149,8 +167,8 @@ public class PortalServlet extends HttpServlet {
           w.println("<table width='100%' border='1' style='border-collapse:collapse;border-style:solid;border-color:#A7A7AC'>");
           w.println("<tr><th valign='center' align='left' bgcolor='#A3A7F6' colspan='5'>"
               + "<img src=\"../img/opentriangle.gif\" onclick='listClose()' /> <font size='4' face='Verdana,Arial'>Please, select some of the following portlets :</font></th></tr>");
-          w.println("<tr><td align='center'>");
-          w.println("<input type='button' value='Check All' onClick='checkAll();'>");
+          w.println("<tr bgcolor='#DCDCDC'><td align='center'>");
+          w.println("<input type='checkbox' name='checkbx' id='checkbx'  onClick='portletCheck()'>");
           w.println("</td>");
           w.println("<td align='center'><b>Num</b></td>");
           w.println("<td align='center'><b>Portlet Id</b></td>");
@@ -158,6 +176,7 @@ public class PortalServlet extends HttpServlet {
           w.println("<td align='center'><b>Portlet Title</b></td>");
           w.println("</tr>");
           int i2 = 0;
+          boolean isCheckedAll = true;
           for (Iterator<PortletInfo> i = portletinfos.iterator(); i.hasNext();) {
             PortletInfo pinf = i.next();
             String title2 = pinf.getTitle();
@@ -165,6 +184,8 @@ public class PortalServlet extends HttpServlet {
             String myatr2str = "";
             if (pinf.isToRender())
               myatr2str = " checked";
+            else
+              isCheckedAll = false;
             i2++;
             w.println("<tr><td align='center'>");
             w.println("<input type='checkbox' name='n" + i2 + "n' ID='n" + i2 + "n'" + myatr2str
@@ -178,6 +199,9 @@ public class PortalServlet extends HttpServlet {
           w.println("</table>");
           w.println("</div>");
           w.println("</form>");
+          w.println("<script language='JavaScript'>");
+          w.println("setChecked(" + isCheckedAll + ");");
+          w.println("</script>");
         } else {
           w.println("<table width='100%' border='1'><tr><td>There's no portlet data to show</td></tr></table>");
         }
