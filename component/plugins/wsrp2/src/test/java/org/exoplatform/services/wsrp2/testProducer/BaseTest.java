@@ -352,6 +352,11 @@ public class BaseTest extends TestCase {
     if (cargoCustomStatus) {
       assertFalse(ContainerStarter.stop());
     }
+    this.serviceDescriptionInterface = null;
+    this.markupOperationsInterface = null;
+    this.portletManagementOperationsInterface = null;
+    this.registrationOperationsInterface = null;
+    System.gc();
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws Exception {
