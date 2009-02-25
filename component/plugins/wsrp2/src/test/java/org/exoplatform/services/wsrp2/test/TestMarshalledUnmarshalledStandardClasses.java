@@ -109,6 +109,10 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
    */
   private Date dateParse(String source) {
     try {
+
+      System.out.println("MMMMM:" + new Date());
+      System.out.println("NNNNNN:" + source);
+      
       String dt = "yyyy-MM-dd'T'HH:mm:ss'.'SSSZZZZZ";
       SimpleDateFormat sdf = new SimpleDateFormat(dt);
       String outDateString = source.substring(0, 26) + source.substring(27, 29);
