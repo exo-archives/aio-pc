@@ -41,12 +41,12 @@ public final class PortletSessionImpUtil {
   }
 
   /**
-   * @param id id
+   * @param windowId id
    * @param attributeName attr name
    * @param scope scope
    * @return encoded attr name
    */
-  public static String encodePortletSessionAttribute(final String id,
+  public static String encodePortletSessionAttribute(final String windowId,
       final String attributeName,
       final int scope) {
     StringBuffer sB = new StringBuffer();
@@ -55,7 +55,7 @@ public final class PortletSessionImpUtil {
       return sB.toString();
     } else if (PortletSession.PORTLET_SCOPE == scope) {
       sB.append(PORTLET_SCOPE_NAMESPACE);
-      sB.append(id);
+      sB.append(windowId);
       sB.append("?");
       sB.append(attributeName);
       return sB.toString();

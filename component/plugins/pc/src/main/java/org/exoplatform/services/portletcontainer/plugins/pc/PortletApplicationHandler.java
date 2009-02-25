@@ -217,7 +217,7 @@ public class PortletApplicationHandler {
           holder.getRoles(portletAppName),
           conf.getSupportedContent());
 
-      // @todo sort the attributes
+      // TODO sort the attributes
 
       if (isAction == PCConstants.ACTION_INT){
         portletRequest = new ActionRequestImp(reqCtx);

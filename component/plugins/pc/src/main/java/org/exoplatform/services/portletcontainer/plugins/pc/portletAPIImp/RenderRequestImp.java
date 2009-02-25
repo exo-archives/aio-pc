@@ -50,16 +50,4 @@ public class RenderRequestImp extends PortletRequestImp implements RenderRequest
     return RENDER_PHASE;
   }
 
-  /**
-   * Overridden method.
-   *
-   * @return cookies
-   * @see javax.servlet.http.HttpServletRequestWrapper#getCookies()
-   */
-  @Override
-  public final Cookie[] getCookies() {
-    // TODO Auto-generated method stub
-    return super.getCookies();
-  }
-
 }

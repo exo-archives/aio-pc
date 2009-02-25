@@ -849,9 +849,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       LOG.debug("Extract or create windows info (store in the server)");
       WindowInfosContainer windowInfosContainer = WindowInfosContainer.getInstance();
       String key = "SESSION_CONTAINER_KEY_ENCODER" + input.getInternalWindowID().generateKey();
-      if (windowInfosContainer.getInfos(key) != null)
+      if (windowInfosContainer.getInfos(key) != null) {
         windowInfos = windowInfosContainer.getInfos(key);
-      else {
+      } else {
         WindowID windowID = input.getInternalWindowID();
         Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
             .getPortletName());

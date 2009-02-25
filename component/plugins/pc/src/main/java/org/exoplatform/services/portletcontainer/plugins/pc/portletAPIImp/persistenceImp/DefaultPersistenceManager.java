@@ -34,17 +34,15 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationPr
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletPreferencesImp;
 
 /**
- * Created by The eXo Platform SAS.
- * Author : Tuan Nguyen tuan08@users.sourceforge.net
- * Date: Jun 14, 2003
- * Time: 1:12:22 PM
+ * Created by The eXo Platform SAS. Author : Tuan Nguyen
+ * tuan08@users.sourceforge.net Date: Jun 14, 2003 Time: 1:12:22 PM
  */
 public class DefaultPersistenceManager implements PersistenceManager {
 
   /**
    * Logger.
    */
-  private final Log log;
+  private final Log      log;
 
   /**
    * Exo container.
@@ -62,54 +60,60 @@ public class DefaultPersistenceManager implements PersistenceManager {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param input input
    * @param defaultPrefs prefs
    * @return portlet window internal object
-   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.PersistenceManager#getWindow(org.exoplatform.services.portletcontainer.pci.Input, org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences)
+   * @see org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persistenceImp.PersistenceManager#getWindow(org.exoplatform.services.portletcontainer.pci.Input,
+   *     
+   *     
+   *      org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences)
    */
-  public final PortletWindowInternal getWindow(final Input input, final ExoPortletPreferences defaultPrefs) {
+  public final PortletWindowInternal getWindow(final Input input,
+                                               final ExoPortletPreferences defaultPrefs) {
     WindowID windowID = input.getInternalWindowID();
-    PortletApplicationProxy proxy = (PortletApplicationProxy) cont.getComponentInstance(windowID
-        .getPortletApplicationName() + PCConstants.PORTLET_APP_ENCODER);
+
+    // getting Preferences Validator
     String validatorClassName = null;
     PreferencesValidator validator = null;
     if (defaultPrefs != null) {
       validatorClassName = defaultPrefs.getPreferencesValidator();
-      if (validatorClassName != null)
+      if (validatorClassName != null) {
+        PortletApplicationProxy proxy = (PortletApplicationProxy) cont.getComponentInstance(windowID.getPortletApplicationName()
+            + PCConstants.PORTLET_APP_ENCODER);
         validator = proxy.getValidator(validatorClassName, windowID.getPortletName());
+      }
     }
-    PortletPreferencesPersister currentPersister = null;
-    if (input.getPortletPreferencesPersister() != null)
-      currentPersister = input.getPortletPreferencesPersister();
-    else {
-      ExoContainer container = cont;
-      currentPersister = (PortletPreferencesPersister) container
-          .getComponentInstanceOfType(PortletPreferencesPersister.class);
-    }
-    PortletPreferencesImp prefsImp = null;
+
+    // going to get PortletPreferences for PortletWindowInternal
+    PortletPreferences prefsImp = null;
     if (!input.isStateSaveOnClient()) { // state save on the server
+      PortletPreferencesPersister persister = null;
+      if (input.getPortletPreferencesPersister() != null)
+        persister = input.getPortletPreferencesPersister();
+      else {
+        persister = (PortletPreferencesPersister) cont.getComponentInstanceOfType(PortletPreferencesPersister.class);
+      }
       try {
-        ExoPortletPreferences preferences = currentPersister.getPortletPreferences(windowID);
+        ExoPortletPreferences preferences = persister.getPortletPreferences(windowID);
+
+        prefsImp = new PortletPreferencesImp(validator, defaultPrefs, windowID, persister);
         if (preferences != null) {
-          prefsImp = new PortletPreferencesImp(validator, defaultPrefs, windowID, currentPersister);
-          prefsImp.setCurrentPreferences(preferences);
-          return new PortletWindowInternal(windowID, prefsImp);
+          ((PortletPreferencesImp) prefsImp).setCurrentPreferences(preferences);
         }
       } catch (Exception ex) {
         log.error("Error: ", ex);
       }
     } else { // state change kept on the client (for example consumer in WSRP)
       byte[] portletState = input.getPortletState();
-      if (portletState != null)
+      if (portletState != null) {
         try {
-          return new PortletWindowInternal(windowID, (PortletPreferences) IOUtil
-              .deserialize(portletState));
+          prefsImp = (PortletPreferences) IOUtil.deserialize(portletState);
         } catch (Exception e) {
           log.error("Error: ", e);
         }
+      }
     }
-    prefsImp = new PortletPreferencesImp(validator, defaultPrefs, windowID, currentPersister);
     return new PortletWindowInternal(windowID, prefsImp);
   }
 
