@@ -110,14 +110,27 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
   private Date dateParse(String source) {
     try {
 
-      System.out.println("MMMMM:" + new Date());
-      System.out.println("NNNNNN:" + source);
+      // on Hudson 
+      // source = "Wed Feb 25 15:43:50 UTC 2009";
+      String dt = "EEE MMM dd HH:mm:ss zzz yyyy";
       
-      String dt = "yyyy-MM-dd'T'HH:mm:ss'.'SSSZZZZZ";
       SimpleDateFormat sdf = new SimpleDateFormat(dt);
-      String outDateString = source.substring(0, 26) + source.substring(27, 29);
-      Date outDate = sdf.parse(outDateString);
-      return outDate;
+      try {
+        Date outDate = sdf.parse(source);
+        return outDate;
+      } catch (java.text.ParseException e) {
+        
+        // on Local
+        // source = "2008-12-03T13:24:00.408+02:00";
+        dt = "yyyy-MM-dd'T'HH:mm:ss'.'SSSZZZZZ";
+        source = source.substring(0, 26) + source.substring(27, 29);
+
+        sdf = new SimpleDateFormat(dt);
+        Date outDate = sdf.parse(source);
+        return outDate;
+
+      }
+
     } catch (Exception e) {
       e.printStackTrace();
       fail(e.getMessage() + e.getStackTrace()[0] + "\n" + e.getStackTrace()[0] + "\n");
@@ -184,6 +197,7 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
 
     Object result = t2.getUnmarshalledObject(newEvent.getType(), newEvent.getPayload());
     assertEquals(dateParse(dateString), result);
+
   }
 
   public void testGetUnmarshalledDocumentForString() {
