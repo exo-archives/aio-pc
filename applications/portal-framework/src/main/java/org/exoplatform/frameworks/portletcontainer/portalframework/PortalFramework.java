@@ -604,6 +604,20 @@ public class PortalFramework {
    *           portlet container
    */
   public final String addPortlet(final String appName, final String portletName) throws PortletNotFoundException {
+    String key = createPortletKey(appName, portletName);
+    return addPortletWithId(appName, portletName, key);
+  }
+  
+  /**
+   * Create portlet key for requested portlet.
+   * 
+   * @param appName portlet application name
+   * @param portletName portlet name
+   * @return unique Id
+   * @throws PortletNotFoundException requested portlet isn't registered on the
+   *           portlet container
+   */
+  private final String createPortletKey(final String appName, final String portletName) throws PortletNotFoundException {
     String key = "";
     // Block to get a unique key element. Checking hashmap, until it returns null.
     do {
@@ -613,7 +627,7 @@ public class PortalFramework {
 //          + httpSession.getId();
     } while (wins.get(key) != null);
 
-    return addPortletWithId(appName, portletName, key);
+    return key;
   }
 
   /**
