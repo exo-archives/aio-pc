@@ -110,25 +110,35 @@ public class TestMarshalledUnmarshalledStandardClasses extends TestCase {
   private Date dateParse(String source) {
     try {
 
-      // on Hudson 
+      // on Hudson new date
       // source = "Wed Feb 25 15:43:50 UTC 2009";
       String dt = "EEE MMM dd HH:mm:ss zzz yyyy";
-      
-      SimpleDateFormat sdf = new SimpleDateFormat(dt);
+
       try {
+        SimpleDateFormat sdf = new SimpleDateFormat(dt);
         Date outDate = sdf.parse(source);
         return outDate;
-      } catch (java.text.ParseException e) {
-        
-        // on Local
-        // source = "2008-12-03T13:24:00.408+02:00";
-        dt = "yyyy-MM-dd'T'HH:mm:ss'.'SSSZZZZZ";
-        source = source.substring(0, 26) + source.substring(27, 29);
+      } catch (java.text.ParseException e1) {
 
-        sdf = new SimpleDateFormat(dt);
-        Date outDate = sdf.parse(source);
-        return outDate;
+        // on Hudson from xml
+        // source = "2009-02-25T15:43:50.559Z"
+        dt = "yyyy-MM-dd'T'HH:mm:ss'.'SSS'Z'";
 
+        try {
+          SimpleDateFormat sdf = new SimpleDateFormat(dt);
+          Date outDate = sdf.parse(source);
+          return outDate;
+        } catch (java.text.ParseException e2) {
+
+          // on Local
+          // source = "2008-12-03T13:24:00.408+02:00";
+          dt = "yyyy-MM-dd'T'HH:mm:ss'.'SSSZZZZZ";
+          source = source.substring(0, 26) + source.substring(27, 29);
+
+          SimpleDateFormat sdf = new SimpleDateFormat(dt);
+          Date outDate = sdf.parse(source);
+          return outDate;
+        }
       }
 
     } catch (Exception e) {
