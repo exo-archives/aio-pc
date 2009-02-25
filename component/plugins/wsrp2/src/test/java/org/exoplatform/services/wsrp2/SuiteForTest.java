@@ -37,7 +37,7 @@ public class SuiteForTest extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/war_template2";
     System.setProperty("mock.portal.dir", newProperty);
 
-//    addTestSuite(TestMarshalledUnmarshalledStandardClasses.class);
+    addTestSuite(TestMarshalledUnmarshalledStandardClasses.class);
     addTestSuite(TestWSRPPersisterJCRregistry.class);
     addTestSuite(TestWSRPPersisterJCRrepository.class);
 
