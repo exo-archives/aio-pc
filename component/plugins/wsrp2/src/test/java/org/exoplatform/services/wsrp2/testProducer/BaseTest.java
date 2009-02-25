@@ -356,7 +356,7 @@ public class BaseTest extends TestCase {
     this.markupOperationsInterface = null;
     this.portletManagementOperationsInterface = null;
     this.registrationOperationsInterface = null;
-    System.gc();
+    //System.gc();
   }
 
   protected ServiceDescription getServiceDescription(String[] locales) throws Exception {
