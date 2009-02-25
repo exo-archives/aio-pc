@@ -50,7 +50,7 @@ public class PortalContextImp implements PortalContext {
    * @param conf PC conf
    */
   public PortalContextImp(final PortletContainerConf conf) {
-    properties = conf.getProperties();
+    this.properties = conf.getProperties();
     this.conf = conf;
   }
 

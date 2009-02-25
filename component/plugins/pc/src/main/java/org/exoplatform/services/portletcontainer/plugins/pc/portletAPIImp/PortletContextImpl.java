@@ -69,7 +69,7 @@ public class PortletContextImpl implements PortletContext, ExoPortletContext {
       final ServletContext scontext,
       final Portlet portlet) {
     this.log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
-    servletContext = scontext;
+    this.servletContext = scontext;
     this.cont = cont;
     this.portlet = portlet;
   }
