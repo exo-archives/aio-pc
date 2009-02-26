@@ -18,8 +18,6 @@
 package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
@@ -138,6 +136,12 @@ import org.exoplatform.services.wsrp2.type.UserProfile;
 
 public class WSRPTypesTransformer {
 
+  /**
+   * Gets the WS2 registration context.
+   * 
+   * @param WS1RegistrationContext
+   * @return RegistrationContext
+   */
   public static RegistrationContext getWS2RegistrationContext(WS1RegistrationContext ws1RegContext) {
     if (ws1RegContext == null) {
       return null;
@@ -148,6 +152,11 @@ public class WSRPTypesTransformer {
     return regContext;
   }
 
+  /**
+   * Gets the WS2 registration data.
+   * @param WS1RegistrationData
+   * @return RegistrationData
+   */
   public static RegistrationData getWS2RegistrationData(WS1RegistrationData ws1RegData) {
     if (ws1RegData == null) {
       return null;
@@ -164,6 +173,12 @@ public class WSRPTypesTransformer {
     return regData;
   }
 
+  /**
+   * Gets the WS2 properties.
+   * 
+   * @param List<WS1Property>
+   * @return WS2  List of properties
+   */
   public static List<Property> getWS2Properties(List<WS1Property> ws1Properties) {
     if (ws1Properties == null) {
       return null;
@@ -178,6 +193,12 @@ public class WSRPTypesTransformer {
     return properties;
   }
 
+  /**
+   * Gets the WS2 property.
+   * 
+   * @param WS1Property
+   * @return WS2 property
+   */
   public static Property getWS2Property(WS1Property ws1property) {
     if (ws1property == null) {
       return null;
@@ -189,6 +210,12 @@ public class WSRPTypesTransformer {
     return property;
   }
 
+  /**
+   * Gets the WS2 extensions.
+   * 
+   * @param List<WS1Extension>
+   * @return List<Extension>
+   */
   public static List<Extension> getWS2Extensions(List<WS1Extension> ws1Extensions) {
     if (ws1Extensions == null) {
       return null;
@@ -203,6 +230,12 @@ public class WSRPTypesTransformer {
     return extensions;
   }
 
+  /**
+   * Gets the WS2 extension.
+   * 
+   * @param  WS1Extension
+   * @return   Extension
+   */
   public static Extension getWS2Extension(WS1Extension ws1Extension) {
     if (ws1Extension == null) {
       return null;
@@ -212,6 +245,12 @@ public class WSRPTypesTransformer {
     return extension;
   }
 
+  /**
+   * Gets the WS1 extensions.
+   * 
+   * @param List<Extension>
+   * @return List<WS1Extension>
+   */
   public static List<WS1Extension> getWS1Extensions(List<Extension> extensions) {
     if (extensions == null) {
       return null;
@@ -227,6 +266,12 @@ public class WSRPTypesTransformer {
     return ws1Extensions;
   }
 
+  /**
+   * Gets the WS1 extension.
+   * 
+   * @param Extension
+   * @return WS1Extension
+   */
   public static WS1Extension getWS1Extension(Extension ext) {
     if (ext == null) {
       return null;
@@ -236,6 +281,12 @@ public class WSRPTypesTransformer {
     return ws1Extension;
   }
 
+  /**
+   * Gets the WS2 interaction params.
+   * 
+   * @param WS1InteractionParams
+   * @return InteractionParams
+   */
   public static InteractionParams getWS2InteractionParams(WS1InteractionParams ws1InteractionParams) {
     if (ws1InteractionParams == null) {
       return null;
@@ -248,6 +299,12 @@ public class WSRPTypesTransformer {
     return interactionParams;
   }
 
+  /**
+   * Gets the WS2 markup params.
+   * 
+   * @param WS1MarkupParams
+   * @return MarkupParams
+   */
   public static MarkupParams getWS2MarkupParams(WS1MarkupParams ws1MarkupParams) {
     if (ws1MarkupParams == null) {
       return null;
@@ -267,6 +324,12 @@ public class WSRPTypesTransformer {
     return markupParams;
   }
 
+  /**
+   * Gets the WS2 runtime context.
+   * 
+   * @param WS1RuntimeContext
+   * @return RuntimeContext
+   */
   public static RuntimeContext getWS2RuntimeContext(WS1RuntimeContext ws1RuntimeContext) {
     if (ws1RuntimeContext == null) {
       return null;
@@ -282,6 +345,12 @@ public class WSRPTypesTransformer {
     return runtimeContext;
   }
 
+  /**
+   * Gets the WS2 user context.
+   * 
+   * @param WS1UserContext
+   * @return UserContext
+   */
   public static UserContext getWS2UserContext(WS1UserContext ws1UserContext) {
     if (ws1UserContext == null) {
       return null;
@@ -294,6 +363,12 @@ public class WSRPTypesTransformer {
     return userContext;
   }
 
+  /**
+   * Gets the WS2 portlet context.
+   * 
+   * @param WS1PortletContext
+   * @return PortletContext
+   */
   public static PortletContext getWS2PortletContext(WS1PortletContext ws1PortletContext) {
     if (ws1PortletContext == null) {
       return null;
@@ -305,6 +380,12 @@ public class WSRPTypesTransformer {
     return portletContext;
   }
 
+  /**
+   * Gets the WS1 update response.
+   * 
+   * @param UpdateResponse
+   * @return WS1UpdateResponse
+   */
   public static WS1UpdateResponse getWS1UpdateResponse(UpdateResponse updateResponse) {
     if (updateResponse == null) {
       return null;
@@ -323,6 +404,12 @@ public class WSRPTypesTransformer {
     return ws1UpdateResponse;
   }
 
+  /**
+   * Gets the WS2 update response.
+   * 
+   * @param WS1UpdateResponse
+   * @return UpdateResponse
+   */
   public static UpdateResponse getWS2UpdateResponse(WS1UpdateResponse ws1UpdateResponse) {
     if (ws1UpdateResponse == null) {
       return null;
@@ -339,6 +426,12 @@ public class WSRPTypesTransformer {
     return updateResponse;
   }
 
+  /**
+   * Gets the WS2 upload context list.
+   * 
+   * @param List<WS1UploadContext>
+   * @return List<UploadContext>
+   */
   public static List<UploadContext> getWS2UploadContext(List<WS1UploadContext> ws1UploadContexts) {
     if (ws1UploadContexts == null) {
       return null;
@@ -352,7 +445,13 @@ public class WSRPTypesTransformer {
     }
     return uploadContexts;
   }
-
+  
+  /**
+   * Gets the WS2 state change.
+   * 
+   * @param WS1StateChange
+   * @return StateChange
+   */
   public static StateChange getWS2StateChange(WS1StateChange ws1StateChange) {
     if (ws1StateChange == null) {
       return null;
@@ -360,6 +459,12 @@ public class WSRPTypesTransformer {
     return StateChange.fromValue(ws1StateChange.value());
   }
 
+  /**
+   * Gets the WS2 form parameters list.
+   * 
+   * @param List<WS1NamedString> parameters names
+   * @return List<NamedString> parameters
+   */
   public static List<NamedString> getWS2FormParameters(List<WS1NamedString> ws1NamedStrings) {
     if (ws1NamedStrings == null) {
       return null;
@@ -374,6 +479,12 @@ public class WSRPTypesTransformer {
     return namedStrings;
   }
 
+  /**
+   * Gets the WS2 form templates.
+   * 
+   * @param WS1Templates
+   * @return Templates
+   */
   public static Templates getWS2Templates(WS1Templates ws1Templates) {
     if (ws1Templates == null) {
       return null;
@@ -391,6 +502,12 @@ public class WSRPTypesTransformer {
     return templates;
   }
 
+  /**
+   * Gets the WS2 client data.
+   * 
+   * @param WS1ClientData
+   * @return ClientData
+   */
   public static ClientData getWS2ClientData(WS1ClientData ws1ClientData) {
     if (ws1ClientData == null) {
       return null;
@@ -401,6 +518,12 @@ public class WSRPTypesTransformer {
     return clientData;
   }
 
+  /**
+   * Gets the WS2 user profile.
+   * 
+   * @param WS1UserProfile
+   * @return UserProfile
+   */
   public static UserProfile getWS2UserProfile(WS1UserProfile ws1UserProfile) {
     if (ws1UserProfile == null) {
       return null;
@@ -415,6 +538,12 @@ public class WSRPTypesTransformer {
     return userProfile;
   }
 
+  /**
+   * Gets the WS1 markup context.
+   * 
+   * @param MarkupContext
+   * @return WS1MarkupContext
+   */
   public static WS1MarkupContext getWS1MarkupContext(MarkupContext markupContext) {
     if (markupContext == null) {
       return null;
@@ -431,6 +560,12 @@ public class WSRPTypesTransformer {
     return ws1MarkupContext;
   }
 
+  /**
+   * Gets the WS1 portlet context.
+   * 
+   * @param PortletContext
+   * @return WS1PortletContext
+   */
   public static WS1PortletContext getWS1PortletContext(PortletContext portletContext) {
     if (portletContext == null) {
       return null;
@@ -442,6 +577,12 @@ public class WSRPTypesTransformer {
     return ws1PortletContext;
   }
 
+  /**
+   * Gets the WS2 markup context.
+   * 
+   * @param WS1MarkupContext
+   * @return MarkupContext
+   */
   public static MarkupContext getWS2MarkupContext(WS1MarkupContext ws1MarkupContext) {
     if (ws1MarkupContext == null) {
       return null;
@@ -458,6 +599,12 @@ public class WSRPTypesTransformer {
     return markupContext;
   }
 
+  /**
+   * Gets the WS1 session context.
+   * 
+   * @param SessionContext
+   * @return WS1SessionContext
+   */
   public static WS1SessionContext getWS1SessionContext(SessionContext sessionContext) {
     if (sessionContext == null) {
       return null;
@@ -469,6 +616,12 @@ public class WSRPTypesTransformer {
     return ws1SessionContext;
   }
 
+  /**
+   * Gets the WS2 session context.
+   * 
+   * @param WS1SessionContext
+   * @return SessionContext
+   */
   public static SessionContext getWS2SessionContext(WS1SessionContext ws1SessionContext) {
     if (ws1SessionContext == null) {
       return null;
@@ -480,6 +633,12 @@ public class WSRPTypesTransformer {
     return sessionContext;
   }
 
+  /**
+   * Gets the WS2 upload context.
+   * 
+   * @param WS1UploadContext
+   * @return UploadContext
+   */
   public static UploadContext getWS2UploadContext(WS1UploadContext ws1UploadContext) {
     if (ws1UploadContext == null) {
       return null;
@@ -492,6 +651,12 @@ public class WSRPTypesTransformer {
     return uploadContext;
   }
 
+  /**
+   * Gets the WS2 named string.
+   * 
+   * @param WS1NamedString
+   * @return NamedString
+   */
   public static NamedString getWS2NamedString(WS1NamedString ws1NamedString) {
     if (ws1NamedString == null) {
       return null;
@@ -502,6 +667,12 @@ public class WSRPTypesTransformer {
     return namedString;
   }
 
+  /**
+   * Gets the WS2 named strings list.
+   * 
+   * @param List<WS1NamedString>
+   * @return List<NamedString>
+   */
   public static List<NamedString> getWS2NamedStrings(List<WS1NamedString> ws1NamedStrings) {
     if (ws1NamedStrings == null) {
       return null;
@@ -516,6 +687,12 @@ public class WSRPTypesTransformer {
     return namedStrings;
   }
 
+  /**
+   * Gets the WS2 persom name.
+   * 
+   * @param WS1PersonName
+   * @return PersonName
+   */
   public static PersonName getWS2PersonName(WS1PersonName ws1PersonName) {
     if (ws1PersonName == null) {
       return null;
@@ -530,6 +707,12 @@ public class WSRPTypesTransformer {
     return personName;
   }
 
+  /**
+   * Gets the WS2 contact.
+   * 
+   * @param WS1Contact
+   * @return Contact
+   */
   public static Contact getWS2Contact(WS1Contact ws1Contact) {
     if (ws1Contact == null) {
       return null;
@@ -541,6 +724,12 @@ public class WSRPTypesTransformer {
     return contact;
   }
 
+  /**
+   * Gets the WS2 employer info.
+   * 
+   * @param WS1EmployerInfo
+   * @return EmployerInfo
+   */
   public static EmployerInfo getWS2EmployerInfo(WS1EmployerInfo ws1EmployerInfo) {
     if (ws1EmployerInfo == null) {
       return null;
@@ -552,6 +741,12 @@ public class WSRPTypesTransformer {
     return employerInfo;
   }
 
+  /**
+   * Gets the WS2 online.
+   * 
+   * @param WS1Online
+   * @return Online
+   */
   public static Online getWS2Online(WS1Online ws1Online) {
     if (ws1Online == null) {
       return null;
@@ -562,6 +757,12 @@ public class WSRPTypesTransformer {
     return online;
   }
 
+  /**
+   * Gets the WS2 postal.
+   * 
+   * @param WS1Postal
+   * @return Postal
+   */
   public static Postal getWS2Postal(WS1Postal ws1postal) {
     if (ws1postal == null) {
       return null;
@@ -577,6 +778,12 @@ public class WSRPTypesTransformer {
     return postal;
   }
 
+  /**
+   * Gets the WS2 telecom.
+   * 
+   * @param WS1Telecom
+   * @return Telecom
+   */
   public static Telecom getWS2Telecom(WS1Telecom ws1telecom) {
     if (ws1telecom == null) {
       return null;
@@ -589,6 +796,12 @@ public class WSRPTypesTransformer {
     return telecom;
   }
 
+  /**
+   * Gets the WS2 telephone number.
+   * 
+   * @param WS1TelephoneNum
+   * @return TelephoneNum
+   */
   public static TelephoneNum getWS2TelephoneNum(WS1TelephoneNum ws1telephoneNum) {
     if (ws1telephoneNum == null) {
       return null;
@@ -601,7 +814,13 @@ public class WSRPTypesTransformer {
     telephoneNo.setNumber(ws1telephoneNum.getNumber());
     return telephoneNo;
   }
-
+  
+  /**
+   * Gets the WS2 cache control.
+   * 
+   * @param WS1CacheControl
+   * @return CacheControl
+   */
   public static CacheControl getWS2CacheControl(WS1CacheControl ws1cacheControl) {
     if (ws1cacheControl == null) {
       return null;
@@ -613,6 +832,12 @@ public class WSRPTypesTransformer {
     return cacheControl;
   }
 
+  /**
+   * Gets the WS1 cache control.
+   * 
+   * @param CacheControl
+   * @return WS1CacheControl
+   */
   public static WS1CacheControl getWS1CacheControl(CacheControl cacheControl) {
     if (cacheControl == null) {
       return null;
@@ -624,6 +849,12 @@ public class WSRPTypesTransformer {
     return ws1cacheControl;
   }
 
+  /**
+   * Gets the WS2 portlet descriptions list.
+   * 
+   * @param List<WS1PortletDescription>
+   * @return List<PortletDescription>
+   */
   public static List<PortletDescription> getWS2PortletDescriptions(List<WS1PortletDescription> ws1portletDescriptions) {
     if (ws1portletDescriptions == null) {
       return null;
@@ -640,6 +871,12 @@ public class WSRPTypesTransformer {
     return portletDescriptions;
   }
 
+  /**
+   * Gets the WS2 portlet description.
+   * 
+   * @param WS1PortletDescription
+   * @return PortletDescription
+   */
   public static PortletDescription getWS2PortletDescription(WS1PortletDescription ws1portletDescription) {
     if (ws1portletDescription == null) {
       return null;
@@ -667,6 +904,12 @@ public class WSRPTypesTransformer {
     return portletDescription;
   }
 
+  /**
+   * Gets the WS2 item descriptions list.
+   * 
+   * @param List<WS1ItemDescription>
+   * @return List<ItemDescription>
+   */
   public static List<ItemDescription> getWS2ItemDescriptions(List<WS1ItemDescription> ws1itemDescriptions) {
     if (ws1itemDescriptions == null) {
       return null;
@@ -681,6 +924,12 @@ public class WSRPTypesTransformer {
     return itemDescriptions;
   }
 
+  /**
+   * Gets the WS2 item description.
+   * 
+   * @param WS1ItemDescription
+   * @return ItemDescription
+   */
   public static ItemDescription getWS2ItemDescription(WS1ItemDescription ws1itemDescription) {
     if (ws1itemDescription == null) {
       return null;
@@ -692,6 +941,12 @@ public class WSRPTypesTransformer {
     return itemDescription;
   }
 
+  /**
+   * Gets the WS2 cookie protocol.
+   * 
+   * @param WS1CookieProtocol
+   * @return CookieProtocol
+   */
   public static CookieProtocol getWS2CookieProtocol(WS1CookieProtocol ws1cookieProtocol) {
     if (ws1cookieProtocol == null) {
       return null;
@@ -699,6 +954,12 @@ public class WSRPTypesTransformer {
     return CookieProtocol.fromValue(ws1cookieProtocol.value());
   }
 
+  /**
+   * Gets the WS2 model description.
+   * 
+   * @param WS1ModelDescription
+   * @return ModelDescription
+   */
   public static ModelDescription getWS2ModelDescription(WS1ModelDescription ws1modelDescription) {
     if (ws1modelDescription == null) {
       return null;
@@ -711,6 +972,12 @@ public class WSRPTypesTransformer {
     return modelDescription;
   }
 
+  /**
+   * Gets the WS2 resource list.
+   * 
+   * @param WS1ResourceList
+   * @return ResourceList
+   */
   public static ResourceList getWS2ResourceList(WS1ResourceList ws1resourceList) {
     if (ws1resourceList == null) {
       return null;
@@ -721,6 +988,12 @@ public class WSRPTypesTransformer {
     return resourceList;
   }
 
+  /**
+   * Gets the WS2 localized string.
+   * 
+   * @param WS1LocalizedString
+   * @return LocalizedString
+   */
   public static LocalizedString getWS2LocalizedString(WS1LocalizedString ws1localizedString) {
     if (ws1localizedString == null) {
       return null;
@@ -732,6 +1005,12 @@ public class WSRPTypesTransformer {
     return localizedString;
   }
 
+  /**
+   * Gets the WS2 localized strings list.
+   * 
+   * @param List<WS1LocalizedString>
+   * @return List<LocalizedString>
+   */
   public static List<LocalizedString> getWS2LocalizedStrings(List<WS1LocalizedString> ws1localizedStrings) {
     if (ws1localizedStrings == null) {
       return null;
@@ -746,6 +1025,12 @@ public class WSRPTypesTransformer {
     return localizedStrings;
   }
 
+  /**
+   * Gets the WS2 markup types list.
+   * 
+   * @param List<WS1MarkupType>
+   * @return List<MarkupType>
+   */
   public static List<MarkupType> getWS2MarkupTypes(List<WS1MarkupType> ws1markupTypes) {
     if (ws1markupTypes == null) {
       return null;
@@ -760,6 +1045,12 @@ public class WSRPTypesTransformer {
     return markupTypes;
   }
 
+  /**
+   * Gets the WS2 markup type.
+   * 
+   * @param WS1MarkupType
+   * @return MarkupType
+   */
   public static MarkupType getWS2MarkupType(WS1MarkupType ws1markupType) {
     if (ws1markupType == null) {
       return null;
@@ -773,6 +1064,12 @@ public class WSRPTypesTransformer {
     return markupType;
   }
 
+  /**
+   * Gets the WS2 model types.
+   * 
+   * @param WS1ModelTypes
+   * @return ModelTypes
+   */
   public static ModelTypes getWS2ModelTypes(WS1ModelTypes ws1modelTypes) {
     if (ws1modelTypes == null) {
       return null;
@@ -782,6 +1079,12 @@ public class WSRPTypesTransformer {
     return modelTypes;
   }
 
+  /**
+   * Gets the WS2 property descriptions list.
+   * 
+   * @param List<WS1PropertyDescription>
+   * @return List<PropertyDescription>
+   */
   public static List<PropertyDescription> getWS2PropertyDescriptions(List<WS1PropertyDescription> ws1propertyDescriptions) {
     if (ws1propertyDescriptions == null) {
       return null;
@@ -796,6 +1099,12 @@ public class WSRPTypesTransformer {
     return propertyDescriptions;
   }
 
+  /**
+   * Gets the WS2 property description.
+   * 
+   * @param WS1PropertyDescription
+   * @return PropertyDescription
+   */
   public static PropertyDescription getWS2PropertyDescription(WS1PropertyDescription ws1propertyDescription) {
     if (ws1propertyDescription == null) {
       return null;
@@ -808,6 +1117,12 @@ public class WSRPTypesTransformer {
     return propertyDescription;
   }
 
+  /**
+   * Gets the WS2  resources list.
+   * 
+   * @param List<WS1Resource>
+   * @return List<Resource>
+   */
   public static List<Resource> getWS2Resources(List<WS1Resource> ws1resources) {
     if (ws1resources == null) {
       return null;
@@ -822,6 +1137,12 @@ public class WSRPTypesTransformer {
     return resources;
   }
 
+  /**
+   * Gets the WS2 resource.
+   * 
+   * @param WS1Resource
+   * @return Resource
+   */
   public static Resource getWS2Resource(WS1Resource ws1resource) {
     if (ws1resource == null) {
       return null;
@@ -833,6 +1154,12 @@ public class WSRPTypesTransformer {
     return resource;
   }
 
+  /**
+   * Gets the WS2 resource values list.
+   * 
+   * @param List<WS1ResourceValue>
+   * @return List<ResourceValue>
+   */
   public static List<ResourceValue> getWS2ResourceValues(List<WS1ResourceValue> ws1resourceValues) {
     if (ws1resourceValues == null) {
       return null;
@@ -847,6 +1174,12 @@ public class WSRPTypesTransformer {
     return resourceValues;
   }
 
+  /**
+   * Gets the WS2 resource value.
+   * 
+   * @param WS1ResourceValue
+   * @return ResourceValue
+   */
   public static ResourceValue getWS2ResourceValue(WS1ResourceValue ws1resourceValue) {
     if (ws1resourceValue == null) {
       return null;
@@ -858,6 +1191,12 @@ public class WSRPTypesTransformer {
     return resourceValue;
   }
 
+  /**
+   * Gets the WS1 portlet descriptions list.
+   * 
+   * @param List<PortletDescription>
+   * @return List<WS1PortletDescription>
+   */
   public static List<WS1PortletDescription> getWS1PortletDescriptions(List<PortletDescription> portletDescriptions) {
     if (portletDescriptions == null) {
       return null;
@@ -874,6 +1213,12 @@ public class WSRPTypesTransformer {
     return ws1portletDescriptions;
   }
 
+  /**
+   * Gets the WS1 portlet description.
+   * 
+   * @param PortletDescription
+   * @return WS1PortletDescription
+   */
   public static WS1PortletDescription getWS1PortletDescription(PortletDescription portletDescription) {
     if (portletDescription == null) {
       return null;
@@ -900,6 +1245,12 @@ public class WSRPTypesTransformer {
     return ws1portletDescription;
   }
 
+  /**
+   * Gets the WS1 item description.
+   * 
+   * @param ItemDescription
+   * @return WS1ItemDescription
+   */
   public static WS1ItemDescription getWS1ItemDescription(ItemDescription itemDescription) {
     if (itemDescription == null) {
       return null;
@@ -911,6 +1262,12 @@ public class WSRPTypesTransformer {
     return ws1itemDescription;
   }
 
+  /**
+   * Gets the WS1 cookie protocol.
+   * 
+   * @param CookieProtocol
+   * @return WS1CookieProtocol
+   */
   public static WS1CookieProtocol getWS1CookieProtocol(CookieProtocol cookieProtocol) {
     if (cookieProtocol == null) {
       return null;
@@ -918,6 +1275,12 @@ public class WSRPTypesTransformer {
     return WS1CookieProtocol.fromValue(cookieProtocol.value());
   }
 
+  /**
+   * Gets the WS1 model description.
+   * 
+   * @param ModelDescription
+   * @return WS1ModelDescription
+   */
   public static WS1ModelDescription getWS1ModelDescription(ModelDescription modelDescription) {
     if (modelDescription == null) {
       return null;
@@ -930,6 +1293,12 @@ public class WSRPTypesTransformer {
     return ws1modelDescription;
   }
 
+  /**
+   * Gets the WS1 resource list.
+   * 
+   * @param ResourceList
+   * @return WS1ResourceList
+   */
   public static WS1ResourceList getWS1ResourceList(ResourceList resourceList) {
     if (resourceList == null) {
       return null;
@@ -940,6 +1309,12 @@ public class WSRPTypesTransformer {
     return ws1resourceList;
   }
 
+  /**
+   * Gets the WS1 localized string.
+   * 
+   * @param LocalizedString
+   * @return WS1LocalizedString
+   */
   public static WS1LocalizedString getWS1LocalizedString(LocalizedString localizedString) {
     if (localizedString == null) {
       return null;
@@ -951,6 +1326,12 @@ public class WSRPTypesTransformer {
     return ws1localizedString;
   }
 
+  /**
+   * Gets the WS1 localized strings list.
+   * 
+   * @param List<LocalizedString>
+   * @return List<WS1LocalizedString>
+   */
   public static List<WS1LocalizedString> getWS1LocalizedStrings(List<LocalizedString> localizedStrings) {
     if (localizedStrings == null) {
       return null;
@@ -966,6 +1347,12 @@ public class WSRPTypesTransformer {
     return ws1localizedStrings;
   }
 
+  /**
+   * Gets the WS1 markup types list.
+   * 
+   * @param List<MarkupType>
+   * @return List<WS1MarkupType>
+   */
   public static List<WS1MarkupType> getWS1MarkupTypes(List<MarkupType> markupTypes) {
     if (markupTypes == null) {
       return null;
@@ -980,6 +1367,12 @@ public class WSRPTypesTransformer {
     return ws1markupTypes;
   }
 
+  /**
+   * Gets the WS1 markup type.
+   * 
+   * @param MarkupType
+   * @return WS1MarkupType
+   */
   public static WS1MarkupType getWS1MarkupType(MarkupType markupType) {
     if (markupType == null) {
       return null;
@@ -993,6 +1386,12 @@ public class WSRPTypesTransformer {
     return ws1markupType;
   }
 
+  /**
+   * Gets the WS1 model types.
+   * 
+   * @param ModelTypes
+   * @return WS1ModelTypes
+   */
   public static WS1ModelTypes getWS1ModelTypes(ModelTypes modelTypes) {
     if (modelTypes == null) {
       return null;
@@ -1002,6 +1401,12 @@ public class WSRPTypesTransformer {
     return ws1modelTypes;
   }
 
+  /**
+   * Gets the WS1 property descriptions list.
+   * 
+   * @param List<PropertyDescription>
+   * @return List<WS1PropertyDescription>
+   */
   public static List<WS1PropertyDescription> getWS1PropertyDescriptions(List<PropertyDescription> propertyDescriptions) {
     if (propertyDescriptions == null) {
       return null;
@@ -1016,6 +1421,12 @@ public class WSRPTypesTransformer {
     return ws1propertyDescriptions;
   }
 
+  /**
+   * Gets the WS1 property description.
+   * 
+   * @param PropertyDescription
+   * @return WS1PropertyDescription
+   */
   public static WS1PropertyDescription getWS1PropertyDescription(PropertyDescription propertyDescription) {
     if (propertyDescription == null) {
       return null;
@@ -1028,6 +1439,12 @@ public class WSRPTypesTransformer {
     return ws1propertyDescription;
   }
 
+  /**
+   * Gets the WS1 resources list.
+   * 
+   * @param List<Resource>
+   * @return List<WS1Resource>
+   */
   public static List<WS1Resource> getWS1Resources(List<Resource> resources) {
     if (resources == null) {
       return null;
@@ -1042,6 +1459,12 @@ public class WSRPTypesTransformer {
     return ws1resources;
   }
 
+  /**
+   * Gets the WS1 resource.
+   * 
+   * @param Resource
+   * @return WS1Resource
+   */
   public static WS1Resource getWS1Resource(Resource resource) {
     if (resource == null) {
       return null;
@@ -1053,6 +1476,12 @@ public class WSRPTypesTransformer {
     return ws1resource;
   }
 
+  /**
+   * Gets the WS1 resource values list.
+   * 
+   * @param List<ResourceValue>
+   * @return List<WS1ResourceValue>
+   */
   public static List<WS1ResourceValue> getWS1ResourceValues(List<ResourceValue> resourceValues) {
     if (resourceValues == null) {
       return null;
@@ -1067,6 +1496,12 @@ public class WSRPTypesTransformer {
     return ws1resourceValues;
   }
 
+  /**
+   * Gets the WS1 resource value.
+   * 
+   * @param ResourceValue
+   * @return WS1ResourceValue
+   */
   public static WS1ResourceValue getWS1ResourceValue(ResourceValue resourceValue) {
     if (resourceValue == null) {
       return null;
@@ -1078,6 +1513,12 @@ public class WSRPTypesTransformer {
     return ws1resourceValue;
   }
 
+  /**
+   * Gets the WS1 item descriptions list.
+   * 
+   * @param List<ItemDescription>
+   * @return List<WS1ItemDescription>
+   */
   public static List<WS1ItemDescription> getWS1ItemDescriptions(List<ItemDescription> itemDescription) {
     if (itemDescription == null) {
       return null;
@@ -1092,6 +1533,12 @@ public class WSRPTypesTransformer {
     return ws1ItemDescriptions;
   }
 
+  /**
+   * Gets the WS2 reset properties list.
+   * 
+   * @param List<WS1ResetProperty>
+   * @return List<ResetProperty>
+   */
   public static List<ResetProperty> getWS2ResetProperties(List<WS1ResetProperty> ws1resetProperties) {
     if (ws1resetProperties == null) {
       return null;
@@ -1106,6 +1553,12 @@ public class WSRPTypesTransformer {
     return resetProperties;
   }
 
+  /**
+   * Gets the WS1 reset property list.
+   * 
+   * @param WS1PropertyList
+   * @return PropertyList
+   */
   public static PropertyList getWS2PropertyList(WS1PropertyList ws1propertyList) {
     if (ws1propertyList == null) {
       return null;
@@ -1117,6 +1570,12 @@ public class WSRPTypesTransformer {
     return propertyList;
   }
 
+  /**
+   * Gets the WS2 reset property.
+   * 
+   * @param WS1ResetProperty
+   * @return ResetProperty
+   */
   public static ResetProperty getWS2ResetProperty(WS1ResetProperty ws1resetProperty) {
     if (ws1resetProperty == null) {
       return null;
@@ -1126,6 +1585,12 @@ public class WSRPTypesTransformer {
     return resetProperty;
   }
 
+  /**
+   * Gets the WS1 reset properties list.
+   * 
+   * @param List<ResetProperty>
+   * @return List<WS1ResetProperty>
+   */
   public static List<WS1ResetProperty> getWS1ResetProperties(List<ResetProperty> resetProperties) {
     if (resetProperties == null) {
       return null;
@@ -1140,6 +1605,12 @@ public class WSRPTypesTransformer {
     return ws1resetProperties;
   }
 
+  /**
+   * Gets the WS1 reset property list.
+   * 
+   * @param PropertyList
+   * @return WS1PropertyList
+   */
   public static WS1PropertyList getWS1PropertyList(PropertyList propertyList) {
     if (propertyList == null) {
       return null;
@@ -1151,6 +1622,12 @@ public class WSRPTypesTransformer {
     return ws1propertyList;
   }
 
+  /**
+   * Gets the WS1 reset property.
+   * 
+   * @param ResetProperty
+   * @return WS1ResetProperty
+   */
   public static WS1ResetProperty getWS1ResetProperty(ResetProperty resetProperty) {
     if (resetProperty == null) {
       return null;
@@ -1160,6 +1637,12 @@ public class WSRPTypesTransformer {
     return ws1resetProperty;
   }
 
+  /**
+   * Gets the WS1  properties list.
+   * 
+   * @param List<Property>
+   * @return List<WS1Property>
+   */
   public static List<WS1Property> getWS1Properties(List<Property> properties) {
     if (properties == null) {
       return null;
@@ -1174,6 +1657,12 @@ public class WSRPTypesTransformer {
     return ws1properties;
   }
 
+  /**
+   * Gets the WS1  property.
+   * 
+   * @param Property
+   * @return WS1Property
+   */
   public static WS1Property getWS1Property(Property property) {
     if (property == null) {
       return null;
@@ -1185,6 +1674,12 @@ public class WSRPTypesTransformer {
     return ws1property;
   }
 
+  /**
+   * Gets the WS1 templates.
+   * 
+   * @param Templates
+   * @return WS1Templates
+   */
   public static WS1Templates getWS1Templates(Templates templates) {
     if (templates == null) {
       return null;
@@ -1201,6 +1696,12 @@ public class WSRPTypesTransformer {
     return ws1templates;
   }
 
+  /**
+   * Gets the WS1 service description.
+   * 
+   * @param ServiceDescription
+   * @return WS1ServiceDescription
+   */
   public static WS1ServiceDescription getWS1ServiceDescription(ServiceDescription sd) {
     if (sd == null) {
       return null;
@@ -1220,6 +1721,12 @@ public class WSRPTypesTransformer {
     return ws1sd;
   }
 
+  /**
+   * Gets the WS1 registration context.
+   * 
+   * @param RegistrationContext
+   * @return WS1RegistrationContext
+   */
   public static WS1RegistrationContext getWS1RegistrationContext(RegistrationContext rc) {
     if (rc == null) {
       return null;
@@ -1230,6 +1737,12 @@ public class WSRPTypesTransformer {
     return ws1rContext;
   }
 
+  /**
+   * Gets the WS1 registration data.
+   * 
+   * @param RegistrationData
+   * @return WS1RegistrationData
+   */
   public static WS1RegistrationData getWS1RegistrationData(RegistrationData rd) {
     if (rd == null) {
       return null;
@@ -1246,6 +1759,12 @@ public class WSRPTypesTransformer {
     return ws1rData;
   }
 
+  /**
+   * Gets the WS1 destroy failed list.
+   * 
+   * @param List<FailedPortlets>
+   * @return List<WS1DestroyFailed>
+   */
   public static List<WS1DestroyFailed> getWS1DestroyFailed(List<FailedPortlets> fp) {
     if (fp == null) {
       return null;
@@ -1260,6 +1779,12 @@ public class WSRPTypesTransformer {
     return ws1destroyfaileds;
   }
 
+  /**
+   * Gets the WS1 destroy failed.
+   * 
+   * @param FailedPortlets
+   * @return WS1DestroyFailed
+   */
   public static WS1DestroyFailed getWS1DestroyFailed(FailedPortlets fp) {
     if (fp == null) {
       return null;
@@ -1271,6 +1796,12 @@ public class WSRPTypesTransformer {
     return ws1destroyFailed;
   }
 
+  /**
+   * Gets the WS1 runtime context.
+   * 
+   * @param RuntimeContext
+   * @return WS1RuntimeContext
+   */
   public static WS1RuntimeContext getWS1RuntimeContext(RuntimeContext runtimeContext) {
     if (runtimeContext == null) {
       return null;
@@ -1285,6 +1816,12 @@ public class WSRPTypesTransformer {
     return ws1RuntimeContext;
   }
 
+  /**
+   * Gets the WS1 runtime context.
+   * 
+   * @param UserContext
+   * @return WS1UserContext
+   */
   public static WS1UserContext getWS1UserContext(UserContext userContext) {
     if (userContext == null) {
       return null;
@@ -1297,6 +1834,12 @@ public class WSRPTypesTransformer {
     return null;
   }
 
+  /**
+   * Gets the WS1 user profile.
+   * 
+   * @param UserProfile
+   * @return WS1UserProfile
+   */
   public static WS1UserProfile getWS1Profile(UserProfile profile) {
     if (profile == null) {
       return null;
@@ -1312,6 +1855,12 @@ public class WSRPTypesTransformer {
     return null;
   }
 
+  /**
+   * Gets the WS1 contact.
+   * 
+   * @param Contact
+   * @return WS1Contact
+   */
   public static WS1Contact getWS1Contact(Contact homeInfo) {
     if (homeInfo == null) {
       return null;
@@ -1324,6 +1873,12 @@ public class WSRPTypesTransformer {
     return ws1Contact;
   }
 
+  /**
+   * Gets the WS1 online.
+   * 
+   * @param Online
+   * @return WS1Online
+   */
   public static WS1Online getWS1Online(Online online) {
     if (online == null) {
       return null;
@@ -1335,6 +1890,12 @@ public class WSRPTypesTransformer {
     return ws1Online;
   }
 
+  /**
+   * Gets the WS1 online.
+   * 
+   * @param Telecom
+   * @return WS1Telecom
+   */
   public static WS1Telecom getWS1Telacom(Telecom telecom) {
     if (telecom == null) {
       return null;
@@ -1348,6 +1909,12 @@ public class WSRPTypesTransformer {
     return ws1Telecom;
   }
 
+  /**
+   * Gets the WS1 telephone num.
+   * 
+   * @param TelephoneNum
+   * @return WS1TelephoneNum
+   */
   public static WS1TelephoneNum getWS1TelephoneNum(TelephoneNum telephone) {
     if (telephone == null) {
       return null;
@@ -1361,6 +1928,12 @@ public class WSRPTypesTransformer {
     return ws1TelephoneNum;
   }
 
+  /**
+   * Gets the WS1 portal.
+   * 
+   * @param Postal
+   * @return WS1Postal
+   */
   public static WS1Postal getWS1Postal(Postal postal) {
     if (postal == null) {
       return null;
@@ -1377,6 +1950,12 @@ public class WSRPTypesTransformer {
     return ws1Postal;
   }
 
+  /**
+   * Gets the WS1 employer info.
+   * 
+   * @param EmployerInfo
+   * @return WS1EmployerInfo
+   */
   public static WS1EmployerInfo getWS1EmployerInfo(EmployerInfo employerInfo) {
     if (employerInfo == null) {
       return null;
@@ -1389,6 +1968,12 @@ public class WSRPTypesTransformer {
     return ws1EmployerInfo;
   }
 
+  /**
+   * Gets the WS1 person name.
+   * 
+   * @param PersonName
+   * @return WS1PersonName
+   */
   public static WS1PersonName getWS1PersonName(PersonName name) {
     if (name == null) {
       return null;
@@ -1404,6 +1989,12 @@ public class WSRPTypesTransformer {
     return ws1PersonName;
   }
 
+  /**
+   * Gets the WS1 markup params.
+   * 
+   * @param MarkupParams
+   * @return WS1MarkupParams
+   */
   public static WS1MarkupParams getWS1MarkupParams(MarkupParams markupParams) {
     if (markupParams == null) {
       return null;
@@ -1424,6 +2015,12 @@ public class WSRPTypesTransformer {
     return ws1MarkupParams;
   }
 
+  /**
+   * Gets the WS1 client data.
+   * 
+   * @param ClientData
+   * @return WS1ClientData
+   */
   public static WS1ClientData getWS1ClientData(ClientData clientData) {
     if (clientData == null) {
       return null;
@@ -1434,6 +2031,12 @@ public class WSRPTypesTransformer {
     return ws1ClientData;
   }
 
+  /**
+   * Gets the WS1 interaction params.
+   * 
+   * @param InteractionParams
+   * @return WS1InteractionParams
+   */
   public static WS1InteractionParams getWS1InteractionParams(InteractionParams interactionParams) {
     if (interactionParams == null) {
       return null;
@@ -1447,6 +2050,12 @@ public class WSRPTypesTransformer {
     return ws1InteractionParams;
   }
 
+  /**
+   * Gets the WS1 upload contexts list.
+   * 
+   * @param List<UploadContext>
+   * @return List<WS1UploadContext>
+   */
   public static List<WS1UploadContext> getWS1UploadContexts(List<UploadContext> uploadContexts) {
     if (uploadContexts == null) {
       return null;
@@ -1461,6 +2070,12 @@ public class WSRPTypesTransformer {
     return ws1uploadContexts;
   }
 
+  /**
+   * Gets the WS1 upload context.
+   * 
+   * @param UploadContext
+   * @return WS1UploadContext
+   */
   public static WS1UploadContext getWS1UploadContext(UploadContext uploadContext) {
     WS1UploadContext ws1UploadContext = new WS1UploadContext();
     ws1UploadContext.setMimeType(uploadContext.getMimeType());
@@ -1470,6 +2085,12 @@ public class WSRPTypesTransformer {
     return ws1UploadContext;
   }
 
+  /**
+   * Gets the WS1 named strings list.
+   * 
+   * @param List<NamedString>
+   * @return List<WS1NamedString>
+   */
   public static List<WS1NamedString> getWS1NamedStrings(List<NamedString> namedStrings) {
     if (namedStrings == null) {
       return null;
@@ -1484,6 +2105,12 @@ public class WSRPTypesTransformer {
     return ws1namedStrings;
   }
 
+  /**
+   * Gets the WS1 named string.
+   * 
+   * @param NamedString
+   * @return WS1NamedString
+   */
   public static WS1NamedString getWS1NamedString(NamedString namedString) {
     WS1NamedString ws1NamedString = new WS1NamedString();
     ws1NamedString.setName(namedString.getName());
@@ -1491,6 +2118,12 @@ public class WSRPTypesTransformer {
     return ws1NamedString;
   }
 
+  /**
+   * Gets the WS1 state change.
+   * 
+   * @param StateChange
+   * @return WS1StateChange
+   */
   public static WS1StateChange getWS1StateChange(StateChange portletStateChange) {
     if (portletStateChange == null) {
       return null;
@@ -1498,6 +2131,12 @@ public class WSRPTypesTransformer {
     return WS1StateChange.fromValue(portletStateChange.value());
   }
 
+  /**
+   * Gets the WS1 failed portlets list.
+   * 
+   * @param List<WS1DestroyFailed>
+   * @return List<FailedPortlets>
+   */
   public static List<FailedPortlets> getWS2FailedPortlets(List<WS1DestroyFailed> destroyFaileds) {
     if (destroyFaileds == null) {
       return null;
@@ -1512,6 +2151,12 @@ public class WSRPTypesTransformer {
     return failedPortletss;
   }
 
+  /**
+   * Gets the WS2 failed portlets.
+   * 
+   * @param WS1DestroyFailed
+   * @return FailedPortlets
+   */
   public static FailedPortlets getWS2FailedPortlets(WS1DestroyFailed ws1DestroyFailed) {
     if (ws1DestroyFailed == null) {
       return null;
@@ -1526,6 +2171,12 @@ public class WSRPTypesTransformer {
     return failedPortlets;
   }
 
+  /**
+   * Gets the WS2 servide description.
+   * 
+   * @param WS1GetServiceDescription
+   * @return GetServiceDescription
+   */
   public static GetServiceDescription getWS2GetServiceDescription(WS1GetServiceDescription ws1GetServiceDescription) {
     GetServiceDescription getServiceDescription = new GetServiceDescription();
     getServiceDescription.setRegistrationContext(getWS2RegistrationContext(ws1GetServiceDescription
@@ -1536,6 +2187,12 @@ public class WSRPTypesTransformer {
     return getServiceDescription;
   }
 
+  /**
+   * Gets the WS2 markup.
+   * 
+   * @param WS1GetMarkup
+   * @return GetMarkup
+   */
   public static GetMarkup getWS2GetMarkup(WS1GetMarkup ws1GetMarkup) {
     GetMarkup getMarkup = new GetMarkup();
     getMarkup.setMarkupParams(getWS2MarkupParams(ws1GetMarkup.getMarkupParams()));
@@ -1546,6 +2203,12 @@ public class WSRPTypesTransformer {
     return getMarkup;
   }
 
+  /**
+   * Gets the WS1 markup response.
+   * 
+   * @param MarkupResponse
+   * @return WS1MarkupResponse
+   */
   public static WS1MarkupResponse getWS1MarkupResponse(MarkupResponse ws2MarkupResponse) {
     WS1MarkupResponse ws1MarkupResponse = new WS1MarkupResponse();
     ws1MarkupResponse.setMarkupContext(getWS1MarkupContext(ws2MarkupResponse.getMarkupContext()));
@@ -1557,6 +2220,12 @@ public class WSRPTypesTransformer {
     return ws1MarkupResponse;
   }
 
+  /**
+   * Gets the WS2 clone portlet.
+   * 
+   * @param WS1ClonePortlet
+   * @return ClonePortlet
+   */
   public static ClonePortlet getWS2ClonePortlet(WS1ClonePortlet ws1ClonePortlet) {
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setPortletContext(getWS2PortletContext(ws1ClonePortlet.getPortletContext()));
@@ -1566,6 +2235,12 @@ public class WSRPTypesTransformer {
     return clonePortlet;
   }
 
+  /**
+   * Gets the WS2 set portlet properties.
+   * 
+   * @param WS1SetPortletProperties
+   * @return SetPortletProperties
+   */
   public static SetPortletProperties getWS2SetPortletProperties(WS1SetPortletProperties ws1SetPortletProperties) {
     SetPortletProperties setPortletProperties = new SetPortletProperties();
     setPortletProperties.setPortletContext(getWS2PortletContext(ws1SetPortletProperties.getPortletContext()));
@@ -1576,6 +2251,12 @@ public class WSRPTypesTransformer {
     return setPortletProperties;
   }
 
+  /**
+   * Gets the WS2 perform blocking interaction.
+   * 
+   * @param WS1PerformBlockingInteraction
+   * @return PerformBlockingInteraction
+   */
   public static PerformBlockingInteraction getWS2PerformBlockingInteraction(WS1PerformBlockingInteraction ws1PerformBlockingInteraction) {
     PerformBlockingInteraction performBlockingInteraction = new PerformBlockingInteraction();
     performBlockingInteraction.setInteractionParams(getWS2InteractionParams(ws1PerformBlockingInteraction
@@ -1591,6 +2272,12 @@ public class WSRPTypesTransformer {
     return performBlockingInteraction;
   }
 
+  /**
+   * Gets the WS1 blocking interaction response.
+   * 
+   * @param BlockingInteractionResponse
+   * @return WS1BlockingInteractionResponse
+   */
   public static WS1BlockingInteractionResponse getWS1BlockingInteractionResponse(BlockingInteractionResponse ws2PerformBlockingInteraction) {
     WS1BlockingInteractionResponse ws1BlockingInteractionResponse = new WS1BlockingInteractionResponse();
     ws1BlockingInteractionResponse.setRedirectURL(ws2PerformBlockingInteraction.getRedirectURL());
@@ -1601,6 +2288,12 @@ public class WSRPTypesTransformer {
     return ws1BlockingInteractionResponse;
   }
 
+  /**
+   * Gets the WS2 portlet properties.
+   * 
+   * @param WS1GetPortletProperties
+   * @return GetPortletProperties
+   */
   public static GetPortletProperties getWS2GetPortletProperties(WS1GetPortletProperties ws1GetPortletProperties) {
     GetPortletProperties getPortletProperties = new GetPortletProperties();
     getPortletProperties.setPortletContext(getWS2PortletContext(ws1GetPortletProperties.getPortletContext()));
@@ -1611,6 +2304,12 @@ public class WSRPTypesTransformer {
     return getPortletProperties;
   }
 
+  /**
+   * Gets the WS2 destroy portlets.
+   * 
+   * @param WS1DestroyPortlets
+   * @return DestroyPortlets
+   */
   public static DestroyPortlets getWS2DestroyPortlets(WS1DestroyPortlets ws1DestroyPortlets) {
     DestroyPortlets destroyPortlets = new DestroyPortlets();
     destroyPortlets.setRegistrationContext(getWS2RegistrationContext(ws1DestroyPortlets.getRegistrationContext()));
@@ -1619,6 +2318,12 @@ public class WSRPTypesTransformer {
     return destroyPortlets;
   }
 
+  /**
+   * Gets the WS1 destroy portlets response.
+   * 
+   * @param DestroyPortletsResponse
+   * @return WS1DestroyPortletsResponse
+   */
   public static WS1DestroyPortletsResponse getWS1DestroyPortletsResponse(DestroyPortletsResponse ws2DestroyPortlets) {
     WS1DestroyPortletsResponse ws1DestroyPortletsResponse = new WS1DestroyPortletsResponse();
     ws1DestroyPortletsResponse.getDestroyFailed().addAll(getWS1DestroyFailed(ws2DestroyPortlets.getFailedPortlets()));
@@ -1626,6 +2331,12 @@ public class WSRPTypesTransformer {
     return ws1DestroyPortletsResponse;
   }
 
+  /**
+   * Gets the WS2 release sessions.
+   * 
+   * @param WS1ReleaseSessions
+   * @return ReleaseSessions
+   */
   public static ReleaseSessions getWS2ReleaseSessions(WS1ReleaseSessions ws1ReleaseSessions) {
     ReleaseSessions releaseSessions = new ReleaseSessions();
     releaseSessions.setRegistrationContext(getWS2RegistrationContext(ws1ReleaseSessions.getRegistrationContext()));
@@ -1634,6 +2345,12 @@ public class WSRPTypesTransformer {
     return releaseSessions;
   }
 
+  /**
+   * Gets the WS2 modify registration.
+   * 
+   * @param WS1ModifyRegistration
+   * @return ModifyRegistration
+   */
   public static ModifyRegistration getWS2ModifyRegistration(WS1ModifyRegistration ws1ModifyRegistration) {
     ModifyRegistration modifyRegistration = new ModifyRegistration();
     modifyRegistration
@@ -1643,6 +2360,12 @@ public class WSRPTypesTransformer {
     return modifyRegistration;
   }
 
+  /**
+   * Gets the WS1 registration state.
+   * 
+   * @param RegistrationState
+   * @return WS1RegistrationState
+   */
   public static WS1RegistrationState getWS1RegistrationState(RegistrationState ws2ModifyRegistration) {
     WS1RegistrationState ws1RegistrationState = new WS1RegistrationState();
     ws1RegistrationState.setRegistrationState(ws2ModifyRegistration.getRegistrationState());
