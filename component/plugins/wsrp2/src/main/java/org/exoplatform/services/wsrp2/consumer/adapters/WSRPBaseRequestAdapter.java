@@ -34,130 +34,268 @@ import org.exoplatform.services.wsrp2.type.NamedString;
 
 public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
-  // For RuntimeContext
+  /** 
+   * Session ID.
+   *         For RuntimeContext 
+   */
   private String        sessionID;
 
+  /** 
+   *  Portlet instance key.
+   */
   private String        portletInstanceKey;
 
-  // For NavigationalContext
+  /** 
+   *  Navigational state.
+   */
   private String        navigationalState;
 
+  /** 
+   *  Navigational values.
+   */
   private List<NamedString> navigationalValues;       //WSRP2
 
-  // For MimeRequest (There are MarkupParams and ResourceParams which extends MimeRequest)
+  /** 
+   *  Secure client communication.
+   */
   private boolean       secureClientCommunication; //WSRP2
 
+  /** 
+   *  Locales.
+   */
   private List<String>      locales = new ArrayList<String>();
 
+  /** 
+   *  MIME types.
+   */
   private List<String>      mimeTypes = new ArrayList<String>();
 
+  /** 
+   *  Portlet mode.
+   */
   private String        mode;
 
+  /** 
+   *  Window state.
+   */
   private String        windowState;
 
+  /** 
+   *  Client data.
+   */
   private ClientData    clientData;
 
+  /** 
+   *  Markup character set. 
+   */
   private List<String>      markupCharacterSets = new ArrayList<String>();
 
+  /** 
+   *  Validate tag.
+   */
   private String        validateTag;              //WSRP2
 
+  /** 
+   *  Valid portlet modes. 
+   */
   private List<String>      validNewModes = new ArrayList<String>();
 
+  /** 
+   *  Valid window states.
+   */
   private List<String>      validNewWindowStates = new ArrayList<String>();
 
+  /** 
+   *  Extensions.
+   */
   private List<Extension>   extensions;               //WSRP2
 
-  // UNKNOWN
+  /** 
+   *  User authentication. 
+   */
   private String        userAuthentication;
 
+  /**
+   * Gets session ID.
+   * @return String sessionID
+   */
   public String getSessionID() {
     return sessionID;
   }
 
+  /**
+   * Sets session ID.
+   * @param  sessionID
+   */
   public void setSessionID(String sessionID) {
     this.sessionID = sessionID;
   }
 
+  /**
+   * Gets portlet instance key.
+   * @return String portletInstanceKey
+   */
   public String getPortletInstanceKey() {
     return portletInstanceKey;
   }
 
+  /**
+   * Sets portlet instance key.
+   * @param  portletInstanceKey
+   */
   public void setPortletInstanceKey(String portletInstanceKey) {
     this.portletInstanceKey = portletInstanceKey;
   }
 
+  /**
+   * Gets navigational state.
+   * @return String navigationalState
+   */
   public String getNavigationalState() {
     return navigationalState;
   }
 
+  /**
+   * Sets navigational state.
+   * @param  navigationalState
+   */
   public void setNavigationalState(String navigationalState) {
     this.navigationalState = navigationalState;
   }
 
+  /**
+   * Gets window state.
+   * @return String windowState
+   */
   public String getWindowState() {
     return windowState;
   }
 
+  /**
+   * Sets window state.
+   * @param  windowState
+   */
   public void setWindowState(String windowState) {
     this.windowState = windowState;
   }
 
+  /**
+   * Gets portlet mode.
+   * @return String mode
+   */
   public String getMode() {
     return mode;
   }
 
+  /**
+   * Sets portlet mode.
+   * @param mode
+   */
   public void setMode(String mode) {
     this.mode = mode;
   }
 
+  /**
+   * Gets client data.
+   * @return ClientData
+   */
   public ClientData getClientData() {
     return clientData;
   }
 
+  /**
+   * Sets client data.
+   * @param clientData
+   */
   public void setClientData(ClientData clientData) {
     this.clientData = clientData;
   }
 
+  /**
+   * Gets locales.
+   * @return locales
+   */
   public List<String> getLocales() {
     return locales;
   }
 
+  /**
+   * Sets locales.
+   * @param locales
+   */
   public void setLocales(List<String> locales) {
     this.locales = locales;
   }
 
+  /**
+   * Gets new portlet modes.
+   * @return validNewModes
+   */
   public List<String> getValidNewModes() {
     return validNewModes;
   }
 
+  /**
+   * Sets new portlet modes.
+   * @param validNewModes
+   */
   public void setValidNewModes(List<String> validNewModes) {
     this.validNewModes = validNewModes;
   }
 
+  /**
+   * Gets new window states.
+   * @return validNewWindowStates
+   */
   public List<String> getValidNewWindowStates() {
     return validNewWindowStates;
   }
 
+  /**
+   * Sets new window states.
+   * @param validNewWindowStates
+   */
   public void setValidNewWindowStates(List<String> validNewWindowStates) {
     this.validNewWindowStates = validNewWindowStates;
   }
 
+  /**
+   * Gets new MIME types.
+   * @return mimeTypes
+   */
   public List<String> getMimeTypes() {
     return mimeTypes;
   }
 
+  /**
+   * Sets new MIME types.
+   * @param mimeTypes
+   */
   public void setMimeTypes(List<String> mimeTypes) {
     this.mimeTypes = mimeTypes;
   }
 
+  /**
+   * Gets markup character set.
+   * @return markupCharacterSets
+   */
   public List<String> getMarkupCharacterSets() {
     return markupCharacterSets;
   }
 
+  /**
+   * Sets markup character set.
+   * @param markupCharacterSets
+   */
   public void setMarkupCharacterSets(List<String> markupCharacterSets) {
     this.markupCharacterSets = markupCharacterSets;
   }
 
+  /**
+   * Gets is mode supported.
+   * @param wsrpMode
+   * @return isModeSupported
+   */
   public boolean isModeSupported(String wsrpMode) {
     if (wsrpMode == null) {
       throw new IllegalArgumentException("mode must not be null");
@@ -166,6 +304,11 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
     return mods.contains(wsrpMode);
   }
 
+  /**
+   * Gets is window state supported.
+   * @param wsrpWindowState
+   * @return isWindowStateSupported
+   */
   public boolean isWindowStateSupported(String wsrpWindowState) {
     if (wsrpWindowState == null) {
       throw new IllegalArgumentException("window state must not be null");
@@ -174,45 +317,82 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
     return stats.contains(wsrpWindowState);
   }
 
-  // WSRP2
-
+  /**
+   * Gets navigational values.
+   * @return navigationalValues
+   */
   public List<NamedString> getNavigationalValues() {
     return navigationalValues;
   }
 
+  /**
+   * Sets navigational values.
+   * @param navigationalValues
+   */
   public void setNavigationalValues(List<NamedString> navigationalValues) {
     this.navigationalValues = navigationalValues;
   }
 
+  /**
+   * Gets validate tag.
+   * @return validateTag
+   */
   public String getValidateTag() {
     return validateTag;
   }
 
+  /**
+   * Sets validate tag.
+   * @param validateTag
+   */
   public void setValidateTag(String validateTag) {
     this.validateTag = validateTag;
   }
 
+  /**
+   * Gets extensions.
+   * @return extensions
+   */
   public List<Extension> getExtensions() {
     return extensions;
   }
 
+  /**
+   * Sets extensions.
+   * @param extensions
+   */
   public void setExtensions(List<Extension> extensions) {
     this.extensions = extensions;
   }
 
+  /**
+   * Gets is secure client communication.
+   * @return secureClientCommunication
+   */
   public boolean isSecureClientCommunication() {
     return secureClientCommunication;
   }
 
+  /**
+   * Sets is secure client communication.
+   * @param secureClientCommunication
+   */
   public void setSecureClientCommunication(boolean secureClientCommunication) {
     this.secureClientCommunication = secureClientCommunication;
   }
 
-  // UNKNOWN
+  /**
+   * Gets user authentication.
+   * @return userAuthentication
+   */
   public String getUserAuthentication() {
     return userAuthentication;
   }
 
+  /**
+   * Sets user authentication.
+   * @param userAuthentication
+   */
   public void setUserAuthentication(String userAuthentication) {
     this.userAuthentication = userAuthentication;
   }
