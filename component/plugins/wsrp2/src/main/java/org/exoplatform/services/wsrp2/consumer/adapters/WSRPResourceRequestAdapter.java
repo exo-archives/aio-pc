@@ -31,74 +31,152 @@ import org.exoplatform.services.wsrp2.type.UploadContext;
 public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implements
     WSRPResourceRequest {
 
+  /** 
+   *  Form parameters.
+   */
   private List<NamedString>   formParameters;
 
+  /** 
+   *  Upload contexts.
+   */
   private List<UploadContext> uploadContexts;      //WSRP2
 
+  /** 
+   *  Resource ID.
+   */
   private String          resourceID;
 
+  /** 
+   *  Portlet state change.
+   */
   private StateChange     portletStateChange;  //WSRP2
 
+  /** 
+   *  Resource state.
+   */
   private String          resourceState;
 
+  /** 
+   *  Resource cacheability.
+   */
   private String          resourceCacheability; //WSRP2
 
+  /** 
+   *  cached resource.
+   */
   private ResourceContext cachedResource;
 
+  
+  /**
+   * Gets chached resource.
+   * @return  cachedResource
+   */
   public ResourceContext getCachedResource() {
     return cachedResource;
   }
 
+  /**
+   * Sets chached resource.
+   * @param  cachedResource
+   */
   public void setCachedResource(ResourceContext cachedResource) {
     this.cachedResource = cachedResource;
   }
 
+  /**
+   * Gets resource state.
+   * @return  resourceState
+   */
   public String getResourceState() {
     return resourceState;
   }
 
+  /**
+   * Sets resource state.
+   * @param  resourceState
+   */
   public void setResourceState(String resourceState) {
     this.resourceState = resourceState;
   }
 
+  /**
+   * Gets form parameters.
+   * @return  formParameters
+   */
   public List<NamedString> getFormParameters() {
     return formParameters;
   }
 
+  /**
+   * Sets form parameters.
+   * @param  formParameters
+   */
   public void setFormParameters(List<NamedString> formParameters) {
     this.formParameters = formParameters;
   }
 
+  /**
+   * Gets resource ID.
+   * @return  resourceID
+   */
   public String getResourceID() {
     return resourceID;
   }
 
+  /**
+   * Sets resource ID.
+   * @param  resourceID
+   */
   public void setResourceID(String resourceID) {
     this.resourceID = resourceID;
   }
 
   // WSRP2
 
+  /**
+   * Gets upload contexts.
+   * @return  uploadContexts
+   */
   public List<UploadContext> getUploadContexts() {
     return uploadContexts;
   }
 
+  /**
+   * Sets upload contexts.
+   * @param  uploadContexts
+   */
   public void setUploadContexts(List<UploadContext> uploadContexts) {
     this.uploadContexts = uploadContexts;
   }
 
+  /**
+   * Gets portlet state change.
+   * @return  portletStateChange
+   */
   public StateChange getPortletStateChange() {
     return portletStateChange;
   }
 
+  /**
+   * Sets portlet state change.
+   * @param  portletStateChange
+   */
   public void setPortletStateChange(StateChange portletStateChange) {
     this.portletStateChange = portletStateChange;
   }
 
+  /**
+   * Gets resource cacheability.
+   * @return  resourceCacheability
+   */
   public String getResourceCacheability() {
     return resourceCacheability;
   }
 
+  /**
+   * Sets resource cacheability.
+   * @param  resourceCacheability
+   */
   public void setResourceCacheability(String resourceCacheability) {
     this.resourceCacheability = resourceCacheability;
   }

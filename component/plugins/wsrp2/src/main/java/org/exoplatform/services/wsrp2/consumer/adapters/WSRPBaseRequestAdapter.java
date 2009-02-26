@@ -26,7 +26,7 @@ import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.NamedString;
 
 /**
- * @author  Mestrallet Benjamin
+ * @author  Mestrallet Benjamin.
  *          benjmestrallet@users.sourceforge.net
  * Date: 7 févr. 2004
  * Time: 16:25:12

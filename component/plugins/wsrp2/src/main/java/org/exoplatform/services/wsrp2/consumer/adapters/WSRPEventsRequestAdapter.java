@@ -29,10 +29,20 @@ import org.exoplatform.services.wsrp2.type.StateChange;
  */
 public class WSRPEventsRequestAdapter extends WSRPBaseRequestAdapter implements WSRPEventsRequest {
 
+  /** 
+   *  Events.
+   */
   private List<Event> events;
 
+  /** 
+   *  Portlet state change.
+   */
   private StateChange portletStateChange;
 
+  /**
+   * Gets events.
+   * @return  events
+   */
   public List<Event> getEvents() {
     if (events == null) {
       events = new ArrayList<Event>();
@@ -40,10 +50,18 @@ public class WSRPEventsRequestAdapter extends WSRPBaseRequestAdapter implements 
     return this.events;
   }
 
+  /**
+   * Gets portlet state change.
+   * @return  portletStateChange
+   */
   public StateChange getPortletStateChange() {
     return portletStateChange;
   }
 
+  /**
+   * Sets portlet state change.
+   * @param  portletStateChange
+   */
   public void setPortletStateChange(StateChange portletStateChange) {
     this.portletStateChange = portletStateChange;
   }

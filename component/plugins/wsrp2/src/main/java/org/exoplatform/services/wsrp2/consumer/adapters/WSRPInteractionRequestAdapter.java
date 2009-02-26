@@ -25,7 +25,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.UploadContext;
 
 /**
- * @author  Mestrallet Benjamin
+ * @author  Mestrallet Benjamin.
  *          benjmestrallet@users.sourceforge.net
  * Date: 7 févr. 2004
  * Time: 16:26:36
@@ -34,42 +34,86 @@ import org.exoplatform.services.wsrp2.type.UploadContext;
 public class WSRPInteractionRequestAdapter extends WSRPBaseRequestAdapter implements
     WSRPInteractionRequest {
 
+  /** 
+   *  State change.
+   */
   private StateChange     portletStateChange; //WSRP2
 
+  /** 
+   *  Interaction state.
+   */
   private String          interactionState;
 
+  /** 
+   *  From parameters.
+   */
   private List<NamedString>   formParameters;
 
+  /** 
+   *  Upload context.
+   */
   private List<UploadContext> uploadContexts;    //WSRP2
 
+  /**
+   * Gets interaction state.
+   * @return  interactionState
+   */
   public String getInteractionState() {
     return interactionState;
   }
 
+  /**
+   * Sets interaction state.
+   * @param  interactionState
+   */
   public void setInteractionState(String interactionState) {
     this.interactionState = interactionState;
   }
 
+  /**
+   * Gets form parameters.
+   * @return  formParameters
+   */
   public List<NamedString> getFormParameters() {
     return formParameters;
   }
 
+  /**
+   * Sets form parameters.
+   * @param  formParameters
+   */
   public void setFormParameters(List<NamedString> formParameters) {
     this.formParameters = formParameters;
   }
 
+  /**
+   * Gets portlet state change.
+   * @return  portletStateChange
+   */
   public StateChange getPortletStateChange() {
     return portletStateChange;
   }
 
+  /**
+   * Sets portlet state change.
+   * @param  portletStateChange
+   */
   public void setPortletStateChange(StateChange portletStateChange) {
     this.portletStateChange = portletStateChange;
   }
 
+  /**
+   * Gets upload context.
+   * @return  uploadContexts
+   */
   public List<UploadContext> getUploadContexts() {
     return uploadContexts;
   }
 
+  /**
+   * Sets upload context.
+   * @param  uploadContexts
+   */
   public void setUploadContexts(List<UploadContext> uploadContexts) {
     this.uploadContexts = uploadContexts;
   }

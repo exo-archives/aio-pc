@@ -21,7 +21,7 @@ import org.exoplatform.services.wsrp2.consumer.WSRPMarkupRequest;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 
 /**
- * @author  Mestrallet Benjamin
+ * @author  Mestrallet Benjamin.
  *          benjmestrallet@users.sourceforge.net
  * Date: 7 févr. 2004
  * Time: 17:46:06
@@ -29,12 +29,23 @@ import org.exoplatform.services.wsrp2.type.MarkupContext;
 
 public class WSRPMarkupRequestAdapter extends WSRPBaseRequestAdapter implements WSRPMarkupRequest {
 
+  /** 
+   *  Markup context.
+   */
   private MarkupContext cachedMarkup;
 
+  /**
+   * Gets markup context.
+   * @return  cachedMarkup
+   */
   public MarkupContext getCachedMarkup() {
     return cachedMarkup;
   }
 
+  /**
+   * Sets markup context.
+   * @param  cachedMarkup
+   */
   public void setCachedMarkup(MarkupContext cachedMarkup) {
     this.cachedMarkup = cachedMarkup;
   }
