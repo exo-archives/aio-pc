@@ -35,9 +35,17 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
   private static final Log LOG = ExoLogger.getLogger(WSRPV0ServiceAdministrationPortTypeAdapter.class);
   
   
+  /** 
+   * The service administration port. 
+   */
   private WSRPV0ServiceAdministrationPortType serviceAdministrationPort;
 
 
+  /**
+   * Instantiates a new wSRP v0 service administration port type adapter.
+   * 
+   * @param address the address
+   */
   public WSRPV0ServiceAdministrationPortTypeAdapter(String address) {
     JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
     client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
@@ -48,6 +56,13 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
     this.serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) obj;
   }
 
+  /**
+   * Gets the service administration.
+   * 
+   * @param propString the prop string
+   * 
+   * @return the service administration
+   */
   public Map<String, String> getServiceAdministration(String propString) {
     javax.xml.ws.Holder<String> properties = new javax.xml.ws.Holder<String>(propString);
     serviceAdministrationPort.getServiceAdministration(properties);
