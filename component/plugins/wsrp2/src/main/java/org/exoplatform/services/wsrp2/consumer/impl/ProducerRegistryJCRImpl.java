@@ -43,16 +43,34 @@ import org.picocontainer.Startable;
  */
 public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
+  /**
+   *  Last modified time.  
+   */
   private long                  lastModifiedTime_;
-
+  
+  /**
+   *  Producers map.  
+   */
   private Map<String, Producer> producers;
 
+  /**
+   *  Logger.  
+   */
   private Log                   LOG;
 
+  /**
+   *  Container.  
+   */
   private ExoContainer          cont;
 
+  /**
+   *  WSRP persister.  
+   */
   private WSRPPersister         persister;
 
+  /**
+   *  WSRP path.  
+   */
   private String                path;
 
   /**

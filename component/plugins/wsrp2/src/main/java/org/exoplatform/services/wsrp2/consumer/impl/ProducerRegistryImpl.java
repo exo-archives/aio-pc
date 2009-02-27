@@ -40,19 +40,41 @@ import org.hibernate.Session;
  *         févr. 2004 Time: 23:04:48
  */
 public class ProducerRegistryImpl implements ProducerRegistry {
+  
+  /**
+   *  Query all producer.  
+   */
   private static final String   queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
 
+  /**
+   *  Query V2 producer.  
+   */
   private static final String   queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
                                                      + "where pd.id = ?";
 
+  /**
+   *  Last modified time.  
+   */
   private long                  lastModifiedTime_;
 
+  /**
+   *  Producers map.  
+   */
   private Map<String, Producer> producers;
 
+  /**
+   *  Hibernate service.  
+   */
   private HibernateService      hservice_;
 
+  /**
+   *  Logger.  
+   */
   private Log                   log_;
 
+  /**
+   *  Container.  
+   */
   protected ExoContainer        cont;
 
   public ProducerRegistryImpl(ExoContainerContext ctx, HibernateService dbService) throws ConfigurationException {
