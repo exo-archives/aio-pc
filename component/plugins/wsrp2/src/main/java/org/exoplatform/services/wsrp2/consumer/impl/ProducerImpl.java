@@ -67,34 +67,79 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 
 public class ProducerImpl implements Producer, java.io.Serializable {
 
+  /**
+   *  The serialVersionUID.
+   */
   private static final long                                  serialVersionUID = 1L;
 
+  /**
+   *  Name.
+   */
   private String                                             name;
 
+  /**
+   *  ID.
+   */
   private String                                             ID;
 
+  /**
+   *  Decription.
+   */
   private String                                             description;
 
+  /**
+   *  Service description adapter.
+   */
   private transient WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter;
 
+  /**
+   *  Markup adapter.
+   */
   private transient WSRPMarkupPortTypeAdapterAPI             markupAdapter;
 
+  /**
+   *  Portlet management adapter.
+   */
   private transient WSRPPortletManagementPortTypeAdapterAPI  portletManagementAdapter;
 
+  /**
+   *  Registration adapter.
+   */
   private transient WSRPRegistrationPortTypeAdapterAPI       registrationAdapter;
 
+  /**
+   *  Service description.
+   */
   private ServiceDescription                                 serviceDescription;
 
+  /**
+   *  Registration data.
+   */
   private RegistrationData                                   registrationData;
 
+  /**
+   *  Registration context.
+   */
   private RegistrationContext                                registrationContext;
 
+  /**
+   *  Desired locales.
+   */
   private List<String>                                       desiredLocales   = new ArrayList<String>();
 
+  /**
+   *  URL.
+   */
   private URL                                                url;
 
+  /**
+   *  Version ID.
+   */
   private int                                                version          = 2;
 
+  /**
+   *  Logger.
+   */
   private static final Log                                   LOG              = ExoLogger.getLogger(ProducerImpl.class);
 
   public ProducerImpl(ExoContainer container, String producerURL, Integer version) {
