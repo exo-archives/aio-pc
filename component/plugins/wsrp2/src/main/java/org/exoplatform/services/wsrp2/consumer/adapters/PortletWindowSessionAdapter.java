@@ -34,42 +34,90 @@ import org.exoplatform.services.wsrp2.type.ResourceContext;
 
 public class PortletWindowSessionAdapter implements PortletWindowSession {
 
+  /**
+   * Window ID.
+   */
   private String            windowID;
 
+  /**
+   * Portlet session.
+   */
   private PortletSession    portletSession;
 
+  /**
+   * Markup context.
+   */
   private MarkupContext     markupContext;
 
+  /**
+   * Navigational state.
+   */
   private String            navigationalState;
 
+  /**
+   * Resource context.
+   */
   private ResourceContext   resourceContext;
 
+  /**
+   * Navigational values.
+   */
   private List<NamedString> navigationalValues;
 
+  /**
+   * Interaction state.
+   */
   private String            interactionState;
 
+  /**
+   * Resource state.
+   */
   private String            resourceState;
 
+  /**
+   * Get window ID.
+   * @return windowID
+   */
   public String getWindowID() {
     return windowID;
   }
 
+  /**
+   * Set window ID.
+   * @param windowID String
+   */
   public void setWindowID(String windowID) {
     this.windowID = windowID;
   }
 
+  /**
+   * Get markup context.
+   * @return markupContext
+   */
   public MarkupContext getCachedMarkup() {
     return markupContext;
   }
 
+  /**
+   * Set markup context.
+   * @param markupContext MarkupContext
+   */
   public void updateMarkupCache(MarkupContext markupContext) {
     this.markupContext = markupContext;
   }
 
+  /**
+   * Get portlet session.
+   * @return portletSession
+   */
   public PortletSession getPortletSession() {
     return portletSession;
   }
 
+  /**
+   * Set portlet session.
+   * @param  portletSession PortletSession
+   */
   public void setPortletSession(PortletSession portletSession) {
     this.portletSession = portletSession;
   }
@@ -82,52 +130,100 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 //    this.markupContext = markupContext;
 //  }
 
+  /**
+   * Get navigational state.
+   * @return navigationalState
+   */
   public String getNavigationalState() {
     return navigationalState;
   }
 
+  /**
+   * Set navigational state.
+   * @param navigationalState String
+   */
   public void setNavigationalState(String navigationalState) {
     this.navigationalState = navigationalState;
   }
 
   // WSRP 2
 
+  /**
+   * Get cached resource.
+   * @return resourceContext
+   */
   public ResourceContext getCachedResource() {
     return this.resourceContext;
   }
 
+  /**
+   * Update resource cache.
+   * @param resourceContext ResourceContext
+   */
   public void updateResourceCache(ResourceContext resourceContext) {
     this.resourceContext = resourceContext;
   }
 
+  /**
+   * Get resource context.
+   * @return resourceContext
+   */
   public ResourceContext getResourceContext() {
     return resourceContext;
   }
 
+  /**
+   * Set resource context.
+   * @param  resourceContext ResourceContext
+   */
   public void setResourceContext(ResourceContext resourceContext) {
     this.resourceContext = resourceContext;
   }
 
+  /**
+   * Get navigational values.
+   * @return navigationalValues
+   */
   public List<NamedString> getNavigationalValues() {
     return navigationalValues;
   }
 
+  /**
+   * Set navigational values.
+   * @param navigationalValues List
+   */
   public void setNavigationalValues(List<NamedString> navigationalValues) {
     this.navigationalValues = navigationalValues;
   }
 
+  /**
+   * Get interaction state.
+   * @return interactionState
+   */
   public String getInteractionState() {
     return interactionState;
   }
 
+  /**
+   * Set interaction state.
+   * @param interactionState String
+   */
   public void setInteractionState(String interactionState) {
     this.interactionState = interactionState;
   }
 
+  /**
+   * Get resource state.
+   * @return resourceState
+   */
   public String getResourceState() {
     return resourceState;
   }
 
+  /**
+   * Set resource state.
+   * @param resourceState String
+   */
   public void setResourceState(String resourceState) {
     this.resourceState = resourceState;
   }

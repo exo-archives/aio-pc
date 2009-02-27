@@ -28,22 +28,44 @@ import org.exoplatform.services.wsrp2.consumer.PortletKey;
 
 public class PortletKeyAdapter implements PortletKey {
 
+  /**
+   * Portlet handle.
+   */
   private String portletHandle;
 
+  /**
+   * Producer ID.
+   */
   private String producerId;
 
+  /**
+   * Get portlet handle.
+   * @return portletHandle
+   */
   public String getPortletHandle() {
     return portletHandle;
   }
 
+  /**
+   * Set portlet handle.
+   * @param portletHandle String
+   */
   public void setPortletHandle(String portletHandle) {
     this.portletHandle = portletHandle;
   }
 
+  /**
+   * Get producer ID.
+   * @return producerId
+   */
   public String getProducerId() {
     return producerId;
   }
 
+  /**
+   * Set producer ID.
+   * @parem producerId String
+   */
   public void setProducerId(String producerId) {
     this.producerId = producerId;
   }
