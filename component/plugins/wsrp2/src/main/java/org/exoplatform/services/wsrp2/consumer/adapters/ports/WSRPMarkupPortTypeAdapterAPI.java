@@ -56,6 +56,29 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
  */
 public interface WSRPMarkupPortTypeAdapterAPI {
 
+  /**
+   * Gets the markup.
+   * 
+   * @param getMarkup the get markup
+   * 
+   * @return the markup
+   * 
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   */
   public MarkupResponse getMarkup(GetMarkup getMarkup) throws AccessDenied,
                                                       ResourceSuspended,
                                                       UnsupportedMimeType,
@@ -72,6 +95,30 @@ public interface WSRPMarkupPortTypeAdapterAPI {
                                                       OperationFailed,
                                                       UnsupportedLocale;
 
+  /**
+   * Gets the resource.
+   * 
+   * @param getResource the get resource
+   * 
+   * @return the resource
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   */
   public ResourceResponse getResource(GetResource getResource) throws OperationNotSupported,
                                                               AccessDenied,
                                                               ResourceSuspended,
@@ -89,6 +136,30 @@ public interface WSRPMarkupPortTypeAdapterAPI {
                                                               OperationFailed,
                                                               UnsupportedLocale;
 
+  /**
+   * Perform blocking interaction.
+   * 
+   * @param performBlockingInteraction the perform blocking interaction
+   * 
+   * @return the blocking interaction response
+   * 
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   * @throws PortletStateChangeRequired the portlet state change required
+   */
   public BlockingInteractionResponse performBlockingInteraction(PerformBlockingInteraction performBlockingInteraction) throws AccessDenied,
                                                                                                                       ResourceSuspended,
                                                                                                                       UnsupportedMimeType,
@@ -106,6 +177,31 @@ public interface WSRPMarkupPortTypeAdapterAPI {
                                                                                                                       UnsupportedLocale,
                                                                                                                       PortletStateChangeRequired;
 
+  /**
+   * Handle events.
+   * 
+   * @param handleEvents the handle events
+   * 
+   * @return the handle events response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   * @throws PortletStateChangeRequired the portlet state change required
+   */
   public HandleEventsResponse handleEvents(HandleEvents handleEvents) throws OperationNotSupported,
                                                                      AccessDenied,
                                                                      ResourceSuspended,
@@ -124,6 +220,20 @@ public interface WSRPMarkupPortTypeAdapterAPI {
                                                                      UnsupportedLocale,
                                                                      PortletStateChangeRequired;
 
+  /**
+   * Inits the cookie.
+   * 
+   * @param initCookie the init cookie
+   * 
+   * @return the list< extension>
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   */
   public List<Extension> initCookie(InitCookie initCookie) throws OperationNotSupported,
                                                     AccessDenied,
                                                     ResourceSuspended,
@@ -131,6 +241,21 @@ public interface WSRPMarkupPortTypeAdapterAPI {
                                                     ModifyRegistrationRequired,
                                                     OperationFailed;
 
+  /**
+   * Release sessions.
+   * 
+   * @param releaseSessions the release sessions
+   * 
+   * @return the list< extension>
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws OperationFailed the operation failed
+   */
   public List<Extension> releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
                                                                    AccessDenied,
                                                                    ResourceSuspended,

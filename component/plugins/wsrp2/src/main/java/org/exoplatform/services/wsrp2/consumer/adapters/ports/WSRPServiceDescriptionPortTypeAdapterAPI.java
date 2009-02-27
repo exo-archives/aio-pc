@@ -32,6 +32,18 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
  */
 public interface WSRPServiceDescriptionPortTypeAdapterAPI {
 
+  /**
+   * Gets the service description.
+   * 
+   * @param serviceDescription the service description
+   * 
+   * @return the service description
+   * 
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   */
   public ServiceDescription getServiceDescription(GetServiceDescription serviceDescription) throws ResourceSuspended,
                                                                                            InvalidRegistration,
                                                                                            ModifyRegistrationRequired,

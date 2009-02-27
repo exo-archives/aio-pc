@@ -45,21 +45,72 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  */
 public interface WSRPRegistrationPortTypeAdapterAPI {
 
+  /**
+   * Register.
+   * 
+   * @param register the register
+   * 
+   * @return the registration context
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws MissingParameters the missing parameters
+   * @throws OperationFailed the operation failed
+   */
   public RegistrationContext register(Register register) throws OperationNotSupported,
                                                         MissingParameters,
                                                         OperationFailed;
 
+  /**
+   * Deregister.
+   * 
+   * @param deregister the deregister
+   * 
+   * @return the list< extension>
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws OperationFailed the operation failed
+   */
   public List<Extension> deregister(Deregister deregister) throws OperationNotSupported,
                                                     ResourceSuspended,
                                                     InvalidRegistration,
                                                     OperationFailed;
 
+  /**
+   * Modify registration.
+   * 
+   * @param modifyRegistration the modify registration
+   * 
+   * @return the registration state
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws MissingParameters the missing parameters
+   * @throws OperationFailed the operation failed
+   */
   public RegistrationState modifyRegistration(ModifyRegistration modifyRegistration) throws OperationNotSupported,
                                                                                     ResourceSuspended,
                                                                                     InvalidRegistration,
                                                                                     MissingParameters,
                                                                                     OperationFailed;
 
+  /**
+   * Gets the registration lifetime.
+   * 
+   * @param getRegistrationLifetime the get registration lifetime
+   * 
+   * @return the registration lifetime
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   */
   public Lifetime getRegistrationLifetime(GetRegistrationLifetime getRegistrationLifetime) throws OperationNotSupported,
                                                                                           AccessDenied,
                                                                                           ResourceSuspended,
@@ -68,6 +119,21 @@ public interface WSRPRegistrationPortTypeAdapterAPI {
                                                                                           ModifyRegistrationRequired,
                                                                                           OperationFailed;
 
+  /**
+   * Sets the registration lifetime.
+   * 
+   * @param setRegistrationLifetime the set registration lifetime
+   * 
+   * @return the lifetime
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   */
   public Lifetime setRegistrationLifetime(SetRegistrationLifetime setRegistrationLifetime) throws OperationNotSupported,
                                                                                           AccessDenied,
                                                                                           ResourceSuspended,
