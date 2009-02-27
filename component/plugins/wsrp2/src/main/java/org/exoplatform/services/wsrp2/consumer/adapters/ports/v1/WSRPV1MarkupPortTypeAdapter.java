@@ -89,14 +89,24 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  */
 public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI {
 
+  /** The markup port. */
   private WSRPV1MarkupPortType markupPort;
 
+  /** The Constant LOG. */
   private static final Log     LOG = ExoLogger.getLogger(WSRPV1MarkupPortTypeAdapter.class);
 
+  /**
+   * Instantiates a new wSRP v1 markup port type adapter.
+   * 
+   * @param markupPort the markup port
+   */
   public WSRPV1MarkupPortTypeAdapter(WSRPV1MarkupPortType markupPort) {
     this.markupPort = markupPort;
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI#getMarkup(org.exoplatform.services.wsrp2.type.GetMarkup)
+   */
   public MarkupResponse getMarkup(GetMarkup getMarkup) throws AccessDenied,
                                                       ResourceSuspended,
                                                       UnsupportedMimeType,
@@ -182,6 +192,9 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
 
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI#getResource(org.exoplatform.services.wsrp2.type.GetResource)
+   */
   public ResourceResponse getResource(GetResource getResource) throws OperationNotSupported,
                                                               AccessDenied,
                                                               ResourceSuspended,
@@ -204,6 +217,9 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI#performBlockingInteraction(org.exoplatform.services.wsrp2.type.PerformBlockingInteraction)
+   */
   public BlockingInteractionResponse performBlockingInteraction(PerformBlockingInteraction performBlockingInteraction) throws AccessDenied,
                                                                                                                       ResourceSuspended,
                                                                                                                       UnsupportedMimeType,
@@ -294,6 +310,9 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
 
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI#handleEvents(org.exoplatform.services.wsrp2.type.HandleEvents)
+   */
   public HandleEventsResponse handleEvents(HandleEvents handleEvents) throws OperationNotSupported,
                                                                      AccessDenied,
                                                                      ResourceSuspended,
@@ -318,6 +337,9 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     return null;
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI#initCookie(org.exoplatform.services.wsrp2.type.InitCookie)
+   */
   public List<Extension> initCookie(InitCookie initCookie) throws OperationNotSupported,
                                                           AccessDenied,
                                                           ResourceSuspended,
@@ -346,6 +368,9 @@ public class WSRPV1MarkupPortTypeAdapter implements WSRPMarkupPortTypeAdapterAPI
     return WSRPTypesTransformer.getWS2Extensions(_initCookie__return); // in a WSRP2 we have t oreturn just one Extension
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI#releaseSessions(org.exoplatform.services.wsrp2.type.ReleaseSessions)
+   */
   public List<Extension> releaseSessions(ReleaseSessions releaseSessions) throws OperationNotSupported,
                                                                          AccessDenied,
                                                                          ResourceSuspended,
