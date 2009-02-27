@@ -38,37 +38,135 @@ import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.ResourceList;
 
+// TODO: Auto-generated Javadoc
 /**
+ * The Interface PortletContainerProxy.
+ * 
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface PortletContainerProxy {
 
+  /**
+   * Checks if is portlet offered.
+   * 
+   * @param portletHandle the portlet handle
+   * 
+   * @return true, if is portlet offered
+   */
   public boolean isPortletOffered(String portletHandle);
 
+  /**
+   * Gets the resource list.
+   * 
+   * @param desiredLocales the desired locales
+   * 
+   * @return the resource list
+   */
   public ResourceList getResourceList(String[] desiredLocales);
 
+  /**
+   * Gets the portlet description.
+   * 
+   * @param portletHandle the portlet handle
+   * @param desiredLocales the desired locales
+   * 
+   * @return the portlet description
+   */
   public PortletDescription getPortletDescription(String portletHandle, String[] desiredLocales);
 
+  /**
+   * Sets the portlet properties.
+   * 
+   * @param portletHandle the portlet handle
+   * @param userID the user id
+   * @param propertyList the property list
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public void setPortletProperties(String portletHandle, String userID, PropertyList propertyList) throws WSRPException;
 
+  /**
+   * Gets the portlet properties.
+   * 
+   * @param portletHandle the portlet handle
+   * @param userID the user id
+   * 
+   * @return the portlet properties
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public Map<String, String[]> getPortletProperties(String portletHandle, String userID) throws WSRPException;
 
+  /**
+   * Gets the all portlet meta data.
+   * 
+   * @return the all portlet meta data
+   */
   public Map<String, PortletData> getAllPortletMetaData();
 
+  /**
+   * Gets the supported window states.
+   * 
+   * @return the supported window states
+   */
   public Collection<WindowState> getSupportedWindowStates();
 
+  /**
+   * Render.
+   * 
+   * @param request the request
+   * @param response the response
+   * @param input the input
+   * 
+   * @return the render output
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public RenderOutput render(WSRPHttpServletRequest request,
                              WSRPHttpServletResponse response,
                              RenderInput input) throws WSRPException;
 
+  /**
+   * Process action.
+   * 
+   * @param request the request
+   * @param response the response
+   * @param input the input
+   * 
+   * @return the action output
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public ActionOutput processAction(WSRPHttpServletRequest request,
                                     WSRPHttpServletResponse response,
                                     ActionInput input) throws WSRPException;
 
+  /**
+   * Serve resource.
+   * 
+   * @param request the request
+   * @param response the response
+   * @param input the input
+   * 
+   * @return the resource output
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public ResourceOutput serveResource(WSRPHttpServletRequest request,
                                       WSRPHttpServletResponse response,
                                       ResourceInput input) throws WSRPException;
 
+  /**
+   * Process event.
+   * 
+   * @param request the request
+   * @param response the response
+   * @param input the input
+   * 
+   * @return the event output
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public EventOutput processEvent(WSRPHttpServletRequest request,
                                   WSRPHttpServletResponse response,
                                   EventInput input) throws WSRPException;

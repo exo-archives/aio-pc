@@ -53,6 +53,28 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public interface PortletManagementOperationsInterface {
 
+  /**
+   * Gets the portlet description.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param desiredLocales the desired locales
+   * 
+   * @return the portlet description
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public PortletDescriptionResponse getPortletDescription(RegistrationContext registrationContext,
                                                           PortletContext portletContext,
                                                           UserContext userContext,
@@ -68,6 +90,24 @@ public interface PortletManagementOperationsInterface {
                                                                                       OperationFailed,
                                                                                       WSRPException;
 
+  /**
+   * Destroy portlets.
+   * 
+   * @param registrationContext the registration context
+   * @param portletHandles the portlet handles
+   * @param userContext the user context
+   * 
+   * @return the destroy portlets response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
                                                  List<String> portletHandles,
                                                  UserContext userContext) throws OperationNotSupported,
@@ -79,6 +119,28 @@ public interface PortletManagementOperationsInterface {
                                                                          OperationFailed,
                                                                          WSRPException;
 
+  /**
+   * Sets the portlet properties.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param propertyList the property list
+   * 
+   * @return the portlet context
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public PortletContext setPortletProperties(RegistrationContext registrationContext,
                                              PortletContext portletContext,
                                              UserContext userContext,
@@ -94,6 +156,28 @@ public interface PortletManagementOperationsInterface {
                                                                        OperationFailed,
                                                                        WSRPException;
 
+  /**
+   * Gets the portlet properties.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param names the names
+   * 
+   * @return the portlet properties
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public PropertyList getPortletProperties(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            UserContext userContext,
@@ -109,6 +193,28 @@ public interface PortletManagementOperationsInterface {
                                                               OperationFailed,
                                                               WSRPException;
 
+  /**
+   * Gets the portlet property description.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param desiredLocales the desired locales
+   * 
+   * @return the portlet property description
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(RegistrationContext registrationContext,
                                                                           PortletContext portletContext,
                                                                           UserContext userContext,
@@ -124,6 +230,28 @@ public interface PortletManagementOperationsInterface {
                                                                                                       OperationFailed,
                                                                                                       WSRPException;
 
+  /**
+   * Clone portlet.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param lifetime the lifetime
+   * 
+   * @return the portlet context
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public PortletContext clonePortlet(RegistrationContext registrationContext,
                                      PortletContext portletContext,
                                      UserContext userContext,
@@ -139,6 +267,25 @@ public interface PortletManagementOperationsInterface {
                                                        OperationFailed,
                                                        WSRPException;
 
+  /**
+   * Gets the portlets lifetime.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * 
+   * @return the portlets lifetime
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public GetPortletsLifetimeResponse getPortletsLifetime(RegistrationContext registrationContext,
                                                          List<PortletContext> portletContext,
                                                          UserContext userContext) throws OperationNotSupported,
@@ -151,6 +298,26 @@ public interface PortletManagementOperationsInterface {
                                                                                  OperationFailed,
                                                                                  WSRPException;
 
+  /**
+   * Sets the portlets lifetime.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param lifetime the lifetime
+   * 
+   * @return the sets the portlets lifetime response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public SetPortletsLifetimeResponse setPortletsLifetime(RegistrationContext registrationContext,
                                                          List<PortletContext> portletContext,
                                                          UserContext userContext,
@@ -164,6 +331,30 @@ public interface PortletManagementOperationsInterface {
                                                                            OperationFailed,
                                                                            WSRPException;
 
+  /**
+   * Copy portlets.
+   * 
+   * @param toRegistrationContext the to registration context
+   * @param toUserContext the to user context
+   * @param fromRegistrationContext the from registration context
+   * @param UserContext the user context
+   * @param fromPortletContexts the from portlet contexts
+   * @param lifetime the lifetime
+   * 
+   * @return the copy portlets response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public CopyPortletsResponse copyPortlets(RegistrationContext toRegistrationContext,
                                            UserContext toUserContext,
                                            RegistrationContext fromRegistrationContext,
@@ -181,6 +372,30 @@ public interface PortletManagementOperationsInterface {
                                                              OperationFailed,
                                                              WSRPException;
 
+  /**
+   * Export portlets.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param userContext the user context
+   * @param lifetime the lifetime
+   * @param exportByValueRequired the export by value required
+   * 
+   * @return the export portlets response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws ExportByValueNotSupported the export by value not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public ExportPortletsResponse exportPortlets(RegistrationContext registrationContext,
                                                List<PortletContext> portletContext,
                                                UserContext userContext,
@@ -198,6 +413,29 @@ public interface PortletManagementOperationsInterface {
                                                                              OperationFailed,
                                                                              WSRPException;
 
+  /**
+   * Import portlets.
+   * 
+   * @param registrationContext the registration context
+   * @param importContext the import context
+   * @param importPortlet the import portlet
+   * @param userContext the user context
+   * @param lifetime the lifetime
+   * 
+   * @return the import portlets response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws ExportNoLongerValid the export no longer valid
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidUserCategory the invalid user category
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public ImportPortletsResponse importPortlets(RegistrationContext registrationContext,
                                                byte[] importContext,
                                                List<ImportPortlet> importPortlet,
@@ -214,10 +452,38 @@ public interface PortletManagementOperationsInterface {
                                                                  OperationFailed,
                                                                  WSRPException;
 
+  /**
+   * Release export.
+   * 
+   * @param exportContext the export context
+   * @param userContext the user context
+   * @param registrationContext the registration context
+   * 
+   * @return the return any
+   */
   public ReturnAny releaseExport(byte[] exportContext,
                                  UserContext userContext,
                                  RegistrationContext registrationContext);
 
+  /**
+   * Sets the export lifetime.
+   * 
+   * @param registrationContext the registration context
+   * @param exportContext the export context
+   * @param userContext the user context
+   * @param lifetime the lifetime
+   * 
+   * @return the lifetime
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public Lifetime setExportLifetime(RegistrationContext registrationContext,
                                     byte[] exportContext,
                                     UserContext userContext,

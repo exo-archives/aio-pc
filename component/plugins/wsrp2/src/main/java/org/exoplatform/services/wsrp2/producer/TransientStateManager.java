@@ -26,24 +26,81 @@ import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
+ * The Interface TransientStateManager.
+ * 
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 
 public interface TransientStateManager {
 
+  /** The SESSIO n_ tim e_ period. */
   public static int SESSION_TIME_PERIOD = 900; // seconds
 
+  /**
+   * Resolve session.
+   * 
+   * @param sessionID the session id
+   * @param sessiontimeperiod the sessiontimeperiod
+   * 
+   * @return the wSRP http session
+   * 
+   * @throws InvalidSession the invalid session
+   */
   public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession;
 
+  /**
+   * Release session.
+   * 
+   * @param sessionID the session id
+   */
   public void releaseSession(String sessionID);
 
+  /**
+   * Gets the cache control.
+   * 
+   * @param portletDatas the portlet datas
+   * 
+   * @return the cache control
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public CacheControl getCacheControl(PortletData portletDatas) throws WSRPException;
 
+  /**
+   * Validate cache.
+   * 
+   * @param validateTag the validate tag
+   * 
+   * @return true, if successful
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   public boolean validateCache(String validateTag) throws WSRPException;
 
+  /**
+   * Gets the templates.
+   * 
+   * @param session the session
+   * 
+   * @return the templates
+   */
   public Templates getTemplates(WSRPHttpSession session);
 
+  /**
+   * Store templates.
+   * 
+   * @param templates the templates
+   * @param session the session
+   */
   public void storeTemplates(Templates templates, WSRPHttpSession session);
 
+  /**
+   * Resolve user context.
+   * 
+   * @param userContext the user context
+   * @param session the session
+   * 
+   * @return the user context
+   */
   public UserContext resolveUserContext(UserContext userContext, WSRPHttpSession session);
 }

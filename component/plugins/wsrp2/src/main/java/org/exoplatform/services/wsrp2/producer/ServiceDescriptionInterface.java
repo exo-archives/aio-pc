@@ -29,9 +29,28 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
+ * The Interface ServiceDescriptionInterface.
+ * 
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface ServiceDescriptionInterface {
+  
+  /**
+   * Gets the service description.
+   * 
+   * @param registrationContext the registration context
+   * @param desiredLocales the desired locales
+   * @param portletHandles the portlet handles
+   * @param userContext the user context
+   * 
+   * @return the service description
+   * 
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public ServiceDescription getServiceDescription(RegistrationContext registrationContext,
                                                   List<String> desiredLocales,
                                                   List<String> portletHandles,

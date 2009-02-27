@@ -55,6 +55,35 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface MarkupOperationsInterface {
+  
+  /**
+   * Gets the markup.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param runtimeContext the runtime context
+   * @param userContext the user context
+   * @param markupParams the markup params
+   * 
+   * @return the markup
+   * 
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   * @throws WSRPException the WSRP exception
+   */
   public MarkupResponse getMarkup(RegistrationContext registrationContext,
                                   PortletContext portletContext,
                                   RuntimeContext runtimeContext,
@@ -76,6 +105,35 @@ public interface MarkupOperationsInterface {
                                                             UnsupportedLocale,
                                                             WSRPException;
 
+  /**
+   * Gets the resource.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param runtimeContext the runtime context
+   * @param userContext the user context
+   * @param resourceParams the resource params
+   * 
+   * @return the resource
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   * @throws WSRPException the WSRP exception
+   */
   public ResourceResponse getResource(RegistrationContext registrationContext,
                                       PortletContext portletContext,
                                       RuntimeContext runtimeContext,
@@ -98,6 +156,36 @@ public interface MarkupOperationsInterface {
                                                                     UnsupportedLocale,
                                                                     WSRPException;
 
+  /**
+   * Perform blocking interaction.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param runtimeContext the runtime context
+   * @param userContext the user context
+   * @param markupParams the markup params
+   * @param interactionParams the interaction params
+   * 
+   * @return the blocking interaction response
+   * 
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   * @throws PortletStateChangeRequired the portlet state change required
+   * @throws WSRPException the WSRP exception
+   */
   public BlockingInteractionResponse performBlockingInteraction(RegistrationContext registrationContext,
                                                                 PortletContext portletContext,
                                                                 RuntimeContext runtimeContext,
@@ -121,6 +209,37 @@ public interface MarkupOperationsInterface {
                                                                                                     PortletStateChangeRequired,
                                                                                                     WSRPException;
 
+  /**
+   * Handle events.
+   * 
+   * @param registrationContext the registration context
+   * @param portletContext the portlet context
+   * @param runtimeContext the runtime context
+   * @param userContext the user context
+   * @param markupParams the markup params
+   * @param eventParams the event params
+   * 
+   * @return the handle events response
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws UnsupportedMimeType the unsupported mime type
+   * @throws InvalidRegistration the invalid registration
+   * @throws InvalidHandle the invalid handle
+   * @throws InvalidCookie the invalid cookie
+   * @throws UnsupportedWindowState the unsupported window state
+   * @throws InvalidUserCategory the invalid user category
+   * @throws UnsupportedMode the unsupported mode
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws InvalidSession the invalid session
+   * @throws MissingParameters the missing parameters
+   * @throws InconsistentParameters the inconsistent parameters
+   * @throws OperationFailed the operation failed
+   * @throws UnsupportedLocale the unsupported locale
+   * @throws PortletStateChangeRequired the portlet state change required
+   * @throws WSRPException the WSRP exception
+   */
   public HandleEventsResponse handleEvents(RegistrationContext registrationContext,
                                            PortletContext portletContext,
                                            RuntimeContext runtimeContext,
@@ -145,6 +264,22 @@ public interface MarkupOperationsInterface {
                                                                    PortletStateChangeRequired,
                                                                    WSRPException;
 
+  /**
+   * Inits the cookie.
+   * 
+   * @param registrationContext the registration context
+   * @param userContext the user context
+   * 
+   * @return the return any
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public ReturnAny initCookie(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
                                                                                                AccessDenied,
                                                                                                ResourceSuspended,
@@ -153,6 +288,24 @@ public interface MarkupOperationsInterface {
                                                                                                OperationFailed,
                                                                                                WSRPException;
 
+  /**
+   * Release sessions.
+   * 
+   * @param registrationContext the registration context
+   * @param sessionIDs the session i ds
+   * @param userContext the user context
+   * 
+   * @return the return any
+   * 
+   * @throws OperationNotSupported the operation not supported
+   * @throws AccessDenied the access denied
+   * @throws ResourceSuspended the resource suspended
+   * @throws InvalidRegistration the invalid registration
+   * @throws ModifyRegistrationRequired the modify registration required
+   * @throws MissingParameters the missing parameters
+   * @throws OperationFailed the operation failed
+   * @throws WSRPException the WSRP exception
+   */
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
                                    List<String> sessionIDs,
                                    UserContext userContext) throws OperationNotSupported,
