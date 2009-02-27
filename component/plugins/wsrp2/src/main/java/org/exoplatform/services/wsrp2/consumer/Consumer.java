@@ -54,15 +54,16 @@ public interface Consumer {
   public UserRegistry getUserRegistry();
 
   /**
-   * Get the url template composer for template proccessing
+   * Get the url template composer for template proccessing.
    * 
+   * @param version int
    * @return Interface to the consumer specific template composer
    */
   public URLTemplateComposer getTemplateComposer(int version);
 
   /**
-   * Get the url rewriter for consumer url-rewriting
-   * 
+   * Get the url rewriter for consumer url-rewriting.
+   * @param version int
    * @return The consumer specific url rewriter
    */
   public URLRewriter getURLRewriter(int version);

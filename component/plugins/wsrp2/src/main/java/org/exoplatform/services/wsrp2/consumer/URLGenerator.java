@@ -41,7 +41,7 @@ public interface URLGenerator {
 
   /**
    * Creates a URL pointing to the consumer,triggering the consumer to fetch a
-   * certain resource
+   * certain resource.
    */
   public String getResourceURL(String baseURL, Map<String, String> params);
 

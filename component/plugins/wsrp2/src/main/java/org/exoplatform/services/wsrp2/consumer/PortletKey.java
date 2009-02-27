@@ -28,7 +28,7 @@ public interface PortletKey {
 
   /**
    * Get the portlet handle which identifies an portlet in the scope of one
-   * producer
+   * producer.
    * 
    * @return The portlet handle
    */
@@ -36,21 +36,21 @@ public interface PortletKey {
 
   /**
    * Set the portlet handle which identifies an portlet in the scope of one
-   * producer
+   * producer.
    * 
    * @param portletHandle The portlet handle
    */
   public void setPortletHandle(String portletHandle);
 
   /**
-   * Get the ID of the producer providing the portlet
+   * Get the ID of the producer providing the portlet.
    * 
    * @return The ID of the producer
    */
   public String getProducerId();
 
   /**
-   * Set the ID of the producer providing the portlet
+   * Set the ID of the producer providing the portlet.
    * 
    * @param id The ID of the producer
    */

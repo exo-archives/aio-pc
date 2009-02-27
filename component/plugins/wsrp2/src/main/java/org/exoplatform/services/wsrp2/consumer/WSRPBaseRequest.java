@@ -41,7 +41,7 @@ public interface WSRPBaseRequest {
    */
 
   /**
-   * Get the ID of the session context
+   * Get the ID of the session context.
    * 
    * @return The session context
    */
@@ -62,7 +62,7 @@ public interface WSRPBaseRequest {
    */
 
   /**
-   * Get the current navigational state of the portlet
+   * Get the current navigational state of the portlet.
    * 
    * @return The navigational state
    */
@@ -85,14 +85,14 @@ public interface WSRPBaseRequest {
    */
 
   /**
-   * Get the current window state of the portlet
+   * Get the current window state of the portlet.
    * 
    * @return The window state
    */
   public String getWindowState();
 
   /**
-   * Get the current mode of the portlet
+   * Get the current mode of the portlet.
    * 
    * @return The mode of the portlet
    */
@@ -109,7 +109,7 @@ public interface WSRPBaseRequest {
   /**
    * Get the locales which are supported by the portlet according to the client
    * connecting to it. The Locales returned are in the form of (ISO-639 + "-" +
-   * ISO-3166)
+   * ISO-3166).
    * 
    * @return Array with string representations of the locales which are
    *         supported by the consumer

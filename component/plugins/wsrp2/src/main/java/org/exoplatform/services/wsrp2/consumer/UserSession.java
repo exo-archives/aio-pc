@@ -33,21 +33,21 @@ import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 public interface UserSession {
 
   /**
-   * Get ID of the user this session is bind to
+   * Get ID of the user this session is bind to.
    * 
    * @return User ID
    */
   public String getUserID();
 
   /**
-   * Set the ID of the user this session is bind to
+   * Set the ID of the user this session is bind to.
    * 
    * @param userID ID of the user
    */
   public void setUserID(String userID);
 
   /**
-   * Get the group session for this group ID
+   * Get the group session for this group ID.
    * 
    * @param groupID ID of the portlet application
    * @return The a group session for the provided group ID or a new groupSession
@@ -55,7 +55,7 @@ public interface UserSession {
   public GroupSessionMgr getGroupSession(String groupID) throws WSRPException;
 
   /**
-   * Get all group session
+   * Get all group session.
    * 
    * @return Iterator with all group sessions for the given producer access
    *         point
@@ -63,21 +63,21 @@ public interface UserSession {
   public Iterator getAllGroupSessions();
 
   /**
-   * Add a group session to the user session
+   * Add a group session to the user session.
    * 
    * @param groupSession A group session
    */
   public void addGroupSession(GroupSession groupSession);
 
   /**
-   * Remove a group session from the user session
+   * Remove a group session from the user session.
    * 
    * @param groupID ID of the portlet application
    */
   public void removeGroupSession(String groupID);
 
   /**
-   * Remove all group sessions
+   * Remove all group sessions.
    */
   public void removeAllGroupSessions();
 }

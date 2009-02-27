@@ -28,14 +28,14 @@ import java.util.Iterator;
 public interface ProducerRegistry {
 
   /**
-   * Add a producer to the registry
+   * Add a producer to the registry.
    * 
    * @param producer The producer to add
    */
   public void addProducer(Producer producer);
 
   /**
-   * Get the producer for the given URL
+   * Get the producer for the given URL.
    * 
    * @param id The ID of the producer
    * @return The producer with the given ID
@@ -43,14 +43,14 @@ public interface ProducerRegistry {
   public Producer getProducer(String id);
 
   /**
-   * Get all producer in the registry
+   * Get all producer in the registry.
    * 
    * @return Iterator with all producers
    */
   public Iterator<Producer> getAllProducers();
 
   /**
-   * Remove the producer with the given ID from the registry
+   * Remove the producer with the given ID from the registry.
    * 
    * @param id The ID of the producer
    * @return The producer which had been mapped to this id or null if no
@@ -59,7 +59,7 @@ public interface ProducerRegistry {
   public Producer removeProducer(String id);
 
   /**
-   * Remove all producer objects from the registry
+   * Remove all producer objects from the registry.
    */
   public void removeAllProducers() throws Exception;
 
@@ -72,14 +72,14 @@ public interface ProducerRegistry {
   public boolean existsProducer(String id);
 
   /**
-   * Create a new producer instance according to the implementation
+   * Create a new producer instance according to the implementation.
    * 
    * @return return a new Producer instance
    */
   public Producer createProducerInstance(String producerURL, int version);
 
   /**
-   * Get the last time that a producer is added or removed
+   * Get the last time that a producer is added or removed.
    * 
    * @return return long value
    */

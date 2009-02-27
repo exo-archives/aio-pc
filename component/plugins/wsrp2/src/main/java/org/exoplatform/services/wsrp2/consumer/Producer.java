@@ -195,7 +195,7 @@ public interface Producer {
   public void setRegistrationData(RegistrationData regData);
 
   /**
-   * Get the service description of the producer
+   * Get the service description of the producer.
    * 
    * @param newRequest If set to true a new request is send to the producer
    *          otherwise a cached service description is used if available
@@ -204,7 +204,7 @@ public interface Producer {
   public ServiceDescription getServiceDescription(boolean newRequest) throws WSRPException;
 
   /**
-   * Same as getServiceDescription(false)
+   * Same as getServiceDescription(false).
    */
   public ServiceDescription getServiceDescription() throws WSRPException;
 
@@ -227,7 +227,7 @@ public interface Producer {
   public RegistrationContext getRegistrationContext() throws WSRPException;
 
   /**
-   * Method establishes a relationship between consumer and producer. <p/>
+   * Method establishes a relationship between consumer and producer. 
    * 
    * @param registrationData Data which is used to register the consumer
    * @return The registration context received by the producer
@@ -235,7 +235,7 @@ public interface Producer {
   public RegistrationContext register(Register register) throws WSRPException;
 
   /**
-   * Can be used to modify the relationship between consumer and producer. <p/>
+   * Can be used to modify the relationship between consumer and producer. 
    * 
    * @param registrationData The new registration data
    * @return New registration context
@@ -243,7 +243,7 @@ public interface Producer {
   public RegistrationState modifyRegistration(ModifyRegistration modifyRegistration) throws WSRPException;
 
   /**
-   * End an existing consumer producer relationship and remove the registration
+   * End an existing consumer producer relationship and remove the registration.
    * context
    * 
    * @return Can be anything
@@ -251,14 +251,14 @@ public interface Producer {
   public ReturnAny deregister(Deregister deregister) throws WSRPException;
 
   /**
-   * Check wether the optional registration Adapter is supported
+   * Check wether the optional registration Adapter is supported.
    * 
    * @return true if a registration Adapter endpoint URL is set
    */
   public boolean isRegistrationAdapterSupported();
 
   /**
-   * Check wether the optional portlet management Adapter is supported
+   * Check wether the optional portlet management Adapter is supported.
    * 
    * @return true if a portlet management Adapter endpoint URL is set
    */

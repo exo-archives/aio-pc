@@ -28,28 +28,28 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 public interface User {
 
   /**
-   * Returns the userID
+   * Returns the userID.
    * 
    * @return _userID
    */
   public String getUserID();
 
   /**
-   * Sets the userID
+   * Sets the userID.
    * 
    * @param userID as String
    */
   public void setUserID(String userID);
 
   /**
-   * Returns the UserContext for this userid
+   * Returns the UserContext for this userid.
    * 
    * @return _userContext
    */
   public UserContext getUserContext();
 
   /**
-   * Sets the UserContext for this userID
+   * Sets the UserContext for this userID.
    */
   public void setUserContext(UserContext userContext);
 }
