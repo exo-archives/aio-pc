@@ -320,8 +320,10 @@ public class WSRPAdminPortlet {
         w.println("</tr>");
 
         for (String one : handles) {
-          if (one.indexOf("_registration") > -1 )
+          if (one.indexOf("_registration") > -1 ) {
+            handles.remove(one);
             continue;
+          }
           w.println("<tr>");
           w.println("<td>");
           w.println(" <label style=\"font-size:12px; \">" + one + "</label>");
