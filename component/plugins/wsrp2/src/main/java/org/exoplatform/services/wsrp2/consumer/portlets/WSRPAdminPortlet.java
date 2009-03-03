@@ -306,21 +306,38 @@ public class WSRPAdminPortlet {
       w.println("</table><br>");
       
       List<String> handles = pstateManager.getRegistrationHandles();
-
+      SimpleDateFormat format2 = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+      
       if (handles.size() > 0) {
         w.println("<table border=\"1\">");
         w.println("<tr bgcolor=\"#FFFFF0\">");
         w.println("<td>");
         w.println(" <label style=\"font-size:12px; font-weight:bold;\">Registration handles</label>");
         w.println("</td>");
+        w.println("<td>");
+        w.println(" <label style=\"font-size:12px; font-weight:bold;\">Lifetime</label>");
+        w.println("</td>");
         w.println("</tr>");
 
         for (String one : handles) {
+          if (one.indexOf("_registration") > -1 )
+            continue;
           w.println("<tr>");
           w.println("<td>");
           w.println(" <label style=\"font-size:12px; \">" + one + "</label>");
           w.println("</td>");
+          Lifetime dectr = pstateManager.getLifetime(one + "_registration_lifetime");
+          if (dectr == null) {
+            w.println("<td>");
+            w.println(" <label style=\"font-size:12px; \"> Permanent </label>");
+            w.println("</td>");
+            w.println("</tr>");
+          } else {
+          w.println("<td>");
+          w.println(" <label style=\"font-size:12px; \">" + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())  + "</label>");
+          w.println("</td>");
           w.println("</tr>");
+          }
         }
         w.println("</table>");
       }
