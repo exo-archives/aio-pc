@@ -47,13 +47,12 @@ import org.exoplatform.services.wsrp2.type.UserContext;
  */
 public class RegistrationOperationsInterfaceImpl implements RegistrationOperationsInterface {
 
-  private Log                    log;
+  private static final Log       LOG = ExoLogger.getLogger(RegistrationOperationsInterfaceImpl.class);
 
   private PersistentStateManager stateManager;
 
   public RegistrationOperationsInterfaceImpl(PersistentStateManager stateManager) {
     this.stateManager = stateManager;
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
   }
 
   public RegistrationContext register(RegistrationData data,
@@ -68,23 +67,27 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
     String owner = null;
     if (userContext != null) {
       owner = userContext.getUserContextKey();
-      if (log.isDebugEnabled())
-        log.debug("Register method entered for user:" + owner);
+      if (LOG.isDebugEnabled())
+        LOG.debug("Register method entered for user:" + owner);
     }
     String registrationHandle = null;
     byte[] registrationState = null;
+    Lifetime returnedLifetime = null;
 
-      validateRegistrationDatas(data);
-      registrationHandle = IdentifierUtil.generateUUID(data);
-      registrationState = stateManager.register(registrationHandle, data);
-      stateManager.putRegistrationLifetime(registrationHandle, lifetime);
-      
+    validateRegistrationDatas(data);
+
+    // Below we are creating registrationHandle
+    registrationHandle = createRegistrationHandle(data);
+    registrationState = stateManager.register(registrationHandle, data);
+    returnedLifetime = stateManager.putRegistrationLifetime(registrationHandle, lifetime);
+
     RegistrationContext rC = new RegistrationContext();
     rC.setRegistrationHandle(registrationHandle);
     rC.setRegistrationState(registrationState);
-    rC.setScheduledDestruction(lifetime);
-    if (log.isDebugEnabled()) {
-      log.debug("Registration done with handle : " + registrationHandle + " for owner : " + owner);
+    rC.setScheduledDestruction(returnedLifetime);
+    if (LOG.isDebugEnabled()) {
+      LOG.debug("Registration done with handle : '" + registrationHandle + "' for owner : '"
+          + owner + "'");
     }
     return rC;
   }
@@ -100,26 +103,23 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
 
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
-      if (log.isDebugEnabled())
-        log.debug("Modify registrion method entered for owner " + owner);
+      if (LOG.isDebugEnabled())
+        LOG.debug("Modify registrion method entered for owner " + owner);
     }
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        throw new InvalidRegistration();
-      }
-    } catch (WSRPException e) {
-      throw new WSRPException();
-    }
+
+    verifyRegistration(registrationContext);
+
     String registrationHandle = registrationContext.getRegistrationHandle();
-    try {
-      validateRegistrationDatas(data);
-      byte[] registrationState = stateManager.register(registrationHandle, data);
-    } catch (WSRPException e) {
-      if (log.isDebugEnabled())
-        log.debug("Registration failed", e);
-      throw new WSRPException();
-    }
-    return new RegistrationState();//the state is kept in the producer (not send to the consumer)
+
+    validateRegistrationDatas(data);
+    byte[] regState = stateManager.register(registrationHandle, data);
+
+    Lifetime lifetime = stateManager.getRegistrationLifetime(registrationContext);
+
+    RegistrationState registrationState = new RegistrationState();
+    registrationState.setRegistrationState(regState);
+    registrationState.setScheduledDestruction(lifetime);
+    return registrationState;
   }
 
   public ReturnAny deregister(RegistrationContext registrationContext, UserContext userContext) throws OperationNotSupported,
@@ -129,29 +129,20 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
                                                                                                WSRPException {
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
-      if (log.isDebugEnabled())
-        log.debug("Deregister method entered for owner:" + owner);
+      if (LOG.isDebugEnabled())
+        LOG.debug("Deregister method entered for owner:" + owner);
     }
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        throw new InvalidRegistration();
-      }
-    } catch (WSRPException e) {
-      throw new WSRPException();
-    }
-    try {
-      stateManager.deregister(registrationContext);
-    } catch (WSRPException e) {
-      if (log.isDebugEnabled())
-        log.debug("Registration failed", e);
-      throw new WSRPException();
-    }
+
+    verifyRegistration(registrationContext);
+
+    stateManager.deregister(registrationContext);
+
     return new ReturnAny();
   }
 
   /**
-   * Throws InvalidRegistration when unregistered.
-   * Lifetime is null when it doesn't provided for registration.
+   * Throws InvalidRegistration when unregistered. Lifetime is null when it
+   * doesn't provided for registration.
    */
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext,
                                           UserContext userContext) throws OperationNotSupported,
@@ -164,24 +155,20 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
                                                                   WSRPException {
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
-      if (log.isDebugEnabled())
-        log.debug("getRegistrationLifetime method entered for owner:" + owner);
+      if (LOG.isDebugEnabled())
+        LOG.debug("getRegistrationLifetime method entered for owner:" + owner);
     }
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        throw new InvalidRegistration();
-      }
-    } catch (WSRPException e) {
-      throw new WSRPException();
-    }
+
+    verifyRegistration(registrationContext);
+
     Lifetime lifetime = null;
     try {
       lifetime = stateManager.getRegistrationLifetime(registrationContext);
       if (lifetime != null)
         lifetime.setCurrentTime(CalendarUtils.getNow());
     } catch (WSRPException e) {
-      if (log.isDebugEnabled())
-        log.debug("Get registration lifetime failed", e);
+      if (LOG.isDebugEnabled())
+        LOG.debug("Get registration lifetime failed", e);
       throw new WSRPException();
     }
     return lifetime;
@@ -201,29 +188,32 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
 
     if (userContext != null) {
       String owner = userContext.getUserContextKey();
-      if (log.isDebugEnabled())
-        log.debug("getRegistrationLifetime method entered for owner:" + owner);
+      if (LOG.isDebugEnabled())
+        LOG.debug("getRegistrationLifetime method entered for owner:" + owner);
     }
-    try {
-      if (!stateManager.isRegistered(registrationContext)) {
-        throw new InvalidRegistration();
-      }
-    } catch (WSRPException e) {
-      throw new WSRPException();
-    }
+
+    verifyRegistration(registrationContext);
+
     Lifetime resultLifetime = null;
     try {
       resultLifetime = stateManager.putRegistrationLifetime(registrationContext.getRegistrationHandle(),
                                                             lifetime);
     } catch (WSRPException e) {
-      if (log.isDebugEnabled())
-        log.debug("Get registration lifetime failed", e);
+      if (LOG.isDebugEnabled())
+        LOG.debug("Get registration lifetime failed", e);
       throw new WSRPException();
     }
     return resultLifetime;
   }
 
+  private void verifyRegistration(RegistrationContext registrationContext) throws InvalidRegistration,
+                                                                          WSRPException {
+    if (!stateManager.isRegistered(registrationContext)) {
+      throw new InvalidRegistration("Producer with this registrationContext = '"
+          + registrationContext + "' doesn't registered");
+    }
 
+  }
 
   private void validateRegistrationDatas(RegistrationData data) throws WSRPException {
     String consumerAgent = data.getConsumerAgent();
@@ -235,7 +225,7 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
     }
   }
-  
+
   /**
    * If lifetime is expired throws OperationFailed. For the methods 'register'
    * and 'setRegistrationLifetime'.
@@ -246,6 +236,10 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
   private void whetherLifetimeIsExpired(Lifetime lifetime) throws OperationFailed {
     if (lifetime != null && LifetimeHelper.lifetimeExpired(lifetime))
       throw new OperationFailed("The provided lifetime has expired");
+  }
+
+  private String createRegistrationHandle(RegistrationData data) {
+    return IdentifierUtil.generateUUID(data);
   }
 
 }

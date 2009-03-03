@@ -85,12 +85,12 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.portletDriverRegistry = portletDriverRegistry;
     this.producerRegistry = producerRegistry;
     this.userRegistry = userRegistry;
+    
     this.urlTemplateComposer1 = new URLTemplateComposerImpl1();
     this.urlTemplateComposer2 = new URLTemplateComposerImpl2();
 
     this.urlRewriter1 = new URLRewriterImpl1(new URLGeneratorImpl1());
     this.urlRewriter2 = new URLRewriterImpl2(new URLGeneratorImpl2());
-
   }
 
   public PortletRegistry getPortletRegistry() {

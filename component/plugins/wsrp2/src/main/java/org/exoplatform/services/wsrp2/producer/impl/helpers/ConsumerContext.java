@@ -42,7 +42,6 @@ public class ConsumerContext implements Serializable {
   public ConsumerContext(String registrationHandle, RegistrationData datas) {
     this.registrationHandle = registrationHandle;
     this.datas = datas;
-//    this.clonedPortletHandles = new ArrayList<String>();
   }
 
   public void addPortletHandle(String portletHandle) {

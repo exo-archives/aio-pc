@@ -229,6 +229,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     if (markupParams.getValidateTag() != null) {
       try {
         if (transientStateManager.validateCache(markupParams.getValidateTag())) {
+          // cache verified and return 'UseCachedItem' set true to the consumer
           MarkupContext markupContext = new MarkupContext();
           markupContext.setUseCachedItem(new Boolean(true));
           MarkupResponse markupResponse = new MarkupResponse();

@@ -200,7 +200,8 @@ public class PortletDriverImpl implements PortletDriver {
       LOG.debug("PortletDriverImpl.getRuntimeContext() baseURL = " + baseURL);
     RuntimeContext runtimeContext = new RuntimeContext();
     runtimeContext.setUserAuthentication(request.getUserAuthentication());
-    runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());// unused in the previous versions, now this is windowId
+    // runtimeContext.setPortletInstanceKey: unused in the previous versions, now this is portletApp/portletName/windowId = input.getInternalWindowID().getUniqueID()
+    runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
     URLTemplateComposer templateComposer = consumer.getTemplateComposer(producer.getVersion());
 
     if (templateComposer != null) {
@@ -213,27 +214,30 @@ public class PortletDriverImpl implements PortletDriver {
       if (desc != null) {
         doesUrlTemplateProcess = desc.isDoesUrlTemplateProcessing();
         getTemplatesStoredInSession = desc.isTemplatesStoredInSession();
-        if (getTemplatesStoredInSession) {
-          //TODO
-        }
-        Templates templates = null;
+
         if (doesUrlTemplateProcess != null && doesUrlTemplateProcess.booleanValue()) {
-          templates = new Templates();
-          if (baseURL != null) {
-            // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
-            templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
-            templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
-            templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
-            templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
-            templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
-            templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
-            templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
-            templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
+          Templates templates = null;
+          if (getTemplatesStoredInSession) {
+            //TODO 
+          } else {
+            templates = new Templates();
+            if (baseURL != null) {
+              // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
+              templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
+              templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
+              templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
+              templates.setResourceTemplate(templateComposer.createResourceTemplate(baseURL));
+              templates.setSecureBlockingActionTemplate(templateComposer.createSecureBlockingActionTemplate(baseURL));
+              templates.setSecureRenderTemplate(templateComposer.createSecureRenderTemplate(baseURL));
+              templates.setSecureDefaultTemplate(templateComposer.createSecureDefaultTemplate(baseURL));
+              templates.setSecureResourceTemplate(templateComposer.createSecureResourceTemplate(baseURL));
+            }
           }
-        }
-        runtimeContext.setTemplates(templates);
+          runtimeContext.setTemplates(templates);
+        } // ends doesUrlTemplateProcess
       }
-    }
+      
+    } // ends templateComposer !=null
 
     SessionParams sessionParams = new SessionParams();
     sessionParams.setSessionID(request.getSessionID());

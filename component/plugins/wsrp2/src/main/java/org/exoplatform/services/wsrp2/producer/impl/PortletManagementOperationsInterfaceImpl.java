@@ -31,6 +31,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.helper.IOUtil;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
@@ -85,8 +86,8 @@ public class PortletManagementOperationsInterfaceImpl implements
   private Log                    log;
 
   private PersistentStateManager stateManager;
-  
-  private WSRPConfiguration                    conf;
+
+  private WSRPConfiguration      conf;
 
   public PortletManagementOperationsInterfaceImpl(PersistentStateManager stateManager,
                                                   PortletContainerProxy portletContainerProxy,
@@ -293,17 +294,19 @@ public class PortletManagementOperationsInterfaceImpl implements
     Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
     Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
-    if (exportByValueRequired == true) {
+    if (exportByValueRequired) {
       throw new ExportByValueNotSupported();
     }
 
-    for (PortletContext portContext : portletContexts) {
+    for (PortletContext portletContext : portletContexts) {
       try {
 
-        byte[] exportData = portContext.getPortletState();
+//        byte[] exportData = portletContext.getPortletState();
+        byte[] exportData = IOUtil.serialize(portletContext);
+        
         ExportedPortlet exportedPortlet = new ExportedPortlet();
         exportedPortlet.setExportData(exportData);
-        exportedPortlet.setPortletHandle(portContext.getPortletHandle());
+        exportedPortlet.setPortletHandle(portletContext.getPortletHandle());
         exportedPortlets.add(exportedPortlet);
 
       } catch (Exception e) {
@@ -320,15 +323,17 @@ public class PortletManagementOperationsInterfaceImpl implements
     }
 
     ExportPortletsResponse exportPortletsResponse = new ExportPortletsResponse();
+    exportPortletsResponse.setExportContext(null);
+
     if (lifetime != null)
       exportPortletsResponse.setLifetime(lifetime);
 
     if (exportedPortlets != null)
       exportPortletsResponse.getExportedPortlet().addAll(exportedPortlets);
+
     if (failedPortlets != null)
       exportPortletsResponse.getFailedPortlets().addAll(failedPortlets);
-    exportPortletsResponse.setExportContext(null);
-    
+
     return exportPortletsResponse;
   }
 
@@ -372,8 +377,8 @@ public class PortletManagementOperationsInterfaceImpl implements
       try {
 //         PortletHandle portletHandle = importPortlet.getImportID()
         //        byte[] importData = importPortlet.getExportData();
+
         importedPortlets.add(importPortlet);
-        
 
       } catch (Exception e) {
         log.error("Can not import portlet", e);
@@ -653,7 +658,7 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                                        InconsistentParameters,
                                                                        OperationFailed,
                                                                        WSRPException {
-    
+
     if (registrationContext == null) {
       throw new InvalidRegistration("registrationContext is null");
     }
@@ -661,8 +666,9 @@ public class PortletManagementOperationsInterfaceImpl implements
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
-    log.debug("Set portlet properties for registration handle " + registrationContext.getRegistrationHandle());
-    
+    log.debug("Set portlet properties for registration handle "
+        + registrationContext.getRegistrationHandle());
+
     String portletHandle = portletContext.getPortletHandle();
 
     //    try {
@@ -679,7 +685,7 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
-    
+
     //    try {
     proxy.setPortletProperties(portletHandle, userID, propertyList, portletState);
     //    } catch (WSRPException e) {
@@ -727,7 +733,7 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
-    
+
     properties = proxy.getPortletProperties(portletHandle, userID, portletState);
 
     Collection<Property> properties2return = null;
@@ -791,7 +797,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         + Constants.PORTLET_HANDLE_ENCODER + IdentifierUtil.generateUUID(portletHandle);
     return newPortletHandle;
   }
-  
+
   private byte[] managePortletState(PortletContext portletContext) {
     // default is "wsrp.save.portlet.state.on.consumer"="false"
     if (conf.isSavePortletStateOnConsumer()) {

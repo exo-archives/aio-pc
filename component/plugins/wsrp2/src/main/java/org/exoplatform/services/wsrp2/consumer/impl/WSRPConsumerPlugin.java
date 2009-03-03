@@ -1209,8 +1209,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     }
     baseRequest.setPortletInstanceKey(input.getInternalWindowID().getUniqueID());
     // TODO
-    baseRequest.setUserAuthentication(WSRPConstants.AUTH_NO_USER_AUTHENTIFICATION);
-//    baseRequest.setUserAuthentication(getUserAuthentication(request));
+//    baseRequest.setUserAuthentication(WSRPConstants.AUTH_NO_USER_AUTHENTIFICATION);
+    baseRequest.setUserAuthentication(getUserAuthentication(request));
 
     // For CACHE
     if (portletWindowSession.getCachedMarkup() != null

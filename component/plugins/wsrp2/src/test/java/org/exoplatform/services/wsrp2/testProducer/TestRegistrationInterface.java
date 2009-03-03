@@ -221,7 +221,7 @@ public class TestRegistrationInterface extends BaseTest {
     updateCurrentTime(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
-    assertNull(rS.getScheduledDestruction());
+    assertNotNull(rS.getScheduledDestruction());
     register.setLifetime(null);
   }
 
