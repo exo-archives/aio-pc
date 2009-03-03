@@ -19,6 +19,8 @@ package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 
 import javax.jcr.RepositoryException;
@@ -57,6 +59,8 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   private WSRPPersister       persister;
 
   private String              path;
+  
+  private List <String>  registrationHandles;
 
   /**
    * The service name.
@@ -73,6 +77,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     this.cache = cacheService.getCacheInstance(getClass().getName());
     this.persister = persister;
     this.path = params.getValueParam("path").getValue();
+    this.registrationHandles = new ArrayList<String>();
   }
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
@@ -302,6 +307,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         throw new WSRPException(e.getMessage());
       }
       this.cache.put(key, data);
+      this.registrationHandles.add(key);
     }
   }
 
@@ -327,6 +333,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         return null;
       } else {
         this.cache.put(key, data);
+        this.registrationHandles.add(key);
       }
       try {
         data.setData(value.getBytes());
@@ -347,9 +354,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       throw new WSRPException("A key cannot be null or empty!");
 
     WSRP2StateData data = load(key);
-    if (data == null)
+    if (data == null) {
+      this.registrationHandles.remove(key);
       return;
+    }
     this.cache.remove(key);
+    this.registrationHandles.remove(key);
     try {
       persister.putValue(path, key, null);
     } catch (RepositoryException e) {
@@ -456,6 +466,11 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
+  }
+  
+  public List<String>  getRegistrationHandles()  throws WSRPException {
+    
+  return this.registrationHandles;
   }
 
 }

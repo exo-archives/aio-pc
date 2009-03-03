@@ -19,6 +19,7 @@ package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -52,6 +53,8 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   private ExoCache            cache;
 
   private HibernateService    hservice;
+  
+  private List <String>  registrationHandles;
 
   public PersistentStateManagerImpl(CacheService cacheService,
                                     HibernateService hservice,
@@ -60,6 +63,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     this.hservice = hservice;
     this.cache = cacheService.getCacheInstance(getClass().getName());
     //checkDatabase(dbService);
+    this.registrationHandles = new ArrayList<String>();
   }
 
   public RegistrationData getRegistrationData(RegistrationContext registrationContext) throws WSRPException {
@@ -268,6 +272,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       data.setId(key);
       data.setDataType(type);
       this.cache.put(key, data);
+      this.registrationHandles.add(key);
     } else {
       session.delete(data);
       session.flush();
@@ -293,6 +298,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       } else if (l.size() == 1) {
         data = (WSRP2StateData) l.get(0);
         this.cache.put(key, data);
+        this.registrationHandles.add(key);
       }
     }
     return data;
@@ -314,6 +320,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       } else if (l.size() == 1) {
         data = (WSRP2StateData) l.get(0);
         this.cache.put(key, data);
+        this.registrationHandles.remove(key);
       }
     } else {
       session.delete(data);
@@ -419,5 +426,11 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
+  
+  
+  public List<String>  getRegistrationHandles()  throws WSRPException {
+    
+    return this.registrationHandles;
+    }
 
 }
