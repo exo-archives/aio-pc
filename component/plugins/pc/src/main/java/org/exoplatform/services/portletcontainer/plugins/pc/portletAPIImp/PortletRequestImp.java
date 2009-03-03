@@ -63,7 +63,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationPr
  * should be pooled, therefore two fill and empty methods are provided.
  */
 public abstract class PortletRequestImp extends HttpServletRequestWrapper implements
-    PortletRequest, Map {
+    PortletRequest {
 
   /**
    * Logger.
@@ -513,157 +513,157 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
 
   // Bridge methods
 
-  /**
-   * Overridden method.
-   *
-   * @return size
-   * @see java.util.Map#size()
-   */
-  public final int size() {
-    int n = 0;
-    Enumeration keys = getAttributeNames();
-    while (keys.hasMoreElements())
-      // String key = (String) keys.nextElement();
-      n++;
-    return n;
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @return is empty
-   * @see java.util.Map#isEmpty()
-   */
-  public final boolean isEmpty() {
-    return !getAttributeNames().hasMoreElements();
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @param key key
-   * @return if contains key
-   * @see java.util.Map#containsKey(java.lang.Object)
-   */
-  public final boolean containsKey(final Object key) {
-    return (getAttribute((String) key) != null);
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @param value value
-   * @return if contains value
-   * @see java.util.Map#containsValue(java.lang.Object)
-   */
-  public final boolean containsValue(final Object value) {
-    boolean match = false;
-    Enumeration<String> keys = getAttributeNames();
-    while (keys.hasMoreElements()) {
-      String key = keys.nextElement();
-      Object val = getAttribute(key);
-      if (value.equals(val)) {
-        match = true;
-        break;
-      }
-    }
-    return match;
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @param key key
-   * @return value
-   * @see java.util.Map#get(java.lang.Object)
-   */
-  public final Object get(final Object key) {
-    return getAttribute((String) key);
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @param key key
-   * @param value value
-   * @return value
-   * @see java.util.Map#put(java.lang.Object, java.lang.Object)
-   */
-  public final Object put(final Object key, final Object value) {
-    Object result = null;
-    if (containsKey(key))
-      result = getAttribute((String) key);
-    setAttribute((String) key, value);
-    return result;
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @param key key
-   * @return remove object
-   * @see java.util.Map#remove(java.lang.Object)
-   */
-  public final Object remove(final Object key) {
-    Object result = null;
-    if (containsKey(key))
-      result = getAttribute((String) key);
-    removeAttribute((String) key);
-    return result;
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @param t source map
-   * @see java.util.Map#putAll(java.util.Map)
-   */
-  public final void putAll(final Map t) {
-    for (Iterator i = t.keySet().iterator(); i.hasNext();) {
-      String key = (String) i.next();
-      Object value = t.get(key);
-      put(key, value);
-    }
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @see java.util.Map#clear()
-   */
-  public final void clear() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @return key set
-   * @see java.util.Map#keySet()
-   */
-  public final Set keySet() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @return values
-   * @see java.util.Map#values()
-   */
-  public final Collection values() {
-    throw new UnsupportedOperationException();
-  }
-
-  /**
-   * Overridden method.
-   *
-   * @return entry set
-   * @see java.util.Map#entrySet()
-   */
-  public final Set entrySet() {
-    throw new UnsupportedOperationException();
-  }
+//  /**
+//   * Overridden method.
+//   *
+//   * @return size
+//   * @see java.util.Map#size()
+//   */
+//  public final int size() {
+//    int n = 0;
+//    Enumeration keys = getAttributeNames();
+//    while (keys.hasMoreElements())
+//      // String key = (String) keys.nextElement();
+//      n++;
+//    return n;
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @return is empty
+//   * @see java.util.Map#isEmpty()
+//   */
+//  public final boolean isEmpty() {
+//    return !getAttributeNames().hasMoreElements();
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @param key key
+//   * @return if contains key
+//   * @see java.util.Map#containsKey(java.lang.Object)
+//   */
+//  public final boolean containsKey(final Object key) {
+//    return (getAttribute((String) key) != null);
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @param value value
+//   * @return if contains value
+//   * @see java.util.Map#containsValue(java.lang.Object)
+//   */
+//  public final boolean containsValue(final Object value) {
+//    boolean match = false;
+//    Enumeration<String> keys = getAttributeNames();
+//    while (keys.hasMoreElements()) {
+//      String key = keys.nextElement();
+//      Object val = getAttribute(key);
+//      if (value.equals(val)) {
+//        match = true;
+//        break;
+//      }
+//    }
+//    return match;
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @param key key
+//   * @return value
+//   * @see java.util.Map#get(java.lang.Object)
+//   */
+//  public final Object get(final Object key) {
+//    return getAttribute((String) key);
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @param key key
+//   * @param value value
+//   * @return value
+//   * @see java.util.Map#put(java.lang.Object, java.lang.Object)
+//   */
+//  public final Object put(final Object key, final Object value) {
+//    Object result = null;
+//    if (containsKey(key))
+//      result = getAttribute((String) key);
+//    setAttribute((String) key, value);
+//    return result;
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @param key key
+//   * @return remove object
+//   * @see java.util.Map#remove(java.lang.Object)
+//   */
+//  public final Object remove(final Object key) {
+//    Object result = null;
+//    if (containsKey(key))
+//      result = getAttribute((String) key);
+//    removeAttribute((String) key);
+//    return result;
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @param t source map
+//   * @see java.util.Map#putAll(java.util.Map)
+//   */
+//  public final void putAll(final Map t) {
+//    for (Iterator i = t.keySet().iterator(); i.hasNext();) {
+//      String key = (String) i.next();
+//      Object value = t.get(key);
+//      put(key, value);
+//    }
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @see java.util.Map#clear()
+//   */
+//  public final void clear() {
+//    throw new UnsupportedOperationException();
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @return key set
+//   * @see java.util.Map#keySet()
+//   */
+//  public final Set keySet() {
+//    throw new UnsupportedOperationException();
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @return values
+//   * @see java.util.Map#values()
+//   */
+//  public final Collection values() {
+//    throw new UnsupportedOperationException();
+//  }
+//
+//  /**
+//   * Overridden method.
+//   *
+//   * @return entry set
+//   * @see java.util.Map#entrySet()
+//   */
+//  public final Set entrySet() {
+//    throw new UnsupportedOperationException();
+//  }
 
   /**
    * Overridden method.
@@ -711,8 +711,8 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
    * @see javax.servlet.ServletRequestWrapper#getParameter(java.lang.String)
    */
   public String getParameter(final String param) {
-    if ((param == null) || param.startsWith(Constants.PARAMETER_ENCODER))
-      throw new IllegalArgumentException("parameter must not be null");
+    if (param == null || param.startsWith(Constants.PARAMETER_ENCODER))
+      throw new IllegalArgumentException("Parameter name must not be null or must not be with 'portal:' prefix.");
     Object obj = renderParameters.get(param);
     if (obj instanceof String[]) {
       String[] tmp = (String[]) obj;
