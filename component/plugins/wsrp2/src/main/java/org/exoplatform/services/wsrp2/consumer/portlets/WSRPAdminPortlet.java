@@ -26,6 +26,7 @@ import java.util.Collection;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Vector;
 
 import javax.portlet.PortletMode;
 import javax.portlet.PortletURL;
@@ -111,7 +112,7 @@ public class WSRPAdminPortlet {
   private PortletContainerService pcService;
   
   private PersistentStateManager pstateManager;
-
+  
   private final Log               log                = ExoLogger.getLogger(getClass().getName());
 
   public void init(ExoContainer cont) {
@@ -305,7 +306,7 @@ public class WSRPAdminPortlet {
       }
       w.println("</table><br>");
       
-      List<String> handles = pstateManager.getRegistrationHandles();
+      Vector<String> handles = new Vector<String>(pstateManager.getRegistrationHandles());
       SimpleDateFormat format2 = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
       List<String> removes = new ArrayList<String>(); 
       
