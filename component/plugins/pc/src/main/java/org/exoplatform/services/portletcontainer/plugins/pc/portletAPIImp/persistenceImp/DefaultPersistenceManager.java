@@ -87,6 +87,7 @@ public class DefaultPersistenceManager implements PersistenceManager {
 
     // going to get PortletPreferences for PortletWindowInternal
     PortletPreferences prefsImp = null;
+    
     if (!input.isStateSaveOnClient()) { // state save on the server
       PortletPreferencesPersister persister = null;
       if (input.getPortletPreferencesPersister() != null)
@@ -95,11 +96,12 @@ public class DefaultPersistenceManager implements PersistenceManager {
         persister = (PortletPreferencesPersister) cont.getComponentInstanceOfType(PortletPreferencesPersister.class);
       }
       try {
-        ExoPortletPreferences preferences = persister.getPortletPreferences(windowID);
+        ExoPortletPreferences currentPreferences = persister.getPortletPreferences(windowID);
 
         prefsImp = new PortletPreferencesImp(validator, defaultPrefs, windowID, persister);
-        if (preferences != null) {
-          ((PortletPreferencesImp) prefsImp).setCurrentPreferences(preferences);
+        
+        if (currentPreferences != null) {
+          ((PortletPreferencesImp) prefsImp).setCurrentPreferences(currentPreferences);
         }
       } catch (Exception ex) {
         log.error("Error: ", ex);

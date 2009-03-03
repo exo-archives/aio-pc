@@ -122,8 +122,9 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
       wrapper.setName(preferenceType.getName());
       wrapper.setReadOnly(preferenceType.isReadOnly());
       List<String> values = preferenceType.getValues();
-      for (int j = 0; j < values.size(); j++)
+      for (int j = 0; j < values.size(); j++) {
         wrapper.addValue(values.get(j));
+      }
       preferences.put(preferenceType.getName(), wrapper);
     }
   }
@@ -298,9 +299,11 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     ExoPortletPreferences result = new ExoPortletPreferences();
     result.putAll(modifiedPreferences);
     Collection<String> keys = preferences.keySet();
-    for (String key : keys)
-      if (!result.containsKey(key))
+    for (String key : keys) {
+      if (!result.containsKey(key)){
         result.put(key, preferences.get(key));
+      }
+    }
     return result;
   }
 
@@ -338,7 +341,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   }
 
   /**
-   * We first validate every field then we deleguates the storing to an object
+   * We first validate every field then we delegates the storing to an object
    * that implements the PersistentManager interface
    *
    * @throws IOException exception
@@ -353,8 +356,9 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
       validator.validate(this);
     preferences = mergeModifiedPreference();
     modifiedPreferences = new ExoPortletPreferences();
-    if (!isStateSaveOnClient())
+    if (!isStateSaveOnClient()) {
       save(getCurrentPreferences());
+    }
   }
 
   /**

@@ -62,7 +62,7 @@ public class PortletCacheCommand extends BaseCommandUnit {
   public PortletCacheCommand(final PortletContainerConf conf,
       final PortletContainerMonitorImpl monitor) {
     this.conf = conf;
-    portletMonitor = monitor;
+    this.portletMonitor = monitor;
   }
 
   /**
