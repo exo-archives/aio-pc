@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.producer;
 
+import java.util.List;
 import java.util.Map;
 
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -216,5 +217,6 @@ public interface PersistentStateManager {
    * @throws WSRPException the WSRP exception
    */
   public Lifetime getPortletLifetime(String portletHandle) throws WSRPException;
-
+  
+  public List<String>  getRegistrationHandles()  throws WSRPException;
 }
