@@ -307,6 +307,7 @@ public class WSRPAdminPortlet {
       
       List<String> handles = pstateManager.getRegistrationHandles();
       SimpleDateFormat format2 = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+      List<String> removes = new ArrayList<String>(); 
       
       if (handles.size() > 0) {
         w.println("<table border=\"1\">");
@@ -321,7 +322,7 @@ public class WSRPAdminPortlet {
 
         for (String one : handles) {
           if (one.indexOf("_registration") > -1 ) {
-            handles.remove(one);
+            removes.add(one);
             continue;
           }
           w.println("<tr>");
@@ -341,6 +342,7 @@ public class WSRPAdminPortlet {
           w.println("</tr>");
           }
         }
+        handles.removeAll(removes);
         w.println("</table>");
       }
       
