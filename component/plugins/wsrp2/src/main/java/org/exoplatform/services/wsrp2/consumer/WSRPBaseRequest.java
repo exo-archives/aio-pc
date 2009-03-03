@@ -34,8 +34,8 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  */
 public interface WSRPBaseRequest {
 
-  /*****************************************************************************
-   * * * * * * * * * * * * * * * * * * * * * * * * * For RuntimeContext * * * * * * * * * * * * * * * * * * * * * * * * * *
+  /******************************************************
+   * * * * * * * * For RuntimeContext * * * * * * * * * *
    * 
    * @author alexey
    */
@@ -55,8 +55,8 @@ public interface WSRPBaseRequest {
    */
   public String getPortletInstanceKey();
 
-  /*****************************************************************************
-   * * * * * * * * * * * * * * * * * * * * * * * * * For NavigationalContext * * * * * * * * * * * * * * * * * * * * * * * * * *
+  /****************************************************************
+   * * * * * * * * * For NavigationalContext * * * * * * * * * * *
    * 
    * @author alexey
    */
@@ -77,9 +77,9 @@ public interface WSRPBaseRequest {
 
   public List<NamedString> getNavigationalValues();
 
-  /*****************************************************************************
-   * * * * * * * * * * * * * * * * * * * * * * * * * For MimeRequest (There are
-   * MarkupParams and ResourceParams which extends MimeRequest) * * * * * * * * * * * * * * * * * * * * * * * * * *
+  /******************************************************
+   * * * * * * * * ** * For MimeRequest (There are
+   * MarkupParams and ResourceParams which extends MimeRequest) * * * * * * * * * * * *
    * 
    * @author alexey
    */
@@ -177,8 +177,8 @@ public interface WSRPBaseRequest {
 
   public List<Extension> getExtensions();
 
-  /*****************************************************************************
-   * * * * * * * * * * * * * * * * * * * * * * * * * UNKNOWN * * * * * * * * * * * * * * * * * * * * * * * * * *
+  /***************************************************
+   * * * * * * * * * * * * * * * * * * * * * * * * * *
    * 
    * @author alexey
    */

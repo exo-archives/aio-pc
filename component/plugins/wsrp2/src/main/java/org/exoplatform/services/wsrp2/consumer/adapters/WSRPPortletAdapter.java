@@ -92,6 +92,7 @@ public class WSRPPortletAdapter implements WSRPPortlet {
   }
 
   public boolean isConsumerConfigured() {
+    // parentHandle == portletKey -> false
     return !getParent().equals(portletKey.getPortletHandle());
   }
 

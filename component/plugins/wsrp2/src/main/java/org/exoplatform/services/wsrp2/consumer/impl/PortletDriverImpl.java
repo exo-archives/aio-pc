@@ -115,12 +115,9 @@ public class PortletDriverImpl implements PortletDriver {
     this.portletManagementPort = producer.getPortletManagementAdapter();
     this.markupPort = producer.getMarkupAdapter();
     ServiceDescription serviceDescription = producer.getServiceDescription(false);
-    if (serviceDescription != null) {
+    if (serviceDescription != null && serviceDescription.getRequiresInitCookie() != null) {
       this.initCookie = serviceDescription.getRequiresInitCookie();
       LOG.debug("Requires cookie initialization : " + initCookie.value());
-      if (initCookie == null) {
-        initCookie = CookieProtocol.NONE;
-      }
     }
   }
 
@@ -148,9 +145,11 @@ public class PortletDriverImpl implements PortletDriver {
   }
 
   private void checkInitCookie(UserSessionMgr userSession) throws WSRPException {
-    LOG.debug("init cookies : " + initCookie.value());
+    LOG.debug("init cookies: with serviceDescription.getRequiresInitCookie() = "
+        + initCookie.value());
     if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_USER.value())) {
-      LOG.debug("cookies management per user");
+      // If CookieProtocol.PER_USER
+      LOG.debug("Cookies management per user");
       if (!userSession.isInitCookieDone()) {
         LOG.debug("Init cookies : " + userSession);
 //        this.markupPort = userSession.getWSRPMarkupService();
@@ -159,7 +158,8 @@ public class PortletDriverImpl implements PortletDriver {
         userSession.setInitCookieDone(true);
       }
     } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
-      LOG.debug("cookies management per group");
+      // If CookieProtocol.PER_GROUP
+      LOG.debug("Cookies management per group");
       PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getPortletKey()
                                                                                          .getPortletHandle());
       String groupID = null;
@@ -184,8 +184,8 @@ public class PortletDriverImpl implements PortletDriver {
         // a groupID in the portlet description
       }
     } else {
-      // cookie NONE
-//      this.markupPort = userSession.getWSRPMarkupService();
+      // If CookieProtocol.NONE
+      //  this.markupPort = userSession.getWSRPMarkupService();
     }
   }
 
@@ -199,8 +199,8 @@ public class PortletDriverImpl implements PortletDriver {
     if (LOG.isDebugEnabled())
       LOG.debug("PortletDriverImpl.getRuntimeContext() baseURL = " + baseURL);
     RuntimeContext runtimeContext = new RuntimeContext();
-    runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
-    runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
+    runtimeContext.setUserAuthentication(request.getUserAuthentication());
+    runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());// unused in the previous versions, now this is windowId
     URLTemplateComposer templateComposer = consumer.getTemplateComposer(producer.getVersion());
 
     if (templateComposer != null) {
@@ -672,8 +672,8 @@ public class PortletDriverImpl implements PortletDriver {
 
     params.setClientData(clientData);
     params.setSecureClientCommunication(request.isSecureClientCommunication());
-    if (request.getLocales() != null)
-      params.getLocales().addAll(request.getLocales());//consumer.getSupportedLocales());
+//    if (request.getLocales() != null)
+    params.getLocales().addAll(request.getLocales());
     if (request.getMimeTypes() != null)
       params.getMimeTypes().addAll(request.getMimeTypes());//consumer.getMimeTypes());
     params.setMode(request.getMode());

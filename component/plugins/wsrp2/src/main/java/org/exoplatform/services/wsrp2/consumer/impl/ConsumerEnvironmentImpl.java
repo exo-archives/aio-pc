@@ -20,6 +20,7 @@ package org.exoplatform.services.wsrp2.consumer.impl;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp2.consumer.PortletDriverRegistry;
 import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
@@ -44,7 +45,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 
 public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
 
-  private String                consumerAgent        = "exoplatform.2.0";
+  private String                consumerAgent        = WSRPConstants.DEFAULT_consumerAgentName;
 
   private String                userAuthentication;
 

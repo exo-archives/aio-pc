@@ -83,7 +83,7 @@ public interface PortletContainerProxy {
    * 
    * @throws WSRPException the WSRP exception
    */
-  public void setPortletProperties(String portletHandle, String userID, PropertyList propertyList) throws WSRPException;
+  public void setPortletProperties(String portletHandle, String userID, PropertyList propertyList, byte[] portletState) throws WSRPException;
 
   /**
    * Gets the portlet properties.
@@ -95,7 +95,7 @@ public interface PortletContainerProxy {
    * 
    * @throws WSRPException the WSRP exception
    */
-  public Map<String, String[]> getPortletProperties(String portletHandle, String userID) throws WSRPException;
+  public Map<String, String[]> getPortletProperties(String portletHandle, String userID, byte[] portletState) throws WSRPException;
 
   /**
    * Gets the all portlet meta data.

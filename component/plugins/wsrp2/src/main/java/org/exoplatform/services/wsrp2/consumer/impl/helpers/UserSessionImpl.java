@@ -35,7 +35,10 @@ import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
 public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
   
-  private static final long serialVersionUID = 1L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = -4988894452732545437L;
 
   protected Map<String, GroupSession> groupSessions = new HashMap<String, GroupSession>();
 

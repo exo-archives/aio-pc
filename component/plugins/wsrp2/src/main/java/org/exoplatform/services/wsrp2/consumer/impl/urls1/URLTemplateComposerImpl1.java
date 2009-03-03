@@ -106,7 +106,7 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
   }
 
   public String getNamespacePrefix() {
-    return "";
+    return "prefix_";
   }
 
   private void manageServerPath(StringBuffer sB, String path, Boolean isSecure) {

@@ -27,7 +27,7 @@ public class WSRPConstants {
   /**
    *  9.2.3 Extended BNF Description of URL formats
    */
-  public static final String WSRP_REWRITE_PREFIX                = "wsrp_rewrite?";
+  public static final String WSRP_REWRITE_PREFIX                    = "wsrp_rewrite?";
 
   /**
    *  Rewrite suffix.
@@ -47,7 +47,7 @@ public class WSRPConstants {
   /**
    *  Render URL type.
    */
-  public static final String URL_TYPE_RENDER                    = "render";
+  public static final String URL_TYPE_RENDER                        = "render";
 
   /**
    *  Action URL type.
@@ -62,7 +62,7 @@ public class WSRPConstants {
   /**
    *  Common text name.
    */
-  public static final String WSRP_FRAGMENT_ID                   = "wsrp-fragmentID";
+  public static final String WSRP_FRAGMENT_ID                       = "wsrp-fragmentID";
 
   /**
    *  Extensions name.
@@ -72,12 +72,12 @@ public class WSRPConstants {
   /**
    *  Secure URL.
    */
-  public static final String WSRP_SECURE_URL                    = "wsrp-secureURL";
+  public static final String WSRP_SECURE_URL                        = "wsrp-secureURL";
 
   /**
    * WSRP mode. 
    */
-  public static final String WSRP_MODE                          = "wsrp-mode";
+  public static final String WSRP_MODE                              = "wsrp-mode";
 
   /**
    * WSRP state. 
@@ -87,22 +87,22 @@ public class WSRPConstants {
   /**
    * WSRP navigation state.
    */
-  public static final String WSRP_NAVIGATIONAL_STATE            = "wsrp-navigationalState";
+  public static final String WSRP_NAVIGATIONAL_STATE                = "wsrp-navigationalState";
 
   /**
    * WSRP navigation values.
    */
-  public static final String WSRP_NAVIGATIONAL_VALUES           = "wsrp-navigationalValues";
+  public static final String WSRP_NAVIGATIONAL_VALUES               = "wsrp-navigationalValues";
 
   /**
    * WSRP interaction state.  
    */
-  public static final String WSRP_INTERACTION_STATE             = "wsrp-interactionState";
+  public static final String WSRP_INTERACTION_STATE                 = "wsrp-interactionState";
 
   /**
    * WSRP URL.  
    */
-  public static final String WSRP_URL                           = "wsrp-url";
+  public static final String WSRP_URL                               = "wsrp-url";
 
   /**
    * WSRP resource-id. 
@@ -117,7 +117,7 @@ public class WSRPConstants {
   /**
    * WSRP cache level.
    */
-  public static final String WSRP_RESOURCE_CACHEABILITY         = "wsrp-resourceCacheability";
+  public static final String WSRP_RESOURCE_CACHEABILITY             = "wsrp-resourceCacheability";
 
   /**
    * WSRP1 cache level.
@@ -127,7 +127,7 @@ public class WSRPConstants {
   /**
    * WSRP requires rewrite. 
    */
-  public static final String WSRP_REQUIRES_REWRITE              = "wsrp-requiresRewrite";
+  public static final String WSRP_REQUIRES_REWRITE                  = "wsrp-requiresRewrite";
 
   /**
    * WSRP prefer operation.
@@ -137,7 +137,7 @@ public class WSRPConstants {
   /**
    * WSRP URL type.
    */
-  public static final String WSRP_URL_TYPE                      = "wsrp-urlType";
+  public static final String WSRP_URL_TYPE                          = "wsrp-urlType";
 
   /**
    * WSRP portlet handle.
@@ -169,6 +169,8 @@ public class WSRPConstants {
    */
   public static final String WSRP_PORTLET_STATES                = "wsrp-portletStates";
 
+  // ??
+  // public static final String WSRP_CACHELEVEL = "wsrp-cacheLevel";
   /**
    * WSRP producer ID.
    */
@@ -207,22 +209,22 @@ public class WSRPConstants {
   /**
    * WSRP no user authentification. 
    */
-  public static final String NO_USER_AUTHENTIFICATION           = WSRP_PREFIX + "none";
+  public static final String AUTH_NO_USER_AUTHENTIFICATION          = "wsrp:none";
 
   /**
    * WSRP password user authentification.
    */
-  public static final String PASSWORD_USER_AUTHENTIFICATION     = WSRP_PREFIX + "password";
+  public static final String AUTH_PASSWORD_USER_AUTHENTIFICATION    = "wsrp:password";
 
   /**
    * WSRP certificate user authentification.
    */
-  public static final String CERTIFICATE_USER_AUTHENTIFICATION  = WSRP_PREFIX + "certificate";
+  public static final String AUTH_CERTIFICATE_USER_AUTHENTIFICATION = "wsrp:certificate";
 
   /**
    * WSRP admin.
    */
-  public static final String WSRP_PRODUCER_APP_ENCODER          = "@";
+  public static final String WSRP_PRODUCER_APP_ENCODER              = "@";
 
   /**
    * WSRP admin portlet app.
@@ -251,7 +253,7 @@ public class WSRPConstants {
   /**
    * WSRP registration WAP portlet title.
    */
-  public static final String WAP_portletTitle                   = "portletTitle";
+  public static final String WAP_portletTitle                       = "portletTitle";
 
   /**
    * WSRP registration WAP consumer name.

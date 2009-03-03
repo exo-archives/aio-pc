@@ -48,8 +48,10 @@ public class WSRPHttpServletRequest extends HttpServletRequestWrapper {
   //SESSIONS
 
   public HttpSession getSession(boolean create) {
-    if (wsrpSession == null && create)
-      wsrpSession = new WSRPHttpSession();
+    if (wsrpSession == null && create) {
+      HttpServletRequest httpServletRequest = (HttpServletRequest) super.getRequest();
+      wsrpSession = new WSRPHttpSession(httpServletRequest.getSession());
+    }
     return wsrpSession;
   }
 

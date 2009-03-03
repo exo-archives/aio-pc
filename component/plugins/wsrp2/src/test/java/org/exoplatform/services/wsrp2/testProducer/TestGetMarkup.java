@@ -17,6 +17,8 @@
 
 package org.exoplatform.services.wsrp2.testProducer;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
@@ -24,13 +26,14 @@ import javax.xml.namespace.QName;
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
-import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Event;
+import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.GetResource;
 import org.exoplatform.services.wsrp2.type.HandleEvents;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
+import org.exoplatform.services.wsrp2.type.InitCookie;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -134,12 +137,13 @@ public class TestGetMarkup extends BaseTest {
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertRegistrationContext(rC);
-    
+
     PortletContext portletContext = new PortletContext();
     portletContext.setPortletHandle(CONTEXT_PATH + "/HelloWorld2");
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(portletContext);
+    
     clonePortlet.setUserContext(userContext);
     PortletContext returnedPC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -154,13 +158,15 @@ public class TestGetMarkup extends BaseTest {
     SetPortletProperties setPortletProperties = new SetPortletProperties();
     setPortletProperties.setRegistrationContext(rC);
     setPortletProperties.setPortletContext(returnedPC);
+    
     setPortletProperties.setUserContext(userContext);
     setPortletProperties.setPropertyList(list);
     returnedPC = portletManagementOperationsInterface.setPortletProperties(setPortletProperties);
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    
+
     GetMarkup getMarkup = getMarkup(rC, returnedPC);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    
     assertEquals("Everything is more than ok", response.getMarkupContext().getItemString());
   }
 
@@ -228,7 +234,7 @@ public class TestGetMarkup extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     updateCurrentTime(rc);
-    
+
     GetMarkup getMarkup = getMarkup(rc, portletContext);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     assertNotNull(response.getMarkupContext());
@@ -255,7 +261,7 @@ public class TestGetMarkup extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     updateCurrentTime(rc);
-    
+
     GetMarkup getMarkup = getMarkup(rc, portletContext);
 
     try {
@@ -265,8 +271,6 @@ public class TestGetMarkup extends BaseTest {
     }
     register.setLifetime(null);
   }
-
-
 
   /**
    * WARNING: this test depends on time.
@@ -285,7 +289,7 @@ public class TestGetMarkup extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     updateCurrentTime(rc);
-    
+
     GetMarkup getMarkup = getMarkup(rc, portletContext);
 
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
@@ -300,6 +304,17 @@ public class TestGetMarkup extends BaseTest {
     } catch (Exception e) {
     }
     register.setLifetime(null);
+  }
+
+  public void testInitCookie() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    InitCookie initCookie = new InitCookie();
+    initCookie.setRegistrationContext(registrationContext);
+    initCookie.setUserContext(userContext);
+    List<Extension> response = markupOperationsInterface.initCookie(initCookie);
+    assertEquals(new ArrayList<Extension>(), response);
   }
 
 }

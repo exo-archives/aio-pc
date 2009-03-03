@@ -30,7 +30,7 @@ import org.exoplatform.services.wsrp2.consumer.templates.PortletSessionTemplate;
 
 public class PortletSessionImpl extends PortletSessionTemplate implements java.io.Serializable {
 
-  private static final long serialVersionUID = 1L;
+  private static final long serialVersionUID = 8205347774307176181L;
 
   public PortletSessionImpl(String portletHandle) {
     super.portletHandle = portletHandle;

@@ -66,9 +66,7 @@ public class RegistrationVerifier implements Startable {
           LOG.debug(" isRegistered = " + isRegistered);
         if (!isRegistered) {
           throw new InvalidHandle("Provided '" + registrationContext.getRegistrationHandle()
-              + "' registrationHandle is unegistered.");
-//          throw new InvalidRegistration("Provided '" + registrationContext.getRegistrationHandle()
-//              + "' registrationHandle is unegistered.");
+              + "' registrationHandle is unregistered.");
         }
         return true;
       } catch (WSRPException e) {
@@ -76,7 +74,7 @@ public class RegistrationVerifier implements Startable {
         throw new InvalidRegistration(e.getMessage(), e);
       }
     } else {
-      // haven't registrationHandle within RegistrationContext, whether it is required 
+      // haven't registrationHandle within RegistrationContext, so we have to check whether it is required 
       if (conf.isRegistrationRequired()) {
         LOG.debug("Registration required");
         throw new InvalidRegistration("Registration required, but haven't registrationHandle");

@@ -98,7 +98,7 @@ public class WSRPAdminPortlet {
 
   private String                  consumerName       = "www.exoplatform.org";
 
-  private String                  consumerAgent      = "exoplatform.2.0";
+  private String                  consumerAgent      = WSRPConstants.DEFAULT_consumerAgentName;
 
   private ConsumerEnvironment     consumer;
 

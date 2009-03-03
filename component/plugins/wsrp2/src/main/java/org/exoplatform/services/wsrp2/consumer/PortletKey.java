@@ -30,7 +30,7 @@ public interface PortletKey {
    * Get the portlet handle which identifies an portlet in the scope of one
    * producer.
    * 
-   * @return The portlet handle
+   * @return The portlet handle: portletAppName/portletName
    */
   public String getPortletHandle();
 
@@ -38,7 +38,7 @@ public interface PortletKey {
    * Set the portlet handle which identifies an portlet in the scope of one
    * producer.
    * 
-   * @param portletHandle The portlet handle
+   * @param portletHandle The portlet handle: portletAppName/portletName
    */
   public void setPortletHandle(String portletHandle);
 

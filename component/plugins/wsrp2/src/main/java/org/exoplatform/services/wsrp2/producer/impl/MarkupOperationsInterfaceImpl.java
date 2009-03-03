@@ -24,11 +24,13 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 import javax.portlet.PortletMode;
 import javax.portlet.ResourceURL;
 import javax.portlet.WindowState;
+import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -84,16 +86,20 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.WSRPRewriterPortletURLFactoryBuilder;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
+import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.EventParams;
 import org.exoplatform.services.wsrp2.type.HandleEventsFailed;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
+import org.exoplatform.services.wsrp2.type.InvalidCookieFault;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
+import org.exoplatform.services.wsrp2.type.MissingParametersFault;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
+import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ResourceContext;
@@ -106,6 +112,7 @@ import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.UpdateResponse;
 import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
+import org.exoplatform.services.wsrp2.utils.LocaleUtils;
 import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
@@ -132,6 +139,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private PortletManagementOperationsInterface portletManagementOperationsInterface;
 
   private WSRPPortletPreferencesPersister      persister;
+
+  private static final ReturnAny               RETURN_ANY      = new ReturnAny();
+
+  private static final List<Locale>            DEFAULT_LOCALES = Arrays.asList(Locale.ENGLISH,
+                                                                               Locale.FRENCH);
 
   public MarkupOperationsInterfaceImpl(PortletManagementOperationsInterface portletManagementOperationsInterface,
                                        PersistentStateManager persitentStateManager,
@@ -169,7 +181,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             OperationFailed,
                                                             UnsupportedLocale,
                                                             WSRPException {
-
+    
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
@@ -180,11 +192,14 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     portletHandle = manageRegistration(portletHandle, registrationContext);
     log.debug("Portlet handle : " + portletHandle);
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
+
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = null;
-    if (k.length > 2)
-      uniqueID = k[2];
+    String uniqueID = k[2];
+
+    if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
+      checkCookie();
+    }
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -312,10 +327,15 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
+    input.setLocales(LocaleUtils.processStringsToLocales(markupParams.getLocales(), DEFAULT_LOCALES));
     input.setRenderParameters(renderParameters);
     input.setPublicParamNames(publicParamNames);
+
+//    input.setStateChangeAuthorized(false);
+    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
+
     // createUserProfile(userContext, request, session);
 
     RenderOutput output = null;
@@ -407,16 +427,20 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
-    
+
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
+    log.debug("Portlet handle : " + portletHandle);
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
+
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = null;
-    if (k.length > 2)
-      uniqueID = k[2];
+    String uniqueID = k[2];
+    
+    if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
+      checkCookie();
+    }
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -565,10 +589,13 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
+    input.setLocales(LocaleUtils.processStringsToLocales(markupParams.getLocales(), DEFAULT_LOCALES));
+
     input.setStateChangeAuthorized(isStateChangeAuthorized);
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
+
     input.setRenderParameters(renderParameters);
     input.setPublicParamNames(publicParamNames);
     // createUserProfile(userContext, request, session);
@@ -652,8 +679,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 //      newNavigationalContext.getPublicValues().addAll(c);
       newNavigationalContext.getPublicValues()
                             .addAll(Utils.getNamedStringListParametersFromMap(publicParameters));//setPublicValues(Utils.getNamedStringArrayParametersFromMap(publicParameters));
-      updateResponse.setNavigationalContext(newNavigationalContext);
 
+      updateResponse.setNavigationalContext(newNavigationalContext);
       updateResponse.getEvents().addAll(JAXBEventTransformer.getEventsMarshal(output.getEvents()));
 
       blockingInteractionResponse.setUpdateResponse(updateResponse);
@@ -713,11 +740,15 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     portletHandle = manageRegistration(portletHandle, registrationContext);
     log.debug("Portlet handle : " + portletHandle);
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
+
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = null;
-    if (k.length > 2)
-      uniqueID = k[2];
+    String uniqueID = k[2];
+    
+
+    if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
+      checkCookie();
+    }
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -854,10 +885,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
+    input.setLocales(LocaleUtils.processStringsToLocales(resourceParams.getLocales(),
+                                                         DEFAULT_LOCALES));
     input.setRenderParameters(renderParameters);
     input.setPublicParamNames(publicParamNames);
+
+//    input.setStateChangeAuthorized(false);
+    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
+
     input.setResourceID(resourceParams.getResourceID());
     input.setCacheability(resourceParams.getResourceCacheability());
     // createUserProfile(userContext, request, session);
@@ -928,16 +965,21 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
-    
+
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
+    log.debug("Portlet handle : " + portletHandle);
     String[] k = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
+
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = null;
-    if (k.length > 2)
-      uniqueID = k[2];
+    String uniqueID = k[2];
+    
+
+    if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
+      checkCookie();
+    }
 
     Integer sessiontimeperiod = getSessionTimePeriod();
 
@@ -1094,13 +1136,17 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletMode(portletMode);
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
+      input.setLocales(LocaleUtils.processStringsToLocales(markupParams.getLocales(),
+                                                           DEFAULT_LOCALES));
       input.setEvent(event);
       input.setRenderParameters(renderParameters);
       input.setPublicParamNames(publicParamNames);
-      //      input.setStateChangeAuthorized(isStateChangeAuthorized);
+
+//      input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
+
       // createUserProfile(userContext, request, session);
 
       try {
@@ -1205,9 +1251,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (InvalidHandle ih) {
       throw new InvalidRegistration(ih.getMessage(), ih);
     }
-    
-    WSRPHTTPContainer.getInstance().getRequest().getSession();
-    return new ReturnAny();
+
+    createSession();
+
+    return RETURN_ANY;
   }
 
   public ReturnAny releaseSessions(RegistrationContext registrationContext,
@@ -1228,12 +1275,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (InvalidHandle ih) {
       throw new InvalidRegistration(ih.getMessage(), ih);
     }
-    
+
+    if (sessionIDs == null) {
+      throw new MissingParameters("missing parameter sessionID", new MissingParametersFault());
+    }
+
     for (Iterator<String> iterator = sessionIDs.iterator(); iterator.hasNext();) {
       String name = iterator.next();
       transientStateManager.releaseSession(name);
     }
-    return new ReturnAny();
+    return RETURN_ANY;
   }
 
   private WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
@@ -1377,4 +1428,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     }
     return out.toString();
   }
+
+  private void createSession() throws OperationFailed {
+    // If the request does not have a session, creates one.
+    HttpSession httpSession = WSRPHTTPContainer.getInstance().getRequest().getSession(true);
+
+    if (httpSession == null) {
+      throw new OperationFailed("httpSession is null", new OperationFailedFault());
+    }
+  }
+
+  private void checkCookie() throws InvalidCookie {
+    HttpSession httpSession = WSRPHTTPContainer.getInstance().getRequest().getSession(false);
+
+    if (httpSession == null) {
+      throw new InvalidCookie("httpSession is null", new InvalidCookieFault());
+    }
+  }
+
 }

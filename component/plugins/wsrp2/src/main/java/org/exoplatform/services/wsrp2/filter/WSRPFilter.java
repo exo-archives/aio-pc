@@ -72,6 +72,7 @@ public class WSRPFilter implements Filter {
       if (!doSelfHaldle(httpRequest)) {
         setCurrentContainer();
         WSRPHTTPContainer.createInstance((HttpServletRequest) servletRequest, (HttpServletResponse) servletResponse);
+        
         filterChain.doFilter(servletRequest, servletResponse);
 
       } else {

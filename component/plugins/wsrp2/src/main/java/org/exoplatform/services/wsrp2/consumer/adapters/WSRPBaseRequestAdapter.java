@@ -38,7 +38,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
    * Session ID.
    *         For RuntimeContext 
    */
-  private String        sessionID;
+  private String            sessionID;
 
   /** 
    *  Portlet instance key.
@@ -48,7 +48,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
   /** 
    *  Navigational state.
    */
-  private String        navigationalState;
+  private String            navigationalState;
 
   /** 
    *  Navigational values.
@@ -58,7 +58,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
   /** 
    *  Secure client communication.
    */
-  private boolean       secureClientCommunication; //WSRP2
+  private boolean           secureClientCommunication;                     //WSRP2
 
   /** 
    *  Locales.

@@ -127,8 +127,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
 
     // delegation to JSR 168 specs
     pD.setPortletHandle(portletHandle);
-    pD.setPortletID(null);// TODO // is invariant across deployments of
-    // compatible versions of the Portlet
+    pD.setPortletID(null);// TODO // is invariant across deployments of compatible versions of the Portlet
     pD.setOnlySecure(new Boolean(portlet.isSecure()));
     pD.setDefaultMarkupSecure(new Boolean(portlet.isSecure()));
     List<Description> portletDescriptions = portlet.getDescription();
@@ -158,7 +157,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       .addAll(Arrays.asList(pcService.getPortalManagedPortletModes(portletApplicationName,
                                                                    portletName)));
 
-    // WSRP from config
+    // WSRP v1 specific issues from config
     pD.setHasUserSpecificState(new Boolean(conf.isHasUserSpecificState()));
     pD.setDoesUrlTemplateProcessing(new Boolean(conf.isDoesUrlTemplateProcessing()));
     pD.setTemplatesStoredInSession(new Boolean(conf.isTemplatesStoredInSession()));
@@ -205,7 +204,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return parameterDescriptions;
   }
 
-  public void setPortletProperties(String portletHandle, String owner, PropertyList propertyList) throws WSRPException {
+  public void setPortletProperties(String portletHandle, String owner, PropertyList propertyList, byte[] portletState) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     LOG.debug("portlet handle to split in setPortletProperties : " + portletHandle);
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
@@ -226,7 +225,12 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     windowID.setPortletName(key[1]);
     windowID.setUniqueID(key[2]);
     input.setInternalWindowID(windowID);
+    
+    //  input.setStateChangeAuthorized(false);
+    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
+    input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
+    
     try {
       pcService.setPortletPreference(input, propertiesMap);
     } catch (Exception e) {
@@ -234,7 +238,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     }
   }
 
-  public Map<String, String[]> getPortletProperties(String portletHandle, String owner) throws WSRPException {
+  public Map<String, String[]> getPortletProperties(String portletHandle, String owner, byte[] portletState) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
     try {
@@ -245,7 +249,12 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       windowID.setPortletName(key[1]);
       windowID.setUniqueID(key[2]);
       input.setInternalWindowID(windowID);
+      
+//    input.setStateChangeAuthorized(false);
+      input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
+      input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
+      
       return pcService.getPortletPreference(input);
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT);

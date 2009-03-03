@@ -44,27 +44,27 @@ public class WSRPResourceRequestAdapter extends WSRPBaseRequestAdapter implement
   /** 
    *  Resource ID.
    */
-  private String          resourceID;
+  private String              resourceID;
 
   /** 
    *  Portlet state change.
    */
-  private StateChange     portletStateChange;  //WSRP2
+  private StateChange         portletStateChange;  //WSRP2
 
   /** 
    *  Resource state.
    */
-  private String          resourceState;
+  private String              resourceState;
 
   /** 
    *  Resource cacheability.
    */
-  private String          resourceCacheability; //WSRP2
+  private String              resourceCacheability; //WSRP2
 
   /** 
    *  cached resource.
    */
-  private ResourceContext cachedResource;
+  private ResourceContext     cachedResource;
 
   
   /**

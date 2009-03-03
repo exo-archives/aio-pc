@@ -34,7 +34,10 @@ import org.exoplatform.services.wsrp2.consumer.PortletSession;
 public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
     java.io.Serializable {
 
-  private static final long serialVersionUID = 0L;
+  /**
+   * 
+   */
+  private static final long serialVersionUID = 3380422934423030970L;
 
   protected String                      groupID;
 

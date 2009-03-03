@@ -75,8 +75,8 @@ public class TransientStateManagerImpl implements TransientStateManager {
     WSRPHttpSession session = null;
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
-//    try {
-      session = (WSRPHttpSession) cache.get(sessionID);
+
+    session = (WSRPHttpSession) cache.get(sessionID);
       if (session != null) {
         // get from cache
         // session != null && sessionID != null
@@ -99,14 +99,15 @@ public class TransientStateManagerImpl implements TransientStateManager {
         cache.put(sessionID, session);
         
         WSRPHttpSession sessionNewFromCache = (WSRPHttpSession) cache.get(sessionID);
+        if (sessionNewFromCache == null) {
+          throw new InvalidSession("Session cannot be stored in the cache (sessionID = '" + sessionID + "')");
+        }
           
         if (log.isDebugEnabled())
           log.debug("Create new session with ID : " + sessionID);
       }
       return session;
-//    } catch (Exception e) {
-//      throw new WSRPException(Faults.INVALID_SESSION_FAULT, e);
-//    }
+
   }
 
   public void releaseSession(String sessionID) {

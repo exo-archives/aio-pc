@@ -185,8 +185,9 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       String producerOfferedPortletHandle = (String) iter.next();
       log.debug("fill service description with portlet description: "
           + producerOfferedPortletHandle);
-      portletDescriptions.add(proxy.getPortletDescription(producerOfferedPortletHandle,
-                                                   desiredLocales.toArray(new String[] {})));
+      PortletDescription pD = proxy.getPortletDescription(producerOfferedPortletHandle,
+                                                                          desiredLocales.toArray(new String[] {}));
+      portletDescriptions.add(pD);
     }
     ServiceDescription sD = new ServiceDescription();
     sD.setRequiresRegistration(conf.isRegistrationRequired());
