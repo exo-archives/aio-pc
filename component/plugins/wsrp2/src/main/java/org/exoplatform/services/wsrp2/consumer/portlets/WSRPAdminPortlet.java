@@ -53,6 +53,8 @@ import org.exoplatform.services.wsrp2.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.PersistentStateManagerJCRImpl;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
@@ -107,6 +109,8 @@ public class WSRPAdminPortlet {
   private PortletContainerConf    pcConf;
 
   private PortletContainerService pcService;
+  
+  private PersistentStateManager pstateManager;
 
   private final Log               log                = ExoLogger.getLogger(getClass().getName());
 
@@ -116,6 +120,7 @@ public class WSRPAdminPortlet {
     this.conf = (WSRPConfiguration) cont.getComponentInstanceOfType(WSRPConfiguration.class);
     this.pcService = (PortletContainerService) cont.getComponentInstanceOfType(PortletContainerService.class);
     this.pcConf = (PortletContainerConf) cont.getComponentInstanceOfType(PortletContainerConf.class);
+    this.pstateManager = (PersistentStateManager) cont.getComponentInstanceOfType(PersistentStateManagerJCRImpl.class);
 
     // Collection<PortletMode> modes =
     // Collections.list(pcConf.getSupportedPortletModes());
@@ -269,7 +274,8 @@ public class WSRPAdminPortlet {
         w.println("<td>");
         w.println("<label style=\"font-size:12px; \">" + producer.getName() + " ( " + producer.getID() + " ) </label>");
         w.println("</td>");
-
+        
+        
         RegistrationContext rContext = producer.getRegistrationContext();
         if (rContext != null) {
           Lifetime destruction = rContext.getScheduledDestruction();
@@ -297,7 +303,27 @@ public class WSRPAdminPortlet {
         w.println("</td>");
         w.println("</tr>");
       }
-      w.println("</table>");
+      w.println("</table><br>");
+      
+      List<String> handles = pstateManager.getRegistrationHandles();
+
+      if (handles.size() > 0) {
+        w.println("<table border=\"1\">");
+        w.println("<tr bgcolor=\"#FFFFF0\">");
+        w.println("<td>");
+        w.println(" <label style=\"font-size:12px; font-weight:bold;\">Registration handles</label>");
+        w.println("</td>");
+        w.println("</tr>");
+
+        for (String one : handles) {
+          w.println("<tr>");
+          w.println("<td>");
+          w.println(" <label style=\"font-size:12px; \">" + one + "</label>");
+          w.println("</td>");
+          w.println("</tr>");
+        }
+        w.println("</table>");
+      }
       
       w.println("</td></tr></table>");
       
@@ -436,6 +462,8 @@ public class WSRPAdminPortlet {
       }
       w.println("</table>");
       // store content to output
+
+      
       try {
         output.setContent((new String(charArrayWriter.toCharArray())).getBytes("utf-8"));
       } catch (java.io.UnsupportedEncodingException e) {
