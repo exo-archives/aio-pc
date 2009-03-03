@@ -390,7 +390,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
     return getLifetime(portletHandle + "lifetime");
   }
 
-  private Lifetime getLifetime(String key) throws WSRPException {
+  public Lifetime getLifetime(String key) throws WSRPException {
     log.debug("Look up getRegistrationLifetime");
     try {
       WSRP2StateData sD = load(key);
