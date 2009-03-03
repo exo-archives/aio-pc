@@ -184,6 +184,16 @@ public interface PersistentStateManager {
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException;
 
   /**
+   * Gets the registration lifetime by the key.
+   * 
+   * @param registrationContext the registration context
+   * 
+   * @return the registration lifetime
+   * 
+   * @throws WSRPException the WSRP exception
+   */
+  public Lifetime getLifetime(String key) throws WSRPException;
+  /**
    * Put registration lifetime.
    * 
    * @param registrationHandle the registration handle
