@@ -142,6 +142,13 @@
 				<include name="**/hello.war" />
 			</fileset>
 			</copy>
+
+                        <copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pc.version}/applications/test-portal/target/">
+				<include name="**/portal.war" />
+			</fileset>
+			</copy>
+
 		  <echo>=== To remove the portal.xml in /conf/Catalina/localhost, which came as exopc-war patch</echo>
                   <delete file="${exo.projects.directory.working}/exo-tomcat/conf/Catalina/localhost/portal.xml" />
               </tasks>
