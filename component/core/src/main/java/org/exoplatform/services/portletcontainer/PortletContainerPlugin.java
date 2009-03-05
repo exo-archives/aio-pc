@@ -47,6 +47,10 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
  * roman.pedchenko@exoplatform.com.ua
  */
 public interface PortletContainerPlugin extends ComponentPlugin {
+  
+  public static final String LOCAL = "jsr";
+  
+  public static final String REMOTE = "wsrp";
 
   /**
    * Overridden method.

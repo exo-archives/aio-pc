@@ -47,6 +47,12 @@ public interface WindowID extends Serializable {
   /**
    * @return key
    */
+  @Deprecated
   String generateKey();
+  
+  /**
+   * @return persistence Id
+   */
+  String getPersistenceId();
 
 }

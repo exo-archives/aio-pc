@@ -314,7 +314,7 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
    * @see org.exoplatform.services.portletcontainer.PortletContainerService#getAllPortletMetaData()
    */
   public final Map<String, PortletData> getAllPortletMetaData(boolean localPortlet) {
-    return getAllPortletMetaData(localPortlet ? "jsr" : "wsrp");
+    return getAllPortletMetaData(localPortlet ? PortletContainerPlugin.LOCAL : PortletContainerPlugin.REMOTE);
   }
 
   /**
@@ -373,7 +373,7 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
    * @return collection of string
    */
   public final Collection<String> getPortletAppNames(boolean localPortlet) {
-    return getPortletAppNames(localPortlet ? "jsr" : "wsrp");
+    return getPortletAppNames(localPortlet ? PortletContainerPlugin.LOCAL : PortletContainerPlugin.REMOTE);
   }
 
   /**

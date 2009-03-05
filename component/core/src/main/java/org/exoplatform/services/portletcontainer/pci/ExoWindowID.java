@@ -66,7 +66,7 @@ public class ExoWindowID implements WindowID {
   private String configurationSource = DEFAULT_PORTAL_CONFIG;
 
   /**
-   * Simple constructor.
+   * Default constructor.
    */
   public ExoWindowID() {
   }
@@ -77,12 +77,12 @@ public class ExoWindowID implements WindowID {
   public ExoWindowID(final String persistenceId) {
     this.persistenceId = persistenceId;
     int idx = persistenceId.indexOf(":/");
-    owner = persistenceId.substring(0, idx);
+    this.owner = persistenceId.substring(0, idx);
     String persistenceId1 = persistenceId.substring(idx + 2, persistenceId.length());
     String[] keys = StringUtils.split(persistenceId1, "/");
-    portletApplicationName = keys[0];
-    portletName = keys[1];
-    uniqueID = keys[2];
+    this.portletApplicationName = keys[0];
+    this.portletName = keys[1];
+    this.uniqueID = keys[2];
   }
 
   /**
@@ -168,7 +168,7 @@ public class ExoWindowID implements WindowID {
   }
 
   /**
-   * @return generated persistence id
+   * @return generated persistence id = owner + ":/" + portletApplicationName + "/" + portletName + "/" + uniqueID
    */
   public final String generatePersistenceId() {
     return owner + ":/" + portletApplicationName + "/" + portletName + "/" + uniqueID;
