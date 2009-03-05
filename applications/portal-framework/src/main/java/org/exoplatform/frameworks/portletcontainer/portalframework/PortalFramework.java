@@ -1,19 +1,19 @@
- /*
- * Copyright (C) 2003-2007 eXo Platform SAS.
- *
- * This program is free software; you can redistribute it and/or
- * modify it under the terms of the GNU Affero General Public License
- * as published by the Free Software Foundation; either version 3
- * of the License, or (at your option) any later version.
+/*
+* Copyright (C) 2003-2007 eXo Platform SAS.
+*
+* This program is free software; you can redistribute it and/or
+* modify it under the terms of the GNU Affero General Public License
+* as published by the Free Software Foundation; either version 3
+* of the License, or (at your option) any later version.
 
- * This program is distributed in the hope that it will be useful,
- * but WITHOUT ANY WARRANTY; without even the implied warranty of
- * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
- * GNU General Public License for more details.
+* This program is distributed in the hope that it will be useful,
+* but WITHOUT ANY WARRANTY; without even the implied warranty of
+* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+* GNU General Public License for more details.
 
- * You should have received a copy of the GNU General Public License
- * along with this program; if not, see<http://www.gnu.org/licenses/>.
- */
+* You should have received a copy of the GNU General Public License
+* along with this program; if not, see<http://www.gnu.org/licenses/>.
+*/
 package org.exoplatform.frameworks.portletcontainer.portalframework;
 
 import java.util.ArrayList;
@@ -59,7 +59,8 @@ import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
 /**
  * Created by The eXo Platform SAS .
  * 
- * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman Pedchenko</a>
+ * @author <a href="mailto:roman.pedchenko@exoplatform.com.ua">Roman
+ *         Pedchenko</a>
  * @version $Id$
  */
 public class PortalFramework {
@@ -607,7 +608,7 @@ public class PortalFramework {
     String key = createPortletKey(appName, portletName);
     return addPortletWithId(appName, portletName, key);
   }
-  
+
   /**
    * Create portlet key for requested portlet.
    * 
@@ -622,7 +623,7 @@ public class PortalFramework {
     // Block to get a unique key element. Checking hashmap, until it returns null.
     do {
       key = appName + "_" + portletName + "_" + (new Date().toString()).hashCode() + "_"
-      + httpSession.getId();
+          + httpSession.getId();
 //      key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_"
 //          + httpSession.getId();
     } while (wins.get(key) != null);
@@ -653,10 +654,13 @@ public class PortalFramework {
     windowID.setOwner("portal#" + Constants.ANON_USER);
     windowID.setPortletApplicationName(appName);
     windowID.setPortletName(portletName);
-    windowID.setPersistenceId(appName + "II" + portletName);
+    windowID.setUniqueID(windowId);
+
+    windowID.setPersistenceId(windowID.generatePersistenceId());
+    //was: windowID.setPersistenceId(appName + "II" + portletName);
+    
     windowID.setPortletMode(PortletMode.VIEW);
     windowID.setWindowState(WindowState.NORMAL);
-    windowID.setUniqueID(windowId);
     wins.put(windowId, windowID);
     return windowId;
   }
@@ -1306,8 +1310,6 @@ public class PortalFramework {
     return url;
   }
 
-  
-  
   private HttpServletRequest     presavedHttpRequest;
 
   private HttpServletResponse    presavedHttpResponse;
@@ -1437,7 +1439,8 @@ public class PortalFramework {
   }
 
   private String generatePortletErrorMarkup(PortletInfo portletinfo, PortletProcessingException ppe) {
-    String markup = "<h3>Portlet <i>" + portletinfo.getTitle() + "</i> has failed: \"" + ppe.getMessage() + "\"</h3>";
+    String markup = "<h3>Portlet <i>" + portletinfo.getTitle() + "</i> has failed: \""
+        + ppe.getMessage() + "\"</h3>";
     return markup;
   }
 

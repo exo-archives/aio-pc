@@ -52,6 +52,22 @@ public class WindowID2 extends ExoWindowID {
   private Map<String, String[]> renderParams;
 
   /**
+   * Default constructor.
+   */
+  public WindowID2() {
+    super();
+  }
+  
+  /**
+   * Extended constructor.
+   * 
+   * @param persistenceId
+   */
+  public WindowID2(final String persistenceId) {
+    super(persistenceId);
+  }
+  
+  /**
    * Returns stored portlet mode for a portlet window.
    *
    * @return stored portlet mode
