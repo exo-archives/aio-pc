@@ -21,6 +21,9 @@ import javax.portlet.PortletURL;
 import javax.portlet.ResourceURL;
 import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletResponseWrapper;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.portletcontainer.PCConstants;
@@ -29,6 +32,7 @@ import org.exoplatform.services.portletcontainer.pci.Output;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.w3c.dom.DOMException;
+import org.w3c.dom.Document;
 import org.w3c.dom.Element;
 
 /**
@@ -210,6 +214,8 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
    * @see javax.portlet.PortletResponse#addProperty(javax.servlet.http.Cookie)
    */
   public final void addProperty(final Cookie cookie) {
+    if (cookie == null)
+      throw new IllegalStateException("Cannot add cookie property with null value");
     super.addCookie(cookie);
   }
 
@@ -222,8 +228,10 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
    *      org.w3c.dom.Element)
    */
   public final void addProperty(final String key, final org.w3c.dom.Element element) {
-    // TODO does it work correctly??
-    addProperty(new Cookie(key, element.toString()));
+    //addProperty(new Cookie(key, element.toString()));
+   if (key == null)
+      throw new IllegalStateException("Cannot add  element property with empty key");
+    getOutput().addProperty(key, element);
   }
 
   /**
@@ -258,8 +266,15 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
    * @see javax.portlet.PortletResponse#createElement(java.lang.String)
    */
   public final Element createElement(final String name) throws DOMException {
-    // TODO Auto-generated method stub
-    return null;
+    //return null;
+    try {
+    DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+    DocumentBuilder db = dbf.newDocumentBuilder();
+    Document document = db.newDocument();
+    return document.createElement(name);
+    } catch (ParserConfigurationException pe){
+      throw new IllegalStateException("Cannot create element in PortletResponse.createElement();");
+    }
   }
 
   /**
