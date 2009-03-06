@@ -54,7 +54,7 @@
   <!--    <type>org.exoplatform.services.wsrp2.peristence.WSRPPersisterJCRregistry</type>-->
   <!--  </component>-->
 
-  <!-- end selection -->
+  <!-- end selection block of JCR storage type -->
 
   <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.TransientStateManagerImpl</type>
