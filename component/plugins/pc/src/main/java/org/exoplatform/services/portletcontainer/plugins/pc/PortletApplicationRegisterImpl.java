@@ -35,16 +35,19 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletLifecycleListener;
+import org.exoplatform.services.portletcontainer.management.PortletContainerManaged;
 import org.exoplatform.services.portletcontainer.pci.model.Filter;
 import org.exoplatform.services.portletcontainer.pci.model.FilterMapping;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterChainImpl;
 import org.exoplatform.services.portletcontainer.plugins.pc.filter.PortletFilterWrapper;
+import org.exoplatform.management.annotations.ManagedBy;
 
 /**
  * @author Benjamin Mestrallet benjamin.mestrallet@exoplatform.com
  */
+@ManagedBy(PortletContainerManaged.class)
 public class PortletApplicationRegisterImpl implements PortletApplicationRegister {
 
   /**
@@ -262,3 +265,4 @@ public class PortletApplicationRegisterImpl implements PortletApplicationRegiste
   }
 
 }
+
