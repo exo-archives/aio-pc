@@ -860,6 +860,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         windowInfosContainer.addInfos(key, windowInfos);
       }
     } else { // state change kept on the client (for example consumer in WSRP)
+      // differs with previous: without WindowInfosContainer
       LOG.debug("Extract or create windows info (sent by the client)");
       WindowID windowID = input.getInternalWindowID();
       Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
