@@ -27,6 +27,8 @@
     
     <module>util-bridge</module>
     <module>bridges</module>
+    <module>test-wsrp2</module>
+
 
   </modules>
 
