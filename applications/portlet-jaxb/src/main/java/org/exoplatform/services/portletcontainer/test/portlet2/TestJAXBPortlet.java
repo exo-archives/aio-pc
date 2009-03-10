@@ -102,7 +102,6 @@ public class TestJAXBPortlet extends GenericPortlet {
           se.printStackTrace();
       }
       
-      
       //- MESSAGE -//
       w.println("<br>MESSAGE");
       InputStream is = getPortletContext().getResourceAsStream("/WEB-INF/message.xml");

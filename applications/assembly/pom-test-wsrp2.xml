@@ -6,8 +6,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>assembly</artifactId>
-  <packaging>exopc</packaging>
-  <!-- packaging>ear</packaging -->
+  <packaging>exopc</packaging> 
+  <!-- <packaging>ear</packaging> -->
   <name>eXo Portlet Container Manual Test WSRP2 Assembly on Tomcat</name>
 
   <dependencies>
@@ -42,14 +42,6 @@
         </exclusion>
       </exclusions>
     </dependency>
-    
-    <dependency>
-      <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.wsrp</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
-      <type>exopc-war</type>
-      <scope>compile</scope>
-    </dependency>
 
     <dependency>
       <groupId>asm</groupId>
@@ -68,7 +60,6 @@
       <artifactId>exo-cxf-common-utilities</artifactId>
       <version>2.1.2</version>
     </dependency>
-    
 
     <dependency>
       <groupId>javax.servlet</groupId>
@@ -83,12 +74,20 @@
       <version>1.1.2</version>
     </dependency>
 
+<!-- fresh deps after depends on trunks 10.03.2009 -->
+
+    <dependency>
+      <groupId>commons-collections</groupId>
+      <artifactId>commons-collections</artifactId>
+      <version>3.1</version>
+      <scope>compile</scope>
+    </dependency>
+    
   </dependencies>
 
   <build>
     <finalName>portlet-container</finalName>
     <plugins>
-
 <!--
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
@@ -102,7 +101,6 @@
         </configuration>
       </plugin>
 -->
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
@@ -119,32 +117,35 @@
             drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
-            exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jotm, jotm_jrmp_stubs, log4j, soap, velocity, naming-core, naming-java, jsf-api, xerces
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, janino,
+            log4j, soap, velocity, naming-core, naming-java, jsf-api, xerces
           </excludeProjects>
         </configuration>
       </plugin>
 
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>1.2</version>
+      <plugin>
+	<artifactId>maven-antrun-plugin</artifactId>
+	<version>1.2</version>
         <executions>
           <execution>
             <id>1</id>
             <phase>deploy</phase>
             <configuration>
               <tasks>
+
+		<!-- To modify folder 'trunk' below for the next release!!! -->
+
  		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
 		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
-		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/hello.war</echo>
+		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/trunk/component/plugins/wsrp2/target/hello.war</echo>
         		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
-			<fileset dir="${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pc.version}/component/plugins/wsrp2/target/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/trunk/component/plugins/wsrp2/target/">
 				<include name="**/hello.war" />
 			</fileset>
 			</copy>
 
                         <copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
-			<fileset dir="${exo.projects.directory.src}/portlet-container/branches/${org.exoplatform.pc.version}/applications/test-portal/target/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/trunk/applications/test-portal/target/">
 				<include name="**/portal.war" />
 			</fileset>
 			</copy>
