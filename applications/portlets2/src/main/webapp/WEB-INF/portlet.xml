@@ -304,6 +304,23 @@
     </portlet-info>
   </portlet>
 
+  <portlet>
+    <description xml:lang="en">A bit more than just a hello Cookie :)</description>
+    <portlet-name>HelloCookie</portlet-name>
+    <display-name xml:lang="en">HelloCookie</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.HelloCookie</portlet-class>
+    <expiration-cache>4</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>HelloCookie title</title>
+    </portlet-info>
+  </portlet>
+
   <user-attribute>
     <description xml:lang="EN">
       Pre-defined attribute for the telephone number of the user at work.
