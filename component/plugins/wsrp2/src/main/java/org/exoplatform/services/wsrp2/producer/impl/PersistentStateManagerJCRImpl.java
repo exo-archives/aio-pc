@@ -306,7 +306,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       } catch (Exception e) {
         throw new WSRPException(e.getMessage());
       }
+    try {
       this.cache.put(key, data);
+        } catch (Exception e) { 
+                throw new WSRPException(e.getMessage()); 
+                      } 
+                      
       this.registrationHandles.add(key);
     }
   }
@@ -319,7 +324,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     if (key == null || key.length() == 0)
       throw new WSRPException("A key cannot be null or empty!");
 
-    WSRP2StateData data = (WSRP2StateData) this.cache.get(key);
+    WSRP2StateData data = null;
+    try {
+      data = (WSRP2StateData) this.cache.get(key);
+      } catch (Exception e) { 
+              throw new WSRPException(e.getMessage()); 
+                    } 
+                    
     if (data == null) {
       data = new WSRP2StateData();
       data.setId(key);
@@ -332,7 +343,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       if (value == null) {
         return null;
       } else {
+      try {
         this.cache.put(key, data);
+          } catch (Exception e) { 
+                  throw new WSRPException(e.getMessage()); 
+                        } 
+                        
         this.registrationHandles.add(key);
       }
       try {
@@ -358,7 +374,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       this.registrationHandles.remove(key);
       return;
     }
+    try {
     this.cache.remove(key);
+      } catch (Exception e) { 
+              throw new WSRPException(e.getMessage()); 
+                    } 
+                    
     this.registrationHandles.remove(key);
     try {
       persister.putValue(path, key, null);
