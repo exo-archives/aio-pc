@@ -19,7 +19,6 @@ package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -47,10 +46,10 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class PersistentStateManagerJCRImpl implements PersistentStateManager {
-  
+
   private WSRPConfiguration   conf;
 
-  private final Log           log            = ExoLogger.getLogger(getClass().getName());
+  private final Log           log          = ExoLogger.getLogger(getClass().getName());
 
   private ExoContainer        cont;
 
@@ -59,13 +58,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   private WSRPPersister       persister;
 
   private String              path;
-  
-  private List <String>  registrationHandles;
+
+  private List<String>        registrationHandles;
 
   /**
    * The service name.
    */
-  private static final String SERVICE_NAME   = "PersistentStateManagerJCRImpl";
+  private static final String SERVICE_NAME = "PersistentStateManagerJCRImpl";
 
   public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
                                        CacheService cacheService,
@@ -148,7 +147,8 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   }
 
   public boolean isRegistered(RegistrationContext registrationContext) throws WSRPException {
-    if (registrationContext.getRegistrationHandle()==null || registrationContext.getRegistrationHandle().equalsIgnoreCase(""))
+    if (registrationContext.getRegistrationHandle() == null
+        || registrationContext.getRegistrationHandle().equalsIgnoreCase(""))
       return false;
     log.debug("Look up from a registration stored");
     try {
@@ -306,12 +306,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       } catch (Exception e) {
         throw new WSRPException(e.getMessage());
       }
-    try {
-      this.cache.put(key, data);
-        } catch (Exception e) { 
-                throw new WSRPException(e.getMessage()); 
-                      } 
-                      
+      try {
+        this.cache.put(key, data);
+      } catch (Exception e) {
+        throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+      }
+
       this.registrationHandles.add(key);
     }
   }
@@ -327,10 +327,10 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     WSRP2StateData data = null;
     try {
       data = (WSRP2StateData) this.cache.get(key);
-      } catch (Exception e) { 
-              throw new WSRPException(e.getMessage()); 
-                    } 
-                    
+    } catch (Exception e) {
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
+
     if (data == null) {
       data = new WSRP2StateData();
       data.setId(key);
@@ -343,12 +343,12 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       if (value == null) {
         return null;
       } else {
-      try {
-        this.cache.put(key, data);
-          } catch (Exception e) { 
-                  throw new WSRPException(e.getMessage()); 
-                        } 
-                        
+        try {
+          this.cache.put(key, data);
+        } catch (Exception e) {
+          throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+        }
+
         this.registrationHandles.add(key);
       }
       try {
@@ -375,11 +375,11 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       return;
     }
     try {
-    this.cache.remove(key);
-      } catch (Exception e) { 
-              throw new WSRPException(e.getMessage()); 
-                    } 
-                    
+      this.cache.remove(key);
+    } catch (Exception e) {
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
+    }
+
     this.registrationHandles.remove(key);
     try {
       persister.putValue(path, key, null);
@@ -488,10 +488,10 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
   }
-  
-  public List<String>  getRegistrationHandles()  throws WSRPException {
-    
-  return this.registrationHandles;
+
+  public List<String> getRegistrationHandles() throws WSRPException {
+
+    return this.registrationHandles;
   }
 
 }

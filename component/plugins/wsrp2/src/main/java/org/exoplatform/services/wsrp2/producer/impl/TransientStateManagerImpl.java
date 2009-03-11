@@ -39,7 +39,7 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 25
- * janv. 2004 Time: 17:53:18
+ *         janv. 2004 Time: 17:53:18
  */
 
 public class TransientStateManagerImpl implements TransientStateManager {
@@ -76,37 +76,56 @@ public class TransientStateManagerImpl implements TransientStateManager {
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
 
-    session = (WSRPHttpSession) cache.get(sessionID);
-      if (session != null) {
-        // get from cache
-        // session != null && sessionID != null
-        if (session.isInvalidated()) {
-          //create a new fresh session
-          session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+    session = null;
+    try {
+      session = (WSRPHttpSession) cache.get(sessionID);
+    } catch (Exception e) {
+      throw new InvalidSession(e.getMessage(), e);
+    }
+    if (session != null) {
+      // get from cache
+      // session != null && sessionID != null
+      if (session.isInvalidated()) {
+        //create a new fresh session
+        session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+        try {
           cache.remove(sessionID);
           cache.put(sessionID, session);
-        } else {
-          session.setLastAccessTime(System.currentTimeMillis());
+        } catch (Exception e) {
+          throw new InvalidSession(e.getMessage(), e);
         }
-        if (log.isDebugEnabled())
-          log.debug("Lookup session success");
-      } else if (sessionID != null) {
-        throw new InvalidSession("Session doesn't exist anymore with sessionID = '" + sessionID + "'");
       } else {
-        // session == null && sessionID == null
-        sessionID = IdentifierUtil.generateUUID(this);
-        session = new WSRPHttpSession(sessionID, sessiontimeperiod);
-        cache.put(sessionID, session);
-        
-        WSRPHttpSession sessionNewFromCache = (WSRPHttpSession) cache.get(sessionID);
-        if (sessionNewFromCache == null) {
-          throw new InvalidSession("Session cannot be stored in the cache (sessionID = '" + sessionID + "')");
-        }
-          
-        if (log.isDebugEnabled())
-          log.debug("Create new session with ID : " + sessionID);
+        session.setLastAccessTime(System.currentTimeMillis());
       }
-      return session;
+      if (log.isDebugEnabled())
+        log.debug("Lookup session success");
+    } else if (sessionID != null) {
+      throw new InvalidSession("Session doesn't exist anymore with sessionID = '" + sessionID + "'");
+    } else {
+      // session == null && sessionID == null
+      sessionID = IdentifierUtil.generateUUID(this);
+      session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+      try {
+        cache.put(sessionID, session);
+      } catch (Exception e) {
+        throw new InvalidSession(e.getMessage(), e);
+      }
+
+      WSRPHttpSession sessionNewFromCache = null;
+      try {
+        sessionNewFromCache = (WSRPHttpSession) cache.get(sessionID);
+      } catch (Exception e) {
+        throw new InvalidSession(e.getMessage(), e);
+      }
+      if (sessionNewFromCache == null) {
+        throw new InvalidSession("Session cannot be stored in the cache (sessionID = '" + sessionID
+            + "')");
+      }
+
+      if (log.isDebugEnabled())
+        log.debug("Create new session with ID : " + sessionID);
+    }
+    return session;
 
   }
 
