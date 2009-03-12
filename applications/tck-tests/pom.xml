@@ -454,6 +454,12 @@
     </dependency>
 
     <dependency>
+      <groupId>pdfbox</groupId>
+      <artifactId>pdfbox</artifactId>
+      <version>0.7.3</version>
+    </dependency>
+
+    <dependency>
       <groupId>com.experlog</groupId>
       <artifactId>xapool</artifactId>
       <version>1.5.0</version>
@@ -1056,6 +1062,11 @@
                     <groupId>xpp3</groupId>
                     <artifactId>xpp3</artifactId>
                   </dependency>
+
+                 <dependency>
+                   <groupId>pdfbox</groupId>
+                   <artifactId>pdfbox</artifactId>
+                 </dependency>
 
                   <dependency>
                     <groupId>xstream</groupId>
