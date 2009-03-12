@@ -420,6 +420,8 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
   protected final PortletContainerPlugin findPluginByPAPPName(final String papp) {
     for (Object plugin : plugins.toArray()) {
       Map<String, PortletData> plts = ((PortletContainerPlugin) plugin).getAllPortletMetaData();
+      if (plts == null)
+        continue;
       Set<String> keys = plts.keySet();
       Iterator<String> i = keys.iterator();
       while (i.hasNext()) {
