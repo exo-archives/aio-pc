@@ -197,13 +197,14 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     if ((wrapper == null) || wrapper.getValues().isEmpty())
       return strings;
 
-    Object[] arr = wrapper.getValues().toArray();
-    String[] sA = new String[arr.length];
-    for (int i = 0; i < arr.length; i++) {
-      Object o = arr[i];
-      sA[i] = (String) o;
-    }
-    return sA;
+    String[] arr = wrapper.getValues().toArray(new String[wrapper.getValues().size()]);
+    // EXOMAN coomented out
+//    String[] sA = new String[arr.length];
+//    for (int i = 0; i < arr.length; i++) {
+//      Object o = arr[i];
+//      sA[i] = (String) o;
+//    }
+    return arr;
   }
 
   /**
