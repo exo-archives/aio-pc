@@ -327,9 +327,9 @@
     </dependency>
 
     <dependency>
-      <groupId>javagroups</groupId>
-      <artifactId>jgroups-all</artifactId>
-      <version>2.5.0</version>
+      <groupId>jgroups</groupId>
+      <artifactId>jgroups</artifactId>
+      <version>2.5.2</version>
     </dependency>
 
     <dependency>
@@ -477,6 +477,14 @@
       <version>1.0.2</version>
     </dependency>
   </dependencies>
+
+  <repositories>
+    <repository>
+      <id>jboss.com</id>
+      <url>http://repository.jboss.com/maven2</url>
+      <layout>legacy</layout>
+    </repository>
+  </repositories>
 
   <profiles>
 
