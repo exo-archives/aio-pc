@@ -45,7 +45,7 @@
       <version>2.5</version>
       <scope>compile</scope>
     </dependency>
-    
+
   </dependencies>
 
   <build>
@@ -65,7 +65,7 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>

@@ -9,13 +9,6 @@
   <packaging>jar</packaging>
   <name>eXo Portlet Container 2 Plugins WSRP1</name>
   <description>eXo Portlet Container 2 wsrp1 plugin</description>
-  
-  <repositories>
-    <repository>
-      <id>Codehaus snapshot repository</id>
-      <url>http://snapshots.repository.codehaus.org</url>
-    </repository>
-  </repositories>
 
   <dependencies>
 
@@ -168,7 +161,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-antrun-plugin</artifactId>
-        <version>1.2</version>
+        <version>1.3</version>
         <executions>
           <execution>
             <id>0</id>
@@ -186,7 +179,7 @@
 <!--                <taskdef name="setproxy" classname="org.apache.tools.ant.taskdefs.optional.net.SetProxy" />-->
 <!--                <setproxy proxyhost="${settings.activeProxy.host}" proxyport="${settings.activeProxy.port}" proxypassword="${settings.activeProxy.password}" proxyuser="${settings.activeProxy.username}"-->
 <!--                  nonproxyhosts="${settings.activeProxy.nonProxyHosts}" />-->
-                                                  
+
                 <mkdir dir="${src.gen.dir}" />
                 <java fork="yes" dir="wsdl" classname="org.apache.axis.wsdl.WSDL2Java">
                   <sysproperty key="proxySet" value="" />

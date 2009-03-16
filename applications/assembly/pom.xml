@@ -135,7 +135,7 @@
         </configuration>
       </plugin>
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>

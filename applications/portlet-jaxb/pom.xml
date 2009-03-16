@@ -9,7 +9,7 @@
   <packaging>exopc-war</packaging>
   <!-- packaging>war</packaging -->
   <name>eXo Portlet Container 2 Applications JAXB Portlet</name>
-  
+
   <dependencies>
 
     <dependency>
@@ -164,7 +164,7 @@
       </plugin>
 
       <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>

@@ -45,27 +45,16 @@
       <version>2.5</version>
       <scope>compile</scope>
     </dependency>
-    
+
   </dependencies>
 
   <build>
     <sourceDirectory>../../component/plugins/wsrp1/war_template/src</sourceDirectory>
     <finalName>hello</finalName>
     <plugins>
-    
-      <!-- plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <optimize>true</optimize>
-        </configuration>
-      </plugin -->
-
 
       <!-- plugin>
-        <groupId>org.apache.maven.plugins</groupId>
+        <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
         <configuration>
@@ -97,20 +86,20 @@
             <manifest>
               <addClasspath>true</addClasspath>
             </manifest>
-          </archive> 	
+          </archive>
           <webResources>
-	    <!-- package external properties -->
+      <!-- package external properties -->
             <resource>
               <directory>../../component/plugins/wsrp1/war_template/src</directory>
-	      <targetPath>WEB-INF/classes</targetPath>
-	      <includes>
-	        <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
-	      </includes>
+        <targetPath>WEB-INF/classes</targetPath>
+        <includes>
+          <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
+        </includes>
               <excludes>
                 <exclude>*.java</exclude>
               </excludes>
-	    </resource>
-	    <!-- package external WEB-INF -->
+      </resource>
+      <!-- package external WEB-INF -->
             <resource>
               <directory>../../component/plugins/wsrp1/war_template</directory>
               <excludes>
