@@ -188,6 +188,7 @@
           </archive>
         </configuration>
       </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
         <extensions>true</extensions>
