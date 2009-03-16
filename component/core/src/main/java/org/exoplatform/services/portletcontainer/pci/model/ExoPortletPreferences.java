@@ -97,6 +97,8 @@ public class ExoPortletPreferences extends HashMap<String, Preference> implement
     if (key == null)
       throw new IllegalArgumentException("preference name is null");
     Preference preference = get(key);
+    if (preference == null)
+      return def;
     return preference.getValue(def);
   }
 
