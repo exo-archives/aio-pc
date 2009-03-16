@@ -111,9 +111,9 @@ public class WSRPAdminPortlet {
   private PortletContainerConf    pcConf;
 
   private PortletContainerService pcService;
-  
-  private PersistentStateManager pstateManager;
-  
+
+  private PersistentStateManager  pstateManager;
+
   private final Log               log                = ExoLogger.getLogger(getClass().getName());
 
   public void init(ExoContainer cont) {
@@ -173,7 +173,7 @@ public class WSRPAdminPortlet {
       // actionURL.setSecure(true);
       actionURL.setWindowState(WindowState.NORMAL);
       actionURL.setPortletMode(PortletMode.VIEW);
-      
+
       w.println("<script type=\"text/javascript\">");
       w.println("  function submit_producer_wsrp2_form(action) {");
       w.println("    document.producer_wsrp2_form.elements['op'].value = action;");
@@ -181,15 +181,12 @@ public class WSRPAdminPortlet {
       w.println("  }");
       w.println("</script>");
 
-
       w.println("<center><b>Register remote producer for " //+ WSRPConstants.WSRP_ID
           + " plugin.</b></center><br>");
-      
-      
+
       w.println("<table rows=\"1\" cols=\"2\">");
       w.println("<tr valign=\"top\"><td width=\"40%\">");
 
-      
       w.println("<form name=\"producer_wsrp2_form\" method=\"post\" action=\""
           + actionURL.toString() + "\">");
       w.println("  <input type=\"hidden\" name=\"op\" value=\"\"/>");
@@ -237,23 +234,21 @@ public class WSRPAdminPortlet {
           + WSRPConstants.WAP_lifetime + "\">");
       w.println("</input>&nbsp; <span style=\"font-size:12px; \" >e.g.: \"2h\", \"30m\"</span></td></tr>");
 
-
       w.println("    <tr><td colspan='2' align='center'>");
       w.println("      <input type=\"button\" onclick=\"submit_producer_wsrp2_form('save');\"  value=\"Save\">");
       w.println("      <input type=\"button\"  onclick=\" submit_producer_wsrp2_form('reset');\" value=\"Reset\">");
       w.println("</form>");
       w.println("    </td></tr>");
       w.println("  </table>");
-      
+
       w.println("</td><td>");
-      
 
       ProducerRegistry pregistry = consumer.getProducerRegistry();
 
       // a form for unregister producer
       Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription serviceDescr = null;
-      if (i.hasNext()){
+      if (i.hasNext()) {
         w.println("<table border=\"1\">");
         w.println("<tr  bgcolor=\"#87CEEB\"><td colspan=\"3\"><label style=\"font-size:12px; font-weight:bold;\">Consumer side information</label></td></tr>");
         w.println("<tr bgcolor=\"#FFFFF0\">");
@@ -268,21 +263,21 @@ public class WSRPAdminPortlet {
         w.println("</td>");
         w.println("</tr>");
       }
-      
+
       while (i.hasNext()) {
         Producer producer = (Producer) i.next();
         try {
           serviceDescr = producer.getServiceDescription();
-          
+
         } catch (WSRPException e) {
           e.printStackTrace(w);
         }
-        
+
         w.println("<td>");
-        w.println("<label style=\"font-size:12px; \">" + producer.getName() + " ( " + producer.getID() + " ) </label>");
+        w.println("<label style=\"font-size:12px; \">" + producer.getName() + " ( "
+            + producer.getID() + " ) </label>");
         w.println("</td>");
-        
-        
+
         RegistrationContext rContext = producer.getRegistrationContext();
         if (rContext != null) {
           Lifetime destruction = rContext.getScheduledDestruction();
@@ -298,19 +293,18 @@ public class WSRPAdminPortlet {
             w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
             w.println("</td>");
           }
-          } else {
-            w.println("<td>");
-            w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
-            w.println("</td>");
-          }
-
+        } else {
           w.println("<td>");
-          w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
-              + producer.getID() + "\"  style=\"font-size:12px; \">Deregister</a><br>");
+          w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
           w.println("</td>");
-          w.println("</tr>");
         }
+        w.println("<td>");
+        w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
+            + producer.getID() + "\"  style=\"font-size:12px; \">Deregister</a><br>");
+        w.println("</td>");
+        w.println("</tr>");
       }
+
       w.println("</table><br>");
 
       Vector<String> handles = new Vector<String>(pstateManager.getRegistrationHandles());
@@ -330,7 +324,7 @@ public class WSRPAdminPortlet {
         w.println("</tr>");
 
         for (String one : handles) {
-          if (one.indexOf("_registration") > -1 ) {
+          if (one.indexOf("_registration") > -1) {
             removes.add(one);
             continue;
           }
@@ -346,7 +340,9 @@ public class WSRPAdminPortlet {
             w.println("</tr>");
           } else {
             w.println("<td>");
-            w.println(" <label style=\"font-size:12px; \">" + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())  + "</label>");
+            w.println(" <label style=\"font-size:12px; \">"
+                + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())
+                + "</label>");
             w.println("</td>");
             w.println("</tr>");
           }
@@ -373,7 +369,8 @@ public class WSRPAdminPortlet {
         }
         w.println("<tr>");
         w.println("<td colspan='2'>");
-        w.println("<label style=\"font-size:15px; font-weight:bold;\">Name - " + producer.getName() + ", ID - " + producer.getID() + "</label><br><br>");
+        w.println("<label style=\"font-size:15px; font-weight:bold;\">Name - " + producer.getName()
+            + ", ID - " + producer.getID() + "</label><br><br>");
 //        w.println("RegistrationInterfaceEndpoint - " + producer.getRegistrationInterfaceEndpoint()
 //            + "<br>");
 
@@ -418,11 +415,16 @@ public class WSRPAdminPortlet {
             w.println("<td>Name</td><td>Portlet handle</td><td>Group ID</td><td>Title</td><td>Short title</td><td>Markup type</td></tr>");
             for (PortletDescription portletDescription : portletDescriptions) {
               w.println("<tr>");
-              w.println("<td bgcolor=\"#87CEEB\"><span style=\"font-size:12px; font-weight:bold;\" >"+ getValue(portletDescription.getDisplayName()) + "</span></td>");
-              w.println("<td><span style=\"font-size:12px; \" >" + portletDescription.getPortletHandle().toString() + "</span></td>");
-              w.println("<td><span style=\"font-size:12px; \" >" + portletDescription.getGroupID().toString() + "</span></td>");
-              w.println("<td><span style=\"font-size:12px; \" >" + getValue(portletDescription.getTitle()) + "</span></td>");
-              w.println("<td><span style=\"font-size:12px; \" >" + getValue(portletDescription.getShortTitle()) + "</span></td>");
+              w.println("<td bgcolor=\"#87CEEB\"><span style=\"font-size:12px; font-weight:bold;\" >"
+                  + getValue(portletDescription.getDisplayName()) + "</span></td>");
+              w.println("<td><span style=\"font-size:12px; \" >"
+                  + portletDescription.getPortletHandle().toString() + "</span></td>");
+              w.println("<td><span style=\"font-size:12px; \" >"
+                  + portletDescription.getGroupID().toString() + "</span></td>");
+              w.println("<td><span style=\"font-size:12px; \" >"
+                  + getValue(portletDescription.getTitle()) + "</span></td>");
+              w.println("<td><span style=\"font-size:12px; \" >"
+                  + getValue(portletDescription.getShortTitle()) + "</span></td>");
               StringBuffer value = new StringBuffer();
 //              List<LocalizedString> keywords = portletDescription.getKeywords();
 //              if (keywords != null) {
@@ -436,7 +438,8 @@ public class WSRPAdminPortlet {
               for (MarkupType markupType : types) {
                 value.append(markupType.getMimeType()).append(" ");
               }
-              w.println("<td><span style=\"font-size:12px; \" >" + value.toString() + "</span></td></tr>");
+              w.println("<td><span style=\"font-size:12px; \" >" + value.toString()
+                  + "</span></td></tr>");
               /*
               String[] userCategories = portletDescription.getUserCategories();
               String valueCategories = "";
@@ -554,7 +557,8 @@ public class WSRPAdminPortlet {
         producer.setDescription(description);
         producer.getDesiredLocales().add("en");
 
-        if (producer.isRegistrationRequired() ||request.getParameter(WSRPConstants.WAP_lifetime)!= null) {
+        if (producer.isRegistrationRequired()
+            || request.getParameter(WSRPConstants.WAP_lifetime) != null) {
           List<String> CONSUMER_SCOPES = new ArrayList<String>();
           CONSUMER_SCOPES.add("chunk_data");
           String[] CONSUMER_CUSTOM_PROFILES = { "what_more" };
@@ -574,25 +578,26 @@ public class WSRPAdminPortlet {
           Register register = new Register();
           register.setRegistrationData(registrationData);
 //          register.setUserContext(userContext);
-          
-          if (request.getParameter(WSRPConstants.WAP_lifetime)!= null && !request.getParameter(WSRPConstants.WAP_lifetime).equals("") ) {
-          Lifetime lifetime = new Lifetime();
-          lifetime.setCurrentTime(CalendarUtils.getNow());
-          Calendar cal = Calendar.getInstance();
-          String aaa=request.getParameter(WSRPConstants.WAP_lifetime).trim();
-          int i =Integer.parseInt(aaa.substring(0, aaa.length()-1));
-          aaa =String.valueOf(aaa.charAt(aaa.length()-1));
-          
-          if (aaa.equalsIgnoreCase("h"))
-           cal.add(Calendar.HOUR_OF_DAY  ,i);
-          else if (aaa.equalsIgnoreCase("m"))
-            cal.add(Calendar.MINUTE  ,i);
-          else if (aaa.equalsIgnoreCase("s"))
-            cal.add(Calendar.SECOND  ,i);
+
+          if (request.getParameter(WSRPConstants.WAP_lifetime) != null
+              && !request.getParameter(WSRPConstants.WAP_lifetime).equals("")) {
+            Lifetime lifetime = new Lifetime();
+            lifetime.setCurrentTime(CalendarUtils.getNow());
+            Calendar cal = Calendar.getInstance();
+            String aaa = request.getParameter(WSRPConstants.WAP_lifetime).trim();
+            int i = Integer.parseInt(aaa.substring(0, aaa.length() - 1));
+            aaa = String.valueOf(aaa.charAt(aaa.length() - 1));
+
+            if (aaa.equalsIgnoreCase("h"))
+              cal.add(Calendar.HOUR_OF_DAY, i);
+            else if (aaa.equalsIgnoreCase("m"))
+              cal.add(Calendar.MINUTE, i);
+            else if (aaa.equalsIgnoreCase("s"))
+              cal.add(Calendar.SECOND, i);
 //          else if (aaa.equalsIgnoreCase("d"))
 //            cal.add(Calendar.DAY_OF_MONTH  ,i);
-          lifetime.setTerminationTime(CalendarUtils.convertCalendar(cal));
-          register.setLifetime(lifetime);
+            lifetime.setTerminationTime(CalendarUtils.convertCalendar(cal));
+            register.setLifetime(lifetime);
           }
 
           RegistrationContext registrationContext = producer.register(register);
