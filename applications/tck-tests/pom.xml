@@ -14,13 +14,10 @@
       <id>Codehaus snapshot repository</id>
       <url>http://snapshots.repository.codehaus.org</url>
     </repository>
-<!--    
     <repository>
       <id>jboss.com</id>
       <url>http://repository.jboss.com/maven2</url>
-      <layout>legacy</layout>
     </repository>
--->
   </repositories>
 
   <dependencies>
@@ -971,8 +968,8 @@
                   </dependency>
 
                   <dependency>
-                    <groupId>javagroups</groupId>
-                    <artifactId>jgroups-all</artifactId>
+                    <groupId>jgroups</groupId>
+                    <artifactId>jgroups</artifactId>
                   </dependency>
 
                   <dependency>
