@@ -26,7 +26,7 @@ import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
- * févr. 2004 Time: 13:05:01
+ *         févr. 2004 Time: 13:05:01
  */
 
 public class URLTemplateComposerImpl2 implements URLTemplateComposer {
@@ -154,6 +154,7 @@ public class URLTemplateComposerImpl2 implements URLTemplateComposer {
     stringBuffer.append("&" + WSRPConstants.WSRP_EXTENSIONS + "={" + WSRPConstants.WSRP_EXTENSIONS
         + "}");
 
+    // special parameterNames
     stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_RESOURCE_ID + "={"
         + WSRPConstants.WSRP_RESOURCE_ID + "}");
@@ -164,14 +165,15 @@ public class URLTemplateComposerImpl2 implements URLTemplateComposer {
 
   }
 
-  private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
+  @Deprecated
+  private void manageServerProtocol(StringBuffer sB, Boolean isSecure) {
     if (isSecure != null && isSecure) {
       sB.append(SECURE_PROTOCOL);
     } else {
       sB.append(NON_SECURE_PROTOCOL);
     }
   }
-  
+
   @Deprecated
   private void manageServerPath(StringBuffer sB, String path) {
     String newPath = null;

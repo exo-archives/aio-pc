@@ -86,4 +86,15 @@ public interface WSRPPortlet {
    * @param portletHandle the portlet handle of the parent portlet
    */
   public void setParent(String portletHandle);
+
+  /**
+   * @return
+   */
+  public String getPortletHandle();
+
+  /**
+   * @param portletHandle
+   */
+  public void setPortletHandle(String portletHandle);
+
 }

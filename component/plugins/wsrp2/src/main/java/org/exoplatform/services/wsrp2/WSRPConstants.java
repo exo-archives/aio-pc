@@ -169,7 +169,6 @@ public class WSRPConstants {
    */
   public static final String WSRP_PORTLET_STATES                = "wsrp-portletStates";
 
-  // ??
   // public static final String WSRP_CACHELEVEL = "wsrp-cacheLevel";
   /**
    * WSRP producer ID.
@@ -224,12 +223,12 @@ public class WSRPConstants {
   /**
    * WSRP admin.
    */
-  public static final String WSRP_PRODUCER_APP_ENCODER              = "@";
+  public static final String PRODUCER_HANDLE_ENCODER              = "@";
 
   /**
    * WSRP admin portlet app.
    */
-  public static final String WSRP_ADMIN_PORTLET_APP             = WSRP_PRODUCER_APP_ENCODER
+  public static final String WSRP_ADMIN_PORTLET_APP             = PRODUCER_HANDLE_ENCODER
                                                                     + "WSRP2App";
 
   /**

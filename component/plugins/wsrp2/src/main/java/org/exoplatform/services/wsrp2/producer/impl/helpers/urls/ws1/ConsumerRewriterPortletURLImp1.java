@@ -40,14 +40,13 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
   private PersistentStateManager stateManager;
 
   public ConsumerRewriterPortletURLImp1(String type,
-                                        String baseURL,
                                         String mimeType,
                                         List<Supports> supports,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
                                         String sessionID) {
-    super(type, baseURL, mimeType, supports, isCurrentlySecured, true, null);
+    super(type, null, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;

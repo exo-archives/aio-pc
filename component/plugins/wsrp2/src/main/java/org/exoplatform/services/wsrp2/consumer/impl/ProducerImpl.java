@@ -150,7 +150,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
         setVersion(version);
       init(container);
     } else {
-      LOG.error("producer URL is null", new NullPointerException("producer URL is null"));
+      LOG.warn("Producer URL is null");
     }
   }
 

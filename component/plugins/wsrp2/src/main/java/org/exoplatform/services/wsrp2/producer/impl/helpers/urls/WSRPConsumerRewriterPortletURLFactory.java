@@ -46,8 +46,6 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private String                 portletHandle;
 
-  private String                 template;
-
   private boolean                defaultEscapeXml;
 
   private String                 mimeType;                                                // only for PortletURL
@@ -63,7 +61,6 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
   private int                    version;
 
   public WSRPConsumerRewriterPortletURLFactory(String mimeType,
-                                               String template,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
                                                String portletHandle,
@@ -76,7 +73,6 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
     this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
-    this.template = template;
     this.portletHandle = portletHandle;
     this.persistentStateManager = persistentStateManager;
     this.sessionID = sessionID;
@@ -90,7 +86,6 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
   public PortletURL createPortletURL(String type) {
     if (version == 1) {
       return new ConsumerRewriterPortletURLImp1(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
-                                                template,
                                                 mimeType,
                                                 supports,
                                                 isCurrentlySecured,
@@ -99,7 +94,6 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                 sessionID);
     } else {
       return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
-                                               template,
                                                mimeType,
                                                supports,
                                                isCurrentlySecured,
@@ -115,14 +109,12 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
   public ResourceURL createResourceURL(String type) {
     if (version == 1) {
       return new ConsumerRewriterResourceURLImp1(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
-                                                 template,
                                                  isCurrentlySecured,
                                                  portletHandle,
                                                  persistentStateManager,
                                                  sessionID);
     } else {
       return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
-                                                template,
                                                 isCurrentlySecured,
                                                 portletHandle,
                                                 persistentStateManager,

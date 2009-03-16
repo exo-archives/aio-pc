@@ -43,6 +43,25 @@ public interface PortletRegistry {
    * @return The portlet with the given portlet key
    */
   public WSRPPortlet getPortlet(PortletKey portletKey);
+  
+  
+  /**
+   * Get the portlet.
+   * 
+   * @param producerID
+   * @param portletHandle
+   * @return
+   */
+  public WSRPPortlet getPortlet(String producerID, String portletHandle);
+  
+  /**
+   * Get Portlet Key.
+   * 
+   * @param producerID
+   * @param portletHandle
+   * @return
+   */
+  public PortletKey getPortletKey(String producerID, String portletHandle);
 
   /**
    * Remove the portlet with the given portlet key.

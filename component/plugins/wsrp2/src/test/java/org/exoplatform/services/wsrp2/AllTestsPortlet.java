@@ -36,8 +36,7 @@ public class AllTestsPortlet extends TestCase {
     TestSuite suite = new TestSuite("portlet-container tests");
 
     // Whether we skip cargo container. In case standalone Tomcat instance. 
-    if (System.getProperty("exo.test.cargo.skip") == null
-        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+    if (doesCargoUse()) {
       assertTrue(org.exoplatform.services.wsrp2.ContainerStarter.start());
     }
 
@@ -55,10 +54,14 @@ public class AllTestsPortlet extends TestCase {
 
   protected void tearDown() {
     // Whether we skip cargo container. In case standalone Tomcat instance. 
-    if (System.getProperty("exo.test.cargo.skip") == null
-        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true")) {
+    if (doesCargoUse()) {
       assertFalse(org.exoplatform.services.wsrp2.ContainerStarter.stop());
     }
+  }
+  
+  private static boolean doesCargoUse() {
+    return (System.getProperty("exo.test.cargo.skip") == null
+        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"));
   }
 
 }

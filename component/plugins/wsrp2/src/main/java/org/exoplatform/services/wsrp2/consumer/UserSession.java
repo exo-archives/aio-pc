@@ -49,7 +49,7 @@ public interface UserSession {
   /**
    * Get the group session for this group ID.
    * 
-   * @param groupID ID of the portlet application
+   * @param groupID is the portlet application name
    * @return The a group session for the provided group ID or a new groupSession
    */
   public GroupSessionMgr getGroupSession(String groupID) throws WSRPException;
@@ -60,7 +60,7 @@ public interface UserSession {
    * @return Iterator with all group sessions for the given producer access
    *         point
    */
-  public Iterator getAllGroupSessions();
+  public Iterator<GroupSession> getAllGroupSessions();
 
   /**
    * Add a group session to the user session.

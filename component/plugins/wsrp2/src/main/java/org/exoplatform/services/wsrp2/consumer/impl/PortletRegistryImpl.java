@@ -21,14 +21,16 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
+import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.wsrp2.consumer.PortletKey;
 import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
 import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
+import org.exoplatform.services.wsrp2.consumer.adapters.PortletKeyAdapter;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 2
- * févr. 2004 Time: 20:40:23
+ *         févr. 2004 Time: 20:40:23
  */
 
 public class PortletRegistryImpl implements PortletRegistry {
@@ -41,6 +43,35 @@ public class PortletRegistryImpl implements PortletRegistry {
 
   public WSRPPortlet getPortlet(PortletKey portletKey) {
     return (WSRPPortlet) portlets.get(portletKey);
+  }
+  
+  public WSRPPortlet getPortlet(String producerID, String pcFullPortletHandle) {
+    if (getPortletKey(producerID, pcFullPortletHandle)==null)
+      return null;
+    PortletKey portletKey = new PortletKeyAdapter();
+    portletKey.setProducerId(producerID);
+    portletKey.setPortletHandle(pcFullPortletHandle);
+    return getPortlet(portletKey);
+  }
+
+  /**
+   * Get Portlet Key.
+   * 
+   * @param producerID
+   * @param portletHandle
+   * @return
+   */
+  public PortletKey getPortletKey(String producerID, String portletHandle) {
+    PortletKey portletKey = null;
+    Iterator<WSRPPortlet> portlets = getAllPortlets();
+    while (portlets.hasNext()) {
+      WSRPPortlet portlet = portlets.next();
+      if (producerID.equals(portlet.getPortletKey().getProducerId())
+          && portletHandle.equals(portlet.getPortletKey().getPortletHandle())) {
+        portletKey = portlet.getPortletKey();
+      }
+    }
+    return portletKey;
   }
 
   public WSRPPortlet removePortlet(PortletKey portletKey) {

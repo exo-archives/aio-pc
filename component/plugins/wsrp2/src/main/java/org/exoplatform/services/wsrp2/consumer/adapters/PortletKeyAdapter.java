@@ -17,13 +17,12 @@
 
 package org.exoplatform.services.wsrp2.consumer.adapters;
 
+import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.PortletKey;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 8 févr. 2004
- * Time: 22:56:54
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 8
+ *         févr. 2004 Time: 22:56:54
  */
 
 public class PortletKeyAdapter implements PortletKey {
@@ -37,9 +36,17 @@ public class PortletKeyAdapter implements PortletKey {
    * Producer ID.
    */
   private String producerId;
+  
+  /**
+   * Default constructor.
+   */
+  public PortletKeyAdapter() {
+    super();
+  }
 
   /**
    * Get portlet handle.
+   * 
    * @return portletHandle
    */
   public String getPortletHandle() {
@@ -48,6 +55,7 @@ public class PortletKeyAdapter implements PortletKey {
 
   /**
    * Set portlet handle.
+   * 
    * @param portletHandle String
    */
   public void setPortletHandle(String portletHandle) {
@@ -56,6 +64,7 @@ public class PortletKeyAdapter implements PortletKey {
 
   /**
    * Get producer ID.
+   * 
    * @return producerId
    */
   public String getProducerId() {
@@ -64,10 +73,16 @@ public class PortletKeyAdapter implements PortletKey {
 
   /**
    * Set producer ID.
+   * 
    * @parem producerId String
    */
   public void setProducerId(String producerId) {
     this.producerId = producerId;
+  }
+
+  @Override
+  public String toString() {
+    return this.producerId + WSRPConstants.PRODUCER_HANDLE_ENCODER + this.portletHandle;
   }
 
 }

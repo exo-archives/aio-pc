@@ -20,6 +20,7 @@ package org.exoplatform.services.wsrp2.producer.impl;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -28,6 +29,7 @@ import java.util.Map;
 import java.util.MissingResourceException;
 import java.util.Set;
 
+import javax.portlet.PortletPreferences;
 import javax.portlet.WindowState;
 import javax.xml.namespace.QName;
 
@@ -118,8 +120,8 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       LOG.debug("get description of portlet: " + portletName);
     }
 
-    Map<String, PortletData> portletMetaDatas = pcService.getAllPortletMetaData();
-    Set<String> keys = portletMetaDatas.keySet();
+    Map<String, PortletData> portletMetaDatas = pcService.getAllPortletMetaData(true);
+//    Set<String> keys = portletMetaDatas.keySet();
 
     PortletData portlet = (PortletData) portletMetaDatas.get(portletApplicationName
         + Constants.PORTLET_META_DATA_ENCODER + portletName);
@@ -204,7 +206,10 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     return parameterDescriptions;
   }
 
-  public void setPortletProperties(String portletHandle, String owner, PropertyList propertyList, byte[] portletState) throws WSRPException {
+  public void setPortletProperties(String portletHandle,
+                                   String owner,
+                                   PropertyList propertyList,
+                                   byte[] portletState) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     LOG.debug("portlet handle to split in setPortletProperties : " + portletHandle);
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
@@ -225,12 +230,12 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     windowID.setPortletName(key[1]);
     windowID.setUniqueID(key[2]);
     input.setInternalWindowID(windowID);
-    
+
     //  input.setStateChangeAuthorized(false);
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
-    
+
     try {
       pcService.setPortletPreference(input, propertiesMap);
     } catch (Exception e) {
@@ -238,7 +243,10 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     }
   }
 
-  public Map<String, String[]> getPortletProperties(String portletHandle, String owner, byte[] portletState) throws WSRPException {
+  public Map<String, String[]> getPortletProperties(String portletHandle,
+                                                    String owner,
+                                                    byte[] portletState,
+                                                    boolean readWriteOnly) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
     try {
@@ -249,16 +257,42 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
       windowID.setPortletName(key[1]);
       windowID.setUniqueID(key[2]);
       input.setInternalWindowID(windowID);
-      
+
 //    input.setStateChangeAuthorized(false);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
-      
-      return pcService.getPortletPreference(input);
+
+      PortletPreferences prefs = pcService.getPortletPreferences(input);
+
+      // do we need to return only readWrite prefs
+      if (readWriteOnly) {
+        return getPortletPropertiesReadWrite(prefs);
+      } else {
+        return prefs.getMap();
+      }
+
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
     }
+  }
+
+  private Map<String, String[]> getPortletPropertiesReadWrite(PortletPreferences prefs) throws WSRPException {
+
+    Map<String, String[]> prefsResult = null;
+    Enumeration<String> prefEnums = prefs.getNames();
+    while (prefEnums.hasMoreElements()) {
+      String name = (String) prefEnums.nextElement();
+      if (!prefs.isReadOnly(name)) {
+        String[] values = prefs.getValues(name, null);
+        if (prefsResult == null) {
+          prefsResult = new HashMap<String, String[]>();
+        }
+        prefsResult.put(name, values);
+      }
+    }
+
+    return prefsResult;
   }
 
   /**

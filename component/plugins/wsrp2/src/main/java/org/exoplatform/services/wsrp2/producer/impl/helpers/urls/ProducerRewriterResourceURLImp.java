@@ -31,6 +31,8 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.utils.TemplatesUtils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -45,8 +47,10 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
+  private Templates              templates;
+
   public ProducerRewriterResourceURLImp(String type,
-                                        String template,
+                                        Templates templates,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
@@ -55,11 +59,12 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
                                         String cacheLevel,
                                         List<String> supportedPublicRenderParameter,
                                         Portlet portlet) {
-    super(type, template, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
+    super(type, null, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
+    this.templates = templates;
   }
 
   public String toString() {
@@ -89,7 +94,8 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       }
     }
 
-    String template = baseURL;
+    String template = TemplatesUtils.getConcreteTemplate(templates, isSecure(), getType());
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");

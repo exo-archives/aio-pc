@@ -94,8 +94,8 @@ public class TestGetMarkup extends BaseTest {
     String s = response.getMarkupContext().getMarkupString();
     int index = s.indexOf("&ns=");
     s = s.substring(index + "&ns=".length());
-    index = s.indexOf("&is=");
-    s = StringUtils.left(s, index);
+    index = s.indexOf("&");
+    s = s.substring(0, index);
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:maximized");
     markupParams.setNavigationalState(s);

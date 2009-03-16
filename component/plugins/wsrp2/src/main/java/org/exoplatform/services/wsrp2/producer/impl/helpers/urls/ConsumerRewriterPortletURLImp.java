@@ -47,7 +47,6 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
   public ConsumerRewriterPortletURLImp(String type,
-                                       String baseURL,
                                        String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,
@@ -57,7 +56,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
                                        boolean defaultEscapeXml,
                                        List<String> supportedPublicRenderParameter,
                                        Portlet portlet) {
-    super(type, baseURL, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
+    super(type, null, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -100,6 +99,11 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(getType());
+    
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
+    sB.append("=");
+    sB.append(portletHandle);
 
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_FRAGMENT_ID);

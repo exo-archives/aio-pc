@@ -63,9 +63,8 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                             session,
                                             isTemplatesStoredInSession,
                                             transientStateManager);
-      String baseURL = templates.getRenderTemplate();
       return new WSRPProducerRewriterPortletURLFactory(mimeType,
-                                                       baseURL,
+                                                       templates,
                                                        supports,
                                                        isCurrentlySecured,
                                                        portletHandle,
@@ -75,11 +74,9 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                                        cacheLevel,
                                                        supportedPublicRenderParameter,
                                                        portlet);
-
     } else {
       LOG.debug("Consumer URL rewriting");
       return new WSRPConsumerRewriterPortletURLFactory(mimeType,
-                                                       null,
                                                        supports,
                                                        isCurrentlySecured,
                                                        portletHandle,

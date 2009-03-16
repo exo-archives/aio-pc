@@ -188,7 +188,7 @@ public class WSRPAdminPortlet {
       
       w.println("<table rows=\"1\" cols=\"2\">");
       w.println("<tr valign=\"top\"><td width=\"40%\">");
-      
+
       
       w.println("<form name=\"producer_wsrp2_form\" method=\"post\" action=\""
           + actionURL.toString() + "\">");
@@ -298,24 +298,25 @@ public class WSRPAdminPortlet {
             w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
             w.println("</td>");
           }
-        } else {
-          w.println("<td>");
-          w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
-          w.println("</td>");
-        }
+          } else {
+            w.println("<td>");
+            w.println("<label style=\"font-size:12px; \">&nbsp;Permanent&nbsp;" + "</label>");
+            w.println("</td>");
+          }
 
-        w.println("<td>");
-        w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
-            + producer.getID() + "\"  style=\"font-size:12px; \">Deregister</a><br>");
-        w.println("</td>");
-        w.println("</tr>");
+          w.println("<td>");
+          w.println("<a href=\"" + actionURL.toString() + "&op=deregister&producerid="
+              + producer.getID() + "\"  style=\"font-size:12px; \">Deregister</a><br>");
+          w.println("</td>");
+          w.println("</tr>");
+        }
       }
       w.println("</table><br>");
-      
+
       Vector<String> handles = new Vector<String>(pstateManager.getRegistrationHandles());
       SimpleDateFormat format2 = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-      List<String> removes = new ArrayList<String>(); 
-      
+      List<String> removes = new ArrayList<String>();
+
       if (handles.size() > 0) {
         w.println("<table border=\"1\">");
         w.println("<tr  bgcolor=\"#87CEEB\"><td colspan=\"2\"><label style=\"font-size:12px; font-weight:bold;\">Producer side information</label></td></tr>");
@@ -344,22 +345,21 @@ public class WSRPAdminPortlet {
             w.println("</td>");
             w.println("</tr>");
           } else {
-          w.println("<td>");
-          w.println(" <label style=\"font-size:12px; \">" + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())  + "</label>");
-          w.println("</td>");
-          w.println("</tr>");
+            w.println("<td>");
+            w.println(" <label style=\"font-size:12px; \">" + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())  + "</label>");
+            w.println("</td>");
+            w.println("</tr>");
           }
         }
         handles.removeAll(removes);
         w.println("</table>");
       }
-      
+
       w.println("</td></tr></table>");
-      
+
       w.println("<hr>");
-     // w.println("<h2>Detailed info</h2>");
-      
-      
+      // w.println("<h2>Detailed info</h2>");
+
       w.println("<table border=\"1\">");
 
       i = pregistry.getAllProducers();
@@ -388,8 +388,7 @@ public class WSRPAdminPortlet {
 //        }
         w.println("</td>");
         w.println("</tr>");
-        
-        
+
         w.println("<tr>");
         w.println("<td><span style=\"font-size:12px; font-weight:bold;\" >Requires Registration</span></td>");
         String answer = "N/A";
@@ -407,11 +406,11 @@ public class WSRPAdminPortlet {
         }
         w.println("<td><span style=\"font-size:12px; \" >" + answer + "</span></td>");
         w.println("</tr>");
-        
+
         w.println("<tr>");
         w.println("<td colspan='2'>");
         w.println("<table border =\"1\">");
-        
+
         if (serviceDescr != null) {
           List<PortletDescription> portletDescriptions = serviceDescr.getOfferedPortlets();
           if (portletDescriptions != null) {
@@ -492,7 +491,6 @@ public class WSRPAdminPortlet {
       w.println("</table>");
       // store content to output
 
-      
       try {
         output.setContent((new String(charArrayWriter.toCharArray())).getBytes("utf-8"));
       } catch (java.io.UnsupportedEncodingException e) {
@@ -528,7 +526,7 @@ public class WSRPAdminPortlet {
         deregister.setUserContext(userContext);
         try {
           producer.deregister(deregister);
-        } catch (Exception e){
+        } catch (Exception e) {
           if (log.isDebugEnabled())
             log.debug("Exception deregistering producer: " + producer.getID());
         }
@@ -544,7 +542,6 @@ public class WSRPAdminPortlet {
         serviceDescriptionIntfEndpoint = request.getParameter(WSRPConstants.WAP_serviceDescriptionIntfEndpoint);
         description = request.getParameter(WSRPConstants.WAP_description);
         version = Integer.parseInt(request.getParameter(WSRPConstants.WAP_version));
-        
 
         String pURL = producerURL;// + "?wsdl";
         ProducerRegistry pregistry = consumer.getProducerRegistry();

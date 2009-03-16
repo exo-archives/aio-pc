@@ -36,16 +36,6 @@ public class WSRPPortletAdapter implements WSRPPortlet {
 
   public WSRPPortletAdapter(PortletKey portletKey) {
     this.portletKey = portletKey;
-
-    if (portletKey.getPortletHandle() != null) {
-      if (portletKey.getPortletHandle().contains("/")) {
-        this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle()
-                                                                              .indexOf("/") + 1);
-      } else {
-        this.parentHandle = portletKey.getPortletHandle();
-      }
-    }
-
   }
 
   public PortletKey getPortletKey() {
@@ -55,24 +45,12 @@ public class WSRPPortletAdapter implements WSRPPortlet {
   public void setPortletKey(PortletKey portletKey) {
     if (portletKey != null) {
       this.portletKey = portletKey;
-      if (this.portletContext != null) {
-        this.portletContext.setPortletHandle(portletKey.getPortletHandle());
-      }
-      if (parentHandle == null) {
-        if (portletKey.getPortletHandle().contains("/")) {
-          this.parentHandle = portletKey.getPortletHandle().substring(portletKey.getPortletHandle()
-                                                                                .indexOf("/") + 1);
-        } else {
-          this.parentHandle = portletKey.getPortletHandle();
-        }
-      }
     }
   }
 
   public void setPortletContext(PortletContext portletContext) {
     if (portletContext != null) {
       this.portletContext = portletContext;
-      this.portletKey.setPortletHandle(portletContext.getPortletHandle());
     }
   }
 
@@ -85,15 +63,24 @@ public class WSRPPortletAdapter implements WSRPPortlet {
   }
 
   public void setParent(String portletHandle) {
-    if (portletHandle.contains("/"))
-      this.parentHandle = portletHandle.substring(portletHandle.indexOf("/") + 1);
-    else
-      this.parentHandle = portletHandle;
+    this.parentHandle = portletHandle;
   }
 
   public boolean isConsumerConfigured() {
-    // parentHandle == portletKey -> false
-    return !getParent().equals(portletKey.getPortletHandle());
+    // if (parentHandle == PortletContext.handle) than 'false'
+    return !getParent().equals(getPortletHandle());
+  }
+
+  public String getPortletHandle() {
+    if (getPortletContext() == null)
+      return null;
+    return getPortletContext().getPortletHandle();
+  }
+
+  public void setPortletHandle(String portletHandle) {
+    if (getPortletContext() == null)
+      setPortletContext(new PortletContext());
+    getPortletContext().setPortletHandle(portletHandle);
   }
 
 }

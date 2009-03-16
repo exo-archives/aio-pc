@@ -131,8 +131,7 @@ public class PortletDriverImpl implements PortletDriver {
       userSession.setInitCookieDone(false);
     } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
       PortletDescription portletDescription = null;
-      portletDescription = producer.getPortletDescription(getPortlet().getPortletKey()
-                                                                      .getPortletHandle());
+      portletDescription = producer.getPortletDescription(getPortlet().getParent());
       String groupID = null;
       if (portletDescription != null) {
         groupID = portletDescription.getGroupID();
@@ -160,8 +159,7 @@ public class PortletDriverImpl implements PortletDriver {
     } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
       // If CookieProtocol.PER_GROUP
       LOG.debug("Cookies management per group");
-      PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getPortletKey()
-                                                                                         .getPortletHandle());
+      PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getParent());
       String groupID = null;
       if (portletDescription != null) {
         groupID = portletDescription.getGroupID();
@@ -209,8 +207,7 @@ public class PortletDriverImpl implements PortletDriver {
 
       Boolean doesUrlTemplateProcess = null;
       Boolean getTemplatesStoredInSession = null;
-      PortletDescription desc = producer.getPortletDescription(getPortlet().getPortletKey()
-                                                                           .getPortletHandle());
+      PortletDescription desc = producer.getPortletDescription(getPortlet().getParent());
       if (desc != null) {
         doesUrlTemplateProcess = desc.isDoesUrlTemplateProcessing();
         getTemplatesStoredInSession = desc.isTemplatesStoredInSession();
@@ -222,7 +219,7 @@ public class PortletDriverImpl implements PortletDriver {
           } else {
             templates = new Templates();
             if (baseURL != null) {
-              // a path should be conform to the template--> "/" + ... + "?" + "portal:componentId=" + portlet_handle ;
+              // a path should be conform to the template--> "http://.../..?portal:componentId=portlet_handle";
               templates.setBlockingActionTemplate(templateComposer.createBlockingActionTemplate(baseURL));
               templates.setRenderTemplate(templateComposer.createRenderTemplate(baseURL));
               templates.setDefaultTemplate(templateComposer.createDefaultTemplate(baseURL));
@@ -236,7 +233,7 @@ public class PortletDriverImpl implements PortletDriver {
           runtimeContext.setTemplates(templates);
         } // ends doesUrlTemplateProcess
       }
-      
+
     } // ends templateComposer !=null
 
     SessionParams sessionParams = new SessionParams();
@@ -266,12 +263,12 @@ public class PortletDriverImpl implements PortletDriver {
 
   private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
-    interactionParams.setPortletStateChange(consumer.getPortletStateChange());
+    interactionParams.setPortletStateChange(consumer.getPortletStateChange());// set state change
     if (!portlet.isConsumerConfigured()
         && interactionParams.getPortletStateChange()
                             .value()
                             .equalsIgnoreCase(StateChange.READ_WRITE.value())) {
-      interactionParams.setPortletStateChange(StateChange.CLONE_BEFORE_WRITE);
+      interactionParams.setPortletStateChange(StateChange.CLONE_BEFORE_WRITE);// update state change
     }
     interactionParams.setInteractionState(actionRequest.getInteractionState());
     if (actionRequest.getFormParameters() != null)

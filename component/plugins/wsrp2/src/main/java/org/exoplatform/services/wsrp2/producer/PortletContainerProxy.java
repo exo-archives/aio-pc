@@ -90,12 +90,12 @@ public interface PortletContainerProxy {
    * 
    * @param portletHandle the portlet handle
    * @param userID the user id
-   * 
+   * @param readWriteOnly TODO
    * @return the portlet properties
    * 
    * @throws WSRPException the WSRP exception
    */
-  public Map<String, String[]> getPortletProperties(String portletHandle, String userID, byte[] portletState) throws WSRPException;
+  public Map<String, String[]> getPortletProperties(String portletHandle, String userID, byte[] portletState, boolean readWriteOnly) throws WSRPException;
 
   /**
    * Gets the all portlet meta data.

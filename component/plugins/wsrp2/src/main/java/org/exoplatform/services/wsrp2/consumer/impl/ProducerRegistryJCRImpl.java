@@ -44,32 +44,32 @@ import org.picocontainer.Startable;
 public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   /**
-   *  Last modified time.  
+   * Last modified time.
    */
   private long                  lastModifiedTime_;
-  
+
   /**
-   *  Producers map.  
+   * Producers map.
    */
   private Map<String, Producer> producers;
 
   /**
-   *  Logger.  
+   * Logger.
    */
   private Log                   LOG;
 
   /**
-   *  Container.  
+   * Container.
    */
   private ExoContainer          cont;
 
   /**
-   *  WSRP persister.  
+   * WSRP persister.
    */
   private WSRPPersister         persister;
 
   /**
-   *  WSRP path.  
+   * WSRP path.
    */
   private String                path;
 
@@ -119,14 +119,20 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
   }
 
   public Producer getProducer(String id) {
+    if (producers == null)
+      return null;
     return (Producer) producers.get(id);
   }
 
   public Iterator<Producer> getAllProducers() {
+    if (producers == null)
+      return null;
     return producers.values().iterator();
   }
 
   public Producer removeProducer(String id) {
+    if (producers == null)
+      return null;
     try {
       persister.putValue(path, id, null);
       producers.remove(id);
@@ -141,6 +147,8 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
   }
 
   public void removeAllProducers() throws Exception {
+    if (producers == null)
+      return;
     persister.removeAll(path);
     producers.clear();
     lastModifiedTime_ = System.currentTimeMillis();
@@ -194,7 +202,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
   public void start() {
     try {
 
-      producers = loadProducers();
+      setProducers(loadProducers());
 
     } catch (Exception e) {
       e.printStackTrace();
@@ -231,6 +239,14 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
       LOG.error(e.getMessage(), e);
     }
     return data;
+  }
+  
+  private void setProducers(Map<String, Producer> producers) {
+    this.producers = producers;
+  }
+  
+  private Map<String, Producer> getProducers() {
+    return producers;
   }
 
 }

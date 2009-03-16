@@ -26,97 +26,95 @@ import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.NamedString;
 
 /**
- * @author  Mestrallet Benjamin.
- *          benjmestrallet@users.sourceforge.net
- * Date: 7 févr. 2004
- * Time: 16:25:12
+ * @author Mestrallet Benjamin. benjmestrallet@users.sourceforge.net Date: 7
+ *         févr. 2004 Time: 16:25:12
  */
 
 public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
-  /** 
-   * Session ID.
-   *         For RuntimeContext 
+  /**
+   * Session ID. For RuntimeContext
    */
   private String            sessionID;
 
-  /** 
-   *  Portlet instance key.
+  /**
+   * Portlet instance key.
    */
-  private String        portletInstanceKey;
+  private String            portletInstanceKey;
 
-  /** 
-   *  Navigational state.
+  /**
+   * Navigational state.
    */
   private String            navigationalState;
 
-  /** 
-   *  Navigational values.
+  /**
+   * Navigational values.
    */
-  private List<NamedString> navigationalValues;       //WSRP2
+  private List<NamedString> navigationalValues;                            //WSRP2
 
-  /** 
-   *  Secure client communication.
+  /**
+   * Secure client communication.
    */
   private boolean           secureClientCommunication;                     //WSRP2
 
-  /** 
-   *  Locales.
+  /**
+   * Locales.
    */
-  private List<String>      locales = new ArrayList<String>();
+  private List<String>      locales              = new ArrayList<String>();
 
-  /** 
-   *  MIME types.
+  /**
+   * MIME types.
    */
-  private List<String>      mimeTypes = new ArrayList<String>();
+  private List<String>      mimeTypes            = new ArrayList<String>();
 
-  /** 
-   *  Portlet mode.
+  /**
+   * Portlet mode.
    */
-  private String        mode;
+  private String            mode;
 
-  /** 
-   *  Window state.
+  /**
+   * Window state.
    */
-  private String        windowState;
+  private String            windowState;
 
-  /** 
-   *  Client data.
+  /**
+   * Client data.
    */
-  private ClientData    clientData;
+  private ClientData        clientData;
 
-  /** 
-   *  Markup character set. 
+  /**
+   * Markup character set.
    */
-  private List<String>      markupCharacterSets = new ArrayList<String>();
+  private List<String>      markupCharacterSets  = new ArrayList<String>();
 
-  /** 
-   *  Validate tag.
+  /**
+   * Validate tag.
    */
-  private String        validateTag;              //WSRP2
+  private String            validateTag;                                   //WSRP2
 
-  /** 
-   *  Valid portlet modes. 
+  /**
+   * Valid portlet modes.
    */
-  private List<String>      validNewModes = new ArrayList<String>();
+  private List<String>      validNewModes        = new ArrayList<String>();
 
-  /** 
-   *  Valid window states.
+  /**
+   * Valid window states.
    */
   private List<String>      validNewWindowStates = new ArrayList<String>();
 
-  /** 
-   *  Extensions.
+  /**
+   * Extensions.
    */
-  private List<Extension>   extensions;               //WSRP2
+  private List<Extension>   extensions;                                    //WSRP2
 
-  /** 
-   *  User authentication. 
+  /**
+   * User authentication.
    */
-  private String        userAuthentication;
+  private String            userAuthentication;
 
   /**
    * Gets session ID.
+   * 
    * @return String sessionID
    */
   public String getSessionID() {
@@ -125,7 +123,8 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets session ID.
-   * @param  sessionID
+   * 
+   * @param sessionID
    */
   public void setSessionID(String sessionID) {
     this.sessionID = sessionID;
@@ -133,6 +132,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets portlet instance key.
+   * 
    * @return String portletInstanceKey
    */
   public String getPortletInstanceKey() {
@@ -141,7 +141,8 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets portlet instance key.
-   * @param  portletInstanceKey
+   * 
+   * @param portletInstanceKey
    */
   public void setPortletInstanceKey(String portletInstanceKey) {
     this.portletInstanceKey = portletInstanceKey;
@@ -149,6 +150,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets navigational state.
+   * 
    * @return String navigationalState
    */
   public String getNavigationalState() {
@@ -157,7 +159,8 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets navigational state.
-   * @param  navigationalState
+   * 
+   * @param navigationalState
    */
   public void setNavigationalState(String navigationalState) {
     this.navigationalState = navigationalState;
@@ -165,6 +168,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets window state.
+   * 
    * @return String windowState
    */
   public String getWindowState() {
@@ -173,7 +177,8 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets window state.
-   * @param  windowState
+   * 
+   * @param windowState
    */
   public void setWindowState(String windowState) {
     this.windowState = windowState;
@@ -181,6 +186,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets portlet mode.
+   * 
    * @return String mode
    */
   public String getMode() {
@@ -189,6 +195,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets portlet mode.
+   * 
    * @param mode
    */
   public void setMode(String mode) {
@@ -197,6 +204,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets client data.
+   * 
    * @return ClientData
    */
   public ClientData getClientData() {
@@ -205,6 +213,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets client data.
+   * 
    * @param clientData
    */
   public void setClientData(ClientData clientData) {
@@ -213,6 +222,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets locales.
+   * 
    * @return locales
    */
   public List<String> getLocales() {
@@ -221,6 +231,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets locales.
+   * 
    * @param locales
    */
   public void setLocales(List<String> locales) {
@@ -229,6 +240,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets new portlet modes.
+   * 
    * @return validNewModes
    */
   public List<String> getValidNewModes() {
@@ -237,6 +249,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets new portlet modes.
+   * 
    * @param validNewModes
    */
   public void setValidNewModes(List<String> validNewModes) {
@@ -245,6 +258,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets new window states.
+   * 
    * @return validNewWindowStates
    */
   public List<String> getValidNewWindowStates() {
@@ -253,6 +267,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets new window states.
+   * 
    * @param validNewWindowStates
    */
   public void setValidNewWindowStates(List<String> validNewWindowStates) {
@@ -261,6 +276,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets new MIME types.
+   * 
    * @return mimeTypes
    */
   public List<String> getMimeTypes() {
@@ -269,6 +285,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets new MIME types.
+   * 
    * @param mimeTypes
    */
   public void setMimeTypes(List<String> mimeTypes) {
@@ -277,6 +294,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets markup character set.
+   * 
    * @return markupCharacterSets
    */
   public List<String> getMarkupCharacterSets() {
@@ -285,6 +303,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets markup character set.
+   * 
    * @param markupCharacterSets
    */
   public void setMarkupCharacterSets(List<String> markupCharacterSets) {
@@ -293,6 +312,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets is mode supported.
+   * 
    * @param wsrpMode
    * @return isModeSupported
    */
@@ -306,6 +326,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets is window state supported.
+   * 
    * @param wsrpWindowState
    * @return isWindowStateSupported
    */
@@ -319,6 +340,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets navigational values.
+   * 
    * @return navigationalValues
    */
   public List<NamedString> getNavigationalValues() {
@@ -327,6 +349,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets navigational values.
+   * 
    * @param navigationalValues
    */
   public void setNavigationalValues(List<NamedString> navigationalValues) {
@@ -335,6 +358,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets validate tag.
+   * 
    * @return validateTag
    */
   public String getValidateTag() {
@@ -343,6 +367,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets validate tag.
+   * 
    * @param validateTag
    */
   public void setValidateTag(String validateTag) {
@@ -351,6 +376,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets extensions.
+   * 
    * @return extensions
    */
   public List<Extension> getExtensions() {
@@ -359,6 +385,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets extensions.
+   * 
    * @param extensions
    */
   public void setExtensions(List<Extension> extensions) {
@@ -367,6 +394,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets is secure client communication.
+   * 
    * @return secureClientCommunication
    */
   public boolean isSecureClientCommunication() {
@@ -375,6 +403,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets is secure client communication.
+   * 
    * @param secureClientCommunication
    */
   public void setSecureClientCommunication(boolean secureClientCommunication) {
@@ -383,6 +412,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Gets user authentication.
+   * 
    * @return userAuthentication
    */
   public String getUserAuthentication() {
@@ -391,6 +421,7 @@ public class WSRPBaseRequestAdapter implements WSRPBaseRequest {
 
   /**
    * Sets user authentication.
+   * 
    * @param userAuthentication
    */
   public void setUserAuthentication(String userAuthentication) {

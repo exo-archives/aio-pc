@@ -151,7 +151,7 @@ public class BaseTest extends TestCase {
 
   public static final String                         DEFAULT_TEMPLATE         = BASE_URL
                                                                                   + "&portal:windowState={wsrp-windowState}"
-                                                                                  + "&_mode={wsrp-portletMode}"
+                                                                                  + "&_mode={wsrp-mode}"
                                                                                   + "&_isSecure={wsrp-secureURL}"
                                                                                   + "&_component={wsrp-portletHandle}";
 
@@ -235,7 +235,7 @@ public class BaseTest extends TestCase {
     templates = new WS1Templates();
     templates.setDefaultTemplate(DEFAULT_TEMPLATE);
     templates.setRenderTemplate(RENDER_TEMPLATE);
-    templates.setRenderTemplate(BLOCKING_TEMPLATE);
+    templates.setBlockingActionTemplate(BLOCKING_TEMPLATE);
 
     runtimeContext = new WS1RuntimeContext();
     runtimeContext.setNamespacePrefix("NamespacePrefix");

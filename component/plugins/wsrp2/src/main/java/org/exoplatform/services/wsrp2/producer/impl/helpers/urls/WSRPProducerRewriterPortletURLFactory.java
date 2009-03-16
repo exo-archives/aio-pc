@@ -30,6 +30,7 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ProducerRewriterPortletURLImp1;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ProducerRewriterResourceURLImp1;
+import org.exoplatform.services.wsrp2.type.Templates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -40,7 +41,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private String                 portletHandle;
 
-  private String                 template;
+  private Templates              templates;
 
   private boolean                isCurrentlySecured;
 
@@ -61,7 +62,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   private int                    version;
 
   public WSRPProducerRewriterPortletURLFactory(String mimeType,
-                                               String template,
+                                               Templates templates,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
                                                String portletHandle,
@@ -74,7 +75,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
     this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
-    this.template = template;
+    this.templates = templates;
     this.portletHandle = portletHandle;
     this.persistentStateManager = persistentStateManager;
     this.sessionID = sessionID;
@@ -88,7 +89,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   public PortletURL createPortletURL(String type) {
     if (version == 1) {
       return new ProducerRewriterPortletURLImp1(type,
-                                                template,
+                                                templates,
                                                 mimeType,
                                                 supports,
                                                 isCurrentlySecured,
@@ -97,7 +98,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                 sessionID);
     } else {
       return new ProducerRewriterPortletURLImp(type,
-                                               template,
+                                               templates,
                                                mimeType,
                                                supports,
                                                isCurrentlySecured,
@@ -113,14 +114,14 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
   public ResourceURL createResourceURL(String type) {
     if (version == 1) {
       return new ProducerRewriterResourceURLImp1(type,
-                                                 template,
+                                                 templates,
                                                  isCurrentlySecured,
                                                  portletHandle,
                                                  persistentStateManager,
                                                  sessionID);
     } else {
       return new ProducerRewriterResourceURLImp(type,
-                                                template,
+                                                templates,
                                                 isCurrentlySecured,
                                                 portletHandle,
                                                 persistentStateManager,

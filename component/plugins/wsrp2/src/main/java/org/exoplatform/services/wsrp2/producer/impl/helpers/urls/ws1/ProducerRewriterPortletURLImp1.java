@@ -28,6 +28,8 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Portle
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.utils.TemplatesUtils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -40,18 +42,21 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
 
   private PersistentStateManager stateManager;
 
+  private Templates              templates;
+
   public ProducerRewriterPortletURLImp1(String type,
-                                        String template,
+                                        Templates templates,
                                         String mimeType,
                                         List<Supports> supports,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager persistentStateManager,
                                         String sessionID) {
-    super(type, template, mimeType, supports, isCurrentlySecured, true, null);
+    super(type, null, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = persistentStateManager;
     this.sessionID = sessionID;
+    this.templates = templates;
   }
 
   public String toString() {
@@ -68,7 +73,8 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
       e.printStackTrace();
     }
 
-    String template = baseURL;
+    String template = TemplatesUtils.getConcreteTemplate(templates, isSecure(), getType());
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template,

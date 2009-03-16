@@ -27,6 +27,7 @@ import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.container.xml.PropertiesParam;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.WSRPConstants;
+import org.exoplatform.services.wsrp2.type.StateChange;
 
 /**
  * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 23
@@ -58,7 +59,9 @@ public class WSRPConfiguration {
 
   public static final String      SAVE_PORTLET_STATE_ON_CONSUMER      = "wsrp.save.portlet.state.on.consumer";
 
-  public static final String      COOKIE_PROTOCOL                     = "wsrp.coockie.protocol";
+  public static final String      COOKIE_PROTOCOL                     = "wsrp.cookie.protocol";
+
+  public static final String      PORTLET_STATE_CHANGE                = "wsrp.portlet.state.change";
 
   private HashMap<String, String> properties;
 
@@ -162,6 +165,10 @@ public class WSRPConfiguration {
 
   public String getCookieProtocol() {
     return properties.get(WSRPConfiguration.COOKIE_PROTOCOL);
+  }
+
+  public StateChange getPortletStateChange() {
+    return StateChange.fromValue(properties.get(WSRPConfiguration.PORTLET_STATE_CHANGE));
   }
 
   public List<String> getExcludeList() {

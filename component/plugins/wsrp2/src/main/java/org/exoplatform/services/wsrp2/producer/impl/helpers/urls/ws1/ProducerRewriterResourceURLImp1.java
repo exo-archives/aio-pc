@@ -26,6 +26,8 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.utils.TemplatesUtils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -40,16 +42,19 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
+  private Templates           templates;
+
   public ProducerRewriterResourceURLImp1(String type,
-                                         String template,
+                                         Templates template,
                                          boolean isCurrentlySecured,
                                          String portletHandle,
                                          PersistentStateManager stateManager,
                                          String sessionID) {
-    super(type, template, isCurrentlySecured, true, null, null, null);
+    super(type, null, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
+    this.templates = templates;
   }
 
   public String toString() {
@@ -67,7 +72,8 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
       e.printStackTrace();
     }
 
-    String template = baseURL;
+    String template = TemplatesUtils.getConcreteTemplate(templates, isSecure(), getType());
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     if (resourceID != null) {
       template = StringUtils.replace(template,
@@ -81,7 +87,9 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
                                      "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
                                      cacheLevel);
     } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}", "");
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
+                                     "");
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
     template = StringUtils.replace(template,

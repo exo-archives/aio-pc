@@ -113,12 +113,13 @@ public class TestGetMarkup extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String s = response.getMarkupContext().getItemString();
     int index = s.indexOf("&ns=");
     s = s.substring(index + "&ns=".length());
-    index = s.indexOf("&is=");
-    s = StringUtils.left(s, index);
+    index = s.indexOf("&");
+    s = s.substring(0, index);
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:maximized");
     navigationalContext.setOpaqueValue(s);

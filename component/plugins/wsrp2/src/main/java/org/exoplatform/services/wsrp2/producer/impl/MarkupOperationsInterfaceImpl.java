@@ -181,7 +181,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                             OperationFailed,
                                                             UnsupportedLocale,
                                                             WSRPException {
-    
+
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
@@ -195,7 +195,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
+    String uniqueID = k.length > 2 ? k[2] : null; // with offered portlet handle it will be null
 
     if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
       checkCookie();
@@ -333,7 +333,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPublicParamNames(publicParamNames);
 
 //    input.setStateChangeAuthorized(false);
-    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
+    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer()); //default: false
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
 
@@ -437,8 +437,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
-    
+    String uniqueID = k.length > 2 ? k[2] : null; // with offered portlet handle it will be null
+
     if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
       checkCookie();
     }
@@ -480,6 +480,45 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       throw new WSRPException();
     }
 
+    // manage mode and states
+    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
+    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
+
+    // manage portlet state change
+    boolean isStateChangeAuthorized = false;
+    String stateChange = interactionParams.getPortletStateChange().value();
+    if (StateChange.READ_WRITE.value().equalsIgnoreCase(stateChange)) {
+      log.debug("readWrite state change");
+      // every modification is allowed on the portlet
+      isStateChangeAuthorized = true;
+    } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
+      log.debug("cloneBeforWrite state change");
+      try {
+        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                           portletContext,
+                                                                           userContext,
+                                                                           portletContext.getScheduledDestruction());
+
+        // perform post cloned operations
+        // update the portlet handle
+        portletHandle = portletContext.getPortletHandle();
+
+      } catch (OperationNotSupported e) {
+        throw new OperationFailed(e.getMessage(), e);
+      }
+      // any modification will be made on the cloned portlet handle
+      isStateChangeAuthorized = true;
+    } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
+      log.debug("readOnly state change");
+      // if an attempt to change the state is done (means change the portlet
+      // pref in JSR 168)
+      // then a fault will be launched
+      throw new PortletStateChangeRequired("StateChange is READ_ONLY");
+    } else {
+      log.debug("The submited portlet state change value : " + stateChange + " is not supported");
+      throw new PortletStateChangeRequired();
+    }
+
     // ---------- BEGIN FOR CREATING FACTORY --------------
     PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
                                                                                           runtimeContext,
@@ -500,41 +539,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // manage portlet state
     byte[] portletState = managePortletState(portletContext);
-
-    // manage mode and states
-    PortletMode portletMode = Modes.getJsrPortletMode(markupParams.getMode());
-    WindowState windowState = WindowStates.getJsrWindowState(markupParams.getWindowState());
-
-    // manage portlet state change
-    boolean isStateChangeAuthorized = false;
-    String stateChange = interactionParams.getPortletStateChange().value();
-    if (StateChange.READ_WRITE.value().equalsIgnoreCase(stateChange)) {
-      log.debug("readWrite state change");
-      // every modification is allowed on the portlet
-      isStateChangeAuthorized = true;
-    } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
-      log.debug("cloneBeforWrite state change");
-      try {
-        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
-                                                                           portletContext,
-                                                                           userContext,
-                                                                           portletContext.getScheduledDestruction());
-
-      } catch (OperationNotSupported e) {
-        throw new OperationFailed(e.getMessage(), e);
-      }
-      // any modification will be made on the
-      isStateChangeAuthorized = true;
-    } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
-      log.debug("readOnly state change");
-      // if an attempt to change the state is done (means change the portlet
-      // pref in JSR 168)
-      // then a fault will be launched
-      throw new PortletStateChangeRequired("StateChange is READ_ONLY");
-    } else {
-      log.debug("The submited portlet state change value : " + stateChange + " is not supported");
-      throw new PortletStateChangeRequired();
-    }
 
     // PROCESS PARAMETERS
 
@@ -744,8 +748,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
-    
+    String uniqueID = k.length > 2 ? k[2] : null; // with offered portlet handle it will be null
 
     if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
       checkCookie();
@@ -975,8 +978,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     String portletApplicationName = k[0];
     String portletName = k[1];
-    String uniqueID = k[2];
-    
+    String uniqueID = k.length > 2 ? k[2] : null; // with offered portlet handle it will be null
 
     if (!CookieProtocol.NONE.equals(CookieProtocol.fromValue(conf.getCookieProtocol()))) {
       checkCookie();
@@ -1298,19 +1300,22 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private String manageRegistration(String portletHandle, RegistrationContext registrationContext) throws InvalidRegistration,
-                                                                                                  InvalidHandle {
+                                                                                                  InvalidHandle,
+                                                                                                  WSRPException {
     log.debug("manageRegistration called for portlet handle : " + portletHandle);
-    if (!proxy.isPortletOffered(portletHandle)) {
-      log.debug("The latter handle is not offered by the Producer");
-      throw new InvalidHandle();
+    if (StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER).length <= 2) {
+      // should be portlet offered
+      if (!proxy.isPortletOffered(portletHandle)) {
+        log.debug("The portlet handle is not offered by the Producer");
+        throw new InvalidHandle();
+      }
     } else {
-      String[] keys = StringUtils.split(portletHandle, Constants.PORTLET_HANDLE_ENCODER);
-      if (keys.length == 2) {
-        portletHandle += Constants.PORTLET_HANDLE_ENCODER
-            + String.valueOf(portletHandle.hashCode()); // DEFAULT_WINDOW_ID;
+      // should be cloned
+      if (!persistentStateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
+        log.debug("The portlet handle is not Consumer configured");
+        throw new InvalidHandle();
       }
     }
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
     return portletHandle;
   }
 

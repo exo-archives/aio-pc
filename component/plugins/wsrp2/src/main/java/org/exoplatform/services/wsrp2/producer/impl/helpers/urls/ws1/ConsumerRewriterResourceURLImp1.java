@@ -40,12 +40,11 @@ public class ConsumerRewriterResourceURLImp1 extends ResourceURLImp {
   private PersistentStateManager stateManager;
 
   public ConsumerRewriterResourceURLImp1(String type,
-                                         String baseURL,
                                          boolean isCurrentlySecured,
                                          String portletHandle,
                                          PersistentStateManager stateManager,
                                          String sessionID) {
-    super(type, baseURL, isCurrentlySecured, true, null, null, null);
+    super(type, null, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
