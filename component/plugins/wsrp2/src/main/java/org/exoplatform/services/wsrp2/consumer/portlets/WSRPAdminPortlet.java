@@ -23,6 +23,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -247,20 +248,14 @@ public class WSRPAdminPortlet {
       w.println("</td><td>");
       
 
-      w.println("<table border=\"1\">");
       ProducerRegistry pregistry = consumer.getProducerRegistry();
 
       // a form for unregister producer
       Iterator<Producer> i = pregistry.getAllProducers();
       ServiceDescription serviceDescr = null;
-      while (i.hasNext()) {
-        Producer producer = (Producer) i.next();
-        try {
-          serviceDescr = producer.getServiceDescription();
-          
-        } catch (WSRPException e) {
-          e.printStackTrace(w);
-        }
+      if (i.hasNext()){
+        w.println("<table border=\"1\">");
+        w.println("<tr  bgcolor=\"#87CEEB\"><td colspan=\"3\"><label style=\"font-size:12px; font-weight:bold;\">Consumer side information</label></td></tr>");
         w.println("<tr bgcolor=\"#FFFFF0\">");
         w.println("<td>");
         w.println(" <label style=\"font-size:12px; font-weight:bold;\">Name (ID)</label>");
@@ -272,6 +267,17 @@ public class WSRPAdminPortlet {
         w.println("<label style=\"font-size:12px; font-weight:bold;\">Action</label>");
         w.println("</td>");
         w.println("</tr>");
+      }
+      
+      while (i.hasNext()) {
+        Producer producer = (Producer) i.next();
+        try {
+          serviceDescr = producer.getServiceDescription();
+          
+        } catch (WSRPException e) {
+          e.printStackTrace(w);
+        }
+        
         w.println("<td>");
         w.println("<label style=\"font-size:12px; \">" + producer.getName() + " ( " + producer.getID() + " ) </label>");
         w.println("</td>");
@@ -312,6 +318,7 @@ public class WSRPAdminPortlet {
       
       if (handles.size() > 0) {
         w.println("<table border=\"1\">");
+        w.println("<tr  bgcolor=\"#87CEEB\"><td colspan=\"2\"><label style=\"font-size:12px; font-weight:bold;\">Producer side information</label></td></tr>");
         w.println("<tr bgcolor=\"#FFFFF0\">");
         w.println("<td>");
         w.println(" <label style=\"font-size:12px; font-weight:bold;\">Registration handles</label>");
