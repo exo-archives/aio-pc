@@ -848,7 +848,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     if (!input.isStateSaveOnClient()) {// state save on the server
       LOG.debug("Extract or create windows info (store in the server)");
       WindowInfosContainer windowInfosContainer = WindowInfosContainer.getInstance();
-      String key = "SESSION_CONTAINER_KEY_ENCODER" + input.getInternalWindowID().generateKey();
+      String key = "SESSION_CONTAINER_KEY_ENCODER" + input.getInternalWindowID().getUniqueID();
       if (windowInfosContainer.getInfos(key) != null) {
         windowInfos = windowInfosContainer.getInfos(key);
       } else {

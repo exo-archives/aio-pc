@@ -45,9 +45,9 @@ public interface WindowID extends Serializable {
   String getUniqueID();
 
   /**
+   * @deprecated
    * @return key
    */
-  @Deprecated
   String generateKey();
   
   /**

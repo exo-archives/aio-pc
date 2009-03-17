@@ -101,6 +101,7 @@ public class TckFilter implements Filter {
     HttpServletResponse httpResponse = (HttpServletResponse) servletResponse;
     HttpSession httpSession = httpRequest.getSession();
     ServletContext ctx = httpRequest.getSession().getServletContext();
+    String user = httpRequest.getRemoteUser();
 
     try {
       PortalFramework framework = PortalFramework.getInstance();
@@ -115,7 +116,7 @@ public class TckFilter implements Filter {
           String[] ss = s.split("/");
           String nn = foundInPortlets(framework, ss[0], ss[1]);
           if (nn == null)
-            nn = framework.addPortlet(ss[0], ss[1]);
+            nn = framework.addPortlet(ss[0], ss[1], user);
           portlets2render.add(nn);
         }
         httpSession.setAttribute("portletName", portlets2render);
