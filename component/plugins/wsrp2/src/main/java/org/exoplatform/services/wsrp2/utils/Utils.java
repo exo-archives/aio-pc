@@ -37,12 +37,28 @@ import org.exoplatform.services.wsrp2.type.NamedString;
  */
 public class Utils {
 
+  /**
+   * Gets the string from localized string.
+   * 
+   * @param ls the ls
+   * 
+   * @return the string from localized string
+   */
   public static String getStringFromLocalizedString(LocalizedString ls) {
     if (ls != null)
       return ls.getValue();
     return null;
   }
 
+  /**
+   * Gets the localized string.
+   * 
+   * @param value the value
+   * @param lang the lang
+   * @param rn the rn
+   * 
+   * @return the localized string
+   */
   public static LocalizedString getLocalizedString(String value, String lang, String rn) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
@@ -51,6 +67,14 @@ public class Utils {
     return tmp;
   }
 
+  /**
+   * Gets the localized string.
+   * 
+   * @param value the value
+   * @param lang the lang
+   * 
+   * @return the localized string
+   */
   public static LocalizedString getLocalizedString(String value, String lang) {
     LocalizedString tmp = new LocalizedString();
     tmp.setValue(value);
@@ -58,6 +82,14 @@ public class Utils {
     return tmp;
   }
 
+  /**
+   * Gets the names string.
+   * 
+   * @param name the name
+   * @param value the value
+   * 
+   * @return the names string
+   */
   public static NamedString getNamesString(String name, String value) {
     NamedString tmp = new NamedString();
     tmp.setName(name);
@@ -65,6 +97,13 @@ public class Utils {
     return tmp;
   }
 
+  /**
+   * Gets the q name array.
+   * 
+   * @param list the list
+   * 
+   * @return the q name array
+   */
   public static QName[] getQNameArray(List<QName> list) {
     if (list == null)
       return null;
@@ -74,6 +113,13 @@ public class Utils {
     return result;
   }
 
+  /**
+   * Gets the q name list.
+   * 
+   * @param array the array
+   * 
+   * @return the q name list
+   */
   public static List<QName> getQNameList(QName[] array) {
     if (array == null)
       return null;
@@ -83,6 +129,13 @@ public class Utils {
     return result;
   }
 
+  /**
+   * Change url type from jsr portlet to wsrp.
+   * 
+   * @param type the type
+   * 
+   * @return the string
+   */
   public static String changeUrlTypeFromJSRPortletToWSRP(String type) {
     if (type.equalsIgnoreCase(PCConstants.ACTION_STRING))
       return WSRPConstants.URL_TYPE_BLOCKINGACTION;
@@ -93,6 +146,13 @@ public class Utils {
     return type;
   }
 
+  /**
+   * Change url type from wsrp to jsr portlet.
+   * 
+   * @param type the type
+   * 
+   * @return the string
+   */
   public static String changeUrlTypeFromWSRPToJSRPortlet(String type) {
     if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       return PCConstants.ACTION_STRING;
@@ -125,6 +185,13 @@ public class Utils {
 //    return getNamedStringArrayParametersFromMap(params, false);
 //  }
 
+  /**
+   * Gets the named string list parameters from map.
+   * 
+   * @param params the params
+   * 
+   * @return the named string list parameters from map
+   */
   public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params) {
     return getNamedStringListParametersFromMap(params, false);
   }
@@ -220,6 +287,13 @@ public class Utils {
     return result;
   }
 
+  /**
+   * Gets the map from string.
+   * 
+   * @param properties the properties
+   * 
+   * @return the map from string
+   */
   public static Map<String, String> getMapFromString(String properties) {
     if (properties==null)
       return null;

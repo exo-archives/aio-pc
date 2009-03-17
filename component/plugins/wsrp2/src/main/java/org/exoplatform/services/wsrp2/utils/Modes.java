@@ -29,39 +29,56 @@ public class Modes implements java.io.Serializable {
    */
   private static final long                       serialVersionUID = 5408659099833924974L;
 
+  /** The _value_. */
   private java.lang.String                        _value_;
 
   private static java.util.HashMap<String, Modes> _table_          = new java.util.HashMap<String, Modes>();
 
-  // Constructor
+  /**
+   * Instantiates a new modes.
+   * 
+   * @param value the value
+   */
   public Modes(java.lang.String value) {
     _value_ = value;
     _table_.put(_value_, this);
   }
 
   // define the modes we can currently handle
+  /** The Constant _view_jsr. */
   private static final java.lang.String _view_jsr     = PortletMode.VIEW.toString();
 
+  /** The Constant _edit_jsr. */
   private static final java.lang.String _edit_jsr     = PortletMode.EDIT.toString();
 
+  /** The Constant _help_jsr. */
   private static final java.lang.String _help_jsr     = PortletMode.HELP.toString();
 
+  /** The Constant _preview_jsr. */
   private static final java.lang.String _preview_jsr  = "preview";
 
+  /** The Constant _view_wsrp. */
   public static final java.lang.String  _view_wsrp    = WSRPConstants.WSRP_PREFIX + _view_jsr;
 
+  /** The Constant _edit_wsrp. */
   public static final java.lang.String  _edit_wsrp    = WSRPConstants.WSRP_PREFIX + _edit_jsr;
 
+  /** The Constant _help_wsrp. */
   public static final java.lang.String  _help_wsrp    = WSRPConstants.WSRP_PREFIX + _help_jsr;
 
+  /** The Constant _preview_wsrp. */
   public static final java.lang.String  _preview_wsrp = WSRPConstants.WSRP_PREFIX + _preview_jsr;
 
+  /** The Constant VIEW. */
   public static final Modes             VIEW          = new Modes(_view_wsrp);
 
+  /** The Constant EDIT. */
   public static final Modes             EDIT          = new Modes(_edit_wsrp);
 
+  /** The Constant HELP. */
   public static final Modes             HELP          = new Modes(_help_wsrp);
 
+  /** The Constant PREVIEW. */
   public static final Modes             PREVIEW       = new Modes(_preview_wsrp);
 
   public java.lang.String getValue() {
@@ -102,6 +119,13 @@ public class Modes implements java.io.Serializable {
     return _value_;
   }
 
+  /**
+   * Read resolve.
+   * 
+   * @return the java.lang. object
+   * 
+   * @throws ObjectStreamException the object stream exception
+   */
   public java.lang.Object readResolve() throws java.io.ObjectStreamException {
     return fromValue(_value_);
   }
@@ -132,14 +156,35 @@ public class Modes implements java.io.Serializable {
     return new PortletMode(mode);
   }
 
+  /**
+   * Adds the prefix wsrp.
+   * 
+   * @param forAddWSRP the for add wsrp
+   * 
+   * @return the string
+   */
   public static String addPrefixWSRP(String forAddWSRP) {
     return WSRPConstants.WSRP_PREFIX + forAddWSRP.toLowerCase(Locale.ENGLISH);
   }
 
+  /**
+   * Gets the wSRP mode string.
+   * 
+   * @param jsrPortletMode the jsr portlet mode
+   * 
+   * @return the wSRP mode string
+   */
   public static String getWSRPModeString(PortletMode jsrPortletMode) {
     return addPrefixWSRP(jsrPortletMode.toString());
   }
 
+  /**
+   * Deletes all prefixes wsrp.
+   * 
+   * @param forDelWSRP the for del wsrp
+   * 
+   * @return the string
+   */
   public static String delAllPrefixesWSRP(String forDelWSRP) {
     forDelWSRP = forDelWSRP.toLowerCase(Locale.ENGLISH);
     while (forDelWSRP.startsWith(WSRPConstants.WSRP_PREFIX))
