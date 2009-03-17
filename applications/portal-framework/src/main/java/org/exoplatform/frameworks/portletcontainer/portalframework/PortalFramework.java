@@ -629,8 +629,11 @@ public class PortalFramework {
     String key = "";
     // Block to get a unique key element. Checking hashmap, until it returns null.
     do {
-      key = appName + "_" + portletName + "_" + (new Date().toString()).hashCode() + "_"
-          + httpSession.getId();
+      key = appName + "_" + portletName + "_" + (user!=null?user.hashCode():Constants.ANON_USER.hashCode()) + "_" + appName.hashCode() + "_" + portletName.hashCode();
+      
+//      key = appName + "_" + portletName + "_" + (new Date().toString()).hashCode() + "_"
+//      + httpSession.getId();
+      
 //      key = "" + (appName + "/" + portletName + "/" + (new Date().toString())).hashCode() + "_"
 //          + httpSession.getId();
     } while (wins.get(key) != null);
@@ -666,7 +669,6 @@ public class PortalFramework {
     windowID.setUniqueID(windowId);
 
     windowID.setPersistenceId(windowID.generatePersistenceId());
-    //was: windowID.setPersistenceId(appName + "II" + portletName);
 
     windowID.setPortletMode(PortletMode.VIEW);
     windowID.setWindowState(WindowState.NORMAL);

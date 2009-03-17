@@ -57,7 +57,7 @@ public class PortletPreferencesPersisterImpl implements PortletPreferencesPersis
    * @see org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister#getPortletPreferences(org.exoplatform.services.portletcontainer.pci.WindowID)
    */
   public final ExoPortletPreferences getPortletPreferences(final WindowID windowID) throws Exception {
-    return prefs.get(windowID.generateKey());
+    return prefs.get(windowID.getPersistenceId());
   }
 
   /**
@@ -69,7 +69,7 @@ public class PortletPreferencesPersisterImpl implements PortletPreferencesPersis
    * @see org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister#savePortletPreferences(org.exoplatform.services.portletcontainer.pci.WindowID, org.exoplatform.services.portletcontainer.pci.model.ExoPortletPreferences)
    */
   public final void savePortletPreferences(final WindowID windowID, final ExoPortletPreferences exoPref) throws Exception {
-    prefs.put(windowID.generateKey(), exoPref);
+    prefs.put(windowID.getPersistenceId(), exoPref);
   }
 
 }
