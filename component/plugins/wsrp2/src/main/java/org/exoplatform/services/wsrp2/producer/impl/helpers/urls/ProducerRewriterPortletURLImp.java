@@ -33,7 +33,7 @@ import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.type.Templates;
-import org.exoplatform.services.wsrp2.utils.TemplatesUtils;
+import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -52,6 +52,8 @@ public class ProducerRewriterPortletURLImp
 
   private Templates              templates;
 
+  private String                 user;
+
   public ProducerRewriterPortletURLImp(String type,
                                        Templates templates,
                                        String mimeType,
@@ -62,13 +64,15 @@ public class ProducerRewriterPortletURLImp
                                        String sessionID,
                                        boolean defaultEscapeXml,
                                        List<String> supportedPublicRenderParameter,
-                                       Portlet portlet) {
+                                       Portlet portlet,
+                                       String user) {
     super(type, null, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.templates = templates;
+    this.user = user;
   }
 
   public String toString() {
@@ -101,7 +105,7 @@ public class ProducerRewriterPortletURLImp
       }
     }
 
-    String template = TemplatesUtils.getConcreteTemplate(templates, isSecure(), getType());
+    String template = TemplatesFactory.getTemplate(templates, isSecure(), getType());
 
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
@@ -173,7 +177,9 @@ public class ProducerRewriterPortletURLImp
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
                                    portletHandle);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
+                                   user != null ? user : "");
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
                                    "");

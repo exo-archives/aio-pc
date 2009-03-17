@@ -46,6 +46,8 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
+  private String                 user;
+
   public ConsumerRewriterPortletURLImp(String type,
                                        String mimeType,
                                        List<Supports> supports,
@@ -55,12 +57,14 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
                                        String sessionID,
                                        boolean defaultEscapeXml,
                                        List<String> supportedPublicRenderParameter,
-                                       Portlet portlet) {
+                                       Portlet portlet,
+                                       String user) {
     super(type, null, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
+    this.user = user;
   }
 
   public String toString() {
@@ -99,21 +103,26 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(getType());
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
+    
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
+    sB.append("=");
+    sB.append(user);
 
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
     sB.append("=");
     sB.append("");
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_EXTENSIONS);
-    sB.append("=");
-    sB.append("");
+//    sB.append(WSRPConstants.NEXT_PARAM);
+//    sB.append(WSRPConstants.WSRP_EXTENSIONS);
+//    sB.append("=");
+//    sB.append("");
 
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);

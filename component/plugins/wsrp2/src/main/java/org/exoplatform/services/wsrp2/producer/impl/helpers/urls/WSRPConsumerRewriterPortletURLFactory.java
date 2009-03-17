@@ -60,6 +60,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private int                    version;
 
+  private String                 user;
+
   public WSRPConsumerRewriterPortletURLFactory(String mimeType,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
@@ -69,7 +71,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                boolean defaultEscapeXml,
                                                String cacheLevel,
                                                List<String> supportedPublicRenderParameter,
-                                               Portlet portlet) {
+                                               Portlet portlet,
+                                               String user) {
     this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
@@ -80,6 +83,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
     this.cacheLevel = cacheLevel;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.portlet = portlet;
+    this.user = user;
+    
     this.version = WSRPHTTPContainer.getInstance().getVersion();
   }
 
@@ -91,7 +96,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                 isCurrentlySecured,
                                                 portletHandle,
                                                 persistentStateManager,
-                                                sessionID);
+                                                sessionID,
+                                                user);
     } else {
       return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                                mimeType,
@@ -102,7 +108,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                sessionID,
                                                defaultEscapeXml,
                                                supportedPublicRenderParameter,
-                                               portlet);
+                                               portlet,
+                                               user);
     }
   }
 
@@ -112,7 +119,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                  isCurrentlySecured,
                                                  portletHandle,
                                                  persistentStateManager,
-                                                 sessionID);
+                                                 sessionID,
+                                                 user);
     } else {
       return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                                 isCurrentlySecured,
@@ -122,7 +130,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                 defaultEscapeXml,
                                                 cacheLevel,
                                                 supportedPublicRenderParameter,
-                                                portlet);
+                                                portlet,
+                                                user);
     }
   }
 

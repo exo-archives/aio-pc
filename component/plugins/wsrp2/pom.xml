@@ -289,17 +289,14 @@
   </properties>
 
   <build>
-
-    <!--     <sourceDirectory>src/nosources</sourceDirectory> -->
-    <!--    <testSourceDirectory>src/notest</testSourceDirectory>-->
+  
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
 
     <resources>
       <resource>
         <directory>src/main/java</directory>
         <includes>
-          <!--          <include>**/*.xml</include>-->
-          <!--          <include>**/*.java</include>-->
-          <!--          <include>**/*.*</include>-->
           <include>**/*</include>
         </includes>
       </resource>
@@ -457,8 +454,6 @@
                 <hibernatedoclet destdir="${basedir}/target/classes" excludedtags="@version,@author,@todo"
                   mergedir="target/classes" force="true" verbose="false">
                   <fileset dir="${basedir}/src/main/java">
-                    <!--                    <include name="org/exoplatform/services/wsrp1/consumer/impl/WSRP1ProducerData.java" />-->
-                    <!--                    <include name="org/exoplatform/services/wsrp1/producer/impl/WSRP1StateData.java" />-->
                     <include name="org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java" />
                     <include name="org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java" />
                   </fileset>
@@ -579,8 +574,8 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
-            <!-- include>**/wsrp1/AllTestsPortlet.java</include -->
-            <!--                        <include>**/SuiteForTestProducer.java</include>-->
+<!--             <include>**/wsrp2/AllTestsPortlet.java</include> -->
+<!--                                    <include>**/wsrp2/SuiteForTestProducer.java</include>-->
             <!--            <include>**/SuiteForTestConsumer.java</include>-->
             <!--            <include>**/TestRegistrationInterface.java</include>-->
             <!-- include>**/Test*.java</include -->

@@ -38,6 +38,8 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
   private String                 portletHandle;
 
   private PersistentStateManager stateManager;
+  
+  private String                 user;
 
   public ConsumerRewriterPortletURLImp1(String type,
                                         String mimeType,
@@ -45,11 +47,12 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
-                                        String sessionID) {
+                                        String sessionID, String user) {
     super(type, null, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
+    this.user = user;
   }
 
   public String toString() {
@@ -76,6 +79,11 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
+    
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
+    sB.append("=");
+    sB.append(user);
 
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);

@@ -214,8 +214,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     userContext = transientStateManager.resolveUserContext(userContext, session);
     String user = userContext != null ? userContext.getUserContextKey() : null;
 
-    String owner = user;
-    log.debug("Owner Context : " + owner);
+    if (log.isDebugEnabled())
+      log.debug("Owner Context : " + user);
 
     ExoContainer cont = ExoContainerContext.getCurrentContainer();
     WindowInfosContainer.createInstance(cont, sessionID, user);
@@ -296,7 +296,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                           portletData.getEscapeXml(),
                                                                                           ResourceURL.PAGE,
                                                                                           portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped(),
+                                                                                          user);
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage mode and states
@@ -316,10 +317,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // prepare the Input object
     RenderInput input = new RenderInput();
     ExoWindowID windowID = new ExoWindowID();
-    windowID.setOwner(owner);
+    windowID.setOwner(user);
     windowID.setPortletApplicationName(portletApplicationName);
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
+    windowID.setPersistenceId(windowID.generatePersistenceId());
     input.setInternalWindowID(windowID);
     input.setBaseURL(null);
     input.setPortletURLFactory(portletURLFactory);
@@ -456,8 +458,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     userContext = transientStateManager.resolveUserContext(userContext, session);
     String user = userContext != null ? userContext.getUserContextKey() : null;
 
-    String owner = user;
-    log.debug("Owner Context : " + owner);
+    if (log.isDebugEnabled())
+      log.debug("Owner Context : " + user);
 
     ExoContainer cont = ExoContainerContext.getCurrentContainer();
     WindowInfosContainer.createInstance(cont, sessionID, user);
@@ -534,7 +536,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                           portletData.getEscapeXml(),
                                                                                           ResourceURL.PAGE,
                                                                                           portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped(),
+                                                                                          user);
     // ---------- END FOR CREATING FACTORY --------------
 
     // manage portlet state
@@ -582,10 +585,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // prepare the Input object
     ActionInput input = new ActionInput();
     ExoWindowID windowID = new ExoWindowID();
-    windowID.setOwner(owner);
+    windowID.setOwner(user);
     windowID.setPortletApplicationName(portletApplicationName);
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
+    windowID.setPersistenceId(windowID.generatePersistenceId());
     input.setInternalWindowID(windowID);
     input.setBaseURL(null);
     input.setPortletURLFactory(portletURLFactory);
@@ -767,8 +771,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     userContext = transientStateManager.resolveUserContext(userContext, session);
     String user = userContext != null ? userContext.getUserContextKey() : null;
 
-    String owner = user;
-    log.debug("Owner Context : " + owner);
+    if (log.isDebugEnabled())
+      log.debug("Owner Context : " + user);
 
     ExoContainer cont = ExoContainerContext.getCurrentContainer();
     WindowInfosContainer.createInstance(cont, sessionID, user);
@@ -855,7 +859,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                           portletData.getEscapeXml(),
                                                                                           ResourceURL.PAGE,
                                                                                           portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped(),
+                                                                                          user);
     // ---------- END CREATING FACTORY --------------
 
     // manage mode and states
@@ -877,10 +882,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // preparing Input object
     ResourceInput input = new ResourceInput();
     ExoWindowID windowID = new ExoWindowID();
-    windowID.setOwner(owner);
+    windowID.setOwner(user);
     windowID.setPortletApplicationName(portletApplicationName);
     windowID.setPortletName(portletName);
     windowID.setUniqueID(uniqueID);
+    windowID.setPersistenceId(windowID.generatePersistenceId());
     input.setInternalWindowID(windowID);
     input.setBaseURL(null);
     input.setPortletURLFactory(portletURLFactory);
@@ -997,8 +1003,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     userContext = transientStateManager.resolveUserContext(userContext, session);
     String user = userContext != null ? userContext.getUserContextKey() : null;
 
-    String owner = user;
-    log.debug("Owner Context : " + owner);
+    if (log.isDebugEnabled())
+      log.debug("Owner Context : " + user);
 
     ExoContainer cont = ExoContainerContext.getCurrentContainer();
     WindowInfosContainer.createInstance(cont, sessionID, user);
@@ -1035,7 +1041,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                                           portletData.getEscapeXml(),
                                                                                           ResourceURL.PAGE,
                                                                                           portletData.getSupportedPublicRenderParameter(),
-                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped());
+                                                                                          ((PortletDataImp) portletData).getWrappedPortletTyped(),
+                                                                                          user);
     // ---------- END CREATING FACTORY --------------
 
     // manage portlet state
@@ -1127,10 +1134,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // prepare the Input object
       EventInput input = new EventInput();
       ExoWindowID windowID = new ExoWindowID();
-      windowID.setOwner(owner);
+      windowID.setOwner(user);
       windowID.setPortletApplicationName(portletApplicationName);
       windowID.setPortletName(portletName);
       windowID.setUniqueID(uniqueID);
+      windowID.setPersistenceId(windowID.generatePersistenceId());
       input.setInternalWindowID(windowID);
       input.setBaseURL(null);
       input.setPortletURLFactory(portletURLFactory);

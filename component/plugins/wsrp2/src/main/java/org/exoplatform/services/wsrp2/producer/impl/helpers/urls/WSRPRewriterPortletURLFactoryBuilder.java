@@ -47,7 +47,6 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                              TransientStateManager transientStateManager,
 
                                              String mimeType,
-//                                             String template,
                                              List<Supports> supports,
                                              boolean isCurrentlySecured,
                                              String portletHandle,
@@ -56,7 +55,8 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                              boolean defaultEscapeXml,
                                              String cacheLevel,
                                              List<String> supportedPublicRenderParameter,
-                                             Portlet portlet) {
+                                             Portlet portlet,
+                                             String user) {
     if (isDoesUrlTemplateProcessing) {// default is true
       LOG.debug("Producer URL rewriting");
       Templates templates = manageTemplates(runtimeContext,
@@ -73,7 +73,8 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                                        defaultEscapeXml,
                                                        cacheLevel,
                                                        supportedPublicRenderParameter,
-                                                       portlet);
+                                                       portlet,
+                                                       user);
     } else {
       LOG.debug("Consumer URL rewriting");
       return new WSRPConsumerRewriterPortletURLFactory(mimeType,
@@ -85,7 +86,8 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                                        defaultEscapeXml,
                                                        cacheLevel,
                                                        supportedPublicRenderParameter,
-                                                       portlet);
+                                                       portlet,
+                                                       user);
     }
 
   }

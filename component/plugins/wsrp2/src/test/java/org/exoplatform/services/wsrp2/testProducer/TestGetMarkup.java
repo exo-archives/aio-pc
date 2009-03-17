@@ -18,13 +18,12 @@
 package org.exoplatform.services.wsrp2.testProducer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import javax.xml.namespace.QName;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
+import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Event;
@@ -113,7 +112,7 @@ public class TestGetMarkup extends BaseTest {
     portletContext.setPortletHandle(portletHandle);
     portletContext.setPortletState(null);
     GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
-    
+
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String s = response.getMarkupContext().getItemString();
     int index = s.indexOf("&ns=");
@@ -133,6 +132,54 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("value", response.getMarkupContext().getItemString());
   }
 
+  public void testGetMarkupWithRewrittenURLInItInCaseUserContextKey() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE + "&portal:type={wsrp-urlType}"
+        + "&ns={wsrp-navigationalState}" + "&user={" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}";
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    //for 'userKEY' UserContextKey
+
+    userContext.setUserContextKey("userKEY");
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    int index = s.indexOf("&user=");
+    s = s.substring(index + "&user=".length());
+    index = s.indexOf("&");
+    s = s.substring(0, index);
+
+    assertNotNull(s);
+    assertEquals("userKEY", s);
+
+    //for null UserContextKey
+
+    userContext.setUserContextKey(null);
+
+    getMarkup = getMarkup(registrationContext, portletContext);
+
+    response = markupOperationsInterface.getMarkup(getMarkup);
+    s = response.getMarkupContext().getItemString();
+    index = s.indexOf("&user=");
+    s = s.substring(index + "&user=".length());
+    index = s.indexOf("&");
+    s = s.substring(0, index);
+
+    assertNotNull(s);
+    assertEquals("", s);
+
+  }
+
   public void testGetMarkupOfAClonedPortlet() throws Exception {
     log();
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
@@ -144,11 +191,11 @@ public class TestGetMarkup extends BaseTest {
     ClonePortlet clonePortlet = new ClonePortlet();
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(portletContext);
-    
+
     clonePortlet.setUserContext(userContext);
     PortletContext returnedPC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
     System.out.println("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-    
+
     //set some new properties
     Property property = new Property();
     QName propertyName = new QName("test-prop");
@@ -159,7 +206,7 @@ public class TestGetMarkup extends BaseTest {
     SetPortletProperties setPortletProperties = new SetPortletProperties();
     setPortletProperties.setRegistrationContext(rC);
     setPortletProperties.setPortletContext(returnedPC);
-    
+
     setPortletProperties.setUserContext(userContext);
     setPortletProperties.setPropertyList(list);
     returnedPC = portletManagementOperationsInterface.setPortletProperties(setPortletProperties);
@@ -167,7 +214,7 @@ public class TestGetMarkup extends BaseTest {
 
     GetMarkup getMarkup = getMarkup(rC, returnedPC);
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
-    
+
     assertEquals("Everything is more than ok", response.getMarkupContext().getItemString());
   }
 

@@ -32,7 +32,6 @@ import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
-import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
@@ -73,7 +72,6 @@ import org.exoplatform.services.wsrp2.type.PortletPropertyDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.Property;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
-import org.exoplatform.services.wsrp2.type.RegistrationData;
 import org.exoplatform.services.wsrp2.type.ResourceList;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
@@ -120,16 +118,19 @@ public class PortletManagementOperationsInterfaceImpl implements
     if (registrationContext == null) {
       throw new InvalidRegistration("registrationContext is null");
     }
+
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
+
     log.debug("Clone a portlet for the registered consumer : "
         + registrationContext.getRegistrationHandle());
 
     String portletHandle = portletContext.getPortletHandle();
 
     String newPortletHandle = createNewPortletHandle(portletHandle);
+
     PortletContext clonedPortletContext = new PortletContext();
     clonedPortletContext.setPortletHandle(newPortletHandle);
 
@@ -720,15 +721,16 @@ public class PortletManagementOperationsInterfaceImpl implements
         + registrationContext.getRegistrationHandle());
 
     String portletHandle = portletContext.getPortletHandle();
-    try {
-      if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-        log.debug("This portlet handle " + portletHandle
-            + " is not valid in the scope of that registration ");
-        throw new AccessDenied();
-      }
-    } catch (WSRPException e) {
-      throw new WSRPException();
-    }
+
+//    try {
+//      if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
+//        log.debug("This portlet handle " + portletHandle
+//            + " is not valid in the scope of that registration ");
+//        throw new AccessDenied();
+//      }
+//    } catch (WSRPException e) {
+//      throw new WSRPException();
+//    }
 
     PropertyList list = getPortletPropertiesPrivate(portletContext, userContext, names, false);
 
@@ -766,6 +768,12 @@ public class PortletManagementOperationsInterfaceImpl implements
           properties2return = new ArrayList<Property>();
         properties2return.add(prop);
       }
+    }
+
+    try {
+      Thread.currentThread().sleep(1000);
+    } catch (Exception e) {
+      e.printStackTrace();
     }
 
     PropertyList list = new PropertyList();
@@ -848,8 +856,9 @@ public class PortletManagementOperationsInterfaceImpl implements
 
       // is Consumer Configured Portlet
       if (stateManager.isConsumerConfiguredPortlet(fromPortletHandle, fromRegistrationContext)) {
-        log.debug("processCopyPortletHandle a Consumer Configured Portlet with handle : "
-            + fromPortletHandle);
+        if (log.isDebugEnabled())
+          log.debug("processCopyPortletHandle a Consumer Configured Portlet with handle : "
+              + fromPortletHandle);
         // add toPortletHandle as a Consumer Configured Portlet
         stateManager.addConsumerConfiguredPortletHandle(toPortletHandle, toRegistrationContext);
 
@@ -863,10 +872,11 @@ public class PortletManagementOperationsInterfaceImpl implements
 
       } else {
         // is Producer Offered Portlet
-        log.debug("processCopyPortletHandle a Producer Offered Portlet with handle : "
-            + fromPortletHandle);
+        if (log.isDebugEnabled())
+          log.debug("processCopyPortletHandle a Producer Offered Portlet with handle : "
+              + fromPortletHandle);
         if (!proxy.isPortletOffered(fromPortletHandle)) {
-          log.debug("The latter handle is not offered by the Producer");
+          log.debug("The portlet handle is not offered by the Producer");
           throw new InvalidHandle();
         }
         stateManager.addConsumerConfiguredPortletHandle(toPortletHandle, toRegistrationContext);

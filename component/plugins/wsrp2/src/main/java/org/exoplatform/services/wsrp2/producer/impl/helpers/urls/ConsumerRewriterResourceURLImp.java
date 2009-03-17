@@ -44,6 +44,8 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
+  private String                 user;
+
   public ConsumerRewriterResourceURLImp(String type,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
@@ -52,12 +54,14 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
                                         boolean defaultEscapeXml,
                                         String cacheLevel,
                                         List<String> supportedPublicRenderParameter,
-                                        Portlet portlet) {
+                                        Portlet portlet,
+                                        String user) {
     super(type, null, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
+    this.user = user;
   }
 
   public String toString() {
@@ -94,21 +98,26 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
     sB.append(getType());
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
+    
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
+    sB.append("=");
+    sB.append(user);
 
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
     sB.append("=");
     sB.append("");
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_EXTENSIONS);
-    sB.append("=");
-    sB.append("");
+//    sB.append(WSRPConstants.NEXT_PARAM);
+//    sB.append(WSRPConstants.WSRP_EXTENSIONS);
+//    sB.append("=");
+//    sB.append("");
 
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);

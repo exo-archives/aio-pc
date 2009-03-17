@@ -27,7 +27,7 @@ import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.type.Templates;
-import org.exoplatform.services.wsrp2.utils.TemplatesUtils;
+import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -42,19 +42,23 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
 
   private PersistentStateManager stateManager;
 
-  private Templates           templates;
+  private Templates              templates;
+
+  private String                 user;
 
   public ProducerRewriterResourceURLImp1(String type,
                                          Templates template,
                                          boolean isCurrentlySecured,
                                          String portletHandle,
                                          PersistentStateManager stateManager,
-                                         String sessionID) {
+                                         String sessionID,
+                                         String user) {
     super(type, null, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.templates = templates;
+    this.user = user;
   }
 
   public String toString() {
@@ -72,7 +76,7 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
       e.printStackTrace();
     }
 
-    String template = TemplatesUtils.getConcreteTemplate(templates, isSecure(), getType());
+    String template = TemplatesFactory.getTemplate(templates, isSecure(), getType());
 
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
     if (resourceID != null) {
@@ -103,7 +107,9 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
                                    "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
+                                   user != null ? user : "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");

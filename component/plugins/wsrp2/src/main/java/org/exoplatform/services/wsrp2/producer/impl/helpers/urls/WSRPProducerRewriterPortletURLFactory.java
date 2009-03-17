@@ -61,6 +61,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private int                    version;
 
+  private String                 user;
+
   public WSRPProducerRewriterPortletURLFactory(String mimeType,
                                                Templates templates,
                                                List<Supports> supports,
@@ -71,7 +73,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                boolean defaultEscapeXml,
                                                String cacheLevel,
                                                List<String> supportedPublicRenderParameter,
-                                               Portlet portlet) {
+                                               Portlet portlet,
+                                               String user) {
     this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
@@ -83,6 +86,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
     this.cacheLevel = cacheLevel;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.portlet = portlet;
+    this.user = user;
+    
     this.version = WSRPHTTPContainer.getInstance().getVersion();
   }
 
@@ -95,7 +100,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                 isCurrentlySecured,
                                                 portletHandle,
                                                 persistentStateManager,
-                                                sessionID);
+                                                sessionID,
+                                                user);
     } else {
       return new ProducerRewriterPortletURLImp(type,
                                                templates,
@@ -107,7 +113,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                sessionID,
                                                defaultEscapeXml,
                                                supportedPublicRenderParameter,
-                                               portlet);
+                                               portlet,
+                                               user);
     }
   }
 
@@ -118,7 +125,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                  isCurrentlySecured,
                                                  portletHandle,
                                                  persistentStateManager,
-                                                 sessionID);
+                                                 sessionID,
+                                                 user);
     } else {
       return new ProducerRewriterResourceURLImp(type,
                                                 templates,
@@ -129,7 +137,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                 defaultEscapeXml,
                                                 cacheLevel,
                                                 supportedPublicRenderParameter,
-                                                portlet);
+                                                portlet,
+                                                user);
     }
   }
 

@@ -47,11 +47,11 @@ public class WSRPPortletPreferencesPersister implements PortletPreferencesPersis
   }
 
   public ExoPortletPreferences getPortletPreferences(WindowID windowID) throws Exception {
-    return (ExoPortletPreferences) prefs.get(windowID.getUniqueID());
+    return (ExoPortletPreferences) prefs.get(windowID.getPersistenceId());
   }
 
   public void savePortletPreferences(WindowID windowID, ExoPortletPreferences preferences) throws Exception {
-    prefs.put(windowID.getUniqueID(), preferences);
+    prefs.put(windowID.getPersistenceId(), preferences);
   }
 
 }

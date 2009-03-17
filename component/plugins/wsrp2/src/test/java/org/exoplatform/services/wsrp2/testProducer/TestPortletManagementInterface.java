@@ -100,10 +100,13 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
+    
     String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
                                                             .getPortletHandle();
+    
     pC.setPortletHandle(returnedPH);
     pC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
+    
     assertNotSame(returnedPH, pC.getPortletHandle());
 
     GetPortletProperties getPortletProperties = new GetPortletProperties();
@@ -111,6 +114,7 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
     getPortletProperties.getNames().add("time-format");
+    
     PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
     List<Property> propList = list.getProperties();
     assertEquals(1, propList.size());

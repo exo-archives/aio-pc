@@ -28,11 +28,11 @@ import org.exoplatform.services.wsrp2.type.Templates;
  *         Zavizionov</a>
  * @version $Id: $ Mar 4, 2009
  */
-public class TemplatesUtils {
+public class TemplatesFactory {
 
-  private static final Log LOG = ExoLogger.getLogger(TemplatesUtils.class);
+  private static final Log LOG = ExoLogger.getLogger(TemplatesFactory.class);
 
-  public static String getConcreteTemplate(Templates templates, boolean secure, String type) {
+  public static String getTemplate(Templates templates, boolean secure, String type) {
     if (type == null || type == "") {
       if (secure) {
         return templates.getSecureDefaultTemplate();
