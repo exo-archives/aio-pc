@@ -47,18 +47,25 @@ import org.exoplatform.services.wsrp2.type.RegistrationData;
  */
 public class PersistentStateManagerJCRImpl implements PersistentStateManager {
 
+  /** The conf. */
   private WSRPConfiguration   conf;
 
+  /** The log. */
   private final Log           log          = ExoLogger.getLogger(getClass().getName());
 
+  /** The cont. */
   private ExoContainer        cont;
 
+  /** The cache. */
   private ExoCache            cache;
 
+  /** The persister. */
   private WSRPPersister       persister;
 
+  /** The path. */
   private String              path;
 
+  /** The registration handles. */
   private List<String>        registrationHandles;
 
   /**
@@ -66,6 +73,17 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    */
   private static final String SERVICE_NAME = "PersistentStateManagerJCRImpl";
 
+  /**
+   * Instantiates a new persistent state manager jcr impl.
+   * 
+   * @param ctx the ctx
+   * @param cacheService the cache service
+   * @param conf the conf
+   * @param persister the persister
+   * @param params the params
+   * 
+   * @throws Exception the exception
+   */
   public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
                                        CacheService cacheService,
                                        WSRPConfiguration conf,
@@ -99,6 +117,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#register(java.lang.String, org.exoplatform.services.wsrp2.type.RegistrationData)
+   */
   public byte[] register(String registrationHandle, RegistrationData data) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
       // If registration state on CONSUMER
@@ -130,6 +151,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
 
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#deregister(org.exoplatform.services.wsrp2.type.RegistrationContext)
+   */
   public void deregister(RegistrationContext registrationContext) throws WSRPException {
     try {
       if (!conf.isSaveRegistrationStateOnConsumer()) {
@@ -146,6 +170,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#isRegistered(org.exoplatform.services.wsrp2.type.RegistrationContext)
+   */
   public boolean isRegistered(RegistrationContext registrationContext) throws WSRPException {
     if (registrationContext.getRegistrationHandle() == null
         || registrationContext.getRegistrationHandle().equalsIgnoreCase(""))
@@ -166,6 +193,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     return false;
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#isConsumerConfiguredPortlet(java.lang.String, org.exoplatform.services.wsrp2.type.RegistrationContext)
+   */
   public boolean isConsumerConfiguredPortlet(String portletHandle,
                                              RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
@@ -201,6 +231,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#addConsumerConfiguredPortletHandle(java.lang.String, org.exoplatform.services.wsrp2.type.RegistrationContext)
+   */
   public void addConsumerConfiguredPortletHandle(String portletHandle,
                                                  RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
@@ -236,6 +269,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#removeConsumerConfiguredPortletHandle(java.lang.String, org.exoplatform.services.wsrp2.type.RegistrationContext)
+   */
   public void removeConsumerConfiguredPortletHandle(String portletHandle,
                                                     RegistrationContext registrationContext) throws WSRPException {
     if (conf.isSaveRegistrationStateOnConsumer()) {
@@ -272,6 +308,15 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /**
+   * Resolve registration data.
+   * 
+   * @param registrationContext the registration context
+   * 
+   * @return the registration data
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   private RegistrationData resolveRegistrationData(RegistrationContext registrationContext) throws WSRPException {
     byte[] registrationState = registrationContext.getRegistrationState();
     if (registrationState == null) {
@@ -289,6 +334,15 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
   }
 
+  /**
+   * Save.
+   * 
+   * @param key the key
+   * @param type the type
+   * @param o the o
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   final private void save(String key, String type, Object o) throws WSRPException {
     if (key == null || key.length() == 0)
       throw new WSRPException("A key cannot be null or empty!");
@@ -320,6 +374,15 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   // else look in hservice, if one obj put into cache and return it
   //   if more exception
   //   if none return null 
+  /**
+   * Load.
+   * 
+   * @param key the key
+   * 
+   * @return the wSR p2 state data
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   final private WSRP2StateData load(String key) throws WSRPException {
     if (key == null || key.length() == 0)
       throw new WSRPException("A key cannot be null or empty!");
@@ -365,6 +428,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   //  if more than one result throw exception
   //  if one result: get from DB and put into cache
   // else delete from DB
+  /**
+   * Removes the.
+   * 
+   * @param key the key
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   final private void remove(String key) throws WSRPException {
     if (key == null || key.length() == 0)
       throw new WSRPException("A key cannot be null or empty!");
@@ -388,31 +458,58 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getNavigationalState(java.lang.String)
+   */
   public Map<String, String[]> getNavigationalState(String navigationalState) throws WSRPException {
     return getState(navigationalState);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#putNavigationalState(java.lang.String, java.util.Map)
+   */
   public void putNavigationalState(String navigationalState, Map<String, String[]> renderParameters) throws WSRPException {
     putState(navigationalState, renderParameters);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getInteractionSate(java.lang.String)
+   */
   public Map<String, String[]> getInteractionSate(String interactionState) throws WSRPException {
     return getState(interactionState);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#putInteractionState(java.lang.String, java.util.Map)
+   */
   public void putInteractionState(String interactionState,
                                   Map<String, String[]> interactionParameters) throws WSRPException {
     putState(interactionState, interactionParameters);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getResourceState(java.lang.String)
+   */
   public Map<String, String[]> getResourceState(String resourceState) throws WSRPException {
     return getState(resourceState);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#putResourceState(java.lang.String, java.util.Map)
+   */
   public void putResourceState(String resourceState, Map<String, String[]> resourceParameters) throws WSRPException {
     putState(resourceState, resourceParameters);
   }
 
+  /**
+   * Gets the state.
+   * 
+   * @param state the state
+   * 
+   * @return the state
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   private Map<String, String[]> getState(String state) throws WSRPException {
     if (state == null || state.length() == 0)
       return null;
@@ -427,6 +524,14 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /**
+   * Put state.
+   * 
+   * @param state the state
+   * @param parameters the parameters
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   private void putState(String state, Map<String, String[]> parameters) throws WSRPException {
     try {
       save(state, "java.util.Map", parameters);
@@ -435,23 +540,38 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#putRegistrationLifetime(java.lang.String, org.exoplatform.services.wsrp2.type.Lifetime)
+   */
   public Lifetime putRegistrationLifetime(String registrationHandle, Lifetime lifetime) throws WSRPException {
     return putLifetime(registrationHandle + "_registration_lifetime", lifetime);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getRegistrationLifetime(org.exoplatform.services.wsrp2.type.RegistrationContext)
+   */
   public Lifetime getRegistrationLifetime(RegistrationContext registrationContext) throws WSRPException {
     log.debug("Look up getRegistrationLifetime");
     return getLifetime(registrationContext.getRegistrationHandle() + "_registration_lifetime");
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#putPortletLifetime(java.lang.String, org.exoplatform.services.wsrp2.type.Lifetime)
+   */
   public Lifetime putPortletLifetime(String portletHandle, Lifetime lifetime) throws WSRPException {
     return putLifetime(portletHandle + "_portlet_lifetime", lifetime);
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getPortletLifetime(java.lang.String)
+   */
   public Lifetime getPortletLifetime(String portletHandle) throws WSRPException {
     return getLifetime(portletHandle + "_portlet_lifetime");
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getLifetime(java.lang.String)
+   */
   public Lifetime getLifetime(String key) throws WSRPException {
     log.debug("Look up getRegistrationLifetime");
     try {
@@ -468,6 +588,16 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /**
+   * Put lifetime.
+   * 
+   * @param key the key
+   * @param lifetime the lifetime
+   * 
+   * @return the lifetime
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   private Lifetime putLifetime(String key, Lifetime lifetime) throws WSRPException {
     if (lifetime == null) {
       removeLifetime(key);
@@ -481,6 +611,13 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     return lifetime;
   }
 
+  /**
+   * Removes the lifetime.
+   * 
+   * @param key the key
+   * 
+   * @throws WSRPException the WSRP exception
+   */
   private void removeLifetime(String key) throws WSRPException {
     try {
       remove(key);
@@ -489,6 +626,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
+  /* (non-Javadoc)
+   * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getRegistrationHandles()
+   */
   public List<String> getRegistrationHandles() throws WSRPException {
 
     return this.registrationHandles;
