@@ -220,6 +220,11 @@ public class PortalFramework {
    */
   private String                              desktopLayout           = "layout2";
 
+  /**
+   * Current user.
+   */
+  private String                              user;
+
   private static String[]                     defaultPortalParamNames = {
       Constants.RESOURCE_ID_PARAMETER, Constants.CACHELEVEL_PARAMETER,
       Constants.COMPONENT_PARAMETER, PCConstants.REMOVE_PUBLIC_STRING, Constants.TYPE_PARAMETER,
@@ -460,6 +465,7 @@ public class PortalFramework {
     resourceContentType = null;
     resourceHeaders = null;
     resourceStatus = 0;
+    user = httpRequest.getRemoteUser();
 
     for (final Enumeration<Locale> e = httpRequest.getLocales(); e.hasMoreElements();)
       locales.add(e.nextElement());
@@ -600,13 +606,14 @@ public class PortalFramework {
    * 
    * @param appName portlet application name
    * @param portletName portlet name
+   * @param user TODO
    * @return unique Id
    * @throws PortletNotFoundException requested portlet isn't registered on the
    *           portlet container
    */
-  public final String addPortlet(final String appName, final String portletName) throws PortletNotFoundException {
+  public final String addPortlet(final String appName, final String portletName, final String user) throws PortletNotFoundException {
     String key = createPortletKey(appName, portletName);
-    return addPortletWithId(appName, portletName, key);
+    return addPortletWithId(appName, portletName, key, user);
   }
 
   /**
@@ -638,27 +645,29 @@ public class PortalFramework {
    * @param appName portlet application name
    * @param portletName portlet name
    * @param windowId window ID
+   * @param user TODO
    * @return unique Id
    * @throws PortletNotFoundException requested portlet isn't registered on the
    *           portlet container
    */
   public final String addPortletWithId(final String appName,
                                        final String portletName,
-                                       final String windowId) throws PortletNotFoundException {
+                                       final String windowId,
+                                       final String user) throws PortletNotFoundException {
     PortletData pd = allPortletMetaData.get(appName + "/" + portletName);
     if (pd == null)
       throw new PortletNotFoundException("Requested portlet isn't registered on the portlet container: "
           + appName + "/" + portletName);
 
     final WindowID2 windowID = new WindowID2();
-    windowID.setOwner("portal#" + Constants.ANON_USER);
+    windowID.setOwner(user != null ? user : "portal#" + Constants.ANON_USER);
     windowID.setPortletApplicationName(appName);
     windowID.setPortletName(portletName);
     windowID.setUniqueID(windowId);
 
     windowID.setPersistenceId(windowID.generatePersistenceId());
     //was: windowID.setPersistenceId(appName + "II" + portletName);
-    
+
     windowID.setPortletMode(PortletMode.VIEW);
     windowID.setWindowState(WindowState.NORMAL);
     wins.put(windowId, windowID);
@@ -1464,7 +1473,7 @@ public class PortalFramework {
       if (!foundInPagePortlets(ss[0], ss[1])) {
         // adds new portlet to the page
         try {
-          addPortletToPage(addPortlet(ss[0], ss[1]));
+          addPortletToPage(addPortlet(ss[0], ss[1], user));
         } catch (PortletNotFoundException e) {
           e.printStackTrace();
         }

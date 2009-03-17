@@ -25,6 +25,7 @@ import java.util.Map;
 import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;
 import org.exoplatform.frameworks.portletcontainer.portalframework.PortalFramework;
@@ -135,9 +136,9 @@ public class BaseTest extends TestCase {
     
     framework.init(new MockHttpSession());
     
-    key1 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestIncludingModeAndState");
-    key2 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestParametersIsolation");
-    key3 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestRenderParameters");
+    key1 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestIncludingModeAndState", Constants.ANON_USER);
+    key2 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestParametersIsolation", Constants.ANON_USER);
+    key3 = framework.addPortlet(PORTLET_APP_NAME, "PortletToTestRenderParameters", Constants.ANON_USER);
     //String portal_container_name = framework.getPortalName();
     
   }
