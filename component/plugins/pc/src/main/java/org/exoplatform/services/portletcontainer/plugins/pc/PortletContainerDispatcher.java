@@ -171,8 +171,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * Logger.
    */
-  private static final Log                LOG                      = ExoLogger
-                                                                       .getLogger(PortletContainerDispatcher.class);
+  private static final Log                LOG                      = ExoLogger.getLogger(PortletContainerDispatcher.class);
 
   /**
    * Exo container.
@@ -307,7 +306,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                                        final String portletName,
                                                        final String markup) {
     Collection<PortletMode> filteredModes = new ArrayList<PortletMode>();
-    Collection<PortletMode> nonFilteredModes = portletApplications.getPortletModes(portletAppName, portletName, markup);
+    Collection<PortletMode> nonFilteredModes = portletApplications.getPortletModes(portletAppName,
+                                                                                   portletName,
+                                                                                   markup);
     for (PortletMode mode : nonFilteredModes) {
       Enumeration<PortletMode> portalModes = config.getSupportedPortletModes();
       while (portalModes.hasMoreElements()) {
@@ -319,7 +320,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     return filteredModes;
   }
 
-  public final String[] getPortalManagedPortletModes(final String portletAppName, final String portletName) {
+  public final String[] getPortalManagedPortletModes(final String portletAppName,
+                                                     final String portletName) {
     PortletApp portletApp = getPortletApp(portletAppName);
     List<Supports> supports = portletApp.getPortlet(portletName).getSupports();
     List<CustomPortletMode> customPortletModes = portletApp.getCustomPortletMode();
@@ -363,7 +365,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         break;
       }
     }
-    return portletApplications.isModeSuported(portletAppName, portletName, markup, mode) && isPortalMode;
+    return portletApplications.isModeSuported(portletAppName, portletName, markup, mode)
+        && isPortalMode;
   }
 
   /**
@@ -380,8 +383,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                                        final String portletName,
                                                        final String markup) {
     Collection<WindowState> filteredStates = new ArrayList<WindowState>();
-    Collection<WindowState> nonFilteredStates = portletApplications
-        .getWindowStates(portletAppName, portletName, markup);
+    Collection<WindowState> nonFilteredStates = portletApplications.getWindowStates(portletAppName,
+                                                                                    portletName,
+                                                                                    markup);
     for (WindowState state : nonFilteredStates) {
       Enumeration<WindowState> portalStates = config.getSupportedWindowStates();
       while (portalStates.hasMoreElements()) {
@@ -417,7 +421,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         break;
       }
     }
-    return portletApplications.isStateSupported(portletAppName, portletName, markup, state) && isPortalState;
+    return portletApplications.isStateSupported(portletAppName, portletName, markup, state)
+        && isPortalState;
   }
 
   /**
@@ -484,7 +489,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     if (eds == null || payload == null)
       return true;
     for (EventDefinition ed : eds) {
-      if (!ed.getPrefferedName().equals(eventName) || ed.getAliases() == null || !ed.getAliases().contains(eventName))
+      if (!ed.getPrefferedName().equals(eventName) || ed.getAliases() == null
+          || !ed.getAliases().contains(eventName))
         continue;
       if (ed.getJavaClass() == null) {
         return true;
@@ -520,8 +526,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public final void setPortletPreference(final Input input, final Map<String, String> preferencesMap) throws PortletContainerException {
     LOG.debug("try to set a portlet preference directly from the setPortletPreference() method");
     WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
-        .getPortletName());
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+                                                            windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
@@ -533,14 +539,15 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         try {
           preferences.setValue(key, preferencesMap.get(key));
         } catch (ReadOnlyException e) {
-          throw new PortletContainerException("Can not set a property that has a ReadOnly tag set to true", e);
+          throw new PortletContainerException("Can not set a property that has a ReadOnly tag set to true",
+                                              e);
 //          LOG.error("Can not set a property that has a ReadOnly tag set to true", e);
         }
       }
       preferences.store();
     } catch (Exception e) {
 //      LOG.error("Can not store a portlet preference", e);
-      throw new PortletContainerException("Can not store a portlet preference",e);
+      throw new PortletContainerException("Can not store a portlet preference", e);
     }
   }
 
@@ -558,9 +565,16 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public PortletPreferences getPortletPreferences(Input input) {
     LOG.debug("Try to get a portlet preference directly from the getPortletPreference() method ");
     WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
-        .getPortletName());
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+                                                            windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
+
+    System.out.println(">>> EXOMAN PortletContainerDispatcher.getPortletPreferences() defaultPrefs = "
+        + defaultPrefs);
+    if (defaultPrefs != null)
+      System.out.println(">>> EXOMAN PortletContainerDispatcher.getPortletPreferences() defaultPrefs.size() = "
+          + defaultPrefs.size());
+    
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
     return preferences;
@@ -569,8 +583,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public void setPortletPreference2(Input input, Map<String, String[]> preferencesMap) throws PortletContainerException {
     LOG.debug("try to set a portlet preference directly from the setPortletPreference2() method");
     WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
-        .getPortletName());
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+                                                            windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
@@ -595,8 +609,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
     LOG.debug("try to set a portlet preference directly from the setPortletPreferences() method");
     WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
-        .getPortletName());
+    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+                                                            windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     windowInfos.setPreferences(preferences);
@@ -640,8 +654,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     request.setAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME, portletAppName);
     request.setAttribute(PortletContainerDispatcher.PORTLET_NAME, portletName);
     dispatch(request, response, portletAppName);
-    java.util.ResourceBundle bundle = (java.util.ResourceBundle) request
-        .getAttribute(PortletContainerDispatcher.BUNDLE);
+    java.util.ResourceBundle bundle = (java.util.ResourceBundle) request.getAttribute(PortletContainerDispatcher.BUNDLE);
     request.removeAttribute(PortletContainerDispatcher.CONTAINER);
     request.removeAttribute(PortletContainerDispatcher.IS_TO_GET_BUNDLE);
     request.removeAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE);
@@ -667,7 +680,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                           final HttpServletResponse httpServletResponse,
                                           final ActionInput actionInput) throws PortletContainerException {
     LOG.debug("ProcessAction method in PortletContainerDispatcher entered");
-    return (ActionOutput) process(httpServletRequest, httpServletResponse, actionInput, PCConstants.ACTION_INT);
+    return (ActionOutput) process(httpServletRequest,
+                                  httpServletResponse,
+                                  actionInput,
+                                  PCConstants.ACTION_INT);
   }
 
   /**
@@ -686,7 +702,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                         final HttpServletResponse httpServletResponse,
                                         final EventInput eventInput) throws PortletContainerException {
     LOG.debug("ProcessEvent method in PortletContainerDispatcher entered");
-    return (EventOutput) process(httpServletRequest, httpServletResponse, eventInput, PCConstants.EVENT_INT);
+    return (EventOutput) process(httpServletRequest,
+                                 httpServletResponse,
+                                 eventInput,
+                                 PCConstants.EVENT_INT);
   }
 
   /**
@@ -705,7 +724,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                    final HttpServletResponse httpServletResponse,
                                    final RenderInput renderInput) throws PortletContainerException {
     LOG.debug("Render method in PortletContainerDispatcher entered");
-    return (RenderOutput) process(httpServletRequest, httpServletResponse, renderInput, PCConstants.RENDER_INT);
+    return (RenderOutput) process(httpServletRequest,
+                                  httpServletResponse,
+                                  renderInput,
+                                  PCConstants.RENDER_INT);
   }
 
   /**
@@ -724,7 +746,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                             final HttpServletResponse httpServletResponse,
                                             final ResourceInput resourceInput) throws PortletContainerException {
     LOG.debug("ServeResource method in PortletContainerDispatcher entered");
-    return (ResourceOutput) process(httpServletRequest, httpServletResponse, resourceInput, PCConstants.RESOURCE_INT);
+    return (ResourceOutput) process(httpServletRequest,
+                                    httpServletResponse,
+                                    resourceInput,
+                                    PCConstants.RESOURCE_INT);
   }
 
   /**
@@ -808,7 +833,13 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       initTests();
       try {
         ServletContext portalContext = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
-        standAloneHandler.process(portalContext, request, response, input, output, windowInfos, isAction);
+        standAloneHandler.process(portalContext,
+                                  request,
+                                  response,
+                                  input,
+                                  output,
+                                  windowInfos,
+                                  isAction);
       } finally {
         Thread.currentThread().setContextClassLoader(oldCL);
       }
@@ -839,7 +870,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * @param isAction action type
    * @return portlet window internal object
    */
-  private PortletWindowInternal getWindowInfos(final HttpServletRequest request, final Input input, final int isAction) {
+  private PortletWindowInternal getWindowInfos(final HttpServletRequest request,
+                                               final Input input,
+                                               final int isAction) {
     boolean stateChangeAuthorized = true;
     if (isAction == PCConstants.ACTION_INT)
       stateChangeAuthorized = ((ActionInput) input).isStateChangeAuthorized();
@@ -853,8 +886,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         windowInfos = windowInfosContainer.getInfos(key);
       } else {
         WindowID windowID = input.getInternalWindowID();
-        Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
-            .getPortletName());
+        Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+                                                                windowID.getPortletName());
         ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
         windowInfos = manager.getWindow(input, defaultPrefs);
         windowInfosContainer.addInfos(key, windowInfos);
@@ -863,8 +896,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       // differs with previous: without WindowInfosContainer
       LOG.debug("Extract or create windows info (sent by the client)");
       WindowID windowID = input.getInternalWindowID();
-      Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(), windowID
-          .getPortletName());
+      Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
+                                                              windowID.getPortletName());
       ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
       windowInfos = manager.getWindow(input, defaultPrefs);
     }
@@ -886,7 +919,9 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     ServletContext portalContext = (ServletContext) container.getComponentInstanceOfType(ServletContext.class);
     ServletContext portletContext = portalContext.getContext("/" + portletApplicationName);
     if (portletContext == null)
-      LOG.error("Can't get servlet context for portlet app [" + portletApplicationName + "]. May be it's caused "
+      LOG.error("Can't get servlet context for portlet app ["
+          + portletApplicationName
+          + "]. May be it's caused "
           + "by difference between context name (usually WAR file name) and content of tag <display-name/> in your "
           + "WEB-INF/web.xml");
     RequestDispatcher dispatcher = portletContext.getRequestDispatcher(PortletContainerDispatcher.SERVLET_MAPPING);
@@ -912,11 +947,12 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     String PORTLET_APP_PATH2 = "file:" + System.getProperty("testPath") + "/war_template";
 
     try {
-      URL[] URLs = { new URL(PORTLET_APP_PATH + "WEB-INF/classes/"), new URL("file:./lib/portlet-api.jar"),
-          new URL(PORTLET_APP_PATH + "WEB-INF/lib/") };
+      URL[] URLs = { new URL(PORTLET_APP_PATH + "WEB-INF/classes/"),
+          new URL("file:./lib/portlet-api.jar"), new URL(PORTLET_APP_PATH + "WEB-INF/lib/") };
       //     Thread.currentThread().setContextClassLoader(new URLClassLoader(URLs));
-      Thread.currentThread().setContextClassLoader(
-          new URLClassLoader(URLs, Thread.currentThread().getContextClassLoader()));
+      Thread.currentThread()
+            .setContextClassLoader(new URLClassLoader(URLs, Thread.currentThread()
+                                                                  .getContextClassLoader()));
     } catch (MalformedURLException e) {
       LOG.error("Can not init tests", e);
     }
