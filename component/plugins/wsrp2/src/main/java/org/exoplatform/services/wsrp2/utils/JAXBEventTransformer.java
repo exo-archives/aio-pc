@@ -36,13 +36,21 @@ import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.EventPayload;
 
 /**
- * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua Oct 15, 2007
+ * Author : Alexey Zavizionov alexey.zavizionov@exoplatform.com.ua Oct 15, 2007.
  */
 public class JAXBEventTransformer {
 
+  /** The Constant log. */
   private static final Log log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.utils.JAXBEventTransformer");
 
   // convert from "List<javax.portlet.Event>" to "org.exoplatform.services.wsrp2.type.Event[]"
+  /**
+   * Gets the events marshal.
+   * 
+   * @param eventsList the events list
+   * 
+   * @return the events marshal
+   */
   public static List<Event> getEventsMarshal(List<javax.portlet.Event> eventsList) {
     List<Event> events = new ArrayList<Event>();
     for (javax.portlet.Event event : eventsList) {
@@ -52,6 +60,13 @@ public class JAXBEventTransformer {
   }
 
   // convert from "javax.portlet.Event" to "org.exoplatform.services.wsrp2.type.Event"
+  /**
+   * Gets the event marshal.
+   * 
+   * @param event the event
+   * 
+   * @return the event marshal
+   */
   public static Event getEventMarshal(javax.portlet.Event event) {
     if (event == null)
       return null;
@@ -111,6 +126,13 @@ public class JAXBEventTransformer {
   }
 
   // convert from "org.exoplatform.services.wsrp2.type.Event[]" to "List<javax.portlet.Event>"
+  /**
+   * Gets the events unmarshal.
+   * 
+   * @param eventList the event list
+   * 
+   * @return the events unmarshal
+   */
   public static List<javax.portlet.Event> getEventsUnmarshal(List<Event> eventList) {
     if (eventList == null)
       return null;
@@ -126,7 +148,7 @@ public class JAXBEventTransformer {
             String clazz = event.getType().getLocalPart();
 
             String pkg = clazz.substring(0, clazz.lastIndexOf("."));
-            ClassLoader cle = Thread.currentThread().getContextClassLoader();//was: this.getClass().getClassLoader();
+            ClassLoader cle = Thread.currentThread().getContextClassLoader(); //was: this.getClass().getClassLoader();
             org.w3c.dom.Element messageElement = (org.w3c.dom.Element) event.getPayload().getAny();
 
             JAXBContext jaxbContext = JAXBContext.newInstance(pkg, cle);
@@ -153,6 +175,14 @@ public class JAXBEventTransformer {
     return eventsList;
   }
 
+  /**
+   * Gets the marshalled document.
+   * 
+   * @param value the value
+   * @param name the name
+   * 
+   * @return the marshalled document
+   */
   public static org.w3c.dom.Document getMarshalledDocument(Object value, QName name) {
     if (log.isDebugEnabled())
       log.debug("JAXBEventTransformer.getMarshalledDocument() value = " + value);
@@ -175,6 +205,14 @@ public class JAXBEventTransformer {
     return null;
   }
 
+  /**
+   * Gets the unmarshalled object.
+   * 
+   * @param type the type
+   * @param payload the payload
+   * 
+   * @return the unmarshalled object
+   */
   private static Object getUnmarshalledObject(QName type, EventPayload payload) {
     try {
       String eventType = type.getLocalPart();
