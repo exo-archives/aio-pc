@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
+package org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -25,10 +25,8 @@ import java.util.List;
 import java.util.Map;
 
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
-import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
@@ -36,7 +34,7 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ConsumerRewriterPortletURLImp extends PortletURLImp {
+public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
   private String                 sessionID;
 
@@ -48,18 +46,17 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private String                 user;
 
-  public ConsumerRewriterPortletURLImp(String type,
-                                       String mimeType,
-                                       List<Supports> supports,
-                                       boolean isCurrentlySecured,
-                                       String portletHandle,
-                                       PersistentStateManager stateManager,
-                                       String sessionID,
-                                       boolean defaultEscapeXml,
-                                       List<String> supportedPublicRenderParameter,
-                                       Portlet portlet,
-                                       String user) {
-    super(type, null, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
+  public ConsumerRewriterResourceURLImp(String type,
+                                        boolean isCurrentlySecured,
+                                        String portletHandle,
+                                        PersistentStateManager stateManager,
+                                        String sessionID,
+                                        boolean defaultEscapeXml,
+                                        String cacheLevel,
+                                        List<String> supportedPublicRenderParameter,
+                                        Portlet portlet,
+                                        String user) {
+    super(type, null, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -69,10 +66,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   public String toString() {
 
-    if (getType().equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
-      invokeFilterActionURL();
-    else
-      invokeFilterRenderURL();
+    invokeFilterResourceURL();
 
     Map<String, String[]> publicParams = new HashMap<String, String[]>();
     Map<String, String[]> privateParams = new HashMap<String, String[]>();
@@ -91,6 +85,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
             navigationalValuesString += key + "=" + param;
           }
         } else {
+          //PRIVATE
           privateParams.put(key, value);
         }
       }
@@ -132,50 +127,42 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
     sB.append("=");
     sB.append(isSecure());
 
-    //if (requiredPortletMode != null) {
     sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_MODE);
+    sB.append(WSRPConstants.WSRP_URL);
     sB.append("=");
-    sB.append(requiredPortletMode != null ? requiredPortletMode : "");
-    //}
+    sB.append("");
 
-    //if (requiredWindowState != null) {
     sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_WINDOW_STATE);
+    sB.append(WSRPConstants.WSRP_RESOURCE_ID);
     sB.append("=");
-    sB.append(requiredWindowState != null ? requiredWindowState : "");
-    //}
+    sB.append(resourceID);
 
-    // process navigational state
-    String navigationalState = IdentifierUtil.generateUUID(this);
+    // process resource state
+    String resourceState = IdentifierUtil.generateUUID(this);
     try {
-      stateManager.putNavigationalState(navigationalState, parameters);// was: privateParams
+      stateManager.putResourceState(resourceState, parameters);//was: privateParams
     } catch (WSRPException e) {
       e.printStackTrace();
     }
     sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+    sB.append(WSRPConstants.WSRP_RESOURCE_STATE);
     sB.append("=");
-    sB.append(navigationalState);
+    sB.append(resourceState);
 
     sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
+    sB.append(WSRPConstants.WSRP_RESOURCE_CACHEABILITY);
     sB.append("=");
-    sB.append(encode(navigationalValuesString));
+    sB.append(cacheLevel);
 
-    // process interaction state
-    if (getType().equalsIgnoreCase(PCConstants.ACTION_STRING)) {
-      String interactionState = IdentifierUtil.generateUUID(this);
-      try {
-        stateManager.putInteractionState(interactionState, parameters);//was: privateParams
-      } catch (WSRPException e) {
-        e.printStackTrace();
-      }
-      sB.append(WSRPConstants.NEXT_PARAM);
-      sB.append(WSRPConstants.WSRP_INTERACTION_STATE);
-      sB.append("=");
-      sB.append(interactionState);
-    }
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_REQUIRES_REWRITE);
+    sB.append("=");
+    sB.append("");
+
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_PREFER_OPERATION);
+    sB.append("=");
+    sB.append("");
 
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 

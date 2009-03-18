@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
+package org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -24,17 +24,20 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
+public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   private String                 sessionID;
 
@@ -44,9 +47,12 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
+  private Templates              templates;
+
   private String                 user;
 
-  public ConsumerRewriterResourceURLImp(String type,
+  public ProducerRewriterResourceURLImp(String type,
+                                        Templates templates,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
@@ -61,6 +67,7 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
+    this.templates = templates;
     this.user = user;
   }
 
@@ -91,51 +98,35 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       }
     }
 
-    StringBuffer sB = new StringBuffer();
+    String template = TemplatesFactory.getTemplate(templates, isSecure(), getType());
 
-    sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
 
-    sB.append(WSRPConstants.WSRP_URL_TYPE);
-    sB.append("=");
-    sB.append(getType());
-
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
-    sB.append("=");
-    sB.append(portletHandle);
-    
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
-    sB.append("=");
-    sB.append(user);
-
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
-    sB.append("=");
-    sB.append("");
-
-//    sB.append(WSRPConstants.NEXT_PARAM);
-//    sB.append(WSRPConstants.WSRP_EXTENSIONS);
-//    sB.append("=");
-//    sB.append("");
-
+    String secureInfo = "false";
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);
+      secureInfo = "true";
     }
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_SECURE_URL);
-    sB.append("=");
-    sB.append(isSecure());
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_URL);
-    sB.append("=");
-    sB.append("");
+    //clear action and render params 
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_RESOURCE_ID);
-    sB.append("=");
-    sB.append(resourceID);
+    //process resource params 
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
+    if (resourceID != null) {
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_ID + "}",
+                                     resourceID);
+    } else {
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
+    }
 
     // process resource state
     String resourceState = IdentifierUtil.generateUUID(this);
@@ -144,27 +135,36 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_RESOURCE_STATE);
-    sB.append("=");
-    sB.append(resourceState);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}",
+                                   resourceState);
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_RESOURCE_CACHEABILITY);
-    sB.append("=");
-    sB.append(cacheLevel);
+    if (cacheLevel != null) {
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
+                                     cacheLevel);
+    } else {
+      template = StringUtils.replace(template,
+                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
+                                     "");
+    }
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_REQUIRES_REWRITE);
-    sB.append("=");
-    sB.append("");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_PREFER_OPERATION);
-    sB.append("=");
-    sB.append("");
-
-    sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
+    // other parameters
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
+                                   portletHandle);
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
+                                   user != null ? user : "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
+                                   "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");
 
     Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
@@ -172,22 +172,22 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        sB.append(WSRPConstants.NEXT_PARAM);
-        sB.append(encode(name));
-        sB.append("=");
-        sB.append(encode(value));
+        template += WSRPConstants.NEXT_PARAM;
+        template += encode(name);
+        template += "=";
+        template += encode(value);
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          sB.append(WSRPConstants.NEXT_PARAM);
-          sB.append(encode(name));
-          sB.append("=");
-          sB.append(encode(values[i]));
+          template += WSRPConstants.NEXT_PARAM;
+          template += encode(name);
+          template += "=";
+          template += encode(values[i]);
         }
       }
     }
 
-    return sB.toString();
+    return template;
   }
 
 }

@@ -30,6 +30,8 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ConsumerRewriterPortletURLImp1;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ConsumerRewriterResourceURLImp1;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2.ConsumerRewriterPortletURLImp;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2.ConsumerRewriterResourceURLImp;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**

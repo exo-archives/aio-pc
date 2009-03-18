@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
+package org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2;
 
 import java.util.ArrayList;
 import java.util.Collection;
