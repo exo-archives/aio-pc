@@ -52,56 +52,62 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
   public String createBlockingActionTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, false);
-    appendParameters(sB);
+    appendCommonParameters(sB);
+    appendBlockingActionParameters(sB);
     return sB.toString();
   }
 
   public String createSecureBlockingActionTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, true);
-    appendParameters(sB);
+    appendCommonParameters(sB);
+    appendBlockingActionParameters(sB);
     return sB.toString();
   }
 
   public String createRenderTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, false);
-    appendParameters(sB);
+    appendCommonParameters(sB);
+    appendRenderParameters(sB);
     return sB.toString();
   }
 
   public String createSecureRenderTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, true);
-    appendParameters(sB);
+    appendCommonParameters(sB);
+    appendRenderParameters(sB);
     return sB.toString();
   }
 
   public String createResourceTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, false);
-    appendParameters(sB);
+    appendCommonParameters(sB);
+    appendResourceParameters(sB);
     return sB.toString();
   }
 
   public String createSecureResourceTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, true);
-    appendParameters(sB);
+    appendCommonParameters(sB);
+    appendResourceParameters(sB);
     return sB.toString();
   }
 
   public String createDefaultTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, false);
-    appendParameters(sB);
+    appendCommonParameters(sB);
     return sB.toString();
   }
 
   public String createSecureDefaultTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, true);
-    appendParameters(sB);
+    appendCommonParameters(sB);
     return sB.toString();
   }
 
@@ -113,36 +119,60 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
 //    manageServerProtocol(sB,isSecure);
     sB.append(path);
   }
-
-  private void appendParameters(StringBuffer stringBuffer) {
-    // JSR-168 parameters
+  
+  private void appendCommonParameters(StringBuffer stringBuffer) {
+    
     stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}");
-    stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE
-        + "}");
-    stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={"
-        + WSRPConstants.WSRP_WINDOW_STATE + "}");
-    stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL
-        + "}");
-
-    // WSRP1 parameters
     stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "={"
-        + WSRPConstants.WSRP_PORTLET_HANDLE + "}");
-    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "={"
-        + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
-    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
-        + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
-    stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID
-        + "}");
+                        + WSRPConstants.WSRP_PORTLET_HANDLE + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "={"
-        + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}");
-    stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL + "}");
-    stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={"
-        + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
-    stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={"
-        + WSRPConstants.WSRP_INTERACTION_STATE + "}");
+                        + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "={"
+                        + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID
+                        + "}");
+    stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL
+                        + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_FRAGMENT_ID + "={"
-        + WSRPConstants.WSRP_FRAGMENT_ID + "}");
+                        + WSRPConstants.WSRP_FRAGMENT_ID + "}");
+    
   }
+
+  private void appendBlockingActionParameters(StringBuffer stringBuffer) {
+    
+    stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE
+                        + "}");
+    stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={"
+                        + WSRPConstants.WSRP_WINDOW_STATE + "}");
+    
+    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
+                        + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
+    
+    stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={"
+                        + WSRPConstants.WSRP_INTERACTION_STATE + "}");
+
+  }
+
+  private void appendRenderParameters(StringBuffer stringBuffer) {
+    
+    stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE
+                        + "}");
+    stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={"
+                        + WSRPConstants.WSRP_WINDOW_STATE + "}");
+    
+    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
+                        + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
+
+  }
+
+  private void appendResourceParameters(StringBuffer stringBuffer) {
+    
+    stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL + "}");
+    
+    stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={"
+                        + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
+  }
+
 
   private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
     if (isSecure != null && isSecure) {
