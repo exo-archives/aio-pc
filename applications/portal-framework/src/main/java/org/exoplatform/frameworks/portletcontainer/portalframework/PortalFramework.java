@@ -1169,6 +1169,9 @@ public class PortalFramework {
       win.setPortletMode(o.getNextMode());
     if (o.getNextState() != null)
       win.setWindowState(o.getNextState());
+    if (!eventRenderParams.isEmpty())
+      win.setRenderParams(eventRenderParams);
+      
     return o;
   }
 
