@@ -116,13 +116,14 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
   }
 
   private void manageServerPath(StringBuffer sB, String path, Boolean isSecure) {
-//    manageServerProtocol(sB,isSecure);
     sB.append(path);
   }
   
   private void appendCommonParameters(StringBuffer stringBuffer) {
     
     stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}");
+    stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL
+                        + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "={"
                         + WSRPConstants.WSRP_PORTLET_HANDLE + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "={"
@@ -131,8 +132,7 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
                         + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID
                         + "}");
-    stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL
-                        + "}");
+
     stringBuffer.append("&" + WSRPConstants.WSRP_FRAGMENT_ID + "={"
                         + WSRPConstants.WSRP_FRAGMENT_ID + "}");
     
@@ -140,17 +140,9 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
 
   private void appendBlockingActionParameters(StringBuffer stringBuffer) {
     
-    stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE
-                        + "}");
-    stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={"
-                        + WSRPConstants.WSRP_WINDOW_STATE + "}");
-    
-    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
-                        + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
-    
     stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={"
                         + WSRPConstants.WSRP_INTERACTION_STATE + "}");
-
+    appendRenderParameters(stringBuffer);
   }
 
   private void appendRenderParameters(StringBuffer stringBuffer) {
@@ -159,7 +151,6 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
                         + "}");
     stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={"
                         + WSRPConstants.WSRP_WINDOW_STATE + "}");
-    
     stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
                         + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
 
@@ -173,7 +164,7 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
                         + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
   }
 
-
+  @Deprecated
   private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
     if (isSecure != null && isSecure) {
       sB.append(SECURE_PROTOCOL);
