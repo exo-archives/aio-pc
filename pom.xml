@@ -10,13 +10,13 @@
   <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>config</artifactId>
   <name>eXo Portlet Container</name>
-  <version>2.0.6-SNAPSHOT</version>
+  <version>2.0.6</version>
   <packaging>pom</packaging>
 
   <scm>
-    <connection>scm:svn:http://svn.exoplatform.org/projects/portlet-container/branches/2.0.6</connection>
-    <developerConnection>scm:svn:http://svn.exoplatform.org/projects/portlet-container/branches/2.0.6</developerConnection>
-    <url>http://fisheye.exoplatform.org/browse/projects/portlet-container/branches/2.0.6</url>
+    <connection>scm:svn:http://svn.exoplatform.org/projects/portlet-container/tags/2.0.6</connection>
+    <developerConnection>scm:svn:http://svn.exoplatform.org/projects/portlet-container/tags/2.0.6</developerConnection>
+    <url>http://fisheye.exoplatform.org/browse/projects/portlet-container/tags/2.0.6</url>
   </scm>
   <properties>
      <exo.product.name>exo-pc</exo.product.name>
@@ -118,8 +118,8 @@
                 <taskdef resource="emma_ant.properties" classpathref="maven.dependency.classpath" />
                 <emma enabled="true">
                   <!-- merged file will be rewritted by last project -->
-                  <merge outfile="${exo.projects.directory.src}/portlet-container/trunk/target/coverage.es">
-                    <fileset dir="${exo.projects.directory.src}/portlet-container/trunk/">
+                  <merge outfile="${exo.projects.directory.src}/portlet-container/tags/2.0.6/target/coverage.es">
+                    <fileset dir="${exo.projects.directory.src}/portlet-container/tags/2.0.6/">
                       <include name="**/target/emma/*.e*" />
                       <include name="**/target/emma/*.e*" />
                     </fileset>
@@ -128,15 +128,15 @@
                   </merge>
                   <report>
                     <sourcepath>
-                      <dirset dir="${exo.projects.directory.src}/portlet-container/trunk/">
+                      <dirset dir="${exo.projects.directory.src}/portlet-container/tags/2.0.6/">
                         <include name="**/src/**/java" />
                       </dirset>
                     </sourcepath>
-                    <fileset dir="${exo.projects.directory.src}/portlet-container/trunk/target/">
+                    <fileset dir="${exo.projects.directory.src}/portlet-container/tags/2.0.6/target/">
                       <include name="*.es" />
                     </fileset>
-                    <html outfile="${exo.projects.directory.src}/portlet-container/trunk/target/coverage.html" />
-                    <xml outfile="${exo.projects.directory.src}/portlet-container/trunk/target/coverage.xml" />
+                    <html outfile="${exo.projects.directory.src}/portlet-container/tags/2.0.6/target/coverage.html" />
+                    <xml outfile="${exo.projects.directory.src}/portlet-container/tags/2.0.6/target/coverage.xml" />
                   </report>
                 </emma>
               </tasks>
@@ -186,9 +186,9 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <org.exoplatform.kernel.version>2.0.7-SNAPSHOT</org.exoplatform.kernel.version>
-        <org.exoplatform.core.version>2.1.5-SNAPSHOT</org.exoplatform.core.version>
-        <org.exoplatform.pc.version>2.0.6-SNAPSHOT</org.exoplatform.pc.version>
+        <org.exoplatform.kernel.version>2.0.7</org.exoplatform.kernel.version>
+        <org.exoplatform.core.version>2.1.5</org.exoplatform.core.version>
+        <org.exoplatform.pc.version>2.0.6</org.exoplatform.pc.version>
       </properties>
     </profile>
   </profiles>
