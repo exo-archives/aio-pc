@@ -135,7 +135,6 @@ public class BaseTest extends TestCase {
     windowID.setUniqueID("windowID");
     windowID.setPersistenceId("persistenceID");
 
-
     renderInput = new RenderInput();
     renderInput.setBaseURL("exo/faces/portal/portal.jsp");
     renderInput.setInternalWindowID(windowID);
