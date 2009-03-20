@@ -41,77 +41,74 @@ import org.exoplatform.services.wsrp2.type.UserContext;
 import org.exoplatform.services.wsrp2.type.UserProfile;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 2 févr. 2004
- * Time: 17:39:19
- * Revision: Max Shaposhnik 17.07.2008
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 2
+ *         févr. 2004 Time: 17:39:19 Revision: Max Shaposhnik 17.07.2008
  */
 
 public class BaseTest extends TestCase {
 
-  protected static final String      CONTEXT_PATH                                    = "/war_template1";
+  protected static final String   CONTEXT_PATH                                    = "/war_template1";
 
-  protected static final String      TEST_PATH                                       = (System.getProperty("testPath") == null ? "."
-                                                                                                                              : System.getProperty("testPath"));
+  protected static final String   TEST_PATH                                       = (System.getProperty("testPath") == null ? "."
+                                                                                                                           : System.getProperty("testPath"));
 
-  protected static final String      PORTLET_APP_PATH                                = "file:"
-                                                                                         + TEST_PATH
-                                                                                         + CONTEXT_PATH;
+  protected static final String   PORTLET_APP_PATH                                = "file:"
+                                                                                      + TEST_PATH
+                                                                                      + CONTEXT_PATH;
 
-  protected ProducerRegistry         producerRegistry;
+  protected ProducerRegistry      producerRegistry;
 
-  protected Producer                 producer;
+  protected Producer              producer;
 
-  protected RegistrationData         registrationData;
+  protected RegistrationData      registrationData;
 
 //  protected PortalContainer          container;
 
-  protected static final String[]    USER_CATEGORIES_ARRAY                           = { "full",
-      "standard", "minimal"                                                         };
+  protected static final String[] USER_CATEGORIES_ARRAY                           = { "full",
+      "standard", "minimal"                                                      };
 
-  public static final String[]       CONSUMER_MODES                                  = {
-      "wsrp:view", "wsrp:edit"                                                      };
+  public static final String[]    CONSUMER_MODES                                  = { "wsrp:view",
+      "wsrp:edit"                                                                };
 
-  public static final String[]       CONSUMER_STATES                                 = {
-      "wsrp:normal", "wsrp:maximized"                                               };
+  public static final String[]    CONSUMER_STATES                                 = {
+      "wsrp:normal", "wsrp:maximized"                                            };
 
-  public static final String[]       CONSUMER_SCOPES                                 = { "chunk_data" };
+  public static final String[]    CONSUMER_SCOPES                                 = { "chunk_data" };
 
-  public static final String[]       CONSUMER_CUSTOM_PROFILES                        = { "what_more" };
+  public static final String[]    CONSUMER_CUSTOM_PROFILES                        = { "what_more" };
 
-  public static final String         PRODUCER_ID                                     = "producerID";
+  public static final String      PRODUCER_ID                                     = "producerID";
 
-  public static final String         PRODUCER_DESCRIPTION                            = "producerDescription";
+  public static final String      PRODUCER_DESCRIPTION                            = "producerDescription";
 
-  public static final String         PRODUCER_NAME                                   = "producerName";
+  public static final String      PRODUCER_NAME                                   = "producerName";
 
-  public static final String         PRODUCER_MARKUP_INTERFACE_ENDPOINT              = "markupInterfaceEndpoint";
+  public static final String      PRODUCER_MARKUP_INTERFACE_ENDPOINT              = "markupInterfaceEndpoint";
 
-  public static final String         PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT  = "PortletManagementInterfaceEndpoint";
+  public static final String      PRODUCER_PORTLET_MANAGEMENT_INTERFACE_ENDPOINT  = "PortletManagementInterfaceEndpoint";
 
-  public static final String         PRODUCER_REGISTRATION_INTERFACE_ENDPOINT        = "RegistrationInterfaceEndpoint";
+  public static final String      PRODUCER_REGISTRATION_INTERFACE_ENDPOINT        = "RegistrationInterfaceEndpoint";
 
-  public static final String         PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT = "ServiceDescriptionInterfaceEndpoint";
+  public static final String      PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT = "ServiceDescriptionInterfaceEndpoint";
 
-  public static final String[]       desiredLocales                                  = { "en" };
+  public static final String[]    desiredLocales                                  = { "en" };
 
-  protected PortletRegistry          portletRegistry;
+  protected PortletRegistry       portletRegistry;
 
-  protected UserRegistry             userRegistry;
+  protected UserRegistry          userRegistry;
 
-  protected UserContext              userContext;
+  protected UserContext           userContext;
 
-  protected PersonName               personName;
+  protected PersonName            personName;
 
-  protected UserProfile              userProfile;
+  protected UserProfile           userProfile;
 
-  public static final String         BASE_URL                                        = "/portal/faces/portal/portal.jsp?portal:ctx="
-                                                                                         + Constants.DEFAUL_PORTAL_OWNER;
+  public static final String      BASE_URL                                        = "/portal/faces/portal/portal.jsp?portal:ctx="
+                                                                                      + Constants.DEFAUL_PORTAL_OWNER;
 
-  protected URLGenerator             urlGenerator;
+  protected URLGenerator          urlGenerator;
 
-  protected URLRewriter              urlRewriter;
+  protected URLRewriter           urlRewriter;
 
 //  private MockServletContext         mockServletContext;
 //
@@ -125,9 +122,9 @@ public class BaseTest extends TestCase {
 //
 //  private MockServletResponse        mockServletResponse;
 
-  protected int                      platform                                        = 0;
+  protected int                   platform                                        = 0;
 
-  protected ExoContainer             container;
+  protected ExoContainer          container;
 
   protected void setUp() throws Exception {
 
@@ -149,7 +146,7 @@ public class BaseTest extends TestCase {
     Collection<String> roles = new ArrayList<String>();
     roles.add("auth-user");
 
-//    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
+    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
 
   }
 

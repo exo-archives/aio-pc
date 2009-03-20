@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp2.utils;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.portletcontainer.PCConstants;
+import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.type.Templates;
 
 /**
@@ -40,21 +40,21 @@ public class TemplatesFactory {
         return templates.getDefaultTemplate();
       }
     }
-    if (type.equalsIgnoreCase(PCConstants.RESOURCE_STRING)) {
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RESOURCE)) {
       if (secure) {
         return templates.getSecureResourceTemplate();
       } else {
         return templates.getResourceTemplate();
       }
     }
-    if (type.equalsIgnoreCase(PCConstants.RENDER_STRING)) {
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_RENDER)) {
       if (secure) {
         return templates.getSecureRenderTemplate();
       } else {
         return templates.getRenderTemplate();
       }
     }
-    if (type.equalsIgnoreCase(PCConstants.ACTION_STRING)) {
+    if (type.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION)) {
       if (secure) {
         return templates.getSecureBlockingActionTemplate();
       } else {

@@ -32,24 +32,39 @@ public interface URLGenerator {
    * Creates a URL pointing to the consumer,triggering a
    * performBlockingInteraction call.
    */
-  public String getBlockingActionURL(String baseURL, Map<String, String> params);
+  public String getBlockingActionURL(String baseURL, Map<String, String[]> params);
 
   /**
    * Creates a URL pointing to the consumer,triggering a getMarkup call.
    */
-  public String getRenderURL(String baseURL, Map<String, String> params);
+  public String getRenderURL(String baseURL, Map<String, String[]> params);
 
   /**
    * Creates a URL pointing to the consumer,triggering the consumer to fetch a
    * certain resource.
    */
-  public String getResourceURL(String baseURL, Map<String, String> params);
+  public String getResourceURL(String baseURL, Map<String, String[]> params);
 
   /**
    * Creates a 'url' that the consumer can use to namespace tokens.
    */
   public String getNamespacedToken(String token);
 
-  public String getExtensionURL(String baseURL, Map<String, String> params);
+  /**
+   * 
+   * @param baseURL
+   * @param params
+   * @return
+   */
+  public String getExtensionURL(String baseURL, Map<String, String[]> params);
+  
+  /**
+   * Generic url rewriter.
+   * 
+   * @param baseURL
+   * @param params
+   * @return
+   */
+  public String getURL(String baseURL, Map<String, String[]> params);
 
 }

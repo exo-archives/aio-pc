@@ -17,28 +17,35 @@
 
 package org.exoplatform.services.wsrp1.testConsumer;
 
+import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 6 févr. 2004
- * Time: 17:17:29
+ * Created by The eXo Platform SAS .
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Mar 19, 2009
  */
 
 public class TestURLRewriter extends BaseTest {
 
-  String s = "wsrp_rewrite?wsrp-urlType=render&amp;wsrp-portletMode=wsrp:help&amp;"
-               + "wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**"
-               + "&amp;wsrp-windowState=wsrp:normal&amp;amp;wsrp-secureURL=false/wsrp_rewrite";
+  String toRewrite = "wsrp_rewrite?portal:type=render&amp;portal:portletMode=wsrp:help&amp;"
+                       + "wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**"
+                       + "&amp;portal:windowState=wsrp:normal&amp;portal:isSecure=false/wsrp_rewrite";
+
+  String expected  = "baseURL&wsrp-navigationalState=rO0ABXNyABFqYXZhLnV0aWwuSGFzaE1hcAUH2sHDFmDRAwACRgAKbG9hZEZhY3RvckkACXRocmVzaG9sZHhwP0AAAAAAAAh3CAAAAAsAAAAAeA**&portal%3AisSecure=false&portal%3Atype=render&portal%3AportletMode=help&portal%3AwindowState=normal";
 
   @Override
   protected void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestURLRewriter.setUp()");
   }
 
-  public void testRewrite() throws Exception {
-    //assertEquals(returned, urlRewriter.rewriteURLs(s));
+  public void testRewrite() throws WSRPException {
+    String result = urlRewriter.rewriteURLs("baseURL", toRewrite);
+
+    assertNotNull(result);
+    assertEquals(expected, result);
   }
 
 }

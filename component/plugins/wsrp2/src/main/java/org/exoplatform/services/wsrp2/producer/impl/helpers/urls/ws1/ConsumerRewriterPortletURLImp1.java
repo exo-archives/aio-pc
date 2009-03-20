@@ -27,6 +27,9 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Portle
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
+import org.exoplatform.services.wsrp2.utils.Modes;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -38,7 +41,7 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
   private String                 portletHandle;
 
   private PersistentStateManager stateManager;
-  
+
   private String                 user;
 
   public ConsumerRewriterPortletURLImp1(String type,
@@ -47,7 +50,8 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
-                                        String sessionID, String user) {
+                                        String sessionID,
+                                        String user) {
     super(type, null, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
@@ -73,13 +77,13 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
 
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(getType());
+    sB.append(URLUtils.getWSRPType(getType()));
 
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
     sB.append("=");
@@ -100,19 +104,17 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
     sB.append("=");
     sB.append(isSecure());
 
-    if (requiredPortletMode != null) {
-      sB.append(WSRPConstants.NEXT_PARAM);
-      sB.append(WSRPConstants.WSRP_MODE);
-      sB.append("=");
-      sB.append(requiredPortletMode);
-    }
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_MODE);
+    sB.append("=");
+    sB.append(requiredPortletMode != null ? Modes.addPrefixWSRP(requiredPortletMode.toString())
+                                         : "");
 
-    if (requiredWindowState != null) {
-      sB.append(WSRPConstants.NEXT_PARAM);
-      sB.append(WSRPConstants.WSRP_WINDOW_STATE);
-      sB.append("=");
-      sB.append(requiredWindowState);
-    }
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_WINDOW_STATE);
+    sB.append("=");
+    sB.append(requiredWindowState != null ? WindowStates.addPrefixWSRP(requiredWindowState.toString())
+                                         : "");
 
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 

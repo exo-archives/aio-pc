@@ -30,6 +30,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -97,13 +98,13 @@ public class ConsumerRewriterResourceURLImp extends ResourceURLImp {
 
     sB.append(WSRPConstants.WSRP_URL_TYPE);
     sB.append("=");
-    sB.append(getType());
+    sB.append(URLUtils.getWSRPType(getType()));
 
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
     sB.append("=");
     sB.append(portletHandle);
-    
+
     sB.append(WSRPConstants.NEXT_PARAM);
     sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
     sB.append("=");

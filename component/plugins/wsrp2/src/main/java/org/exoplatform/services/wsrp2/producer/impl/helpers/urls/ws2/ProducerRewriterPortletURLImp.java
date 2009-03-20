@@ -26,14 +26,16 @@ import java.util.Map;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
 import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -77,7 +79,7 @@ public class ProducerRewriterPortletURLImp
 
   public String toString() {
 
-    if (getType().equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
+    if (URLUtils.getWSRPType(getType()).equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       invokeFilterActionURL();
     else
       invokeFilterRenderURL();
@@ -105,9 +107,13 @@ public class ProducerRewriterPortletURLImp
       }
     }
 
-    String template = TemplatesFactory.getTemplate(templates, isSecure(), getType());
+    String template = TemplatesFactory.getTemplate(templates,
+                                                   isSecure(),
+                                                   URLUtils.getWSRPType(getType()));
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_URL_TYPE + "}",
+                                   URLUtils.getWSRPType(getType()));
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
 
@@ -118,17 +124,20 @@ public class ProducerRewriterPortletURLImp
     }
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureURL);
 
+    // WSRP_MODE 
     if (requiredPortletMode != null) {
       template = StringUtils.replace(template,
                                      "{" + WSRPConstants.WSRP_MODE + "}",
-                                     requiredPortletMode.toString());
+                                     Modes.addPrefixWSRP(requiredPortletMode.toString()));
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
     }
+
+    // WSRP_WINDOW_STATE
     if (requiredWindowState != null) {
       template = StringUtils.replace(template,
                                      "{" + WSRPConstants.WSRP_WINDOW_STATE + "}",
-                                     requiredWindowState.toString());
+                                     WindowStates.addPrefixWSRP(requiredWindowState.toString()));
     } else {
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
     }
@@ -149,7 +158,7 @@ public class ProducerRewriterPortletURLImp
                                    encode(navigationalValuesString));
 
     // process interaction state
-    if (getType().equalsIgnoreCase(PCConstants.ACTION_STRING)) {
+    if (URLUtils.getWSRPType(getType()).equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION)) {
       String interactionState = IdentifierUtil.generateUUID(this);
       try {
         stateManager.putInteractionState(interactionState, parameters);//was: privateParams

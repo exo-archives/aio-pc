@@ -115,10 +115,7 @@ public class TestGetMarkup extends BaseTest {
 
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String s = response.getMarkupContext().getItemString();
-    int index = s.indexOf("&ns=");
-    s = s.substring(index + "&ns=".length());
-    index = s.indexOf("&");
-    s = s.substring(0, index);
+    s = getParameter(s, "ns");
     markupParams.setMode("wsrp:view");
     markupParams.setWindowState("wsrp:maximized");
     navigationalContext.setOpaqueValue(s);
@@ -154,10 +151,7 @@ public class TestGetMarkup extends BaseTest {
 
     MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
     String s = response.getMarkupContext().getItemString();
-    int index = s.indexOf("&user=");
-    s = s.substring(index + "&user=".length());
-    index = s.indexOf("&");
-    s = s.substring(0, index);
+    s = getParameter(s, "user");
 
     assertNotNull(s);
     assertEquals("userKEY", s);
@@ -170,13 +164,58 @@ public class TestGetMarkup extends BaseTest {
 
     response = markupOperationsInterface.getMarkup(getMarkup);
     s = response.getMarkupContext().getItemString();
-    index = s.indexOf("&user=");
-    s = s.substring(index + "&user=".length());
-    index = s.indexOf("&");
-    s = s.substring(0, index);
+    s = getParameter(s, "user");
 
     assertNotNull(s);
     assertEquals("", s);
+
+  }
+
+  public void testGetMarkupWithRewrittenURLInItInWindowState() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE;
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, "portal:windowState");
+
+    assertNotNull(s);
+    assertEquals("wsrp:maximized", s);
+
+  }
+  
+  public void testGetMarkupWithRewrittenURLInItInPortletMode() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE;
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, "_mode");
+
+    assertNotNull(s);
+    assertEquals("wsrp:edit", s);
 
   }
 
@@ -363,6 +402,18 @@ public class TestGetMarkup extends BaseTest {
     initCookie.setUserContext(userContext);
     List<Extension> response = markupOperationsInterface.initCookie(initCookie);
     assertEquals(new ArrayList<Extension>(), response);
+  }
+
+  private String getParameter(String s, String paramName) {
+    String paramKey = "&" + paramName + "=";
+    int index = s.indexOf(paramKey);
+    if (index == -1) {
+      return "";
+    }
+    s = s.substring(index + (paramKey).length());
+    index = s.indexOf("&");
+    s = s.substring(0, index);
+    return s;
   }
 
 }

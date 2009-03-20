@@ -17,37 +17,32 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl.urls1;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-
 import org.exoplatform.Constants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 6 févr. 2004
- * Time: 13:05:01
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
+ *         févr. 2004 Time: 13:05:01
  */
 
 public class URLTemplateComposerImpl1 implements URLTemplateComposer {
 
-  public static final String SECURE_PROTOCOL     = "https://";
-
-  public static final String NON_SECURE_PROTOCOL = "http://";
-
-  private String             host                = "localhost";
-
-  private int                port                = 8080;
-
-  public void setHost(String host) {
-    this.host = host;
-  }
-
-  public void setPort(int port) {
-    this.port = port;
-  }
+//  public static final String SECURE_PROTOCOL     = "https://";
+//
+//  public static final String NON_SECURE_PROTOCOL = "http://";
+//
+//  private String             host                = "localhost";
+//
+//  private int                port                = 8080;
+//
+//  public void setHost(String host) {
+//    this.host = host;
+//  }
+//
+//  public void setPort(int port) {
+//    this.port = port;
+//  }
 
   public String createBlockingActionTemplate(String path) {
     StringBuffer sB = new StringBuffer();
@@ -118,76 +113,76 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
   private void manageServerPath(StringBuffer sB, String path, Boolean isSecure) {
     sB.append(path);
   }
-  
+
   private void appendCommonParameters(StringBuffer stringBuffer) {
-    
+
     stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}");
     stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL
-                        + "}");
+        + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "={"
-                        + WSRPConstants.WSRP_PORTLET_HANDLE + "}");
+        + WSRPConstants.WSRP_PORTLET_HANDLE + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "={"
-                        + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}");
+        + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "={"
-                        + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
+        + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID
-                        + "}");
+        + "}");
 
     stringBuffer.append("&" + WSRPConstants.WSRP_FRAGMENT_ID + "={"
-                        + WSRPConstants.WSRP_FRAGMENT_ID + "}");
-    
+        + WSRPConstants.WSRP_FRAGMENT_ID + "}");
+
   }
 
   private void appendBlockingActionParameters(StringBuffer stringBuffer) {
-    
+
     stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={"
-                        + WSRPConstants.WSRP_INTERACTION_STATE + "}");
+        + WSRPConstants.WSRP_INTERACTION_STATE + "}");
     appendRenderParameters(stringBuffer);
   }
 
   private void appendRenderParameters(StringBuffer stringBuffer) {
-    
+
     stringBuffer.append("&" + Constants.PORTLET_MODE_PARAMETER + "={" + WSRPConstants.WSRP_MODE
-                        + "}");
+        + "}");
     stringBuffer.append("&" + Constants.WINDOW_STATE_PARAMETER + "={"
-                        + WSRPConstants.WSRP_WINDOW_STATE + "}");
+        + WSRPConstants.WSRP_WINDOW_STATE + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
-                        + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
+        + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
 
   }
 
   private void appendResourceParameters(StringBuffer stringBuffer) {
-    
+
     stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL + "}");
-    
+
     stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={"
-                        + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
+        + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
   }
 
-  @Deprecated
-  private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
-    if (isSecure != null && isSecure) {
-      sB.append(SECURE_PROTOCOL);
-    } else {
-      sB.append(NON_SECURE_PROTOCOL);
-    }
-  }
-  
-  @Deprecated
-  private void manageServerPath(StringBuffer sB, String path) {
-    String newPath = null;
-    try {
-      URL url = new URL(path);
-      host = url.getHost();
-      port = url.getPort();
-      newPath = url.getFile();
-    } catch (MalformedURLException e) {
-      newPath = path;
-    }
-    sB.append(host);
-    if (port > 0)
-      sB.append(":").append(port);
-    sB.append(newPath);
-  }
+//  @Deprecated
+//  private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
+//    if (isSecure != null && isSecure) {
+//      sB.append(SECURE_PROTOCOL);
+//    } else {
+//      sB.append(NON_SECURE_PROTOCOL);
+//    }
+//  }
+//  
+//  @Deprecated
+//  private void manageServerPath(StringBuffer sB, String path) {
+//    String newPath = null;
+//    try {
+//      URL url = new URL(path);
+//      host = url.getHost();
+//      port = url.getPort();
+//      newPath = url.getFile();
+//    } catch (MalformedURLException e) {
+//      newPath = path;
+//    }
+//    sB.append(host);
+//    if (port > 0)
+//      sB.append(":").append(port);
+//    sB.append(newPath);
+//  }
 
 }

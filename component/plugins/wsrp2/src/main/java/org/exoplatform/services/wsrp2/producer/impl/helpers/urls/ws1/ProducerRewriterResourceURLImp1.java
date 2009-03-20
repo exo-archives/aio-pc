@@ -26,6 +26,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 
@@ -76,9 +77,13 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
       e.printStackTrace();
     }
 
-    String template = TemplatesFactory.getTemplate(templates, isSecure(), getType());
+    String template = TemplatesFactory.getTemplate(templates,
+                                                   isSecure(),
+                                                   URLUtils.getWSRPType(getType()));
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL_TYPE + "}", getType());
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_URL_TYPE + "}",
+                                   URLUtils.getWSRPType(getType()));
     if (resourceID != null) {
       template = StringUtils.replace(template,
                                      "{" + WSRPConstants.WSRP_RESOURCE_ID + "}",

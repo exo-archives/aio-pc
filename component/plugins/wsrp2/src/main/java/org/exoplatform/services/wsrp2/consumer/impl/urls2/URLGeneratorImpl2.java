@@ -18,43 +18,36 @@
 package org.exoplatform.services.wsrp2.consumer.impl.urls2;
 
 import java.net.URLEncoder;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.exoplatform.Constants;
-import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLGenerator;
-import org.exoplatform.services.wsrp2.utils.Modes;
-import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 6 févr. 2004
- * Time: 13:19:37
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
+ *         févr. 2004 Time: 13:19:37
  */
 
 public class URLGeneratorImpl2 implements URLGenerator {
 
-  public String getBlockingActionURL(String baseURL, Map<String, String> params) {
+  public String getBlockingActionURL(String baseURL, Map<String, String[]> params) {
     return getURL(baseURL, params);
   }
 
-  public String getRenderURL(String baseURL, Map<String, String> params) {
+  public String getRenderURL(String baseURL, Map<String, String[]> params) {
     return getURL(baseURL, params);
   }
 
-  public String getResourceURL(String baseURL, Map<String, String> params) {
+  public String getResourceURL(String baseURL, Map<String, String[]> params) {
     return getURL(baseURL, params);
   }
 
-  public String getExtensionURL(String baseURL, Map<String, String> params) {
+  public String getExtensionURL(String baseURL, Map<String, String[]> params) {
     return getURL(baseURL, params);
   }
 
-  private String getURL(String baseURL, Map<String, String> params) {
+  public String getURL(String baseURL, Map<String, String[]> params) {
     StringBuffer sB = new StringBuffer();
     sB.append(baseURL);
     return computeParameters(sB, params);
@@ -64,48 +57,18 @@ public class URLGeneratorImpl2 implements URLGenerator {
     return token;
   }
 
-  private String computeParameters(StringBuffer sB, Map<String, String> parameters) {
+  private String computeParameters(StringBuffer sB, Map<String, String[]> parameters) {
     Set<String> names = parameters.keySet();
-    for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
-      String name = (String) iterator.next();
-      if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
-        continue;
-      String value = parameters.get(name);
-      sB.append(WSRPConstants.NEXT_PARAM);
-      sB.append(replaceName(name));
-      sB.append("=");
-      sB.append(replaceValue(name, value));
-    }
-    return sB.toString();
-  }
-
-  private String replaceName(String name) {
-    if (WSRPConstants.WSRP_PORTLET_HANDLE.equals(name))
-      return Constants.COMPONENT_PARAMETER;
-    else if (WSRPConstants.WSRP_URL_TYPE.equals(name))
-      return Constants.TYPE_PARAMETER;
-    else if (WSRPConstants.WSRP_MODE.equals(name))
-      return Constants.PORTLET_MODE_PARAMETER;
-    else if (WSRPConstants.WSRP_WINDOW_STATE.equals(name))
-      return Constants.WINDOW_STATE_PARAMETER;
-    else if (WSRPConstants.WSRP_SECURE_URL.equals(name))
-      return Constants.SECURE_PARAMETER;
-    return name;
-  }
-
-  private String replaceValue(String name, String value) {
-    if (WSRPConstants.WSRP_URL_TYPE.equals(name)) {
-      if (WSRPConstants.URL_TYPE_BLOCKINGACTION.equals(value)) {
-        return PCConstants.ACTION_STRING;
+    for (String name : names) {
+      String[] values = parameters.get(name);
+      for (String value : values) {
+        sB.append(WSRPConstants.NEXT_PARAM);
+        sB.append(encode(name, true));
+        sB.append("=");
+        sB.append(encode(value, true));
       }
     }
-    if (WSRPConstants.WSRP_MODE.equals(name)) {
-      return Modes.delAllPrefixesWSRP(value);
-    }
-    if (WSRPConstants.WSRP_WINDOW_STATE.equals(name)) {
-      return WindowStates.delAllPrefixesWSRP(value);
-    }
-    return value;
+    return sB.toString();
   }
 
   protected String encode(String s, boolean escapeXML) {

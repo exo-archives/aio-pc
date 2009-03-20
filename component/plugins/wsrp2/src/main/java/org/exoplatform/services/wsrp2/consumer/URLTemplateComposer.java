@@ -29,9 +29,9 @@ package org.exoplatform.services.wsrp2.consumer;
  */
 public interface URLTemplateComposer {
 
-  public void setHost(String host);
-
-  public void setPort(int port);
+//  public void setHost(String host);
+//
+//  public void setPort(int port);
 
   /**
    * Creates a blocking action template. Includes tokens for url-type,
