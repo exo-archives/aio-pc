@@ -10,7 +10,7 @@
   <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>config</artifactId>
   <name>eXo Portlet Container</name>
-  <version>2.0.6-SNAPSHOT</version>
+  <version>2.0.7-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <scm>
@@ -189,9 +189,9 @@
       </activation>
       <properties>
         <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>
-        <org.exoplatform.kernel.version>2.0.7-SNAPSHOT</org.exoplatform.kernel.version>
-        <org.exoplatform.core.version>2.1.5-SNAPSHOT</org.exoplatform.core.version>
-        <org.exoplatform.pc.version>2.0.6-SNAPSHOT</org.exoplatform.pc.version>
+        <org.exoplatform.kernel.version>2.0.8-SNAPSHOT</org.exoplatform.kernel.version>
+        <org.exoplatform.core.version>2.1.6-SNAPSHOT</org.exoplatform.core.version>
+        <org.exoplatform.pc.version>2.0.7-SNAPSHOT</org.exoplatform.pc.version>
       </properties>
     </profile>
   </profiles>
