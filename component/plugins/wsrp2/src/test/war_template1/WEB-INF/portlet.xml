@@ -1,0 +1,270 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app version="1.0" xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd"
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_1_0.xsd">
+
+  <portlet>
+    <description xml:lang="EN">Usual Hello World Portlet</description>
+    <description xml:lang="FR">Salut le monde Portlet</description>
+    <portlet-name>HelloWorld</portlet-name>
+    <display-name xml:lang="EN">HelloWorldPortlet</display-name>
+    <display-name xml:lang="FR">SalutLeMondePortlet</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.WSRPHelloWorldPortlet</portlet-class>
+    <init-param>
+      <description>something to describe</description>
+      <name>initName</name>
+      <value>initValue</value>
+    </init-param>
+    <expiration-cache>4</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supports>
+      <mime-type>text/wml</mime-type>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <resource-bundle>org.exoplatform.services.portletcontainer.test.portlet.resources</resource-bundle>
+    <portlet-info>
+      <title>HelloWorld title</title>
+    </portlet-info>
+    <portlet-preferences>
+      <preference>
+        <name>time-server</name>
+        <value>http://timeserver.myco.com</value>
+      </preference>
+      <preference>
+        <name>port</name>
+        <value>404</value>
+        <read-only>true</read-only>
+      </preference>
+      <preference>
+        <name>time-format</name>
+        <value>HH</value>
+        <value>mm</value>
+        <value>ss</value>
+        <read-only>false</read-only>
+      </preference>
+    </portlet-preferences>
+    <security-role-ref>
+      <role-name>trustedUser</role-name>
+      <role-link>auth-user</role-link>
+    </security-role-ref>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">Usual Hello World Portlet</description>
+    <description xml:lang="FR">Salut le monde Portlet</description>
+    <portlet-name>HelloWorld2</portlet-name>
+    <display-name xml:lang="EN">HelloWorldPortlet</display-name>
+    <display-name xml:lang="FR">SalutLeMondePortlet</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.HelloWorld2</portlet-class>
+    <expiration-cache>4</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>HelloWorld title</title>
+    </portlet-info>
+  </portlet>	
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestSession</description>
+    <portlet-name>PortletToTestSession</portlet-name>
+    <display-name xml:lang="EN">PortletToTestSession</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestSession</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestSession</title>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestMarkupWithRewrittenURL</description>
+    <portlet-name>PortletToTestMarkupWithRewrittenURL</portlet-name>
+    <display-name xml:lang="EN">PortletToTestMarkupWithRewrittenURL</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestMarkupWithRewrittenURL</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestMarkupWithRewrittenURL</title>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestPerformBlockingInteraction</description>
+    <portlet-name>PortletToTestPerformBlockingInteraction</portlet-name>
+    <display-name xml:lang="EN">PortletToTestPerformBlockingInteraction</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestPerformBlockingInteraction</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestPerformBlockingInteraction</title>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">Portlet2TestSendRedirect</description>
+    <portlet-name>Portlet2TestSendRedirect</portlet-name>
+    <display-name xml:lang="EN">Portlet2TestSendRedirect</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.Portlet2TestSendRedirect</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Portlet2TestSendRedirect</title>
+    </portlet-info>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">EmptyPortletWithGlobalCache</description>
+    <portlet-name>EmptyPortletWithGlobalCache</portlet-name>
+    <display-name xml:lang="en">EmptyPortletWithGlobalCache</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.EmptyPortletWithGlobalCache</portlet-class>
+    <expiration-cache>-1</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Time Zone Clock</title>
+      <short-title>TimeZone</short-title>
+      <keywords>Time, Zone, World, Clock</keywords>
+    </portlet-info>
+    <global-cache>true</global-cache>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">Portlet2TestStateUser</description>
+    <portlet-name>Portlet2TestStateUser1</portlet-name>
+    <display-name xml:lang="EN">Portlet2TestStateUser</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.Portlet2TestStateUser</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Portlet2TestStateUser</title>
+    </portlet-info>
+    <portlet-preferences>
+      <preference>
+        <name>attName</name>
+        <value>attValue</value>
+        <read-only>false</read-only>
+      </preference>
+    </portlet-preferences>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">Portlet2TestStateUser</description>
+    <portlet-name>Portlet2TestStateUser2</portlet-name>
+    <display-name xml:lang="EN">Portlet2TestStateUser</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.Portlet2TestStateUser</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Portlet2TestStateUser</title>
+    </portlet-info>
+    <portlet-preferences>
+      <preference>
+        <name>attName</name>
+        <value>attValue</value>
+        <read-only>false</read-only>
+      </preference>
+    </portlet-preferences>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">Portlet2TestStateUser</description>
+    <portlet-name>Portlet2TestStateUser3</portlet-name>
+    <display-name xml:lang="EN">Portlet2TestStateUser</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.Portlet2TestStateUser</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Portlet2TestStateUser</title>
+    </portlet-info>
+    <portlet-preferences>
+      <preference>
+        <name>attName</name>
+        <value>attValue</value>
+        <read-only>false</read-only>
+      </preference>
+    </portlet-preferences>
+  </portlet>
+
+  <custom-portlet-mode>
+    <description xml:lang="EN">Pre-defined custom portlet mode CONFIG</description>
+    <portlet-mode>CONFIG</portlet-mode>
+  </custom-portlet-mode>
+  <custom-window-state>
+    <description xml:lang="EN">Occupies 50% of the portal page</description>
+    <window-state>half-page</window-state>
+  </custom-window-state>
+  <user-attribute>
+    <description xml:lang="EN">
+      Pre-defined attribute for the telephone number of the user at work.
+    </description>
+    <name>workInfo/telephone</name>
+  </user-attribute>
+  <security-constraint>
+    <portlet-collection>
+      <portlet-name>HelloWorld</portlet-name>
+    </portlet-collection>
+    <user-data-constraint>
+      <transport-guarantee>CONFIDENTIAL</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+</portlet-app>
