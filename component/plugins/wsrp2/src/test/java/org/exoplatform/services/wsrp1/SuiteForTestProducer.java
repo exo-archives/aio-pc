@@ -39,7 +39,7 @@ public class SuiteForTestProducer extends TestSuite {
   public SuiteForTestProducer() {
     log.info("Preparing SuiteForTestProducer tests....");
 
-    String newProperty = System.getProperty("basedir") + "/war_template1";
+    String newProperty = System.getProperty("basedir") + "/src/test/war_template1";
     System.setProperty("mock.portal.dir", newProperty);
 
     addTestSuite(TestCachingMechanism.class);

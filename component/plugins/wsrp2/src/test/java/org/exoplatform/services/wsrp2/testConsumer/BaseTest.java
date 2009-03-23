@@ -93,6 +93,7 @@ public class BaseTest extends TestCase {
 
   protected static final String      PORTLET_APP_PATH                                = "file:"
                                                                                          + TEST_PATH
+                                                                                         + "/src/test"
                                                                                          + CONTEXT_PATH;
 
   protected ProducerRegistry         producerRegistry;
@@ -171,6 +172,7 @@ public class BaseTest extends TestCase {
 
   protected void setUp() throws Exception {
 
+    System.out.println("YYYYYYYYYYYYYYYYYYYYY" +PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
     InputStream is = url.openStream();
     portletApp_ = XMLParser.parse(is, true);

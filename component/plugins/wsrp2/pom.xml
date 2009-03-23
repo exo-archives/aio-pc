@@ -283,7 +283,7 @@
   <!--  </profiles>-->
 
   <properties>
-    <war.dir>${basedir}/war_template2</war.dir>
+    <war.dir>${basedir}/src/test/war_template2</war.dir>
     <src.gen.dir>${basedir}/target/generated</src.gen.dir>
     <cxf.version>2.1.2</cxf.version>
   </properties>
@@ -473,12 +473,12 @@
               <tasks>
                 <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
-                  <fileset dir="${basedir}/war_template2/src">
+                  <fileset dir="${basedir}/src/test/war_template2/src">
                     <include name="**/*.properties" />
                     <include name="**/*.xml" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/"
+                <javac fork="true" srcdir="${basedir}/src/test/war_template2/src" destdir="${basedir}/target/test-classes/"
                   debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}"
                   optimize="${maven.compile.optimize}">
                   <classpath>
@@ -498,11 +498,11 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
-                <war destfile="target/hello.war" webxml="war_template2/WEB-INF/web.xml">
+                <war destfile="target/hello.war" webxml="src/test/war_template2/WEB-INF/web.xml">
                   <classes dir="target/test-classes">
                     <exclude name="wsrp2/**/*" />
                   </classes>
-                  <zipfileset dir="war_template2/WEB-INF" includes="**/*" prefix="WEB-INF" />
+                  <zipfileset dir="src/test/war_template2/WEB-INF" includes="**/*" prefix="WEB-INF" />
                 </war>
               </tasks>
             </configuration>

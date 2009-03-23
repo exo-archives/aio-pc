@@ -47,13 +47,14 @@ import org.exoplatform.services.wsrp2.type.UserProfile;
 
 public class BaseTest extends TestCase {
 
-  protected static final String   CONTEXT_PATH                                    = "/war_template1";
+  protected static final String   CONTEXT_PATH                                    = "war_template1";
 
   protected static final String   TEST_PATH                                       = (System.getProperty("testPath") == null ? "."
                                                                                                                            : System.getProperty("testPath"));
 
   protected static final String   PORTLET_APP_PATH                                = "file:"
                                                                                       + TEST_PATH
+                                                                                      + "/src/test/"
                                                                                       + CONTEXT_PATH;
 
   protected ProducerRegistry      producerRegistry;
