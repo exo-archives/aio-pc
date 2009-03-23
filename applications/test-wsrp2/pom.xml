@@ -101,7 +101,7 @@
           <webResources>
 	    <!-- package external properties -->
             <resource>
-              <directory>${exo.projects.directory.src}/portlet-container/trunk/component/plugins/wsrp2/src/test/war_template2/src</directory>
+              <directory>${exo.projects.directory.src}/portlet-container/trunk/component/plugins/wsrp2/src/test/war_template2/src/</directory>
 	      <targetPath>WEB-INF/classes</targetPath>
 	      <includes>
 	        <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
@@ -112,7 +112,7 @@
 	    </resource>
 	    <!-- package external WEB-INF -->
             <resource>
-              <directory>${exo.projects.directory.src}/portlet-container/trunk/component/plugins/wsrp2/src/test/war_template2</directory>
+              <directory>${exo.projects.directory.src}/portlet-container/trunk/component/plugins/wsrp2/src/test/war_template2/</directory>
               <excludes>
                 <exclude>src/</exclude>
               </excludes>
