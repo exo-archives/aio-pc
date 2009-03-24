@@ -121,8 +121,11 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
                                    user != null ? user : "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
+    
+    // clear resource params which could be default 
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
+    
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 

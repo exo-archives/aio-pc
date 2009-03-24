@@ -172,15 +172,9 @@ public class ProducerRewriterPortletURLImp2
       template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
     }
 
-    //clear resource params 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
+    // clear resource params which could be default 
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
-                                   "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
 
     // other parameters
     template = StringUtils.replace(template,

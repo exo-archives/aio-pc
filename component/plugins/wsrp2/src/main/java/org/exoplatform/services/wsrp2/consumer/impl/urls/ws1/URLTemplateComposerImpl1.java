@@ -31,22 +31,6 @@ import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
 public class URLTemplateComposerImpl1 implements URLTemplateComposer {
 
-//  public static final String SECURE_PROTOCOL     = "https://";
-//
-//  public static final String NON_SECURE_PROTOCOL = "http://";
-//
-//  private String             host                = "localhost";
-//
-//  private int                port                = 8080;
-//
-//  public void setHost(String host) {
-//    this.host = host;
-//  }
-//
-//  public void setPort(int port) {
-//    this.port = port;
-//  }
-
   public String createBlockingActionTemplate(String path) {
     StringBuffer sB = new StringBuffer();
     manageServerPath(sB, path, false);
@@ -161,31 +145,5 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
     stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={"
         + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
   }
-
-//  @Deprecated
-//  private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
-//    if (isSecure != null && isSecure) {
-//      sB.append(SECURE_PROTOCOL);
-//    } else {
-//      sB.append(NON_SECURE_PROTOCOL);
-//    }
-//  }
-//  
-//  @Deprecated
-//  private void manageServerPath(StringBuffer sB, String path) {
-//    String newPath = null;
-//    try {
-//      URL url = new URL(path);
-//      host = url.getHost();
-//      port = url.getPort();
-//      newPath = url.getFile();
-//    } catch (MalformedURLException e) {
-//      newPath = path;
-//    }
-//    sB.append(host);
-//    if (port > 0)
-//      sB.append(":").append(port);
-//    sB.append(newPath);
-//  }
 
 }

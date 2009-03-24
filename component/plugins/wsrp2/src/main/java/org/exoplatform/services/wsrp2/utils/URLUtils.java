@@ -17,7 +17,7 @@
 package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -44,8 +44,8 @@ public class URLUtils {
    */
   public static Map<String, String[]> parseParams(String toRewriteURL) {
 
-    Map<String, List<String>> paramsTemp = new HashMap<String, List<String>>();
-    
+    Map<String, List<String>> paramsTemp = new LinkedHashMap<String, List<String>>();
+
     toRewriteURL = toRewriteURL.replaceAll(WSRPConstants.NEXT_PARAM_AMP, WSRPConstants.NEXT_PARAM);
     String[] ampersandSignParsed = toRewriteURL.split(WSRPConstants.NEXT_PARAM);
     for (String keyAndValue : ampersandSignParsed) {
@@ -65,7 +65,7 @@ public class URLUtils {
     }
 
     // process List<String> to String[]
-    Map<String, String[]> params = new HashMap<String, String[]>();
+    Map<String, String[]> params = new LinkedHashMap<String, String[]>();
     Set<String> keySet = paramsTemp.keySet();
     for (String key : keySet) {
       List<String> listKey = paramsTemp.get(key);
@@ -76,30 +76,53 @@ public class URLUtils {
   }
 
   /**
-   * Rewrite ftom WSRP to PC (jsr168-jsr286) specific URL values.
+   * Rewrite from WSRP to PC (jsr168-jsr286) specific URL values.
    * 
    * @param params
    */
-  public static void processWSRPToPCParams(Map<String, String[]> params) {
+  public static Map<String, String[]> rewriteWSRPToPCParams(Map<String, String[]> params) {
 
-    String value = null;
+    Map<String, String[]> paramsResult = new LinkedHashMap<String, String[]>();
 
-    // Constants.TYPE_PARAMETER
-    value = params.get(Constants.TYPE_PARAMETER)[0];
-    if (value.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION))
-      params.put(Constants.TYPE_PARAMETER, new String[] { PCConstants.ACTION_STRING });
+    Set<String> keySet = params.keySet();
+    for (String key : keySet) {
+      String value = null;
 
-    // Constants.SECURE_PARAMETER
-    // nothing to rewrite boolean value
+      if (key.equalsIgnoreCase(WSRPConstants.WSRP_URL_TYPE)) {
+        // Constants.TYPE_PARAMETER
+        value = params.get(WSRPConstants.WSRP_URL_TYPE)[0];
+        if (value.equalsIgnoreCase(WSRPConstants.URL_TYPE_BLOCKINGACTION)) {
+          paramsResult.put(Constants.TYPE_PARAMETER, new String[] { PCConstants.ACTION_STRING });
+        } else {
+          paramsResult.put(Constants.TYPE_PARAMETER, new String[] { value });
+        }
+      } else
 
-    // Constants.PORTLET_MODE_PARAMETER
-    value = params.get(Constants.PORTLET_MODE_PARAMETER)[0];
-    params.put(Constants.PORTLET_MODE_PARAMETER, new String[] { Modes.delAllPrefixesWSRP(value) });
+      if (key.equalsIgnoreCase(WSRPConstants.WSRP_SECURE_URL)) {
+        // Constants.SECURE_PARAMETER
+        value = params.get(WSRPConstants.WSRP_SECURE_URL)[0];
+        paramsResult.put(Constants.SECURE_PARAMETER, new String[] { value });
+      } else
 
-    // Constants.WINDOW_STATE_PARAMETER
-    value = params.get(Constants.WINDOW_STATE_PARAMETER)[0];
-    params.put(Constants.WINDOW_STATE_PARAMETER,
-               new String[] { WindowStates.delAllPrefixesWSRP(value) });
+      if (key.equalsIgnoreCase(WSRPConstants.WSRP_MODE)) {
+        // Constants.PORTLET_MODE_PARAMETER
+        value = params.get(WSRPConstants.WSRP_MODE)[0];
+        paramsResult.put(Constants.PORTLET_MODE_PARAMETER,
+                         new String[] { Modes.delAllPrefixesWSRP(value) });
+      } else
+
+      if (key.equalsIgnoreCase(WSRPConstants.WSRP_WINDOW_STATE)) {
+        // Constants.WINDOW_STATE_PARAMETER
+        value = params.get(WSRPConstants.WSRP_WINDOW_STATE)[0];
+        paramsResult.put(Constants.WINDOW_STATE_PARAMETER,
+                         new String[] { WindowStates.delAllPrefixesWSRP(value) });
+      } else {
+        paramsResult.put(key, params.get(key));
+      }
+
+    } // END of 'for keySet
+
+    return paramsResult;
 
   }
 

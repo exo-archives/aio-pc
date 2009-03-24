@@ -115,11 +115,6 @@ public class ConsumerRewriterResourceURLImp2 extends ResourceURLImp {
     sB.append("=");
     sB.append("");
 
-//    sB.append(WSRPConstants.NEXT_PARAM);
-//    sB.append(WSRPConstants.WSRP_EXTENSIONS);
-//    sB.append("=");
-//    sB.append("");
-
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);
     }

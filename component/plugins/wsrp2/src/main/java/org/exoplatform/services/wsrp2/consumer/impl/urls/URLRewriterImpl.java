@@ -78,9 +78,10 @@ public class URLRewriterImpl implements URLRewriter {
     if (markupIndex < markup.length()) {
       resultMarkup.append(markup.substring(markupIndex));
     }
+    
     markup = resultMarkup.toString();
 
-    markup = rewriteBlockingActionParameter(baseURL, markup);
+//    markup = rewriteBlockingActionParameter(baseURL, markup);
 
     log.debug("Markup returned : " + markup);
     return markup;
@@ -131,9 +132,7 @@ public class URLRewriterImpl implements URLRewriter {
 
     Map<String, String[]> params = URLUtils.parseParams(toRewriteURL);
 
-    URLUtils.processWSRPToPCParams(params);
-
-    toRewriteURL = toRewriteURL.substring((WSRPConstants.WSRP_URL_TYPE + "=").length());
+    params = URLUtils.rewriteWSRPToPCParams(params);
 
     return urlGenerator.getURL(baseURL, params);
   }

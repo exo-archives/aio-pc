@@ -210,8 +210,9 @@
 
   <!-- Mixed external component plugins for both WSRP 1 and WSRP 2-->
 
-  <external-component-plugins>
-    <target-component>org.exoplatform.services.database.HibernateService</target-component>
+<!--  <external-component-plugins>-->
+<!--    <target-component>org.exoplatform.services.database.HibernateService</target-component>-->
+
     <!--    <component-plugin>-->
     <!--      <name>add.hibernate.mapping</name>-->
     <!--      <set-method>addPlugin</set-method>-->
@@ -224,19 +225,20 @@
     <!--        </values-param>-->
     <!--      </init-params>-->
     <!--    </component-plugin>-->
-    <component-plugin>
-      <name>add.hibernate.mapping</name>
-      <set-method>addPlugin</set-method>
-      <type>org.exoplatform.services.database.impl.AddHibernateMappingPlugin</type>
-      <init-params>
-        <values-param>
-          <name>hibernate.mapping</name>
-          <value>org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.hbm.xml</value>
-          <value>org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.hbm.xml</value>
-        </values-param>
-      </init-params>
-    </component-plugin>
-  </external-component-plugins>
+
+<!--    <component-plugin>-->
+<!--      <name>add.hibernate.mapping</name>-->
+<!--      <set-method>addPlugin</set-method>-->
+<!--      <type>org.exoplatform.services.database.impl.AddHibernateMappingPlugin</type>-->
+<!--      <init-params>-->
+<!--        <values-param>-->
+<!--          <name>hibernate.mapping</name>-->
+<!--          <value>org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.hbm.xml</value>-->
+<!--          <value>org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.hbm.xml</value>-->
+<!--        </values-param>-->
+<!--      </init-params>-->
+<!--    </component-plugin>-->
+<!--  </external-component-plugins>-->
 
   <external-component-plugins>
     <target-component>org.exoplatform.services.portletcontainer.PortletContainerService</target-component>
