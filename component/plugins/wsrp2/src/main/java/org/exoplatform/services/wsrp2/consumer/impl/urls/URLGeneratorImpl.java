@@ -32,7 +32,7 @@ import org.exoplatform.services.wsrp2.consumer.URLGenerator;
  * @version $Id: $ Nov 21, 2008
  */
 
-public class URLGeneratorImpl2 implements URLGenerator {
+public class URLGeneratorImpl implements URLGenerator {
 
   public String getBlockingActionURL(String baseURL, Map<String, String[]> params) {
     return getURL(baseURL, params);

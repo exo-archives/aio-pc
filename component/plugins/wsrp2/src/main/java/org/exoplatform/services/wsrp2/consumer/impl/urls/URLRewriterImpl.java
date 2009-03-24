@@ -37,13 +37,13 @@ import org.exoplatform.services.wsrp2.utils.URLUtils;
  * @version $Id: $ Nov 21, 2008
  */
 
-public class URLRewriterImpl2 implements URLRewriter {
+public class URLRewriterImpl implements URLRewriter {
 
   private URLGenerator urlGenerator;
 
   private Log          log;
 
-  public URLRewriterImpl2(URLGenerator urlGenerator) {
+  public URLRewriterImpl(URLGenerator urlGenerator) {
     this.urlGenerator = urlGenerator;
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer");
   }

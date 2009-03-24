@@ -24,21 +24,18 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.type.Templates;
-import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 import org.exoplatform.services.wsrp2.utils.URLUtils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ProducerRewriterResourceURLImp extends ResourceURLImp {
+public class ConsumerRewriterResourceURLImp2 extends ResourceURLImp {
 
   private String                 sessionID;
 
@@ -48,12 +45,9 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
 
   private List<String>           supportedPublicRenderParameter = new ArrayList<String>();
 
-  private Templates              templates;
-
   private String                 user;
 
-  public ProducerRewriterResourceURLImp(String type,
-                                        Templates templates,
+  public ConsumerRewriterResourceURLImp2(String type,
                                         boolean isCurrentlySecured,
                                         String portletHandle,
                                         PersistentStateManager stateManager,
@@ -68,7 +62,6 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
-    this.templates = templates;
     this.user = user;
   }
 
@@ -99,39 +92,51 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       }
     }
 
-    String template = TemplatesFactory.getTemplate(templates,
-                                                   isSecure(),
-                                                   URLUtils.getWSRPType(getType()));
+    StringBuffer sB = new StringBuffer();
 
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_URL_TYPE + "}",
-                                   URLUtils.getWSRPType(getType()));
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
+    sB.append(WSRPConstants.WSRP_REWRITE_PREFIX);
 
-    String secureInfo = "false";
+    sB.append(WSRPConstants.WSRP_URL_TYPE);
+    sB.append("=");
+    sB.append(URLUtils.getWSRPType(getType()));
+
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_PORTLET_HANDLE);
+    sB.append("=");
+    sB.append(portletHandle);
+
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_USER_CONTEXT_KEY);
+    sB.append("=");
+    sB.append(user);
+
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_FRAGMENT_ID);
+    sB.append("=");
+    sB.append("");
+
+//    sB.append(WSRPConstants.NEXT_PARAM);
+//    sB.append(WSRPConstants.WSRP_EXTENSIONS);
+//    sB.append("=");
+//    sB.append("");
+
     if (!isSetSecureCalled() && isCurrentlySecured()) {
       setSecure(true);
-      secureInfo = "true";
     }
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_SECURE_URL);
+    sB.append("=");
+    sB.append(isSecure());
 
-    //clear action and render params 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_URL);
+    sB.append("=");
+    sB.append("");
 
-    //process resource params 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_URL + "}", "");
-    if (resourceID != null) {
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_RESOURCE_ID + "}",
-                                     resourceID);
-    } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
-    }
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_RESOURCE_ID);
+    sB.append("=");
+    sB.append(resourceID);
 
     // process resource state
     String resourceState = IdentifierUtil.generateUUID(this);
@@ -140,36 +145,27 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
     } catch (WSRPException e) {
       e.printStackTrace();
     }
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}",
-                                   resourceState);
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_RESOURCE_STATE);
+    sB.append("=");
+    sB.append(resourceState);
 
-    if (cacheLevel != null) {
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
-                                     cacheLevel);
-    } else {
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
-                                     "");
-    }
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_RESOURCE_CACHEABILITY);
+    sB.append("=");
+    sB.append(cacheLevel);
 
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PREFER_OPERATION + "}", "");
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_REQUIRES_REWRITE);
+    sB.append("=");
+    sB.append("");
 
-    // other parameters
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",
-                                   portletHandle);
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
-                                   user != null ? user : "");
-    template = StringUtils.replace(template,
-                                   "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
-                                   "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");
+    sB.append(WSRPConstants.NEXT_PARAM);
+    sB.append(WSRPConstants.WSRP_PREFER_OPERATION);
+    sB.append("=");
+    sB.append("");
+
+    sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {
@@ -177,22 +173,22 @@ public class ProducerRewriterResourceURLImp extends ResourceURLImp {
       Object obj = parameters.get(name);
       if (obj instanceof String) {
         String value = (String) obj;
-        template += WSRPConstants.NEXT_PARAM;
-        template += encode(name);
-        template += "=";
-        template += encode(value);
+        sB.append(WSRPConstants.NEXT_PARAM);
+        sB.append(encode(name));
+        sB.append("=");
+        sB.append(encode(value));
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
-          template += WSRPConstants.NEXT_PARAM;
-          template += encode(name);
-          template += "=";
-          template += encode(values[i]);
+          sB.append(WSRPConstants.NEXT_PARAM);
+          sB.append(encode(name));
+          sB.append("=");
+          sB.append(encode(values[i]));
         }
       }
     }
 
-    return template;
+    return sB.toString();
   }
 
 }

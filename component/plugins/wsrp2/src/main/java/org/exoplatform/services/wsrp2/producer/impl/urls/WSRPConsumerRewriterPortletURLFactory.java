@@ -30,8 +30,8 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ConsumerRewriterPortletURLImp1;
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ConsumerRewriterResourceURLImp1;
-import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ConsumerRewriterPortletURLImp;
-import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ConsumerRewriterResourceURLImp;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ConsumerRewriterPortletURLImp2;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ConsumerRewriterResourceURLImp2;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
@@ -101,7 +101,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                 sessionID,
                                                 user);
     } else {
-      return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+      return new ConsumerRewriterPortletURLImp2(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                                mimeType,
                                                supports,
                                                isCurrentlySecured,
@@ -124,7 +124,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                  sessionID,
                                                  user);
     } else {
-      return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+      return new ConsumerRewriterResourceURLImp2(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
                                                 isCurrentlySecured,
                                                 portletHandle,
                                                 persistentStateManager,

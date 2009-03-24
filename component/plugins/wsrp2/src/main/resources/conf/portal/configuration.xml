@@ -92,11 +92,11 @@
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls.URLGeneratorImpl2</type>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls.URLGeneratorImpl</type>
   </component>
 
   <component>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls.URLRewriterImpl2</type>
+    <type>org.exoplatform.services.wsrp2.consumer.impl.urls.URLRewriterImpl</type>
   </component>
 
   <component>

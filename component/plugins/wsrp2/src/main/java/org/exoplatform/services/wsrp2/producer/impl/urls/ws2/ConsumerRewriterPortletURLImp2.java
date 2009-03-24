@@ -38,7 +38,7 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ConsumerRewriterPortletURLImp extends PortletURLImp {
+public class ConsumerRewriterPortletURLImp2 extends PortletURLImp {
 
   private String                 sessionID;
 
@@ -50,7 +50,7 @@ public class ConsumerRewriterPortletURLImp extends PortletURLImp {
 
   private String                 user;
 
-  public ConsumerRewriterPortletURLImp(String type,
+  public ConsumerRewriterPortletURLImp2(String type,
                                        String mimeType,
                                        List<Supports> supports,
                                        boolean isCurrentlySecured,

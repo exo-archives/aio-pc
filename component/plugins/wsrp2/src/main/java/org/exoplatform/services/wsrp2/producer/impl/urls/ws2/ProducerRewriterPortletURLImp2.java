@@ -40,7 +40,7 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ProducerRewriterPortletURLImp
+public class ProducerRewriterPortletURLImp2
                                           extends
                                           org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp {
 
@@ -56,7 +56,7 @@ public class ProducerRewriterPortletURLImp
 
   private String                 user;
 
-  public ProducerRewriterPortletURLImp(String type,
+  public ProducerRewriterPortletURLImp2(String type,
                                        Templates templates,
                                        String mimeType,
                                        List<Supports> supports,

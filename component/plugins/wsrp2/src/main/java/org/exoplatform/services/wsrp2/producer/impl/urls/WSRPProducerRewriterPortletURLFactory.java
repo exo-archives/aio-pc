@@ -30,8 +30,8 @@ import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ProducerRewriterPortletURLImp1;
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ProducerRewriterResourceURLImp1;
-import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterPortletURLImp;
-import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterResourceURLImp;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterPortletURLImp2;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterResourceURLImp2;
 import org.exoplatform.services.wsrp2.type.Templates;
 
 /**
@@ -105,7 +105,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                 sessionID,
                                                 user);
     } else {
-      return new ProducerRewriterPortletURLImp(type,
+      return new ProducerRewriterPortletURLImp2(type,
                                                templates,
                                                mimeType,
                                                supports,
@@ -130,7 +130,7 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                  sessionID,
                                                  user);
     } else {
-      return new ProducerRewriterResourceURLImp(type,
+      return new ProducerRewriterResourceURLImp2(type,
                                                 templates,
                                                 isCurrentlySecured,
                                                 portletHandle,

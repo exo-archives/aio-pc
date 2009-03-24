@@ -28,8 +28,8 @@ import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp2.consumer.UserRegistry;
-import org.exoplatform.services.wsrp2.consumer.impl.urls.URLGeneratorImpl2;
-import org.exoplatform.services.wsrp2.consumer.impl.urls.URLRewriterImpl2;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.URLGeneratorImpl;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.URLRewriterImpl;
 import org.exoplatform.services.wsrp2.consumer.impl.urls.ws1.URLTemplateComposerImpl1;
 import org.exoplatform.services.wsrp2.consumer.impl.urls.ws2.URLTemplateComposerImpl2;
 import org.exoplatform.services.wsrp2.type.StateChange;
@@ -83,7 +83,7 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.urlTemplateComposer1 = new URLTemplateComposerImpl1();
     this.urlTemplateComposer2 = new URLTemplateComposerImpl2();
 
-    this.urlRewriter = new URLRewriterImpl2(new URLGeneratorImpl2());
+    this.urlRewriter = new URLRewriterImpl(new URLGeneratorImpl());
   }
 
   public PortletRegistry getPortletRegistry() {
