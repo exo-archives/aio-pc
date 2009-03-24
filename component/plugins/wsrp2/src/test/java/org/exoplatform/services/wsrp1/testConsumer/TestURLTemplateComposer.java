@@ -20,7 +20,7 @@ package org.exoplatform.services.wsrp1.testConsumer;
 import org.exoplatform.Constants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLTemplateComposerImpl1;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.ws1.URLTemplateComposerImpl1;
 
 /**
  * @author  Mestrallet Benjamin

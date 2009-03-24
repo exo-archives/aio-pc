@@ -20,7 +20,6 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp1.testConsumer.TestURLRewriter;
 import org.exoplatform.services.wsrp1.testConsumer.TestURLTemplateComposer;
 
 /**
@@ -36,7 +35,6 @@ public class SuiteForTestConsumer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/src/test/war_template1";
     System.setProperty("mock.portal.dir", newProperty);
 
-    addTestSuite(TestURLRewriter.class);
     addTestSuite(TestURLTemplateComposer.class);
 
   }

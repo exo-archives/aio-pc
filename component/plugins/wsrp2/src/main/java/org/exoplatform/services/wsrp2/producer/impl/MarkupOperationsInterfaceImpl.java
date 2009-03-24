@@ -83,7 +83,7 @@ import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletRequest;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpServletResponse;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHttpSession;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.WSRPRewriterPortletURLFactoryBuilder;
+import org.exoplatform.services.wsrp2.producer.impl.urls.WSRPRewriterPortletURLFactoryBuilder;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.CacheControl;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;

@@ -15,27 +15,29 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1;
+package org.exoplatform.services.wsrp2.producer.impl.urls.ws1;
 
 import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
+import org.exoplatform.services.portletcontainer.pci.model.Supports;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
 import org.exoplatform.services.wsrp2.type.Templates;
+import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
+import org.exoplatform.services.wsrp2.utils.URLUtils;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-
-// Do we need this implementation feature of JSR286 for WSRP1?
-public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
+public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
 
   private String                 sessionID;
 
@@ -47,16 +49,18 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
 
   private String                 user;
 
-  public ProducerRewriterResourceURLImp1(String type,
-                                         Templates template,
-                                         boolean isCurrentlySecured,
-                                         String portletHandle,
-                                         PersistentStateManager stateManager,
-                                         String sessionID,
-                                         String user) {
-    super(type, null, isCurrentlySecured, true, null, null, null);
+  public ProducerRewriterPortletURLImp1(String type,
+                                        Templates templates,
+                                        String mimeType,
+                                        List<Supports> supports,
+                                        boolean isCurrentlySecured,
+                                        String portletHandle,
+                                        PersistentStateManager persistentStateManager,
+                                        String sessionID,
+                                        String user) {
+    super(type, null, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
-    this.stateManager = stateManager;
+    this.stateManager = persistentStateManager;
     this.sessionID = sessionID;
     this.templates = templates;
     this.user = user;
@@ -69,7 +73,6 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
       secureInfo = "true";
     }
 
-    // process navigational state
     String navigationalState = IdentifierUtil.generateUUID(this);
     try {
       stateManager.putNavigationalState(navigationalState, parameters);
@@ -84,22 +87,25 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_URL_TYPE + "}",
                                    URLUtils.getWSRPType(getType()));
-    if (resourceID != null) {
+
+    // WSRP_MODE 
+    if (requiredPortletMode != null) {
       template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_RESOURCE_ID + "}",
-                                     resourceID);
+                                     "{" + WSRPConstants.WSRP_MODE + "}",
+                                     Modes.addPrefixWSRP(requiredPortletMode.toString()));
     } else {
-      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_MODE + "}", "");
     }
-    if (cacheLevel != null) {
+
+    // WSRP_WINDOW_STATE
+    if (requiredWindowState != null) {
       template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
-                                     cacheLevel);
+                                     "{" + WSRPConstants.WSRP_WINDOW_STATE + "}",
+                                     WindowStates.addPrefixWSRP(requiredWindowState.toString()));
     } else {
-      template = StringUtils.replace(template,
-                                     "{" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}",
-                                     "");
+      template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_WINDOW_STATE + "}", "");
     }
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SECURE_URL + "}", secureInfo);
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_HANDLE + "}",

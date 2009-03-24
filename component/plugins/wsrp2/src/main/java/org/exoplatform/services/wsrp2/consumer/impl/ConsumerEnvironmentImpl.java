@@ -28,19 +28,15 @@ import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp2.consumer.UserRegistry;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLGeneratorImpl1;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLRewriterImpl1;
-import org.exoplatform.services.wsrp2.consumer.impl.urls1.URLTemplateComposerImpl1;
-import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLGeneratorImpl2;
-import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLRewriterImpl2;
-import org.exoplatform.services.wsrp2.consumer.impl.urls2.URLTemplateComposerImpl2;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.URLGeneratorImpl2;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.URLRewriterImpl2;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.ws1.URLTemplateComposerImpl1;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.ws2.URLTemplateComposerImpl2;
 import org.exoplatform.services.wsrp2.type.StateChange;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 2 févr. 2004
- * Time: 17:13:04
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 2
+ *         févr. 2004 Time: 17:13:04
  */
 
 public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
@@ -61,9 +57,7 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
 
   private URLTemplateComposer   urlTemplateComposer2;
 
-  private URLRewriter           urlRewriter1;
-
-  private URLRewriter           urlRewriter2;
+  private URLRewriter           urlRewriter;
 
   private List<String>          supportedLocales     = new ArrayList<String>();
 
@@ -85,12 +79,11 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
     this.portletDriverRegistry = portletDriverRegistry;
     this.producerRegistry = producerRegistry;
     this.userRegistry = userRegistry;
-    
+
     this.urlTemplateComposer1 = new URLTemplateComposerImpl1();
     this.urlTemplateComposer2 = new URLTemplateComposerImpl2();
 
-    this.urlRewriter1 = new URLRewriterImpl1(new URLGeneratorImpl1());
-    this.urlRewriter2 = new URLRewriterImpl2(new URLGeneratorImpl2());
+    this.urlRewriter = new URLRewriterImpl2(new URLGeneratorImpl2());
   }
 
   public PortletRegistry getPortletRegistry() {
@@ -116,11 +109,8 @@ public class ConsumerEnvironmentImpl implements ConsumerEnvironment {
       return urlTemplateComposer2;
   }
 
-  public URLRewriter getURLRewriter(int version) {
-    if (version == 1)
-      return urlRewriter1;
-    else
-      return urlRewriter2;
+  public URLRewriter getURLRewriter() {
+    return urlRewriter;
   }
 
   public String getConsumerAgent() {

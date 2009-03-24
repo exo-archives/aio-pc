@@ -162,7 +162,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   private PortletContainerService   pcService;
 
-  private URLTemplateComposer       templateComposer;
+//  private URLTemplateComposer       templateComposer;
 
   private PortletContainerConf      pcConf;
 
@@ -177,13 +177,13 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public WSRPConsumerPlugin(ExoContainerContext context,
                             ConsumerEnvironment consumer,
                             PortletContainerService pcService,
-                            URLTemplateComposer templateComposer,
+//                            URLTemplateComposer templateComposer,
                             PortletContainerConf pcConf,
                             WSRPConfiguration conf) {
     this.container = context.getContainer();
     this.consumer = consumer;
     this.pcService = pcService;
-    this.templateComposer = templateComposer;
+//    this.templateComposer = templateComposer;
     this.pcConf = pcConf;
     this.conf = conf;
     this.characterEncodings = Arrays.asList("UTF-8");

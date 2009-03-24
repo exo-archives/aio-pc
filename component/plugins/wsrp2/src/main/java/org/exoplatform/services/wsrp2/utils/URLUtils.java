@@ -14,7 +14,7 @@
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
+package org.exoplatform.services.wsrp2.utils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -27,8 +27,6 @@ import org.exoplatform.Constants;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
-import org.exoplatform.services.wsrp2.utils.Modes;
-import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
  * Created by The eXo Platform SAS .

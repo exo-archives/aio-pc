@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.consumer.impl.urls1;
+package org.exoplatform.services.wsrp2.consumer.impl.urls;
 
 import java.net.URLEncoder;
 import java.util.Map;
@@ -25,11 +25,14 @@ import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLGenerator;
 
 /**
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
- *         févr. 2004 Time: 13:19:37
+ * Created by The eXo Platform SAS .
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Nov 21, 2008
  */
 
-public class URLGeneratorImpl1 implements URLGenerator {
+public class URLGeneratorImpl2 implements URLGenerator {
 
   public String getBlockingActionURL(String baseURL, Map<String, String[]> params) {
     return getURL(baseURL, params);
@@ -63,9 +66,9 @@ public class URLGeneratorImpl1 implements URLGenerator {
       String[] values = parameters.get(name);
       for (String value : values) {
         sB.append(WSRPConstants.NEXT_PARAM);
-        sB.append(encode(name, true));
+        sB.append(name);//encode(name, true));
         sB.append("=");
-        sB.append(encode(value, true));
+        sB.append(value);//encode(value, true));
       }
     }
     return sB.toString();

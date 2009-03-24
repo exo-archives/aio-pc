@@ -35,4 +35,6 @@ public interface URLRewriter {
    */
   public String rewriteURLs(String baseURL, String markup) throws WSRPException;
 
+  public String rewriteURLAfterTemplateProcessing(String baseURL, String markup) throws WSRPException;
+
 }

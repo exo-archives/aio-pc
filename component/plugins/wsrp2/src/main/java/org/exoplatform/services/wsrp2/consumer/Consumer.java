@@ -63,9 +63,8 @@ public interface Consumer {
 
   /**
    * Get the url rewriter for consumer url-rewriting.
-   * @param version int
    * @return The consumer specific url rewriter
    */
-  public URLRewriter getURLRewriter(int version);
+  public URLRewriter getURLRewriter();
 
 }

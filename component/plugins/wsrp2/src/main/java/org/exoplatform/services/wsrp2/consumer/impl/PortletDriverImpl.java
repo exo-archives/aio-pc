@@ -60,7 +60,6 @@ import org.exoplatform.services.wsrp2.type.HandleEvents;
 import org.exoplatform.services.wsrp2.type.HandleEventsResponse;
 import org.exoplatform.services.wsrp2.type.InitCookie;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
-import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MimeRequest;
@@ -74,7 +73,6 @@ import org.exoplatform.services.wsrp2.type.PortletPropertyDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ReleaseSessions;
-import org.exoplatform.services.wsrp2.type.ResourceContext;
 import org.exoplatform.services.wsrp2.type.ResourceParams;
 import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
@@ -314,39 +312,8 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
 
-      MarkupContext markupContext = response.getMarkupContext();
-      Boolean requiresRewriting = markupContext.isRequiresRewriting();
-      LOG.debug("requires URL rewriting : " + requiresRewriting);
-      String content = getContent(markupContext);
+      processMimeResponseMarkup(response.getMarkupContext(), baseURL);
 
-      if (markupContext.getMimeType().startsWith("text/")) {
-        String rewrittenMarkup = null;
-        if (requiresRewriting) {
-          URLRewriter urlRewriter = consumer.getURLRewriter(producer.getVersion());
-          rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
-          LOG.debug("rewrittenMarkup = " + rewrittenMarkup);
-          if (rewrittenMarkup != null) {
-            markupContext.setItemString(rewrittenMarkup);
-            try {
-              markupContext.setItemBinary(markupContext.getItemString().getBytes("utf-8"));
-            } catch (java.io.UnsupportedEncodingException e) {
-              markupContext.setItemBinary(markupContext.getItemString().getBytes());
-            }
-          }
-        } else {
-          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
-              + WSRPConstants.URL_TYPE_BLOCKINGACTION;
-          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
-              + PCConstants.ACTION_STRING;
-          rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
-          markupContext.setItemString(rewrittenMarkup);
-          try {
-            markupContext.setItemBinary(markupContext.getItemString().getBytes("utf-8"));
-          } catch (java.io.UnsupportedEncodingException e) {
-            markupContext.setItemBinary(markupContext.getItemString().getBytes());
-          }
-        }
-      }
     } catch (InvalidCookie cookieFault) {
       LOG.info("Problem with cookies ", cookieFault);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
@@ -356,6 +323,44 @@ public class PortletDriverImpl implements PortletDriver {
       LOG.error("Problem with :" + exc);
     }
     return response;
+  }
+
+  private void processMimeResponseMarkup(MimeResponse mimeContext, String baseURL) throws WSRPException {
+    Boolean requiresRewriting = mimeContext.isRequiresRewriting();
+    LOG.debug("requires URL rewriting : " + requiresRewriting);
+    String content = getContent(mimeContext);
+
+    URLRewriter urlRewriter = consumer.getURLRewriter();
+
+    if (mimeContext.getMimeType().startsWith("text/")) {
+      if (requiresRewriting) {
+        // does.url template.processing = false
+        content = urlRewriter.rewriteURLs(baseURL, content);
+        LOG.debug("rewrittenMarkup = " + content);
+        if (content != null) {
+          mimeContext.setItemString(content);
+          try {
+            mimeContext.setItemBinary(mimeContext.getItemString().getBytes("utf-8"));
+          } catch (java.io.UnsupportedEncodingException e) {
+            mimeContext.setItemBinary(mimeContext.getItemString().getBytes());
+          }
+        }
+      } else {
+        // does.url template.processing = true
+        String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+            + WSRPConstants.URL_TYPE_BLOCKINGACTION;
+        String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+            + PCConstants.ACTION_STRING;
+        content = content.replace(oldBaseURL, newBaseURL);
+        content = urlRewriter.rewriteURLAfterTemplateProcessing(baseURL, content);
+        mimeContext.setItemString(content);
+        try {
+          mimeContext.setItemBinary(mimeContext.getItemString().getBytes("utf-8"));
+        } catch (java.io.UnsupportedEncodingException e) {
+          mimeContext.setItemBinary(mimeContext.getItemString().getBytes());
+        }
+      }
+    }
   }
 
   public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
@@ -592,39 +597,7 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
 
-      ResourceContext resourceContext = response.getResourceContext();
-      Boolean requiresRewriting = resourceContext.isRequiresRewriting();
-      LOG.debug("requires URL rewriting : " + requiresRewriting);
-      String content = getContent(resourceContext);
-
-      if (resourceContext.getMimeType().startsWith("text/")) {
-        String rewrittenMarkup = null;
-        if (requiresRewriting) {
-          URLRewriter urlRewriter = consumer.getURLRewriter(producer.getVersion());
-          rewrittenMarkup = urlRewriter.rewriteURLs(baseURL, content);
-          LOG.debug("rewrittenMarkup = " + rewrittenMarkup);
-          if (rewrittenMarkup != null) {
-            resourceContext.setItemString(rewrittenMarkup);
-            try {
-              resourceContext.setItemBinary(resourceContext.getItemString().getBytes("utf-8"));
-            } catch (java.io.UnsupportedEncodingException e) {
-              resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
-            }
-          }
-        } else {
-          String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
-              + WSRPConstants.URL_TYPE_BLOCKINGACTION;
-          String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
-              + PCConstants.ACTION_STRING;
-          rewrittenMarkup = content.replace(oldBaseURL, newBaseURL);
-          resourceContext.setItemString(rewrittenMarkup);
-          try {
-            resourceContext.setItemBinary(resourceContext.getItemString().getBytes("utf-8"));
-          } catch (java.io.UnsupportedEncodingException e) {
-            resourceContext.setItemBinary(resourceContext.getItemString().getBytes());
-          }
-        }
-      }
+      processMimeResponseMarkup(response.getResourceContext(), baseURL);
 
     } catch (InvalidCookie cookieFault) {
       LOG.error("Problem with cookies ", cookieFault);

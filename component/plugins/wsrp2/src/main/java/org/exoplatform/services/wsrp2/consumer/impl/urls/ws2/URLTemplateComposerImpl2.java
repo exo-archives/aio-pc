@@ -15,18 +15,21 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.consumer.impl.urls1;
+package org.exoplatform.services.wsrp2.consumer.impl.urls.ws2;
 
 import org.exoplatform.Constants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 
 /**
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 6
- *         févr. 2004 Time: 13:05:01
+ * Created by The eXo Platform SAS .
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Nov 21, 2008
  */
 
-public class URLTemplateComposerImpl1 implements URLTemplateComposer {
+public class URLTemplateComposerImpl2 implements URLTemplateComposer {
 
 //  public static final String SECURE_PROTOCOL     = "https://";
 //
@@ -115,8 +118,8 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
   }
 
   private void appendCommonParameters(StringBuffer stringBuffer) {
-
     stringBuffer.append("&" + Constants.TYPE_PARAMETER + "={" + WSRPConstants.WSRP_URL_TYPE + "}");
+
     stringBuffer.append("&" + Constants.SECURE_PARAMETER + "={" + WSRPConstants.WSRP_SECURE_URL
         + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "={"
@@ -127,16 +130,21 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
         + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "={" + WSRPConstants.WSRP_SESSION_ID
         + "}");
-
+    stringBuffer.append("&" + WSRPConstants.WSRP_PAGE_STATE + "={" + WSRPConstants.WSRP_PAGE_STATE
+        + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_STATES + "={"
+        + WSRPConstants.WSRP_PORTLET_STATES + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_FRAGMENT_ID + "={"
         + WSRPConstants.WSRP_FRAGMENT_ID + "}");
-
+    stringBuffer.append("&" + WSRPConstants.WSRP_EXTENSIONS + "={" + WSRPConstants.WSRP_EXTENSIONS
+        + "}");
   }
 
   private void appendBlockingActionParameters(StringBuffer stringBuffer) {
 
     stringBuffer.append("&" + WSRPConstants.WSRP_INTERACTION_STATE + "={"
         + WSRPConstants.WSRP_INTERACTION_STATE + "}");
+
     appendRenderParameters(stringBuffer);
   }
 
@@ -148,26 +156,35 @@ public class URLTemplateComposerImpl1 implements URLTemplateComposer {
         + WSRPConstants.WSRP_WINDOW_STATE + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "={"
         + WSRPConstants.WSRP_NAVIGATIONAL_STATE + "}");
-
+    stringBuffer.append("&" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "={"
+        + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "}");
   }
 
   private void appendResourceParameters(StringBuffer stringBuffer) {
 
     stringBuffer.append("&" + WSRPConstants.WSRP_URL + "={" + WSRPConstants.WSRP_URL + "}");
 
+    stringBuffer.append("&" + WSRPConstants.WSRP_RESOURCE_ID + "={"
+        + WSRPConstants.WSRP_RESOURCE_ID + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_RESOURCE_STATE + "={"
+        + WSRPConstants.WSRP_RESOURCE_STATE + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "={"
+        + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}");
     stringBuffer.append("&" + WSRPConstants.WSRP_REQUIRES_REWRITE + "={"
         + WSRPConstants.WSRP_REQUIRES_REWRITE + "}");
+    stringBuffer.append("&" + WSRPConstants.WSRP_PREFER_OPERATION + "={"
+        + WSRPConstants.WSRP_PREFER_OPERATION + "}");
   }
 
 //  @Deprecated
-//  private void manageServerProtocol(StringBuffer sB, Boolean isSecure){
+//  private void manageServerProtocol(StringBuffer sB, Boolean isSecure) {
 //    if (isSecure != null && isSecure) {
 //      sB.append(SECURE_PROTOCOL);
 //    } else {
 //      sB.append(NON_SECURE_PROTOCOL);
 //    }
 //  }
-//  
+//
 //  @Deprecated
 //  private void manageServerPath(StringBuffer sB, String path) {
 //    String newPath = null;

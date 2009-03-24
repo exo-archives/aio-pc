@@ -15,22 +15,26 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.consumer.impl.urls2;
+package org.exoplatform.services.wsrp2.consumer.impl.urls;
 
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.Constants;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.consumer.URLGenerator;
 import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
+import org.exoplatform.services.wsrp2.utils.URLUtils;
 
 /**
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
- * @author <a href="mailto:stefan.behl@de.ibm.com">Stefan Behl</a>
- * @author Richard Jacob Date: 6 févr. 2004 Time: 15:13:40
+ * Created by The eXo Platform SAS .
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Nov 21, 2008
  */
 
 public class URLRewriterImpl2 implements URLRewriter {
@@ -67,12 +71,60 @@ public class URLRewriterImpl2 implements URLRewriter {
           + WSRPConstants.WSRP_REWRITE_PREFIX.length(), rewriteEndPos
           - WSRPConstants.WSRP_REWRITE_SUFFFIX.length());
 
-      resultMarkup.append(getRewrittenURL(baseURL, toRewriteURL));
+      String newURL = getRewrittenURL(baseURL, toRewriteURL);
+      resultMarkup.append(newURL);
       markupIndex = rewriteEndPos;
     }
-    resultMarkup.append(markup.substring(markupIndex));
-    log.debug("Markup returned : " + resultMarkup.toString());
-    return resultMarkup.toString();
+    if (markupIndex < markup.length()) {
+      resultMarkup.append(markup.substring(markupIndex));
+    }
+    markup = resultMarkup.toString();
+
+    markup = rewriteBlockingActionParameter(baseURL, markup);
+
+    log.debug("Markup returned : " + markup);
+    return markup;
+  }
+
+  public String rewriteURLAfterTemplateProcessing(String baseURL, String markup) throws WSRPException {
+    log.debug("Rewrite URL : " + markup);
+    StringBuffer resultMarkup = new StringBuffer();
+    int rewriteStartPos = -1;
+
+    while (markup.indexOf(baseURL) != -1) {
+      rewriteStartPos = markup.indexOf(baseURL) + baseURL.length();
+      resultMarkup.append(markup.substring(0, rewriteStartPos));
+      markup = markup.substring(rewriteStartPos);
+      String regex = null;
+      String replacement = null;
+      // Process PORTLET_MODE_PARAMETER
+      regex = WSRPConstants.NEXT_PARAM + Constants.PORTLET_MODE_PARAMETER + "="
+          + WSRPConstants.WSRP_PREFIX;
+      replacement = WSRPConstants.NEXT_PARAM + Constants.PORTLET_MODE_PARAMETER + "=";
+      markup = markup.replaceFirst(regex, replacement);
+      // Process WINDOW_STATE_PARAMETER
+      regex = WSRPConstants.NEXT_PARAM + Constants.WINDOW_STATE_PARAMETER + "="
+          + WSRPConstants.WSRP_PREFIX;
+      replacement = WSRPConstants.NEXT_PARAM + Constants.WINDOW_STATE_PARAMETER + "=";
+      markup = markup.replaceFirst(regex, replacement);
+    }
+
+    resultMarkup.append(markup);
+    markup = resultMarkup.toString();
+
+    markup = rewriteBlockingActionParameter(baseURL, markup);
+
+    log.debug("Markup returned : " + markup);
+    return markup;
+  }
+  
+  private String rewriteBlockingActionParameter(String baseURL, String markup) {
+    String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+        + WSRPConstants.URL_TYPE_BLOCKINGACTION;
+    String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
+        + PCConstants.ACTION_STRING;
+    markup = markup.replace(oldBaseURL, newBaseURL);
+    return markup;
   }
 
   private String getRewrittenURL(String baseURL, String toRewriteURL) throws WSRPException {

@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls;
+package org.exoplatform.services.wsrp2.producer.impl.urls;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,31 +28,32 @@ import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ConsumerRewriterPortletURLImp1;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1.ConsumerRewriterResourceURLImp1;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2.ConsumerRewriterPortletURLImp;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws2.ConsumerRewriterResourceURLImp;
-import org.exoplatform.services.wsrp2.utils.Utils;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ProducerRewriterPortletURLImp1;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ProducerRewriterResourceURLImp1;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterPortletURLImp;
+import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterResourceURLImp;
+import org.exoplatform.services.wsrp2.type.Templates;
 
 /**
- * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 23
- * janv. 2004 Time: 18:20:54
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory {
+public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory {
 
   private String                 sessionID;
+
+  private String                 portletHandle;
+
+  private Templates              templates;
 
   private boolean                isCurrentlySecured;
 
   private PersistentStateManager persistentStateManager;
 
-  private String                 portletHandle;
-
   private boolean                defaultEscapeXml;
 
-  private String                 mimeType;                                                // only for PortletURL
-
   private List<Supports>         supports;                                                // only for PortletURL
+
+  private String                 mimeType;                                                // only for PortletURL
 
   private String                 cacheLevel;                                              // only for ResourceURL
 
@@ -64,7 +65,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   private String                 user;
 
-  public WSRPConsumerRewriterPortletURLFactory(String mimeType,
+  public WSRPProducerRewriterPortletURLFactory(String mimeType,
+                                               Templates templates,
                                                List<Supports> supports,
                                                boolean isCurrentlySecured,
                                                String portletHandle,
@@ -78,6 +80,7 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
     this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
+    this.templates = templates;
     this.portletHandle = portletHandle;
     this.persistentStateManager = persistentStateManager;
     this.sessionID = sessionID;
@@ -92,7 +95,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   public PortletURL createPortletURL(String type) {
     if (version == 1) {
-      return new ConsumerRewriterPortletURLImp1(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+      return new ProducerRewriterPortletURLImp1(type,
+                                                templates,
                                                 mimeType,
                                                 supports,
                                                 isCurrentlySecured,
@@ -101,7 +105,8 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
                                                 sessionID,
                                                 user);
     } else {
-      return new ConsumerRewriterPortletURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+      return new ProducerRewriterPortletURLImp(type,
+                                               templates,
                                                mimeType,
                                                supports,
                                                isCurrentlySecured,
@@ -117,14 +122,16 @@ public class WSRPConsumerRewriterPortletURLFactory implements PortletURLFactory 
 
   public ResourceURL createResourceURL(String type) {
     if (version == 1) {
-      return new ConsumerRewriterResourceURLImp1(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+      return new ProducerRewriterResourceURLImp1(type,
+                                                 templates,
                                                  isCurrentlySecured,
                                                  portletHandle,
                                                  persistentStateManager,
                                                  sessionID,
                                                  user);
     } else {
-      return new ConsumerRewriterResourceURLImp(Utils.changeUrlTypeFromJSRPortletToWSRP(type),
+      return new ProducerRewriterResourceURLImp(type,
+                                                templates,
                                                 isCurrentlySecured,
                                                 portletHandle,
                                                 persistentStateManager,

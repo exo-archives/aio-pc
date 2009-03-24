@@ -109,7 +109,7 @@ public class BaseTest extends TestCase {
 
   protected URLGenerator          urlGenerator;
 
-  protected URLRewriter           urlRewriter;
+//  protected URLRewriter           urlRewriter;
 
 //  private MockServletContext         mockServletContext;
 //
@@ -147,7 +147,7 @@ public class BaseTest extends TestCase {
     Collection<String> roles = new ArrayList<String>();
     roles.add("auth-user");
 
-    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
+//    urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
 
   }
 

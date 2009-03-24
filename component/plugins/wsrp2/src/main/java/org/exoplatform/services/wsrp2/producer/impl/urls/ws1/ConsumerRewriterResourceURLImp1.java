@@ -15,26 +15,24 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.producer.impl.helpers.urls.ws1;
+package org.exoplatform.services.wsrp2.producer.impl.urls.ws1;
 
 import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
 
 import org.exoplatform.commons.utils.IdentifierUtil;
-import org.exoplatform.services.portletcontainer.pci.model.Supports;
-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.ResourceURLImp;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
-import org.exoplatform.services.wsrp2.producer.impl.helpers.urls.URLUtils;
-import org.exoplatform.services.wsrp2.utils.Modes;
-import org.exoplatform.services.wsrp2.utils.WindowStates;
+import org.exoplatform.services.wsrp2.utils.URLUtils;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
+
+//Do we need this implementation feature of JSR286 for WSRP1?
+public class ConsumerRewriterResourceURLImp1 extends ResourceURLImp {
 
   private String                 sessionID;
 
@@ -44,15 +42,13 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
 
   private String                 user;
 
-  public ConsumerRewriterPortletURLImp1(String type,
-                                        String mimeType,
-                                        List<Supports> supports,
-                                        boolean isCurrentlySecured,
-                                        String portletHandle,
-                                        PersistentStateManager stateManager,
-                                        String sessionID,
-                                        String user) {
-    super(type, null, mimeType, supports, isCurrentlySecured, true, null);
+  public ConsumerRewriterResourceURLImp1(String type,
+                                         boolean isCurrentlySecured,
+                                         String portletHandle,
+                                         PersistentStateManager stateManager,
+                                         String sessionID,
+                                         String user) {
+    super(type, null, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
@@ -104,18 +100,18 @@ public class ConsumerRewriterPortletURLImp1 extends PortletURLImp {
     sB.append("=");
     sB.append(isSecure());
 
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_MODE);
-    sB.append("=");
-    sB.append(requiredPortletMode != null ? Modes.addPrefixWSRP(requiredPortletMode.toString())
-                                         : "");
-
-    sB.append(WSRPConstants.NEXT_PARAM);
-    sB.append(WSRPConstants.WSRP_WINDOW_STATE);
-    sB.append("=");
-    sB.append(requiredWindowState != null ? WindowStates.addPrefixWSRP(requiredWindowState.toString())
-                                         : "");
-
+    if (resourceID != null) {
+      sB.append(WSRPConstants.NEXT_PARAM);
+      sB.append(WSRPConstants.WSRP_RESOURCE_ID);
+      sB.append("=");
+      sB.append(resourceID);
+    }
+    if (cacheLevel != null) {
+      sB.append(WSRPConstants.NEXT_PARAM);
+      sB.append(WSRPConstants.WSRP_RESOURCE_CACHEABILITY);
+      sB.append("=");
+      sB.append(cacheLevel);
+    }
     sB.append(WSRPConstants.WSRP_REWRITE_SUFFFIX);
 
     Collection<String> names = parameters.keySet();
