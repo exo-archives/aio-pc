@@ -56,7 +56,7 @@ public class BaseTest extends TestCase {
   protected static final String CONTEXT_PATH = "/war_template";
   protected static final String PORTLET_APP_NAME = CONTEXT_PATH.substring(1);
   protected static final String TEST_PATH = (System.getProperty("testPath")==null?".":System.getProperty("testPath"));
-  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + CONTEXT_PATH;
+  protected static final String PORTLET_APP_PATH = "file:" + TEST_PATH + "/src/test" + CONTEXT_PATH;
   protected PortletContainerServiceImpl portletContainer;
   //protected PortletMonitor portletMonitor;
   protected PortletApp portletApp_;
@@ -115,7 +115,7 @@ public class BaseTest extends TestCase {
     roles = new java.util.ArrayList<String>() ;
     roles.add("auth-user");
 
-    mockServletContext = new MockServletContext(PORTLET_APP_NAME, System.getProperty("testPath") + CONTEXT_PATH);
+    mockServletContext = new MockServletContext(PORTLET_APP_NAME, System.getProperty("testPath") + "/src/test" +CONTEXT_PATH);
     mockServletContext.setInitParameter("test-param", "test-parame-value");
 
 

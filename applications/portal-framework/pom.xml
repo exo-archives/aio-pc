@@ -79,11 +79,11 @@
              <tasks>
                <mkdir dir="${basedir}/target/test-classes/"/>
                <copy todir="${basedir}/target/test-classes/">
-                 <fileset dir="${basedir}/war_template/src">
+                 <fileset dir="${basedir}/src/test/war_template/src">
                    <include name="**/*.properties"/>
                  </fileset>
                </copy>
-               <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
+               <javac fork="true" srcdir="${basedir}/src/test/war_template/src" destdir="${basedir}/target/test-classes/"
                           debug="${maven.compile.debug}"
                           deprecation="${maven.compile.deprecation}"
                           optimize="${maven.compile.optimize}">
