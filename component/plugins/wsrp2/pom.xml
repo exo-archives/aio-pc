@@ -329,7 +329,7 @@
               <sourceRoot>${src.gen.dir}</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
-                  <wsdl>${basedir}/wsdl1/wsrp_service.wsdl</wsdl>
+                  <wsdl>${basedir}/src/main/resources/wsdl1/wsrp_service.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-validate</extraarg>
                     <extraarg>-all</extraarg>
@@ -354,13 +354,13 @@
                     <!--                    <extraarg>-b</extraarg>-->
                     <!--                    <extraarg>${basedir}/wsdl1/binding.xml</extraarg>-->
                     <extraarg>-b</extraarg>
-                    <extraarg>${basedir}/wsdl1/types_modification.xml</extraarg>
+                    <extraarg>${basedir}/src/main/resources/wsdl1/types_modification.xml</extraarg>
                     <extraarg>-b</extraarg>
-                    <extraarg>${basedir}/wsdl1/binding_modification.xml</extraarg>
+                    <extraarg>${basedir}/src/main/resources/wsdl1/binding_modification.xml</extraarg>
                     <extraarg>-b</extraarg>
-                    <extraarg>${basedir}/wsdl1/interface_modification.xml</extraarg>
+                    <extraarg>${basedir}/src/main/resources/wsdl1/interface_modification.xml</extraarg>
                     <extraarg>-b</extraarg>
-                    <extraarg>${basedir}/wsdl1/service_modification.xml</extraarg>
+                    <extraarg>${basedir}/src/main/resources/wsdl1/service_modification.xml</extraarg>
                   </extraargs>
                 </wsdlOption>
               </wsdlOptions>
@@ -377,7 +377,7 @@
               <sourceRoot>${src.gen.dir}</sourceRoot>
               <wsdlOptions>
                 <wsdlOption>
-                  <wsdl>${basedir}/wsdl2/wsrp-service.wsdl</wsdl>
+                  <wsdl>${basedir}/src/main/resources/wsdl2/wsrp-service.wsdl</wsdl>
                   <extraargs>
                     <extraarg>-validate</extraarg>
                     <extraarg>-all</extraarg>
