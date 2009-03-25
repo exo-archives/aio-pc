@@ -91,4 +91,12 @@ public interface PortletWindowSession {
 
   public String getResourceState();
 
+  public void setMode(String mode);
+
+  public String getMode();
+
+  public void setWindowState(String windowState);
+
+  public String getWindowState();
+
 }

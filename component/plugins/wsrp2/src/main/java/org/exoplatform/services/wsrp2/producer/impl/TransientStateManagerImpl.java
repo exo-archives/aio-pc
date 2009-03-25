@@ -173,8 +173,9 @@ public class TransientStateManagerImpl implements TransientStateManager {
     try {
       CacheControlProxy cacheControlProxy = (CacheControlProxy) cache.get(validateTag);
       if (cacheControlProxy != null && cacheControlProxy.isValid()) {
-        if (log.isDebugEnabled())
+        if (log.isDebugEnabled()) {
           log.debug("Consumer cache validated");
+        }
         return true;
       }
     } catch (Exception e) {

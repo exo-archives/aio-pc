@@ -63,7 +63,6 @@ import org.exoplatform.services.portletcontainer.pci.RenderInput;
 import org.exoplatform.services.portletcontainer.pci.RenderOutput;
 import org.exoplatform.services.portletcontainer.pci.ResourceInput;
 import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
-import org.exoplatform.services.portletcontainer.pci.WindowID;
 import org.exoplatform.services.portletcontainer.pci.model.DisplayName;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
@@ -79,7 +78,6 @@ import org.exoplatform.services.wsrp2.consumer.PortletSession;
 import org.exoplatform.services.wsrp2.consumer.PortletWindowSession;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
-import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp2.consumer.User;
 import org.exoplatform.services.wsrp2.consumer.UserSession;
 import org.exoplatform.services.wsrp2.consumer.UserSessionMgr;
@@ -162,8 +160,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   private PortletContainerService   pcService;
 
-//  private URLTemplateComposer       templateComposer;
-
   private PortletContainerConf      pcConf;
 
   private WSRPConfiguration         conf;
@@ -177,13 +173,11 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   public WSRPConsumerPlugin(ExoContainerContext context,
                             ConsumerEnvironment consumer,
                             PortletContainerService pcService,
-//                            URLTemplateComposer templateComposer,
                             PortletContainerConf pcConf,
                             WSRPConfiguration conf) {
     this.container = context.getContainer();
     this.consumer = consumer;
     this.pcService = pcService;
-//    this.templateComposer = templateComposer;
     this.pcConf = pcConf;
     this.conf = conf;
     this.characterEncodings = Arrays.asList("UTF-8");
@@ -437,8 +431,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       result = pcPortletAppName;
     // add portlet name
     result += Constants.PORTLET_HANDLE_ENCODER + pcPortletName;
-    // add unique id
-    result += Constants.PORTLET_HANDLE_ENCODER + pcUniqueID;
+    // add unique id if not null
+    if (pcUniqueID != null) {
+      result += Constants.PORTLET_HANDLE_ENCODER + pcUniqueID;
+    }
     return result;
   }
 
@@ -591,8 +587,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
               for (MarkupType markupType : portletDescription.getMarkupTypes()) {
                 Supports supports = new Supports();
                 supports.setMimeType(markupType.getMimeType());
-                if (markupType.getModes() != null)
+                if (markupType.getModes() != null) {
                   supports.getPortletMode().addAll(markupType.getModes());
+                }
                 if (markupType.getWindowStates() != null)
                   supports.getWindowState().addAll(markupType.getWindowStates());
                 portlet.addSupports(supports);
@@ -724,7 +721,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     Map<String, String> parsedParams = parseParams(input.getRenderParameters());
 
     String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-    
 
     // Get WSRP Portlet instance
     WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
@@ -748,9 +744,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
       UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
                                                                                .getProducerId());
-      PortletWindowSession windowSession = getWindowSession(portlet, userSession, windowID);
+      PortletWindowSession portletWindowSession = getWindowSession(portlet, userSession, windowID);
 
-      WSRPInteractionRequest iRequest = getInteractionRequest(input, windowSession, request);
+      WSRPInteractionRequest iRequest = getInteractionRequest(input, portletWindowSession, request);
 
       String baseURL = null;
       //        baseURL = request.getRequestURI();
@@ -789,12 +785,15 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           if (updateResponse != null) {
             // set events
             output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
-            if (windowSession != null) {
+            if (portletWindowSession != null) {
               // store session context
-              updateSessionContext(updateResponse.getSessionContext(),
-                                   windowSession.getPortletSession());
+              if (needSessionUpdate(portletWindowSession.getPortletSession().getSessionContext(),
+                                    updateResponse.getSessionContext())) {
+                updateSessionContext(updateResponse.getSessionContext(),
+                                     portletWindowSession.getPortletSession());
+              }
               // update markup cache 
-              windowSession.updateMarkupCache(updateResponse.getMarkupContext());
+              portletWindowSession.updateMarkupCache(updateResponse.getMarkupContext());
             }
 
             updatePortletContext(updateResponse.getPortletContext(), portlet);
@@ -822,6 +821,420 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   }
 
+  public RenderOutput render(HttpServletRequest request,
+                             HttpServletResponse response,
+                             RenderInput input) throws PortletContainerException {
+
+    LOG.debug("Render method in WSRPConsumerPlugin entered");
+    if (!init)
+      return null;
+
+    RenderOutput output = new RenderOutput();
+
+    // portletAppName mixed with producer id
+    String pcPortletAppName = input.getInternalWindowID().getPortletApplicationName();
+    // example for debug: producer2-1006454248@portlets2
+    String pcPortletName = input.getInternalWindowID().getPortletName();
+    // example for debug: TestPortlet
+    String pcUniqueID = input.getInternalWindowID().getUniqueID();
+    // example for debug: -806704985_A629953C5653522BAE25354D61E21B7B
+
+    /* For WSRP Admin Portlet - request handle ! */
+    if (WSRPAdminPortletDataImp.isOfferToProcess(pcPortletAppName, pcPortletName)) {
+      response.setContentType("text/html");
+      adminPortlet.getPortletObject().render(input, output);
+      return output;
+    }
+
+    String producerID = getProducerID(pcPortletAppName);
+    String pcFullPortletHandle = getPortletHandle(pcPortletAppName, pcPortletName, pcUniqueID);
+
+    // TODO get wsrp portlet handle from special request parameter if it was an URL request
+    Map<String, String> parsedParams = parseParams(input.getRenderParameters());
+
+    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
+
+    // Get WSRP Portlet instance
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+
+    if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
+      throw new PortletContainerException("There is no producer instance with id = '"
+          + portlet.getPortletKey().getProducerId() + "'");
+    }
+
+    try {
+      WindowState state = input.getWindowState();
+      if (!state.equals(WindowState.MINIMIZED)) {
+
+        String windowID = pcUniqueID;
+        LOG.debug("use windowID : " + windowID);
+
+        // processing user identity. 
+        // put User to the consumer.getUserRegistry()
+        String userID = input.getInternalWindowID().getOwner(); // default: "portal#anon"
+        if (userID == null) {
+          userID = "portal#anon";
+        }
+        User user = getUser(userID, request);
+
+        try {
+          UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
+                                                                                   .getProducerId());
+
+          // below I add the uniqueID to the portlet handle within PortletContext
+//            String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+//            portlet.getPortletContext().setPortletHandle(newPortletHandle);
+
+          PortletWindowSession portletWindowSession = getWindowSession(portlet,
+                                                                       userSession,
+                                                                       windowID);
+
+          WSRPMarkupRequest markupRequest = getMarkupRequest(input, portletWindowSession, request);
+          String baseURL = null;
+          //            baseURL = request.getRequestURI();
+          //            LOG.debug("User path info : " + baseURL);
+          //            if (baseURL == null) {
+          //              //path = basePath;
+          //            }
+          //            baseURL += "?";
+          //            String remoteUser = request.getRemoteUser();
+          //            if (remoteUser != null) {
+          //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+          //            }
+          //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+          //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+          //            LOG.debug("use base path : " + baseURL);
+          baseURL = input.getBaseURL();
+
+          /* MAIN INVOKE */
+          MarkupResponse mResponse = getPortletDriver(portlet).getMarkup(markupRequest,
+                                                                         userSession,
+                                                                         baseURL);
+          if (mResponse != null) {
+
+            // store session context
+            if (portletWindowSession != null) {
+              if (needSessionUpdate(portletWindowSession.getPortletSession().getSessionContext(),
+                                    mResponse.getSessionContext())) {
+
+                updateSessionContext(mResponse.getSessionContext(),
+                                     portletWindowSession.getPortletSession());
+              }
+            }
+            // update markup cache if doesn't use cached item
+            if (!mResponse.getMarkupContext().isUseCachedItem() && portletWindowSession != null) {
+              LOG.debug("Update cache");
+              portletWindowSession.updateMarkupCache(mResponse.getMarkupContext());
+              portletWindowSession.setMode(markupRequest.getMode());
+              portletWindowSession.setWindowState(markupRequest.getWindowState());
+            }
+            // write output
+            processMarkupContext(mResponse.getMarkupContext(), output);
+          }
+
+          if (input.getTitle() != null) {
+            output.setTitle(input.getTitle());
+          }
+        } catch (Throwable t) {
+          LOG.error("WS Fault occured", t);
+          Writer w = response.getWriter();
+          w.write("a WSRP Fault occured");
+        }
+
+      } else {
+        // if WindowState equals MINIMIZED
+        if (input.getTitle() != null) {
+          output.setTitle(input.getTitle());
+        } else {
+          LocalizedString locStr = getPortletDescription(portlet).getTitle();
+          output.setTitle(Utils.getStringFromLocalizedString(locStr));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      try {
+        output.setContent(e.toString().getBytes("utf-8"));
+      } catch (java.io.UnsupportedEncodingException unExc) {
+        output.setContent(unExc.toString().getBytes());
+      }
+    } finally {
+      return output;
+    }
+
+  }
+
+  public ResourceOutput serveResource(HttpServletRequest request,
+                                      HttpServletResponse response,
+                                      ResourceInput input) throws PortletContainerException {
+
+    LOG.debug("serveResource method in WSRPConsumerPlugin entered");
+    if (!init)
+      return null;
+
+    ResourceOutput output = new ResourceOutput();
+
+    // portletAppName mixed with producer id
+    String pcPortletAppName = input.getInternalWindowID().getPortletApplicationName();
+    // example for debug: producer2-1006454248@portlets2
+    String pcPortletName = input.getInternalWindowID().getPortletName();
+    // example for debug: TestPortlet
+    String pcUniqueID = input.getInternalWindowID().getUniqueID();
+    // example for debug: -806704985_A629953C5653522BAE25354D61E21B7B
+
+    /* For WSRP Admin Portlet - request handle ! */
+    if (WSRPAdminPortletDataImp.isOfferToProcess(pcPortletAppName, pcPortletName)) {
+      response.setContentType("text/html");
+      adminPortlet.getPortletObject().serveResource(input, output);
+      return output;
+    }
+
+    String producerID = getProducerID(pcPortletAppName);
+    String pcFullPortletHandle = getPortletHandle(pcPortletAppName, pcPortletName, pcUniqueID);
+
+    // TODO get wsrp portlet handle from special request parameter if it was an URL request
+    Map<String, String> parsedParams = parseParams(input.getRenderParameters());
+
+    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
+
+    // Get WSRP Portlet instance
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+
+    if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
+      throw new PortletContainerException("There is no producer instance with id = '"
+          + portlet.getPortletKey().getProducerId() + "'");
+    }
+
+    try {
+      WindowState state = input.getWindowState();
+      if (!state.equals(WindowState.MINIMIZED)) {
+
+        String windowID = pcUniqueID;
+        LOG.debug("use windowID : " + windowID);
+
+        // processing user identity. 
+        // put User to the consumer.getUserRegistry()
+        String userID = input.getInternalWindowID().getOwner(); // default: "portal#anon"
+        if (userID == null) {
+          userID = "portal#anon";
+        }
+        User user = getUser(userID, request);
+
+        try {
+          UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
+                                                                                   .getProducerId());
+
+          // below I add the uniqueID to the portlet handle within PortletContext
+//            String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+//            portlet.getPortletContext().setPortletHandle(newPortletHandle);
+
+          PortletWindowSession portletWindowSession = getWindowSession(portlet,
+                                                                       userSession,
+                                                                       windowID);
+
+          WSRPResourceRequest resourceRequest = getResourceRequest(input,
+                                                                   portletWindowSession,
+                                                                   request);
+
+          String baseURL = null;
+          //            baseURL = request.getRequestURI();
+          //            LOG.debug("User path info : " + baseURL);
+          //            if (baseURL == null) {
+          //              //path = basePath;
+          //            }
+          //            baseURL += "?";
+          //            String remoteUser = request.getRemoteUser();
+          //            if (remoteUser != null) {
+          //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+          //            }
+          //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+          //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+          //            LOG.debug("use base path : " + baseURL);
+          baseURL = input.getBaseURL();
+
+          /* MAIN INVOKE */
+          ResourceResponse resResponse = getPortletDriver(portlet).getResource(resourceRequest,
+                                                                               userSession,
+                                                                               baseURL);
+
+          if (resResponse != null) {
+            if (portletWindowSession != null) {
+
+              // store session context
+              if (needSessionUpdate(portletWindowSession.getPortletSession().getSessionContext(),
+                                    resResponse.getSessionContext())) {
+                updateSessionContext(resResponse.getSessionContext(),
+                                     portletWindowSession.getPortletSession());
+              }
+              // update resource cache if doesn't use cached item
+              if (!resResponse.getResourceContext().isUseCachedItem()
+                  && portletWindowSession != null) {
+                LOG.debug("Update cache");
+                portletWindowSession.updateResourceCache(resResponse.getResourceContext());
+              }
+            }
+
+            updatePortletContext(resResponse.getPortletContext(), portlet);
+
+            // write output
+            processResourceContext(resResponse.getResourceContext(), output);
+          }
+
+          if (input.getTitle() != null) {
+            output.setTitle(input.getTitle());
+          }
+        } catch (Throwable t) {
+          LOG.error("WS Fault occured", t);
+          Writer w = response.getWriter();
+          w.write("a WSRP Fault occured");
+        }
+
+      } else {
+        // if WindowState equals MINIMIZED
+        if (input.getTitle() != null) {
+          output.setTitle(input.getTitle());
+        } else {
+          LocalizedString locStr = getPortletDescription(portlet).getTitle();
+          output.setTitle(Utils.getStringFromLocalizedString(locStr));
+        }
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+      try {
+        output.setContent(e.toString().getBytes("utf-8"));
+      } catch (java.io.UnsupportedEncodingException unExc) {
+        output.setContent(unExc.toString().getBytes());
+      }
+    } finally {
+      return output;
+    }
+  }
+
+  public EventOutput processEvent(HttpServletRequest request,
+                                  HttpServletResponse response,
+                                  EventInput input) throws PortletContainerException {
+    LOG.debug("processEvent method in WSRPConsumerPlugin entered");
+
+    if (!init)
+      return null;
+
+    EventOutput output = new EventOutput();
+
+    // portletAppName mixed with producer id
+    String pcPortletAppName = input.getInternalWindowID().getPortletApplicationName();
+    // example for debug: producer2-1006454248@portlets2
+    String pcPortletName = input.getInternalWindowID().getPortletName();
+    // example for debug: TestPortlet
+    String pcUniqueID = input.getInternalWindowID().getUniqueID();
+    // example for debug: -806704985_A629953C5653522BAE25354D61E21B7B
+
+    /* For WSRP Admin Portlet - request handle ! */
+    if (WSRPAdminPortletDataImp.isOfferToProcess(pcPortletAppName, pcPortletName)) {
+      adminPortlet.getPortletObject().processEvent(input, output);
+      return output;
+    }
+
+    String producerID = getProducerID(pcPortletAppName);
+    String pcFullPortletHandle = getPortletHandle(pcPortletAppName, pcPortletName, pcUniqueID);
+
+    // TODO get wsrp portlet handle from special request parameter if it was an URL request
+    Map<String, String> parsedParams = parseParams(input.getRenderParameters());
+
+    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
+
+    // Get WSRP Portlet instance
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+
+    if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
+      throw new PortletContainerException("There is no producer instance with id = '"
+          + portlet.getPortletKey().getProducerId() + "'");
+    }
+
+    try {
+      String windowIDkey = input.getInternalWindowID().getUniqueID();
+      LOG.debug("use windowID : " + windowIDkey);
+
+      // processing user identity. 
+      // put User to the consumer.getUserRegistry()
+      String userID = input.getInternalWindowID().getOwner(); // default: "portal#anon"
+      if (userID == null) {
+        userID = "portal#anon";
+      }
+      User user = getUser(userID, request);
+
+      // below I add the uniqueID to the portlet handle within PortletContext
+//        String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+//        portlet.getPortletContext().setPortletHandle(newPortletHandle);
+
+      UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
+                                                                               .getProducerId());
+      PortletWindowSession portletWindowSession = getWindowSession(portlet,
+                                                                   userSession,
+                                                                   windowIDkey);
+
+      WSRPEventsRequest iRequest = getEventsRequest(input, portletWindowSession, request);
+
+      String baseURL = null;
+      //         baseURL = request.getRequestURI();
+      //        LOG.debug("User path info : " + baseURL);
+      //        if (baseURL == null) {
+      //          //path = basePath;
+      //        }
+      //        baseURL += "?";
+      //        String remoteUser = request.getRemoteUser();
+      //        if (remoteUser != null) {
+      //          baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
+      //        }
+      //        baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
+      //        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+      //        LOG.debug("use base path : " + baseURL);
+      baseURL = input.getBaseURL();
+
+      /* MAIN INVOKE */
+      HandleEventsResponse iResponse = getPortletDriver(portlet).handleEvents(iRequest,
+                                                                              userSession,
+                                                                              baseURL);
+
+      if (iResponse != null) {
+        LOG.debug("manage BlockingInteractionResponse object content");
+        UpdateResponse updateResponse = iResponse.getUpdateResponse();
+        if (updateResponse != null) {
+          // set events
+          output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
+          if (portletWindowSession != null) {
+            // store session context
+            if (needSessionUpdate(portletWindowSession.getPortletSession().getSessionContext(),
+                                  updateResponse.getSessionContext())) {
+              updateSessionContext(updateResponse.getSessionContext(),
+                                   portletWindowSession.getPortletSession());
+            }
+            // update markup cache 
+            portletWindowSession.updateMarkupCache(updateResponse.getMarkupContext());
+          }
+
+          updatePortletContext(updateResponse.getPortletContext(), portlet);
+
+          processNavigationalContext(output, updateResponse.getNavigationalContext());
+
+          String newMode = updateResponse.getNewMode();
+          if (newMode != null) {
+            LOG.debug("set Mode required : " + newMode);
+            output.setNextMode(Modes.getJsrPortletMode(newMode));
+          }
+          String newWindowState = updateResponse.getNewWindowState();
+          if (newWindowState != null) {
+            LOG.debug("set new required window state : " + newWindowState);
+            output.setNextState(WindowStates.getJsrWindowState(newWindowState));
+          }
+        }
+      }
+      return output;
+    } catch (WSRPException e) {
+      e.printStackTrace();
+      throw new PortletContainerException("exception in WSRPConsumerPlugin.processEvent method", e);
+    }
+
+  }
+
   private String getValueByKey(String key, Map<String, String[]> renderParameters) {
     String[] ssPortletHandle = renderParameters.get(key);
     if (ssPortletHandle != null) {
@@ -837,7 +1250,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     //
     // GENERIC PARAMS
     //
-    
+
     //WSRPConstants.WSRP_PORTLET_HANDLE
     newParams.put(WSRPConstants.WSRP_PORTLET_HANDLE,
                   getValueByKey(WSRPConstants.WSRP_PORTLET_HANDLE, renderParameters));
@@ -849,18 +1262,18 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     //WSRPConstants.WSRP_PORTLET_INSTANCE_KEY
     newParams.put(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY,
                   getValueByKey(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY, renderParameters));
-    
+
     //WSRPConstants.WSRP_SESSION_ID
-    newParams.put(WSRPConstants.WSRP_SESSION_ID,
-                  getValueByKey(WSRPConstants.WSRP_SESSION_ID, renderParameters));
-    
+    newParams.put(WSRPConstants.WSRP_SESSION_ID, getValueByKey(WSRPConstants.WSRP_SESSION_ID,
+                                                               renderParameters));
+
     //WSRPConstants.WSRP_PAGE_STATE
     //WSRPConstants.WSRP_PORTLET_STATES
 
     //
     // OTHER PARAMS
     //
-    
+
     //WSRPConstants.WSRP_URL_TYPE
     //WSRPConstants.WSRP_MODE
     //WSRPConstants.WSRP_WINDOW_STATE
@@ -943,141 +1356,17 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                     portletAppName.indexOf(WSRPConstants.PRODUCER_HANDLE_ENCODER));
   }
 
-  public RenderOutput render(HttpServletRequest request,
-                             HttpServletResponse response,
-                             RenderInput input) throws PortletContainerException {
-
-    LOG.debug("Render method in WSRPConsumerPlugin entered");
-    if (!init)
-      return null;
-
-    RenderOutput output = new RenderOutput();
-
-    // portletAppName mixed with producer id
-    String pcPortletAppName = input.getInternalWindowID().getPortletApplicationName();
-    // example for debug: producer2-1006454248@portlets2
-    String pcPortletName = input.getInternalWindowID().getPortletName();
-    // example for debug: TestPortlet
-    String pcUniqueID = input.getInternalWindowID().getUniqueID();
-    // example for debug: -806704985_A629953C5653522BAE25354D61E21B7B
-
-    /* For WSRP Admin Portlet - request handle ! */
-    if (WSRPAdminPortletDataImp.isOfferToProcess(pcPortletAppName, pcPortletName)) {
-      response.setContentType("text/html");
-      adminPortlet.getPortletObject().render(input, output);
-      return output;
+  private boolean needSessionUpdate(SessionContext newSessionContext,
+                                    SessionContext oldSessionContext) {
+    if (newSessionContext == null)
+      return false;
+    if (newSessionContext.getExpires() != oldSessionContext.getExpires())
+      return true;
+    if (newSessionContext.getSessionID() != oldSessionContext.getSessionID()) {
+      return true;
+    } else {
+      return false;
     }
-
-    String producerID = getProducerID(pcPortletAppName);
-    String pcFullPortletHandle = getPortletHandle(pcPortletAppName, pcPortletName, pcUniqueID);
-
-    // TODO get wsrp portlet handle from special request parameter if it was an URL request
-    Map<String, String> parsedParams = parseParams(input.getRenderParameters());
-
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-
-    // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
-
-    if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
-      throw new PortletContainerException("There is no producer instance with id = '"
-          + portlet.getPortletKey().getProducerId() + "'");
-    }
-
-    try {
-      WindowState state = input.getWindowState();
-      if (!state.equals(WindowState.MINIMIZED)) {
-
-        WindowID windowID = input.getInternalWindowID();
-        String key = windowID.getUniqueID();
-        LOG.debug("key generated by windowID : " + key);
-        response.setContentType(input.getMarkup());
-
-        // processing user identity. 
-        // put User to the consumer.getUserRegistry()
-        String userID = input.getInternalWindowID().getOwner(); // default: "portal#anon"
-        if (userID == null) {
-          userID = "portal#anon";
-        }
-        User user = getUser(userID, request);
-
-        try {
-          UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
-                                                                                   .getProducerId());
-
-          // below I add the uniqueID to the portlet handle within PortletContext
-
-//            String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-//            portlet.getPortletContext().setPortletHandle(newPortletHandle);
-
-          PortletWindowSession portletWindowSession = getWindowSession(portlet, userSession, key);
-
-          WSRPMarkupRequest markupRequest = getMarkupRequest(input, portletWindowSession, request);
-          String baseURL = null;
-          //            baseURL = request.getRequestURI();
-          //            LOG.debug("User path info : " + baseURL);
-          //            if (baseURL == null) {
-          //              //path = basePath;
-          //            }
-          //            baseURL += "?";
-          //            String remoteUser = request.getRemoteUser();
-          //            if (remoteUser != null) {
-          //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-          //            }
-          //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-          //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-          //            LOG.debug("use base path : " + baseURL);
-          baseURL = input.getBaseURL();
-
-          /* MAIN INVOKE */
-          MarkupResponse mResponse = getPortletDriver(portlet).getMarkup(markupRequest,
-                                                                         userSession,
-                                                                         baseURL);
-          if (mResponse != null) {
-
-            // store session context
-            if (portletWindowSession != null) {
-              updateSessionContext(mResponse.getSessionContext(),
-                                   portletWindowSession.getPortletSession());
-            }
-            // update markup cache if doesn't use cached item
-            if (!mResponse.getMarkupContext().isUseCachedItem() && portletWindowSession != null) {
-              LOG.debug("Update cache");
-              portletWindowSession.updateMarkupCache(mResponse.getMarkupContext());
-            }
-            // write output
-            processMarkupContext(mResponse.getMarkupContext(), output);
-          }
-
-          if (input.getTitle() != null) {
-            output.setTitle(input.getTitle());
-          }
-        } catch (Throwable t) {
-          LOG.error("WS Fault occured", t);
-          Writer w = response.getWriter();
-          w.write("a WSRP Fault occured");
-        }
-
-      } else {
-        // if WindowState equals MINIMIZED
-        if (input.getTitle() != null) {
-          output.setTitle(input.getTitle());
-        } else {
-          LocalizedString locStr = getPortletDescription(portlet).getTitle();
-          output.setTitle(Utils.getStringFromLocalizedString(locStr));
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      try {
-        output.setContent(e.toString().getBytes("utf-8"));
-      } catch (java.io.UnsupportedEncodingException unExc) {
-        output.setContent(unExc.toString().getBytes());
-      }
-    } finally {
-      return output;
-    }
-
   }
 
   public void sendAttrs(HttpServletRequest request,
@@ -1087,18 +1376,24 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   }
 
   private UserSessionMgr getUserSession(HttpSession httpSession, String producerID) throws WSRPException {
-
-    UserSessionMgr userSession = (UserSessionMgr) httpSession.getAttribute(USER_SESSIONS_KEY
-        + producerID);
+    UserSessionMgr userSession = null;
+    userSession = (UserSessionMgr) httpSession.getAttribute(USER_SESSIONS_KEY + producerID);
     if (userSession == null) {
       LOG.debug("Create new UserSession");
-      userSession = new UserSessionImpl(producerID);//getProducer(producerID).getMarkupInterfaceEndpoint());
+      userSession = new UserSessionImpl(producerID);
       httpSession.setAttribute(USER_SESSIONS_KEY + producerID, userSession);
     } else {
       LOG.debug("Use existing UserSession");
     }
     return userSession;
   }
+
+//  private UserSessionMgr getUserSession2(HttpSession httpSession, String producerID) throws WSRPException {
+//    UserSessionMgr userSession = null;
+//    LOG.debug("Create new UserSession");
+//    userSession = getProducer(producerID).getUserSession();
+//    return userSession;
+//  }
 
   /**
    * Put User to the consumer.getUserRegistry().
@@ -1270,14 +1565,14 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     // For RuntimeContext
     // TODO
-    String sid = getValueByKey(WSRPConstants.WSRP_SESSION_ID,input.getRenderParameters());
+    String sid = getValueByKey(WSRPConstants.WSRP_SESSION_ID, input.getRenderParameters());
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();
     if (sc != null) {
       baseRequest.setSessionID(sc.getSessionID());
-    } 
-    
-    String pik = getValueByKey(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY,input.getRenderParameters());
-    
+    }
+
+    String pik = getValueByKey(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY, input.getRenderParameters());
+
     baseRequest.setPortletInstanceKey(pik);//input.getInternalWindowID().getUniqueID());
 
     // TODO
@@ -1286,7 +1581,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     // For CACHE
     if (portletWindowSession.getCachedMarkup() != null
-        && portletWindowSession.getCachedMarkup().getCacheControl() != null) {
+        && portletWindowSession.getCachedMarkup().getCacheControl() != null
+        && !portletWindowSession.getMode().equalsIgnoreCase(baseRequest.getMode())
+        && !portletWindowSession.getWindowState().equalsIgnoreCase(baseRequest.getWindowState())) {
       baseRequest.setValidateTag(portletWindowSession.getCachedMarkup()
                                                      .getCacheControl()
                                                      .getValidateTag());
@@ -1442,149 +1739,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return portletModes;
   }
 
-  public ResourceOutput serveResource(HttpServletRequest request,
-                                      HttpServletResponse response,
-                                      ResourceInput input) throws PortletContainerException {
-
-    LOG.debug("serveResource method in WSRPConsumerPlugin entered");
-    if (!init)
-      return null;
-
-    ResourceOutput output = new ResourceOutput();
-
-    // portletAppName mixed with producer id
-    String pcPortletAppName = input.getInternalWindowID().getPortletApplicationName();
-    // example for debug: producer2-1006454248@portlets2
-    String pcPortletName = input.getInternalWindowID().getPortletName();
-    // example for debug: TestPortlet
-    String pcUniqueID = input.getInternalWindowID().getUniqueID();
-    // example for debug: -806704985_A629953C5653522BAE25354D61E21B7B
-
-    /* For WSRP Admin Portlet - request handle ! */
-    if (WSRPAdminPortletDataImp.isOfferToProcess(pcPortletAppName, pcPortletName)) {
-      response.setContentType("text/html");
-      adminPortlet.getPortletObject().serveResource(input, output);
-      return output;
-    }
-
-    String producerID = getProducerID(pcPortletAppName);
-    String pcFullPortletHandle = getPortletHandle(pcPortletAppName, pcPortletName, pcUniqueID);
-
-    // TODO get wsrp portlet handle from special request parameter if it was an URL request
-    Map<String, String> parsedParams = parseParams(input.getRenderParameters());
-
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-
-    // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
-
-    if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
-      throw new PortletContainerException("There is no producer instance with id = '"
-          + portlet.getPortletKey().getProducerId() + "'");
-    }
-
-    try {
-      WindowState state = input.getWindowState();
-      if (!state.equals(WindowState.MINIMIZED)) {
-
-        WindowID windowID = input.getInternalWindowID();
-        String key = windowID.getUniqueID();
-        LOG.debug("key generated by windowID : " + key);
-        response.setContentType(input.getMarkup());
-
-        // processing user identity. 
-        // put User to the consumer.getUserRegistry()
-        String userID = input.getInternalWindowID().getOwner(); // default: "portal#anon"
-        if (userID == null) {
-          userID = "portal#anon";
-        }
-        User user = getUser(userID, request);
-
-        try {
-          UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
-                                                                                   .getProducerId());
-
-          // below I add the uniqueID to the portlet handle within PortletContext
-//            String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-//            portlet.getPortletContext().setPortletHandle(newPortletHandle);
-
-          PortletWindowSession portletWindowSession = getWindowSession(portlet, userSession, key);
-
-          WSRPResourceRequest resourceRequest = getResourceRequest(input,
-                                                                   portletWindowSession,
-                                                                   request);
-
-          String baseURL = null;
-          //            baseURL = request.getRequestURI();
-          //            LOG.debug("User path info : " + baseURL);
-          //            if (baseURL == null) {
-          //              //path = basePath;
-          //            }
-          //            baseURL += "?";
-          //            String remoteUser = request.getRemoteUser();
-          //            if (remoteUser != null) {
-          //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-          //            }
-          //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-          //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-          //            LOG.debug("use base path : " + baseURL);
-          baseURL = input.getBaseURL();
-
-          /* MAIN INVOKE */
-          ResourceResponse resResponse = getPortletDriver(portlet).getResource(resourceRequest,
-                                                                               userSession,
-                                                                               baseURL);
-
-          if (resResponse != null) {
-            if (portletWindowSession != null) {
-
-              // store session context
-              updateSessionContext(resResponse.getSessionContext(),
-                                   portletWindowSession.getPortletSession());
-              // update resource cache if doesn't use cached item
-              if (!resResponse.getResourceContext().isUseCachedItem()
-                  && portletWindowSession != null) {
-                LOG.debug("Update cache");
-                portletWindowSession.updateResourceCache(resResponse.getResourceContext());
-              }
-            }
-
-            updatePortletContext(resResponse.getPortletContext(), portlet);
-
-            // write output
-            processResourceContext(resResponse.getResourceContext(), output);
-          }
-
-          if (input.getTitle() != null) {
-            output.setTitle(input.getTitle());
-          }
-        } catch (Throwable t) {
-          LOG.error("WS Fault occured", t);
-          Writer w = response.getWriter();
-          w.write("a WSRP Fault occured");
-        }
-
-      } else {
-        // if WindowState equals MINIMIZED
-        if (input.getTitle() != null) {
-          output.setTitle(input.getTitle());
-        } else {
-          LocalizedString locStr = getPortletDescription(portlet).getTitle();
-          output.setTitle(Utils.getStringFromLocalizedString(locStr));
-        }
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-      try {
-        output.setContent(e.toString().getBytes("utf-8"));
-      } catch (java.io.UnsupportedEncodingException unExc) {
-        output.setContent(unExc.toString().getBytes());
-      }
-    } finally {
-      return output;
-    }
-  }
-
   private WSRPResourceRequest getResourceRequest(ResourceInput input,
                                                  PortletWindowSession portletWindowSession,
                                                  HttpServletRequest request) {
@@ -1643,7 +1797,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
       // process content
       byte[] binaryMarkup = mimeResponse.getItemBinary();
-      if (binaryMarkup == null && mimeResponse.getItemString() != null) {
+      if (binaryMarkup == null) {// && mimeResponse.getItemString() != null) {
         LOG.debug("string markup not null");
         try {
           binaryMarkup = mimeResponse.getItemString().getBytes("utf-8");
@@ -1655,127 +1809,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
       output.setContent(binaryMarkup);
     }
-  }
-
-  public EventOutput processEvent(HttpServletRequest request,
-                                  HttpServletResponse response,
-                                  EventInput input) throws PortletContainerException {
-    LOG.debug("processEvent method in WSRPConsumerPlugin entered");
-
-    if (!init)
-      return null;
-
-    EventOutput output = new EventOutput();
-
-    // portletAppName mixed with producer id
-    String pcPortletAppName = input.getInternalWindowID().getPortletApplicationName();
-    // example for debug: producer2-1006454248@portlets2
-    String pcPortletName = input.getInternalWindowID().getPortletName();
-    // example for debug: TestPortlet
-    String pcUniqueID = input.getInternalWindowID().getUniqueID();
-    // example for debug: -806704985_A629953C5653522BAE25354D61E21B7B
-
-    /* For WSRP Admin Portlet - request handle ! */
-    if (WSRPAdminPortletDataImp.isOfferToProcess(pcPortletAppName, pcPortletName)) {
-      adminPortlet.getPortletObject().processEvent(input, output);
-      return output;
-    }
-
-    String producerID = getProducerID(pcPortletAppName);
-    String pcFullPortletHandle = getPortletHandle(pcPortletAppName, pcPortletName, pcUniqueID);
-
-    // TODO get wsrp portlet handle from special request parameter if it was an URL request
-    Map<String, String> parsedParams = parseParams(input.getRenderParameters());
-
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-
-    // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
-
-    if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
-      throw new PortletContainerException("There is no producer instance with id = '"
-          + portlet.getPortletKey().getProducerId() + "'");
-    }
-
-    try {
-      String key = input.getInternalWindowID().getUniqueID();
-      LOG.debug("use windowID : " + key);
-
-      // processing user identity. 
-      // put User to the consumer.getUserRegistry()
-      String userID = input.getInternalWindowID().getOwner(); // default: "portal#anon"
-      if (userID == null) {
-        userID = "portal#anon";
-      }
-      User user = getUser(userID, request);
-
-      // below I add the uniqueID to the portlet handle within PortletContext
-//        String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-//        portlet.getPortletContext().setPortletHandle(newPortletHandle);
-
-      UserSessionMgr userSession = getUserSession(request.getSession(), portlet.getPortletKey()
-                                                                               .getProducerId());
-      PortletWindowSession windowSession = getWindowSession(portlet, userSession, key);
-
-      WSRPEventsRequest iRequest = getEventsRequest(input, windowSession, request);
-
-      String baseURL = null;
-      //         baseURL = request.getRequestURI();
-      //        LOG.debug("User path info : " + baseURL);
-      //        if (baseURL == null) {
-      //          //path = basePath;
-      //        }
-      //        baseURL += "?";
-      //        String remoteUser = request.getRemoteUser();
-      //        if (remoteUser != null) {
-      //          baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-      //        }
-      //        baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-      //        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-      //        LOG.debug("use base path : " + baseURL);
-      baseURL = input.getBaseURL();
-
-      /* MAIN INVOKE */
-      HandleEventsResponse iResponse = getPortletDriver(portlet).handleEvents(iRequest,
-                                                                              userSession,
-                                                                              baseURL);
-
-      if (iResponse != null) {
-        LOG.debug("manage BlockingInteractionResponse object content");
-        UpdateResponse updateResponse = iResponse.getUpdateResponse();
-        if (updateResponse != null) {
-          // set events
-          output.setEvents(JAXBEventTransformer.getEventsUnmarshal(updateResponse.getEvents()));
-          if (windowSession != null) {
-            // store session context
-            updateSessionContext(updateResponse.getSessionContext(),
-                                 windowSession.getPortletSession());
-            // update markup cache 
-            windowSession.updateMarkupCache(updateResponse.getMarkupContext());
-          }
-
-          updatePortletContext(updateResponse.getPortletContext(), portlet);
-
-          processNavigationalContext(output, updateResponse.getNavigationalContext());
-
-          String newMode = updateResponse.getNewMode();
-          if (newMode != null) {
-            LOG.debug("set Mode required : " + newMode);
-            output.setNextMode(Modes.getJsrPortletMode(newMode));
-          }
-          String newWindowState = updateResponse.getNewWindowState();
-          if (newWindowState != null) {
-            LOG.debug("set new required window state : " + newWindowState);
-            output.setNextState(WindowStates.getJsrWindowState(newWindowState));
-          }
-        }
-      }
-      return output;
-    } catch (WSRPException e) {
-      e.printStackTrace();
-      throw new PortletContainerException("exception in WSRPConsumerPlugin.processEvent method", e);
-    }
-
   }
 
   private WSRPEventsRequest getEventsRequest(EventInput input,

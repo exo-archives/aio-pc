@@ -188,6 +188,9 @@ public final class Helper {
         pmode.add(mode.toString());
       }
       portletinfo.setModes(pmode);
+      if (pmode == null) { 
+        throw new Exception("Portlet Modes for portlet key '" + plt + "' cannot be null!");
+      }
     } catch (Exception e) {
       e.printStackTrace();
     }
@@ -205,7 +208,12 @@ public final class Helper {
         pstate.add(state.toString());
       }
       portletinfo.setStates(pstate);
-    } catch (Exception e) { }
+      if (pstate == null) { 
+        throw new Exception("Window States for portlet key '" + plt + "' cannot be null!");
+      }
+    } catch (Exception e) { 
+      e.printStackTrace();
+    }
     return portletinfo;
   }
 

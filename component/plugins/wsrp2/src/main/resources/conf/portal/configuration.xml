@@ -104,16 +104,6 @@
   </component>
 
   <component>
-    <key>org.exoplatform.services.wsrp2.consumer.impl.urls.ws1.URLTemplateComposerImpl1</key>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls.ws1.URLTemplateComposerImpl1</type>
-  </component>
-  
-  <component>
-    <key>org.exoplatform.services.wsrp2.consumer.impl.urls.ws2.URLTemplateComposerImpl2</key>
-    <type>org.exoplatform.services.wsrp2.consumer.impl.urls.ws2.URLTemplateComposerImpl2</type>
-  </component>
-
-  <component>
     <type>org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper</type>
   </component>
 

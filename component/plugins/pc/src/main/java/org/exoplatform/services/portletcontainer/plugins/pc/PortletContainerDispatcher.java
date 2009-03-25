@@ -569,12 +569,6 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                                             windowID.getPortletName());
     ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
 
-    System.out.println(">>> EXOMAN PortletContainerDispatcher.getPortletPreferences() defaultPrefs = "
-        + defaultPrefs);
-    if (defaultPrefs != null)
-      System.out.println(">>> EXOMAN PortletContainerDispatcher.getPortletPreferences() defaultPrefs.size() = "
-          + defaultPrefs.size());
-    
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
     return preferences;
@@ -724,6 +718,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                    final HttpServletResponse httpServletResponse,
                                    final RenderInput renderInput) throws PortletContainerException {
     LOG.debug("Render method in PortletContainerDispatcher entered");
+    
     return (RenderOutput) process(httpServletRequest,
                                   httpServletResponse,
                                   renderInput,

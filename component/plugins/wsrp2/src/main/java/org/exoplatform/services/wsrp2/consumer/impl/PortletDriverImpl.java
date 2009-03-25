@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
@@ -43,6 +44,7 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortType
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
@@ -308,16 +310,24 @@ public class PortletDriverImpl implements PortletDriver {
           response.setSessionContext(response.getSessionContext());
           return response;
         } else {
-          //throw exc when producer wants to use cached and consumer haven't it
+          throw new WSRPException("producer wants to use cached but consumer haven't it");
+          //throw exc when producer wants to use cached but consumer haven't it
         }
       }
 
       processMimeResponseMarkup(response.getMarkupContext(), baseURL);
 
-    } catch (InvalidCookie cookieFault) {
-      LOG.info("Problem with cookies ", cookieFault);
+    } catch (InvalidCookie exc) {
+      LOG.info("Problem with cookies ", exc);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
+      getMarkup(markupRequest, userSession, baseURL);
+    } catch (InvalidSession exc) {
+      LOG.info("Problem with session ", exc);
+      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
+      List<String> sessionIDs = new ArrayList<String>();
+      sessionIDs.add(markupRequest.getSessionID());
+      releaseSessions(sessionIDs, userSession);
       getMarkup(markupRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
@@ -386,8 +396,16 @@ public class PortletDriverImpl implements PortletDriver {
       /* MAIN INVOKE */
       response = markupPort.performBlockingInteraction(request);
 
-    } catch (InvalidCookie ic) {
+    } catch (InvalidCookie exc) {
+      LOG.info("Problem with cookies ", exc);
       resetInitCookie(userSession);
+      performBlockingInteraction(actionRequest, userSession, baseURL);
+    } catch (InvalidSession exc) {
+      LOG.info("Problem with session ", exc);
+      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
+      List<String> sessionIDs = new ArrayList<String>();
+      sessionIDs.add(actionRequest.getSessionID());
+      releaseSessions(sessionIDs, userSession);
       performBlockingInteraction(actionRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
@@ -592,17 +610,26 @@ public class PortletDriverImpl implements PortletDriver {
           response.setResourceContext(resourceRequest.getCachedResource());
           response.setSessionContext(response.getSessionContext());
           return response;
+
         } else {
-          //throw exc when producer wants to use cached and consumer haven't it
+          throw new WSRPException("producer wants to use cached but consumer haven't it");
+          //throw exc when producer wants to use cached but consumer haven't it
         }
       }
 
       processMimeResponseMarkup(response.getResourceContext(), baseURL);
 
-    } catch (InvalidCookie cookieFault) {
-      LOG.error("Problem with cookies ", cookieFault);
+    } catch (InvalidCookie exc) {
+      LOG.error("Problem with cookies ", exc);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
+      getResource(resourceRequest, userSession, baseURL);
+    } catch (InvalidSession exc) {
+      LOG.info("Problem with session ", exc);
+      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
+      List<String> sessionIDs = new ArrayList<String>();
+      sessionIDs.add(resourceRequest.getSessionID());
+      releaseSessions(sessionIDs, userSession);
       getResource(resourceRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
@@ -696,8 +723,16 @@ public class PortletDriverImpl implements PortletDriver {
       }
 
       response = markupPort.handleEvents(request);
-    } catch (InvalidCookie cookieFault) {
+    } catch (InvalidCookie exc) {
+      LOG.info("Problem with cookies ", exc);
       resetInitCookie(userSession);
+      handleEvents(eventRequest, userSession, baseURL);
+    } catch (InvalidSession exc) {
+      LOG.info("Problem with session ", exc);
+      // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
+      List<String> sessionIDs = new ArrayList<String>();
+      sessionIDs.add(eventRequest.getSessionID());
+      releaseSessions(sessionIDs, userSession);
       handleEvents(eventRequest, userSession, baseURL);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);

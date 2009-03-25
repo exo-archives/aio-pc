@@ -186,7 +186,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
-
+    
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -238,6 +238,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
           return markupResponse;
         }
       } catch (WSRPException e) {
+        e.printStackTrace();
         log.debug("Can not validate markup cache for validateTag : "
             + markupParams.getValidateTag());
         e.printStackTrace();
@@ -348,8 +349,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       if (output.hasError())
         throw new WSRPException("render output hasError");
     } catch (WSRPException e) {
-      log.debug("The call to render method was a failure ", e);
       e.printStackTrace();
+      log.debug("The call to render method was a failure ", e);
       throw new WSRPException();
     }
 

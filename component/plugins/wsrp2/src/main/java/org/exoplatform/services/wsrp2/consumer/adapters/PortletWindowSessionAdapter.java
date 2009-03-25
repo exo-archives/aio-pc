@@ -26,10 +26,8 @@ import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.ResourceContext;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 9 févr. 2004
- * Time: 15:49:27
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 9
+ *         févr. 2004 Time: 15:49:27
  */
 
 public class PortletWindowSessionAdapter implements PortletWindowSession {
@@ -74,8 +72,13 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
    */
   private String            resourceState;
 
+  private String            mode;
+
+  private String            windowState;
+
   /**
    * Get window ID.
+   * 
    * @return windowID
    */
   public String getWindowID() {
@@ -84,6 +87,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set window ID.
+   * 
    * @param windowID String
    */
   public void setWindowID(String windowID) {
@@ -92,6 +96,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get markup context.
+   * 
    * @return markupContext
    */
   public MarkupContext getCachedMarkup() {
@@ -100,6 +105,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set markup context.
+   * 
    * @param markupContext MarkupContext
    */
   public void updateMarkupCache(MarkupContext markupContext) {
@@ -108,6 +114,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get portlet session.
+   * 
    * @return portletSession
    */
   public PortletSession getPortletSession() {
@@ -116,7 +123,8 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set portlet session.
-   * @param  portletSession PortletSession
+   * 
+   * @param portletSession PortletSession
    */
   public void setPortletSession(PortletSession portletSession) {
     this.portletSession = portletSession;
@@ -132,6 +140,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get navigational state.
+   * 
    * @return navigationalState
    */
   public String getNavigationalState() {
@@ -140,6 +149,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set navigational state.
+   * 
    * @param navigationalState String
    */
   public void setNavigationalState(String navigationalState) {
@@ -150,6 +160,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get cached resource.
+   * 
    * @return resourceContext
    */
   public ResourceContext getCachedResource() {
@@ -158,6 +169,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Update resource cache.
+   * 
    * @param resourceContext ResourceContext
    */
   public void updateResourceCache(ResourceContext resourceContext) {
@@ -166,6 +178,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get resource context.
+   * 
    * @return resourceContext
    */
   public ResourceContext getResourceContext() {
@@ -174,7 +187,8 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set resource context.
-   * @param  resourceContext ResourceContext
+   * 
+   * @param resourceContext ResourceContext
    */
   public void setResourceContext(ResourceContext resourceContext) {
     this.resourceContext = resourceContext;
@@ -182,6 +196,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get navigational values.
+   * 
    * @return navigationalValues
    */
   public List<NamedString> getNavigationalValues() {
@@ -190,6 +205,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set navigational values.
+   * 
    * @param navigationalValues List
    */
   public void setNavigationalValues(List<NamedString> navigationalValues) {
@@ -198,6 +214,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get interaction state.
+   * 
    * @return interactionState
    */
   public String getInteractionState() {
@@ -206,6 +223,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set interaction state.
+   * 
    * @param interactionState String
    */
   public void setInteractionState(String interactionState) {
@@ -214,6 +232,7 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Get resource state.
+   * 
    * @return resourceState
    */
   public String getResourceState() {
@@ -222,10 +241,27 @@ public class PortletWindowSessionAdapter implements PortletWindowSession {
 
   /**
    * Set resource state.
+   * 
    * @param resourceState String
    */
   public void setResourceState(String resourceState) {
     this.resourceState = resourceState;
+  }
+
+  public void setMode(String mode) {
+    this.mode = mode;
+  }
+
+  public String getMode() {
+    return mode;
+  }
+
+  public void setWindowState(String windowState) {
+    this.windowState = windowState;
+  }
+
+  public String getWindowState() {
+    return windowState;
   }
 
 }
