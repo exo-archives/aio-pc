@@ -1,0 +1,437 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             version="1.0">
+  
+  <portlet>
+    <description xml:lang="EN">PortletToTestFilters</description>
+    <portlet-name>PortletToTestFilters</portlet-name>
+    <display-name xml:lang="en">PortletToTestFilters</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestFilters</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Test Filters</title>
+      <short-title>Test Filters</short-title>
+      <keywords>Test, Filters</keywords>
+    </portlet-info>
+  </portlet>
+
+
+<portlet>
+    <description xml:lang="EN">PortletToTestFilters2</description>
+    <portlet-name>PortletToTestFilters2</portlet-name>
+    <display-name xml:lang="en">PortletToTestFilters2</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestFilters2</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Test Filters2</title>
+      <short-title>Test Filters</short-title>
+      <keywords>Test, Filters</keywords>
+    </portlet-info>
+  </portlet>
+
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestNonUsageOfUndefinedState2</description>
+    <portlet-name>PortletToTestNonUsageOfUndefinedState2</portlet-name>
+    <display-name xml:lang="en">PortletToTestNonUsageOfUndefinedState2</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestNonUsageOfUndefinedState2</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+      <window-state>half-page</window-state>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Time Zone Clock</title>
+      <short-title>TimeZone</short-title>
+      <keywords>Time, Zone, World, Clock</keywords>
+    </portlet-info>
+  </portlet>
+  
+  <portlet>
+    <description xml:lang="EN">PortletToTestEvents</description>
+    <portlet-name>PortletToTestEvents</portlet-name>
+    <display-name xml:lang="en">PortletToTestEvents</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestEvents</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>TestEvents</title>
+      <short-title>TestEvents</short-title>
+      <keywords>Test, Events</keywords>
+    </portlet-info>
+    <supported-processing-event><name>MyEventProc</name></supported-processing-event>
+    <supported-processing-event><name>MyEvent</name></supported-processing-event>
+    <supported-publishing-event><name>MyEventPub</name></supported-publishing-event>
+    <supported-publishing-event><name>MyEvent</name></supported-publishing-event>
+  </portlet>
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestServeResource</description>
+    <portlet-name>PortletToTestServeResource</portlet-name>
+    <display-name xml:lang="EN">PortletToTestServeResource</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestServeResource</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>TestServeResource</title>
+      <short-title>TestServeResource</short-title>
+      <keywords>Test, Serve, Resource</keywords>
+    </portlet-info>
+  </portlet>
+  
+  <portlet>
+    <description xml:lang="EN">PortletToTestRenderParamsAviability</description>
+    <portlet-name>PortletToTestRenderParamsAviability</portlet-name>
+    <display-name xml:lang="EN">PortletToTestRenderParamsAviability</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestRenderParamsAviability</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestRenderParamsAviability</title>
+      <short-title>PortletToTestRenderParamsAviability</short-title>
+      <keywords>Test, Serve,RenderParamsAviability</keywords>
+    </portlet-info>
+  </portlet>
+  
+  <portlet>
+    <description xml:lang="EN">PortletToTestServeResource2</description>
+    <portlet-name>PortletToTestServeResource2</portlet-name>
+    <display-name xml:lang="EN">PortletToTestServeResource2</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestServeResource2</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>TestServeResource2</title>
+      <short-title>TestServeResource2</short-title>
+      <keywords>Test, Serve, Resource,2</keywords>
+    </portlet-info>
+  </portlet>
+
+<portlet>
+    <description xml:lang="EN">PortletToTestServeResource3</description>
+    <portlet-name>PortletToTestServeResource3</portlet-name>
+    <display-name xml:lang="EN">PortletToTestServeResource3</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestServeResource3</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>TestServeResource3</title>
+      <short-title>TestServeResource3</short-title>
+      <keywords>Test, Serve, Resource,3</keywords>
+    </portlet-info>
+  </portlet>
+
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestPublicRenderParameters</description>
+    <portlet-name>PortletToTestPublicRenderParameters</portlet-name>
+    <display-name xml:lang="EN">PortletToTestPublicRenderParameters</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestPublicRenderParameters</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestPublicRenderParameters</title>
+      <short-title>PortletToTestPublicRenderParameters</short-title>
+    </portlet-info>
+    <supported-public-render-parameter>public1</supported-public-render-parameter>
+    <supported-public-render-parameter>public2</supported-public-render-parameter>
+  </portlet>
+
+
+<portlet>
+    <description xml:lang="EN">PortletToTestPortletUnavailable</description>
+    <portlet-name>PortletToTestPortletUnavailable</portlet-name>
+    <display-name xml:lang="EN">PortletToTestPortletUnavailable</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestPortletUnavailable</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestPortletUnavailable</title>
+      <short-title>PortletToTestPortletUnavailable</short-title>
+    </portlet-info>
+  </portlet>
+
+
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestBaseURL</description>
+    <portlet-name>PortletToTestBaseURL</portlet-name>
+    <display-name xml:lang="EN">PortletToTestBaseURL</display-name>
+     <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestBaseURL</portlet-class>
+    <cache-scope>PRIVATE</cache-scope> 
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestBaseURL</title>
+      <short-title>PortletToTestBaseURL</short-title>
+    </portlet-info>
+  </portlet>
+  
+  <portlet>
+    <description xml:lang="EN">PortletToTestBaseURL2</description>
+    <portlet-name>PortletToTestBaseURL2</portlet-name>
+    <display-name xml:lang="EN">PortletToTestBaseURL2</display-name>
+     <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestBaseURL2</portlet-class>
+    <cache-scope>PRIVATE</cache-scope> 
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestBaseURL2</title>
+      <short-title>PortletToTestBaseURL2</short-title>
+    </portlet-info>
+  </portlet>
+
+
+<portlet>
+    <description xml:lang="EN">PortletToTestWindowID</description>
+    <portlet-name>PortletToTestWindowID</portlet-name>
+    <display-name xml:lang="EN">PortletToTestWindowID</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestWindowID</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestWindowID</title>
+      <short-title>PortletToTestWindowID</short-title>
+    </portlet-info>
+  </portlet>
+
+
+<portlet>
+    <description xml:lang="EN">PortletToTestNamespacing</description>
+    <portlet-name>PortletToTestNamespacing</portlet-name>
+    <display-name xml:lang="EN">PortletToTestNamespacing</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestNamespacing</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestNamespacing</title>
+      <short-title>PortletToTestNamespacing</short-title>
+    </portlet-info>
+  </portlet>
+
+
+<portlet>
+    <description xml:lang="EN">PortletToTestNamespacing2</description>
+    <portlet-name>PortletToTestNamespacing2</portlet-name>
+    <display-name xml:lang="EN">PortletToTestNamespacing2</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestNamespacing2</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestNamespacing2</title>
+      <short-title>PortletToTestNamespacing2</short-title>
+    </portlet-info>
+  </portlet>
+
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestResourceURL</description>
+    <portlet-name>PortletToTestResourceURL</portlet-name>
+    <display-name xml:lang="EN">PortletToTestResourceURL</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestResourceURL</portlet-class>
+     <expiration-cache>30</expiration-cache> 
+   <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestResourceURL</title>
+      <short-title>PortletToTestResourceURL</short-title>
+    </portlet-info>
+  </portlet>
+
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestCacheability</description>
+    <portlet-name>PortletToTestCacheability</portlet-name>
+    <display-name xml:lang="EN">PortletToTestCacheability</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestCacheability</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestCacheability</title>
+      <short-title>PortletToTestCacheability</short-title>
+    </portlet-info>
+  </portlet>
+  
+  
+  
+
+  <portlet>
+    <description xml:lang="EN">PortletToTestBaseParameterEncoding</description>
+    <portlet-name>PortletToTestBaseParameterEncoding</portlet-name>
+    <display-name xml:lang="EN">PortletToTestBaseParameterEncoding</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestBaseParameterEncoding</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestBaseParameterEncoding</title>
+      <short-title>PortletToTestBaseParameterEncoding</short-title>
+    </portlet-info>
+  </portlet>
+
+
+<portlet>
+    <description xml:lang="EN">PortletToTestUserInfo</description>
+    <portlet-name>PortletToTestUserInfo</portlet-name>
+    <display-name xml:lang="EN">PortletToTestUserInfo</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestUserInfo</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>PortletToTestUserInfo</title>
+      <short-title>PortletToTestUserInfo</short-title>
+    </portlet-info>
+  </portlet>
+
+  
+  <portlet>
+    <description xml:lang="EN">PortletToTestStateSupport</description>
+    <portlet-name>PortletToTestStateSupport</portlet-name>
+    <display-name xml:lang="en">PortletToTestStateSupport</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet.PortletToTestStateSupport</portlet-class>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>config</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+      <window-state>half-page</window-state>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>Time Zone Clock</title>
+      <short-title>TimeZone</short-title>
+      <keywords>Time, Zone, World, Clock</keywords>
+    </portlet-info>
+  </portlet>
+
+  <custom-portlet-mode>
+    <description xml:lang="EN">Pre-defined custom portlet mode CONFIG</description>
+    <portlet-mode>CONFIG</portlet-mode>
+  </custom-portlet-mode>
+
+  <custom-window-state>
+    <description xml:lang="EN">Occupies 50% of the portal page</description>
+    <window-state>half-page</window-state>
+  </custom-window-state>
+
+  <filter>
+    <filter-name>ActionLoggerFilter</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.filter.ActionLoggerFilter</filter-class>
+    <lifecycle>ACTION_PHASE</lifecycle>
+    <init-param>
+      <name>default-param</name>
+      <value>default-param-value</value>
+    </init-param>
+  </filter>
+
+  <filter>
+    <filter-name>RenderLoggerFilter</filter-name>
+    <filter-class>org.exoplatform.services.portletcontainer.test.filter.RenderLoggerFilter</filter-class>
+    <lifecycle>RENDER_PHASE</lifecycle>
+  </filter>
+
+  <filter-mapping>
+    <filter-name>ActionLoggerFilter</filter-name>
+    <portlet-name>PortletToTestFilter*</portlet-name>
+<!--    <portlet-name>PortletToTestFilter</portlet-name> -->
+  </filter-mapping>
+
+  <filter-mapping>
+    <filter-name>RenderLoggerFilter</filter-name>
+    <portlet-name>PortletToTestFilters</portlet-name>
+  </filter-mapping>
+  
+
+  <default-namespace>test.name.space</default-namespace>
+
+  <event-definition>
+    <name>MyEventProc</name>
+    <value-type>java.lang.String</value-type>
+  </event-definition>
+  
+  <event-definition>
+    <name>MyEventPub</name>
+    <value-type>java.lang.String</value-type>
+  </event-definition>
+  
+  <event-definition>
+    <name>MyEvent</name>
+    <value-type>java.lang.String</value-type>
+  </event-definition>
+  
+  <public-render-parameter>
+    <identifier>public1</identifier>
+    <name>public1</name>
+  </public-render-parameter>
+
+  <public-render-parameter>
+    <identifier>public2</identifier>
+    <name>public2</name>
+  </public-render-parameter>
+  
+</portlet-app>
