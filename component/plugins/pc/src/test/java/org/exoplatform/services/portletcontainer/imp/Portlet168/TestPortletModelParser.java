@@ -39,7 +39,7 @@ public class TestPortletModelParser extends BaseTest {
 
 
   public void testPortletModelParser() throws Exception {
-    URL url = new URL("file:" + TEST_PATH + "/war_template/WEB-INF/portlet.xml");
+    URL url = new URL("file:" + TEST_PATH + "/src/test/war_template/WEB-INF/portlet.xml");
     InputStream is = url.openStream() ;
     assertNotNull(is);
     PortletApp pc = XMLParser.parse(is,false) ; //First portlet specification - JSR 168

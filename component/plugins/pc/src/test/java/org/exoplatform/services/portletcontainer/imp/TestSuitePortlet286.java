@@ -52,7 +52,7 @@ public class TestSuitePortlet286 extends TestSuite {
   public TestSuitePortlet286() {
     log.info("Preparing Portlet286 tests....");
 
-    String newProperty = System.getProperty("basedir") + "/war_template2";
+    String newProperty = System.getProperty("basedir") + "/src/test/war_template2";
     System.setProperty("mock.portal.dir", newProperty);
     System.setProperty("maven.exoplatform.dir", newProperty);
 

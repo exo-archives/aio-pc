@@ -938,8 +938,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    */
   private void initTests() {
     //     defined for test purposes
-    final String PORTLET_APP_PATH = "file:./war_template/";
-    String PORTLET_APP_PATH2 = "file:" + System.getProperty("testPath") + "/war_template";
+    final String PORTLET_APP_PATH = "file:./src/test/war_template/";
+    String PORTLET_APP_PATH2 = "file:" + System.getProperty("testPath") + "/src/test/war_template";
 
     try {
       URL[] URLs = { new URL(PORTLET_APP_PATH + "WEB-INF/classes/"),
@@ -958,7 +958,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    */
   private void initTests2() {
     // defined for test purposes
-    // protected static final String PORTLET_APP_PATH = "file:./war_template2/";
+    // protected static final String PORTLET_APP_PATH = "file:./src/test/war_template2/";
     // String PORTLET_APP_PATH = "file:" + System.getProperty("testPath") +
     // "/war_template2";
 

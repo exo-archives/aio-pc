@@ -109,7 +109,7 @@
   </dependencies>
 
   <!-- properties>
-    <war.dir>${basedir}/war_template</war.dir>
+    <war.dir>${basedir}/src/test/war_template</war.dir>
     </properties -->
 
   <build>
@@ -126,11 +126,11 @@
                 <!-- JSR 168 portlets -->
                 <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
-                  <fileset dir="${basedir}/war_template/src">
+                  <fileset dir="${basedir}/src/test/war_template/src">
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                <javac fork="true" srcdir="${basedir}/src/test/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
                   deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
@@ -140,11 +140,11 @@
                 <!-- JSR 286 portlets -->
                 <mkdir dir="${basedir}/target/test-classes/" />
                 <copy todir="${basedir}/target/test-classes/">
-                  <fileset dir="${basedir}/war_template2/src">
+                  <fileset dir="${basedir}/src/test/war_template2/src">
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
+                <javac fork="true" srcdir="${basedir}/src/test/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
                   deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />

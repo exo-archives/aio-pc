@@ -49,7 +49,7 @@ public class TestSuitePortlet168 extends TestSuite {
   public TestSuitePortlet168() {
     log.info("Preparing Portlet168 tests....");
 
-    String newProperty = System.getProperty("basedir") + "/war_template";
+    String newProperty = System.getProperty("basedir") + "/src/test/war_template";
     System.setProperty("mock.portal.dir", newProperty);
     System.setProperty("maven.exoplatform.dir", newProperty);
 
