@@ -139,8 +139,9 @@ public class PortletApplicationListener implements ServletContextListener {
       }
       if (xpp.node("role-name")) {
         roles.add(xpp.getContent());
-        while (xpp.node("security-role"))
+        while (xpp.node("security-role")) {
           roles.add(xpp.mandatoryNodeContent("role-name"));
+        }
       }
       log.info("  -- read: " + portletApp.getPortlet().size() + " portlets");
       PortletApplicationRegister service = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
@@ -149,8 +150,9 @@ public class PortletApplicationListener implements ServletContextListener {
     } catch (Throwable e) {
       log.error("Cannot deploy " + portletAppName, e);
     } finally {
-      if (oldParser != null)
+      if (oldParser != null) {
         System.setProperty("javax.xml.parsers.DocumentBuilderFactory", oldParser);
+      }
     }
   }
 

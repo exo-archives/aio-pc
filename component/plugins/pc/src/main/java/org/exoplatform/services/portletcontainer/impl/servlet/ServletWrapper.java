@@ -53,17 +53,17 @@ public class ServletWrapper extends HttpServlet {
   /**
    * Session data.
    */
-  HashMap<String, Object> session_data = new HashMap<String, Object>();
+  HashMap<String, Object>  session_data = new HashMap<String, Object>();
 
   /**
    * Temp data.
    */
-  HashMap<String, Object> tmp_data     = new HashMap<String, Object>();
+  HashMap<String, Object>  tmp_data     = new HashMap<String, Object>();
 
   /**
    * The logger.
    */
-  private static final Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+  private static final Log log          = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
 
   /**
    * Overridden method.
@@ -165,7 +165,7 @@ public class ServletWrapper extends HttpServlet {
 //          tmp_data.put(attrname, obj);
         }
         // Cheking for deleted keys
-        Iterator it = tmp_data.keySet().iterator(); 
+        Iterator it = tmp_data.keySet().iterator();
         while (it.hasNext()) {
           String a = (String) it.next();
           if (!session_data.containsKey(a)) {

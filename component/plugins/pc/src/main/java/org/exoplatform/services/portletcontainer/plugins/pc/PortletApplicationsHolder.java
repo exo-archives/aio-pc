@@ -348,9 +348,9 @@ public class PortletApplicationsHolder {
     public PortletApplicationHelper(final String portletAppName,
                                     final PortletApp portletApp,
                                     final Collection<String> roles) {
+      this.portletAppName = portletAppName;
       this.portletApp = portletApp;
       this.roles = roles;
-      this.portletAppName = portletAppName;
     }
 
     /**

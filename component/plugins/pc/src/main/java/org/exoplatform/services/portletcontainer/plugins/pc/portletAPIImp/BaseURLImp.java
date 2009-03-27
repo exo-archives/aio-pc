@@ -96,7 +96,7 @@ public abstract class BaseURLImp implements BaseURL {
       final Portlet portletDatas) {
     this.setType(type);
     this.baseURL = baseURL;
-    this.setCurrentlySecured(isCurrentlySecured);
+    this.isCurrentlySecured = isCurrentlySecured;
     this.defaultEscapeXml = defaultEscapeXml;
     this.portletDatas = portletDatas;
   }

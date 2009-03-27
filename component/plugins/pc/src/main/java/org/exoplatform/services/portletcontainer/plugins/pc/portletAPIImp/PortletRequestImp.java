@@ -350,13 +350,13 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     String inputPortletMode = reqCtx.getInput().getPortletMode().toString();
     for (Object element : reqCtx.getSupportedContents()) {
       String supportedContent = (String) element;
-      List l = reqCtx.getPortletDatas().getSupports();
+      List<Supports> l = reqCtx.getPortletDatas().getSupports();
       for (int i = 0; i < l.size(); i++) {
         Supports supportsType = (Supports) l.get(i);
         String mimeType = supportsType.getMimeType();
         if (supportedContent.equals(mimeType) && !supportedContent.equals(markup)) {
-          List portletModes = supportsType.getPortletMode();
-          for (Iterator iter2 = portletModes.iterator(); iter2.hasNext();) {
+          List<String> portletModes = supportsType.getPortletMode();
+          for (Iterator<String> iter2 = portletModes.iterator(); iter2.hasNext();) {
             String portletMode = (String) iter2.next();
             if (portletMode.equals(inputPortletMode)) {
               result.add(mimeType);
@@ -377,8 +377,8 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
    * @see javax.servlet.http.HttpServletRequestWrapper#isUserInRole(java.lang.String)
    */
   public final boolean isUserInRole(final String role) {
-    List l = reqCtx.getPortletDatas().getSecurityRoleRef();
-    for (Iterator iterator = l.iterator(); iterator.hasNext();) {
+    List<SecurityRoleRef> l = reqCtx.getPortletDatas().getSecurityRoleRef();
+    for (Iterator<SecurityRoleRef> iterator = l.iterator(); iterator.hasNext();) {
       SecurityRoleRef securityRoleRef = (SecurityRoleRef) iterator.next();
       if (securityRoleRef.getRoleName().equals(role)) {
         String roleLink = securityRoleRef.getRoleLink();
@@ -534,7 +534,7 @@ public abstract class PortletRequestImp extends HttpServletRequestWrapper implem
     List<Locale> locales = reqCtx.getInput().getLocales();
     if (locales != null)
       return Collections.enumeration(locales);
-    return super.getLocales();
+    return (Enumeration<Locale>) super.getLocales();
   }
 
   /**

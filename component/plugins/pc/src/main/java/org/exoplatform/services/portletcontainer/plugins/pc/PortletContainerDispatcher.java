@@ -718,7 +718,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                    final HttpServletResponse httpServletResponse,
                                    final RenderInput renderInput) throws PortletContainerException {
     LOG.debug("Render method in PortletContainerDispatcher entered");
-    
+
     return (RenderOutput) process(httpServletRequest,
                                   httpServletResponse,
                                   renderInput,
