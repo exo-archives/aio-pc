@@ -138,17 +138,15 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
-  private List<String>              characterEncodings = new ArrayList<String>();                      // = { "UTF-8" };
+  private List<String>              characterEncodings = new ArrayList<String>();
 
-  private List<String>              mimeTypes          = new ArrayList<String>();                      //= { "text/html", "text/wml" };
+  private List<String>              mimeTypes          = new ArrayList<String>();
 
-  public List<String>               SUPPORTED_LOCALES  = new ArrayList<String>();                      //= { "en", "fr" };
+  public List<String>               SUPPORTED_LOCALES  = new ArrayList<String>();
 
   private static final String       consumerAgent      = WSRPConstants.DEFAULT_consumerAgentName;
 
   private static final String       userAgent          = "userAgent";
-
-  //  private static final String       basePath           = "/portal/";
 
   protected WSRPAdminPortletDataImp adminPortlet       = null;
 
@@ -435,6 +433,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     if (pcUniqueID != null) {
       result += Constants.PORTLET_HANDLE_ENCODER + pcUniqueID;
     }
+    if (LOG.isDebugEnabled())
+      LOG.debug("WSRPConsumerPlugin.getPortletHandle() result ");
     return result;
   }
 
@@ -720,10 +720,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // TODO get wsrp portlet handle from special request parameter if it was an URL request
     Map<String, String> parsedParams = parseParams(input.getRenderParameters());
 
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
+    String wsrpPortletHandle = null;// parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
 
     // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, null);
 
     if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
       throw new PortletContainerException("There is no producer instance with id = '"
@@ -852,10 +852,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // TODO get wsrp portlet handle from special request parameter if it was an URL request
     Map<String, String> parsedParams = parseParams(input.getRenderParameters());
 
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-
     // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, null);
 
     if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
       throw new PortletContainerException("There is no producer instance with id = '"
@@ -994,10 +992,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // TODO get wsrp portlet handle from special request parameter if it was an URL request
     Map<String, String> parsedParams = parseParams(input.getRenderParameters());
 
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-
     // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, null);
 
     if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
       throw new PortletContainerException("There is no producer instance with id = '"
@@ -1139,10 +1135,8 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     // TODO get wsrp portlet handle from special request parameter if it was an URL request
     Map<String, String> parsedParams = parseParams(input.getRenderParameters());
 
-    String wsrpPortletHandle = parsedParams.get(WSRPConstants.WSRP_PORTLET_HANDLE);
-
     // Get WSRP Portlet instance
-    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, wsrpPortletHandle);
+    WSRPPortlet portlet = getPortlet(producerID, pcFullPortletHandle, null);
 
     if (getProducer(portlet.getPortletKey().getProducerId()) == null) {
       throw new PortletContainerException("There is no producer instance with id = '"
@@ -1235,7 +1229,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   }
 
-  private String getValueByKey(String key, Map<String, String[]> renderParameters) {
+  private String getValueByKey0(String key, Map<String, String[]> renderParameters) {
     String[] ssPortletHandle = renderParameters.get(key);
     if (ssPortletHandle != null) {
       return ssPortletHandle[0];
@@ -1247,56 +1241,29 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   private Map<String, String> parseParams(Map<String, String[]> renderParameters) {
     Map<String, String> newParams = new HashMap<String, String>();
 
-    //
     // GENERIC PARAMS
-    //
 
-    //WSRPConstants.WSRP_PORTLET_HANDLE
     newParams.put(WSRPConstants.WSRP_PORTLET_HANDLE,
-                  getValueByKey(WSRPConstants.WSRP_PORTLET_HANDLE, renderParameters));
+                  getValueByKey0(WSRPConstants.WSRP_PORTLET_HANDLE, renderParameters));
 
-    //WSRPConstants.WSRP_USER_CONTEXT_KEY
     newParams.put(WSRPConstants.WSRP_USER_CONTEXT_KEY,
-                  getValueByKey(WSRPConstants.WSRP_USER_CONTEXT_KEY, renderParameters));
+                  getValueByKey0(WSRPConstants.WSRP_USER_CONTEXT_KEY, renderParameters));
 
-    //WSRPConstants.WSRP_PORTLET_INSTANCE_KEY
     newParams.put(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY,
-                  getValueByKey(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY, renderParameters));
+                  getValueByKey0(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY, renderParameters));
 
-    //WSRPConstants.WSRP_SESSION_ID
-    newParams.put(WSRPConstants.WSRP_SESSION_ID, getValueByKey(WSRPConstants.WSRP_SESSION_ID,
+    newParams.put(WSRPConstants.WSRP_SESSION_ID, getValueByKey0(WSRPConstants.WSRP_SESSION_ID,
                                                                renderParameters));
 
     //WSRPConstants.WSRP_PAGE_STATE
     //WSRPConstants.WSRP_PORTLET_STATES
 
-    //
-    // OTHER PARAMS
-    //
-
-    //WSRPConstants.WSRP_URL_TYPE
-    //WSRPConstants.WSRP_MODE
-    //WSRPConstants.WSRP_WINDOW_STATE
-    //WSRPConstants.WSRP_SECURE_URL
-
+    // COMMON PARAMS
     //WSRPConstants.WSRP_FRAGMENT_ID
-    //WSRPConstants.WSRP_EXTENSIONS
-    //WSRPConstants.WSRP_SECURE_URL
 
-    // for action and render urls
-    //WSRPConstants.WSRP_NAVIGATIONAL_STATE
-    //WSRPConstants.WSRP_NAVIGATIONAL_VALUES
-
-    //only for action urls
-    //WSRPConstants.WSRP_INTERACTION_STATE
-
-    //WSRPConstants.WSRP_FRAGMENT_ID
-    //WSRPConstants.WSRP_EXTENSIONS
-
-    // only for resource urls
-    //WSRPConstants.WSRP_URL
+    // RESOURCE PARAMS
     //WSRPConstants.WSRP_RESOURCE_ID
-    //WSRPConstants.WSRP_RESOURCE_STATE
+    //WSRPConstants.WSRP_URL
     //WSRPConstants.WSRP_RESOURCE_CACHEABILITY
     //WSRPConstants.WSRP_REQUIRES_REWRITE
     //WSRPConstants.WSRP_PREFER_OPERATION
@@ -1438,24 +1405,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return userProfile;
   }
 
-  @Deprecated
-  private WSRPPortlet getPortlet(PortletKey portletKey, String parentHandle) throws PortletContainerException {
-//    try {
-//      WSRPPortlet portlet = null;
-//      if (portletKey != null) {
-//        portlet = consumer.getPortletRegistry().getPortlet(portletKey);
-//        if (portlet == null) {
-//          portlet = createWSRPPortlet(portletKey, parentHandle, null);
-//          consumer.getPortletRegistry().addPortlet(portlet);
-//        }
-//      }
-//      return portlet;
-//    } catch (WSRPException e) {
-//      throw new PortletContainerException(e.getMessage(), e);
-//    }
-    return null;
-  }
-
   private PortletWindowSession getWindowSession(WSRPPortlet portlet,
                                                 UserSession userSession,
                                                 String windowID) throws WSRPException {
@@ -1565,15 +1514,16 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
     // For RuntimeContext
     // TODO
-    String sid = getValueByKey(WSRPConstants.WSRP_SESSION_ID, input.getRenderParameters());
+    String sid = getValueByKey0(WSRPConstants.WSRP_SESSION_ID, input.getRenderParameters());
     SessionContext sc = portletWindowSession.getPortletSession().getSessionContext();
     if (sc != null) {
       baseRequest.setSessionID(sc.getSessionID());
     }
 
-    String pik = getValueByKey(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY, input.getRenderParameters());
+//    String pik = getValueByKey0(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY, input.getRenderParameters());
+    String pik = input.getInternalWindowID().getUniqueID();
 
-    baseRequest.setPortletInstanceKey(pik);//input.getInternalWindowID().getUniqueID());
+    baseRequest.setPortletInstanceKey(pik);
 
     // TODO
 //    baseRequest.setUserAuthentication(WSRPConstants.AUTH_NO_USER_AUTHENTIFICATION);
@@ -1678,28 +1628,15 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     }
   }
 
-  private void updatePortletContext(PortletContext portletContext, WSRPPortlet portlet) throws WSRPException {
-    if (portletContext != null && portlet != null) {
+  private void updatePortletContext(PortletContext newPortletContext, WSRPPortlet portlet) throws WSRPException {
+    if (newPortletContext != null && portlet != null) {
       LOG.info("update portlet context");
-      String newPortletHandle = portletContext.getPortletHandle();
-//      PortletKey portletKey = portlet.getPortletKey();
-      // if returned PortletHandle not same as stored PortletHandle
-      // then create WSRPPortlet with new PortletKey 
+      String newPortletHandle = newPortletContext.getPortletHandle();
       if (newPortletHandle != null && !newPortletHandle.equals(portlet.getPortletHandle())) {
         LOG.info("portlet was cloned, new handle : " + newPortletHandle);
-//        String producerID = portletKey.getProducerId();
-        // create new PortletKey
-//        PortletKey newPortletKey = new PortletKeyAdapter();
-//        portletKey.setPortletHandle(newPortletHandle);
-//        portletKey.setProducerId(producerID);
-//        String parentHandle = portlet.getPortletKey().getPortletHandle();
-        // create new WSRPPortlet
-//        portlet.setPortletHandle(portletContext.getPortletHandle());
-//        portlet = createWSRPPortlet(portlet.getPortletKey(), portlet.getParent(), newPortletHandle);
-//        consumer.getPortletRegistry().addPortlet(portlet);
       }
       // update PortletContext
-      portlet.setPortletContext(portletContext);
+      portlet.setPortletContext(newPortletContext);
       consumer.getPortletRegistry().addPortlet(portlet);
     }
   }
@@ -1864,8 +1801,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     return result;
   }
 
-  ////////////// newest
-
   private WSRPPortlet getPortlet(String producerID,
                                  String pcFullPortletHandle,
                                  String wsrpPortletHandle) throws PortletContainerException {
@@ -1889,9 +1824,9 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
         // store WSRP portlet
         consumer.getPortletRegistry().addPortlet(portlet);
       }
-
       // do we need to update wsrp portlet handle got from URL
-      if (!wsrpPortletHandle.equalsIgnoreCase(portlet.getPortletHandle())) {
+      if (wsrpPortletHandle != null
+          && !wsrpPortletHandle.equalsIgnoreCase(portlet.getPortletHandle())) {
         portlet.setPortletHandle(wsrpPortletHandle);
       }
       return portlet;
@@ -1905,21 +1840,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     String[] ss = StringUtils.split(pcFullPortletHandle, "/");
     simplePortletHandle = ss[0] + "/" + ss[1];
     return simplePortletHandle;
-  }
-
-  @Deprecated
-  private PortletKey getPortletKey(String producerID, String pcFullPortletHandle) {
-    PortletKey portletKey = consumer.getPortletRegistry().getPortletKey(producerID,
-                                                                        pcFullPortletHandle);
-    if (portletKey == null) {
-//      portletKey = new PortletKeyAdapter();
-//      portletKey.setProducerId(producerID);
-//      portletKey.setPortletHandle(pcFullPortletHandle);
-//      LOG.debug("Created new PortletKey with producerID = '" + producerID
-//          + "' and  portletHandle = '" + pcFullPortletHandle + "'");
-    }
-
-    return portletKey;
   }
 
   private WSRPPortlet createWSRPPortlet(PortletKey portletKey,

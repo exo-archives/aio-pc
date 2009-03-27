@@ -32,6 +32,7 @@ import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ProducerRewriterPor
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws1.ProducerRewriterResourceURLImp1;
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterPortletURLImp2;
 import org.exoplatform.services.wsrp2.producer.impl.urls.ws2.ProducerRewriterResourceURLImp2;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.Templates;
 
 /**
@@ -65,6 +66,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
 
   private String                 user;
 
+  private RuntimeContext         runtimeContext;
+
   public WSRPProducerRewriterPortletURLFactory(String mimeType,
                                                Templates templates,
                                                List<Supports> supports,
@@ -76,7 +79,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                String cacheLevel,
                                                List<String> supportedPublicRenderParameter,
                                                Portlet portlet,
-                                               String user) {
+                                               String user,
+                                               RuntimeContext runtimeContext) {
     this.mimeType = mimeType;
     this.supports = supports;
     this.isCurrentlySecured = isCurrentlySecured;
@@ -89,7 +93,8 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.portlet = portlet;
     this.user = user;
-    
+    this.runtimeContext = runtimeContext;
+
     this.version = WSRPHTTPContainer.getInstance().getVersion();
   }
 
@@ -103,20 +108,22 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                 portletHandle,
                                                 persistentStateManager,
                                                 sessionID,
-                                                user);
+                                                user,
+                                                runtimeContext);
     } else {
       return new ProducerRewriterPortletURLImp2(type,
-                                               templates,
-                                               mimeType,
-                                               supports,
-                                               isCurrentlySecured,
-                                               portletHandle,
-                                               persistentStateManager,
-                                               sessionID,
-                                               defaultEscapeXml,
-                                               supportedPublicRenderParameter,
-                                               portlet,
-                                               user);
+                                                templates,
+                                                mimeType,
+                                                supports,
+                                                isCurrentlySecured,
+                                                portletHandle,
+                                                persistentStateManager,
+                                                sessionID,
+                                                defaultEscapeXml,
+                                                supportedPublicRenderParameter,
+                                                portlet,
+                                                user,
+                                                runtimeContext);
     }
   }
 
@@ -128,19 +135,21 @@ public class WSRPProducerRewriterPortletURLFactory implements PortletURLFactory 
                                                  portletHandle,
                                                  persistentStateManager,
                                                  sessionID,
-                                                 user);
+                                                 user,
+                                                 runtimeContext);
     } else {
       return new ProducerRewriterResourceURLImp2(type,
-                                                templates,
-                                                isCurrentlySecured,
-                                                portletHandle,
-                                                persistentStateManager,
-                                                sessionID,
-                                                defaultEscapeXml,
-                                                cacheLevel,
-                                                supportedPublicRenderParameter,
-                                                portlet,
-                                                user);
+                                                 templates,
+                                                 isCurrentlySecured,
+                                                 portletHandle,
+                                                 persistentStateManager,
+                                                 sessionID,
+                                                 defaultEscapeXml,
+                                                 cacheLevel,
+                                                 supportedPublicRenderParameter,
+                                                 portlet,
+                                                 user,
+                                                 runtimeContext);
     }
   }
 

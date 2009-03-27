@@ -42,6 +42,7 @@ import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.portletcontainer.plugins.pc.replication.FakeHttpResponse;
 import org.exoplatform.services.wsrp2.ContainerStarter;
+import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
@@ -51,6 +52,8 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2MarkupPor
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2PortletManagementPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2RegistrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.v2.WSRPV2ServiceDescriptionPortTypeAdapter;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.URLGeneratorImpl;
+import org.exoplatform.services.wsrp2.consumer.impl.urls.URLRewriterImpl;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.producer.impl.utils.CalendarUtils;
@@ -153,6 +156,8 @@ public class BaseTest extends TestCase {
   protected Lifetime                                 lifetime;
 
   protected RegistrationContext                      registrationContext;
+
+  protected URLRewriter                              urlRewriter;
 
   protected static final String[]                    USER_CATEGORIES_ARRAY    = { "full",
       "standard", "minimal"                                                  };
@@ -295,6 +300,8 @@ public class BaseTest extends TestCase {
     templates.setDefaultTemplate(DEFAULT_TEMPLATE);
     templates.setRenderTemplate(RENDER_TEMPLATE);
     templates.setBlockingActionTemplate(BLOCKING_TEMPLATE);
+    
+    urlRewriter = new URLRewriterImpl(new URLGeneratorImpl());
 
     sessionParams = new SessionParams();
     sessionParams.setSessionID(null);
@@ -515,6 +522,36 @@ public class BaseTest extends TestCase {
       fail("WSRPConfiguration returns null REQUIRES_REGISTRATION property");
     }
     return Boolean.parseBoolean(responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION));
+  }
+
+  protected void setRequiresTemplate(boolean isRequiresTemplate) {
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    String requestProps = WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING.concat("=")
+                                                                        .concat(String.valueOf(isRequiresTemplate));
+    responseProps = administrationPort.getServiceAdministration(requestProps);
+    if (!responseProps.containsKey(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)) {
+      fail("WSRPConfiguration doesn't return DOES_URL_TEMPLATE_PROCESSING property");
+    }
+    if (!responseProps.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)
+                      .equalsIgnoreCase(String.valueOf(isRequiresTemplate))) {
+      fail("WSRPConfiguration doesn't return properly modified DOES_URL_TEMPLATE_PROCESSING property");
+    }
+  }
+
+  protected boolean getRequiresTemplate() {
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    responseProps = administrationPort.getServiceAdministration("");
+    if (!responseProps.containsKey(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)) {
+      fail("WSRPConfiguration doesn't return DOES_URL_TEMPLATE_PROCESSING property");
+    }
+    if (responseProps.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING) == null) {
+      fail("WSRPConfiguration returns null DOES_URL_TEMPLATE_PROCESSING property");
+    }
+    return Boolean.parseBoolean(responseProps.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING));
   }
 
 }

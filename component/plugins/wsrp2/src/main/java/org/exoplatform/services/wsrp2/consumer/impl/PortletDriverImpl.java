@@ -18,7 +18,9 @@
 package org.exoplatform.services.wsrp2.consumer.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
@@ -80,6 +82,7 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
+import org.exoplatform.services.wsrp2.type.SessionContext;
 import org.exoplatform.services.wsrp2.type.SessionParams;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
 import org.exoplatform.services.wsrp2.type.StateChange;
@@ -315,7 +318,12 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
 
-      processMimeResponseMarkup(response.getMarkupContext(), baseURL);
+      Map<String, String> genericParams = writeGenericParams(request.getPortletContext(),
+                                                             request.getUserContext(),
+                                                             request.getRuntimeContext(),
+                                                             response.getSessionContext());
+
+      processMimeResponseMarkup(response.getMarkupContext(), genericParams, baseURL);
 
     } catch (InvalidCookie exc) {
       LOG.info("Problem with cookies ", exc);
@@ -335,7 +343,25 @@ public class PortletDriverImpl implements PortletDriver {
     return response;
   }
 
-  private void processMimeResponseMarkup(MimeResponse mimeContext, String baseURL) throws WSRPException {
+  private Map<String, String> writeGenericParams(PortletContext portletContext,
+                                                 UserContext userContext,
+                                                 RuntimeContext runtimeContext,
+                                                 SessionContext sessionContext) {
+    Map<String, String> genericParams = new HashMap<String, String>();
+    genericParams.put(WSRPConstants.WSRP_PORTLET_HANDLE, portletContext.getPortletHandle());
+    genericParams.put(WSRPConstants.WSRP_USER_CONTEXT_KEY, userContext.getUserContextKey());
+    genericParams.put(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY,
+                      runtimeContext.getPortletInstanceKey());
+    genericParams.put(WSRPConstants.WSRP_SESSION_ID, runtimeContext.getSessionParams()
+                                                                   .getSessionID());
+    genericParams.put(WSRPConstants.WSRP_PAGE_STATE, runtimeContext.getPageState());
+    genericParams.put(WSRPConstants.WSRP_PORTLET_STATES, runtimeContext.getPortletStates());
+    return genericParams;
+  }
+
+  private void processMimeResponseMarkup(MimeResponse mimeContext,
+                                         Map<String, String> genericParams,
+                                         String baseURL) throws WSRPException {
     Boolean requiresRewriting = mimeContext.isRequiresRewriting();
     LOG.debug("requires URL rewriting : " + requiresRewriting);
     String content = getContent(mimeContext);
@@ -344,7 +370,8 @@ public class PortletDriverImpl implements PortletDriver {
 
     if (mimeContext.getMimeType().startsWith("text/")) {
       if (requiresRewriting) {
-        // does.url template.processing = false
+        // does.url template.processing = false  --- Consumer rewrite
+        baseURL = writeGenericParams(mimeContext, genericParams, baseURL);
         content = urlRewriter.rewriteURLs(baseURL, content);
         LOG.debug("rewrittenMarkup = " + content);
         if (content != null) {
@@ -356,7 +383,7 @@ public class PortletDriverImpl implements PortletDriver {
           }
         }
       } else {
-        // does.url template.processing = true
+        // does.url template.processing = true --- Producer rewrite
         String oldBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
             + WSRPConstants.URL_TYPE_BLOCKINGACTION;
         String newBaseURL = baseURL + WSRPConstants.NEXT_PARAM + Constants.TYPE_PARAMETER + "="
@@ -371,6 +398,26 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
     }
+  }
+
+  private String writeGenericParams(MimeResponse mimeContext,
+                                    Map<String, String> genericParams,
+                                    String baseURL) {
+    StringBuffer stringBuffer = new StringBuffer(baseURL);
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_HANDLE + "="
+        + genericParams.get(WSRPConstants.WSRP_PORTLET_HANDLE));
+    stringBuffer.append("&" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "="
+        + genericParams.get(WSRPConstants.WSRP_USER_CONTEXT_KEY));
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "="
+        + genericParams.get(WSRPConstants.WSRP_PORTLET_INSTANCE_KEY));
+    stringBuffer.append("&" + WSRPConstants.WSRP_SESSION_ID + "="
+        + genericParams.get(WSRPConstants.WSRP_SESSION_ID));
+    stringBuffer.append("&" + WSRPConstants.WSRP_PAGE_STATE + "="
+        + genericParams.get(WSRPConstants.WSRP_PAGE_STATE));
+    stringBuffer.append("&" + WSRPConstants.WSRP_PORTLET_STATES + "="
+        + genericParams.get(WSRPConstants.WSRP_PORTLET_STATES));
+    baseURL = stringBuffer.toString();
+    return baseURL;
   }
 
   public BlockingInteractionResponse performBlockingInteraction(WSRPInteractionRequest actionRequest,
@@ -617,7 +664,12 @@ public class PortletDriverImpl implements PortletDriver {
         }
       }
 
-      processMimeResponseMarkup(response.getResourceContext(), baseURL);
+      Map<String, String> genericParams = writeGenericParams(request.getPortletContext(),
+                                                             request.getUserContext(),
+                                                             request.getRuntimeContext(),
+                                                             response.getSessionContext());
+
+      processMimeResponseMarkup(response.getResourceContext(), genericParams, baseURL);
 
     } catch (InvalidCookie exc) {
       LOG.error("Problem with cookies ", exc);

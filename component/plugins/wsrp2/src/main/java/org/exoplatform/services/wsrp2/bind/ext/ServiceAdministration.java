@@ -18,6 +18,8 @@
 package org.exoplatform.services.wsrp2.bind.ext;
 
 import java.io.Serializable;
+import java.util.HashMap;
+import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -34,16 +36,16 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "serviceAdministration", propOrder = { "properties" })
 public class ServiceAdministration implements Serializable {
 
-  protected java.util.HashMap<java.lang.String, java.lang.String> properties;
+  protected Map<String, String> properties;
 
-  public java.util.HashMap<java.lang.String, java.lang.String> getProperties() {
+  public Map<String, String> getProperties() {
     if (properties == null) {
-      properties = new java.util.HashMap<java.lang.String, java.lang.String>();
+      properties = new HashMap<String, String>();
     }
     return this.properties;
   }
-  
-  public String getPropertiesAsString(){
+
+  public String getPropertiesAsString() {
     return getProperties().toString();
   }
 

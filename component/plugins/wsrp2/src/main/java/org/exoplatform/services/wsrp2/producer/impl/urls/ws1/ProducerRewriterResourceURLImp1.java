@@ -26,6 +26,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 import org.exoplatform.services.wsrp2.utils.URLUtils;
@@ -47,19 +48,23 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
 
   private String                 user;
 
+  private RuntimeContext         runtimeContext;
+
   public ProducerRewriterResourceURLImp1(String type,
                                          Templates template,
                                          boolean isCurrentlySecured,
                                          String portletHandle,
                                          PersistentStateManager stateManager,
                                          String sessionID,
-                                         String user) {
+                                         String user,
+                                         RuntimeContext runtimeContext) {
     super(type, null, isCurrentlySecured, true, null, null, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
     this.templates = templates;
     this.user = user;
+    this.runtimeContext = runtimeContext;
   }
 
   public String toString() {
@@ -111,7 +116,7 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
 
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
-                                   "");
+                                   runtimeContext.getPortletInstanceKey());
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
                                    user != null ? user : "");

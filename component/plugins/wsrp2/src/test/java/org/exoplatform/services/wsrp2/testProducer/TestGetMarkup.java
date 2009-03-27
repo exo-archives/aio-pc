@@ -45,6 +45,8 @@ import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
 import org.exoplatform.services.wsrp2.type.UpdateResponse;
 import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
+import org.exoplatform.services.wsrp2.utils.Modes;
+import org.exoplatform.services.wsrp2.utils.WindowStates;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -103,7 +105,9 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("Everything is ok in Maximized state", response.getMarkupContext().getItemString());
   }
 
-  public void testGetMarkupWithRewrittenURLInIt() throws Exception {
+  // test Producer rewrite in url
+
+  public void testGetMarkupWithRewrittenURL() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, false);
@@ -129,7 +133,29 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("value", response.getMarkupContext().getItemString());
   }
 
-  public void testGetMarkupWithRewrittenURLInItInCaseUserContextKey() throws Exception {
+  public void testGetMarkupWithRewrittenURLWithPortletHandle() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    templates.setRenderTemplate(DEFAULT_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, "_component");
+
+    assertNotNull(s);
+    assertEquals(portletHandle, s);
+  }
+
+  public void testGetMarkupWithRewrittenURLWithUserContextKey() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, false);
@@ -168,10 +194,9 @@ public class TestGetMarkup extends BaseTest {
 
     assertNotNull(s);
     assertEquals("", s);
-
   }
 
-  public void testGetMarkupWithRewrittenURLInItInWindowState() throws Exception {
+  public void testGetMarkupWithRewrittenURLWithWindowState() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, false);
@@ -192,10 +217,9 @@ public class TestGetMarkup extends BaseTest {
 
     assertNotNull(s);
     assertEquals("wsrp:maximized", s);
-
   }
-  
-  public void testGetMarkupWithRewrittenURLInItInPortletMode() throws Exception {
+
+  public void testGetMarkupWithRewrittenURLWithPortletMode() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, false);
@@ -216,7 +240,249 @@ public class TestGetMarkup extends BaseTest {
 
     assertNotNull(s);
     assertEquals("wsrp:edit", s);
+  }
 
+  public void testGetMarkupWithRewrittenURLWithIsSecure() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE;
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, "_isSecure");
+
+    assertNotNull(s);
+    assertEquals("false", s);
+  }
+
+  public void testGetMarkupWithRewrittenURLWithInstanceKey() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE + "&" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY
+        + "={" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}";
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+    runtimeContext.setPortletInstanceKey("1234567890");
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, WSRPConstants.WSRP_PORTLET_INSTANCE_KEY);
+
+    assertNotNull(s);
+    assertEquals("1234567890", s);
+  }
+
+  public void testGetMarkupWithRewrittenURLWithSessionID() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE + "&" + WSRPConstants.WSRP_SESSION_ID + "={"
+        + WSRPConstants.WSRP_SESSION_ID + "}";
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+//    sessionParams.setSessionID("1234567890");
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s1 = response.getMarkupContext().getItemString();
+    s1 = getParameter(s1, WSRPConstants.WSRP_SESSION_ID);
+
+    assertNotNull(s1);
+
+    sessionParams.setSessionID(s1);
+
+    getMarkup = getMarkup(registrationContext, portletContext);
+
+    response = markupOperationsInterface.getMarkup(getMarkup);
+    String s2 = response.getMarkupContext().getItemString();
+    s2 = getParameter(s2, WSRPConstants.WSRP_SESSION_ID);
+
+    assertNotNull(s2);
+    assertEquals(s1, s2);
+  }
+
+  public void testGetMarkupWithRewrittenURLWithPageState() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE + "&" + WSRPConstants.WSRP_PAGE_STATE + "={"
+        + WSRPConstants.WSRP_PAGE_STATE + "}";
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    runtimeContext.setPageState("1234567890");
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, WSRPConstants.WSRP_PAGE_STATE);
+
+    assertNotNull(s);
+    assertEquals("1234567890", s);
+  }
+
+  public void testGetMarkupWithRewrittenURLWithPortletStates() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    String newRENDER_TEMPLATE = DEFAULT_TEMPLATE + "&" + WSRPConstants.WSRP_PORTLET_STATES + "={"
+        + WSRPConstants.WSRP_PORTLET_STATES + "}";
+    templates.setRenderTemplate(newRENDER_TEMPLATE);
+    runtimeContext.setTemplates(templates);
+
+    runtimeContext.setPortletStates("1234567890");
+
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+    MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+    String s = response.getMarkupContext().getItemString();
+    s = getParameter(s, WSRPConstants.WSRP_PORTLET_STATES);
+
+    assertNotNull(s);
+    assertEquals("1234567890", s);
+  }
+
+  // test Consumer rewrite in url
+
+  public void testGetMarkupWithOutRewrittenURL() throws Exception {
+    log();
+    boolean isRequiredTemplate = getRequiresTemplate();
+    if (isRequiredTemplate) {
+      setRequiresTemplate(false);
+    }
+    try {
+
+      ServiceDescription sd = getServiceDescription(new String[] { "en" });
+      createRegistrationContext(sd, false);
+      String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+      PortletContext portletContext = new PortletContext();
+      portletContext.setPortletHandle(portletHandle);
+      portletContext.setPortletState(null);
+      GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+      MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+      String s = response.getMarkupContext().getItemString();
+      s = urlRewriter.rewriteURLs("", s);
+      s = getParameter(s, WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+      assertNotNull(s);
+
+      markupParams.setMode("wsrp:view");
+      markupParams.setWindowState("wsrp:maximized");
+      navigationalContext.setOpaqueValue(s);
+      markupParams.setNavigationalContext(navigationalContext);
+      sessionParams.setSessionID(response.getSessionContext().getSessionID());
+      runtimeContext = new RuntimeContext();
+      runtimeContext.setSessionParams(sessionParams);
+      manageTemplatesOptimization(sd, portletHandle);
+      manageUserContextOptimization(sd, portletHandle, getMarkup);
+      response = markupOperationsInterface.getMarkup(getMarkup);
+      String itemString = response.getMarkupContext().getItemString();
+      assertNotNull(itemString);
+      assertEquals("value", itemString);
+
+    } finally {
+      setRequiresTemplate(isRequiredTemplate);
+    }
+  }
+
+  public void testGetMarkupWithOutRewrittenURLCommonAndRenderParams() throws Exception {
+    log();
+    boolean isRequiredTemplate = getRequiresTemplate();
+    if (isRequiredTemplate) {
+      setRequiresTemplate(false);
+    }
+    try {
+
+      ServiceDescription sd = getServiceDescription(new String[] { "en" });
+      createRegistrationContext(sd, false);
+      String portletHandle = CONTEXT_PATH + "/PortletToTestMarkupWithRewrittenURL";
+      PortletContext portletContext = new PortletContext();
+      portletContext.setPortletHandle(portletHandle);
+      portletContext.setPortletState(null);
+      GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+
+      MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+      String s = response.getMarkupContext().getItemString();
+      
+      // DEBUG
+//      assertEquals("", s);
+
+      s = s.replaceAll(WSRPConstants.NEXT_PARAM_AMP, WSRPConstants.NEXT_PARAM);
+      s = s.replaceAll("wsrp_rewrite\\?", "baseURL?q=1&");
+      s = s.replaceAll(WSRPConstants.WSRP_REWRITE_SUFFFIX, "");
+
+      // DEBUG
+//      assertEquals("", s);
+
+      String s1 = getParameter(s, WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+      assertNotNull(s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_URL_TYPE);
+      assertNotNull(s1);
+      assertEquals("render", s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_FRAGMENT_ID);
+      assertNotNull(s1);
+      assertEquals("", s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_SECURE_URL);
+      assertNotNull(s1);
+      assertEquals("false", s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_MODE);
+      assertNotNull(s1);
+      assertEquals(Modes._edit_wsrp, s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_WINDOW_STATE);
+      assertNotNull(s1);
+      assertEquals(WindowStates._maximized_wsrp, s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_NAVIGATIONAL_STATE);
+      assertNotNull(s1);
+
+      s1 = getParameter(s, WSRPConstants.WSRP_NAVIGATIONAL_VALUES);
+      assertNotNull(s1);
+      assertEquals("", s1);
+
+    } finally {
+      setRequiresTemplate(isRequiredTemplate);
+    }
   }
 
   public void testGetMarkupOfAClonedPortlet() throws Exception {

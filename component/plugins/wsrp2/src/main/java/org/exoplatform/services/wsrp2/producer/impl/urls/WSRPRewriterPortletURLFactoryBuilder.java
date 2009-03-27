@@ -74,7 +74,8 @@ public class WSRPRewriterPortletURLFactoryBuilder {
                                                        cacheLevel,
                                                        supportedPublicRenderParameter,
                                                        portlet,
-                                                       user);
+                                                       user,
+                                                       runtimeContext);
     } else {
       LOG.debug("Consumer URL rewriting");
       return new WSRPConsumerRewriterPortletURLFactory(mimeType,

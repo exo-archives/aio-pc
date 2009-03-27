@@ -49,12 +49,15 @@ public class ServiceAdministrationInterfaceImpl implements ServiceAdministration
 
   public ServiceAdministration getServiceAdministration(Map<String, String> properties) throws RemoteException {
 
-    java.util.HashMap<java.lang.String, java.lang.String> realProps = conf.getProperties();
+    Map<String, String> realProps = conf.getProperties();
 
-    Set<String> set = properties.keySet();
-    for (String key : set) {
-      if (realProps.containsKey(key)) {
-        realProps.put(key, properties.get(key));
+    // do we have update props
+    if (properties != null) {
+      Set<String> set = properties.keySet();
+      for (String key : set) {
+        if (realProps.containsKey(key)) {
+          realProps.put(key, properties.get(key));
+        }
       }
     }
 

@@ -127,8 +127,9 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
   public void testRequiresRegistration() throws Exception {
     log();
     boolean isRequiredRegistration = getRequiresRegistration();
-    if (!isRequiredRegistration)
+    if (!isRequiredRegistration) {
       setRequiresRegistration(true);
+    }
     try {
       GetServiceDescription getServiceDescription = new GetServiceDescription();
       getServiceDescription.getDesiredLocales().add("en");

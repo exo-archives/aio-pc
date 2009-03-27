@@ -31,6 +31,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Resour
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
 import org.exoplatform.services.wsrp2.utils.URLUtils;
@@ -52,17 +53,20 @@ public class ProducerRewriterResourceURLImp2 extends ResourceURLImp {
 
   private String                 user;
 
+  private RuntimeContext         runtimeContext;
+
   public ProducerRewriterResourceURLImp2(String type,
-                                        Templates templates,
-                                        boolean isCurrentlySecured,
-                                        String portletHandle,
-                                        PersistentStateManager stateManager,
-                                        String sessionID,
-                                        boolean defaultEscapeXml,
-                                        String cacheLevel,
-                                        List<String> supportedPublicRenderParameter,
-                                        Portlet portlet,
-                                        String user) {
+                                         Templates templates,
+                                         boolean isCurrentlySecured,
+                                         String portletHandle,
+                                         PersistentStateManager stateManager,
+                                         String sessionID,
+                                         boolean defaultEscapeXml,
+                                         String cacheLevel,
+                                         List<String> supportedPublicRenderParameter,
+                                         Portlet portlet,
+                                         String user,
+                                         RuntimeContext runtimeContext) {
     super(type, null, isCurrentlySecured, defaultEscapeXml, cacheLevel, portlet, null);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
@@ -70,6 +74,7 @@ public class ProducerRewriterResourceURLImp2 extends ResourceURLImp {
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.templates = templates;
     this.user = user;
+    this.runtimeContext = runtimeContext;
   }
 
   public String toString() {
@@ -166,10 +171,14 @@ public class ProducerRewriterResourceURLImp2 extends ResourceURLImp {
                                    user != null ? user : "");
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
-                                   "");
+                                   runtimeContext.getPortletInstanceKey());
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PAGE_STATE + "}",
+                                   runtimeContext.getPageState());
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PORTLET_STATES + "}",
+                                   runtimeContext.getPortletStates());
 
     Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {

@@ -31,6 +31,7 @@ import org.exoplatform.services.portletcontainer.pci.model.Supports;
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
@@ -41,8 +42,8 @@ import org.exoplatform.services.wsrp2.utils.WindowStates;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class ProducerRewriterPortletURLImp2
-                                          extends
-                                          org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp {
+                                           extends
+                                           org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletURLImp {
 
   private String                 sessionID;
 
@@ -56,18 +57,21 @@ public class ProducerRewriterPortletURLImp2
 
   private String                 user;
 
+  private RuntimeContext         runtimeContext;
+
   public ProducerRewriterPortletURLImp2(String type,
-                                       Templates templates,
-                                       String mimeType,
-                                       List<Supports> supports,
-                                       boolean isCurrentlySecured,
-                                       String portletHandle,
-                                       PersistentStateManager stateManager,
-                                       String sessionID,
-                                       boolean defaultEscapeXml,
-                                       List<String> supportedPublicRenderParameter,
-                                       Portlet portlet,
-                                       String user) {
+                                        Templates templates,
+                                        String mimeType,
+                                        List<Supports> supports,
+                                        boolean isCurrentlySecured,
+                                        String portletHandle,
+                                        PersistentStateManager stateManager,
+                                        String sessionID,
+                                        boolean defaultEscapeXml,
+                                        List<String> supportedPublicRenderParameter,
+                                        Portlet portlet,
+                                        String user,
+                                        RuntimeContext runtimeContext) {
     super(type, null, mimeType, supports, isCurrentlySecured, defaultEscapeXml, portlet);
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
@@ -75,6 +79,7 @@ public class ProducerRewriterPortletURLImp2
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
     this.templates = templates;
     this.user = user;
+    this.runtimeContext = runtimeContext;
   }
 
   public String toString() {
@@ -185,10 +190,11 @@ public class ProducerRewriterPortletURLImp2
                                    user != null ? user : "");
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
-                                   "");
+                                   runtimeContext.getPortletInstanceKey());
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_SESSION_ID + "}", sessionID);
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PAGE_STATE + "}", "");
-    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", "");
+    template = StringUtils.replace(template,
+                                   "{" + WSRPConstants.WSRP_PAGE_STATE + "}", runtimeContext.getPageState());
+    template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_PORTLET_STATES + "}", runtimeContext.getPortletStates());
 
     Collection<String> names = parameters.keySet();
     for (Iterator<String> iterator = names.iterator(); iterator.hasNext();) {

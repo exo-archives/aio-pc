@@ -28,6 +28,7 @@ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.Portle
 import org.exoplatform.services.wsrp2.WSRPConstants;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.producer.PersistentStateManager;
+import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.Templates;
 import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.TemplatesFactory;
@@ -49,6 +50,8 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
 
   private String                 user;
 
+  private RuntimeContext         runtimeContext;
+
   public ProducerRewriterPortletURLImp1(String type,
                                         Templates templates,
                                         String mimeType,
@@ -57,13 +60,15 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
                                         String portletHandle,
                                         PersistentStateManager persistentStateManager,
                                         String sessionID,
-                                        String user) {
+                                        String user,
+                                        RuntimeContext runtimeContext) {
     super(type, null, mimeType, supports, isCurrentlySecured, true, null);
     this.portletHandle = portletHandle;
     this.stateManager = persistentStateManager;
     this.sessionID = sessionID;
     this.templates = templates;
     this.user = user;
+    this.runtimeContext = runtimeContext;
   }
 
   public String toString() {
@@ -117,15 +122,15 @@ public class ProducerRewriterPortletURLImp1 extends PortletURLImp {
 
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_PORTLET_INSTANCE_KEY + "}",
-                                   "");
+                                   runtimeContext.getPortletInstanceKey());
     template = StringUtils.replace(template,
                                    "{" + WSRPConstants.WSRP_USER_CONTEXT_KEY + "}",
                                    user != null ? user : "");
-    
+
     // clear resource params which could be default 
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_ID + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_RESOURCE_STATE + "}", "");
-    
+
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_INTERACTION_STATE + "}", "");
     template = StringUtils.replace(template, "{" + WSRPConstants.WSRP_FRAGMENT_ID + "}", "");
 

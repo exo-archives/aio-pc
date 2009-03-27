@@ -76,6 +76,8 @@ public class TestPerformBlockingInteraction extends BaseTest {
     assertEquals(WindowStates._maximized_wsrp, updateResponse.getNewWindowState());
     assertEquals(Modes._edit_wsrp, updateResponse.getNewMode());
     NavigationalContext navigationalContext = updateResponse.getNavigationalContext();
+    assertNotNull(navigationalContext);
+    
     markupParams.setNavigationalContext(navigationalContext);
     //look if we obtain the portlet state (case of consumer save state)
     byte[] portletState = updateResponse.getPortletContext().getPortletState();

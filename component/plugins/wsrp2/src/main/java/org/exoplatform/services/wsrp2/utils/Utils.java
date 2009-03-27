@@ -41,7 +41,6 @@ public class Utils {
    * Gets the string from localized string.
    * 
    * @param ls the ls
-   * 
    * @return the string from localized string
    */
   public static String getStringFromLocalizedString(LocalizedString ls) {
@@ -56,7 +55,6 @@ public class Utils {
    * @param value the value
    * @param lang the lang
    * @param rn the rn
-   * 
    * @return the localized string
    */
   public static LocalizedString getLocalizedString(String value, String lang, String rn) {
@@ -72,7 +70,6 @@ public class Utils {
    * 
    * @param value the value
    * @param lang the lang
-   * 
    * @return the localized string
    */
   public static LocalizedString getLocalizedString(String value, String lang) {
@@ -87,7 +84,6 @@ public class Utils {
    * 
    * @param name the name
    * @param value the value
-   * 
    * @return the names string
    */
   public static NamedString getNamesString(String name, String value) {
@@ -101,7 +97,6 @@ public class Utils {
    * Gets the q name array.
    * 
    * @param list the list
-   * 
    * @return the q name array
    */
   public static QName[] getQNameArray(List<QName> list) {
@@ -117,7 +112,6 @@ public class Utils {
    * Gets the q name list.
    * 
    * @param array the array
-   * 
    * @return the q name list
    */
   public static List<QName> getQNameList(QName[] array) {
@@ -133,7 +127,6 @@ public class Utils {
    * Change url type from jsr portlet to wsrp.
    * 
    * @param type the type
-   * 
    * @return the string
    */
   public static String changeUrlTypeFromJSRPortletToWSRP(String type) {
@@ -150,7 +143,6 @@ public class Utils {
    * Change url type from wsrp to jsr portlet.
    * 
    * @param type the type
-   * 
    * @return the string
    */
   public static String changeUrlTypeFromWSRPToJSRPortlet(String type) {
@@ -163,24 +155,6 @@ public class Utils {
     return type;
   }
 
-  // replace extensions for template
-//  @Deprecated
-//  public static void fillExtensions(String temp, Extension[] extensions) {
-//    if (extensions != null && extensions[0] != null && extensions[0].getAny() != null
-//        && extensions[0].getAny() != null) {
-//      // TODO iterate foreach element of array 
-//      try {
-//        temp = StringUtils.replace(temp,
-//                                   "{" + WSRPConstants.WSRP_EXTENSIONS + "}",
-//                                   (String)extensions[0].getAny());
-//      } catch (Exception e) {
-//        e.printStackTrace();
-//      }
-//    } else {
-//      temp = StringUtils.replace(temp, "{" + WSRPConstants.WSRP_EXTENSIONS + "}", "");
-//    }
-//  }
-
 //  public static NamedString[] getNamedStringArrayParametersFromMap(Map<String, String[]> params) {
 //    return getNamedStringArrayParametersFromMap(params, false);
 //  }
@@ -189,7 +163,6 @@ public class Utils {
    * Gets the named string list parameters from map.
    * 
    * @param params the params
-   * 
    * @return the named string list parameters from map
    */
   public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params) {
@@ -204,7 +177,7 @@ public class Utils {
    * 
    * @param parameters Map<String, String[]>
    * @param boolean value to store only those parameters which starting with
-   *          "wsrp-" prefix
+   *        "wsrp-" prefix
    * @return
    */
   public static List<NamedString> getNamedStringListParametersFromMap(Map<String, String[]> params,
@@ -291,11 +264,10 @@ public class Utils {
    * Gets the map from string.
    * 
    * @param properties the properties
-   * 
    * @return the map from string
    */
   public static Map<String, String> getMapFromString(String properties) {
-    if (properties==null)
+    if (properties == null)
       return null;
     Map<String, String> result = new HashMap<String, String>();
     if (properties.length() == 0)
