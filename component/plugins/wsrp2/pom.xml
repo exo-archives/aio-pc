@@ -155,13 +155,26 @@
     <!--      <version>${org.exoplatform.jcr.version}</version>-->
     <!--      <scope>compile</scope>-->
     <!--    </dependency>-->
-
+    
+    <!-- END of eXo JCR deps -->
 
     <!-- CXF deps -->
 
+<!--    <dependency>-->
+<!--      <groupId>org.apache.cxf</groupId>-->
+<!--      <artifactId>cxf-tools-misctools</artifactId>-->
+<!--      <version>2.1.2</version>-->
+<!--      <exclusions>-->
+<!--        <exclusion>-->
+<!--          <groupId>org.apache.cxf</groupId>-->
+<!--          <artifactId>cxf-common-utilities</artifactId>-->
+<!--        </exclusion>-->
+<!--      </exclusions>-->
+<!--    </dependency>-->
+
     <dependency>
-      <groupId>org.apache.cxf</groupId>
-      <artifactId>cxf-tools-misctools</artifactId>
+      <groupId>org.exoplatform.patches</groupId>
+      <artifactId>exo-cxf-rt-frontend-jaxws</artifactId>
       <version>2.1.2</version>
       <exclusions>
         <exclusion>
@@ -170,18 +183,14 @@
         </exclusion>
       </exclusions>
     </dependency>
-
+    
     <dependency>
       <groupId>org.exoplatform.patches</groupId>
       <artifactId>exo-cxf-common-utilities</artifactId>
       <version>2.1.2</version>
     </dependency>
-
-    <dependency>
-      <groupId>org.exoplatform.patches</groupId>
-      <artifactId>exo-cxf-rt-frontend-jaxws</artifactId>
-      <version>2.1.2</version>
-    </dependency>
+    
+    <!-- END of CXF deps -->
 
     <!--        <dependency>-->
     <!--          <groupId>asm</groupId>-->
@@ -224,6 +233,8 @@
       <version>1.0-beta-2</version>
       <scope>provided</scope>
     </dependency>
+    
+    <!-- END of Cargo deps -->
 
     <dependency>
       <groupId>javax.activation</groupId>

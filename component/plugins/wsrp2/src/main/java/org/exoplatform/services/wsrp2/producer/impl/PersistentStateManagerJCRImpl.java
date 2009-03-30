@@ -81,7 +81,6 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * @param conf the conf
    * @param persister the persister
    * @param params the params
-   * 
    * @throws Exception the exception
    */
   public PersistentStateManagerJCRImpl(ExoContainerContext ctx,
@@ -312,9 +311,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * Resolve registration data.
    * 
    * @param registrationContext the registration context
-   * 
    * @return the registration data
-   * 
    * @throws WSRPException the WSRP exception
    */
   private RegistrationData resolveRegistrationData(RegistrationContext registrationContext) throws WSRPException {
@@ -340,10 +337,10 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * @param key the key
    * @param type the type
    * @param o the o
-   * 
    * @throws WSRPException the WSRP exception
    */
   final private void save(String key, String type, Object o) throws WSRPException {
+
     if (key == null || key.length() == 0)
       throw new WSRPException("A key cannot be null or empty!");
 
@@ -378,9 +375,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * Load.
    * 
    * @param key the key
-   * 
    * @return the wSR p2 state data
-   * 
    * @throws WSRPException the WSRP exception
    */
   final private WSRP2StateData load(String key) throws WSRPException {
@@ -394,7 +389,9 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
 
-    if (data == null) {
+    if (data != null) {
+      return data;
+    } else {
       data = new WSRP2StateData();
       data.setId(key);
       String value = null;
@@ -420,7 +417,8 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         throw new WSRPException(e.getMessage());
       }
     }
-    return data;
+
+    return null;
   }
 
   // get and remove from cache
@@ -432,7 +430,6 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * Removes the.
    * 
    * @param key the key
-   * 
    * @throws WSRPException the WSRP exception
    */
   final private void remove(String key) throws WSRPException {
@@ -505,16 +502,14 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * Gets the state.
    * 
    * @param state the state
-   * 
    * @return the state
-   * 
    * @throws WSRPException the WSRP exception
    */
   private Map<String, String[]> getState(String state) throws WSRPException {
     if (state == null || state.length() == 0)
       return null;
     try {
-      WSRP2StateData sD = load(state);
+      WSRP2StateData sD = load(state + "_state");
       if (sD == null) {
         return null;
       }
@@ -529,12 +524,11 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * 
    * @param state the state
    * @param parameters the parameters
-   * 
    * @throws WSRPException the WSRP exception
    */
   private void putState(String state, Map<String, String[]> parameters) throws WSRPException {
     try {
-      save(state, "java.util.Map", parameters);
+      save(state + "_state", "java.util.Map", parameters);
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
@@ -593,9 +587,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * 
    * @param key the key
    * @param lifetime the lifetime
-   * 
    * @return the lifetime
-   * 
    * @throws WSRPException the WSRP exception
    */
   private Lifetime putLifetime(String key, Lifetime lifetime) throws WSRPException {
@@ -615,7 +607,6 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * Removes the lifetime.
    * 
    * @param key the key
-   * 
    * @throws WSRPException the WSRP exception
    */
   private void removeLifetime(String key) throws WSRPException {
@@ -626,7 +617,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
     }
   }
 
-  /* (non-Javadoc)
+  /**
    * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getRegistrationHandles()
    */
   public List<String> getRegistrationHandles() throws WSRPException {

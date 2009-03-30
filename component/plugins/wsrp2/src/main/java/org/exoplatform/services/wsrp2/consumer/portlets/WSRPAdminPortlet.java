@@ -23,7 +23,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.Iterator;
 import java.util.List;
@@ -309,7 +308,6 @@ public class WSRPAdminPortlet {
 
       Vector<String> handles = new Vector<String>(pstateManager.getRegistrationHandles());
       SimpleDateFormat format2 = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
-      List<String> removes = new ArrayList<String>();
 
       if (handles.size() > 0) {
         w.println("<table border=\"1\">");
@@ -324,30 +322,29 @@ public class WSRPAdminPortlet {
         w.println("</tr>");
 
         for (String one : handles) {
-          if (one.indexOf("_registration") > -1) {
-            removes.add(one);
-            continue;
-          }
-          w.println("<tr>");
-          w.println("<td>");
-          w.println(" <label style=\"font-size:12px; \">" + one + "</label>");
-          w.println("</td>");
-          Lifetime dectr = pstateManager.getLifetime(one + "_registration_lifetime");
-          if (dectr == null) {
+          // is it registration handle, not one of the other types persistent states stored on producer
+          if (one.indexOf("_registration") == -1 && one.indexOf("_registration_lifetime") == -1
+              && one.indexOf("_portlet_lifetime") == -1 && one.indexOf("_state") == -1) {
+            w.println("<tr>");
             w.println("<td>");
-            w.println(" <label style=\"font-size:12px; \"> Permanent </label>");
+            w.println(" <label style=\"font-size:12px; \">" + one + "</label>");
             w.println("</td>");
-            w.println("</tr>");
-          } else {
-            w.println("<td>");
-            w.println(" <label style=\"font-size:12px; \">"
-                + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())
-                + "</label>");
-            w.println("</td>");
-            w.println("</tr>");
+            Lifetime dectr = pstateManager.getLifetime(one + "_registration_lifetime");
+            if (dectr == null) {
+              w.println("<td>");
+              w.println(" <label style=\"font-size:12px; \"> Permanent </label>");
+              w.println("</td>");
+              w.println("</tr>");
+            } else {
+              w.println("<td>");
+              w.println(" <label style=\"font-size:12px; \">"
+                  + format2.format(dectr.getTerminationTime().toGregorianCalendar().getTime())
+                  + "</label>");
+              w.println("</td>");
+              w.println("</tr>");
+            }
           }
         }
-        handles.removeAll(removes);
         w.println("</table>");
       }
 

@@ -477,6 +477,13 @@ public class BaseTest extends TestCase {
       rc.getScheduledDestruction().setCurrentTime(CalendarUtils.getNow());
   }
 
+  /**
+   * Create registration context.
+   * 
+   * @param sd
+   * @param createAnyway
+   * @throws Exception
+   */
   protected void createRegistrationContext(ServiceDescription sd, boolean createAnyway) throws Exception {
     if (createAnyway || sd.isRequiresRegistration()) {
       registrationContext = new RegistrationContext();

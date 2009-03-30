@@ -22,6 +22,7 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.testProducer.TestCachingMechanism;
 import org.exoplatform.services.wsrp2.testProducer.TestGetMarkup;
+import org.exoplatform.services.wsrp2.testProducer.TestGetMarkupTestURLs;
 import org.exoplatform.services.wsrp2.testProducer.TestGetServiceAdministration;
 import org.exoplatform.services.wsrp2.testProducer.TestGetServiceDescriptionInterface;
 import org.exoplatform.services.wsrp2.testProducer.TestPerformBlockingInteraction;
@@ -45,6 +46,7 @@ public class SuiteForTestProducer extends TestSuite {
     System.setProperty("mock.portal.dir", newProperty);
 
     addTestSuite(TestGetMarkup.class);
+    addTestSuite(TestGetMarkupTestURLs.class);
     addTestSuite(TestRegistrationInterface.class);
     addTestSuite(TestCachingMechanism.class);
     addTestSuite(TestGetServiceAdministration.class);
