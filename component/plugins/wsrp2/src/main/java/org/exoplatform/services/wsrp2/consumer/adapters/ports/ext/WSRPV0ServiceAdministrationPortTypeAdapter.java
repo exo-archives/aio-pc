@@ -19,27 +19,25 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports.ext;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.ws.impl.cxf.ExoDeployCXFUtils;
 import org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortType;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
  * Created by The eXo Platform SAS .
- * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey Zavizionov</a>
- * @version $Id: $
- *
- * Dec 15, 2008  
+ * 
+ * @author <a href="mailto:alexey.zavizionov@exoplatform.com.ua">Alexey
+ *         Zavizionov</a>
+ * @version $Id: $ Dec 15, 2008
  */
 public class WSRPV0ServiceAdministrationPortTypeAdapter {
-  private static final Log LOG = ExoLogger.getLogger(WSRPV0ServiceAdministrationPortTypeAdapter.class);
-  
-  
-  /** 
-   * The service administration port. 
+  private static final Log                    LOG = ExoLogger.getLogger(WSRPV0ServiceAdministrationPortTypeAdapter.class);
+
+  /**
+   * The service administration port.
    */
   private WSRPV0ServiceAdministrationPortType serviceAdministrationPort;
-
 
   /**
    * Instantiates a new wSRP v0 service administration port type adapter.
@@ -47,20 +45,14 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
    * @param address the address
    */
   public WSRPV0ServiceAdministrationPortTypeAdapter(String address) {
-    JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
-    client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
-    client.setAddress(address);
-//    client.getInInterceptors().add(new LoggingInInterceptor());
-//    client.getOutInterceptors().add(new LoggingOutInterceptor());
-    Object obj = client.create();
-    this.serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) obj;
+    this.serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) ExoDeployCXFUtils.simpleDeployService2(address,
+                                                                                                                  WSRPV0ServiceAdministrationPortType.class);
   }
 
   /**
    * Gets the service administration.
    * 
    * @param propString the prop string
-   * 
    * @return the service administration
    */
   public Map<String, String> getServiceAdministration(String propString) {
@@ -70,7 +62,7 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
     String propStringResult = properties.value;
     Map<String, String> realProps = Utils.getMapFromString(propStringResult);
     return realProps;
-    
+
   }
-  
+
 }

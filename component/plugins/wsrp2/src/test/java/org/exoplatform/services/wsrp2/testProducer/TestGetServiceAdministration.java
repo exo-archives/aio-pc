@@ -18,9 +18,7 @@ package org.exoplatform.services.wsrp2.testProducer;
 
 import java.util.Map;
 
-import org.apache.cxf.interceptor.LoggingInInterceptor;
-import org.apache.cxf.interceptor.LoggingOutInterceptor;
-import org.apache.cxf.jaxws.JaxWsProxyFactoryBean;
+import org.exoplatform.services.ws.impl.cxf.ExoDeployCXFUtils;
 import org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortType;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.ext.WSRPV0ServiceAdministrationPortTypeAdapter;
 import org.exoplatform.services.wsrp2.producer.impl.WSRPConfiguration;
@@ -42,13 +40,9 @@ public class TestGetServiceAdministration extends BaseTest {
 
   public void testGetServiceAdministration() throws Exception {
 
-    JaxWsProxyFactoryBean client = new JaxWsProxyFactoryBean();
-    client.setServiceClass(WSRPV0ServiceAdministrationPortType.class);
-    client.setAddress(ADMINISTRATION_ADDRESS);
-    client.getInInterceptors().add(new LoggingInInterceptor());
-    client.getOutInterceptors().add(new LoggingOutInterceptor());
-    Object obj = client.create();
-    WSRPV0ServiceAdministrationPortType serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) obj;
+    WSRPV0ServiceAdministrationPortType serviceAdministrationPort = (WSRPV0ServiceAdministrationPortType) ExoDeployCXFUtils.simpleDeployService2(ADMINISTRATION_ADDRESS,
+                                                                                                                                                 WSRPV0ServiceAdministrationPortType.class);
+
     assertNotNull(serviceAdministrationPort);
 
     String propString = null;

@@ -24,9 +24,6 @@ import java.util.Calendar;
 import java.util.List;
 
 import org.apache.commons.logging.Log;
-import org.apache.cxf.endpoint.Client;
-import org.apache.cxf.transport.http.HTTPConduit;
-import org.apache.cxf.transports.http.configuration.HTTPClientPolicy;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
@@ -220,18 +217,6 @@ public class ProducerImpl implements Producer, java.io.Serializable {
 
   public void setVersion(int version) {
     this.version = version;
-  }
-
-  private void setTimeOut(Client client) {
-    HTTPConduit http = (HTTPConduit) client.getConduit();
-    org.apache.cxf.endpoint.Endpoint endpoint = client.getEndpoint();
-    String address = endpoint.getEndpointInfo().getAddress();
-
-    HTTPClientPolicy httpClientPolicy = new HTTPClientPolicy();
-    httpClientPolicy.setConnectionTimeout(360000);
-    httpClientPolicy.setAllowChunking(false);
-    httpClientPolicy.setReceiveTimeout(320000);
-    http.setClient(httpClientPolicy);
   }
 
   public List<String> getDesiredLocales() {

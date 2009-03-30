@@ -23,10 +23,8 @@ import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp2.consumer.impl.urls.ws1.URLTemplateComposerImpl1;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 9 févr. 2004
- * Time: 17:23:44
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 9
+ *         févr. 2004 Time: 17:23:44
  */
 
 public class TestURLTemplateComposer extends BaseTest {
@@ -38,14 +36,12 @@ public class TestURLTemplateComposer extends BaseTest {
   }
 
   public void testBlockingGeneration() {
-        URLTemplateComposer composer = new URLTemplateComposerImpl1();
+    URLTemplateComposer composer = new URLTemplateComposerImpl1();
 
-        String path = "/portal/faces/public/portal.jsp?portal:ctx=community&portal:component=wsrp/wsrpportlet/44rc74";
-        
-        
-        
-        // Default        
-         assertTrue(composer.createDefaultTemplate(path).contains("&" + Constants.TYPE_PARAMETER + "={"
+    String path = "/portal/faces/public/portal.jsp?portal:ctx=community&portal:component=wsrp/wsrpportlet/44rc74";
+
+    // Default        
+    assertTrue(composer.createDefaultTemplate(path).contains("&" + Constants.TYPE_PARAMETER + "={"
         + WSRPConstants.WSRP_URL_TYPE + "}"));
     assertTrue(composer.createDefaultTemplate(path).contains("&"
         + WSRPConstants.WSRP_PORTLET_HANDLE + "={" + WSRPConstants.WSRP_PORTLET_HANDLE + "}"));

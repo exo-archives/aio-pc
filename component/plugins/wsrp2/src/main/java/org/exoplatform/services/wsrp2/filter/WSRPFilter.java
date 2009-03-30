@@ -176,7 +176,7 @@ public class WSRPFilter implements Filter {
 
   private boolean doSelfHaldle(HttpServletRequest httpServletRequest) {
     String pathInfo = httpServletRequest.getPathInfo();
-    //whether we are going to get CXF services' list
+    //whether we are going to get services' list
     if (pathInfo == null)
       return false;
     //whether required service description wsdl

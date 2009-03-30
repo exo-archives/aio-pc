@@ -83,15 +83,11 @@ public class TestURLTemplateComposer extends BaseTest {
         + WSRPConstants.WSRP_NAVIGATIONAL_VALUES + "={" + WSRPConstants.WSRP_NAVIGATIONAL_VALUES
         + "}"));
 
-
-
-
     // Resource
     assertTrue(composer.createResourceTemplate(path).contains("&" + WSRPConstants.WSRP_URL + "={"
         + WSRPConstants.WSRP_URL + "}"));
     assertTrue(composer.createResourceTemplate(path).contains("&"
         + WSRPConstants.WSRP_REQUIRES_REWRITE + "={" + WSRPConstants.WSRP_REQUIRES_REWRITE + "}"));
-
     assertTrue(composer.createResourceTemplate(path).contains("&" + WSRPConstants.WSRP_RESOURCE_ID
         + "={" + WSRPConstants.WSRP_RESOURCE_ID + "}"));
     assertTrue(composer.createResourceTemplate(path).contains("&"
@@ -99,10 +95,8 @@ public class TestURLTemplateComposer extends BaseTest {
     assertTrue(composer.createResourceTemplate(path).contains("&"
         + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "={"
         + WSRPConstants.WSRP_RESOURCE_CACHEABILITY + "}"));
-
     assertTrue(composer.createResourceTemplate(path).contains("&"
         + WSRPConstants.WSRP_PREFER_OPERATION + "={" + WSRPConstants.WSRP_PREFER_OPERATION + "}"));
-    
     
   }
 
