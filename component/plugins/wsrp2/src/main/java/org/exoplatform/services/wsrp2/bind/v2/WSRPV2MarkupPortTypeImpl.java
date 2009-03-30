@@ -116,6 +116,36 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       sessionContext.value = sessionContextValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (UnsupportedMimeType um) {
+        throw new UnsupportedMimeType(um.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidCookie ic) {
+     throw new InvalidCookie(ic.getMessage()); 
+   } catch (UnsupportedWindowState uws) {
+     throw new UnsupportedWindowState(uws.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (UnsupportedMode unm) {
+     throw new UnsupportedMode(unm.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (InvalidSession is) {
+     throw new InvalidSession(is.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
+   } catch (UnsupportedLocale ul) {
+     throw new UnsupportedLocale(ul.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
          wsrpe.printStackTrace();
@@ -154,6 +184,16 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       ReturnAny response = markupOperationsInterface.initCookie(registrationContext, userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -226,6 +266,36 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       redirectURL.value = redirectURLValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (UnsupportedMimeType um) {
+        throw new UnsupportedMimeType(um.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidCookie ic) {
+     throw new InvalidCookie(ic.getMessage()); 
+   } catch (UnsupportedWindowState uws) {
+     throw new UnsupportedWindowState(uws.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (UnsupportedMode unm) {
+     throw new UnsupportedMode(unm.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (InvalidSession is) {
+     throw new InvalidSession(is.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
+   } catch (UnsupportedLocale ul) {
+     throw new UnsupportedLocale(ul.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -296,6 +366,36 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
       
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (UnsupportedMimeType um) {
+        throw new UnsupportedMimeType(um.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidCookie ic) {
+     throw new InvalidCookie(ic.getMessage()); 
+   } catch (UnsupportedWindowState uws) {
+     throw new UnsupportedWindowState(uws.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (UnsupportedMode unm) {
+     throw new UnsupportedMode(unm.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (InvalidSession is) {
+     throw new InvalidSession(is.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
+   } catch (UnsupportedLocale ul) {
+     throw new UnsupportedLocale(ul.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -303,13 +403,13 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
-//    } catch (Exception e) {
-//      if (LOG.isDebugEnabled())
-//        e.printStackTrace();
-//      throw new OperationFailed("Error '" + e.toString()
-//                                + "'on a PRODUCER side with exception at '"
-//                                + e.getStackTrace()[0].toString() + "'",
-//                            new OperationFailed());
+    } catch (Exception e) {
+      if (LOG.isDebugEnabled())
+        e.printStackTrace();
+      throw new OperationFailed("Error '" + e.toString()
+                                + "'on a PRODUCER side with exception at '"
+                                + e.getStackTrace()[0].toString() + "'",
+                            new OperationFailed());
     }
 
   }
@@ -340,6 +440,18 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                                                      userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -420,6 +532,36 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
                                 + "'on a PRODUCER side with exception at '"
                                 + wsrpe.getStackTrace()[0].toString() + "'",
                             new OperationFailed());
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (UnsupportedMimeType um) {
+        throw new UnsupportedMimeType(um.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidCookie ic) {
+     throw new InvalidCookie(ic.getMessage()); 
+   } catch (UnsupportedWindowState uws) {
+     throw new UnsupportedWindowState(uws.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (UnsupportedMode unm) {
+     throw new UnsupportedMode(unm.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (InvalidSession is) {
+     throw new InvalidSession(is.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
+   } catch (UnsupportedLocale ul) {
+     throw new UnsupportedLocale(ul.getMessage());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
          e.printStackTrace();

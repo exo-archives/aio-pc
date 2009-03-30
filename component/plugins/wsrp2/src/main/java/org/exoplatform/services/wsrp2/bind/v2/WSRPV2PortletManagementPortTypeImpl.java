@@ -25,14 +25,20 @@ import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.ExportByValueNotSupported;
 import org.exoplatform.services.wsrp2.intf.ExportNoLongerValid;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
 import org.exoplatform.services.wsrp2.intf.MissingParameters;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
+import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
 import org.exoplatform.services.wsrp2.type.CopyPortletsResponse;
@@ -107,6 +113,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       scheduledDestruction.value = scheduledDestructionValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -176,6 +200,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resourceList.value = resourceListValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -214,6 +256,20 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                                       getPortletsLifetime.getUserContext());
       org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse _return = response;
       return _return;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -271,6 +327,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resourceList.value = resourceListValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -328,6 +402,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resourceList.value = resourceListValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -412,6 +504,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resourceList.value = resourceListValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -450,6 +560,18 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
                                                                                  setExportLifetime.getLifetime());
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -497,6 +619,18 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       failedPortlets.value = failedPortletsValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -555,6 +689,20 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resourceList.value = resourceListValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -615,6 +763,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       scheduledDestruction.value = scheduledDestructionValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -672,6 +838,24 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resetProperties.value = resetPropertiesValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -736,6 +920,22 @@ public class WSRPV2PortletManagementPortTypeImpl implements WSRPV2PortletManagem
       resourceList.value = resourceListValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidUserCategory iuc) {
+     throw new InvalidUserCategory(iuc.getMessage()); 
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (InconsistentParameters icp) {
+     throw new InconsistentParameters(icp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();

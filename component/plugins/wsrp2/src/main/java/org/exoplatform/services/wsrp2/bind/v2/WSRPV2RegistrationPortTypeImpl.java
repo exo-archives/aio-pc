@@ -24,13 +24,21 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
+import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
 import org.exoplatform.services.wsrp2.intf.MissingParameters;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
+import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
 import org.exoplatform.services.wsrp2.type.Lifetime;
@@ -70,6 +78,10 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                               register.getLifetime());
       org.exoplatform.services.wsrp2.type.RegistrationContext _return = response;
       return _return;
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -106,6 +118,12 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                       userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -142,6 +160,18 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                   getRegistrationLifetime.getUserContext());
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -179,6 +209,18 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
                                                                                   setRegistrationLifetime.getLifetime());
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
+    } catch (AccessDenied ad){
+      throw new AccessDenied(ad.getMessage());
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (InvalidHandle ih) {
+     throw new InvalidHandle(ih.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -227,6 +269,14 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       scheduledDestruction.value = scheduledDestructionValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (MissingParameters mp) {
+     throw new MissingParameters(mp.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();

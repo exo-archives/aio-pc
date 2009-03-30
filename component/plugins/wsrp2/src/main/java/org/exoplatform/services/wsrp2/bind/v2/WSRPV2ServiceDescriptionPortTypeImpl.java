@@ -21,10 +21,21 @@ import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.InvalidSession;
+import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
+import org.exoplatform.services.wsrp2.intf.MissingParameters;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
+import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
+import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.producer.ServiceDescriptionInterface;
 import org.exoplatform.services.wsrp2.type.OperationFailedFault;
@@ -120,6 +131,14 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
       mayReturnRegistrationState.value = mayReturnRegistrationStateValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
+    } catch (ResourceSuspended rs) {
+      throw new ResourceSuspended(rs.getMessage());
+   } catch (InvalidRegistration ir) {
+     throw new InvalidRegistration(ir.getMessage());
+   } catch (ModifyRegistrationRequired mrr) {
+     throw new ModifyRegistrationRequired(mrr.getMessage());
+   } catch (OperationFailed of) {
+     throw new OperationFailed(of.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
