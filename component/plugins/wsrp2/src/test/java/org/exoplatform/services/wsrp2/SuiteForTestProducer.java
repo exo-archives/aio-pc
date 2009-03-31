@@ -21,7 +21,7 @@ import junit.framework.TestSuite;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.testProducer.TestCachingMechanism;
-import org.exoplatform.services.wsrp2.testProducer.TestGetMarkup;
+import org.exoplatform.services.wsrp2.testProducer.TestGetMarkupInterface;
 import org.exoplatform.services.wsrp2.testProducer.TestGetMarkupTestURLs;
 import org.exoplatform.services.wsrp2.testProducer.TestGetServiceAdministration;
 import org.exoplatform.services.wsrp2.testProducer.TestGetServiceDescriptionInterface;
@@ -45,7 +45,7 @@ public class SuiteForTestProducer extends TestSuite {
     String newProperty = System.getProperty("basedir") + "/src/test/war_template2";
     System.setProperty("mock.portal.dir", newProperty);
 
-    addTestSuite(TestGetMarkup.class);
+    addTestSuite(TestGetMarkupInterface.class);
     addTestSuite(TestGetMarkupTestURLs.class);
     addTestSuite(TestRegistrationInterface.class);
     addTestSuite(TestCachingMechanism.class);

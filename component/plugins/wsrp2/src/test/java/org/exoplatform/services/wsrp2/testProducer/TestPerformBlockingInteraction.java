@@ -22,6 +22,7 @@ import java.util.Arrays;
 import javax.portlet.PortletPreferences;
 
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
 import org.exoplatform.services.wsrp2.type.InteractionParams;
@@ -49,7 +50,44 @@ public class TestPerformBlockingInteraction extends BaseTest {
     log();
   }
 
-  public void testSimplePerformBlockingInteraction() throws Exception {
+  public void testPerformBlockingInteractionSimple() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestPerformBlockingInteraction";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    NamedString nS1 = new NamedString();
+    nS1.setName("name1");
+    nS1.setValue("value1");
+    NamedString nS2 = new NamedString();
+    nS2.setName("name2");
+    nS2.setValue("value2");
+    NamedString[] array = new NamedString[2];
+    array[0] = nS1;
+    array[1] = nS2;
+    InteractionParams params = new InteractionParams();
+    params.setPortletStateChange(StateChange.READ_WRITE);
+    params.getFormParameters().addAll(Arrays.asList(array));
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
+                                                                                          portletContext,
+                                                                                          params);
+    BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
+    UpdateResponse updateResponse = response.getUpdateResponse();
+    assertEquals(WindowStates._maximized_wsrp, updateResponse.getNewWindowState());
+    assertEquals(Modes._edit_wsrp, updateResponse.getNewMode());
+
+    NavigationalContext navigationalContext = updateResponse.getNavigationalContext();
+    assertNotNull(navigationalContext);
+
+    byte[] portletState = updateResponse.getPortletContext().getPortletState();
+    assertNull(portletState);
+
+    String sessionID = updateResponse.getSessionContext().getSessionID();
+    assertNotNull(sessionID);
+  }
+
+  public void testPerformBlockingInteraction() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, false);
@@ -77,7 +115,7 @@ public class TestPerformBlockingInteraction extends BaseTest {
     assertEquals(Modes._edit_wsrp, updateResponse.getNewMode());
     NavigationalContext navigationalContext = updateResponse.getNavigationalContext();
     assertNotNull(navigationalContext);
-    
+
     markupParams.setNavigationalContext(navigationalContext);
     //look if we obtain the portlet state (case of consumer save state)
     byte[] portletState = updateResponse.getPortletContext().getPortletState();
@@ -97,6 +135,36 @@ public class TestPerformBlockingInteraction extends BaseTest {
     if (updateResponse.getMarkupContext() != null)
       assertEquals(responseMarkup.getMarkupContext().getItemString(),
                    updateResponse.getMarkupContext().getItemString());
+  }
+
+  public void testPerformBlockingInteractionWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestPerformBlockingInteraction";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+//    NamedString nS1 = new NamedString();
+//    nS1.setName("name1");
+//    nS1.setValue("value1");
+//    NamedString nS2 = new NamedString();
+//    nS2.setName("name2");
+//    nS2.setValue("value2");
+//    NamedString[] array = new NamedString[2];
+//    array[0] = nS1;
+//    array[1] = nS2;
+    InteractionParams params = new InteractionParams();
+    params.setPortletStateChange(StateChange.READ_WRITE);
+//    params.getFormParameters().addAll(Arrays.asList(array));
+    PerformBlockingInteraction performBlockingInteraction = getPerformBlockingInteraction(registrationContext,
+                                                                                          portletContext,
+                                                                                          params);
+    try {
+      markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
   }
 
   public void testSendRedirect() throws Exception {
@@ -146,8 +214,8 @@ public class TestPerformBlockingInteraction extends BaseTest {
                                                                                           params);
     BlockingInteractionResponse response = markupOperationsInterface.performBlockingInteraction(performBlockingInteraction);
     assertNotSame(CONTEXT_PATH + "/Portlet2TestStateUser2/windowID", response.getUpdateResponse()
-                                                                  .getPortletContext()
-                                                                  .getPortletHandle());
+                                                                             .getPortletContext()
+                                                                             .getPortletHandle());
   }
 
   public void testStateSaveOnConsumer() throws Exception {

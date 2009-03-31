@@ -22,9 +22,13 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
+import org.exoplatform.services.wsrp2.type.CopyPortlets;
 import org.exoplatform.services.wsrp2.type.DestroyPortlets;
 import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
+import org.exoplatform.services.wsrp2.type.ExportPortlets;
+import org.exoplatform.services.wsrp2.type.GetPortletDescription;
 import org.exoplatform.services.wsrp2.type.GetPortletProperties;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.Property;
@@ -62,17 +66,17 @@ public class TestPortletManagementInterface extends BaseTest {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
     createRegistrationContext(sd, true);
-    registrationContext.setRegistrationHandle("dummy_handle");
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
     PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+
+    ClonePortlet clonePortlet = new ClonePortlet();
+    clonePortlet.setRegistrationContext(registrationContext);
+    clonePortlet.setPortletContext(pC);
+    clonePortlet.setUserContext(userContext);
     try {
-      ClonePortlet clonePortlet = new ClonePortlet();
-      clonePortlet.setRegistrationContext(registrationContext);
-      clonePortlet.setPortletContext(pC);
-      clonePortlet.setUserContext(userContext);
       portletManagementOperationsInterface.clonePortlet(clonePortlet);
-      fail("Should be an exception, because the given registration handle was incorrect");
-    } catch (Exception e) {
-      e.printStackTrace();
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
     }
   }
 
@@ -100,13 +104,13 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setRegistrationContext(rC);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
-    
+
     String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
                                                             .getPortletHandle();
-    
+
     pC.setPortletHandle(returnedPH);
     pC = portletManagementOperationsInterface.clonePortlet(clonePortlet);
-    
+
     assertNotSame(returnedPH, pC.getPortletHandle());
 
     GetPortletProperties getPortletProperties = new GetPortletProperties();
@@ -114,7 +118,7 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
     getPortletProperties.getNames().add("time-format");
-    
+
     PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
     List<Property> propList = list.getProperties();
     assertEquals(1, propList.size());
@@ -170,8 +174,8 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setUserContext(userContext);
     getPortletProperties.getNames().add("time-format");
     PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
+
     List<Property> propList = list.getProperties();
-    
     for (Property property : propList) {
       if ("time-format".equals(property.getName().toString())) {
         assertEquals("HH", property.getStringValue());
@@ -181,7 +185,7 @@ public class TestPortletManagementInterface extends BaseTest {
     fail("A property should have been found!!!");
   }
 
-  public void testWellKnownGetPortletProperty() throws Exception {
+  public void testGetPortletPropertySingle() throws Exception {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
@@ -198,6 +202,7 @@ public class TestPortletManagementInterface extends BaseTest {
     getPortletProperties.setUserContext(userContext);
     getPortletProperties.getNames().add("time-format");
     PropertyList list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
+
     List<Property> propList = list.getProperties();
     assertEquals(1, propList.size());
     Property property = propList.get(0);
@@ -214,6 +219,8 @@ public class TestPortletManagementInterface extends BaseTest {
     clonePortlet.setUserContext(userContext);
     String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
                                                             .getPortletHandle();
+    assertNotNull(returnedPH);
+    assertNotSame(pC.getPortletHandle(), returnedPH);
     pC.setPortletHandle(returnedPH);
 
     Property property = new Property();
@@ -230,25 +237,167 @@ public class TestPortletManagementInterface extends BaseTest {
     setPortletProperties.setUserContext(userContext);
     setPortletProperties.setPropertyList(list);
     PortletContext pCReturned = portletManagementOperationsInterface.setPortletProperties(setPortletProperties);
+    assertNotNull(pCReturned);
     assertEquals(returnedPH, pCReturned.getPortletHandle());
 
     GetPortletProperties getPortletProperties = new GetPortletProperties();
     getPortletProperties.setRegistrationContext(rC);
     getPortletProperties.setPortletContext(pC);
     getPortletProperties.setUserContext(userContext);
-    getPortletProperties.getNames().add("time-format");
-    
+
     list = portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
+    assertNotNull(list);
     List<Property> propList = list.getProperties();
-    
+    assertNotNull(propList);
+
+    // check set property
+    boolean found1 = false;
     for (Property property2 : propList) {
-      System.out.println("prop : " + property.getName().toString());
-      if ("test-prop".equals(property.getName().toString())) {
-        assertEquals("test-value", property.getStringValue());
-        return;
+      System.out.println("prop : " + property2.getName().toString());
+      System.out.println(">>> EXOMAN TestPortletManagementInterface.testSetPortletProperty() property2.getName().getLocalPart() = "
+          + property2.getName().getLocalPart());
+      System.out.println(">>> EXOMAN TestPortletManagementInterface.testSetPortletProperty() property2.getStringValue() = "
+          + property2.getStringValue());
+      if ("test-prop".equals(property2.getName().getLocalPart())) {
+        assertEquals("test-value", property2.getStringValue());
+        found1 = true;
+        break;
       }
     }
-    fail("A property should have been found!!!");
+    if (!found1) {
+      fail("A property \"test-prop\" should have been found with value \"test-value\"!!!");
+    }
+
+    // check 'portlet.xml' configured property
+    boolean found2 = false;
+    for (Property property2 : propList) {
+      System.out.println("prop : " + property2.getName().toString());
+      System.out.println(">>> EXOMAN TestPortletManagementInterface.testSetPortletProperty() property2.getName().getLocalPart() = "
+          + property2.getName().getLocalPart());
+      if ("time-format".equals(property2.getName().getLocalPart())) {
+        assertEquals("HH", property2.getStringValue());
+        found2 = true;
+        break;
+      }
+    }
+    if (!found2) {
+      fail("A property \"time-format\" should have been found with value \"HH\"!!!");
+    }
+  }
+
+  // Tests With Invalid Registration
+
+  public void testClonePortletWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+    ClonePortlet clonePortlet = new ClonePortlet();
+    clonePortlet.setRegistrationContext(registrationContext);
+    clonePortlet.setPortletContext(pC);
+    clonePortlet.setUserContext(userContext);
+    try {
+      portletManagementOperationsInterface.clonePortlet(clonePortlet).getPortletHandle();
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testDestroyPortletWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld";
+    DestroyPortlets destroyPortlets = new DestroyPortlets();
+    destroyPortlets.setRegistrationContext(registrationContext);
+    destroyPortlets.getPortletHandles().add(portletHandle);
+    try {
+      portletManagementOperationsInterface.destroyPortlets(destroyPortlets);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testCopyPortletsPortletWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    CopyPortlets copyPortlets = new CopyPortlets();
+    copyPortlets.setFromRegistrationContext(registrationContext);
+    copyPortlets.setFromUserContext(userContext);
+    copyPortlets.setToRegistrationContext(registrationContext);
+    copyPortlets.setToUserContext(userContext);
+
+    try {
+      portletManagementOperationsInterface.copyPortlets(copyPortlets);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+//  public void testExportPortletsPortletWithInvalidRegistration() throws Exception {
+//    log();
+//    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+//    createRegistrationContext(sd, true);
+//    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+//
+//    ExportPortlets exportPortlets = new ExportPortlets();
+//    exportPortlets.setRegistrationContext(registrationContext);
+//    exportPortlets.setUserContext(userContext);
+//    exportPortlets.setLifetime(getLifetimeInSec(100));
+//    exportPortlets.setExportByValueRequired(false);
+//
+//    try {
+//      portletManagementOperationsInterface.exportPortlets(exportPortlets);
+//      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+//    } catch (InvalidRegistration e) {
+//    }
+//  }
+
+  public void testGetPortletDescriptionPortletWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld";
+    GetPortletDescription getPortletDescription = new GetPortletDescription();
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    getPortletDescription.setPortletContext(portletContext);
+    getPortletDescription.setRegistrationContext(registrationContext);
+
+    try {
+      portletManagementOperationsInterface.getPortletDescription(getPortletDescription);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testGetPortletPropertiesPortletWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld";
+    GetPortletProperties getPortletProperties = new GetPortletProperties();
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    getPortletProperties.setPortletContext(portletContext);
+    getPortletProperties.setRegistrationContext(registrationContext);
+
+    try {
+      portletManagementOperationsInterface.getPortletProperties(getPortletProperties);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
   }
 
   private PortletContext fillPortletContext(String portletHandle) {

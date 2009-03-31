@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import javax.naming.OperationNotSupportedException;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
@@ -136,14 +135,10 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
                                                                           ModifyRegistrationRequired,
                                                                           OperationFailed,
                                                                           WSRPException {
-    // portletHandles and userContext are unavailable int the 1st spec
-//    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
-    
-
-   
 
     try {
-      if (registrationContext!=null && RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+      if (registrationContext != null
+          && RegistrationVerifier.checkRegistrationContext(registrationContext)) {
         LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
       }
     } catch (InvalidHandle ih) {
@@ -159,9 +154,6 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       desiredLocales.add("en");
     }
 
-
-
-    
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
 
     Set<String> keys = portletMetaDatas.keySet();
@@ -208,7 +200,7 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
       log.debug("fill service description with portlet description: "
           + producerOfferedPortletHandle);
       PortletDescription pD = proxy.getPortletDescription(producerOfferedPortletHandle,
-                                                                          desiredLocales.toArray(new String[] {}));
+                                                          desiredLocales.toArray(new String[] {}));
       portletDescriptions.add(pD);
     }
     ServiceDescription sD = new ServiceDescription();

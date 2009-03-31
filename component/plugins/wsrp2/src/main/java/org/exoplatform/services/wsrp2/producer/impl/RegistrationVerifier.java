@@ -65,7 +65,7 @@ public class RegistrationVerifier implements Startable {
         if (LOG.isDebugEnabled())
           LOG.debug(" isRegistered = " + isRegistered);
         if (!isRegistered) {
-          throw new InvalidHandle("Provided '" + registrationContext.getRegistrationHandle()
+          throw new InvalidRegistration("Provided '" + registrationContext.getRegistrationHandle()
               + "' registrationHandle is unregistered.");
         }
         return true;

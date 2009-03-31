@@ -24,23 +24,16 @@ import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
-import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
-import org.exoplatform.services.wsrp2.intf.InvalidCookie;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
-import org.exoplatform.services.wsrp2.intf.InvalidSession;
-import org.exoplatform.services.wsrp2.intf.InvalidUserCategory;
 import org.exoplatform.services.wsrp2.intf.MissingParameters;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
-import org.exoplatform.services.wsrp2.intf.UnsupportedLocale;
-import org.exoplatform.services.wsrp2.intf.UnsupportedMimeType;
-import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
-import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.AccessDeniedFault;
 import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
 import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
@@ -79,29 +72,30 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     if (LOG.isDebugEnabled())
       LOG.debug(register);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       RegistrationContext response = registrationOperationsInterface.register(register.getRegistrationData(),
                                                                               register.getUserContext(),
                                                                               register.getLifetime());
       org.exoplatform.services.wsrp2.type.RegistrationContext _return = response;
       return _return;
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                +  e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
@@ -120,30 +114,31 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       ReturnAny response = registrationOperationsInterface.deregister(registrationContext,
                                                                       userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
-      throw new OperationFailed("Error '" +  e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                +  e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+        e.printStackTrace();
+      throw new OperationFailed("Error '" + e.toString()
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
@@ -162,36 +157,37 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     if (LOG.isDebugEnabled())
       LOG.debug(getRegistrationLifetime);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       Lifetime response = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime.getRegistrationContext(),
                                                                                   getRegistrationLifetime.getUserContext());
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
-    } catch (AccessDenied ad){
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (InvalidHandle ih) {
+      throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
-      throw new OperationFailed("Error '" +  e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                +  e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+        e.printStackTrace();
+      throw new OperationFailed("Error '" + e.toString()
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
@@ -210,37 +206,38 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     if (LOG.isDebugEnabled())
       LOG.debug(setRegistrationLifetime);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       Lifetime response = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime.getRegistrationContext(),
                                                                                   setRegistrationLifetime.getUserContext(),
                                                                                   setRegistrationLifetime.getLifetime());
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
-    } catch (AccessDenied ad){
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (InvalidHandle ih) {
+      throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
-      throw new OperationFailed("Error '" +  e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                +  e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+        e.printStackTrace();
+      throw new OperationFailed("Error '" + e.toString()
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
@@ -266,6 +263,7 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
     if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       RegistrationState response = registrationOperationsInterface.modifyRegistration(registrationContext,
                                                                                       registrationData,
                                                                                       userContext);
@@ -277,26 +275,26 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       extensions.value = extensionsValue;
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
-      throw new OperationFailed("Error '" +  e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                +  e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+        e.printStackTrace();
+      throw new OperationFailed("Error '" + e.toString()
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 }

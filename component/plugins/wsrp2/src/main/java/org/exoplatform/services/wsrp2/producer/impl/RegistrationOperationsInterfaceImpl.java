@@ -208,15 +208,20 @@ public class RegistrationOperationsInterfaceImpl implements RegistrationOperatio
 
   private void verifyRegistration(RegistrationContext registrationContext) throws InvalidRegistration,
                                                                           WSRPException {
-    if (!stateManager.isRegistered(registrationContext)) {
+    if (registrationContext == null || !stateManager.isRegistered(registrationContext)) {
       throw new InvalidRegistration("Producer with this registrationContext = '"
           + registrationContext + "' doesn't registered");
     }
-
   }
 
   private void validateRegistrationDatas(RegistrationData data) throws WSRPException {
     String consumerAgent = data.getConsumerAgent();
+    if (consumerAgent == null || consumerAgent.length() == 0) {
+      throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);
+    }
+  }
+
+  private void validateConsumerAgent(String consumerAgent) throws WSRPException {
     String[] members = StringUtils.split(consumerAgent, ".");
     if (!StringUtils.isNumeric(members[1])) {
       throw new WSRPException(Faults.MISSING_PARAMETERS_FAULT);

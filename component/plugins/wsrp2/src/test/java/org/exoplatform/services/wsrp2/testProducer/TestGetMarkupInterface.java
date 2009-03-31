@@ -23,6 +23,7 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Event;
@@ -38,6 +39,7 @@ import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.Property;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
+import org.exoplatform.services.wsrp2.type.ReleaseSessions;
 import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
@@ -48,7 +50,7 @@ import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
-public class TestGetMarkup extends BaseTest {
+public class TestGetMarkupInterface extends BaseTest {
 
   @Override
   public void setUp() throws Exception {
@@ -69,7 +71,7 @@ public class TestGetMarkup extends BaseTest {
     assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
     assertEquals("Everything is ok", response.getMarkupContext().getItemString());
   }
-  
+
   public void testGetMarkupForSeveralModes() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
@@ -256,7 +258,7 @@ public class TestGetMarkup extends BaseTest {
     try {
       markupOperationsInterface.getMarkup(getMarkup);
       fail("the getMarkup of the markupOperationsInterface should return a WS Fault");
-    } catch (Exception e) {
+    } catch (InvalidRegistration e) {
     }
     register.setLifetime(null);
   }
@@ -290,7 +292,7 @@ public class TestGetMarkup extends BaseTest {
     try {
       markupOperationsInterface.getMarkup(getMarkup);
       fail("the getMarkup of the markupOperationsInterface should return a WS Fault");
-    } catch (Exception e) {
+    } catch (InvalidRegistration e) {
     }
     register.setLifetime(null);
   }
@@ -304,6 +306,125 @@ public class TestGetMarkup extends BaseTest {
     initCookie.setUserContext(userContext);
     List<Extension> response = markupOperationsInterface.initCookie(initCookie);
     assertEquals(new ArrayList<Extension>(), response);
+  }
+
+  // Tests With Invalid Registration
+
+  public void testGetMarkupWithInvalidRegistration() throws Exception {
+    log();
+
+    String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+    try {
+      markupOperationsInterface.getMarkup(getMarkup);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    boolean isRequiredRegistration = getRequiresRegistration();
+    if (!isRequiredRegistration) {
+      setRequiresRegistration(true);
+    }
+    try {
+      registrationContext.setRegistrationHandle("");
+      portletHandle = CONTEXT_PATH + "/HelloWorld2";
+      getMarkup = getMarkup(registrationContext, portletContext);
+      try {
+        markupOperationsInterface.getMarkup(getMarkup);
+        fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+      } catch (InvalidRegistration e) {
+      }
+
+      registrationContext.setRegistrationHandle(null);
+      portletHandle = CONTEXT_PATH + "/HelloWorld2";
+      getMarkup = getMarkup(registrationContext, portletContext);
+      try {
+        markupOperationsInterface.getMarkup(getMarkup);
+        fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+      } catch (InvalidRegistration e) {
+      }
+    } finally {
+      setRequiresRegistration(isRequiredRegistration);
+    }
+
+  }
+
+  public void testGetResourceWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    GetResource getResource = getResource(registrationContext, portletContext);
+    try {
+      markupOperationsInterface.getResource(getResource);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testHandleEventsWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
+                                                 new String("event-value"));
+    Event event = JAXBEventTransformer.getEventMarshal(event286);
+    eventParams.getEvents().add(event);
+    HandleEvents handleEvents = handleEvents(registrationContext, portletContext);
+    try {
+      markupOperationsInterface.handleEvents(handleEvents);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testInitCookieWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    InitCookie initCookie = new InitCookie();
+    initCookie.setRegistrationContext(registrationContext);
+    initCookie.setUserContext(userContext);
+    try {
+      markupOperationsInterface.initCookie(initCookie);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testReleaseSessionsWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    String sessionID = "response.getSessionContext().getSessionID()";
+    ReleaseSessions releaseSessions = new ReleaseSessions();
+    releaseSessions.setRegistrationContext(registrationContext);
+    releaseSessions.getSessionIDs().add(sessionID);
+    releaseSessions.setUserContext(userContext);
+    try {
+      markupOperationsInterface.releaseSessions(releaseSessions);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
   }
 
 }

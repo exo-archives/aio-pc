@@ -38,7 +38,7 @@ public class TestGetMarkup extends BaseTest {
   @Override
   public void setUp() throws Exception {
     super.setUp();
-    System.out.println(">>>>>>>>>>>>>>> TestGetMarkup.setUp()");
+    System.out.println(">>>>>>>>>>>>>>> TestGetMarkupInterface.setUp()");
   }
 
   public void testGetMarkupForSeveralModes() throws Exception {

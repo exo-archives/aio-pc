@@ -22,7 +22,6 @@ import java.util.List;
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
-import org.exoplatform.services.wsrp1.type.WS1OperationFailedFault;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;
 import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
@@ -66,6 +65,7 @@ import org.exoplatform.services.wsrp2.type.UnsupportedModeFault;
 import org.exoplatform.services.wsrp2.type.UnsupportedWindowStateFault;
 
 /**
+ * 
  */
 
 @javax.jws.WebService(name = "WSRPV2MarkupPortType", serviceName = "WSRPService2", portName = "WSRP_v2_Markup_Service", targetNamespace = "urn:oasis:names:tc:wsrp:v2:wsdl", wsdlLocation = "/WEB-INF/wsdl2/wsrp-service.wsdl", endpointInterface = "org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType")
@@ -79,8 +79,19 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     this.markupOperationsInterface = markupOperationsInterface;
   }
 
-  /* (non-Javadoc)
-   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#getResource(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.PortletContext  portletContext ,)org.exoplatform.services.wsrp2.type.RuntimeContext  runtimeContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext ,)org.exoplatform.services.wsrp2.type.ResourceParams  resourceParams ,)org.exoplatform.services.wsrp2.type.ResourceContext  resourceContext ,)org.exoplatform.services.wsrp2.type.SessionContext  sessionContext ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>  extensions )*
+  /**
+   * @see 
+   *      org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#getResource(org
+   *      .exoplatform.services.wsrp2.type.RegistrationContext
+   *      registrationContext
+   *      ,)org.exoplatform.services.wsrp2.type.PortletContext portletContext
+   *      ,)org.exoplatform.services.wsrp2.type.RuntimeContext runtimeContext
+   *      ,)org.exoplatform.services.wsrp2.type.UserContext userContext
+   *      ,)org.exoplatform.services.wsrp2.type.ResourceParams resourceParams
+   *      ,)org.exoplatform.services.wsrp2.type.ResourceContext resourceContext
+   *      ,)org.exoplatform.services.wsrp2.type.SessionContext sessionContext
+   *      ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>
+   *      extensions )*
    */
   public void getResource(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                           javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.PortletContext> portletContext,
@@ -130,56 +141,60 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       sessionContext.value = sessionContextValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
-    } catch (AccessDenied ad){
-      throw new AccessDenied(ad.getMessage() , new AccessDeniedFault());
+    } catch (AccessDenied ad) {
+      throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (UnsupportedMimeType um) {
-        throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
-   } catch (InvalidCookie ic) {
-     throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault()); 
-   } catch (UnsupportedWindowState uws) {
-     throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
-   } catch (InvalidUserCategory iuc) {
-     throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault()); 
-   } catch (UnsupportedMode unm) {
-     throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (InvalidSession is) {
-     throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (InconsistentParameters icp) {
-     throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
-   } catch (UnsupportedLocale ul) {
-     throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
+    } catch (UnsupportedMimeType um) {
+      throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (InvalidHandle ih) {
+      throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
+    } catch (InvalidCookie ic) {
+      throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault());
+    } catch (UnsupportedWindowState uws) {
+      throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
+    } catch (InvalidUserCategory iuc) {
+      throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault());
+    } catch (UnsupportedMode unm) {
+      throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (InvalidSession is) {
+      throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (InconsistentParameters icp) {
+      throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (UnsupportedLocale ul) {
+      throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
-         wsrpe.printStackTrace();
+        wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
-      
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
+
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-          + "'on a PRODUCER side with exception at '"
-          + e.getStackTrace()[0].toString() + "'",
-      new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
+  /**
+   * @see 
+   *      org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#initCookie(org
+   *      .exoplatform.services.wsrp2.type.RegistrationContext
+   *      registrationContext ,)org.exoplatform.services.wsrp2.type.UserContext
+   *      userContext )*
    */
   public List<org.exoplatform.services.wsrp2.type.Extension> initCookie(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                                                                         org.exoplatform.services.wsrp2.type.UserContext userContext) throws OperationNotSupported,
@@ -195,38 +210,51 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       ReturnAny response = markupOperationsInterface.initCookie(registrationContext, userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
-    } catch (AccessDenied ad){
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#performBlockingInteraction(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.PortletContext  portletContext ,)org.exoplatform.services.wsrp2.type.RuntimeContext  runtimeContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext ,)org.exoplatform.services.wsrp2.type.MarkupParams  markupParams ,)org.exoplatform.services.wsrp2.type.InteractionParams  interactionParams ,)org.exoplatform.services.wsrp2.type.UpdateResponse  updateResponse ,)java.lang.String  redirectURL ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>  extensions )*
+  /**
+   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#
+   *      performBlockingInteraction
+   *      (org.exoplatform.services.wsrp2.type.RegistrationContext
+   *      registrationContext
+   *      ,)org.exoplatform.services.wsrp2.type.PortletContext portletContext
+   *      ,)org.exoplatform.services.wsrp2.type.RuntimeContext runtimeContext
+   *      ,)org.exoplatform.services.wsrp2.type.UserContext userContext
+   *      ,)org.exoplatform.services.wsrp2.type.MarkupParams markupParams
+   *      ,)org.exoplatform.services.wsrp2.type.InteractionParams
+   *      interactionParams ,)org.exoplatform.services.wsrp2.type.UpdateResponse
+   *      updateResponse ,)java.lang.String redirectURL
+   *      ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>
+   *      extensions )*
    */
   public void performBlockingInteraction(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                                          org.exoplatform.services.wsrp2.type.PortletContext portletContext,
@@ -280,55 +308,66 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       redirectURL.value = redirectURLValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
-    } catch (AccessDenied ad){
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (UnsupportedMimeType um) {
-        throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
-   } catch (InvalidCookie ic) {
-     throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault()); 
-   } catch (UnsupportedWindowState uws) {
-     throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
-   } catch (InvalidUserCategory iuc) {
-     throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault()); 
-   } catch (UnsupportedMode unm) {
-     throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (InvalidSession is) {
-     throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (InconsistentParameters icp) {
-     throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
-   } catch (UnsupportedLocale ul) {
-     throw new UnsupportedLocale(ul.getMessage());
+    } catch (UnsupportedMimeType um) {
+      throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (InvalidHandle ih) {
+      throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
+    } catch (InvalidCookie ic) {
+      throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault());
+    } catch (UnsupportedWindowState uws) {
+      throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
+    } catch (InvalidUserCategory iuc) {
+      throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault());
+    } catch (UnsupportedMode unm) {
+      throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (InvalidSession is) {
+      throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (InconsistentParameters icp) {
+      throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage());
+    } catch (UnsupportedLocale ul) {
+      throw new UnsupportedLocale(ul.getMessage());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#getMarkup(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.PortletContext  portletContext ,)org.exoplatform.services.wsrp2.type.RuntimeContext  runtimeContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext ,)org.exoplatform.services.wsrp2.type.MarkupParams  markupParams ,)org.exoplatform.services.wsrp2.type.MarkupContext  markupContext ,)org.exoplatform.services.wsrp2.type.SessionContext  sessionContext ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>  extensions )*
+  /**
+   * @see 
+   *      org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#getMarkup(org.
+   *      exoplatform.services.wsrp2.type.RegistrationContext
+   *      registrationContext
+   *      ,)org.exoplatform.services.wsrp2.type.PortletContext portletContext
+   *      ,)org.exoplatform.services.wsrp2.type.RuntimeContext runtimeContext
+   *      ,)org.exoplatform.services.wsrp2.type.UserContext userContext
+   *      ,)org.exoplatform.services.wsrp2.type.MarkupParams markupParams
+   *      ,)org.exoplatform.services.wsrp2.type.MarkupContext markupContext
+   *      ,)org.exoplatform.services.wsrp2.type.SessionContext sessionContext
+   *      ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>
+   *      extensions )*
    */
   public void getMarkup(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                         org.exoplatform.services.wsrp2.type.PortletContext portletContext,
@@ -364,9 +403,9 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       LOG.debug(userContext);
     if (LOG.isDebugEnabled())
       LOG.debug(markupParams);
-    
+
     try {
-    
+
       WSRPHTTPContainer.getInstance().setVersion(2);
       MarkupResponse response = markupOperationsInterface.getMarkup(registrationContext,
                                                                     portletContext,
@@ -379,57 +418,61 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       sessionContext.value = sessionContextValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
-      
-    } catch (AccessDenied ad){
+
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (UnsupportedMimeType um) {
-        throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
-   } catch (InvalidCookie ic) {
-     throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault()); 
-   } catch (UnsupportedWindowState uws) {
-     throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
-   } catch (InvalidUserCategory iuc) {
-     throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault()); 
-   } catch (UnsupportedMode unm) {
-     throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (InvalidSession is) {
-     throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (InconsistentParameters icp) {
-     throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
-   } catch (UnsupportedLocale ul) {
-     throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
+    } catch (UnsupportedMimeType um) {
+      throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (InvalidHandle ih) {
+      throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
+    } catch (InvalidCookie ic) {
+      throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault());
+    } catch (UnsupportedWindowState uws) {
+      throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
+    } catch (InvalidUserCategory iuc) {
+      throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault());
+    } catch (UnsupportedMode unm) {
+      throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (InvalidSession is) {
+      throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (InconsistentParameters icp) {
+      throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (UnsupportedLocale ul) {
+      throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
 
   }
 
-  /* (non-Javadoc)
-   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)java.util.List<java.lang.String>  sessionIDs ,)org.exoplatform.services.wsrp2.type.UserContext  userContext )*
+  /**
+   * @see 
+   *      org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#releaseSessions
+   *      (org.exoplatform.services.wsrp2.type.RegistrationContext
+   *      registrationContext ,)java.util.List<java.lang.String> sessionIDs
+   *      ,)org.exoplatform.services.wsrp2.type.UserContext userContext )*
    */
   public List<org.exoplatform.services.wsrp2.type.Extension> releaseSessions(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                                                                              java.util.List<java.lang.String> sessionIDs,
@@ -449,42 +492,57 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     if (LOG.isDebugEnabled())
       LOG.debug(userContext);
     try {
+      WSRPHTTPContainer.getInstance().setVersion(2);
       ReturnAny response = markupOperationsInterface.releaseSessions(registrationContext,
                                                                      sessionIDs,
                                                                      userContext);
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
-    } catch (AccessDenied ad){
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 
-  /* (non-Javadoc)
-   * @see org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#handleEvents(org.exoplatform.services.wsrp2.type.RegistrationContext  registrationContext ,)org.exoplatform.services.wsrp2.type.PortletContext  portletContext ,)org.exoplatform.services.wsrp2.type.RuntimeContext  runtimeContext ,)org.exoplatform.services.wsrp2.type.UserContext  userContext ,)org.exoplatform.services.wsrp2.type.MarkupParams  markupParams ,)org.exoplatform.services.wsrp2.type.EventParams  eventParams ,)org.exoplatform.services.wsrp2.type.UpdateResponse  updateResponse ,)java.util.List<org.exoplatform.services.wsrp2.type.HandleEventsFailed>  failedEvents ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>  extensions )*
+  /**
+   * @see 
+   *      org.exoplatform.services.wsrp2.intf.WSRPV2MarkupPortType#handleEvents(org
+   *      .exoplatform.services.wsrp2.type.RegistrationContext
+   *      registrationContext
+   *      ,)org.exoplatform.services.wsrp2.type.PortletContext portletContext
+   *      ,)org.exoplatform.services.wsrp2.type.RuntimeContext runtimeContext
+   *      ,)org.exoplatform.services.wsrp2.type.UserContext userContext
+   *      ,)org.exoplatform.services.wsrp2.type.MarkupParams markupParams
+   *      ,)org.exoplatform.services.wsrp2.type.EventParams eventParams
+   *      ,)org.exoplatform.services.wsrp2.type.UpdateResponse updateResponse
+   *      ,)java
+   *      .util.List<org.exoplatform.services.wsrp2.type.HandleEventsFailed>
+   *      failedEvents
+   *      ,)java.util.List<org.exoplatform.services.wsrp2.type.Extension>
+   *      extensions )*
    */
   public void handleEvents(org.exoplatform.services.wsrp2.type.RegistrationContext registrationContext,
                            org.exoplatform.services.wsrp2.type.PortletContext portletContext,
@@ -543,46 +601,46 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
       throw new OperationFailed("Error '" + wsrpe.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + wsrpe.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
-    } catch (AccessDenied ad){
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
+    } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
       throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
-   } catch (UnsupportedMimeType um) {
-        throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
-   } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
-   } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
-   } catch (InvalidCookie ic) {
-     throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault()); 
-   } catch (UnsupportedWindowState uws) {
-     throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
-   } catch (InvalidUserCategory iuc) {
-     throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault()); 
-   } catch (UnsupportedMode unm) {
-     throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
-   } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
-   } catch (InvalidSession is) {
-     throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
-   } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
-   } catch (InconsistentParameters icp) {
-     throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
-   } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
-   } catch (UnsupportedLocale ul) {
-     throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
+    } catch (UnsupportedMimeType um) {
+      throw new UnsupportedMimeType(um.getMessage(), new UnsupportedMimeTypeFault());
+    } catch (InvalidRegistration ir) {
+      throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
+    } catch (InvalidHandle ih) {
+      throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
+    } catch (InvalidCookie ic) {
+      throw new InvalidCookie(ic.getMessage(), new InvalidCookieFault());
+    } catch (UnsupportedWindowState uws) {
+      throw new UnsupportedWindowState(uws.getMessage(), new UnsupportedWindowStateFault());
+    } catch (InvalidUserCategory iuc) {
+      throw new InvalidUserCategory(iuc.getMessage(), new InvalidUserCategoryFault());
+    } catch (UnsupportedMode unm) {
+      throw new UnsupportedMode(unm.getMessage(), new UnsupportedModeFault());
+    } catch (ModifyRegistrationRequired mrr) {
+      throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
+    } catch (InvalidSession is) {
+      throw new InvalidSession(is.getMessage(), new InvalidSessionFault());
+    } catch (MissingParameters mp) {
+      throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
+    } catch (InconsistentParameters icp) {
+      throw new InconsistentParameters(icp.getMessage(), new InconsistentParametersFault());
+    } catch (OperationFailed of) {
+      throw new OperationFailed(of.getMessage(), new OperationFailedFault());
+    } catch (UnsupportedLocale ul) {
+      throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
-         e.printStackTrace();
+        e.printStackTrace();
       throw new OperationFailed("Error '" + e.toString()
-                                + "'on a PRODUCER side with exception at '"
-                                + e.getStackTrace()[0].toString() + "'",
-                            new OperationFailed());
+                                    + "'on a PRODUCER side with exception at '"
+                                    + e.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     }
   }
 

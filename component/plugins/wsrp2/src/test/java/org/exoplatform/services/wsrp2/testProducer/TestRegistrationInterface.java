@@ -17,12 +17,14 @@
 
 package org.exoplatform.services.wsrp2.testProducer;
 
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.GetRegistrationLifetime;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.ModifyRegistration;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
+import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
 
 /**
@@ -30,7 +32,7 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  */
 public class TestRegistrationInterface extends BaseTest {
 
-  private final String incorrectConsumerAgent = "exoplatform.2a.0b";
+  private final String incorrectConsumerAgent = ""; //exoplatform.2a.0b";
 
   @Override
   public void setUp() throws Exception {
@@ -38,7 +40,7 @@ public class TestRegistrationInterface extends BaseTest {
     log();
   }
 
-  public void testRegistrationHandle() throws Exception {
+  public void testRegister() throws Exception {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
@@ -50,7 +52,6 @@ public class TestRegistrationInterface extends BaseTest {
     try {
       registrationOperationsInterface.register(register);
       fail("the registration of the consumer should return a WS Fault");
-//   patch by Pascal LEMOINE avoids exception here
     } catch (Exception e) {
     }
   }
@@ -103,8 +104,8 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
     assertRegistrationContext(returnedContext);
-    
-    returnedContext.setRegistrationHandle("chunkHandle");
+
+    returnedContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
     Deregister deregister = new Deregister();
     deregister.setRegistrationContext(returnedContext);
     deregister.setUserContext(userContext);
@@ -127,9 +128,9 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
-    
+
     register.setLifetime(null);
-    
+
     register.setLifetime(getLifetimeInSec(-5));
     try {
       registrationOperationsInterface.register(register);
@@ -144,7 +145,7 @@ public class TestRegistrationInterface extends BaseTest {
     register.setLifetime(getLifetimeInSec(5));
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
-    
+
     updateCurrentTime(rC);
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
@@ -159,7 +160,7 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
-    
+
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
     Lifetime lifetime2 = registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
@@ -171,14 +172,14 @@ public class TestRegistrationInterface extends BaseTest {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
-    
+
     SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
     setRegistrationLifetime.setRegistrationContext(rC);
     setRegistrationLifetime.setUserContext(userContext);
     setRegistrationLifetime.setLifetime(getLifetimeInSec(5));
     Lifetime lifetime2 = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
     assertNotNull(lifetime2);
-    
+
     updateCurrentTime(rC);
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
@@ -193,7 +194,7 @@ public class TestRegistrationInterface extends BaseTest {
     RegistrationContext rC = registrationOperationsInterface.register(register);
     assertNotNull(rC.getRegistrationHandle());
     assertNotNull(rC.getScheduledDestruction());
-    
+
     updateCurrentTime(rC);
     SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
     setRegistrationLifetime.setRegistrationContext(rC);
@@ -201,7 +202,7 @@ public class TestRegistrationInterface extends BaseTest {
     setRegistrationLifetime.setLifetime(null);
     Lifetime lifetime2 = registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
     assertNull(lifetime2);
-    
+
     updateCurrentTime(rC);
     GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
     getRegistrationLifetime.setRegistrationContext(rC);
@@ -217,12 +218,154 @@ public class TestRegistrationInterface extends BaseTest {
     assertNotNull(returnedContext.getRegistrationHandle());
     assertRegistrationContext(returnedContext);
     assertNotNull(returnedContext.getScheduledDestruction());
-    
+
     updateCurrentTime(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     RegistrationState rS = registrationOperationsInterface.modifyRegistration(modifyRegistration);
     assertNotNull(rS.getScheduledDestruction());
     register.setLifetime(null);
+  }
+
+  // Tests With Invalid Registration
+
+  public void testModifyRegistrationWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+    ModifyRegistration modifyRegistration = getModifyRegistration(registrationContext);
+    try {
+      registrationOperationsInterface.modifyRegistration(modifyRegistration);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext.setRegistrationHandle(null);
+    modifyRegistration = getModifyRegistration(registrationContext);
+    try {
+      registrationOperationsInterface.modifyRegistration(modifyRegistration);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext = null;
+    modifyRegistration = getModifyRegistration(registrationContext);
+    try {
+      registrationOperationsInterface.modifyRegistration(modifyRegistration);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+  }
+
+  public void testDeregisterWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    Deregister deregister = new Deregister();
+    deregister.setRegistrationContext(registrationContext);
+    deregister.setUserContext(userContext);
+    try {
+      registrationOperationsInterface.deregister(deregister);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext.setRegistrationHandle(null);
+    deregister = new Deregister();
+    deregister.setRegistrationContext(registrationContext);
+    deregister.setUserContext(userContext);
+    try {
+      registrationOperationsInterface.deregister(deregister);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext = null;
+    deregister = new Deregister();
+    deregister.setRegistrationContext(registrationContext);
+    deregister.setUserContext(userContext);
+    try {
+      registrationOperationsInterface.deregister(deregister);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+  }
+
+  public void testGetRegistrationLifetimeWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    GetRegistrationLifetime getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(registrationContext);
+    try {
+      registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext.setRegistrationHandle(null);
+
+    getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(registrationContext);
+    try {
+      registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext = null;
+    getRegistrationLifetime = new GetRegistrationLifetime();
+    getRegistrationLifetime.setRegistrationContext(registrationContext);
+    try {
+      registrationOperationsInterface.getRegistrationLifetime(getRegistrationLifetime);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+  }
+
+  public void testSetRegistrationLifetimeWithInvalidRegistration() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, true);
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
+
+    SetRegistrationLifetime setRegistrationLifetime = new SetRegistrationLifetime();
+    setRegistrationLifetime.setRegistrationContext(registrationContext);
+    setRegistrationLifetime.setUserContext(userContext);
+    setRegistrationLifetime.setLifetime(null);
+    try {
+      registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext.setRegistrationHandle(null);
+    setRegistrationLifetime = new SetRegistrationLifetime();
+    setRegistrationLifetime.setRegistrationContext(registrationContext);
+    setRegistrationLifetime.setUserContext(userContext);
+    setRegistrationLifetime.setLifetime(null);
+    try {
+      registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
+
+    registrationContext = null;
+    setRegistrationLifetime = new SetRegistrationLifetime();
+    setRegistrationLifetime.setRegistrationContext(registrationContext);
+    setRegistrationLifetime.setUserContext(userContext);
+    setRegistrationLifetime.setLifetime(null);
+    try {
+      registrationOperationsInterface.setRegistrationLifetime(setRegistrationLifetime);
+      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration e) {
+    }
   }
 
 }

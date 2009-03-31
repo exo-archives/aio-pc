@@ -174,7 +174,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    */
   public boolean isRegistered(RegistrationContext registrationContext) throws WSRPException {
     if (registrationContext.getRegistrationHandle() == null
-        || registrationContext.getRegistrationHandle().equalsIgnoreCase(""))
+        || registrationContext.getRegistrationHandle().length() == 0)
       return false;
     log.debug("Look up from a registration stored");
     try {
