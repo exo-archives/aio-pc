@@ -38,7 +38,10 @@ import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2ServiceDescriptionPortType;
 import org.exoplatform.services.wsrp2.producer.ServiceDescriptionInterface;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
+import org.exoplatform.services.wsrp2.type.ModifyRegistrationRequiredFault;
 import org.exoplatform.services.wsrp2.type.OperationFailedFault;
+import org.exoplatform.services.wsrp2.type.ResourceSuspendedFault;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /**
@@ -132,13 +135,13 @@ public class WSRPV2ServiceDescriptionPortTypeImpl implements WSRPV2ServiceDescri
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (ResourceSuspended rs) {
-      throw new ResourceSuspended(rs.getMessage());
+      throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
    } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage());
+     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
    } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage());
+     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
    } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
+     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();

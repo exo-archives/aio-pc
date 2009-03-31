@@ -41,10 +41,16 @@ import org.exoplatform.services.wsrp2.intf.UnsupportedMode;
 import org.exoplatform.services.wsrp2.intf.UnsupportedWindowState;
 import org.exoplatform.services.wsrp2.intf.WSRPV2RegistrationPortType;
 import org.exoplatform.services.wsrp2.producer.RegistrationOperationsInterface;
+import org.exoplatform.services.wsrp2.type.AccessDeniedFault;
+import org.exoplatform.services.wsrp2.type.InvalidHandleFault;
+import org.exoplatform.services.wsrp2.type.InvalidRegistrationFault;
 import org.exoplatform.services.wsrp2.type.Lifetime;
+import org.exoplatform.services.wsrp2.type.MissingParametersFault;
+import org.exoplatform.services.wsrp2.type.ModifyRegistrationRequiredFault;
 import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.RegistrationState;
+import org.exoplatform.services.wsrp2.type.ResourceSuspendedFault;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
 
 /**
@@ -79,9 +85,9 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.RegistrationContext _return = response;
       return _return;
    } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage());
+     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
    } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
+     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -119,11 +125,11 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       List<org.exoplatform.services.wsrp2.type.Extension> _return = response.getExtensions();
       return _return;
     } catch (ResourceSuspended rs) {
-      throw new ResourceSuspended(rs.getMessage());
+      throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
    } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage());
+     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
    } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
+     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -161,17 +167,17 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (AccessDenied ad){
-      throw new AccessDenied(ad.getMessage());
+      throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
-      throw new ResourceSuspended(rs.getMessage());
+      throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
    } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage());
+     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
    } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage());
+     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
    } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage());
+     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
    } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
+     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -210,17 +216,17 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       org.exoplatform.services.wsrp2.type.Lifetime _return = response;
       return _return;
     } catch (AccessDenied ad){
-      throw new AccessDenied(ad.getMessage());
+      throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
-      throw new ResourceSuspended(rs.getMessage());
+      throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
    } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage());
+     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
    } catch (InvalidHandle ih) {
-     throw new InvalidHandle(ih.getMessage());
+     throw new InvalidHandle(ih.getMessage(), new InvalidHandleFault());
    } catch (ModifyRegistrationRequired mrr) {
-     throw new ModifyRegistrationRequired(mrr.getMessage());
+     throw new ModifyRegistrationRequired(mrr.getMessage(), new ModifyRegistrationRequiredFault());
    } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
+     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -270,13 +276,13 @@ public class WSRPV2RegistrationPortTypeImpl implements WSRPV2RegistrationPortTyp
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
     } catch (ResourceSuspended rs) {
-      throw new ResourceSuspended(rs.getMessage());
+      throw new ResourceSuspended(rs.getMessage(), new ResourceSuspendedFault());
    } catch (InvalidRegistration ir) {
-     throw new InvalidRegistration(ir.getMessage());
+     throw new InvalidRegistration(ir.getMessage(), new InvalidRegistrationFault());
    } catch (MissingParameters mp) {
-     throw new MissingParameters(mp.getMessage());
+     throw new MissingParameters(mp.getMessage(), new MissingParametersFault());
    } catch (OperationFailed of) {
-     throw new OperationFailed(of.getMessage());
+     throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
