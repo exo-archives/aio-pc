@@ -25,6 +25,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import javax.naming.OperationNotSupportedException;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.logging.Log;
@@ -41,12 +42,16 @@ import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
+import org.exoplatform.services.wsrp2.intf.AccessDenied;
+import org.exoplatform.services.wsrp2.intf.InvalidHandle;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
+import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.producer.PortletContainerProxy;
 import org.exoplatform.services.wsrp2.producer.ServiceDescriptionInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.EventDescription;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
@@ -132,14 +137,31 @@ public class ServiceDescriptionInterfaceImpl implements ServiceDescriptionInterf
                                                                           OperationFailed,
                                                                           WSRPException {
     // portletHandles and userContext are unavailable int the 1st spec
+//    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
+    
+
+   
+
+    try {
+      if (registrationContext!=null && RegistrationVerifier.checkRegistrationContext(registrationContext)) {
+        LifetimeHelper.checkRegistrationLifetime(registrationContext, userContext);
+      }
+    } catch (InvalidHandle ih) {
+      throw new InvalidRegistration(ih.getMessage(), ih);
+    } catch (OperationNotSupported e) {
+      throw new OperationFailed(e.getMessage(), e);
+    } catch (AccessDenied e2) {
+      throw new OperationFailed(e2.getMessage(), e2);
+    }
 
     if (desiredLocales == null) {
       desiredLocales = new ArrayList<String>();
       desiredLocales.add("en");
     }
 
-    log.debug("getServiceDescription entered with registrationContext : " + registrationContext);
 
+
+    
     Map<String, PortletData> portletMetaDatas = proxy.getAllPortletMetaData();
 
     Set<String> keys = portletMetaDatas.keySet();

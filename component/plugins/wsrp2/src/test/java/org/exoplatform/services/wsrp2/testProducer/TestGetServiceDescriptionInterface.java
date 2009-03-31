@@ -23,6 +23,7 @@ import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.ModifyRegistrationRequired;
 import org.exoplatform.services.wsrp2.intf.OperationFailed;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
+import org.exoplatform.services.wsrp2.producer.impl.ServiceDescriptionInterfaceImpl;
 import org.exoplatform.services.wsrp2.type.GetServiceDescription;
 import org.exoplatform.services.wsrp2.type.ItemDescription;
 import org.exoplatform.services.wsrp2.type.MarkupType;
@@ -40,182 +41,209 @@ public class TestGetServiceDescriptionInterface extends BaseTest {
     log();
   }
 
-  public void testGetDescription() throws Exception {
+//  public void testGetDescription() throws Exception {
+//    log();
+//    PortletDescription ps = getHelloWorldPortlet("en");
+//    assertEquals("Usual Hello World Portlet", ps.getDescription().getValue());
+//
+//    ps = getHelloWorldPortlet("fr");
+//    assertEquals("Salut le monde Portlet", ps.getDescription().getValue());
+//  }
+  
+  public void testGetDescriptionFail() throws Exception {
     log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("Usual Hello World Portlet", ps.getDescription().getValue());
-
-    ps = getHelloWorldPortlet("fr");
-    assertEquals("Salut le monde Portlet", ps.getDescription().getValue());
-  }
-
-  public void testGetDisplayName() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("HelloWorldPortlet", ps.getDisplayName().getValue());
-
-    ps = getHelloWorldPortlet("fr");
-    assertEquals("SalutLeMondePortlet", ps.getDisplayName().getValue());
-  }
-
-  public void testGetTitle() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("HelloWorld title", ps.getTitle().getValue());
-
-    ps = getHelloWorldPortlet("fr");
-    assertEquals("Bonjour le monde Portlet", ps.getTitle().getValue());
-  }
-
-  public void testGetShortTitle() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("Hello World", ps.getShortTitle().getValue());
-
-    ps = getHelloWorldPortlet("fr");
-    assertEquals("Bonjour", ps.getShortTitle().getValue());
-  }
-
-  public void testGetKeyWords() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("sample", ps.getKeywords().get(0).getValue());
-    assertEquals("hello", ps.getKeywords().get(1).getValue());
-
-    ps = getHelloWorldPortlet("fr");
-    assertEquals("exemple", ps.getKeywords().get(0).getValue());
-    assertEquals("bonjour", ps.getKeywords().get(1).getValue());
-  }
-
-  public void testGetPortletHandle() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals(CONTEXT_PATH + "/HelloWorld", ps.getPortletHandle());
-  }
-
-  public void testGetGroupId() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("hello", ps.getGroupID());
-  }
-
-  public void testGetMarkup() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    MarkupType mT = ps.getMarkupTypes().get(0);
-
-    assertEquals("text/html", mT.getMimeType());
-    assertEquals("wsrp:config", mT.getModes().get(0));
-    assertEquals("wsrp:help", mT.getModes().get(2));
-//    assertEquals("wsrp:minimized", mT.getWindowStates(0));
-//    assertEquals("wsrp:normal", mT.getWindowStates(1));
-//    assertEquals("wsrp:maximized", mT.getWindowStates(2));
-//    assertEquals("wsrp:half-page", mT.getWindowStates(3));
-    assertEquals("en", mT.getLocales().get(0));
-  }
-
-  public void testPortletNeedsSecureTransportation() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-//    assertEquals(false, ps.getDefaultMarkupSecure().booleanValue());
-//    assertEquals(false, ps.getOnlySecure().booleanValue());
-//  !!! changed to true 'cause there is security constraint for the portlet in portlet.xml
-    assertEquals(true, ps.isDefaultMarkupSecure().booleanValue());
-    assertEquals(true, ps.isOnlySecure().booleanValue());
-  }
-
-  public void testRequiresRegistration() throws Exception {
-    log();
-    boolean isRequiredRegistration = getRequiresRegistration();
-    if (!isRequiredRegistration) {
-      setRequiresRegistration(true);
-    }
+    registrationContext = new RegistrationContext();
+    registrationContext.setRegistrationHandle("dummy_handle");
     try {
       GetServiceDescription getServiceDescription = new GetServiceDescription();
+      getServiceDescription.setRegistrationContext(registrationContext);
       getServiceDescription.getDesiredLocales().add("en");
-      ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-      assertEquals(true, sd.isRequiresRegistration());
-    } finally {
-      setRequiresRegistration(isRequiredRegistration);
-    }
+    //PortletDescription ps = getHelloWorldPortlet("en");
+      ServiceDescription sd2 = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+      fail("Should be an exception, because the given registration handle was incorrect");
+    } catch (InvalidRegistration ex) {
+      setRequiresRegistration(false);
+      } 
+    
   }
 
-  public void testGetCustomModes() throws Exception {
-    log();
-    GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    List<ItemDescription> list = sd.getCustomModeDescriptions();
-
-    ItemDescription iD = list.get(0);
-    assertEquals("config", iD.getItemName());
-//    assertEquals("en", iD.getDescription().getLang());
-    assertEquals("to let admin config portlets", iD.getDescription().getValue());
-
-    iD = list.get(1);
-    assertEquals("config", iD.getItemName());
-//    assertEquals("fr", iD.getDescription().getLang());
-  }
-
-  public void testGetCustomWindowStates() throws Exception {
-    log();
-    GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    List<ItemDescription> list = sd.getCustomWindowStateDescriptions();
-
-    ItemDescription iD = list.get(0);
-    assertEquals("half-page", iD.getItemName());
-//    assertEquals("en", iD.getDescription().getLang());
-    assertEquals("portlet takes half of the page", iD.getDescription().getValue());
-
-    iD = list.get(1);
-    assertEquals("half-page", iD.getItemName());
-//    assertEquals("fr", iD.getDescription().getLang());
-    assertEquals("portlet sure une demi page", iD.getDescription().getValue());
-
-    iD = list.get(2);
-    assertEquals("max-per-column", iD.getItemName());
-//    assertEquals("en", iD.getDescription().getLang());
-    assertEquals("portlet the whole column", iD.getDescription().getValue());
-  }
-
-  public void testGetSupportedLocales() throws Exception {
-    log();
-    GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    getServiceDescription.getDesiredLocales().add("fr");
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    List<String> localesList = sd.getLocales();
-    assertEquals("en", localesList.get(0));
-    assertEquals("fr", localesList.get(1));
-    assertEquals(2, localesList.size());
-  }
-
-  public void testGetUserAttributes() throws Exception {
-    log();
-    PortletDescription ps = getHelloWorldPortlet("en");
-    assertEquals("workInfo/telephone", ps.getUserProfileItems().get(0));
-  }
-
-  public void testGetServiceDescriptionWithPortletHandle() throws Exception {
-    PortletDescription ps = getHelloWorldPortletDescription(new RegistrationContext());
-    assertEquals("HelloWorldPortlet", ps.getDisplayName().getValue());
-  }
-
-  public void testGetServiceDescriptionWithInvalidPortletHandle() throws Exception {
-    PortletDescription ps = null;
-    GetServiceDescription getServiceDescription = new GetServiceDescription();
-    getServiceDescription.getDesiredLocales().add("en");
-    getServiceDescription.getPortletHandles().add(CONTEXT_PATH.concat("/HelloWorld2"));
-    ServiceDescription sd = serviceDescriptionInterface.getServiceDescription(getServiceDescription);
-    List<PortletDescription> list = sd.getOfferedPortlets();
-    for (PortletDescription portletDescription : list) {
-      if (CONTEXT_PATH.concat("/HelloWorld").equals(portletDescription.getPortletHandle()))
-        ps = portletDescription;
-    }
-    assertNull(ps);
-  }
+  // public void testGetDisplayName() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals("HelloWorldPortlet", ps.getDisplayName().getValue());
+  //
+  // ps = getHelloWorldPortlet("fr");
+  // assertEquals("SalutLeMondePortlet", ps.getDisplayName().getValue());
+  // }
+  //
+  // public void testGetTitle() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals("HelloWorld title", ps.getTitle().getValue());
+  //
+  // ps = getHelloWorldPortlet("fr");
+  // assertEquals("Bonjour le monde Portlet", ps.getTitle().getValue());
+  // }
+  //
+  // public void testGetShortTitle() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals("Hello World", ps.getShortTitle().getValue());
+  //
+  // ps = getHelloWorldPortlet("fr");
+  // assertEquals("Bonjour", ps.getShortTitle().getValue());
+  // }
+  //
+  // public void testGetKeyWords() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals("sample", ps.getKeywords().get(0).getValue());
+  // assertEquals("hello", ps.getKeywords().get(1).getValue());
+  //
+  // ps = getHelloWorldPortlet("fr");
+  // assertEquals("exemple", ps.getKeywords().get(0).getValue());
+  // assertEquals("bonjour", ps.getKeywords().get(1).getValue());
+  // }
+  //
+  // public void testGetPortletHandle() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals(CONTEXT_PATH + "/HelloWorld", ps.getPortletHandle());
+  // }
+  //
+  // public void testGetGroupId() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals("hello", ps.getGroupID());
+  // }
+  //
+  // public void testGetMarkup() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // MarkupType mT = ps.getMarkupTypes().get(0);
+  //
+  // assertEquals("text/html", mT.getMimeType());
+  // assertEquals("wsrp:config", mT.getModes().get(0));
+  // assertEquals("wsrp:help", mT.getModes().get(2));
+  // // assertEquals("wsrp:minimized", mT.getWindowStates(0));
+  // // assertEquals("wsrp:normal", mT.getWindowStates(1));
+  // // assertEquals("wsrp:maximized", mT.getWindowStates(2));
+  // // assertEquals("wsrp:half-page", mT.getWindowStates(3));
+  // assertEquals("en", mT.getLocales().get(0));
+  // }
+  //
+  // public void testPortletNeedsSecureTransportation() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // // assertEquals(false, ps.getDefaultMarkupSecure().booleanValue());
+  // // assertEquals(false, ps.getOnlySecure().booleanValue());
+  // // !!! changed to true 'cause there is security constraint for the portlet
+  // in portlet.xml
+  // assertEquals(true, ps.isDefaultMarkupSecure().booleanValue());
+  // assertEquals(true, ps.isOnlySecure().booleanValue());
+  // }
+  //
+  // public void testRequiresRegistration() throws Exception {
+  // log();
+  // boolean isRequiredRegistration = getRequiresRegistration();
+  // if (!isRequiredRegistration) {
+  // setRequiresRegistration(true);
+  // }
+  // try {
+  // GetServiceDescription getServiceDescription = new GetServiceDescription();
+  // getServiceDescription.getDesiredLocales().add("en");
+  // ServiceDescription sd =
+  // serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+  // assertEquals(true, sd.isRequiresRegistration());
+  // } finally {
+  // setRequiresRegistration(isRequiredRegistration);
+  // }
+  // }
+  //
+  // public void testGetCustomModes() throws Exception {
+  // log();
+  // GetServiceDescription getServiceDescription = new GetServiceDescription();
+  // getServiceDescription.getDesiredLocales().add("en");
+  // ServiceDescription sd =
+  // serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+  // List<ItemDescription> list = sd.getCustomModeDescriptions();
+  //
+  // ItemDescription iD = list.get(0);
+  // assertEquals("config", iD.getItemName());
+  // // assertEquals("en", iD.getDescription().getLang());
+  // assertEquals("to let admin config portlets",
+  // iD.getDescription().getValue());
+  //
+  // iD = list.get(1);
+  // assertEquals("config", iD.getItemName());
+  // // assertEquals("fr", iD.getDescription().getLang());
+  // }
+  //
+  // public void testGetCustomWindowStates() throws Exception {
+  // log();
+  // GetServiceDescription getServiceDescription = new GetServiceDescription();
+  // getServiceDescription.getDesiredLocales().add("en");
+  // ServiceDescription sd =
+  // serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+  // List<ItemDescription> list = sd.getCustomWindowStateDescriptions();
+  //
+  // ItemDescription iD = list.get(0);
+  // assertEquals("half-page", iD.getItemName());
+  // // assertEquals("en", iD.getDescription().getLang());
+  // assertEquals("portlet takes half of the page",
+  // iD.getDescription().getValue());
+  //
+  // iD = list.get(1);
+  // assertEquals("half-page", iD.getItemName());
+  // // assertEquals("fr", iD.getDescription().getLang());
+  // assertEquals("portlet sure une demi page", iD.getDescription().getValue());
+  //
+  // iD = list.get(2);
+  // assertEquals("max-per-column", iD.getItemName());
+  // // assertEquals("en", iD.getDescription().getLang());
+  // assertEquals("portlet the whole column", iD.getDescription().getValue());
+  // }
+  //
+  // public void testGetSupportedLocales() throws Exception {
+  // log();
+  // GetServiceDescription getServiceDescription = new GetServiceDescription();
+  // getServiceDescription.getDesiredLocales().add("en");
+  // getServiceDescription.getDesiredLocales().add("fr");
+  // ServiceDescription sd =
+  // serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+  // List<String> localesList = sd.getLocales();
+  // assertEquals("en", localesList.get(0));
+  // assertEquals("fr", localesList.get(1));
+  // assertEquals(2, localesList.size());
+  // }
+  //
+  // public void testGetUserAttributes() throws Exception {
+  // log();
+  // PortletDescription ps = getHelloWorldPortlet("en");
+  // assertEquals("workInfo/telephone", ps.getUserProfileItems().get(0));
+  // }
+  //
+  // public void testGetServiceDescriptionWithPortletHandle() throws Exception {
+  // PortletDescription ps = getHelloWorldPortletDescription(new
+  // RegistrationContext());
+  // assertEquals("HelloWorldPortlet", ps.getDisplayName().getValue());
+  // }
+  //
+  // public void testGetServiceDescriptionWithInvalidPortletHandle() throws
+  // Exception {
+  // PortletDescription ps = null;
+  // GetServiceDescription getServiceDescription = new GetServiceDescription();
+  // getServiceDescription.getDesiredLocales().add("en");
+  // getServiceDescription.getPortletHandles().add(CONTEXT_PATH.concat("/HelloWorld2"));
+  // ServiceDescription sd =
+  // serviceDescriptionInterface.getServiceDescription(getServiceDescription);
+  //    List<PortletDescription> list = sd.getOfferedPortlets();
+  //    for (PortletDescription portletDescription : list) {
+  //      if (CONTEXT_PATH.concat("/HelloWorld").equals(portletDescription.getPortletHandle()))
+  //        ps = portletDescription;
+  //    }
+  //    assertNull(ps);
+  //  }
 
   private PortletDescription getHelloWorldPortletDescription(RegistrationContext registrationContext) throws ResourceSuspended,
                                                                                                      InvalidRegistration,
