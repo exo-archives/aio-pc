@@ -33,7 +33,6 @@ import org.exoplatform.services.wsrp2.consumer.PortletRegistry;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.consumer.URLGenerator;
-import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.consumer.UserRegistry;
 import org.exoplatform.services.wsrp2.type.PersonName;
 import org.exoplatform.services.wsrp2.type.RegistrationData;

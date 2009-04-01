@@ -17,7 +17,6 @@
 
 package org.exoplatform.services.wsrp1.testProducer;
 
-import java.rmi.RemoteException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -32,8 +31,7 @@ import org.exoplatform.services.wsrp1.type.WS1PropertyList;
 import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1SetPortletProperties;
 import org.exoplatform.services.wsrp2.intf.InvalidHandle;
-import org.exoplatform.services.wsrp2.type.DestroyPortlets;
-import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
 
 /**
@@ -61,7 +59,7 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testClonePortletWithBadRegistrationHandle() throws Exception {
     createRegistrationContext(null);
-    registrationContext.setRegistrationHandle("dummy_handle");
+    registrationContext.setRegistrationHandle(DUMMY_REGISTRATION_HANDLE);
     WS1PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     try {
       WS1ClonePortlet clonePortlet = new WS1ClonePortlet();
@@ -70,8 +68,7 @@ public class TestPortletManagementInterface extends BaseTest {
       clonePortlet.setUserContext(userContext);
       clonePortlet(clonePortlet);
       fail("The given registration handle was incorrect");
-    } catch (InvalidHandle e) {
-      e.printStackTrace();
+    } catch (InvalidRegistration e) {
     }
   }
 

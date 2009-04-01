@@ -23,7 +23,6 @@ import org.exoplatform.services.wsrp1.type.WS1GetServiceDescription;
 import org.exoplatform.services.wsrp1.type.WS1ItemDescription;
 import org.exoplatform.services.wsrp1.type.WS1MarkupType;
 import org.exoplatform.services.wsrp1.type.WS1PortletDescription;
-import org.exoplatform.services.wsrp1.type.WS1RegistrationContext;
 import org.exoplatform.services.wsrp1.type.WS1ServiceDescription;
 
 /**

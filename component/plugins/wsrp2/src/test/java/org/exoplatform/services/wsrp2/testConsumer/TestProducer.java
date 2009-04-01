@@ -17,11 +17,9 @@
 
 package org.exoplatform.services.wsrp2.testConsumer;
 
-import java.util.Arrays;
 import java.util.List;
 
 import org.exoplatform.services.wsrp2.type.PortletDescription;
-import org.exoplatform.services.wsrp2.type.ServiceDescription;
 
 /**
  * @author  Mestrallet Benjamin

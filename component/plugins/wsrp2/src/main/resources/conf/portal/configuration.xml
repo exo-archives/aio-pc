@@ -140,8 +140,8 @@
         <property name="wsrp.handle.events.optimized" value="false" />
         <property name="wsrp.save.registration.state.on.consumer" value="false" />
         <property name="wsrp.save.portlet.state.on.consumer" value="false" />
-        <property name="wsrp.cookie.protocol" value="none" />
-        <property name="wsrp.portlet.state.change" value="readWrite" /><!-- readWrite, cloneBeforeWrite, readOnly -->
+        <property name="wsrp.cookie.protocol" value="none" /><!-- otherwise, any other than 'none' -->
+        <property name="wsrp.portlet.state.change" value="readWrite" /><!-- check the one of: readWrite, cloneBeforeWrite, readOnly -->
       </properties-param>
       <properties-param>
         <name>wsrp-admin-portlet-conf</name>

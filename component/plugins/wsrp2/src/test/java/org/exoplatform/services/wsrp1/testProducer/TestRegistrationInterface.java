@@ -28,6 +28,8 @@ import org.exoplatform.services.wsrp2.utils.WSRPTypesTransformer;
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class TestRegistrationInterface extends BaseTest {
+  
+  private static final String INCORRECT_CONSUMER_AGENT = "";
 
   @Override
   public void setUp() throws Exception {
@@ -41,13 +43,11 @@ public class TestRegistrationInterface extends BaseTest {
   }
 
   public void testIncorrectRegistrationData() throws Exception {
-    registrationData.setConsumerAgent("exoplatform.1a.0b");
+    registrationData.setConsumerAgent(INCORRECT_CONSUMER_AGENT);
     try {
       register(registrationData);
       fail("the registration of the consumer should return a WS Fault");
-//   patch by Pascal LEMOINE avoids exception here
     } catch (OperationFailed e) {
-      //e.printStackTrace();
     }
   }
 
@@ -62,11 +62,11 @@ public class TestRegistrationInterface extends BaseTest {
 
   public void testIncorrectModifyRegistration() throws Exception {
     WS1RegistrationContext returnedContext = register(registrationData);
-    registrationData.setConsumerAgent("exoplatform.1a.0b");
+    registrationData.setConsumerAgent(INCORRECT_CONSUMER_AGENT);
     resolveRegistrationContext(returnedContext);
     WS1ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     try {
-      WS1RegistrationState rS = WSRPTypesTransformer.getWS1RegistrationState(registrationOperationsInterface.modifyRegistration(WSRPTypesTransformer.getWS2ModifyRegistration(modifyRegistration)));
+      WSRPTypesTransformer.getWS1RegistrationState(registrationOperationsInterface.modifyRegistration(WSRPTypesTransformer.getWS2ModifyRegistration(modifyRegistration)));
       fail("the modify registration of the consumer should return a WS Fault");
     } catch (Exception e) {
     }

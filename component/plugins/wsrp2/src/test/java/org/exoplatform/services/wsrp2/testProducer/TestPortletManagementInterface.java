@@ -27,7 +27,6 @@ import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.CopyPortlets;
 import org.exoplatform.services.wsrp2.type.DestroyPortlets;
 import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
-import org.exoplatform.services.wsrp2.type.ExportPortlets;
 import org.exoplatform.services.wsrp2.type.GetPortletDescription;
 import org.exoplatform.services.wsrp2.type.GetPortletProperties;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -254,10 +253,6 @@ public class TestPortletManagementInterface extends BaseTest {
     boolean found1 = false;
     for (Property property2 : propList) {
       System.out.println("prop : " + property2.getName().toString());
-      System.out.println(">>> EXOMAN TestPortletManagementInterface.testSetPortletProperty() property2.getName().getLocalPart() = "
-          + property2.getName().getLocalPart());
-      System.out.println(">>> EXOMAN TestPortletManagementInterface.testSetPortletProperty() property2.getStringValue() = "
-          + property2.getStringValue());
       if ("test-prop".equals(property2.getName().getLocalPart())) {
         assertEquals("test-value", property2.getStringValue());
         found1 = true;
@@ -272,8 +267,6 @@ public class TestPortletManagementInterface extends BaseTest {
     boolean found2 = false;
     for (Property property2 : propList) {
       System.out.println("prop : " + property2.getName().toString());
-      System.out.println(">>> EXOMAN TestPortletManagementInterface.testSetPortletProperty() property2.getName().getLocalPart() = "
-          + property2.getName().getLocalPart());
       if ("time-format".equals(property2.getName().getLocalPart())) {
         assertEquals("HH", property2.getStringValue());
         found2 = true;

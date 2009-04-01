@@ -89,17 +89,18 @@ import com.sun.org.apache.xerces.internal.jaxp.datatype.XMLGregorianCalendarImpl
  */
 public class BaseTest extends TestCase {
 
-  protected static final String                      SERVICE_URL              = "http://localhost:8080/hello/soap/services/WSRPService1?wsdl";
+  protected static final String                      SERVICE_URL               = "http://localhost:8080/hello/soap/services/WSRPService1?wsdl";
 
-  protected static final String                      ADMINISTRATION_ADDRESS   = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
+  protected static final String                      ADMINISTRATION_ADDRESS    = "http://localhost:8080/hello/soap/services/WSRPService0/WSRP_v0_ServiceAdministration_Service";
 
-  protected static final String                      CONTEXT_PATH             = "hello";
+  protected static final String                      CONTEXT_PATH              = "hello";
 
-  protected static final String                      TEST_PATH                = (System.getProperty("testPath") == null ? "."
-                                                                                                                       : System.getProperty("testPath"));
+  protected static final String                      TEST_PATH                 = (System.getProperty("testPath") == null ? "."
+                                                                                                                        : System.getProperty("testPath"));
 
+  protected static final String                      DUMMY_REGISTRATION_HANDLE = "dummyRegistrationHandle";
 
-  static boolean                                     initService_             = true;
+  static boolean                                     initService_              = true;
 
   protected PortletContainerService                  portletContainer;
 
@@ -135,51 +136,50 @@ public class BaseTest extends TestCase {
 
   protected WS1RegistrationContext                   registrationContext;
 
-  protected static final String[]                    USER_CATEGORIES_ARRAY    = { "full",
-      "standard", "minimal"                                                  };
+  protected static final String[]                    USER_CATEGORIES_ARRAY     = { "full",
+      "standard", "minimal"                                                   };
 
-  public static String[]                             localesArray             = { "en" };
+  public static String[]                             localesArray              = { "en" };
 
-  public static String[]                             markupCharacterSets      = { "UF-08",
-      "ISO-8859-1"                                                           };
+  public static String[]                             markupCharacterSets       = { "UF-08",
+      "ISO-8859-1"                                                            };
 
-  public static String[]                             mimeTypes                = { "text/html",
-      "text/xhtml"                                                           };
+  public static String[]                             mimeTypes                 = { "text/html",
+      "text/xhtml"                                                            };
 
-  public static final String                         BASE_URL                 = "/portal/faces/portal/portal.jsp?portal:ctx="
-                                                                                  + Constants.DEFAUL_PORTAL_OWNER;
+  public static final String                         BASE_URL                  = "/portal/faces/portal/portal.jsp?portal:ctx="
+                                                                                   + Constants.DEFAUL_PORTAL_OWNER;
 
-  public static final String                         DEFAULT_TEMPLATE         = BASE_URL
-                                                                                  + "&portal:windowState={wsrp-windowState}"
-                                                                                  + "&_mode={wsrp-mode}"
-                                                                                  + "&_isSecure={wsrp-secureURL}"
-                                                                                  + "&_component={wsrp-portletHandle}";
+  public static final String                         DEFAULT_TEMPLATE          = BASE_URL
+                                                                                   + "&portal:windowState={wsrp-windowState}"
+                                                                                   + "&_mode={wsrp-mode}"
+                                                                                   + "&_isSecure={wsrp-secureURL}"
+                                                                                   + "&_component={wsrp-portletHandle}";
 
-  public static final String                         RENDER_TEMPLATE          = DEFAULT_TEMPLATE
-                                                                                  + "&portal:type={wsrp-urlType}"
-                                                                                  + "&ns={wsrp-navigationalState}";
+  public static final String                         RENDER_TEMPLATE           = DEFAULT_TEMPLATE
+                                                                                   + "&portal:type={wsrp-urlType}"
+                                                                                   + "&ns={wsrp-navigationalState}";
 
-  public static final String                         BLOCKING_TEMPLATE        = DEFAULT_TEMPLATE
-                                                                                  + "&portal:type={wsrp-urlType}"
-                                                                                  + "&ns={wsrp-navigationalState}"
-                                                                                  + "&is={wsrp-interactionState}";
+  public static final String                         BLOCKING_TEMPLATE         = DEFAULT_TEMPLATE
+                                                                                   + "&portal:type={wsrp-urlType}"
+                                                                                   + "&ns={wsrp-navigationalState}"
+                                                                                   + "&is={wsrp-interactionState}";
 
-  public static final String[]                       CONSUMER_MODES           = { "wsrp:view",
-      "wsrp:edit"                                                            };
+  public static final String[]                       CONSUMER_MODES            = { "wsrp:view",
+      "wsrp:edit"                                                             };
 
-  public static final String[]                       CONSUMER_STATES          = { "wsrp:normal",
-      "wsrp:maximized"                                                       };
+  public static final String[]                       CONSUMER_STATES           = { "wsrp:normal",
+      "wsrp:maximized"                                                        };
 
-  public static final String[]                       CONSUMER_SCOPES          = { "chunk_data" };
+  public static final String[]                       CONSUMER_SCOPES           = { "chunk_data" };
 
-  public static final String[]                       CONSUMER_CUSTOM_PROFILES = { "what_more" };
+  public static final String[]                       CONSUMER_CUSTOM_PROFILES  = { "what_more" };
 
   private MockServletRequest                         mockServletRequest;
 
   private MockServletResponse                        mockServletResponse;
 
   protected ExoContainer                             container;
-
 
   public void setUp() throws Exception {
 

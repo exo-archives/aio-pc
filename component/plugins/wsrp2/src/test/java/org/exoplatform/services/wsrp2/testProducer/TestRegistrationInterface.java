@@ -32,8 +32,8 @@ import org.exoplatform.services.wsrp2.type.SetRegistrationLifetime;
  */
 public class TestRegistrationInterface extends BaseTest {
 
-  private final String incorrectConsumerAgent = ""; //exoplatform.2a.0b";
-
+  private static final String INCORRECT_CONSUMER_AGENT = "";
+  
   @Override
   public void setUp() throws Exception {
     super.setUp();
@@ -48,7 +48,7 @@ public class TestRegistrationInterface extends BaseTest {
 
   public void testIncorrectRegistrationData() throws Exception {
     log();
-    registrationData.setConsumerAgent(incorrectConsumerAgent);
+    registrationData.setConsumerAgent(INCORRECT_CONSUMER_AGENT);
     try {
       registrationOperationsInterface.register(register);
       fail("the registration of the consumer should return a WS Fault");
@@ -69,7 +69,7 @@ public class TestRegistrationInterface extends BaseTest {
   public void testIncorrectModifyRegistration() throws Exception {
     log();
     RegistrationContext returnedContext = registrationOperationsInterface.register(register);
-    registrationData.setConsumerAgent(incorrectConsumerAgent);
+    registrationData.setConsumerAgent(INCORRECT_CONSUMER_AGENT);
     assertRegistrationContext(returnedContext);
     ModifyRegistration modifyRegistration = getModifyRegistration(returnedContext);
     try {

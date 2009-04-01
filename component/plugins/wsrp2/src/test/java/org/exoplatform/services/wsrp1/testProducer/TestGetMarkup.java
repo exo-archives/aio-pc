@@ -19,7 +19,6 @@ package org.exoplatform.services.wsrp1.testProducer;
 
 import java.util.Arrays;
 
-import org.apache.commons.lang.StringUtils;
 import org.exoplatform.services.wsrp1.type.WS1ClonePortlet;
 import org.exoplatform.services.wsrp1.type.WS1GetMarkup;
 import org.exoplatform.services.wsrp1.type.WS1MarkupResponse;
