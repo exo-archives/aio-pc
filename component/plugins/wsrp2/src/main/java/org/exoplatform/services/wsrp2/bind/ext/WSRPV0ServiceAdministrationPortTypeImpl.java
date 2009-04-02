@@ -20,17 +20,20 @@ package org.exoplatform.services.wsrp2.bind.ext;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.jws.WebService;
+
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
+import org.exoplatform.services.wsrp2.producer.ServiceAdministration;
 import org.exoplatform.services.wsrp2.producer.ServiceAdministrationInterface;
 import org.exoplatform.services.wsrp2.utils.Utils;
 
 /**
- * 
+ * Implementation for Service Administration.
  */
 
-@javax.jws.WebService(name = "WSRPV0ServiceAdministrationPortType", serviceName = "WSRPService0", portName = "WSRP_v0_ServiceAdministration_Service")
+@WebService(serviceName = "WSRPService0", portName = "WSRP_v0_ServiceAdministration_Service", targetNamespace = "http://exoplatform.org/soap/cxf")
 public class WSRPV0ServiceAdministrationPortTypeImpl implements
     WSRPV0ServiceAdministrationPortType, AbstractSingletonWebService {
 
@@ -42,7 +45,7 @@ public class WSRPV0ServiceAdministrationPortTypeImpl implements
     this.serviceAdministrationInterface = serviceAdministrationInterface;
   }
 
-  public void getServiceAdministration(javax.xml.ws.Holder<String> properties) {
+  public String getServiceAdministration(String properties) {
 
     LOG.info("Executing operation getServiceAdministration");
     LOG.info(properties);
@@ -50,11 +53,15 @@ public class WSRPV0ServiceAdministrationPortTypeImpl implements
     try {
 
       Map<String, String> props = new HashMap<String, String>();
-      if (properties.value != null)
-        props = Utils.getMapFromString(properties.value);
+
+      if (properties != null)
+        props = Utils.getMapFromString(properties);
 
       ServiceAdministration response = serviceAdministrationInterface.getServiceAdministration(props);
-      properties.value = response.getPropertiesAsString();
+
+      properties = response.getPropertiesAsString();
+
+      return properties;
 
     } catch (Exception ex) {
       ex.printStackTrace();

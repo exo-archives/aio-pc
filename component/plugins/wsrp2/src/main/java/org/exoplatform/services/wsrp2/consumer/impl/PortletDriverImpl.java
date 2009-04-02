@@ -32,6 +32,7 @@ import org.exoplatform.services.wsrp2.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp2.consumer.PortletDriver;
 import org.exoplatform.services.wsrp2.consumer.Producer;
+import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
 import org.exoplatform.services.wsrp2.consumer.URLRewriter;
 import org.exoplatform.services.wsrp2.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp2.consumer.User;
@@ -46,11 +47,13 @@ import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortType
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.InvalidCookie;
+import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.intf.InvalidSession;
 import org.exoplatform.services.wsrp2.type.BlockingInteractionResponse;
 import org.exoplatform.services.wsrp2.type.ClientData;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.CookieProtocol;
+import org.exoplatform.services.wsrp2.type.Deregister;
 import org.exoplatform.services.wsrp2.type.DestroyPortlets;
 import org.exoplatform.services.wsrp2.type.DestroyPortletsResponse;
 import org.exoplatform.services.wsrp2.type.EventParams;
@@ -126,68 +129,6 @@ public class PortletDriverImpl implements PortletDriver {
 
   public WSRPPortlet getPortlet() {
     return this.portlet;
-  }
-
-  private void resetInitCookie(UserSessionMgr userSession) throws WSRPException {
-    LOG.debug("reset cookies");
-    if (initCookie.value().equalsIgnoreCase(CookieProtocol.NONE.value())) {
-      userSession.setInitCookieDone(false);
-    } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
-      PortletDescription portletDescription = null;
-      portletDescription = producer.getPortletDescription(getPortlet().getParent());
-      String groupID = null;
-      if (portletDescription != null) {
-        groupID = portletDescription.getGroupID();
-        if (groupID != null) {
-          GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
-          groupSession.setInitCookieDone(false);
-        }
-      }
-    }
-  }
-
-  private void checkInitCookie(UserSessionMgr userSession) throws WSRPException {
-    LOG.debug("init cookies: with serviceDescription.getRequiresInitCookie() = "
-        + initCookie.value());
-    if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_USER.value())) {
-      // If CookieProtocol.PER_USER
-      LOG.debug("Cookies management per user");
-      if (!userSession.isInitCookieDone()) {
-        LOG.debug("Init cookies : " + userSession);
-//        this.markupPort = userSession.getWSRPMarkupService();
-        userSession.setInitCookieRequired(true);
-        initCookie(userSession);
-        userSession.setInitCookieDone(true);
-      }
-    } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
-      // If CookieProtocol.PER_GROUP
-      LOG.debug("Cookies management per group");
-      PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getParent());
-      String groupID = null;
-      if (portletDescription != null) {
-        groupID = portletDescription.getGroupID();
-        LOG.debug("Group Id used for cookies management : " + groupID);
-      }
-      if (groupID != null) {
-        GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
-//        this.markupPort = groupSession.getWSRPMarkupService();
-        if (!groupSession.isInitCookieDone()) {
-          LOG.debug("Group session in init cookies : " + groupSession);
-          groupSession.setInitCookieRequired(true);
-          initCookie(userSession);
-          groupSession.setInitCookieDone(true);
-        }
-      } else {
-        // means either we have no service description from the producer
-        // contain the portlet
-        // or the producer specified initCookieRequired perGroup but didn't
-        // provide
-        // a groupID in the portlet description
-      }
-    } else {
-      // If CookieProtocol.NONE
-      //  this.markupPort = userSession.getWSRPMarkupService();
-    }
   }
 
   private MarkupParams getMarkupParams(WSRPBaseRequest request) {
@@ -287,7 +228,6 @@ public class PortletDriverImpl implements PortletDriver {
     checkInitCookie(userSession);
     MarkupResponse response = null;
     try {
-
       GetMarkup request = new GetMarkup();
       request.setPortletContext(getPortlet().getPortletContext());
       request.setMarkupParams(getMarkupParams(markupRequest));
@@ -299,6 +239,7 @@ public class PortletDriverImpl implements PortletDriver {
       }
       UserContext userCtx = getUserContext(userSession);
       if (userCtx != null) {
+        LOG.debug("User context used in getMarkup : " + userCtx.getUserContextKey());
         request.setUserContext(userCtx);
       }
 
@@ -337,6 +278,9 @@ public class PortletDriverImpl implements PortletDriver {
       sessionIDs.add(markupRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
       getMarkup(markupRequest, userSession, baseURL);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -437,6 +381,8 @@ public class PortletDriverImpl implements PortletDriver {
       }
       UserContext userCtx = getUserContext(userSession);
       if (userCtx != null) {
+        LOG.debug("User context used in performBlockingInteraction : "
+            + userCtx.getUserContextKey());
         request.setUserContext(userCtx);
       }
 
@@ -454,6 +400,9 @@ public class PortletDriverImpl implements PortletDriver {
       sessionIDs.add(actionRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
       performBlockingInteraction(actionRequest, userSession, baseURL);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -469,11 +418,15 @@ public class PortletDriverImpl implements PortletDriver {
     }
     UserContext userCtx = getUserContext(userSession);
     if (userCtx != null) {
+      LOG.debug("User context used in clonePortlet : " + userCtx.getUserContextKey());
       request.setUserContext(userCtx);
     }
     PortletContext response = null;
     try {
       response = portletManagementPort.clonePortlet(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -493,6 +446,9 @@ public class PortletDriverImpl implements PortletDriver {
 
     try {
       response = portletManagementPort.destroyPortlets(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -513,27 +469,13 @@ public class PortletDriverImpl implements PortletDriver {
       /* MAIN INVOKE */
       List<Extension> extension = markupPort.releaseSessions(request);
       response = new ReturnAny();
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
     return response;
-  }
-
-  public void initCookie(UserSessionMgr userSession) throws WSRPException {
-    InitCookie request = new InitCookie();
-    RegistrationContext regCtx = producer.getRegistrationContext();
-    if (regCtx != null) {
-      LOG.debug("Registration context used in initCookie : " + regCtx.getRegistrationHandle());
-      request.setRegistrationContext(regCtx);
-      request.setUserContext(getUserContext(userSession));
-    }
-    try {
-      LOG.debug("Call initCookie on Markup Port");
-      /* MAIN INVOKE */
-      List<Extension> extension = markupPort.initCookie(request);
-    } catch (Exception exc) {
-      LOG.error("Problem while initializing cookies :" + exc);
-    }
   }
 
   public PortletDescriptionResponse getPortletDescription(UserSessionMgr userSession,
@@ -547,6 +489,7 @@ public class PortletDriverImpl implements PortletDriver {
     request.setPortletContext(getPortlet().getPortletContext());
     UserContext userCtx = getUserContext(userSession);
     if (userCtx != null) {
+      LOG.debug("User context used in getPortletDescription : " + userCtx.getUserContextKey());
       request.setUserContext(userCtx);
     }
     if (desiredLocales != null)
@@ -555,6 +498,9 @@ public class PortletDriverImpl implements PortletDriver {
 
     try {
       response = portletManagementPort.getPortletDescription(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -570,6 +516,8 @@ public class PortletDriverImpl implements PortletDriver {
     }
     UserContext userCtx = getUserContext(userSession);
     if (userCtx != null) {
+      LOG.debug("User context used in getPortletPropertyDescription : "
+          + userCtx.getUserContextKey());
       request.setUserContext(userCtx);
     }
     if (consumer.getSupportedLocales() != null)
@@ -577,6 +525,9 @@ public class PortletDriverImpl implements PortletDriver {
     PortletPropertyDescriptionResponse response = null;
     try {
       response = portletManagementPort.getPortletPropertyDescription(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -594,11 +545,15 @@ public class PortletDriverImpl implements PortletDriver {
     }
     UserContext userCtx = getUserContext(userSession);
     if (userCtx != null) {
+      LOG.debug("User context used in getPortletProperties : " + userCtx.getUserContextKey());
       request.setUserContext(userCtx);
     }
     PropertyList response = null;
     try {
       response = portletManagementPort.getPortletProperties(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -614,12 +569,16 @@ public class PortletDriverImpl implements PortletDriver {
     }
     UserContext userCtx = getUserContext(userSession);
     if (userCtx != null) {
+      LOG.debug("User context used in setPortletProperties : " + userCtx.getUserContextKey());
       request.setUserContext(userCtx);
     }
     request.setPropertyList(properties);
     PortletContext response = null;
     try {
       response = portletManagementPort.setPortletProperties(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -645,6 +604,7 @@ public class PortletDriverImpl implements PortletDriver {
       }
       UserContext userCtx = getUserContext(userSession);
       if (userCtx != null) {
+        LOG.debug("User context used in getResource : " + userCtx.getUserContextKey());
         request.setUserContext(userCtx);
       }
 
@@ -683,6 +643,9 @@ public class PortletDriverImpl implements PortletDriver {
       sessionIDs.add(resourceRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
       getResource(resourceRequest, userSession, baseURL);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -771,6 +734,7 @@ public class PortletDriverImpl implements PortletDriver {
       }
       UserContext userCtx = getUserContext(userSession);
       if (userCtx != null) {
+        LOG.debug("User context used in handleEvents : " + userCtx.getUserContextKey());
         request.setUserContext(userCtx);
       }
 
@@ -786,6 +750,9 @@ public class PortletDriverImpl implements PortletDriver {
       sessionIDs.add(eventRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
       handleEvents(eventRequest, userSession, baseURL);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
@@ -804,6 +771,108 @@ public class PortletDriverImpl implements PortletDriver {
       eventParams.setPortletStateChange(StateChange.CLONE_BEFORE_WRITE);
     }
     return eventParams;
+  }
+
+  // Cookies private operations
+
+  public void initCookie(UserSessionMgr userSession) throws WSRPException {
+    InitCookie request = new InitCookie();
+    RegistrationContext regCtx = producer.getRegistrationContext();
+    if (regCtx != null) {
+      LOG.debug("Registration context used in initCookie : " + regCtx.getRegistrationHandle());
+      request.setRegistrationContext(regCtx);
+      request.setUserContext(getUserContext(userSession));
+    }
+    try {
+      LOG.debug("Call initCookie on Markup Port");
+      /* MAIN INVOKE */
+      List<Extension> extension = markupPort.initCookie(request);
+    } catch (InvalidRegistration e) {
+      LOG.info("Problem with registration ", e);
+      deregister(userSession);
+    } catch (Exception exc) {
+      LOG.error("Problem while initializing cookies :" + exc);
+    }
+  }
+
+  private void resetInitCookie(UserSessionMgr userSession) throws WSRPException {
+    LOG.debug("reset cookies");
+    if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_USER.value())) {
+      userSession.setInitCookieDone(false);
+    } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
+      PortletDescription portletDescription = null;
+      portletDescription = producer.getPortletDescription(getPortlet().getParent());
+      if (portletDescription != null) {
+        String groupID = portletDescription.getGroupID();
+        if (groupID != null) {
+          GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
+          groupSession.setInitCookieDone(false);
+        }
+      }
+    } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.NONE.value())) {
+      userSession.setInitCookieDone(false);
+    }
+  }
+
+  private void checkInitCookie(UserSessionMgr userSession) throws WSRPException {
+    LOG.debug("init cookies: with serviceDescription.getRequiresInitCookie() = "
+        + initCookie.value());
+    if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_USER.value())) {
+      // If CookieProtocol.PER_USER
+      LOG.debug("Cookies management per user");
+      if (!userSession.isInitCookieDone()) {
+        LOG.debug("Init cookies : " + userSession);
+//        this.markupPort = userSession.getWSRPMarkupService();
+        userSession.setInitCookieRequired(true);
+        initCookie(userSession);
+        userSession.setInitCookieDone(true);
+      }
+    } else if (initCookie.value().equalsIgnoreCase(CookieProtocol.PER_GROUP.value())) {
+      // If CookieProtocol.PER_GROUP
+      LOG.debug("Cookies management per group");
+      PortletDescription portletDescription = producer.getPortletDescription(getPortlet().getParent());
+      String groupID = null;
+      if (portletDescription != null) {
+        groupID = portletDescription.getGroupID();
+        LOG.debug("Group Id used for cookies management : " + groupID);
+      }
+      if (groupID != null) {
+        GroupSessionMgr groupSession = (GroupSessionMgr) userSession.getGroupSession(groupID);
+//        this.markupPort = groupSession.getWSRPMarkupService();
+        if (!groupSession.isInitCookieDone()) {
+          LOG.debug("Group session in init cookies : " + groupSession);
+          groupSession.setInitCookieRequired(true);
+          initCookie(userSession);
+          groupSession.setInitCookieDone(true);
+        }
+      } else {
+        // means either we have no service description from the producer
+        // contain the portlet
+        // or the producer specified initCookieRequired perGroup but didn't
+        // provide
+        // a groupID in the portlet description
+      }
+    } else {
+      // If CookieProtocol.NONE
+      //  this.markupPort = userSession.getWSRPMarkupService();
+    }
+  }
+
+  private void deregister(UserSessionMgr userSession) throws WSRPException {
+    ProducerRegistry pregistry = consumer.getProducerRegistry();
+    RegistrationContext registrationContext = producer.getRegistrationContext();
+    UserContext userCtx = getUserContext(userSession);
+    Deregister deregister = new Deregister();
+    deregister.setRegistrationContext(registrationContext);
+    deregister.setUserContext(userCtx);
+    try {
+      producer.deregister(deregister);
+    } catch (Exception e1) {
+      if (LOG.isDebugEnabled()) {
+        LOG.debug("Exception deregistering producer: " + producer.getID());
+      }
+    }
+    pregistry.removeProducer(producer.getID());
   }
 
 }

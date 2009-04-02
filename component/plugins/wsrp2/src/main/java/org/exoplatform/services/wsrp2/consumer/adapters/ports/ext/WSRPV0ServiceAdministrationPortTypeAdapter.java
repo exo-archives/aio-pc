@@ -16,6 +16,7 @@
  */
 package org.exoplatform.services.wsrp2.consumer.adapters.ports.ext;
 
+import java.util.HashMap;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
@@ -56,11 +57,11 @@ public class WSRPV0ServiceAdministrationPortTypeAdapter {
    * @return the service administration
    */
   public Map<String, String> getServiceAdministration(String propString) {
-    javax.xml.ws.Holder<String> properties = new javax.xml.ws.Holder<String>(propString);
-    serviceAdministrationPort.getServiceAdministration(properties);
 
-    String propStringResult = properties.value;
+    String propStringResult = serviceAdministrationPort.getServiceAdministration(propString);
+
     Map<String, String> realProps = Utils.getMapFromString(propStringResult);
+
     return realProps;
 
   }

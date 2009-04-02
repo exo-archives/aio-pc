@@ -19,22 +19,16 @@ package org.exoplatform.services.wsrp2.producer;
 
 import java.util.Map;
 
-import org.exoplatform.services.wsrp2.bind.ext.ServiceAdministration;
-
 /**
  * The Interface ServiceAdministrationInterface.
- * 
- * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public interface ServiceAdministrationInterface {
-  
+
   /**
    * Gets the service administration.
    * 
    * @param properties the properties
-   * 
    * @return the service administration
-   * 
    * @throws RemoteException the remote exception
    */
   public ServiceAdministration getServiceAdministration(Map<String, String> properties) throws java.rmi.RemoteException;

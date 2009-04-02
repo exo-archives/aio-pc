@@ -270,8 +270,9 @@ public class Utils {
     if (properties == null)
       return null;
     Map<String, String> result = new HashMap<String, String>();
-    if (properties.length() == 0)
+    if (properties.length() == 0) {
       return result;
+    }
 
     if (properties.startsWith("{"))
       properties = properties.substring(1);

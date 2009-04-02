@@ -504,63 +504,58 @@ public class BaseTest extends TestCase {
   }
 
   protected void setRequiresRegistration(boolean isRequiresRegistration) {
-    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
-    Map<String, String> responseProps = null;
-    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
-    String requestProps = WSRPConfiguration.REQUIRES_REGISTRATION.concat("=")
-                                                                 .concat(String.valueOf(isRequiresRegistration));
-    responseProps = administrationPort.getServiceAdministration(requestProps);
-    if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
-      fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
-    }
-    if (!responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION)
-                      .equalsIgnoreCase(String.valueOf(isRequiresRegistration))) {
-      fail("WSRPConfiguration doesn't return properly modified REQUIRES_REGISTRATION property");
-    }
+    setRequiresSmts(WSRPConfiguration.REQUIRES_REGISTRATION, String.valueOf(isRequiresRegistration));
   }
 
   protected boolean getRequiresRegistration() {
-    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
-    Map<String, String> responseProps = null;
-    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
-    responseProps = administrationPort.getServiceAdministration("");
-    if (!responseProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
-      fail("WSRPConfiguration doesn't return REQUIRES_REGISTRATION property");
-    }
-    if (responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION) == null) {
-      fail("WSRPConfiguration returns null REQUIRES_REGISTRATION property");
-    }
-    return Boolean.parseBoolean(responseProps.get(WSRPConfiguration.REQUIRES_REGISTRATION));
+    return Boolean.parseBoolean(getRequiresSmts(WSRPConfiguration.REQUIRES_REGISTRATION));
   }
 
   protected void setRequiresTemplate(boolean isRequiresTemplate) {
-    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
-    Map<String, String> responseProps = null;
-    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
-    String requestProps = WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING.concat("=")
-                                                                        .concat(String.valueOf(isRequiresTemplate));
-    responseProps = administrationPort.getServiceAdministration(requestProps);
-    if (!responseProps.containsKey(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)) {
-      fail("WSRPConfiguration doesn't return DOES_URL_TEMPLATE_PROCESSING property");
-    }
-    if (!responseProps.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)
-                      .equalsIgnoreCase(String.valueOf(isRequiresTemplate))) {
-      fail("WSRPConfiguration doesn't return properly modified DOES_URL_TEMPLATE_PROCESSING property");
-    }
+    setRequiresSmts(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING,
+                    String.valueOf(isRequiresTemplate));
   }
 
   protected boolean getRequiresTemplate() {
+    return Boolean.parseBoolean(getRequiresSmts(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING));
+  }
+
+  protected void setRequiresCookie(String cookieProtocol) {
+    setRequiresSmts(WSRPConfiguration.COOKIE_PROTOCOL, cookieProtocol);
+  }
+
+  protected String getRequiresCookie() {
+    return getRequiresSmts(WSRPConfiguration.COOKIE_PROTOCOL);
+  }
+
+  protected void setRequiresSmts(String REQUIRES_Smts, String isRequiresSmts) {
+    WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
+    Map<String, String> responseProps = null;
+    administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
+    String requestProps = REQUIRES_Smts.concat("=").concat(isRequiresSmts);
+    responseProps = administrationPort.getServiceAdministration(requestProps);
+    assertNotNull(responseProps);
+    if (!responseProps.containsKey(REQUIRES_Smts)) {
+      fail("WSRPConfiguration doesn't return '" + REQUIRES_Smts + "' property");
+    }
+    if (!responseProps.get(REQUIRES_Smts).equalsIgnoreCase(isRequiresSmts)) {
+      fail("WSRPConfiguration doesn't return properly modified '" + REQUIRES_Smts + "' property");
+    }
+  }
+
+  protected String getRequiresSmts(String REQUIRES_Smts) {
     WSRPV0ServiceAdministrationPortTypeAdapter administrationPort = null;
     Map<String, String> responseProps = null;
     administrationPort = new WSRPV0ServiceAdministrationPortTypeAdapter(ADMINISTRATION_ADDRESS);
     responseProps = administrationPort.getServiceAdministration("");
-    if (!responseProps.containsKey(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING)) {
-      fail("WSRPConfiguration doesn't return DOES_URL_TEMPLATE_PROCESSING property");
+    assertNotNull(responseProps);
+    if (!responseProps.containsKey(REQUIRES_Smts)) {
+      fail("WSRPConfiguration doesn't return '" + REQUIRES_Smts + "' property");
     }
-    if (responseProps.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING) == null) {
-      fail("WSRPConfiguration returns null DOES_URL_TEMPLATE_PROCESSING property");
+    if (responseProps.get(REQUIRES_Smts) == null) {
+      fail("WSRPConfiguration returns null '" + REQUIRES_Smts + "' property");
     }
-    return Boolean.parseBoolean(responseProps.get(WSRPConfiguration.DOES_URL_TEMPLATE_PROCESSING));
+    return responseProps.get(REQUIRES_Smts);
   }
 
 }

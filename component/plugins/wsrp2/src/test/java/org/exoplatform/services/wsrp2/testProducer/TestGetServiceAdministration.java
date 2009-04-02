@@ -50,11 +50,8 @@ public class TestGetServiceAdministration extends BaseTest {
 //    propString = "wsrp.requires.registration=true";
 
     // it gets boolean value property on a producer
-    javax.xml.ws.Holder<String> properties = new javax.xml.ws.Holder<String>(propString);
-    serviceAdministrationPort.getServiceAdministration(properties);
 
-    String propStringResult1 = properties.value;
-    assertNotNull(propStringResult1);
+    String propStringResult1 = serviceAdministrationPort.getServiceAdministration(propString);
     Map<String, String> realProps = Utils.getMapFromString(propStringResult1);
 
     if (realProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
@@ -69,11 +66,8 @@ public class TestGetServiceAdministration extends BaseTest {
     }
 
     // it changes boolean value property on a producer
-    properties = new javax.xml.ws.Holder<String>(propString);
-    serviceAdministrationPort.getServiceAdministration(properties);
 
-    String propStringResult2 = properties.value;
-    assertNotNull(propStringResult2);
+    String propStringResult2 = serviceAdministrationPort.getServiceAdministration(propString);
     Map<String, String> realProps2 = Utils.getMapFromString(propStringResult2);
 
     if (realProps.containsKey(WSRPConfiguration.REQUIRES_REGISTRATION)) {
@@ -88,11 +82,11 @@ public class TestGetServiceAdministration extends BaseTest {
     }
 
     // it changes back boolean value property on a producer
-    properties = new javax.xml.ws.Holder<String>(propString);
-    serviceAdministrationPort.getServiceAdministration(properties);
 
-    String propStringResult3 = properties.value;
-    assertNotNull(propStringResult3);
+    String propStringResult3 = serviceAdministrationPort.getServiceAdministration(propString);
+    Map<String, String> realProps3 = Utils.getMapFromString(propStringResult3);
+
+    assertNotNull(realProps3);
 
   }
 

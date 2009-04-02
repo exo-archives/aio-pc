@@ -23,9 +23,11 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
+import org.exoplatform.services.wsrp2.intf.InvalidCookie;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
+import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetMarkup;
@@ -307,6 +309,30 @@ public class TestGetMarkupInterface extends BaseTest {
     List<Extension> response = markupOperationsInterface.initCookie(initCookie);
     assertEquals(new ArrayList<Extension>(), response);
   }
+
+//  public void testGetMarkupWithInitCookieRequired() throws Exception {
+//    log();
+//    String cookieProtocol = getRequiresCookie();
+//    if (!cookieProtocol.equalsIgnoreCase(CookieProtocol.PER_USER.value())) {
+//      setRequiresCookie(CookieProtocol.PER_USER.value());
+//    }
+//    try {
+//      ServiceDescription sd = getServiceDescription(new String[] { "en" });
+//      createRegistrationContext(sd, false);
+//      String portletHandle = CONTEXT_PATH + "/HelloWorld2";
+//      PortletContext portletContext = new PortletContext();
+//      portletContext.setPortletHandle(portletHandle);
+//      portletContext.setPortletState(null);
+//      GetMarkup getMarkup = getMarkup(registrationContext, portletContext);
+//      MarkupResponse response = markupOperationsInterface.getMarkup(getMarkup);
+//      assertEquals("HelloWorld title", response.getMarkupContext().getPreferredTitle());
+//      assertEquals("Everything is ok", response.getMarkupContext().getItemString());
+//      fail("the getMarkup of the markupOperationsInterface should return a InvalidCookie");
+//    } catch (InvalidCookie e) {
+//    } finally {
+//      setRequiresCookie(cookieProtocol);
+//    }
+//  }
 
   // Tests With Invalid Registration
 

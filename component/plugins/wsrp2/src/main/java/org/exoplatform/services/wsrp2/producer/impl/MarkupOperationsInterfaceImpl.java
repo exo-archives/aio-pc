@@ -1447,7 +1447,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   private void createSession() throws OperationFailed {
     // If the request does not have a session, creates one.
     HttpSession httpSession = WSRPHTTPContainer.getInstance().getRequest().getSession(true);
-
     if (httpSession == null) {
       throw new OperationFailed("httpSession is null", new OperationFailedFault());
     }
@@ -1455,7 +1454,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private void checkCookie() throws InvalidCookie {
     HttpSession httpSession = WSRPHTTPContainer.getInstance().getRequest().getSession(false);
-
+    
     if (httpSession == null) {
       throw new InvalidCookie("httpSession is null", new InvalidCookieFault());
     }

@@ -23,6 +23,7 @@ import junit.framework.TestCase;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.wsrp2.peristence.WSRPPersister;
+import org.exoplatform.services.wsrp2.type.CookieProtocol;
 
 /**
  * Created by The eXo Platform SAS .
@@ -49,7 +50,6 @@ public class WSRPPersisterTestBase extends TestCase {
 
     StandaloneContainer.addConfigurationPath("src/test/resources/jcr-exo-configuration.xml");
     container = StandaloneContainer.getInstance(Thread.currentThread().getContextClassLoader());
-
   }
 
   public void testPut() throws Exception {
@@ -58,6 +58,11 @@ public class WSRPPersisterTestBase extends TestCase {
     String valueResult = wsrpPersister.getValue(path, id);
     assertNotNull(valueResult);
     assertEquals(value, valueResult);
+  }
+  
+  public void testCookieProtocol() throws Exception {
+    assertEquals("perUser", CookieProtocol.PER_USER.value());
+    assertNotSame("perUser", CookieProtocol.PER_USER.toString());
   }
 
   public void testRemove() throws Exception {

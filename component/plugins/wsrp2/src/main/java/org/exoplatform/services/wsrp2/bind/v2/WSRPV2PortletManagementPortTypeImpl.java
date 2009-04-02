@@ -35,6 +35,7 @@ import org.exoplatform.services.wsrp2.intf.OperationNotSupported;
 import org.exoplatform.services.wsrp2.intf.ResourceSuspended;
 import org.exoplatform.services.wsrp2.intf.WSRPV2PortletManagementPortType;
 import org.exoplatform.services.wsrp2.producer.PortletManagementOperationsInterface;
+import org.exoplatform.services.wsrp2.producer.impl.helpers.LifetimeHelper;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.WSRPHTTPContainer;
 import org.exoplatform.services.wsrp2.type.AccessDeniedFault;
 import org.exoplatform.services.wsrp2.type.CopyPortletsResponse;

@@ -395,8 +395,9 @@ public class WSRPAdminPortlet {
         answer = "none";
         if (serviceDescr != null) {
           CookieProtocol cookie = serviceDescr.getRequiresInitCookie();
-          if (cookie != null)
+          if (cookie != null) {
             answer = cookie.value();
+          }
         }
         w.println("<td><span style=\"font-size:12px; \" >" + answer + "</span></td>");
         w.println("</tr>");

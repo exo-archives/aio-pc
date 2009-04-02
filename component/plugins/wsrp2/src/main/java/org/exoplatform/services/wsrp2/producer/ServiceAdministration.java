@@ -15,7 +15,7 @@
  * along with this program; if not, see<http://www.gnu.org/licenses/>.
  */
 
-package org.exoplatform.services.wsrp2.bind.ext;
+package org.exoplatform.services.wsrp2.producer;
 
 import java.io.Serializable;
 import java.util.HashMap;
@@ -23,6 +23,7 @@ import java.util.Map;
 
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlType;
 
 /**
@@ -36,6 +37,7 @@ import javax.xml.bind.annotation.XmlType;
 @XmlType(name = "serviceAdministration", propOrder = { "properties" })
 public class ServiceAdministration implements Serializable {
 
+  @XmlElement(required = true, nillable = true)
   protected Map<String, String> properties;
 
   public Map<String, String> getProperties() {
