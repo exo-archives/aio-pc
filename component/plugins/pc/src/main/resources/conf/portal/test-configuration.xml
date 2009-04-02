@@ -39,11 +39,6 @@
   </component>
   
   <component>
-    <key>org.exoplatform.services.organization.OrganizationService</key>
-    <type>org.exoplatform.services.organization.hibernate.OrganizationServiceImpl</type>
-  </component>
-  
-  <component>
     <key>org.exoplatform.services.database.HibernateService</key>
     <type>org.exoplatform.services.database.impl.HibernateServiceImpl</type>
     <init-params>
@@ -93,7 +88,7 @@
         </value-param>
       </init-params>
   </component>
-  
+
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
     <component-plugin>
