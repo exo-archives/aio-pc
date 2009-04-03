@@ -1,10 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
-<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-    xsi:schemaLocation="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd http://www.exoplaform.org/xml/ns/kernel_1_0.xsd"
-    xmlns="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd">
-
-  <!-- Portlet container hooks -->
+<configuration>
+  <!-- Portlet container  hooks -->
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
   </component>
@@ -36,6 +33,11 @@
         <value></value>
       </values-param>
     </init-params>
+  </component>
+  
+  <component>
+    <key>org.exoplatform.services.organization.OrganizationService</key>
+    <type>org.exoplatform.services.organization.hibernate.OrganizationServiceImpl</type>
   </component>
   
   <component>
@@ -88,7 +90,7 @@
         </value-param>
       </init-params>
   </component>
-
+  
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
     <component-plugin>
