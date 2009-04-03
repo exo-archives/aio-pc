@@ -88,10 +88,10 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
 
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking getPortletDescription...");
-    org.exoplatform.services.wsrp2.type.RegistrationContext _getPortletDescription_registrationContext = null;
-    org.exoplatform.services.wsrp2.type.PortletContext _getPortletDescription_portletContext = null;
-    org.exoplatform.services.wsrp2.type.UserContext _getPortletDescription_userContext = null;
-    java.util.List<java.lang.String> _getPortletDescription_desiredLocales = null;
+    org.exoplatform.services.wsrp2.type.RegistrationContext _getPortletDescription_registrationContext = getPortletDescription.getRegistrationContext();
+    org.exoplatform.services.wsrp2.type.PortletContext _getPortletDescription_portletContext = getPortletDescription.getPortletContext();
+    org.exoplatform.services.wsrp2.type.UserContext _getPortletDescription_userContext = getPortletDescription.getUserContext();
+    java.util.List<java.lang.String> _getPortletDescription_desiredLocales = getPortletDescription.getDesiredLocales();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.PortletDescription> _getPortletDescription_portletDescription = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.PortletDescription>();
     javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ResourceList> _getPortletDescription_resourceList = new javax.xml.ws.Holder<org.exoplatform.services.wsrp2.type.ResourceList>();
     javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>> _getPortletDescription_extensions = new javax.xml.ws.Holder<java.util.List<org.exoplatform.services.wsrp2.type.Extension>>();
@@ -564,7 +564,7 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                         OperationFailed {
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking setExportLifetime...");
-    return portletManagementPort.setExportLifetime(setExportLifetime);
+    return portletManagementPort.setExportLifetime(setExportLifetime);WSRPV2PortletManagementPortTypeAdapter
   }
 
   public GetPortletsLifetimeResponse getPortletsLifetime(GetPortletsLifetime getPortletsLifetime) throws OperationNotSupported,

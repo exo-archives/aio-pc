@@ -33,7 +33,10 @@ import org.exoplatform.services.wsrp2.type.GetPortletPropertyDescription;
 import org.exoplatform.services.wsrp2.type.GetPortletsLifetime;
 import org.exoplatform.services.wsrp2.type.ImportPortlet;
 import org.exoplatform.services.wsrp2.type.ImportPortlets;
+import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.PortletContext;
+import org.exoplatform.services.wsrp2.type.PortletDescription;
+import org.exoplatform.services.wsrp2.type.PortletDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.Property;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
@@ -54,10 +57,10 @@ public class TestPortletManagementInterface extends BaseTest {
 
   public void testClonePortlet() throws Exception {
     log();
-    RegistrationContext rC = registrationOperationsInterface.register(register);
+    registrationContext = registrationOperationsInterface.register(register);
     PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
     ClonePortlet clonePortlet = new ClonePortlet();
-    clonePortlet.setRegistrationContext(rC);
+    clonePortlet.setRegistrationContext(registrationContext);
     clonePortlet.setPortletContext(pC);
     clonePortlet.setUserContext(userContext);
     String returnedPH = portletManagementOperationsInterface.clonePortlet(clonePortlet)
@@ -339,6 +342,26 @@ public class TestPortletManagementInterface extends BaseTest {
 //      fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
 //    } catch (InvalidRegistration e) {
 //    }
+//  }
+
+//  public void testGetPortletDescription() throws Exception {
+//    log();
+//    registrationContext = registrationOperationsInterface.register(register);
+//
+//    GetPortletDescription getPortletDescription = new GetPortletDescription();
+//    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+//    
+//    getPortletDescription.setPortletContext(pC);
+//    getPortletDescription.setRegistrationContext(registrationContext);
+//
+//    PortletDescriptionResponse pdr = portletManagementOperationsInterface.getPortletDescription(getPortletDescription);
+//    assertNotNull(pdr);
+//    PortletDescription pd = pdr.getPortletDescription();
+//    assertNotNull(pd);
+//    LocalizedString ls = pd.getDescription();
+//    assertNotNull(ls);
+//    String groupID = pd.getGroupID();
+//    assertNotNull(groupID);
 //  }
 
   public void testGetPortletDescriptionWithInvalidRegistration() throws Exception {
