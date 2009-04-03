@@ -43,6 +43,7 @@ import org.exoplatform.services.wsrp2.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp2.consumer.WSRPMarkupRequest;
 import org.exoplatform.services.wsrp2.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp2.consumer.WSRPResourceRequest;
+import org.exoplatform.services.wsrp2.consumer.adapters.WSRPBaseRequestAdapter;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPMarkupPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPPortletManagementPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -277,6 +278,7 @@ public class PortletDriverImpl implements PortletDriver {
       List<String> sessionIDs = new ArrayList<String>();
       sessionIDs.add(markupRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
+      ((WSRPBaseRequestAdapter) markupRequest).setSessionID(null);
       getMarkup(markupRequest, userSession, baseURL);
     } catch (InvalidRegistration e) {
       LOG.info("Problem with registration ", e);
@@ -399,6 +401,7 @@ public class PortletDriverImpl implements PortletDriver {
       List<String> sessionIDs = new ArrayList<String>();
       sessionIDs.add(actionRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
+      ((WSRPBaseRequestAdapter) actionRequest).setSessionID(null);
       performBlockingInteraction(actionRequest, userSession, baseURL);
     } catch (InvalidRegistration e) {
       LOG.info("Problem with registration ", e);
@@ -642,6 +645,7 @@ public class PortletDriverImpl implements PortletDriver {
       List<String> sessionIDs = new ArrayList<String>();
       sessionIDs.add(resourceRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
+      ((WSRPBaseRequestAdapter) resourceRequest).setSessionID(null);
       getResource(resourceRequest, userSession, baseURL);
     } catch (InvalidRegistration e) {
       LOG.info("Problem with registration ", e);
@@ -749,6 +753,7 @@ public class PortletDriverImpl implements PortletDriver {
       List<String> sessionIDs = new ArrayList<String>();
       sessionIDs.add(eventRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
+      ((WSRPBaseRequestAdapter) eventRequest).setSessionID(null);
       handleEvents(eventRequest, userSession, baseURL);
     } catch (InvalidRegistration e) {
       LOG.info("Problem with registration ", e);

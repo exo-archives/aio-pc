@@ -72,11 +72,12 @@ public class TransientStateManagerImpl implements TransientStateManager {
   public WSRPHttpSession resolveSession(String sessionID, Integer sessiontimeperiod) throws InvalidSession {
     if (sessiontimeperiod == null)
       sessiontimeperiod = SESSION_TIME_PERIOD;
-    WSRPHttpSession session = null;
+
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
 
-    session = null;
+    WSRPHttpSession session = null;
+    
     try {
       session = (WSRPHttpSession) cache.get(sessionID);
     } catch (Exception e) {
@@ -100,6 +101,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
       if (log.isDebugEnabled())
         log.debug("Lookup session success");
     } else if (sessionID != null) {
+      // session == null && sessionID != null
       throw new InvalidSession("Session doesn't exist anymore with sessionID = '" + sessionID + "'");
     } else {
       // session == null && sessionID == null
