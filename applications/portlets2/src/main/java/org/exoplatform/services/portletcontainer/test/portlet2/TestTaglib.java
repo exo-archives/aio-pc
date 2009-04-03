@@ -52,7 +52,7 @@ public class TestTaglib extends GenericPortlet {
     w.println("<table width=\"100%\" border=\"1\">");
     w.println("<tr><th colspan=\"2\">Request parameters</th></tr>");
     w.println("<tr><th>parameter</th><th>value</th></tr>");
-    Map<String, String[]> params = request.getPublicParameterMap();
+    Map<String, String[]> params = request.getParameterMap();
     Iterator<String> names = params.keySet().iterator();
     while (names.hasNext()) {
       String name = names.next();
