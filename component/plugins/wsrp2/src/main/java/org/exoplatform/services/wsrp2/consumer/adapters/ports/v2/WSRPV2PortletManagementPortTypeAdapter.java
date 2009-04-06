@@ -564,7 +564,7 @@ public class WSRPV2PortletManagementPortTypeAdapter implements WSRPPortletManage
                                                                         OperationFailed {
     if (LOG.isDebugEnabled())
       LOG.debug("Invoking setExportLifetime...");
-    return portletManagementPort.setExportLifetime(setExportLifetime);WSRPV2PortletManagementPortTypeAdapter
+    return portletManagementPort.setExportLifetime(setExportLifetime);
   }
 
   public GetPortletsLifetimeResponse getPortletsLifetime(GetPortletsLifetime getPortletsLifetime) throws OperationNotSupported,
