@@ -47,7 +47,7 @@ public class AllTestsPortlet extends TestCase {
     suite.addTestSuite(SuiteForTestConsumer.class);
 
     // for e.g. to run custom test
-//    suite.addTestSuite(TestPortletManagementInterface.class);
+//    suite.addTestSuite(TestGetMarkupInterface.class);
 
     return suite;
   }
@@ -58,10 +58,10 @@ public class AllTestsPortlet extends TestCase {
       assertFalse(org.exoplatform.services.wsrp2.ContainerStarter.stop());
     }
   }
-  
+
   private static boolean doesCargoUse() {
-    return (System.getProperty("exo.test.cargo.skip") == null
-        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"));
+    return (System.getProperty("exo.test.cargo.skip") == null || !System.getProperty("exo.test.cargo.skip")
+                                                                        .equalsIgnoreCase("true"));
   }
 
 }

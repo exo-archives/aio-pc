@@ -56,6 +56,7 @@ import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MissingParametersFault;
 import org.exoplatform.services.wsrp2.type.ModifyRegistrationRequiredFault;
 import org.exoplatform.services.wsrp2.type.OperationFailedFault;
+import org.exoplatform.services.wsrp2.type.PortletStateChangeRequiredFault;
 import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.ResourceSuspendedFault;
 import org.exoplatform.services.wsrp2.type.ReturnAny;
@@ -174,7 +175,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
-      throw new OperationFailed("Error '" + wsrpe.toString()
+      throw new OperationFailed("Error WSRPException '" + wsrpe.toString()
                                     + "'on a PRODUCER side with exception at '"
                                     + wsrpe.getStackTrace()[0].toString() + "'",
                                 new OperationFailed());
@@ -182,7 +183,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();
-      throw new OperationFailed("Error '" + e.toString()
+      throw new OperationFailed("Error Exception '" + e.toString()
                                     + "'on a PRODUCER side with exception at '"
                                     + e.getStackTrace()[0].toString() + "'",
                                 new OperationFailed());
@@ -338,6 +339,8 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       throw new OperationFailed(of.getMessage());
     } catch (UnsupportedLocale ul) {
       throw new UnsupportedLocale(ul.getMessage());
+    } catch (PortletStateChangeRequired ul) {
+      throw new PortletStateChangeRequired(ul.getMessage(), new PortletStateChangeRequiredFault());
     } catch (WSRPException wsrpe) {
       if (LOG.isDebugEnabled())
         wsrpe.printStackTrace();
@@ -597,13 +600,7 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       failedEvents.value = failedEventsValue;
       java.util.List<org.exoplatform.services.wsrp2.type.Extension> extensionsValue = response.getExtensions();
       extensions.value = extensionsValue;
-    } catch (WSRPException wsrpe) {
-      if (LOG.isDebugEnabled())
-        wsrpe.printStackTrace();
-      throw new OperationFailed("Error '" + wsrpe.toString()
-                                    + "'on a PRODUCER side with exception at '"
-                                    + wsrpe.getStackTrace()[0].toString() + "'",
-                                new OperationFailed());
+
     } catch (AccessDenied ad) {
       throw new AccessDenied(ad.getMessage(), new AccessDeniedFault());
     } catch (ResourceSuspended rs) {
@@ -634,6 +631,15 @@ public class WSRPV2MarkupPortTypeImpl implements WSRPV2MarkupPortType, AbstractS
       throw new OperationFailed(of.getMessage(), new OperationFailedFault());
     } catch (UnsupportedLocale ul) {
       throw new UnsupportedLocale(ul.getMessage(), new UnsupportedLocaleFault());
+    } catch (PortletStateChangeRequired ul) {
+      throw new PortletStateChangeRequired(ul.getMessage(), new PortletStateChangeRequiredFault());
+    } catch (WSRPException wsrpe) {
+      if (LOG.isDebugEnabled())
+        wsrpe.printStackTrace();
+      throw new OperationFailed("Error '" + wsrpe.toString()
+                                    + "'on a PRODUCER side with exception at '"
+                                    + wsrpe.getStackTrace()[0].toString() + "'",
+                                new OperationFailed());
     } catch (Exception e) {
       if (LOG.isDebugEnabled())
         e.printStackTrace();

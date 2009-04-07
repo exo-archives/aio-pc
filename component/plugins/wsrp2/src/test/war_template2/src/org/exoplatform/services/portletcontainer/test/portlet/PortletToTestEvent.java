@@ -27,6 +27,7 @@ import javax.portlet.EventResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletException;
 import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
 import javax.xml.namespace.QName;
@@ -59,6 +60,15 @@ public class PortletToTestEvent extends GenericPortlet {
   public void processEvent(EventRequest req, EventResponse resp) throws PortletException,
                                                                 IOException {
     System.out.println("In processEvent method of PortletToTestEvent... !!!!!!!!!!!!!");
+    
+    // to test portlet preferences
+    if (req.getPortletMode().equals(PortletMode.EDIT)) {
+      PortletPreferences prefs = req.getPreferences();
+      prefs.setValue("attName2", "attValue2");
+      prefs.store();
+    }
+
+    // to test events
     Event event = req.getEvent();
     System.out.println(">>> PortletToTestEvent.processEvent() event = " + event);
     System.out.println("  -- name: " + event.getName());

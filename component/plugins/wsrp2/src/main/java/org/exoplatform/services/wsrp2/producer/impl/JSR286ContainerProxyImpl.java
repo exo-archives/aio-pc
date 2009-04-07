@@ -230,7 +230,7 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
     windowID.setPortletName(key[1]);
     windowID.setUniqueID(key[2]);
     windowID.setPersistenceId(windowID.generatePersistenceId());
-    
+
     input.setInternalWindowID(windowID);
 
     //  input.setStateChangeAuthorized(false);

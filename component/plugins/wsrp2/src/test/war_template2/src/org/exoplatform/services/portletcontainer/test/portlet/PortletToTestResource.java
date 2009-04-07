@@ -27,6 +27,7 @@ import javax.portlet.ActionResponse;
 import javax.portlet.GenericPortlet;
 import javax.portlet.PortletContext;
 import javax.portlet.PortletException;
+import javax.portlet.PortletPreferences;
 import javax.portlet.PortletRequestDispatcher;
 import javax.portlet.RenderRequest;
 import javax.portlet.RenderResponse;
@@ -75,6 +76,13 @@ public class PortletToTestResource extends GenericPortlet {
       graphics.drawLine(29, 49, 39, 24);
       graphics.drawLine(39, 24, 49, 24);
       encoder.encode(bi);
+    } else if (goal != null && goal.equals("preferences")) {
+      PortletPreferences prefs = request.getPreferences();
+      prefs.setValue("attName2", "attValue2");
+      prefs.store();
+      response.setContentType("text/html; charset=utf-8");
+      PrintWriter w = response.getWriter();
+      w.print("preferences");
     } else {
       response.setContentType("text/html; charset=utf-8");
       PrintWriter w = response.getWriter();

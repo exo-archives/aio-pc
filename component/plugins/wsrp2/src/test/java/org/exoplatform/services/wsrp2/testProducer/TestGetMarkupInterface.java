@@ -23,7 +23,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
+import org.exoplatform.services.wsrp2.intf.InconsistentParameters;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
+import org.exoplatform.services.wsrp2.intf.PortletStateChangeRequired;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
 import org.exoplatform.services.wsrp2.type.Event;
@@ -44,10 +46,14 @@ import org.exoplatform.services.wsrp2.type.ResourceResponse;
 import org.exoplatform.services.wsrp2.type.RuntimeContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
+import org.exoplatform.services.wsrp2.type.StateChange;
 import org.exoplatform.services.wsrp2.type.UpdateResponse;
 import org.exoplatform.services.wsrp2.utils.JAXBEventTransformer;
 
 /**
+ * Tests for GetMarkupInterface. There are all methods except
+ * performBlockingAction, which is in the other test class.
+ * 
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
  */
 public class TestGetMarkupInterface extends BaseTest {
@@ -169,11 +175,54 @@ public class TestGetMarkupInterface extends BaseTest {
     assertEquals("Everything is ok", response.getResourceContext().getItemString());
 
     NamedString formParameter = new NamedStringWrapper("goal", "image");
-//    formParameter.setName("goal");
-//    formParameter.setValue("image");
     resourceParams.getFormParameters().add(formParameter);
     response = markupOperationsInterface.getResource(getResource);
     assertEquals("image/jpeg", response.getResourceContext().getMimeType());
+  }
+
+  public void testGetResourceWithPreferences() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    resourceParams.setPortletStateChange(StateChange.READ_WRITE);
+
+    GetResource getResource = getResource(registrationContext, portletContext);
+    ResourceResponse response = markupOperationsInterface.getResource(getResource);
+    assertEquals("Everything is ok", response.getResourceContext().getItemString());
+
+    NamedString formParameter = new NamedStringWrapper("goal", "preferences");
+    resourceParams.getFormParameters().add(formParameter);
+    response = markupOperationsInterface.getResource(getResource);
+    assertEquals("text/html", response.getResourceContext().getMimeType());
+    assertEquals("preferences", response.getResourceContext().getItemString());
+  }
+
+  public void testGetResourceWithPreferencesAndBadStateChange() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestResource";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+    resourceParams.setPortletStateChange(StateChange.READ_ONLY);
+
+    GetResource getResource = getResource(registrationContext, portletContext);
+    ResourceResponse response = markupOperationsInterface.getResource(getResource);
+    assertEquals("Everything is ok", response.getResourceContext().getItemString());
+
+    NamedString formParameter = new NamedStringWrapper("goal", "preferences");
+    resourceParams.getFormParameters().add(formParameter);
+    try {
+      response = markupOperationsInterface.getResource(getResource);
+      fail("the getResource of the markupOperationsInterface should return a WS Fault, because StateChange is READ_ONLY");
+//    } catch (PortletStateChangeRequired e) { // <-- this is correct
+    } catch (InconsistentParameters e) { // because the limitation from the bug in specification
+    }
   }
 
   public void testHandleEvents() throws Exception {
@@ -204,6 +253,66 @@ public class TestGetMarkupInterface extends BaseTest {
     assertEquals("MyEventPub", event1.getName().getLocalPart());
     assertEquals("org.exoplatform.services.portletcontainer.test.events.MyEventPub",
                  event1.getType().getLocalPart());
+  }
+
+  public void testHandleEventsWithPreferences() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
+                                                 new String("event-value"));
+    Event event = JAXBEventTransformer.getEventMarshal(event286);
+    eventParams.getEvents().add(event);
+    eventParams.setPortletStateChange(StateChange.READ_WRITE);
+
+    markupParams.setMode("wsrp:edit");
+
+    HandleEvents handleEvents = handleEvents(registrationContext, portletContext);
+    HandleEventsResponse response = markupOperationsInterface.handleEvents(handleEvents);
+
+    assertNotNull(response);
+    UpdateResponse updateResponse = response.getUpdateResponse();
+    assertNotNull(updateResponse);
+
+    List<Event> events = updateResponse.getEvents();
+    assertNotNull(events);
+    assertEquals(1, events.size());
+
+    Event event1 = events.get(0);
+    assertEquals("MyEventPub", event1.getName().getLocalPart());
+    assertEquals("org.exoplatform.services.portletcontainer.test.events.MyEventPub",
+                 event1.getType().getLocalPart());
+  }
+
+  public void testHandleEventsWithPreferencesAndBadStateChange() throws Exception {
+    log();
+    ServiceDescription sd = getServiceDescription(new String[] { "en" });
+    createRegistrationContext(sd, false);
+    String portletHandle = CONTEXT_PATH + "/PortletToTestEvent";
+    PortletContext portletContext = new PortletContext();
+    portletContext.setPortletHandle(portletHandle);
+    portletContext.setPortletState(null);
+
+    javax.portlet.Event event286 = new EventImpl(new QName("MyEventProc"),
+                                                 new String("event-value"));
+    Event event = JAXBEventTransformer.getEventMarshal(event286);
+    eventParams.getEvents().add(event);
+    eventParams.setPortletStateChange(StateChange.READ_ONLY);
+
+    markupParams.setMode("wsrp:edit");
+
+    HandleEvents handleEvents = handleEvents(registrationContext, portletContext);
+
+    try {
+      markupOperationsInterface.handleEvents(handleEvents);
+      fail("the handleEvents of the markupOperationsInterface should return a WS Fault, because StateChange is READ_ONLY");
+    } catch (PortletStateChangeRequired e) {
+    }
   }
 
   /**

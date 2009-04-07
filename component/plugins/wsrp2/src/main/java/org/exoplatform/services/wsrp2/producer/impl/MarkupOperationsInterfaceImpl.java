@@ -617,7 +617,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPublicParamNames(publicParamNames);
     // createUserProfile(userContext, request, session);
     ActionOutput output = null;
-    
+
     try {
       // INVOKE
       output = proxy.processAction(request, response, input);
@@ -1236,6 +1236,15 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         if (output.hasError())
           throw new WSRPException("processEvent output hasError");
       } catch (WSRPException e) {
+        if (e.getCause() != null && e.getCause().getCause() != null
+            && (e.getCause().getCause() instanceof IllegalStateException)) {
+          Throwable th = e.getCause().getCause();
+          if (th.getMessage() != null
+              && th.getMessage().contains("the state of the portlet can not be changed")) {
+            throw new PortletStateChangeRequired(th.getMessage(), th);
+          }
+        }
+
         log.debug("The call to processEvent with event: '" + event.getName()
             + "' method was a failure ", e);
         HandleEventsFailed handleEventsFailed = new HandleEventsFailed();

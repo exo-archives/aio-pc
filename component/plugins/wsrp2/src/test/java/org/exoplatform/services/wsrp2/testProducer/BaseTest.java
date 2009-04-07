@@ -346,8 +346,10 @@ public class BaseTest extends TestCase {
     resourceParams.getMimeTypes().addAll(Arrays.asList(mimeTypes));
     resourceParams.setMode("wsrp:view");
     resourceParams.setWindowState("wsrp:normal");
+    resourceParams.setPortletStateChange(StateChange.READ_ONLY);
 
     eventParams = new EventParams();
+    eventParams.setPortletStateChange(StateChange.READ_ONLY);
 //    eventParams.getEvents().addAll(Arrays.asList(null);
 
     mockServletRequest = new MockServletRequest(new MockHttpSession(), new Locale("en"));
@@ -385,7 +387,7 @@ public class BaseTest extends TestCase {
   }
 
   protected GetResource getResource(RegistrationContext rc, PortletContext portletContext) {
-    resourceParams.setPortletStateChange(StateChange.READ_ONLY);
+    
     GetResource getResource = new GetResource();
     getResource.setRegistrationContext(rc);
     getResource.setPortletContext(portletContext);
@@ -396,7 +398,6 @@ public class BaseTest extends TestCase {
   }
 
   protected HandleEvents handleEvents(RegistrationContext rc, PortletContext portletContext) {
-    eventParams.setPortletStateChange(StateChange.READ_ONLY);
     HandleEvents handleEvents = new HandleEvents();
     handleEvents.setRegistrationContext(rc);
     handleEvents.setPortletContext(portletContext);
