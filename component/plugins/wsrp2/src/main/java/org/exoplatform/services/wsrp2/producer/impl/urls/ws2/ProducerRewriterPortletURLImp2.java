@@ -81,8 +81,19 @@ public class ProducerRewriterPortletURLImp2
     this.user = user;
     this.runtimeContext = runtimeContext;
   }
-
+  
+  /**
+   * Overridden method.
+   * The returned URL is not XML escaped.
+   *
+   * @return string representation of url
+   * @see java.lang.Object#toString()
+   */
   public String toString() {
+    return toString(false);
+  }
+
+  public String toString(boolean escapeXML) {
 
     if (URLUtils.getWSRPType(getType()).equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
       invokeFilterActionURL();
@@ -203,16 +214,16 @@ public class ProducerRewriterPortletURLImp2
       if (obj instanceof String) {
         String value = (String) obj;
         template += WSRPConstants.NEXT_PARAM;
-        template += encode(name);
+        template += encode(name, escapeXML);
         template += "=";
-        template += encode(value);
+        template += encode(value, escapeXML);
       } else {
         String[] values = (String[]) obj;
         for (int i = 0; i < values.length; i++) {
           template += WSRPConstants.NEXT_PARAM;
-          template += encode(name);
+          template += encode(name, escapeXML);
           template += "=";
-          template += encode(values[i]);
+          template += encode(values[i], escapeXML);
         }
       }
     }
