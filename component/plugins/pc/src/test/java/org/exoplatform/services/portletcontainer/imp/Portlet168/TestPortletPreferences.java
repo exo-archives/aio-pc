@@ -175,7 +175,7 @@ public class TestPortletPreferences extends BaseTest {
 
   public void testStore() throws ReadOnlyException, IOException, ValidatorException {
     pP.setValue("param-1", "value-1") ;
-    ((PortletPreferencesImp)pP).setMethodCalledIsAction(PCConstants.ACTION_INT);
+    ((PortletPreferencesImp)pP).setMethodCalled(PCConstants.ACTION_INT);
     pP.store();
 
     PersistenceManager manager =
@@ -188,7 +188,7 @@ public class TestPortletPreferences extends BaseTest {
   }
 
   public void testStateChangeFlag(){
-    ((PortletPreferencesImp)pP).setMethodCalledIsAction(PCConstants.ACTION_INT);
+    ((PortletPreferencesImp)pP).setMethodCalled(PCConstants.ACTION_INT);
     ((PortletPreferencesImp)pP).setStateChangeAuthorized(false);
     try {
       pP.store();
@@ -206,7 +206,7 @@ public class TestPortletPreferences extends BaseTest {
 
   public void testResourceRequest() throws ReadOnlyException, IOException,ValidatorException {
    pP.setValue("param1", "value1");
-   ((PortletPreferencesImp)pP).setMethodCalledIsAction(PCConstants.RENDER_INT);
+   ((PortletPreferencesImp)pP).setMethodCalled(PCConstants.RENDER_INT);
    try {
    pP.store();
    } catch (IllegalStateException e){

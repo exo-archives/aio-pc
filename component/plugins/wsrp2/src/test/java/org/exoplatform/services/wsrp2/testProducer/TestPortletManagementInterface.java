@@ -344,25 +344,27 @@ public class TestPortletManagementInterface extends BaseTest {
 //    }
 //  }
 
-//  public void testGetPortletDescription() throws Exception {
-//    log();
-//    registrationContext = registrationOperationsInterface.register(register);
-//
-//    GetPortletDescription getPortletDescription = new GetPortletDescription();
-//    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
-//    
-//    getPortletDescription.setPortletContext(pC);
-//    getPortletDescription.setRegistrationContext(registrationContext);
-//
-//    PortletDescriptionResponse pdr = portletManagementOperationsInterface.getPortletDescription(getPortletDescription);
-//    assertNotNull(pdr);
-//    PortletDescription pd = pdr.getPortletDescription();
-//    assertNotNull(pd);
-//    LocalizedString ls = pd.getDescription();
-//    assertNotNull(ls);
-//    String groupID = pd.getGroupID();
-//    assertNotNull(groupID);
-//  }
+  public void testGetPortletDescription() throws Exception {
+    log();
+    RegistrationContext rC = registrationOperationsInterface.register(register);
+
+    GetPortletDescription getPortletDescription = new GetPortletDescription();
+    PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+    
+    getPortletDescription.setRegistrationContext(rC); 
+    getPortletDescription.setPortletContext(pC);
+    getPortletDescription.setUserContext(userContext);
+    getPortletDescription.getDesiredLocales().add("EN");
+
+    PortletDescriptionResponse pdr = portletManagementOperationsInterface.getPortletDescription(getPortletDescription);
+    assertNotNull(pdr);
+    PortletDescription pd = pdr.getPortletDescription();
+    assertNotNull(pd);
+    LocalizedString ls = pd.getDescription();
+    assertNotNull(ls);
+    String groupID = pd.getGroupID();
+    assertNotNull(groupID);
+  }
 
   public void testGetPortletDescriptionWithInvalidRegistration() throws Exception {
     log();

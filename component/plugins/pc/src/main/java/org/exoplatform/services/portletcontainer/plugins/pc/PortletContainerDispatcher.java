@@ -101,7 +101,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * Action type attribute.
    */
-  public static final String              IS_ACTION                = "org.exoplatform.services.portletcontainer.plugins.pc.isAction";
+  public static final String              METHOD_CALLED                = "org.exoplatform.services.portletcontainer.plugins.pc.methodCalled";
 
   /**
    * Is to get bundle attribute.
@@ -532,7 +532,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
     // to allow restore of previous versions if a problem occurs
-    preferences.setMethodCalledIsAction(/* true */PCConstants.ACTION_INT);
+    preferences.setMethodCalled(PCConstants.ACTION_INT);
     Set<String> keys = preferencesMap.keySet();
     try {
       for (String key : keys) {
@@ -583,7 +583,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
     PortletPreferencesImp preferences = (PortletPreferencesImp) windowInfos.getPreferences();
     // to allow restore of previous versions if a problem occurs
-    preferences.setMethodCalledIsAction(/* true */PCConstants.ACTION_INT);
+    preferences.setMethodCalled(PCConstants.ACTION_INT);
     Set<String> keys = preferencesMap.keySet();
     try {
       for (String key : keys) {
@@ -788,29 +788,29 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
    * @param request request
    * @param response response
    * @param input input
-   * @param isAction action type
+   * @param methodCalled action type
    * @return output
    * @throws PortletContainerException
    */
   private Output process(final HttpServletRequest request,
                          final HttpServletResponse response,
                          final Input input,
-                         final int isAction) throws PortletContainerException {
+                         final int methodCalled) throws PortletContainerException {
     LOG.debug("Process method in PortletContainerDispatcher entered");
     LOG.debug("Encoding used : " + request.getCharacterEncoding());
     // create the ActionOutput object
     Output output = null;
-    if (isAction == PCConstants.ACTION_INT)
+    if (methodCalled == PCConstants.ACTION_INT)
       output = new ActionOutput();
-    else if (isAction == PCConstants.EVENT_INT)
+    else if (methodCalled == PCConstants.EVENT_INT)
       output = new EventOutput();
-    else if (isAction == PCConstants.RESOURCE_INT)
+    else if (methodCalled == PCConstants.RESOURCE_INT)
       output = new ResourceOutput();
     else
       output = new RenderOutput();
 
     // create a PortletPreferencesImp object
-    PortletWindowInternal windowInfos = getWindowInfos(request, input, isAction);
+    PortletWindowInternal windowInfos = getWindowInfos(request, input, methodCalled);
     String portletApplicationName = windowInfos.getWindowID().getPortletApplicationName();
 
     ExceptionHolder exceptionHolder = new ExceptionHolder();
@@ -818,7 +818,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
     request.setAttribute(PortletContainerDispatcher.INPUT, input);
     request.setAttribute(PortletContainerDispatcher.OUTPUT, output);
     request.setAttribute(PortletContainerDispatcher.WINDOW_INFO, windowInfos);
-    request.setAttribute(PortletContainerDispatcher.IS_ACTION, Util.actionToString(isAction));
+    request.setAttribute(PortletContainerDispatcher.METHOD_CALLED, Util.actionToString(methodCalled));
     request.setAttribute(PortletContainerDispatcher.EXCEPTION, exceptionHolder);
 
     int platform = Environment.getInstance().getPlatform();
@@ -834,7 +834,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
                                   input,
                                   output,
                                   windowInfos,
-                                  isAction);
+                                  methodCalled);
       } finally {
         Thread.currentThread().setContextClassLoader(oldCL);
       }
@@ -846,10 +846,10 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
         ((PortletPreferencesImp) windowInfos.getPreferences()).discard();
       }
     }
-    if (input.isStateSaveOnClient() && (isAction == PCConstants.ACTION_INT))
+    if (input.isStateSaveOnClient() && (methodCalled != PCConstants.RENDER_INT))
       try {
         LOG.debug("Serialize Portlet Preferences object to store it on the client");
-        ((ActionOutput) output).setPortletState(IOUtil.serialize(windowInfos.getPreferences()));
+        output.setPortletState(IOUtil.serialize(windowInfos.getPreferences()));
       } catch (Exception e) {
         LOG.error("Can not serialize Portlet Preferences", e);
         throw new PortletContainerException("Can not serialize Portlet Preferences", e);
@@ -862,15 +862,15 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   /**
    * @param request request
    * @param input input
-   * @param isAction action type
+   * @param methodCalled action type
    * @return portlet window internal object
    */
   private PortletWindowInternal getWindowInfos(final HttpServletRequest request,
                                                final Input input,
-                                               final int isAction) {
+                                               final int methodCalled) {
     boolean stateChangeAuthorized = true;
-    if (isAction == PCConstants.ACTION_INT)
-      stateChangeAuthorized = ((ActionInput) input).isStateChangeAuthorized();
+    if (methodCalled != PCConstants.RENDER_INT)
+      stateChangeAuthorized = input.isStateChangeAuthorized();
 
     PortletWindowInternal windowInfos = null;
     if (!input.isStateSaveOnClient()) {// state save on the server
@@ -896,7 +896,7 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
       ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
       windowInfos = manager.getWindow(input, defaultPrefs);
     }
-    ((PortletPreferencesImp) windowInfos.getPreferences()).setMethodCalledIsAction(isAction);
+    ((PortletPreferencesImp) windowInfos.getPreferences()).setMethodCalled(methodCalled);
     ((PortletPreferencesImp) windowInfos.getPreferences()).setStateChangeAuthorized(stateChangeAuthorized);
     ((PortletPreferencesImp) windowInfos.getPreferences()).setStateSaveOnClient(input.isStateSaveOnClient());
     return windowInfos;

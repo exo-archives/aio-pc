@@ -679,6 +679,14 @@ public class PortletDriverImpl implements PortletDriver {
     resourceParams.setPortletStateChange(resourceRequest.getPortletStateChange());
     resourceParams.setResourceState(resourceRequest.getResourceState());
     resourceParams.setResourceCacheability(resourceRequest.getResourceCacheability());
+
+    resourceParams.setPortletStateChange(consumer.getPortletStateChange());
+    if (!portlet.isConsumerConfigured()
+        && resourceParams.getPortletStateChange()
+                         .value()
+                         .equalsIgnoreCase(StateChange.READ_WRITE.value())) {
+      resourceParams.setPortletStateChange(StateChange.CLONE_BEFORE_WRITE);
+    }
     return resourceParams;
   }
 

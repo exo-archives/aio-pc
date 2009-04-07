@@ -385,6 +385,7 @@ public class BaseTest extends TestCase {
   }
 
   protected GetResource getResource(RegistrationContext rc, PortletContext portletContext) {
+    resourceParams.setPortletStateChange(StateChange.READ_ONLY);
     GetResource getResource = new GetResource();
     getResource.setRegistrationContext(rc);
     getResource.setPortletContext(portletContext);

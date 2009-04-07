@@ -22,23 +22,4 @@ package org.exoplatform.services.portletcontainer.pci;
  */
 public class ActionOutput extends EventOutput {
 
-  /**
-   * Portlet state.
-   */
-  private byte[] portletState;
-
-  /**
-   * @return portlet state
-   */
-  public final byte[] getPortletState() {
-    return portletState;
-  }
-
-  /**
-   * @param portletState portlet state
-   */
-  public final void setPortletState(final byte[] portletState) {
-    this.portletState = portletState;
-  }
-
 }

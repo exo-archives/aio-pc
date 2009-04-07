@@ -23,11 +23,9 @@ import java.util.List;
 import javax.xml.namespace.QName;
 
 import org.exoplatform.services.portletcontainer.pci.EventImpl;
-import org.exoplatform.services.wsrp2.intf.InvalidCookie;
 import org.exoplatform.services.wsrp2.intf.InvalidRegistration;
 import org.exoplatform.services.wsrp2.producer.impl.helpers.NamedStringWrapper;
 import org.exoplatform.services.wsrp2.type.ClonePortlet;
-import org.exoplatform.services.wsrp2.type.CookieProtocol;
 import org.exoplatform.services.wsrp2.type.Event;
 import org.exoplatform.services.wsrp2.type.Extension;
 import org.exoplatform.services.wsrp2.type.GetMarkup;

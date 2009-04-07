@@ -45,7 +45,7 @@ public class AllTestsPortlet extends TestCase {
     suite.addTestSuite(SuiteForTestConsumer.class);
 
     // for e.g. to run custom test
-//  suite.addTestSuite(WSRPServiceTestCase.class);
+//  suite.addTestSuite(TestPerformBlockingInteraction.class);
 
     return suite;
   }

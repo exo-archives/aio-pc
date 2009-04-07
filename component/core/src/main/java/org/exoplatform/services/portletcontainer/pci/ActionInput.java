@@ -22,23 +22,4 @@ package org.exoplatform.services.portletcontainer.pci;
  */
 public class ActionInput extends Input {
 
-  /**
-   * Either state change authorized.
-   */
-  private boolean stateChangeAuthorized;
-
-  /**
-   * @return either state change authorized
-   */
-  public final boolean isStateChangeAuthorized() {
-    return stateChangeAuthorized;
-  }
-
-  /**
-   * @param stateChangeAuthorized either state change authorized
-   */
-  public final void setStateChangeAuthorized(final boolean stateChangeAuthorized) {
-    this.stateChangeAuthorized = stateChangeAuthorized;
-  }
-
 }

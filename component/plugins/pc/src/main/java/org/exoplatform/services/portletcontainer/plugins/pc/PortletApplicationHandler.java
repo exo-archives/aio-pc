@@ -145,7 +145,7 @@ public class PortletApplicationHandler {
    * @param input input
    * @param output output
    * @param windowInfos window infos
-   * @param isAction action type
+   * @param methodCalled action type
    * @throws PortletContainerException exception
    */
   public final void process(final ServletContext servletContext,
@@ -154,7 +154,7 @@ public class PortletApplicationHandler {
                             final Input input,
                             final Output output,
                             final PortletWindowInternal windowInfos,
-                            final int isAction) throws PortletContainerException {
+                            final int methodCalled) throws PortletContainerException {
     long startTime = System.currentTimeMillis();
     log.debug("process() method in PortletApplicationHandler entered");
     PortletSessionImp session = null;
@@ -230,13 +230,13 @@ public class PortletApplicationHandler {
 
       // TODO sort the attributes
 
-      if (isAction == PCConstants.ACTION_INT) {
+      if (methodCalled == PCConstants.ACTION_INT) {
         portletRequest = new ActionRequestImp(reqCtx);
         processActionRequest(portletRequest);
-      } else if (isAction == PCConstants.EVENT_INT) {
+      } else if (methodCalled == PCConstants.EVENT_INT) {
         portletRequest = new EventRequestImp(reqCtx);
         processEventRequest(portletRequest);
-      } else if (isAction == PCConstants.RESOURCE_INT) {
+      } else if (methodCalled == PCConstants.RESOURCE_INT) {
         portletRequest = new ResourceRequestImp(reqCtx);
         processResourceRequest(portletRequest);
       } else {
@@ -261,11 +261,11 @@ public class PortletApplicationHandler {
                                                    portalContext,
                                                    portletRequest);
 
-      if (isAction == PCConstants.ACTION_INT)
+      if (methodCalled == PCConstants.ACTION_INT)
         portletResponse = new ActionResponseImp(resCtx);
-      else if (isAction == PCConstants.EVENT_INT)
+      else if (methodCalled == PCConstants.EVENT_INT)
         portletResponse = new EventResponseImp(resCtx);
-      else if (isAction == PCConstants.RESOURCE_INT)
+      else if (methodCalled == PCConstants.RESOURCE_INT)
         portletResponse = new ResourceResponseImp(resCtx);
       else
         portletResponse = new RenderResponseImp(resCtx);
@@ -280,11 +280,11 @@ public class PortletApplicationHandler {
 
       if (isDestroyed) {
         log.debug("Portlet is destroyed");
-        processPortletException(null, portletRequest, isAction, null, output);
+        processPortletException(null, portletRequest, methodCalled, null, output);
         return;
       } else if (isBroken || !isAvailable || (portletRequest.getAttribute(exception_key) != null)) {
         log.debug("Portlet is borken, not available or the request contains an associated error");
-        processPortletException(null, portletRequest, isAction, exception_key, output);
+        processPortletException(null, portletRequest, methodCalled, exception_key, output);
         return;
       } else {
         Portlet portlet = null;
@@ -293,12 +293,12 @@ public class PortletApplicationHandler {
         } catch (PortletException e) {
           log.error("unable to get portlet :  " + portletName, e);
           portletRequest.setAttribute(exception_key, e);
-          processPortletException(e, portletRequest, isAction, exception_key, output);
+          processPortletException(e, portletRequest, methodCalled, exception_key, output);
           return;
         }
         try {
           PortletCommandChain chain = (PortletCommandChain) cont.getComponentInstanceOfType(PortletCommandChain.class);
-          if (isAction == PCConstants.ACTION_INT) {
+          if (methodCalled == PCConstants.ACTION_INT) {
             chain.doProcessAction(portlet,
                                   (ActionRequest) portletRequest,
                                   (ActionResponse) portletResponse);
@@ -309,11 +309,11 @@ public class PortletApplicationHandler {
               log.debug("need to redirect to " + location);
               output.addProperty(Output.SEND_REDIRECT, location);
             }
-          } else if (isAction == PCConstants.EVENT_INT) {
+          } else if (methodCalled == PCConstants.EVENT_INT) {
             chain.doProcessEvent(portlet,
                                  (EventRequest) portletRequest,
                                  (EventResponse) portletResponse);
-          } else if (isAction == PCConstants.RESOURCE_INT) {
+          } else if (methodCalled == PCConstants.RESOURCE_INT) {
             chain.doServeResource(portlet,
                                   (ResourceRequest) portletRequest,
                                   (ResourceResponse) portletResponse);
@@ -332,7 +332,7 @@ public class PortletApplicationHandler {
           if (t instanceof RuntimeException) {
             log.debug("It is a runtime exception");
             portletRequest.setAttribute(exception_key, t);
-            processPortletException(t, portletRequest, isAction, exception_key, output);
+            processPortletException(t, portletRequest, methodCalled, exception_key, output);
             return;
           }
           if (t instanceof PortletException) {
@@ -353,12 +353,12 @@ public class PortletApplicationHandler {
               }
             }
             portletRequest.setAttribute(exception_key, e);
-            processPortletException(t, portletRequest, isAction, exception_key, output);
+            processPortletException(t, portletRequest, methodCalled, exception_key, output);
             return;
           }
           log.debug("It is not a portlet exception");
           portletRequest.setAttribute(exception_key, t);
-          processPortletException(t, portletRequest, isAction, exception_key, output);
+          processPortletException(t, portletRequest, methodCalled, exception_key, output);
           return;
         }
       }
@@ -373,11 +373,11 @@ public class PortletApplicationHandler {
               + portletRequest.getPortletSession(false).getMaxInactiveInterval());
       if (rtd != null)
         // portlet is broken
-        if (isAction == PCConstants.ACTION_INT)
+        if (methodCalled == PCConstants.ACTION_INT)
           rtd.logProcessActionRequest(startTime, endTime);
-        else if (isAction == PCConstants.EVENT_INT)
+        else if (methodCalled == PCConstants.EVENT_INT)
           rtd.logProcessEventRequest(startTime, endTime);
-        else if (isAction == PCConstants.RESOURCE_INT) {
+        else if (methodCalled == PCConstants.RESOURCE_INT) {
           boolean cacheHit = ((ResourceOutput) output).isCacheHit();
           rtd.logServeResourceRequest(startTime, endTime, cacheHit);
         } else {
@@ -403,24 +403,24 @@ public class PortletApplicationHandler {
   /**
    * @param throwable TODO
    * @param request request
-   * @param isAction action type
+   * @param methodCalled action type
    * @param key key
    * @param output output
    * @throws PortletContainerException exception
    */
   private void processPortletException(Throwable throwable,
                                        final PortletRequestImp request,
-                                       final int isAction,
+                                       final int methodCalled,
                                        final String key,
                                        final Output output) throws PortletContainerException {
     if (conf.isHookPortletExceptions())
-      generateOutputForException(request, isAction, key, output);
+      generateOutputForException(request, methodCalled, key, output);
     else
       throw new PortletProcessingException("", throwable);
   }
 
   private void generateOutputForException(final PortletRequestImp request,
-                                          final int isAction,
+                                          final int methodCalled,
                                           final String key,
                                           final Output output) {
     String prop_key = "";
@@ -457,7 +457,7 @@ public class PortletApplicationHandler {
         content = "There is a problem";
       }
     }
-    if ((isAction == PCConstants.ACTION_INT) || (isAction == PCConstants.EVENT_INT))
+    if ((methodCalled == PCConstants.ACTION_INT) || (methodCalled == PCConstants.EVENT_INT))
       output.addProperty(prop_key, prop_output);
     else {
       ((RenderOutput) output).setTitle(title);

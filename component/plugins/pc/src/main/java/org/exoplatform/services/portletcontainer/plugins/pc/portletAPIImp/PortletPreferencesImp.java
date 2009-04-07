@@ -40,17 +40,15 @@ import org.exoplatform.services.portletcontainer.pci.model.Preference;
 import org.exoplatform.services.portletcontainer.persistence.PortletPreferencesPersister;
 
 /**
- * Created by The eXo Platform SAS.
- * Author : Mestrallet Benjamin benjmestrallet@users.sourceforge.net
- * Date: Jul 27, 2003
- * Time: 9:21:41 PM
+ * Created by The eXo Platform SAS. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: Jul 27, 2003 Time: 9:21:41 PM
  */
 public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Validator.
    */
-  private final transient PreferencesValidator validator;
+  private final transient PreferencesValidator  validator;
 
   /**
    * Default preferences.
@@ -60,37 +58,37 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   /**
    * Method called.
    */
-  transient private int methodCalledIsAction;
+  transient private int                         methodCalled;
 
   /**
    * State change authorized.
    */
-  transient private boolean stateChangeAuthorized = true;
+  transient private boolean                     stateChangeAuthorized = true;
 
   /**
    * Preferences.
    */
-  private ExoPortletPreferences preferences = new ExoPortletPreferences();
+  private ExoPortletPreferences                 preferences           = new ExoPortletPreferences();
 
   /**
    * Modified preferences.
    */
-  private ExoPortletPreferences modifiedPreferences = new ExoPortletPreferences();
+  private ExoPortletPreferences                 modifiedPreferences   = new ExoPortletPreferences();
 
   /**
    * State save on client.
    */
-  private boolean stateSaveOnClient;
+  private boolean                               stateSaveOnClient;
 
   /**
    * Window id.
    */
-  protected WindowID windowID;
+  protected WindowID                            windowID;
 
   /**
    * Persister.
    */
-  private final PortletPreferencesPersister persister;
+  private final PortletPreferencesPersister     persister;
 
   /**
    * @param validator validator
@@ -99,9 +97,9 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
    * @param persister persister
    */
   public PortletPreferencesImp(final PreferencesValidator validator,
-      final ExoPortletPreferences defaultPreferences,
-      final WindowID windowID,
-      final PortletPreferencesPersister persister) {
+                               final ExoPortletPreferences defaultPreferences,
+                               final WindowID windowID,
+                               final PortletPreferencesPersister persister) {
     this.validator = validator;
     this.defaultPreferences = defaultPreferences;
     this.windowID = windowID;
@@ -145,7 +143,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @return is readonly
    * @see javax.portlet.PortletPreferences#isReadOnly(java.lang.String)
@@ -163,11 +161,12 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @param s1 default value
    * @return value
-   * @see javax.portlet.PortletPreferences#getValue(java.lang.String, java.lang.String)
+   * @see javax.portlet.PortletPreferences#getValue(java.lang.String,
+   *      java.lang.String)
    */
   public String getValue(final String s, final String s1) {
     if (s == null)
@@ -182,11 +181,12 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @param strings default values
    * @return values
-   * @see javax.portlet.PortletPreferences#getValues(java.lang.String, java.lang.String[])
+   * @see javax.portlet.PortletPreferences#getValues(java.lang.String,
+   *      java.lang.String[])
    */
   public String[] getValues(final String s, final String[] strings) {
     if (s == null)
@@ -203,11 +203,12 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @param s1 value
    * @throws ReadOnlyException exception
-   * @see javax.portlet.PortletPreferences#setValue(java.lang.String, java.lang.String)
+   * @see javax.portlet.PortletPreferences#setValue(java.lang.String,
+   *      java.lang.String)
    */
   public void setValue(final String s, final String s1) throws ReadOnlyException {
     if (s == null)
@@ -224,11 +225,12 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s key
    * @param strings values
    * @throws ReadOnlyException exception
-   * @see javax.portlet.PortletPreferences#setValues(java.lang.String, java.lang.String[])
+   * @see javax.portlet.PortletPreferences#setValues(java.lang.String,
+   *      java.lang.String[])
    */
   public void setValues(final String s, final String[] strings) throws ReadOnlyException {
     if (s == null)
@@ -250,7 +252,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return names
    * @see javax.portlet.PortletPreferences#getNames()
    */
@@ -265,7 +267,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @return map
    * @see javax.portlet.PortletPreferences#getMap()
    */
@@ -295,7 +297,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
     result.putAll(modifiedPreferences);
     Collection<String> keys = preferences.keySet();
     for (String key : keys) {
-      if (!result.containsKey(key)){
+      if (!result.containsKey(key)) {
         result.put(key, preferences.get(key));
       }
     }
@@ -304,7 +306,7 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s key
    * @throws ReadOnlyException exception
    * @see javax.portlet.PortletPreferences#reset(java.lang.String)
@@ -338,12 +340,12 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   /**
    * We first validate every field then we delegates the storing to an object
    * that implements the PersistentManager interface
-   *
+   * 
    * @throws IOException exception
    * @throws ValidatorException exception
    */
   public void store() throws IOException, ValidatorException {
-    if (isMethodCalledIsRender())
+    if (isMethodCalledRender())
       throw new IllegalStateException("the store() method can not be called from a render method");
     if (!isStateChangeAuthorized())
       throw new IllegalStateException("the state of the portlet can not be changed");
@@ -383,22 +385,29 @@ public class PortletPreferencesImp implements PortletPreferences, Serializable {
   /**
    * @param b method called
    */
-  public void setMethodCalledIsAction(final int b) {
-    methodCalledIsAction = b;
+  public void setMethodCalled(final int b) {
+    methodCalled = b;
   }
 
   /**
    * @return called method
    */
-  public int getMethodCalledIsAction() {
-    return methodCalledIsAction;
+  public int getMethodCalled() {
+    return methodCalled;
   }
 
   /**
    * @return if method called is action
    */
-  public boolean isMethodCalledIsRender() {
-    return (methodCalledIsAction == PCConstants.RENDER_INT);
+  public boolean isMethodCalledAction() {
+    return (methodCalled == PCConstants.ACTION_INT);
+  }
+
+  /**
+   * @return if method called is render
+   */
+  public boolean isMethodCalledRender() {
+    return (methodCalled == PCConstants.RENDER_INT);
   }
 
   /**

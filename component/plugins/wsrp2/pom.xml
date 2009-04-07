@@ -585,7 +585,7 @@
           </systemProperties>
           <includes>
             <include>**/AllTestsPortlet.java</include>
-<!--             <include>**/wsrp2/AllTestsPortlet.java</include> -->
+<!--             <include>**/wsrp1/AllTestsPortlet.java</include> -->
 <!--                                    <include>**/wsrp2/SuiteForTestProducer.java</include>-->
             <!--            <include>**/SuiteForTestConsumer.java</include>-->
             <!--            <include>**/TestRegistrationInterface.java</include>-->

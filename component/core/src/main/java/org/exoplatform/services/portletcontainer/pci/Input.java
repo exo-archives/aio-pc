@@ -39,47 +39,47 @@ public class Input {
   /**
    * Markup.
    */
-  private String markup;
+  private String                      markup;
 
   /**
    * Portlet mode.
    */
-  private PortletMode portletMode;
+  private PortletMode                 portletMode;
 
   /**
    * Window state.
    */
-  private WindowState windowState;
+  private WindowState                 windowState;
 
   /**
    * User attributes.
    */
-  private Map<String, String> userAttributes;
+  private Map<String, String>         userAttributes;
 
   /**
    * windowID.
    */
-  private WindowID windowID;
+  private WindowID                    windowID;
 
   /**
    * Locales.
    */
-  private List<Locale> locales;
+  private List<Locale>                locales;
 
   /**
    * Render parameters.
    */
-  private Map<String, String[]> renderParameters;
+  private Map<String, String[]>       renderParameters;
 
   /**
    * Save on client.
    */
-  private boolean stateSaveOnClient;
+  private boolean                     stateSaveOnClient;
 
   /**
    * Portlet state.
    */
-  private byte[] portletState;
+  private byte[]                      portletState;
 
   /**
    * Portlet preferences persister.
@@ -89,27 +89,32 @@ public class Input {
   /**
    * Portlet URL factory.
    */
-  private PortletURLFactory portletURLFactory;
+  private PortletURLFactory           portletURLFactory;
 
   /**
    * Base URL.
    */
-  private String baseURL;
+  private String                      baseURL;
 
   /**
    * escapeXml.
    */
-  private boolean escapeXml;
+  private boolean                     escapeXml;
 
   /**
    * Public param name list.
    */
-  private List<String> pubNames;
-  
+  private List<String>                pubNames;
+
   /**
    * Property parameters extracted from http request.
    */
-  private HashMap<String, String[]> propertyParams;
+  private HashMap<String, String[]>   propertyParams;
+
+  /**
+   * Either state change authorized.
+   */
+  private boolean                     stateChangeAuthorized;
 
   /**
    * @return either state is being saved on client side
@@ -304,20 +309,18 @@ public class Input {
   public final void setPublicParamNames(final List<String> pubNames1) {
     this.pubNames = pubNames1;
   }
-  
+
   /**
-   * @param propertyParams  hash map
+   * @param propertyParams hash map
    */
-  public final void setPropertyParams(final HashMap<String, String[]> propertyParams)
-  {
+  public final void setPropertyParams(final HashMap<String, String[]> propertyParams) {
     this.propertyParams = propertyParams;
   }
 
   /**
    * @return property params
    */
-  public final HashMap getPropertyParams()
-  {
+  public final HashMap getPropertyParams() {
     return propertyParams;
   }
 
@@ -342,6 +345,20 @@ public class Input {
         publicMap.put(name, renderParameters.get(name));
     }
     return publicMap;
+  }
+
+  /**
+   * @return either state change authorized
+   */
+  public final boolean isStateChangeAuthorized() {
+    return stateChangeAuthorized;
+  }
+
+  /**
+   * @param stateChangeAuthorized either state change authorized
+   */
+  public final void setStateChangeAuthorized(final boolean stateChangeAuthorized) {
+    this.stateChangeAuthorized = stateChangeAuthorized;
   }
 
 }

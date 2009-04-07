@@ -122,13 +122,13 @@ public class ServletWrapper extends HttpServlet {
       return;
     }
 
-    log.debug("Get " + (String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
+    log.debug("Get " + (String) servletRequest.getAttribute(PortletContainerDispatcher.METHOD_CALLED));
     PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest.getAttribute(PortletContainerDispatcher.WINDOW_INFO);
 
     Input input = (Input) servletRequest.getAttribute(PortletContainerDispatcher.INPUT);
     Output output = (Output) servletRequest.getAttribute(PortletContainerDispatcher.OUTPUT);
-    int isAction = Util.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.IS_ACTION));
-    servletRequest.removeAttribute(PortletContainerDispatcher.IS_ACTION);
+    int methodCalled = Util.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.METHOD_CALLED));
+    servletRequest.removeAttribute(PortletContainerDispatcher.METHOD_CALLED);
     servletRequest.removeAttribute(PortletContainerDispatcher.INPUT);
     servletRequest.removeAttribute(PortletContainerDispatcher.OUTPUT);
     servletRequest.removeAttribute(PortletContainerDispatcher.WINDOW_INFO);
@@ -142,7 +142,7 @@ public class ServletWrapper extends HttpServlet {
                       input,
                       output,
                       windowInfo,
-                      isAction);
+                      methodCalled);
     } catch (PortletProcessingException e) {
       exceptionHolder.setException(e);
     } catch (PortletContainerException e) {

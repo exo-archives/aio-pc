@@ -186,7 +186,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
       LifetimeVerifier.checkPortletLifetime(registrationContext, portletContext, userContext);
     }
-    
+
     // manage the portlet handle
     String portletHandle = portletContext.getPortletHandle();
     portletHandle = manageRegistration(portletHandle, registrationContext);
@@ -315,6 +315,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for get params within included jsp struts
     request.setParameters(renderParameters);
 
+    List<Locale> locales = LocaleUtils.processStringsToLocales(markupParams.getLocales(),
+                                                               DEFAULT_LOCALES);
+
     // prepare the Input object
     RenderInput input = new RenderInput();
     ExoWindowID windowID = new ExoWindowID();
@@ -331,12 +334,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
-    input.setLocales(LocaleUtils.processStringsToLocales(markupParams.getLocales(), DEFAULT_LOCALES));
+    input.setLocales(locales);
     input.setRenderParameters(renderParameters);
     input.setPublicParamNames(publicParamNames);
 
-//    input.setStateChangeAuthorized(false);
-    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer()); //default: false
+    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
 
@@ -516,10 +518,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // if an attempt to change the state is done (means change the portlet
       // pref in JSR 168)
       // then a fault will be launched
-      throw new PortletStateChangeRequired("StateChange is READ_ONLY");
+//      throw new PortletStateChangeRequired("StateChange is READ_ONLY");
     } else {
-      log.debug("The submited portlet state change value : " + stateChange + " is not supported");
-      throw new PortletStateChangeRequired();
+      String message = "The submited portlet state change value : " + stateChange
+          + " is not supported";
+      log.debug(message);
+      throw new PortletStateChangeRequired(message);
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
@@ -583,6 +587,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for get params within included jsp struts
     request.setParameters(renderParameters);
 
+    List<Locale> locales = LocaleUtils.processStringsToLocales(markupParams.getLocales(),
+                                                               DEFAULT_LOCALES);
+
     // prepare the Input object
     ActionInput input = new ActionInput();
     ExoWindowID windowID = new ExoWindowID();
@@ -599,7 +606,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
-    input.setLocales(LocaleUtils.processStringsToLocales(markupParams.getLocales(), DEFAULT_LOCALES));
+    input.setLocales(locales);
 
     input.setStateChangeAuthorized(isStateChangeAuthorized);
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
@@ -610,22 +617,30 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPublicParamNames(publicParamNames);
     // createUserProfile(userContext, request, session);
     ActionOutput output = null;
+    
     try {
-
       // INVOKE
       output = proxy.processAction(request, response, input);
       if (output.hasError()) {
         throw new WSRPException("processAction output hasError()");
       }
     } catch (WSRPException e) {
-      e.printStackTrace();
-      log.debug("The call to processAction method was a failure ", e);
-      throw new WSRPException();
+      if (e.getCause() != null && e.getCause().getCause() != null
+          && (e.getCause().getCause() instanceof IllegalStateException)) {
+        Throwable th = e.getCause().getCause();
+        if (th.getMessage() != null
+            && th.getMessage().contains("the state of the portlet can not be changed")) {
+          throw new PortletStateChangeRequired(th.getMessage(), th);
+        }
+      }
+//      log.error("The call to processAction method was a failure ", e);
+      throw new WSRPException("The call to processAction method was a failure ", e);
     }
 
     BlockingInteractionResponse blockingInteractionResponse = new BlockingInteractionResponse();
 
-    if (output.getProperties().get(ActionOutput.SEND_REDIRECT) != null) {
+    if (output.getProperties() != null
+        && output.getProperties().get(ActionOutput.SEND_REDIRECT) != null) {
       log.debug("Redirect the response to : "
           + (String) output.getProperties().get(ActionOutput.SEND_REDIRECT));
       blockingInteractionResponse.setRedirectURL((String) output.getProperties()
@@ -653,6 +668,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         updateResponse.setNewWindowState(WindowStates.getWSRPStateString(output.getNextState()));
       updateResponse.setSessionContext(sessionContext);
       updateResponse.setMarkupContext(markupContext);
+
       // fill the state to send it to consumer if allowed
       if (conf.isSavePortletStateOnConsumer())
         portletContext.setPortletState(output.getPortletState());
@@ -845,6 +861,43 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       throw new WSRPException();
     }
 
+    // manage portlet state change
+    boolean isStateChangeAuthorized = false;
+    String stateChange = resourceParams.getPortletStateChange().value();
+    if (StateChange.READ_WRITE.value().equalsIgnoreCase(stateChange)) {
+      log.debug("readWrite state change");
+      // every modification is allowed on the portlet
+      isStateChangeAuthorized = true;
+    } else if (StateChange.CLONE_BEFORE_WRITE.value().equalsIgnoreCase(stateChange)) {
+      log.debug("cloneBeforWrite state change");
+      try {
+        portletContext = portletManagementOperationsInterface.clonePortlet(registrationContext,
+                                                                           portletContext,
+                                                                           userContext,
+                                                                           portletContext.getScheduledDestruction());
+
+        // perform post cloned operations
+        // update the portlet handle
+        portletHandle = portletContext.getPortletHandle();
+
+      } catch (OperationNotSupported e) {
+        throw new OperationFailed(e.getMessage(), e);
+      }
+      // any modification will be made on the cloned portlet handle
+      isStateChangeAuthorized = true;
+    } else if (StateChange.READ_ONLY.value().equalsIgnoreCase(stateChange)) {
+      log.debug("readOnly state change");
+      // if an attempt to change the state is done (means change the portlet
+      // pref in JSR 168)
+      // then a fault will be launched
+//      throw new InconsistentParameters("PortletStateChangeRequired:" + "StateChange is READ_ONLY");
+    } else {
+      String message = "The submited portlet state change value : " + stateChange
+          + " is not supported";
+      log.debug(message);
+      throw new InconsistentParameters("PortletStateChangeRequired:" + message);
+    }
+
     // ---------- BEGIN CREATING FACTORY --------------
     PortletURLFactory portletURLFactory = WSRPRewriterPortletURLFactoryBuilder.getFactory(conf.isDoesUrlTemplateProcessing(),
                                                                                           runtimeContext,
@@ -880,6 +933,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
     // putFormParametersInRequest(request, resourceParams);
 
+    List<Locale> locales = LocaleUtils.processStringsToLocales(resourceParams.getLocales(),
+                                                               DEFAULT_LOCALES);
     // preparing Input object
     ResourceInput input = new ResourceInput();
     ExoWindowID windowID = new ExoWindowID();
@@ -896,12 +951,11 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     input.setPortletMode(portletMode);
     input.setWindowState(windowState);
     input.setMarkup(mimeType);
-    input.setLocales(LocaleUtils.processStringsToLocales(resourceParams.getLocales(),
-                                                         DEFAULT_LOCALES));
+    input.setLocales(locales);
     input.setRenderParameters(renderParameters);
     input.setPublicParamNames(publicParamNames);
 
-//    input.setStateChangeAuthorized(false);
+    input.setStateChangeAuthorized(isStateChangeAuthorized);
     input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
     input.setPortletState(portletState);
     input.setPortletPreferencesPersister(persister);
@@ -917,8 +971,16 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       if (output.hasError())
         throw new WSRPException("serveResource output hasError");
     } catch (WSRPException e) {
-      log.debug("The call to render method was a failure ", e);
-      throw new WSRPException();
+      if (e.getCause() != null && e.getCause().getCause() != null
+          && (e.getCause().getCause() instanceof IllegalStateException)) {
+        Throwable th = e.getCause().getCause();
+        if (th.getMessage() != null
+            && th.getMessage().contains("the state of the portlet can not be changed")) {
+          throw new InconsistentParameters("PortletStateChangeRequired:" + th.getMessage(), th);
+        }
+      }
+//      log.error("The call to processAction method was a failure ", e);
+      throw new WSRPException("The call to render method was a failure ", e);
     }
 
     // preparing cache control object
@@ -928,7 +990,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     } catch (WSRPException e) {
       throw new WSRPException();
     }
-    //output.getProperties() // TODO
     // preparing resource context
     ResourceContext resourceContext = new ResourceContext();
     resourceContext.setCacheControl(cacheControl);
@@ -940,6 +1001,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     resourceContext.setMimeType(output.getContentType());// was: mimeType
     resourceContext.setRequiresRewriting(!conf.isDoesUrlTemplateProcessing());
     resourceContext.setUseCachedItem(Boolean.FALSE);
+
+    // fill the state to send it to consumer if allowed
+    if (conf.isSavePortletStateOnConsumer())
+      portletContext.setPortletState(output.getPortletState());
 
     ResourceResponse resourceResponse = new ResourceResponse();
     resourceResponse.setPortletContext(portletContext);
@@ -1074,8 +1139,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       // pref in JSR 168)
       // then a fault will be launched
     } else {
-      log.debug("The submited portlet state change value : " + stateChange + " is not supported");
-      throw new PortletStateChangeRequired();
+      String message = "The submited portlet state change value : " + stateChange
+          + " is not supported";
+      log.debug(message);
+      throw new PortletStateChangeRequired(message);
     }
 
     HandleEventsResponse handleEventsResponse = new HandleEventsResponse();
@@ -1117,6 +1184,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     // for get params within included jsp struts
     request.setParameters(renderParameters);
 
+    List<Locale> locales = LocaleUtils.processStringsToLocales(markupParams.getLocales(),
+                                                               DEFAULT_LOCALES);
+
     String navigationalState = null;
 
     Integer index = 0;
@@ -1148,13 +1218,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       input.setPortletMode(portletMode);
       input.setWindowState(windowState);
       input.setMarkup(mimeType);
-      input.setLocales(LocaleUtils.processStringsToLocales(markupParams.getLocales(),
-                                                           DEFAULT_LOCALES));
+      input.setLocales(locales);
       input.setEvent(event);
       input.setRenderParameters(renderParameters);
       input.setPublicParamNames(publicParamNames);
 
-//      input.setStateChangeAuthorized(isStateChangeAuthorized);
+      input.setStateChangeAuthorized(isStateChangeAuthorized);
       input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
       input.setPortletState(portletState);
       input.setPortletPreferencesPersister(persister);
@@ -1220,6 +1289,10 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       markupContext = markupResponse.getMarkupContext();
     }
     updateResponse.setMarkupContext(markupContext);
+
+    // fill the state to send it to consumer if allowed
+    if (conf.isSavePortletStateOnConsumer())
+      portletContext.setPortletState(output.getPortletState());
     updateResponse.setPortletContext(portletContext);
 
     // get public parameters
@@ -1454,7 +1527,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private void checkCookie() throws InvalidCookie {
     HttpSession httpSession = WSRPHTTPContainer.getInstance().getRequest().getSession(false);
-    
+
     if (httpSession == null) {
       throw new InvalidCookie("httpSession is null", new InvalidCookieFault());
     }

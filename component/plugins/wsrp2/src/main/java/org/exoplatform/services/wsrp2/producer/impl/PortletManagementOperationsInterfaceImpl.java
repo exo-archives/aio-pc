@@ -172,11 +172,9 @@ public class PortletManagementOperationsInterfaceImpl implements
     }
     if (RegistrationVerifier.checkRegistrationContext(fromRegistrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(fromRegistrationContext, fromUserContext);
-      Iterator<PortletContext> portletContextsIterator = fromPortletContexts.iterator();
-      while (portletContextsIterator.hasNext()) {
-        PortletContext portletContext = (PortletContext) portletContextsIterator.next();
+      for (PortletContext fromPortletContext : fromPortletContexts) {
         LifetimeVerifier.checkPortletLifetime(fromRegistrationContext,
-                                              portletContext,
+                                              fromPortletContext,
                                               fromUserContext);
       }
     }
@@ -225,13 +223,14 @@ public class PortletManagementOperationsInterfaceImpl implements
         e.printStackTrace();
       }
 
-    }
+    } // END for each fromPortletContext
 
     CopyPortletsResponse copyPortletsResponse = new CopyPortletsResponse();
     if (copiedPortlets != null)
       copyPortletsResponse.getCopiedPortlets().addAll(copiedPortlets);
     if (failedPortlets != null)
       copyPortletsResponse.getFailedPortlets().addAll(failedPortlets);
+    copyPortletsResponse.setResourceList(null);
 
     return copyPortletsResponse;
 
@@ -304,6 +303,8 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     if (lifetime != null)
       exportPortletsResponse.setLifetime(lifetime);
+
+    exportPortletsResponse.setResourceList(null);
 
     if (exportedPortlets != null)
       exportPortletsResponse.getExportedPortlet().addAll(exportedPortlets);
@@ -632,15 +633,15 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     String portletHandle = portletContext.getPortletHandle();
 
-    try {
-      if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
-        log.debug("This portlet handle " + portletHandle
-            + " is not valid in the scope of that registration ");
-        throw new AccessDenied();
-      }
-    } catch (WSRPException e) {
-      throw new WSRPException();
-    }
+//    try {
+//      if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
+//        log.debug("This portlet handle " + portletHandle
+//            + " is not valid in the scope of that registration ");
+//        throw new AccessDenied();
+//      }
+//    } catch (WSRPException e) {
+//      throw new WSRPException();
+//    }
 
     PortletDescription pD = proxy.getPortletDescription(portletHandle,
                                                         desiredLocales.toArray(new String[desiredLocales.size()]));
@@ -853,7 +854,6 @@ public class PortletManagementOperationsInterfaceImpl implements
     String toPortletHandle = toPortletContext.getPortletHandle();
 
     try {
-
       // is Consumer Configured Portlet
       if (stateManager.isConsumerConfiguredPortlet(fromPortletHandle, fromRegistrationContext)) {
         if (log.isDebugEnabled())
@@ -861,15 +861,6 @@ public class PortletManagementOperationsInterfaceImpl implements
               + fromPortletHandle);
         // add toPortletHandle as a Consumer Configured Portlet
         stateManager.addConsumerConfiguredPortletHandle(toPortletHandle, toRegistrationContext);
-
-        // set PortletProperties for toPortletHandle
-        processCopyPortletProperties(toRegistrationContext,
-                                     toUserContext,
-                                     toPortletContext,
-                                     fromRegistrationContext,
-                                     fromUserContext,
-                                     fromPortletContext);
-
       } else {
         // is Producer Offered Portlet
         if (log.isDebugEnabled())
@@ -879,15 +870,17 @@ public class PortletManagementOperationsInterfaceImpl implements
           log.debug("The portlet handle is not offered by the Producer");
           throw new InvalidHandle();
         }
+        // add toPortletHandle as a Consumer Configured Portlet
         stateManager.addConsumerConfiguredPortletHandle(toPortletHandle, toRegistrationContext);
-        // set PortletProperties for toPortletHandle
-        processCopyPortletProperties(toRegistrationContext,
-                                     toUserContext,
-                                     toPortletContext,
-                                     fromRegistrationContext,
-                                     fromUserContext,
-                                     fromPortletContext);
       }
+
+      // set PortletProperties for toPortletHandle
+      processCopyPortletProperties(toRegistrationContext,
+                                   toUserContext,
+                                   toPortletContext,
+                                   fromRegistrationContext,
+                                   fromUserContext,
+                                   fromPortletContext);
 
       processCopyPortletsLifetime(toPortletContext, fromPortletContext);
 

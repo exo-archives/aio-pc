@@ -36,47 +36,52 @@ public class Output {
   /**
    * HTTP OK status (code 200).
    */
-  private static final int HTTP_OK_STATUS = 200;
+  private static final int        HTTP_OK_STATUS             = 200;
 
   /**
    * Invalidate session constant.
    */
-  public static final String INVALIDATE_SESSION = "_invalidate_session_";
+  public static final String      INVALIDATE_SESSION         = "_invalidate_session_";
 
   /**
    * Redirect constant.
    */
-  public static final String SEND_REDIRECT = "_send_redirect_";
+  public static final String      SEND_REDIRECT              = "_send_redirect_";
 
   /**
    * Login constant.
    */
-  public static final String LOGIN = "_login_";
+  public static final String      LOGIN                      = "_login_";
 
   /**
    * Password constant.
    */
-  public static final String PASSWORD = "_password_";
+  public static final String      PASSWORD                   = "_password_";
 
   /**
    * Logout constant.
    */
-  public static final String LOGOUT = "_logout_";
+  public static final String      LOGOUT                     = "_logout_";
 
   /**
    * Properties.
    */
-  private Map<String, Object> properties = new HashMap<String, Object>();
+  private Map<String, Object>     properties                 = new HashMap<String, Object>();
 
   /**
    * Session map.
    */
-  private HashMap<String, Object> sessionMap = new HashMap<String, Object>();
+  private HashMap<String, Object> sessionMap                 = new HashMap<String, Object>();
 
   /**
    * Params to remove.
    */
-  private final Set<String> publicRenderParamsToRemove = new HashSet<String>();
+  private final Set<String>       publicRenderParamsToRemove = new HashSet<String>();
+
+  /**
+   * Portlet state.
+   */
+  private byte[]                  portletState;
 
   /**
    * @return props
@@ -104,10 +109,16 @@ public class Output {
    * Special properties names.
    */
   private final List<String> specialProperties = java.util.Arrays.asList(MimeResponse.CACHE_SCOPE,
-      MimeResponse.EXPIRATION_CACHE, MimeResponse.ETAG, MimeResponse.USE_CACHED_CONTENT,
-      MimeResponse.MARKUP_HEAD_ELEMENT, MimeResponse.NAMESPACED_RESPONSE,
-      ResourceResponse.HTTP_STATUS_CODE, Output.SEND_REDIRECT, Output.INVALIDATE_SESSION,
-      PCConstants.EXCEPTION, PCConstants.DESTROYED);
+                                                                         MimeResponse.EXPIRATION_CACHE,
+                                                                         MimeResponse.ETAG,
+                                                                         MimeResponse.USE_CACHED_CONTENT,
+                                                                         MimeResponse.MARKUP_HEAD_ELEMENT,
+                                                                         MimeResponse.NAMESPACED_RESPONSE,
+                                                                         ResourceResponse.HTTP_STATUS_CODE,
+                                                                         Output.SEND_REDIRECT,
+                                                                         Output.INVALIDATE_SESSION,
+                                                                         PCConstants.EXCEPTION,
+                                                                         PCConstants.DESTROYED);
 
   /**
    * @param s name
@@ -179,6 +190,20 @@ public class Output {
    */
   public final Set<String> getRemovedPublicRenderParameters() {
     return publicRenderParamsToRemove;
+  }
+
+  /**
+   * @return portlet state
+   */
+  public final byte[] getPortletState() {
+    return portletState;
+  }
+
+  /**
+   * @param portletState portlet state
+   */
+  public final void setPortletState(final byte[] portletState) {
+    this.portletState = portletState;
   }
 
 }
