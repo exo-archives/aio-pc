@@ -65,77 +65,77 @@ import org.exoplatform.services.wsrp2.wsdl.WSRPService2;
 public class ProducerImpl implements Producer, java.io.Serializable {
 
   /**
-   *  The serialVersionUID.
+   * The serialVersionUID.
    */
   private static final long                                  serialVersionUID = 1L;
 
   /**
-   *  Name.
+   * Name.
    */
   private String                                             name;
 
   /**
-   *  ID.
+   * ID.
    */
   private String                                             ID;
 
   /**
-   *  Decription.
+   * Decription.
    */
   private String                                             description;
 
   /**
-   *  Service description adapter.
+   * Service description adapter.
    */
   private transient WSRPServiceDescriptionPortTypeAdapterAPI serviceDescriptionAdapter;
 
   /**
-   *  Markup adapter.
+   * Markup adapter.
    */
   private transient WSRPMarkupPortTypeAdapterAPI             markupAdapter;
 
   /**
-   *  Portlet management adapter.
+   * Portlet management adapter.
    */
   private transient WSRPPortletManagementPortTypeAdapterAPI  portletManagementAdapter;
 
   /**
-   *  Registration adapter.
+   * Registration adapter.
    */
   private transient WSRPRegistrationPortTypeAdapterAPI       registrationAdapter;
 
   /**
-   *  Service description.
+   * Service description.
    */
   private ServiceDescription                                 serviceDescription;
 
   /**
-   *  Registration data.
+   * Registration data.
    */
   private RegistrationData                                   registrationData;
 
   /**
-   *  Registration context.
+   * Registration context.
    */
   private RegistrationContext                                registrationContext;
 
   /**
-   *  Desired locales.
+   * Desired locales.
    */
   private List<String>                                       desiredLocales   = new ArrayList<String>();
 
   /**
-   *  URL.
+   * URL.
    */
   private URL                                                url;
 
   /**
-   *  Version ID.
+   * Version ID.
    */
   private int                                                version          = 2;
 
   /**
-   *  Logger.
+   * Logger.
    */
   private static final Log                                   LOG              = ExoLogger.getLogger(ProducerImpl.class);
 
@@ -286,12 +286,12 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     return null;
   }
 
-  private void updateServiceDescription() {
+  private void updateServiceDescription() throws WSRPException {
     try {
       GetServiceDescription getServiceDescription = getServiceDescription(desiredLocales);
       serviceDescription = serviceDescriptionAdapter.getServiceDescription(getServiceDescription);
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new WSRPException(e.getMessage(), e);
     }
   }
 
@@ -327,7 +327,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
     return registrationAdapter;
   }
 
-  public boolean isRegistrationRequired() {
+  public boolean isRegistrationRequired() throws WSRPException {
     if (serviceDescription == null) {
       updateServiceDescription();
     }

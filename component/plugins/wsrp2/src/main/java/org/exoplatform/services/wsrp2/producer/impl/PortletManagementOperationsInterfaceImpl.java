@@ -64,12 +64,14 @@ import org.exoplatform.services.wsrp2.type.ImportedPortlet;
 import org.exoplatform.services.wsrp2.type.Lifetime;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.ModelDescription;
+import org.exoplatform.services.wsrp2.type.OperationNotSupportedFault;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.PortletDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.PortletLifetime;
 import org.exoplatform.services.wsrp2.type.PortletPropertyDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.Property;
+import org.exoplatform.services.wsrp2.type.PropertyDescription;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ResourceList;
@@ -143,8 +145,7 @@ public class PortletManagementOperationsInterfaceImpl implements
                                                       portletContext);
 
     } catch (WSRPException e) {
-      e.printStackTrace();
-      throw new WSRPException("Can not clone portlet");
+      throw new WSRPException("Can not clone portlet", e);
     }
     log.debug("New portlet handle : " + newPortletHandle);
     return clonedPortletContext;
@@ -219,8 +220,6 @@ public class PortletManagementOperationsInterfaceImpl implements
         reason.setValue("Cannot copy portlet");
         failedPortlet.setReason(reason);
         failedPortlets.add(failedPortlet);
-        // throw new WSRPException();
-        e.printStackTrace();
       }
 
     } // END for each fromPortletContext
@@ -266,51 +265,48 @@ public class PortletManagementOperationsInterfaceImpl implements
 
     log.debug("Exporting portlets for the registered consumer : "
         + registrationContext.getRegistrationHandle());
-    RegistrationVerifier.checkRegistrationContext(registrationContext);
-    Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
-    Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
 
     if (exportByValueRequired) {
       throw new ExportByValueNotSupported();
     }
 
+    RegistrationVerifier.checkRegistrationContext(registrationContext);
+    Collection<ExportedPortlet> exportedPortlets = new ArrayList<ExportedPortlet>();
+    Collection<FailedPortlets> failedPortlets = new ArrayList<FailedPortlets>();
+
     for (PortletContext portletContext : portletContexts) {
       try {
-
 //        byte[] exportData = portletContext.getPortletState();
+
         byte[] exportData = IOUtil.serialize(portletContext);
 
         ExportedPortlet exportedPortlet = new ExportedPortlet();
         exportedPortlet.setExportData(exportData);
         exportedPortlet.setPortletHandle(portletContext.getPortletHandle());
         exportedPortlets.add(exportedPortlet);
-
       } catch (Exception e) {
         log.error("Can not copy portlet", e);
-        FailedPortlets failedPortlet = new FailedPortlets();
-        // failedPortlet.setPortletHandles(portContext.getPortletHandle());
         LocalizedString reason = new LocalizedString();
         reason.setValue("Cannot copy portlet");
+
+        FailedPortlets failedPortlet = new FailedPortlets();
+        failedPortlet.getPortletHandles().add(portletContext.getPortletHandle());
         failedPortlet.setReason(reason);
         failedPortlets.add(failedPortlet);
-        // throw new WSRPException();
-        e.printStackTrace();
       }
     }
 
+    byte[] exportContext = {};
+
     ExportPortletsResponse exportPortletsResponse = new ExportPortletsResponse();
-    exportPortletsResponse.setExportContext(null);
-
-    if (lifetime != null)
-      exportPortletsResponse.setLifetime(lifetime);
-
-    exportPortletsResponse.setResourceList(null);
-
+    exportPortletsResponse.setExportContext(exportContext);
     if (exportedPortlets != null)
       exportPortletsResponse.getExportedPortlet().addAll(exportedPortlets);
-
     if (failedPortlets != null)
       exportPortletsResponse.getFailedPortlets().addAll(failedPortlets);
+    if (lifetime != null)
+      exportPortletsResponse.setLifetime(lifetime);
+    exportPortletsResponse.setResourceList(null);
 
     return exportPortletsResponse;
   }
@@ -358,6 +354,31 @@ public class PortletManagementOperationsInterfaceImpl implements
 
         PortletContext newPortletContext = resolvePortletContext(importData);
 
+        String[] k = StringUtils.split(newPortletContext.getPortletHandle(),
+                                       Constants.PORTLET_META_DATA_ENCODER);
+        String portletApplicationName = k[0];
+        String portletName = k[1];
+        if (log.isDebugEnabled()) {
+          log.debug("importPortlets of portlet in application: " + portletApplicationName);
+          log.debug("importPortlets of portlet: " + portletName);
+        }
+
+        String fromPortletHandle = k[0] + "/" + k[1];
+        if (!proxy.isPortletOffered(fromPortletHandle)) {
+          log.debug("The portlet handle is not offered by the Producer");
+          throw new InvalidHandle();
+        }
+
+//        PortletPreferences prefsImp = null;
+//        byte[] portletState = newPortletContext.getPortletState();
+//        if (portletState != null) {
+//          try {
+//            prefsImp = (PortletPreferences) IOUtil.deserialize(portletState);
+//          } catch (Exception e) {
+//            log.error("Error: ", e);
+//          }
+//        }
+
         ImportedPortlet importedPortlet = new ImportedPortlet();
         importedPortlet.setImportID(importID);
         importedPortlet.setNewPortletContext(newPortletContext);
@@ -365,21 +386,18 @@ public class PortletManagementOperationsInterfaceImpl implements
         if (importedPortlets == null)
           importedPortlets = new ArrayList<ImportedPortlet>();
         importedPortlets.add(importedPortlet);
-
       } catch (Exception e) {
         log.error("Can not import portlet", e);
-        ImportPortletsFailed failedPortlet = new ImportPortletsFailed();
-        // failedPortlet.setPortletHandles(portContext.getPortletHandle());
         LocalizedString reason = new LocalizedString();
         reason.setValue("Cannot import portlet");
+
+        ImportPortletsFailed failedPortlet = new ImportPortletsFailed();
+        failedPortlet.getImportID().add(importPortlet.getImportID());
         failedPortlet.setReason(reason);
         if (failedPortlets == null)
           failedPortlets = new ArrayList<ImportPortletsFailed>();
         failedPortlets.add(failedPortlet);
-        // throw new WSRPException();
-        e.printStackTrace();
       }
-
     }
 
     ImportPortletsResponse importPortletsResponse = new ImportPortletsResponse();
@@ -389,7 +407,6 @@ public class PortletManagementOperationsInterfaceImpl implements
       importPortletsResponse.getImportFailed().addAll(failedPortlets);
 
     return importPortletsResponse;
-
   }
 
   private PortletContext resolvePortletContext(byte[] importData) throws WSRPException {
@@ -408,6 +425,7 @@ public class PortletManagementOperationsInterfaceImpl implements
   public ReturnAny releaseExport(byte[] exportContext,
                                  UserContext userContext,
                                  RegistrationContext registrationContext) {
+//    throw new OperationNotSupported("The releaseExport Operation Not Supported", new OperationNotSupportedFault());
     return new ReturnAny();
   }
 
@@ -428,7 +446,10 @@ public class PortletManagementOperationsInterfaceImpl implements
     if (RegistrationVerifier.checkRegistrationContext(registrationContext)) {
       LifetimeVerifier.checkRegistrationLifetime(registrationContext, userContext);
     }
-    return lifetime;
+
+    throw new OperationNotSupported("The setExportLifetime Operation Not Supported",
+                                    new OperationNotSupportedFault());
+//    return lifetime;
   }
 
   public DestroyPortletsResponse destroyPortlets(RegistrationContext registrationContext,
@@ -721,7 +742,7 @@ public class PortletManagementOperationsInterfaceImpl implements
     log.debug("get portlet properties for registration handle "
         + registrationContext.getRegistrationHandle());
 
-    String portletHandle = portletContext.getPortletHandle();
+//    String portletHandle = portletContext.getPortletHandle();
 
 //    try {
 //      if (!stateManager.isConsumerConfiguredPortlet(portletHandle, registrationContext)) {
@@ -733,15 +754,18 @@ public class PortletManagementOperationsInterfaceImpl implements
 //      throw new WSRPException();
 //    }
 
-    PropertyList list = getPortletPropertiesPrivate(portletContext, userContext, names, false);
+    PropertyList list = getPortletPropertiesWithFlagParameter(portletContext,
+                                                              userContext,
+                                                              names,
+                                                              false);
 
     return list;
   }
 
-  private PropertyList getPortletPropertiesPrivate(PortletContext portletContext,
-                                                   UserContext userContext,
-                                                   List<String> names,
-                                                   boolean readWriteOnly) throws WSRPException {
+  private PropertyList getPortletPropertiesWithFlagParameter(PortletContext portletContext,
+                                                             UserContext userContext,
+                                                             List<String> names,
+                                                             boolean readWriteOnly) throws WSRPException {
     Map<String, String[]> properties = null;
 
     String userID = userContext != null ? userContext.getUserContextKey() : null;
@@ -764,6 +788,7 @@ public class PortletManagementOperationsInterfaceImpl implements
         String[] values = (String[]) properties.get(key);
         Property prop = new Property();
         prop.setName(new QName(key));
+        prop.setType(new QName(values[0].getClass().getCanonicalName()));
         prop.setStringValue(values[0]);
         if (properties2return == null)
           properties2return = new ArrayList<Property>();
@@ -771,17 +796,10 @@ public class PortletManagementOperationsInterfaceImpl implements
       }
     }
 
-    try {
-      Thread.currentThread().sleep(1000);
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-
     PropertyList list = new PropertyList();
     if (properties2return != null)
       list.getProperties().addAll(properties2return);
     return list;
-
   }
 
   public PortletPropertyDescriptionResponse getPortletPropertyDescription(RegistrationContext registrationContext,
@@ -807,13 +825,31 @@ public class PortletManagementOperationsInterfaceImpl implements
     }
 
     String registrationHandle = registrationContext.getRegistrationHandle();
-    PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
+
+    PropertyList list = getPortletPropertiesWithFlagParameter(portletContext,
+                                                              userContext,
+                                                              null,
+                                                              false);
+
+    Collection<Property> properties2return = list.getProperties();
+
+    Collection<PropertyDescription> propertyDescriptionList = new ArrayList<PropertyDescription>();
+
+    for (Property property : properties2return) {
+      PropertyDescription propertyDescription = new PropertyDescription();
+      propertyDescription.setName(property.getName());
+      propertyDescription.setType(property.getType());
+      propertyDescriptionList.add(propertyDescription);
+    }
+
     ModelDescription modelDescription = new ModelDescription();
-    //    modelDescription.getPropertyDescriptions().addAll(c);
+    modelDescription.getPropertyDescriptions().addAll(propertyDescriptionList);
     ResourceList resourceList = new ResourceList();
-    //    resourceList.getResources().addAll(c);
-    portletPropertyDescriptionResponse.setModelDescription(null);
-    portletPropertyDescriptionResponse.setResourceList(null);
+    //    resourceList.getResources().add(c);
+
+    PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = new PortletPropertyDescriptionResponse();
+    portletPropertyDescriptionResponse.setModelDescription(modelDescription);
+    portletPropertyDescriptionResponse.setResourceList(resourceList);
     return portletPropertyDescriptionResponse;
   }
 
@@ -885,8 +921,7 @@ public class PortletManagementOperationsInterfaceImpl implements
       processCopyPortletsLifetime(toPortletContext, fromPortletContext);
 
     } catch (WSRPException e) {
-      e.printStackTrace();
-      throw new WSRPException("Can not clone portlet");
+      throw new WSRPException("Can not clone portlet", e);
     }
     return toPortletContext;
   }
@@ -925,7 +960,10 @@ public class PortletManagementOperationsInterfaceImpl implements
       return;
     }
 
-    PropertyList list = getPortletPropertiesPrivate(fromPortletContext, fromUserContext, null, true);
+    PropertyList list = getPortletPropertiesWithFlagParameter(fromPortletContext,
+                                                              fromUserContext,
+                                                              null,
+                                                              true);
 
     setPortletProperties(toRegistrationContext, toPortletContext, toUserContext, list);
 

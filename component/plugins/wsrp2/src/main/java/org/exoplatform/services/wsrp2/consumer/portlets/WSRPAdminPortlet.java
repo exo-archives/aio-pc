@@ -498,9 +498,7 @@ public class WSRPAdminPortlet {
         output.setContent((new String(charArrayWriter.toCharArray())).getBytes());
       }
     } catch (Exception e) {
-      e.printStackTrace();
-      // throw new PortletContainerException("Exception in
-      // WSRPAdminPortlet.render");
+       throw new PortletContainerException("Exception in WSRPAdminPortlet.render", e);
     }
   }
 
@@ -509,8 +507,7 @@ public class WSRPAdminPortlet {
       String action = request.getParameter("op");
       if (action.equals("reset")) {
         reset();
-      }
-      if (action.equals("deregister")) {
+      } else if (action.equals("deregister")) {
         String producerid = request.getParameter("producerid");
 
         ProducerRegistry pregistry = consumer.getProducerRegistry();
@@ -531,10 +528,8 @@ public class WSRPAdminPortlet {
           if (log.isDebugEnabled())
             log.debug("Exception deregistering producer: " + producer.getID());
         }
-
         pregistry.removeProducer(producerid);
-      }
-      if (action.equals("save")) {
+      } else if (action.equals("save")) {
         producerName = request.getParameter(WSRPConstants.WAP_producerName);
         producerURL = request.getParameter(WSRPConstants.WAP_producerURL);
         markupIntfEndpoint = request.getParameter(WSRPConstants.WAP_markupIntfEndpoint);
@@ -609,9 +604,7 @@ public class WSRPAdminPortlet {
         pregistry.addProducer(producer);
       }
     } catch (Exception e) {
-      e.printStackTrace();
-      // throw new PortletContainerException("Exception in
-      // WSRPAdminPortlet.processAction");
+       throw new PortletContainerException("Exception in WSRPAdminPortlet.processAction",e);
     }
   }
 

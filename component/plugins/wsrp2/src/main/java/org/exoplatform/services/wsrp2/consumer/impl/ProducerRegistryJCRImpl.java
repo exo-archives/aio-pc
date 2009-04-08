@@ -108,14 +108,10 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     return map;
   }
 
-  public void addProducer(Producer producer) {
-    try {
-      save(producer);
-      producers.put(producer.getID(), producer);
-      lastModifiedTime_ = System.currentTimeMillis();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  public void addProducer(Producer producer) throws Exception {
+    save(producer);
+    producers.put(producer.getID(), producer);
+    lastModifiedTime_ = System.currentTimeMillis();
   }
 
   public Producer getProducer(String id) {
@@ -130,7 +126,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     return producers.values().iterator();
   }
 
-  public Producer removeProducer(String id) {
+  public Producer removeProducer(String id) throws Exception {
     if (producers == null)
       return null;
     try {
@@ -201,13 +197,10 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
   public void start() {
     try {
-
       setProducers(loadProducers());
-
     } catch (Exception e) {
       e.printStackTrace();
     }
-
   }
 
   public void stop() {
@@ -240,11 +233,11 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     }
     return data;
   }
-  
+
   private void setProducers(Map<String, Producer> producers) {
     this.producers = producers;
   }
-  
+
   private Map<String, Producer> getProducers() {
     return producers;
   }

@@ -33,7 +33,7 @@ public class TestProducerRegistry extends BaseTest {
     assertNotNull("producerRegistry must not be null", producerRegistry);
   }
 
-  public void testAddProducer() {
+  public void testAddProducer() throws Exception {
     log();
     producerRegistry.addProducer(producer);
     assertTrue(producerRegistry.existsProducer(producer.getID()));

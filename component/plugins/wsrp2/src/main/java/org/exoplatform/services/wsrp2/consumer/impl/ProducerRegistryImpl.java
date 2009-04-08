@@ -31,8 +31,6 @@ import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.consumer.ProducerRegistry;
-import org.exoplatform.services.wsrp2.exceptions.WSRPException;
-import org.hibernate.HibernateException;
 import org.hibernate.Session;
 
 /**
@@ -40,40 +38,40 @@ import org.hibernate.Session;
  *         févr. 2004 Time: 23:04:48
  */
 public class ProducerRegistryImpl implements ProducerRegistry {
-  
+
   /**
-   *  Query all producer.  
+   * Query all producer.
    */
   private static final String   queryAllProducer = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData";
 
   /**
-   *  Query V2 producer.  
+   * Query V2 producer.
    */
   private static final String   queryProducer    = "from pd in class org.exoplatform.services.wsrp2.consumer.impl.WSRP2ProducerData "
                                                      + "where pd.id = ?";
 
   /**
-   *  Last modified time.  
+   * Last modified time.
    */
   private long                  lastModifiedTime_;
 
   /**
-   *  Producers map.  
+   * Producers map.
    */
   private Map<String, Producer> producers;
 
   /**
-   *  Hibernate service.  
+   * Hibernate service.
    */
   private HibernateService      hservice_;
 
   /**
-   *  Logger.  
+   * Logger.
    */
   private Log                   log_;
 
   /**
-   *  Container.  
+   * Container.
    */
   protected ExoContainer        cont;
 
@@ -107,14 +105,10 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return map;
   }
 
-  public void addProducer(Producer producer) {
-    try {
-      save(producer);
-      producers.put(producer.getID(), producer);
-      lastModifiedTime_ = System.currentTimeMillis();
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+  public void addProducer(Producer producer) throws Exception {
+    save(producer);
+    producers.put(producer.getID(), producer);
+    lastModifiedTime_ = System.currentTimeMillis();
   }
 
   public Producer getProducer(String id) {
@@ -125,17 +119,12 @@ public class ProducerRegistryImpl implements ProducerRegistry {
     return producers.values().iterator();
   }
 
-  public Producer removeProducer(String id) {
-    try {
-      remove(id);
-      producers.remove(id);
-      lastModifiedTime_ = System.currentTimeMillis();
-      Producer producer = (Producer) producers.get(id);
-      return producer;
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
-    return null;
+  public Producer removeProducer(String id) throws Exception {
+    remove(id);
+    producers.remove(id);
+    lastModifiedTime_ = System.currentTimeMillis();
+    Producer producer = (Producer) producers.get(id);
+    return producer;
   }
 
   public void removeAllProducers() throws Exception {

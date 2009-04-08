@@ -1223,7 +1223,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       }
       return output;
     } catch (WSRPException e) {
-      e.printStackTrace();
       throw new PortletContainerException("exception in WSRPConsumerPlugin.processEvent method", e);
     }
 

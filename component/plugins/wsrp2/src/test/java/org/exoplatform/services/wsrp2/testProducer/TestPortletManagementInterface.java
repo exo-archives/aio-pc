@@ -31,18 +31,23 @@ import org.exoplatform.services.wsrp2.type.GetPortletDescription;
 import org.exoplatform.services.wsrp2.type.GetPortletProperties;
 import org.exoplatform.services.wsrp2.type.GetPortletPropertyDescription;
 import org.exoplatform.services.wsrp2.type.GetPortletsLifetime;
+import org.exoplatform.services.wsrp2.type.GetPortletsLifetimeResponse;
 import org.exoplatform.services.wsrp2.type.ImportPortlet;
 import org.exoplatform.services.wsrp2.type.ImportPortlets;
 import org.exoplatform.services.wsrp2.type.LocalizedString;
 import org.exoplatform.services.wsrp2.type.PortletContext;
 import org.exoplatform.services.wsrp2.type.PortletDescription;
 import org.exoplatform.services.wsrp2.type.PortletDescriptionResponse;
+import org.exoplatform.services.wsrp2.type.PortletLifetime;
+import org.exoplatform.services.wsrp2.type.PortletPropertyDescriptionResponse;
 import org.exoplatform.services.wsrp2.type.Property;
+import org.exoplatform.services.wsrp2.type.PropertyDescription;
 import org.exoplatform.services.wsrp2.type.PropertyList;
 import org.exoplatform.services.wsrp2.type.RegistrationContext;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.type.SetPortletProperties;
 import org.exoplatform.services.wsrp2.type.SetPortletsLifetime;
+import org.exoplatform.services.wsrp2.type.SetPortletsLifetimeResponse;
 
 /**
  * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net
@@ -197,7 +202,7 @@ public class TestPortletManagementInterface extends BaseTest {
     assertEquals("HH", property.getStringValue());
   }
 
-  public void testSetPortletProperty() throws Exception {
+  public void testSetPortletProperties() throws Exception {
     log();
     RegistrationContext rC = registrationOperationsInterface.register(register);
     PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
@@ -350,8 +355,8 @@ public class TestPortletManagementInterface extends BaseTest {
 
     GetPortletDescription getPortletDescription = new GetPortletDescription();
     PortletContext pC = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
-    
-    getPortletDescription.setRegistrationContext(rC); 
+
+    getPortletDescription.setRegistrationContext(rC);
     getPortletDescription.setPortletContext(pC);
     getPortletDescription.setUserContext(userContext);
     getPortletDescription.getDesiredLocales().add("EN");
@@ -448,6 +453,31 @@ public class TestPortletManagementInterface extends BaseTest {
     }
   }
 
+  public void testSetPortletsLifetime() throws Exception {
+    log();
+    registrationContext = registrationOperationsInterface.register(register);
+
+    PortletContext portletContext = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+
+    lifetime = getLifetimeInSec(10);
+
+    SetPortletsLifetime setPortletsLifetime = new SetPortletsLifetime();
+    setPortletsLifetime.setLifetime(lifetime);
+    setPortletsLifetime.setRegistrationContext(registrationContext);
+    setPortletsLifetime.setUserContext(userContext);
+    setPortletsLifetime.getPortletContext().add(portletContext);
+
+    SetPortletsLifetimeResponse setPortletsLifetimeResponse = portletManagementOperationsInterface.setPortletsLifetime(setPortletsLifetime);
+    assertNotNull(setPortletsLifetimeResponse);
+    assertEquals(0, setPortletsLifetimeResponse.getFailedPortlets().size());
+
+    assertNotNull(setPortletsLifetimeResponse.getUpdatedPortlet());
+    List<PortletLifetime> upResp = setPortletsLifetimeResponse.getUpdatedPortlet();
+    assertEquals(1, upResp.size());
+    PortletLifetime portletLifetime = upResp.iterator().next();
+    assertNotNull(portletLifetime);
+  }
+
   public void testSetPortletsLifetimeWithInvalidRegistration() throws Exception {
     log();
     ServiceDescription sd = getServiceDescription(new String[] { "en" });
@@ -469,6 +499,54 @@ public class TestPortletManagementInterface extends BaseTest {
       fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
     } catch (InvalidRegistration e) {
     }
+  }
+
+  public void testGetPortletsLifetime() throws Exception {
+    log();
+    registrationContext = registrationOperationsInterface.register(register);
+
+    PortletContext portletContext = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+
+    lifetime = getLifetimeInSec(10);
+
+    SetPortletsLifetime setPortletsLifetime = new SetPortletsLifetime();
+    setPortletsLifetime.setLifetime(lifetime);
+    setPortletsLifetime.setRegistrationContext(registrationContext);
+    setPortletsLifetime.setUserContext(userContext);
+    setPortletsLifetime.getPortletContext().add(portletContext);
+
+    SetPortletsLifetimeResponse setPortletsLifetimeResponse = portletManagementOperationsInterface.setPortletsLifetime(setPortletsLifetime);
+    assertNotNull(setPortletsLifetimeResponse);
+    assertEquals(0, setPortletsLifetimeResponse.getFailedPortlets().size());
+
+    assertNotNull(setPortletsLifetimeResponse.getUpdatedPortlet());
+    List<PortletLifetime> upResp = setPortletsLifetimeResponse.getUpdatedPortlet();
+    assertEquals(1, upResp.size());
+    PortletLifetime portletLifetime = upResp.iterator().next();
+    assertNotNull(portletLifetime);
+
+    // GET lifetime 
+
+    GetPortletsLifetime getPortletsLifetime = new GetPortletsLifetime();
+    getPortletsLifetime.setRegistrationContext(registrationContext);
+    getPortletsLifetime.setUserContext(userContext);
+    getPortletsLifetime.getPortletContext().add(portletContext);
+
+    GetPortletsLifetimeResponse getPortletsLifetimeResponse = portletManagementOperationsInterface.getPortletsLifetime(getPortletsLifetime);
+
+    assertNotNull(getPortletsLifetimeResponse);
+    assertEquals(0, getPortletsLifetimeResponse.getFailedPortlets().size());
+
+    List<PortletLifetime> portletLifetimeList = getPortletsLifetimeResponse.getPortletLifetime();
+    assertEquals(1, portletLifetimeList.size());
+    PortletLifetime portletLifetimeResult = portletLifetimeList.iterator().next();
+    assertNotNull(portletLifetimeResult);
+    assertEquals(portletContext.getPortletHandle(), portletLifetimeResult.getPortletContext()
+                                                                         .getPortletHandle());
+
+    assertEquals(lifetime.getTerminationTime(), portletLifetimeResult.getScheduledDestruction()
+                                                                     .getTerminationTime());
+
   }
 
   public void testImportPortletsWithInvalidRegistration() throws Exception {
@@ -518,6 +596,34 @@ public class TestPortletManagementInterface extends BaseTest {
       fail("Should be an InvalidRegistration exception, because the given registration handle was incorrect");
     } catch (InvalidRegistration e) {
     }
+  }
+
+  public void testGetPortletPropertyDescription() throws Exception {
+    log();
+    registrationContext = registrationOperationsInterface.register(register);
+
+    PortletContext portletContext = fillPortletContext(CONTEXT_PATH + "/HelloWorld");
+
+    GetPortletPropertyDescription getPortletPropertyDescription = new GetPortletPropertyDescription();
+    getPortletPropertyDescription.setPortletContext(portletContext);
+    getPortletPropertyDescription.setRegistrationContext(registrationContext);
+    getPortletPropertyDescription.setUserContext(userContext);
+
+    PortletPropertyDescriptionResponse portletPropertyDescriptionResponse = portletManagementOperationsInterface.getPortletPropertyDescription(getPortletPropertyDescription);
+    assertNotNull(portletPropertyDescriptionResponse);
+    assertNotNull(portletPropertyDescriptionResponse.getModelDescription());
+    assertNotNull(portletPropertyDescriptionResponse.getModelDescription()
+                                                    .getPropertyDescriptions());
+    
+    assertEquals(3, portletPropertyDescriptionResponse.getModelDescription()
+                  .getPropertyDescriptions().size());
+    
+    PropertyDescription propertyDescription = portletPropertyDescriptionResponse.getModelDescription()
+                                                                                .getPropertyDescriptions()
+                                                                                .iterator()
+                                                                                .next();
+    assertEquals("time-format",propertyDescription.getName().getLocalPart());
+    assertEquals("java.lang.String",propertyDescription.getType().getLocalPart());
   }
 
   public void testGetPortletPropertyDescriptionWithInvalidRegistration() throws Exception {

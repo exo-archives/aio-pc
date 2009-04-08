@@ -32,7 +32,7 @@ public interface ProducerRegistry {
    * 
    * @param producer The producer to add
    */
-  public void addProducer(Producer producer);
+  public void addProducer(Producer producer) throws Exception;
 
   /**
    * Get the producer for the given URL.
@@ -56,7 +56,7 @@ public interface ProducerRegistry {
    * @return The producer which had been mapped to this id or null if no
    *         producer was found with this id
    */
-  public Producer removeProducer(String id);
+  public Producer removeProducer(String id) throws Exception;
 
   /**
    * Remove all producer objects from the registry.

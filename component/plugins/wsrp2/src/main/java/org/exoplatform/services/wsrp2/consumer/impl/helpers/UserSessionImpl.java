@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -24,23 +25,20 @@ import java.util.Map;
 import org.exoplatform.services.wsrp2.consumer.GroupSession;
 import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp2.consumer.UserSessionMgr;
-import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 9 févr. 2004
- * Time: 22:31:23
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 9
+ *         févr. 2004 Time: 22:31:23
  */
 
-public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
-  
+public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr, Serializable {
+
   /**
    * 
    */
-  private static final long serialVersionUID = -4988894452732545437L;
+  private static final long           serialVersionUID = -4988894452732545437L;
 
-  protected Map<String, GroupSession> groupSessions = new HashMap<String, GroupSession>();
+  protected Map<String, GroupSession> groupSessions    = new HashMap<String, GroupSession>();
 
   private String                      userID;
 
@@ -51,7 +49,7 @@ public class UserSessionImpl extends InitCookieImpl implements UserSessionMgr {
     super(producerID);
   }
 
-  public GroupSessionMgr getGroupSession(String groupID) throws WSRPException {
+  public GroupSessionMgr getGroupSession(String groupID) {
     if (groupID != null) {
       GroupSessionMgr groupSession = (GroupSessionMgr) groupSessions.get(groupID);
       if (groupSession == null) {

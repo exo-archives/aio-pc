@@ -17,6 +17,7 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl.helpers;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
@@ -25,23 +26,20 @@ import org.exoplatform.services.wsrp2.consumer.GroupSessionMgr;
 import org.exoplatform.services.wsrp2.consumer.PortletSession;
 
 /**
- * @author  Mestrallet Benjamin
- *          benjmestrallet@users.sourceforge.net
- * Date: 9 févr. 2004
- * Time: 22:34:33
+ * @author Mestrallet Benjamin benjmestrallet@users.sourceforge.net Date: 9
+ *         févr. 2004 Time: 22:34:33
  */
 
-public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr,
-    java.io.Serializable {
+public class GroupSessionImpl extends InitCookieImpl implements GroupSessionMgr, Serializable {
 
   /**
    * 
    */
-  private static final long serialVersionUID = 3380422934423030970L;
+  private static final long             serialVersionUID = 3380422934423030970L;
 
   protected String                      groupID;
 
-  protected Map<String, PortletSession> portletSessions = new HashMap<String, PortletSession>();
+  protected Map<String, PortletSession> portletSessions  = new HashMap<String, PortletSession>();
 
   public GroupSessionImpl() {
   }

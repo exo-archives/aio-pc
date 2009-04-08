@@ -21,6 +21,7 @@ import junit.framework.TestSuite;
 
 import org.apache.commons.logging.Log;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.testProducer.TestPortletManagementInterface;
 
 /**
  * Created by The eXo Platform SAS Author : Alexey Zavizionov
@@ -47,7 +48,7 @@ public class AllTestsPortlet extends TestCase {
     suite.addTestSuite(SuiteForTestConsumer.class);
 
     // for e.g. to run custom test
-//    suite.addTestSuite(TestGetMarkupInterface.class);
+//    suite.addTestSuite(TestPortletManagementInterface.class);
 
     return suite;
   }

@@ -62,9 +62,6 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
         return customNode.getNode(id).getProperty("value").getValue().getString();
       session.save();
       return null;
-//    } catch (RepositoryException e) {
-//      e.printStackTrace();
-//      return null;
     } finally {
       if (session != null) {
         session.logout();
@@ -113,8 +110,6 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
 
       session.save();
 
-//    } catch (RepositoryException e) {
-//      e.printStackTrace();
     } finally {
       if (session != null) {
         session.logout();
@@ -144,9 +139,7 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
       }
       session.save();
       return loadAll;
-//    } catch (RepositoryException e) {
-//      e.printStackTrace();
-//      return null;
+
     } finally {
       if (session != null) {
         session.logout();
@@ -171,8 +164,6 @@ public class WSRPPersisterJCRrepository implements WSRPPersister {
         parent.save();
       }
       session.save();
-//    } catch (RepositoryException e) {
-//      e.printStackTrace();
     } finally {
       if (session != null) {
         session.logout();

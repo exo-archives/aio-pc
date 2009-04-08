@@ -885,7 +885,12 @@ public class PortletDriverImpl implements PortletDriver {
         LOG.debug("Exception deregistering producer: " + producer.getID());
       }
     }
-    pregistry.removeProducer(producer.getID());
+    try {
+      pregistry.removeProducer(producer.getID());
+    } catch (Exception e) {
+      throw new WSRPException(e.getMessage(), e);
+    }
+
   }
 
 }

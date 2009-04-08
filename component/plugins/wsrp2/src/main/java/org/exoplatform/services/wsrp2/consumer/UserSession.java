@@ -52,7 +52,7 @@ public interface UserSession {
    * @param groupID is the portlet application name
    * @return The a group session for the provided group ID or a new groupSession
    */
-  public GroupSessionMgr getGroupSession(String groupID) throws WSRPException;
+  public GroupSessionMgr getGroupSession(String groupID);
 
   /**
    * Get all group session.

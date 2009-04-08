@@ -553,14 +553,14 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
    * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#putPortletLifetime(java.lang.String, org.exoplatform.services.wsrp2.type.Lifetime)
    */
   public Lifetime putPortletLifetime(String portletHandle, Lifetime lifetime) throws WSRPException {
-    return putLifetime(portletHandle + "_portlet_lifetime", lifetime);
+    return putLifetime(portletHandle.hashCode() + "_portlet_lifetime", lifetime);
   }
 
   /* (non-Javadoc)
    * @see org.exoplatform.services.wsrp2.producer.PersistentStateManager#getPortletLifetime(java.lang.String)
    */
   public Lifetime getPortletLifetime(String portletHandle) throws WSRPException {
-    return getLifetime(portletHandle + "_portlet_lifetime");
+    return getLifetime(portletHandle.hashCode() + "_portlet_lifetime");
   }
 
   /* (non-Javadoc)

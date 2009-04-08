@@ -58,8 +58,8 @@ public class AllTestsPortlet extends TestCase {
   }
 
   private static boolean doesCargoUse() {
-    return (System.getProperty("exo.test.cargo.skip") == null
-        || !System.getProperty("exo.test.cargo.skip").equalsIgnoreCase("true"));
+    return (System.getProperty("exo.test.cargo.skip") == null || !System.getProperty("exo.test.cargo.skip")
+                                                                        .equalsIgnoreCase("true"));
   }
 
 }

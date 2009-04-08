@@ -238,11 +238,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
           return markupResponse;
         }
       } catch (WSRPException e) {
-        e.printStackTrace();
-        log.debug("Can not validate markup cache for validateTag : "
-            + markupParams.getValidateTag());
-        e.printStackTrace();
-        throw new WSRPException();
+        throw new WSRPException("Can not validate markup cache for validateTag : "
+            + markupParams.getValidateTag(), e);
       }
     }
 
@@ -278,8 +275,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
-      e.printStackTrace();
-      throw new WSRPException();
+      throw new WSRPException("The call to getMimeType method within getMarkup method was a failure ",
+                              e);
     }
 
     // ---------- BEGIN FOR CREATING FACTORY --------------
@@ -351,9 +348,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
       if (output.hasError())
         throw new WSRPException("render output hasError");
     } catch (WSRPException e) {
-      e.printStackTrace();
-      log.debug("The call to render method was a failure ", e);
-      throw new WSRPException();
+      throw new WSRPException("The call to render method was a failure ", e);
     }
 
     // preparing cache control object
@@ -361,8 +356,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       cacheControl = transientStateManager.getCacheControl(portletData);
     } catch (WSRPException e) {
-      e.printStackTrace();
-      throw new WSRPException();
+      throw new WSRPException("The call to transientStateManager.getCacheControl method was a failure ",
+                              e);
     }
 
     // preparing markup context
@@ -481,8 +476,9 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     try {
       mimeType = getMimeType(markupParams.getMimeTypes(), portletData);
     } catch (WSRPException e) {
-      e.printStackTrace();
-      throw new WSRPException();
+      throw new WSRPException("The call to getMimeType method within getMarkup method was a failure ",
+                              e);
+
     }
 
     // manage mode and states
@@ -683,8 +679,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
         log.debug("set new navigational state : " + navigationalState);
         persistentStateManager.putNavigationalState(navigationalState, renderParameters);
       } catch (WSRPException e) {
-        e.printStackTrace();
-        throw new WSRPException();
+        throw new WSRPException("The call to persistentStateManager.putNavigationalState method was a failure ",
+                                e);
       }
 
       // get public parameters
@@ -1503,7 +1499,6 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
                                                                            .getSession();
       return wsrpHttpSession.getMaxInactiveInterval();
     } catch (Exception e) {
-      System.out.println("MarkupOperationsInterfaceImpl.getSessionTimePeriod: = " + e.getCause());
       e.printStackTrace();
     }
     return 900;

@@ -251,33 +251,30 @@ public class JSR286ContainerProxyImpl implements PortletContainerProxy {
                                                     boolean readWriteOnly) throws WSRPException {
     // key[0] = application name , key[1] portlet name
     String[] key = StringUtils.split(portletHandle, Constants.PORTLET_META_DATA_ENCODER);
-    try {
-      Input input = new Input();
-      ExoWindowID windowID = new ExoWindowID();
-      windowID.setOwner(owner);
-      windowID.setPortletApplicationName(key[0]);
-      windowID.setPortletName(key[1]);
-      windowID.setUniqueID(key[2]);
-      windowID.setPersistenceId(windowID.generatePersistenceId());
-      input.setInternalWindowID(windowID);
+
+    Input input = new Input();
+    ExoWindowID windowID = new ExoWindowID();
+    windowID.setOwner(owner);
+    windowID.setPortletApplicationName(key[0]);
+    windowID.setPortletName(key[1]);
+    windowID.setUniqueID(key.length > 2 ? key[2] : "");
+    windowID.setPersistenceId(windowID.generatePersistenceId());
+    input.setInternalWindowID(windowID);
 
 //    input.setStateChangeAuthorized(false);
-      input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
-      input.setPortletState(portletState);
-      input.setPortletPreferencesPersister(persister);
+    input.setStateSaveOnClient(conf.isSavePortletStateOnConsumer());
+    input.setPortletState(portletState);
+    input.setPortletPreferencesPersister(persister);
 
-      PortletPreferences prefs = pcService.getPortletPreferences(input);
+    PortletPreferences prefs = pcService.getPortletPreferences(input);
 
-      // do we need to return only readWrite prefs
-      if (readWriteOnly) {
-        return getPortletPropertiesReadWrite(prefs);
-      } else {
-        return prefs.getMap();
-      }
-
-    } catch (Exception e) {
-      throw new WSRPException(Faults.OPERATION_FAILED_FAULT);
+    // do we need to return only readWrite prefs
+    if (readWriteOnly) {
+      return getPortletPropertiesReadWrite(prefs);
+    } else {
+      return prefs.getMap();
     }
+
   }
 
   private Map<String, String[]> getPortletPropertiesReadWrite(PortletPreferences prefs) throws WSRPException {

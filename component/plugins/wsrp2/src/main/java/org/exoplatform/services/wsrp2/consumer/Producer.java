@@ -177,7 +177,7 @@ public interface Producer {
    * 
    * @return True if consumer registration is required.
    */
-  public boolean isRegistrationRequired();
+  public boolean isRegistrationRequired() throws WSRPException;
 
   /**
    * Get the registration data the consumer uses to register at this producer.
@@ -227,7 +227,7 @@ public interface Producer {
   public RegistrationContext getRegistrationContext() throws WSRPException;
 
   /**
-   * Method establishes a relationship between consumer and producer. 
+   * Method establishes a relationship between consumer and producer.
    * 
    * @param registrationData Data which is used to register the consumer
    * @return The registration context received by the producer
@@ -235,7 +235,7 @@ public interface Producer {
   public RegistrationContext register(Register register) throws WSRPException;
 
   /**
-   * Can be used to modify the relationship between consumer and producer. 
+   * Can be used to modify the relationship between consumer and producer.
    * 
    * @param registrationData The new registration data
    * @return New registration context

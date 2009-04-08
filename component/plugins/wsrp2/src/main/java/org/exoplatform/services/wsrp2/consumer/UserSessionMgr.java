@@ -25,6 +25,6 @@ package org.exoplatform.services.wsrp2.consumer;
  * @author Benjamin Mestrallet
  * @see GroupSession
  */
-public interface UserSessionMgr extends UserSession, InitCookieInfo, java.io.Serializable {
+public interface UserSessionMgr extends UserSession, InitCookieInfo {
 
 }
