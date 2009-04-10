@@ -1,13 +1,16 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 
 <configuration>
+
   <!-- Portlet container  hooks -->
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
   </component>
+  
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.ResourceBundleDelegateImpl</type>
   </component>
+  
   <component>
     <key>org.exoplatform.services.resources.ResourceBundleService</key>
     <type>org.exoplatform.services.resources.impl.hibernate.ResourceBundleServiceImpl</type>
@@ -17,13 +20,11 @@
         <description>The resources  that start with the following package name should be load from file system</description>
         <value>locale.portlet</value>
       </values-param>
-
       <values-param>
         <name>init.resources</name>
         <description>Store the following resources into the db for  the first launch </description>
         <value>locale.test.resources.test</value>
       </values-param>
-
       <values-param>
         <name>portal.resource.names</name>
         <description>The properties files of  the portal ,  those file will be merged
