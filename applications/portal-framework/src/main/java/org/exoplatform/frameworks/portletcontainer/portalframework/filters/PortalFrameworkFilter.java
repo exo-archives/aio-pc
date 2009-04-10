@@ -116,8 +116,9 @@ public class PortalFrameworkFilter implements Filter {
 
     // Session Replication
     try {
-      if (sessionReplicator == null && isReplicationEnabled) {
-        sessionReplicator = (SessionReplicator) container.getComponentInstanceOfType(SessionReplicator.class);
+      if (isReplicationEnabled) {
+        if (sessionReplicator == null)
+           sessionReplicator = (SessionReplicator) container.getComponentInstanceOfType(SessionReplicator.class);
         if (sessionReplicator == null){
           isReplicationEnabled = false;
           return;

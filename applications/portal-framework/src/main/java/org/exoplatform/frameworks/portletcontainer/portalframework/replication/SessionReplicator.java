@@ -121,6 +121,7 @@ public class SessionReplicator implements RequestHandler, Startable {
       return;
     if (LOG.isDebugEnabled())
       LOG.debug("SessionReplicator.send() sessionId = " + sessionId);
+    System.out.println("SessionReplicator.send() sessionId = " + sessionId);
     sessionInfo.put(SESSION_IDENTIFIER, sessionId);
     sessionInfo.put(PORTAL_IDENTIFIER, portalContainerName);
     sessionInfo.put(REPLICATOR_IDENTIFIER, this.toString());
