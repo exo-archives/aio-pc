@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-
-<configuration>
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd http://www.exoplaform.org/xml/ns/kernel_1_0.xsd"
+    xmlns="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd">
 
   <!-- Portlet container  hooks -->
   <component>
@@ -65,23 +66,6 @@
   </component>
   
   <component>
-    <key>org.exoplatform.services.cache.CacheService</key>
-    <type>org.exoplatform.services.cache.impl.CacheServiceImpl</type>
-    <init-params>
-      <object-param>
-        <name>cache.config.default</name>
-        <description>The default cache configuration</description>
-        <object type="org.exoplatform.services.cache.ExoCacheConfig">
-          <field  name="name"><string>default</string></field>
-          <field  name="maxSize"><int>100</int></field>
-          <field  name="liveTime"><long>300</long></field>
-          <field  name="distributed"><boolean>false</boolean></field>
-        </object>
-      </object-param>
-    </init-params>
-  </component>
-  
-  <component>
     <key>org.exoplatform.services.resources.LocaleConfigService</key>
     <type>org.exoplatform.services.resources.impl.LocaleConfigServiceImpl</type>
       <init-params>
@@ -91,7 +75,7 @@
         </value-param>
       </init-params>
   </component>
-  
+
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
     <component-plugin>
