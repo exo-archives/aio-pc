@@ -3,20 +3,6 @@
     xsi:schemaLocation="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd http://www.exoplaform.org/xml/ns/kernel_1_0.xsd"
     xmlns="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd">
 
-  <!--  [PN] 08.12.07 to let it be overriden in portal configuration -->
-  <component>
-    <key>org.exoplatform.services.organization.OrganizationService</key>
-    <type>org.exoplatform.services.organization.hibernate.OrganizationServiceImpl</type>
-  </component>
-
-  <component>
-    <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
-  </component>
-
-  <component>
-    <type>org.exoplatform.services.portletcontainer.plugins.pc.ResourceBundleDelegateImpl</type>
-  </component>
-
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHandler</type>
   </component>

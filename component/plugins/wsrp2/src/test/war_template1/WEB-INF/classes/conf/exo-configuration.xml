@@ -1,10 +1,42 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<configuration> 
+<configuration xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd http://www.exoplaform.org/xml/ns/kernel_1_0.xsd"
+    xmlns="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd">
 
+  <!-- PC components -->
+
+  <component>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
+  </component>
+  
+  <component>
+    <type>org.exoplatform.services.portletcontainer.plugins.pc.ResourceBundleDelegateImpl</type>
+  </component>
+  
+  <!-- CORE components -->
+  
   <component>
     <key>org.exoplatform.services.organization.OrganizationService</key>
     <type>org.exoplatform.services.organization.impl.mock.DummyOrganizationService</type>
   </component>
+  
+  <component>
+    <key>org.exoplatform.services.cache.CacheService</key>
+    <type>org.exoplatform.services.cache.impl.CacheServiceImpl</type>
+    <init-params>
+      <object-param>
+        <name>cache.config.default</name>
+        <description>The default cache configuration</description>
+        <object type="org.exoplatform.services.cache.ExoCacheConfig">
+          <field  name="name"><string>default</string></field>
+          <field  name="maxSize"><int>100</int></field>
+          <field  name="liveTime"><long>300</long></field>
+          <field  name="distributed"><boolean>false</boolean></field>
+        </object>
+      </object-param>
+    </init-params>
+  </component>
+  
   <component>
     <key>org.exoplatform.services.resources.LocaleConfigService</key>
     <type>org.exoplatform.services.resources.impl.LocaleConfigServiceImpl</type>
@@ -15,7 +47,7 @@
       </value-param>
     </init-params>
   </component>
-
+  
   <component>
     <key>org.exoplatform.services.resources.ResourceBundleService</key>
     <type>org.exoplatform.services.resources.impl.hibernate.ResourceBundleServiceImpl</type>
@@ -42,11 +74,29 @@
   </component>
   
   <component>
-    <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
-  </component> 
+    <key>org.exoplatform.services.database.HibernateService</key>
+    <type>org.exoplatform.services.database.impl.HibernateServiceImpl</type>
+    <init-params>
+      <properties-param>
+        <name>hibernate.properties</name>
+        <description>Default Hibernate Service</description>
+        <property name="hibernate.show_sql" value="false"/>
+        <property name="hibernate.cglib.use_reflection_optimizer" value="true"/>
+        <property name="hibernate.connection.url" value="jdbc:hsqldb:mem:temp/data/portal"/>
+        <property name="hibernate.connection.driver_class" value="org.hsqldb.jdbcDriver"/>
+        <property name="hibernate.connection.autocommit" value="true"/>
+        <property name="hibernate.connection.username" value="sa"/>
+        <property name="hibernate.connection.password" value=""/>
+        <property name="hibernate.dialect" value="org.hibernate.dialect.HSQLDialect"/>
+        <property name="hibernate.c3p0.min_size" value="5"/>
+        <property name="hibernate.c3p0.max_size" value="20"/>
+        <property name="hibernate.c3p0.timeout" value="1800"/>
+        <property name="hibernate.c3p0.max_statements" value="50"/>
+      </properties-param>
+    </init-params>
+  </component>
   
-  
-  <!-- JCR begin -->
+  <!-- JCR components begin -->
 
   <component>
     <key>org.exoplatform.services.jcr.config.RepositoryServiceConfiguration</key>
@@ -75,23 +125,6 @@
     </init-params>
   </component>
   
-  <component>
-    <key>org.exoplatform.services.cache.CacheService</key>
-    <type>org.exoplatform.services.cache.impl.CacheServiceImpl</type>
-    <init-params>
-      <object-param>
-        <name>cache.config.default</name>
-        <description>The default cache configuration</description>
-        <object type="org.exoplatform.services.cache.ExoCacheConfig">
-          <field  name="name"><string>default</string></field>
-          <field  name="maxSize"><int>100</int></field>
-          <field  name="liveTime"><long>300</long></field>
-          <field  name="distributed"><boolean>false</boolean></field>
-        </object>
-      </object-param>
-    </init-params>
-  </component>
-
   <external-component-plugins>
     <target-component>org.exoplatform.services.naming.InitialContextInitializer</target-component>
     <component-plugin>
@@ -124,8 +157,7 @@
     </component-plugin>
   </external-component-plugins>
 
-  <!-- JCR end -->
-
+  <!-- JCR components end -->
 
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
@@ -157,6 +189,7 @@
       <type>org.exoplatform.services.organization.auth.TomcatAuthenticationListener</type>
     </component-plugin>
   </external-component-plugins>
+  
   <external-component-plugins>
     <target-component>org.exoplatform.services.command.impl.CommandService</target-component>
     <component-plugin>
@@ -172,6 +205,4 @@
     </component-plugin>
   </external-component-plugins>
   
-  <remove-configuration>org.exoplatform.services.scheduler.JobSchedulerService</remove-configuration>
-  <remove-configuration>org.exoplatform.services.transaction.ExoTransactionService</remove-configuration>
 </configuration> 

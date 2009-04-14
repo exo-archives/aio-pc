@@ -4,18 +4,17 @@
     xmlns="http://www.exoplaform.org/xml/ns/kernel_1_0.xsd">
 
   <!-- Portlet container  hooks -->
+  
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.PortletPreferencesPersisterImpl</type>
-<!--    <type>org.exoplatform.portal.application.jcr.PortletPreferencesPersisterImpl</type>-->
   </component>
   
   <component>
     <type>org.exoplatform.services.portletcontainer.plugins.pc.ResourceBundleDelegateImpl</type>
-<!--    <type>org.exoplatform.portal.application.ResourceBundleDelegateImpl</type>-->
   </component>
   
   <!-- CORE components -->
-    
+  
   <component>
     <key>org.exoplatform.services.resources.ResourceBundleService</key>
     <type>org.exoplatform.services.resources.impl.hibernate.ResourceBundleServiceImpl</type>
@@ -56,7 +55,7 @@
         </value-param>
       </init-params>
   </component>
-
+  
   <external-component-plugins>
     <target-component>org.exoplatform.services.database.HibernateService</target-component>
     <component-plugin>
