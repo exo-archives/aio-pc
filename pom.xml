@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.exoplatform</groupId>
     <artifactId>parent</artifactId>
-    <version>1.0.0</version>
+    <version>1.1.1</version>
   </parent>
 
   <modelVersion>4.0.0</modelVersion>
@@ -16,6 +16,7 @@
   <scm>
     <connection>scm:svn:http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.1</connection>
     <developerConnection>scm:svn:http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.1</developerConnection>
+    <url>http://fisheye.exoplatform.org/browse/projects-pc/trunk</url>
   </scm>
 
   <modules>
@@ -35,19 +36,7 @@
   </dependencies>
 
   <build>
-
     <plugins>
-
-      <plugin>
-        <groupId>org.apache.maven.plugins</groupId>
-        <artifactId>maven-compiler-plugin</artifactId>
-        <configuration>
-          <source>1.5</source>
-          <target>1.5</target>
-          <optimize>true</optimize>
-        </configuration>
-      </plugin>
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
@@ -178,9 +167,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>
-        <org.exoplatform.kernel.version>2.1.1-SNAPSHOT</org.exoplatform.kernel.version>
-        <org.exoplatform.core.version>2.2.1-SNAPSHOT</org.exoplatform.core.version>
+        <org.exoplatform.kernel.version>2.1.1</org.exoplatform.kernel.version>
+        <org.exoplatform.core.version>2.2.1</org.exoplatform.core.version>
         <org.exoplatform.ws.version>2.0.1-SNAPSHOT</org.exoplatform.ws.version>
         <org.exoplatform.jcr.version>1.11.1-SNAPSHOT</org.exoplatform.jcr.version>
         <org.exoplatform.pc.version>2.1.1-SNAPSHOT</org.exoplatform.pc.version>
