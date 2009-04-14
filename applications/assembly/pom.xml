@@ -25,7 +25,7 @@
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
-<!--
+
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portlets</artifactId>
@@ -41,7 +41,7 @@
       <type>exopc-war</type>
       <scope>compile</scope>
     </dependency>
--->
+
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.demos</artifactId>
