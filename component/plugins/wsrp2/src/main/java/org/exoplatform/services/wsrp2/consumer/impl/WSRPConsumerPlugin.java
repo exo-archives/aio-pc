@@ -1325,7 +1325,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
   private boolean needSessionUpdate(SessionContext newSessionContext,
                                     SessionContext oldSessionContext) {
     if (newSessionContext == null)
-      return false;
+      return true;
     if (newSessionContext.getExpires() != oldSessionContext.getExpires())
       return true;
     if (newSessionContext.getSessionID() != oldSessionContext.getSessionID()) {
