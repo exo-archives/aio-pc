@@ -13,6 +13,11 @@
   <version>2.1.1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
+  <properties>
+    <exo.product.name>exo-portlet-container</exo.product.name>
+    <exo.product.specification>2.1</exo.product.specification>
+  </properties>
+
   <scm>
     <connection>scm:svn:http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.1</connection>
     <developerConnection>scm:svn:http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.1</developerConnection>
