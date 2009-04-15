@@ -28,6 +28,7 @@ import javax.jcr.RepositoryException;
 import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.container.RootContainer;
 import org.exoplatform.container.configuration.ConfigurationException;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.services.log.ExoLogger;
@@ -90,7 +91,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
 
     Map<String, Producer> map = new HashMap<String, Producer>();
     try {
-      Collection<WSRP2ProducerData> c = loadAll();
+      Collection<WSRP2ProducerData> c = null;//loadAll();
       // if this is the first start of WSRP service
       if (c == null)
         return map;
@@ -107,7 +108,7 @@ public class ProducerRegistryJCRImpl implements ProducerRegistry, Startable {
     }
     return map;
   }
-
+  
   public void addProducer(Producer producer) throws Exception {
     save(producer);
     producers.put(producer.getID(), producer);

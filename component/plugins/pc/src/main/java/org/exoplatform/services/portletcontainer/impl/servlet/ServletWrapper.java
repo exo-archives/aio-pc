@@ -97,8 +97,8 @@ public class ServletWrapper extends HttpServlet {
     // Session replication
     if (servletRequest.getAttribute(PortletContainerDispatcher.ATTRS) != null) {
       HttpSession ss = servletRequest.getSession();
-      HashMap attrs = (HashMap) servletRequest.getAttribute(PortletContainerDispatcher.ATTRS);
-      for (Iterator i = attrs.keySet().iterator(); i.hasNext();) {
+      HashMap<String, Object> attrs = (HashMap<String, Object>) servletRequest.getAttribute(PortletContainerDispatcher.ATTRS);
+      for (Iterator<String> i = attrs.keySet().iterator(); i.hasNext();) {
         String an = (String) i.next();
         ss.setAttribute(an, attrs.get(an));
         tmp_data.put(an, attrs.get(an));
@@ -121,7 +121,7 @@ public class ServletWrapper extends HttpServlet {
       servletRequest.setAttribute(PortletContainerDispatcher.BUNDLE, bundle);
       return;
     }
-
+    
     log.debug("Get " + (String) servletRequest.getAttribute(PortletContainerDispatcher.METHOD_CALLED));
     PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest.getAttribute(PortletContainerDispatcher.WINDOW_INFO);
 
@@ -165,7 +165,7 @@ public class ServletWrapper extends HttpServlet {
 //          tmp_data.put(attrname, obj);
         }
         // Cheking for deleted keys
-        Iterator it = tmp_data.keySet().iterator();
+        Iterator<String> it = tmp_data.keySet().iterator();
         while (it.hasNext()) {
           String a = (String) it.next();
           if (!session_data.containsKey(a)) {
