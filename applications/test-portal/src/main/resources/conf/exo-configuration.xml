@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <configuration>
 
-
   <!-- CORE components -->
   
   <component>
@@ -69,13 +68,11 @@
         <description>The resources that start with the following package name should be load from file system</description>
         <value>locale.portlet</value>
       </values-param>
-
       <values-param>
         <name>init.resources</name>
         <description>Store the following resources into the db for the first launch</description>
         <value>locale.test.resources.test</value>
       </values-param>
-
       <values-param>
         <name>portal.resource.names</name>
         <description>The properties files of the portal , those file will be merged into one ResoruceBundle properties</description>

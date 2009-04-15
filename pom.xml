@@ -167,6 +167,7 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
+        <org.exoplatform.utils.version>1.0.0</org.exoplatform.utils.version>
         <org.exoplatform.kernel.version>2.1.1</org.exoplatform.kernel.version>
         <org.exoplatform.core.version>2.2.1</org.exoplatform.core.version>
         <org.exoplatform.ws.version>2.0.1-SNAPSHOT</org.exoplatform.ws.version>

@@ -268,12 +268,11 @@
       <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
-    <!-- dependency>
+    <dependency>
       <groupId>org.exoplatform.tool</groupId>
       <artifactId>exo.tool.framework.junit</artifactId>
-      <version>${org.exoplatform.tool.version}</version>
-    </dependency -->
-
+      <version>${org.exoplatform.utils.version}</version>
+    </dependency>
 
     <dependency>
       <groupId>org.exoplatform.ws</groupId>
