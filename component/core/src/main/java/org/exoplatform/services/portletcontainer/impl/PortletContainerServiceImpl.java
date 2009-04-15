@@ -35,6 +35,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
+import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
@@ -590,10 +591,13 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
                               final HttpServletResponse response,
                               final Map<String, Object> attrs,
                               final String portletApplicationName) throws PortletContainerException {
-    findPluginByPAPPName(portletApplicationName).sendAttrs(request,
-                                                           response,
-                                                           attrs,
-                                                           portletApplicationName);
+    PortletContainerPlugin plug =  findPluginByPAPPName(portletApplicationName);
+     if (plug == null){
+       plug =  findPluginByPAPPName(portletApplicationName.substring(portletApplicationName.indexOf("@")+1));
+       plug.sendAttrs(request, response, attrs, portletApplicationName.substring(portletApplicationName.indexOf("@")+1));
+     } else {
+    plug.sendAttrs(request, response, attrs, portletApplicationName);
+     }
   }
 
   /**
@@ -616,3 +620,5 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
   }
 
 }
+
+  
