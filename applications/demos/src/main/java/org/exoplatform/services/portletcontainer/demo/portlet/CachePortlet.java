@@ -47,7 +47,7 @@ public class CachePortlet extends GenericPortlet {
     Date d=new Date();
     PrintWriter w = response.getWriter();
     response.setTitle("TestCache: "+ d.toString());
-    w.println("<center><font size='3'><b><i>Portlet for test caching of the portlet markup. Date and time must not change while cache time (5 minutes) isn't expired.</i></b></font></center><br>");
+    w.println("<center><font size='3'><b><i>Portlet for test caching of the portlet markup. Date and time must not change while cache time (10 seconds) isn't expired.</i></b></font></center><br>");
     w.println("TestCache: "+ d.toString());
   }
 

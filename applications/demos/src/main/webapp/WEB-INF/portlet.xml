@@ -65,7 +65,7 @@
     <portlet-name>CachePortlet</portlet-name>
     <display-name xml:lang="en">CachePortlet</display-name>
     <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.CachePortlet</portlet-class>
-    <expiration-cache>300</expiration-cache>
+    <expiration-cache>10</expiration-cache>
     <supports>
       <mime-type>text/html</mime-type>
     </supports>
