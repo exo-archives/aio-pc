@@ -27,23 +27,6 @@
   </component>
   
   <component>
-    <key>org.exoplatform.services.cache.CacheService</key>
-    <type>org.exoplatform.services.cache.impl.CacheServiceImpl</type>
-    <init-params>
-      <object-param>
-        <name>cache.config.default</name>
-        <description>The default cache configuration</description>
-        <object type="org.exoplatform.services.cache.ExoCacheConfig">
-          <field  name="name"><string>default</string></field>
-          <field  name="maxSize"><int>100</int></field>
-          <field  name="liveTime"><long>300</long></field>
-          <field  name="distributed"><boolean>false</boolean></field>
-        </object>
-      </object-param>
-    </init-params>
-  </component>
-
-  <component>
     <key>org.exoplatform.services.organization.OrganizationService</key>
     <type>org.exoplatform.services.organization.impl.mock.DummyOrganizationService</type>
   </component>
