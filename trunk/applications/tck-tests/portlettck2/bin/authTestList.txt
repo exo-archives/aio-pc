@@ -1,0 +1,13 @@
+#
+# This file is used to put testnames that need authentication.
+# Unique names of the test can be found in the found in portletTCKTestCases.xml
+# This file is consulted only if authentication is enabled. 
+# Authentication is enabled by setting the authConfigType property 
+# in ts.jte to 1 or 2.
+# please refer to Portlet TCK guide or documentation in ts.jte for more 
+# information 
+# Example of a test case that might need authentication
+#
+# 
+#com/sun/ts/tests/portlet/api/javax_portlet/PortletPreferences/URLClient.java#StoreTest
+#

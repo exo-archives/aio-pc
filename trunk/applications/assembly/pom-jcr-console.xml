@@ -1,0 +1,172 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.1.1-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>assembly</artifactId>
+  <packaging>ear</packaging>
+  <name>eXo Portlet Container Demo Assembly</name>
+  
+   <profiles>
+    <profile>
+      <id>default</id>
+      <activation>
+        <property><name>default</name></property>
+        <activeByDefault>true</activeByDefault>
+      </activation>
+      <properties>
+        <org.exoplatform.kernel.version>2.1.1</org.exoplatform.kernel.version>
+        <org.exoplatform.core.version>2.2.1</org.exoplatform.core.version>
+        <org.exoplatform.ws.version>2.0.1</org.exoplatform.ws.version>
+        <org.exoplatform.jcr.version>1.11.1</org.exoplatform.jcr.version>
+        <org.exoplatform.pc.version>2.1.1-SNAPSHOT</org.exoplatform.pc.version>  
+      </properties>
+    </profile>
+  </profiles>
+
+
+  <dependencies>
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>portal</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>portlets</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>portlets2</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.core</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.pc</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    
+    
+    
+    
+    
+    
+     <dependency>
+      <groupId>org.exoplatform.ecm</groupId>
+      <artifactId>exo.ecm.portlet.jcr-console</artifactId>
+      <version>${exo.ecm.version}</version>
+      <type>war</type>
+      <scope>compile</scope>
+    </dependency>
+    
+    <dependency>
+      <groupId>org.exoplatform.jcr</groupId>
+      <artifactId>exo.jcr.framework.command</artifactId>
+      <version>${org.exoplatform.jcr.version}</version>
+      <scope>compile</scope>
+    </dependency>
+  
+  <dependency>
+      <groupId>org.exoplatform.jcr</groupId>
+      <artifactId>exo.jcr.component.core</artifactId>
+      <version>${org.exoplatform.jcr.version}</version>
+      <scope>compile</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-weblogic</groupId>
+      <artifactId>exo-weblogic-authproviders</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>exo-weblogic</groupId>
+      <artifactId>exo-weblogic-loginmodule</artifactId>
+      <version>1.0</version>
+      <scope>provided</scope>
+    </dependency>
+
+    <dependency>
+      <groupId>commons-logging</groupId>
+      <artifactId>commons-logging</artifactId>
+      <version>1.0.4</version>
+      <scope>provided</scope>
+    </dependency>
+ </dependencies>
+
+   <build>
+    <finalName>portlet-container</finalName>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-ear-plugin</artifactId>
+        <configuration>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.exoplatform.maven.plugins</groupId>
+        <artifactId>maven-exopc-plugin</artifactId>
+        <version>1.0.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <sharedDir>${basedir}/patches</sharedDir>
+          <excludeProjects>
+            junit, jmock, bcel, ehcache,cargo-core-api-container,cargo-core-api-generic,cargo-core-api-module, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+            relaxngDatatype,cargo-core-api-util, cargo-core-container-tomcat, velocity-dep, saxpath, exo-platform.test.framework,
+            xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
+            xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
+            saaj-api, exo-weblogic-authproviders, exo-weblogic-loginmodule,
+            carol, commons-fileupload, commons-io, drools-base, drools-core, drools-java,
+            drools-smf, exo-platform.services.backup.api, exo-platform.services.ldap.api,
+            exo-platform.services.ldap.impl, exo-platform.services.remote.api,
+            exo-platform.services.remote.impl, exo-platform.services.templates.api,
+            exo-platform.services.templates.impl, groovy-all-1.0-jsr, janino,
+            log4j, soap, velocity, naming-core, naming-java
+          </excludeProjects>
+        </configuration>
+      </plugin>
+    </plugins>
+  </build>
+
+</project>

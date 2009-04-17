@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<project name="portlet_javax_portlet_common" basedir="." default="usage"> 
+  <property name="pkg.dir" value="com/sun/ts/tests/portlet/ee/portlet/javax_portlet/common"/>  
+
+  <target name="compile" >
+    <ant antfile="build.xml" dir="${ts.home}/bin" target="compile"/>
+  </target>
+
+  <target name="package" >
+    <package>
+      
+    </package>
+  </target>
+
+  <target name="runclient">
+    <ant antfile="build.xml" dir="${ts.home}/bin" target="runclient"/>
+  </target>
+
+  <target name="build" depends="compile, package"/>
+
+  <target name="clean" >
+    <ant antfile="build.xml" dir="${ts.home}/bin" target="clean"/>
+  </target>
+
+  <target name="usage">
+    <ant antfile="build.xml" dir="${ts.home}/bin" target="usage"/>
+  </target>
+</project>

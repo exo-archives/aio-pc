@@ -1,0 +1,508 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletConfig_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://hnsp.inf-bb.uni-jena.de/spec/JSR%202.0%20API/portlet-app_2_0.xsd">
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetInitParameterIllegalArgumentExceptionTestPortlet* -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetInitParameterIllegalArgumentExceptionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetInitParameterIllegalArgumentExceptionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetInitParameterIllegalArgumentExceptionTestPortlet</title>
+                <short-title>GetInitParameterIllegalArgumentExceptionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPortletNameTestPortlet                          * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPortletNameTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetPortletNameTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPortletNameTestPortlet</title>
+                <short-title>GetPortletNameTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetInitParameterNamesTestPortlet                   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetInitParameterNamesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetInitParameterNamesTestPortlet</portlet-class>
+		<init-param>
+		   <name>FirstParameter</name>
+		   <value>FirstResult</value>
+		</init-param>
+		<init-param>
+		   <name>SecondParameter</name>
+		   <value>SecondResult</value>
+		</init-param>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetInitParameterNamesTestPortlet</title>
+                <short-title>GetInitParameterNamesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:GetInitParameterTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetInitParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetInitParameterTestPortlet</portlet-class>
+		<init-param>
+		   <name>Language</name>
+		   <value>Java</value>
+		</init-param>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetInitParameterTestPortlet</title>
+                <short-title>GetInitParameterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:GetInitParameterNullTestPortlet                     * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetInitParameterNullTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetInitParameterNullTestPortlet</portlet-class>
+		<init-param>
+		   <name>Language</name>
+		   <value>Java</value>
+		</init-param>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetInitParameterNullTestPortlet</title>
+                <short-title>GetInitParameterNullTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPortletContextTestPortlet                       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPortletContextTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetPortletContextTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPortletContextTestPortlet</title>
+                <short-title>GetPortletContextTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResourceBundleOnlyLocaleTestPortlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResourceBundleOnlyLocaleTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetResourceBundleOnlyLocaleTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <resource-bundle>GetResourceBundleOnlyLocaleTest</resource-bundle>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResourceBundleSameNameTestPortlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResourceBundleSameNameTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetResourceBundleSameNameTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <resource-bundle>GetResourceBundleSameNameTest</resource-bundle>
+        <portlet-info>
+                <title>InLineGetResourceBundleSameNameTest</title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResourceBundleBothTestPortlet               		   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResourceBundleBothTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetResourceBundleBothTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <resource-bundle>GetResourceBundleBothTest</resource-bundle>
+        <portlet-info>
+                <title>GetResourceBundleBothTest</title>
+                <keywords>Unix</keywords>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResourceBundleOnlyInlineTestPortlet		           * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResourceBundleOnlyInlineTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetResourceBundleOnlyInlineTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetResourceBundleOnlyInlineTestPortlet</title>
+                <short-title>GetResourceBundleOnlyInlineTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetResourceBundleInlineWithLocalesTestPortlet	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetResourceBundleInlineWithLocalesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetResourceBundleInlineWithLocalesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+           <title>GetResourceBundleInlineWithLocalesTestPortlet</title>
+           <short-title>GetResourceBundleInlineWithLocalesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetDefaultNamespaceTestPortlet		               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetDefaultNamespaceTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetDefaultNamespaceTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetDefaultNamespaceTestPortlet</title>
+                <short-title>GetDefaultNamespaceTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublicRenderParameterTestPortlet                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublicRenderParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetPublicRenderParameterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublicRenderParameterTestPortlet</title>
+                <short-title>GetPublicRenderParameterTestPortlet</short-title>
+        </portlet-info>
+   	    <supported-public-render-parameter>PublicRender1</supported-public-render-parameter>
+   	    <supported-public-render-parameter>PublicRender2</supported-public-render-parameter>
+   	    <supported-public-render-parameter>PublicRender3</supported-public-render-parameter>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetNoPublicRenderParameterTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetNoPublicRenderParameterTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetNoPublicRenderParameterTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetNoPublicRenderParameterTestPortlet</title>
+                <short-title>GetNoPublicRenderParameterTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublishingProcessingEventQNamesTestPortlet	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublishingProcessingEventQNamesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetPublishingProcessingEventQNamesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublishingProcessingEventQNamesTestPortlet</title>
+                <short-title>GetPublishingProcessingEventQNamesTestPortlet</short-title>
+        </portlet-info>
+        <supported-processing-event>
+			<qname xmlns:x="http://www.event.de">x:GetProcessingEventQNamesFirst</qname>
+        </supported-processing-event>
+        <supported-processing-event>
+			<qname xmlns:x="http://www.event.de">x:GetProcessingEventQNamesSecond</qname>
+        </supported-processing-event>
+        <supported-processing-event>
+			<qname xmlns:x="http://www.event.de">x:GetProcessingEventQNamesThird</qname>
+        </supported-processing-event>
+        
+        <supported-publishing-event>
+       		<qname xmlns:x="http://www.event.de">x:GetPublishingEventQNamesFirst</qname>
+        </supported-publishing-event>
+        <supported-publishing-event>
+       		<qname xmlns:x="http://www.event.de">x:GetPublishingEventQNamesSecond</qname>
+        </supported-publishing-event>
+        <supported-publishing-event>
+       		<qname xmlns:x="http://www.event.de">x:GetPublishingEventQNamesThird</qname>
+        </supported-publishing-event>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetPublishingProcessingEventNamesTestPortlet	   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetPublishingProcessingEventNamesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetPublishingProcessingEventNamesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetPublishingProcessingEventNamesTestPortlet</title>
+                <short-title>GetPublishingProcessingEventNamesTestPortlet</short-title>
+        </portlet-info>
+        <supported-processing-event>
+			<name>GetProcessingEventNamesFirst</name>
+        </supported-processing-event>
+        <supported-processing-event>
+			<name>GetProcessingEventNamesSecond</name>
+        </supported-processing-event>
+        <supported-processing-event>
+			<name>GetProcessingEventNamesThird</name>
+        </supported-processing-event>
+        
+        <supported-publishing-event>
+       		<name>GetPublishingEventNamesFirst</name>
+        </supported-publishing-event>
+        <supported-publishing-event>
+       		<name>GetPublishingEventNamesSecond</name>
+        </supported-publishing-event>
+        <supported-publishing-event>
+       		<name>GetPublishingEventNamesThird</name>
+        </supported-publishing-event>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetNoPublishingProcessingEventQNamesTestPortlet    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetNoPublishingProcessingEventQNamesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetNoPublishingProcessingEventQNamesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetNoPublishingProcessingEventQNamesTestPortlet</title>
+                <short-title>GetNoPublishingProcessingEventQNamesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetSupportedLocalesTestPortlet					   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetSupportedLocalesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetSupportedLocalesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+       <supported-locale>de</supported-locale>
+       <supported-locale>en</supported-locale>
+       <supported-locale>fr</supported-locale>
+        <portlet-info>
+                <title>GetSupportedLocalesTestPortlet</title>
+                <short-title>GetSupportedLocalesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetNoSupportedLocalesTestPortlet				   * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetNoSupportedLocalesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletConfig.GetNoSupportedLocalesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetNoSupportedLocalesTestPortlet</title>
+                <short-title>GetNoSupportedLocalesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Application testparameters					               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    <default-namespace>http://default/namespace</default-namespace>
+    
+	
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Properties									               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:GetPublishingEventQNamesFirst</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:GetPublishingEventQNamesSecond</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:GetPublishingEventQNamesThird</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<name>GetPublishingEventNamesFirst</name>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<name>GetPublishingEventNamesSecond</name>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<name>GetPublishingEventNamesThird</name>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:GetProcessingEventQNamesFirst</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:GetProcessingEventQNamesSecond</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<qname xmlns:x="http://www.event.de">x:GetProcessingEventQNamesThird</qname>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<name>GetProcessingEventNamesFirst</name>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<name>GetProcessingEventNamesSecond</name>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	<event-definition>
+		<name>GetProcessingEventNamesThird</name>
+		<value-type>java.lang.String</value-type>
+	</event-definition>
+	
+	
+	<public-render-parameter>
+    	<description>Public Render Parameter</description>
+    	<identifier>PublicRender1</identifier>
+    	<qname xmlns:x="test.com">x:fooRender1</qname>
+    </public-render-parameter>
+    <public-render-parameter>
+    	<description>Public Render Parameter</description>
+    	<identifier>PublicRender2</identifier>
+    	<qname xmlns:x="test.com">x:fooRender2</qname>
+    </public-render-parameter>
+    <public-render-parameter>
+    	<description>Public Render Parameter</description>
+    	<identifier>PublicRender3</identifier>
+    	<qname xmlns:x="test.com">x:fooRender3</qname>
+    </public-render-parameter>
+	
+</portlet-app>

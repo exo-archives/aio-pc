@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_PortletModeException_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:PortletModeExceptionCtr1TestPortlet  		       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>PortletModeExceptionCtr1TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletModeException.PortletModeExceptionCtr1TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletModeExceptionCtr1TestPortlet</title>
+                <short-title>PortletModeExceptionCtr1TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:PortletModeExceptionCtr2TestPortlet  		       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>PortletModeExceptionCtr2TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletModeException.PortletModeExceptionCtr2TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletModeExceptionCtr2TestPortlet</title>
+                <short-title>PortletModeExceptionCtr2TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:PortletModeExceptionCtr3TestPortlet  		       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+  	<portlet>
+    	<portlet-name>PortletModeExceptionCtr3TestPortlet</portlet-name>
+    	<portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.PortletModeException.PortletModeExceptionCtr3TestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>PortletModeExceptionCtr3TestPortlet</title>
+                <short-title>PortletModeExceptionCtr3TestPortlet</short-title>
+        </portlet-info>
+  	</portlet>
+
+</portlet-app>

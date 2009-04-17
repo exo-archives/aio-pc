@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app id="portlet_jp_ResourceRequest_web"
+xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="2.0"
+xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd">
+
+
+
+
+
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet Application specific                                * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:GetParameterValuesTestPortlet                       * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterValuesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.GetParameterValuesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterValuesTestPortlet</title>
+                <short-title>GetParameterValuesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet:CheckSingleParameterValuesTestPortlet               * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>CheckSingleParameterValuesTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.CheckSingleParameterValuesTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>CheckSingleParameterValuesTestPortlet</title>
+                <short-title>CheckSingleParameterValuesTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterMapTestPortlet                         * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterMapTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.GetParameterMapTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterMapTestPortlet</title>
+                <short-title>GetParameterMapTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetParameterMapEmptyTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetParameterMapEmptyTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.GetParameterMapEmptyTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetParameterMapEmptyTestPortlet</title>
+                <short-title>GetParameterMapEmptyTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetLifecyclePhaseAttributeTestPortlet              * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetLifecyclePhaseAttributeTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.GetLifecyclePhaseAttributeTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetLifecyclePhaseAttributeTestPortlet</title>
+                <short-title>GetLifecyclePhaseAttributeTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetContextPathSyntaxTestPortlet                    * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetContextPathSyntaxTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.GetContextPathSyntaxTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetContextPathSyntaxTestPortlet</title>
+                <short-title>GetContextPathSyntaxTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+    
+    <!-- *************************************************************** -->
+    <!-- *                                                             * -->
+    <!-- * Portlet: GetAuthTypeWithoutProtectionTestPortlet            * -->
+    <!-- *                                                             * -->
+    <!-- *************************************************************** -->
+    <portlet>
+        <portlet-name>GetAuthTypeWithoutProtectionTestPortlet</portlet-name>
+        <portlet-class>com.sun.ts.tests.portlet.api.javax_portlet.ResourceRequest.GetAuthTypeWithoutProtectionTestPortlet</portlet-class>
+        <expiration-cache>0</expiration-cache>
+       <supports>
+         <mime-type>text/html</mime-type>
+       </supports>
+        <portlet-info>
+                <title>GetAuthTypeWithoutProtectionTestPortlet</title>
+                <short-title>GetAuthTypeWithoutProtectionTestPortlet</short-title>
+        </portlet-info>
+    </portlet>
+
+</portlet-app>

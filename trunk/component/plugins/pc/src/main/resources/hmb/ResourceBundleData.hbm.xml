@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE hibernate-mapping PUBLIC
+    "-//Hibernate/Hibernate Mapping DTD 3.0//EN" 
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+
+<hibernate-mapping
+>
+    <class
+        name="org.exoplatform.services.resources.ResourceBundleData"
+        table="RESOURCE_BUNDLE_DATA"
+        polymorphism="explicit"
+    >
+
+        <id
+            name="id"
+            column="id"
+            type="java.lang.String"
+        >
+            <generator class="assigned">
+              <!--  
+                  To add non XDoclet generator parameters, create a file named 
+                  hibernate-generator-params-ResourceBundleDataImpl.xml 
+                  containing the additional parameters and place it in your merge dir. 
+              --> 
+            </generator>
+        </id>
+
+        <property
+            name="data"
+            type="org.exoplatform.services.database.impl.TextClobType"
+            update="true"
+            insert="true"
+            column="data"
+            length="65535"
+        />
+
+        <property
+            name="name"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="name"
+        />
+
+        <property
+            name="language"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="language"
+        />
+
+        <property
+            name="country"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="country"
+        />
+
+        <property
+            name="variant"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="variant"
+        />
+
+        <property
+            name="resourceType"
+            type="java.lang.String"
+            update="true"
+            insert="true"
+            column="resourceType"
+        />
+
+        <!--
+            To add non XDoclet property mappings, create a file named
+                hibernate-properties-ResourceBundleDataImpl.xml
+            containing the additional properties and place it in your merge dir.
+        -->
+
+    </class>
+
+</hibernate-mapping>

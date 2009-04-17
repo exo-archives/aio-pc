@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<portlet-app xmlns="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd http://java.sun.com/xml/ns/portlet/portlet-app_2_0.xsd" version="1.0">
+
+  <portlet>
+    <description xml:lang="EN">TestJAXBPortlet</description>
+    <portlet-name>TestJAXBPortlet</portlet-name>
+    <display-name xml:lang="EN">TestJAXBPortlet</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.test.portlet2.TestJAXBPortlet</portlet-class>
+    <expiration-cache>
+      <expiration-time>0</expiration-time>
+      <scope>PRIVATE</scope>
+		</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+      <portlet-mode>edit</portlet-mode>
+      <portlet-mode>help</portlet-mode>
+    </supports>
+    <supported-locale>EN</supported-locale>
+    <portlet-info>
+      <title>TestJAXBPortlet</title>
+      <short-title>TestJAXBPortlet</short-title>
+    </portlet-info>
+  </portlet>
+
+  <user-attribute>
+    <description xml:lang="EN">
+      Pre-defined attribute for the telephone number of the user at work.
+    </description>
+    <name>workInfo/telephone</name>
+  </user-attribute>
+
+</portlet-app>

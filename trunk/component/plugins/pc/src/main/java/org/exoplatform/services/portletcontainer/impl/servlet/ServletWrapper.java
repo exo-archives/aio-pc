@@ -1,0 +1,183 @@
+/*
+ * Copyright (C) 2003-2007 eXo Platform SAS.
+ *
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU Affero General Public License
+ * as published by the Free Software Foundation; either version 3
+ * of the License, or (at your option) any later version.
+
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, see<http://www.gnu.org/licenses/>.
+ */
+package org.exoplatform.services.portletcontainer.impl.servlet;
+
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Locale;
+import java.util.ResourceBundle;
+import java.util.Set;
+
+import javax.servlet.ServletConfig;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+
+import org.apache.commons.logging.Log;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.portletcontainer.PortletContainerException;
+import org.exoplatform.services.portletcontainer.PortletProcessingException;
+import org.exoplatform.services.portletcontainer.helper.PortletWindowInternal;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher.ExceptionHolder;
+import org.exoplatform.services.portletcontainer.pci.Input;
+import org.exoplatform.services.portletcontainer.pci.Output;
+import org.exoplatform.services.portletcontainer.pci.model.Util;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationHandler;
+import org.exoplatform.services.portletcontainer.plugins.pc.PortletContainerDispatcher;
+
+/**
+ * Created by the Exo Development team. Author : Mestrallet Benjamin
+ * benjmestrallet@users.sourceforge.net Date: 10 nov. 2003 Time: 13:01:42
+ */
+public class ServletWrapper extends HttpServlet {
+
+  /**
+   * Session data.
+   */
+  HashMap<String, Object>  session_data = new HashMap<String, Object>();
+
+  /**
+   * Temp data.
+   */
+  HashMap<String, Object>  tmp_data     = new HashMap<String, Object>();
+
+  /**
+   * The logger.
+   */
+  private static final Log log          = ExoLogger.getLogger("org.exoplatform.services.portletcontainer");
+
+  /**
+   * Overridden method.
+   * 
+   * @param servletConfig config
+   * @throws ServletException exception
+   * @see javax.servlet.GenericServlet#init(javax.servlet.ServletConfig)
+   */
+  public final void init(ServletConfig servletConfig) throws ServletException {
+    super.init(servletConfig);
+  }
+
+  /**
+   * Overridden method.
+   * 
+   * @param servletRequest request
+   * @param servletResponse response
+   * @throws ServletException exception
+   * @throws java.io.IOException exception
+   * @see javax.servlet.http.HttpServlet#service(javax.servlet.http.HttpServletRequest,
+   *      javax.servlet.http.HttpServletResponse)
+   */
+  protected final void service(HttpServletRequest servletRequest,
+                               HttpServletResponse servletResponse) throws ServletException,
+                                                                   java.io.IOException {
+    ExoContainer manager = ExoContainerContext.getContainerByName((String) servletRequest.getAttribute(PortletContainerDispatcher.CONTAINER));
+    PortletApplicationHandler handler = (PortletApplicationHandler) manager.getComponentInstanceOfType(PortletApplicationHandler.class);
+    log.debug("Service method of ServletWrapper entered");
+    log.debug("Encoding used : " + servletRequest.getCharacterEncoding());
+
+    // Session replication
+    if (servletRequest.getAttribute(PortletContainerDispatcher.ATTRS) != null) {
+      HttpSession ss = servletRequest.getSession();
+      HashMap<String, Object> attrs = (HashMap<String, Object>) servletRequest.getAttribute(PortletContainerDispatcher.ATTRS);
+      for (Iterator<String> i = attrs.keySet().iterator(); i.hasNext();) {
+        String an = (String) i.next();
+        ss.setAttribute(an, attrs.get(an));
+        tmp_data.put(an, attrs.get(an));
+        System.out.println("Received status for : " + an + " = " + attrs.get(an));
+      }
+      return;
+    }
+
+    boolean isToGetBundle = false;
+    Boolean b = (Boolean) servletRequest.getAttribute(PortletContainerDispatcher.IS_TO_GET_BUNDLE);
+    if (b != null)
+      isToGetBundle = b.booleanValue();
+    if (isToGetBundle) {
+      log.debug("Get bundle");
+      String portletAppName = (String) servletRequest.getAttribute(PortletContainerDispatcher.PORTLET_APPLICATION_NAME);
+      String portletName = (String) servletRequest.getAttribute(PortletContainerDispatcher.PORTLET_NAME);
+      ResourceBundle bundle = handler.getBundle(portletAppName,
+                                                portletName,
+                                                ((Locale) servletRequest.getAttribute(PortletContainerDispatcher.LOCALE_FOR_BUNDLE)));
+      servletRequest.setAttribute(PortletContainerDispatcher.BUNDLE, bundle);
+      return;
+    }
+    
+    log.debug("Get " + (String) servletRequest.getAttribute(PortletContainerDispatcher.METHOD_CALLED));
+    PortletWindowInternal windowInfo = (PortletWindowInternal) servletRequest.getAttribute(PortletContainerDispatcher.WINDOW_INFO);
+
+    Input input = (Input) servletRequest.getAttribute(PortletContainerDispatcher.INPUT);
+    Output output = (Output) servletRequest.getAttribute(PortletContainerDispatcher.OUTPUT);
+    int methodCalled = Util.actionToInt((String) servletRequest.getAttribute(PortletContainerDispatcher.METHOD_CALLED));
+    servletRequest.removeAttribute(PortletContainerDispatcher.METHOD_CALLED);
+    servletRequest.removeAttribute(PortletContainerDispatcher.INPUT);
+    servletRequest.removeAttribute(PortletContainerDispatcher.OUTPUT);
+    servletRequest.removeAttribute(PortletContainerDispatcher.WINDOW_INFO);
+    servletRequest.removeAttribute(PortletContainerDispatcher.CONTAINER);
+    ExceptionHolder exceptionHolder = (ExceptionHolder) servletRequest.getAttribute(PortletContainerDispatcher.EXCEPTION);
+    servletRequest.removeAttribute(PortletContainerDispatcher.EXCEPTION);
+    try {
+      handler.process(getServletContext(),
+                      servletRequest,
+                      servletResponse,
+                      input,
+                      output,
+                      windowInfo,
+                      methodCalled);
+    } catch (PortletProcessingException e) {
+      exceptionHolder.setException(e);
+    } catch (PortletContainerException e) {
+      log.error("An error occured while processing the portlet request", e);
+      throw new ServletException("An error occured while processing the portlet request", e);
+    }
+
+    // Session replication
+    try {
+      session_data.clear();
+      Enumeration<String> en = servletRequest.getSession().getAttributeNames();
+      while (en.hasMoreElements()) {
+        String attrname = (String) en.nextElement();
+        Object obj = servletRequest.getSession().getAttribute(attrname);
+
+        if (tmp_data.containsKey(attrname) && tmp_data.get(attrname).equals(obj)) {
+          // Not changed state - not replicating.
+        } else {
+          session_data.put(attrname, obj);
+//          tmp_data.put(attrname, obj);
+        }
+        // Cheking for deleted keys
+        Iterator<String> it = tmp_data.keySet().iterator();
+        while (it.hasNext()) {
+          String a = (String) it.next();
+          if (!session_data.containsKey(a)) {
+            session_data.put(a, null);
+//            it.remove();
+          }
+        }
+        output.setSessionMap(session_data);
+      }
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+  }
+
+}
