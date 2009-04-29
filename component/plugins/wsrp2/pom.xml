@@ -300,7 +300,7 @@
   </properties>
 
   <build>
-  
+
     <sourceDirectory>src/main/java</sourceDirectory>
     <testSourceDirectory>src/test/java</testSourceDirectory>
 
@@ -308,7 +308,8 @@
       <resource>
         <directory>src/main/java</directory>
         <includes>
-          <include>**/*</include>
+          <include>**/*.xml</include>
+          <include>**/*.txt</include>
         </includes>
       </resource>
       <resource>
@@ -324,6 +325,7 @@
         </includes>
       </resource>
     </resources>
+
 
     <plugins>
 
