@@ -57,7 +57,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
   private ExoContainer        cont;
 
   /** The cache. */
-  private ExoCache            cache;
+  private ExoCache <String, WSRP2StateData>    cache;
 
   /** The persister. */
   private WSRPPersister       persister;
@@ -384,7 +384,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
 
     WSRP2StateData data = null;
     try {
-      data = (WSRP2StateData) this.cache.get(key);
+      data =  this.cache.get(key);
     } catch (Exception e) {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }

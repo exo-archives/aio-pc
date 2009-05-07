@@ -24,6 +24,7 @@ import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.logging.Log;
+import org.exoplatform.commons.utils.MapResourceBundle;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.database.HibernateService;
@@ -50,7 +51,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
 
   private final Log           log            = ExoLogger.getLogger(getClass().getName());
 
-  private ExoCache            cache;
+  private ExoCache  <String, WSRP2StateData>          cache;
 
   private HibernateService    hservice;
   
@@ -290,7 +291,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   //   if more exception
   //   if none return null 
   final private WSRP2StateData load(String key) throws Exception {
-    WSRP2StateData data = (WSRP2StateData) this.cache.get(key);
+    WSRP2StateData data =  this.cache.get(key);
     if (data == null) {
       Session session = this.hservice.openSession();
       List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();
@@ -311,7 +312,7 @@ public class PersistentStateManagerImpl implements PersistentStateManager {
   // else delete from DB
   final private void remove(String key) throws Exception {
     Session session = this.hservice.openSession();
-    WSRP2StateData data = (WSRP2StateData) this.cache.remove(key);
+    WSRP2StateData data =  this.cache.remove(key);
     if (data == null) {
       //  		List l = session.find(queryStateData, key, Hibernate.STRING);
       List<WSRP2StateData> l = session.createQuery(queryStateData).setString(0, key).list();

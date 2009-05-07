@@ -50,8 +50,8 @@ public class TransientStateManagerImpl implements TransientStateManager {
 
   private Log                 log              = ExoLogger.getLogger(this.getClass().getName());
 
-  private ExoCache            cache;
-
+  private ExoCache   <String, Object>    cache;
+  
   private WSRPConfiguration   conf;
 
   protected ExoContainer      cont;
