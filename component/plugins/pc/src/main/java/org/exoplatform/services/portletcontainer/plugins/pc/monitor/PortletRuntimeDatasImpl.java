@@ -99,7 +99,7 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   /**
    * User cache.
    */
-  private ExoCache userCache;
+  private ExoCache<String, CachedData> userCache;
 
   /**
    * Logger.
@@ -109,7 +109,7 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   /**
    * Global cache.
    */
-  private final ExoCache globalCache;
+  private final ExoCache<String, CachedData> globalCache;
 
   /**
    * Portlet request monitor data.
@@ -126,7 +126,7 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   public PortletRuntimeDatasImpl(final String portletAppName,
       final String portletName,
       final CacheService cacheService,
-      final ExoCache globalCache,
+      final ExoCache<String, CachedData> globalCache,
       final Log log) {
     this.log = log;
     this.globalCache = globalCache;
@@ -321,8 +321,8 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   public final CachedData getCachedData(final String key, final boolean isCacheGlobal) {
     try {
       if (isCacheGlobal)
-        return (CachedData) globalCache.get(key);
-      return (CachedData) userCache.get(key);
+        return globalCache.get(key);
+      return userCache.get(key);
     } catch (Exception e) {
       log.error("Unable to load data from user cache", e);
     }

@@ -73,7 +73,7 @@ public class PortletContainerMonitorImpl implements PortletContainerMonitor {
   /**
    * Global cache.
    */
-  private final ExoCache globalCache;
+  private final ExoCache<String, CachedData> globalCache;
 
   /**
    * Cache service.

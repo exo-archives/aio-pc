@@ -29,6 +29,7 @@ import org.exoplatform.services.cache.ExoCache;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.bundle.ResourceBundleDelegate;
+import org.exoplatform.services.portletcontainer.monitor.CachedData;
 import org.exoplatform.services.portletcontainer.pci.model.Portlet;
 import org.exoplatform.services.portletcontainer.pci.model.PortletInfo;
 import org.exoplatform.services.portletcontainer.pci.PortletData;
@@ -61,7 +62,7 @@ public class ResourceBundleManager {
   /**
    * Cache.
    */
-  private final ExoCache             cache;
+  private final ExoCache<String, MapResourceBundle>    cache;
 
   /**
    * Logger.
@@ -98,7 +99,7 @@ public class ResourceBundleManager {
     String key = portlet.getPortletClass() + bundleName + locale;
     MapResourceBundle bundle = null;
     try {
-      ResourceBundle res = (ResourceBundle) cache.get(key);
+      ResourceBundle res =  cache.get(key);
       if (res != null)
         return res;
       PortletInfo pI = portlet.getPortletInfo();
