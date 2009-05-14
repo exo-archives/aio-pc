@@ -594,7 +594,8 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
     PortletContainerPlugin plug =  findPluginByPAPPName(portletApplicationName);
      if (plug == null){
        plug =  findPluginByPAPPName(portletApplicationName.substring(portletApplicationName.indexOf("@")+1));
-       plug.sendAttrs(request, response, attrs, portletApplicationName.substring(portletApplicationName.indexOf("@")+1));
+       if (plug != null)
+         plug.sendAttrs(request, response, attrs, portletApplicationName.substring(portletApplicationName.indexOf("@")+1));
      } else {
     plug.sendAttrs(request, response, attrs, portletApplicationName);
      }
