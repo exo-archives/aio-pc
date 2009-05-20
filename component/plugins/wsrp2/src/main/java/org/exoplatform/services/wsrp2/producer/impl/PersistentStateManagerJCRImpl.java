@@ -389,9 +389,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
     }
 
-    if (data != null) {
-      return data;
-    } else {
+    if (data == null) {
       data = new WSRP2StateData();
       data.setId(key);
       String value = null;
@@ -416,9 +414,10 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
       } catch (Exception e) {
         throw new WSRPException(e.getMessage());
       }
+      
     }
 
-    return null;
+    return data;
   }
 
   // get and remove from cache

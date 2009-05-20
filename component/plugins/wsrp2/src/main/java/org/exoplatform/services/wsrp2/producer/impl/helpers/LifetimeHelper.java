@@ -77,7 +77,7 @@ public class LifetimeHelper implements Startable {
       if (lf != null && registrationContext.getScheduledDestruction() != null) {
         lf.setCurrentTime(CalendarUtils.getNow());
         if (lifetimeExpired(lf)) {
-//        roi.deregister(registrationContext, userContext);
+    //    roi.deregister(registrationContext, userContext);
           return false;
         }
       }

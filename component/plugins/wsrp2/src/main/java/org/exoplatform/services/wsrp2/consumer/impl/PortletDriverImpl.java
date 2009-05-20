@@ -267,26 +267,29 @@ public class PortletDriverImpl implements PortletDriver {
 
       processMimeResponseMarkup(response.getMarkupContext(), genericParams, baseURL);
 
+      
+      return response;
+      
     } catch (InvalidCookie exc) {
       LOG.info("Problem with cookies ", exc);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
-      getMarkup(markupRequest, userSession, baseURL);
+      return getMarkup(markupRequest, userSession, baseURL);
     } catch (InvalidSession exc) {
-      LOG.info("Problem with session ", exc);
+      LOG.info("Problem with session :" + exc.getMessage());
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       List<String> sessionIDs = new ArrayList<String>();
       sessionIDs.add(markupRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
       ((WSRPBaseRequestAdapter) markupRequest).setSessionID(null);
-      getMarkup(markupRequest, userSession, baseURL);
+      return getMarkup(markupRequest, userSession, baseURL);
     } catch (InvalidRegistration e) {
       LOG.info("Problem with registration ", e);
       deregister(userSession);
     } catch (Exception exc) {
       LOG.error("Problem with :" + exc);
     }
-    return response;
+    return null;
   }
 
   private Map<String, String> writeGenericParams(PortletContext portletContext,
