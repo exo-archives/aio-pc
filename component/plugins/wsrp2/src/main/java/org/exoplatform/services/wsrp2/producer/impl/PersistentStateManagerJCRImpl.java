@@ -406,7 +406,7 @@ public class PersistentStateManagerJCRImpl implements PersistentStateManager {
         } catch (Exception e) {
           throw new WSRPException(Faults.OPERATION_FAILED_FAULT, e);
         }
-
+        if ( ! this.registrationHandles.contains(key)) // To prevent duplicate keys;
         this.registrationHandles.add(key);
       }
       try {
