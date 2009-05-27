@@ -98,6 +98,7 @@ import org.exoplatform.services.wsrp2.type.MarkupContext;
 import org.exoplatform.services.wsrp2.type.MarkupParams;
 import org.exoplatform.services.wsrp2.type.MarkupResponse;
 import org.exoplatform.services.wsrp2.type.MissingParametersFault;
+import org.exoplatform.services.wsrp2.type.NamedString;
 import org.exoplatform.services.wsrp2.type.NavigationalContext;
 import org.exoplatform.services.wsrp2.type.OperationFailedFault;
 import org.exoplatform.services.wsrp2.type.PortletContext;
@@ -997,6 +998,28 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     resourceContext.setMimeType(output.getContentType());// was: mimeType
     resourceContext.setRequiresRewriting(!conf.isDoesUrlTemplateProcessing());
     resourceContext.setUseCachedItem(Boolean.FALSE);
+
+    Iterator it = output.getProperties().keySet().iterator();
+    while (it.hasNext()) {
+      String key = (String) it.next();
+      try {
+        String value = (String) output.getProperties().get(key);
+        NamedString someproperty = new NamedString();
+        someproperty.setName(key);
+        someproperty.setValue(value);
+        resourceContext.getClientAttributes().add(someproperty);
+      } catch (Exception ccex) {
+        log.warn("Cannot transmit portlet property :" + key);
+        continue;
+      }
+    }
+
+//    if (output.getProperties().get("Content-Disposition") != null) {
+//       NamedString someproperty = new NamedString();
+//    someproperty.setName("Content-Disposition");
+//    someproperty.setValue((String)output.getProperties().get("Content-Disposition"));
+//    resourceContext.getClientAttributes().add(someproperty);
+//    }
 
     // fill the state to send it to consumer if allowed
     if (conf.isSavePortletStateOnConsumer())

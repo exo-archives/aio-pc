@@ -641,7 +641,7 @@ public class PortletDriverImpl implements PortletDriver {
       LOG.error("Problem with cookies ", exc);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
       resetInitCookie(userSession);
-      getResource(resourceRequest, userSession, baseURL);
+      return getResource(resourceRequest, userSession, baseURL); //?
     } catch (InvalidSession exc) {
       LOG.info("Problem with session ", exc);
       // throw new WSRPException(Faults.INVALID_COOKIE_FAULT, cookieFault);
@@ -649,7 +649,7 @@ public class PortletDriverImpl implements PortletDriver {
       sessionIDs.add(resourceRequest.getSessionID());
       releaseSessions(sessionIDs, userSession);
       ((WSRPBaseRequestAdapter) resourceRequest).setSessionID(null);
-      getResource(resourceRequest, userSession, baseURL);
+     return  getResource(resourceRequest, userSession, baseURL); //?
     } catch (InvalidRegistration e) {
       LOG.info("Problem with registration ", e);
       deregister(userSession);

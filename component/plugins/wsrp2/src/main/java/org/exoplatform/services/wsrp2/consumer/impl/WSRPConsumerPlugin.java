@@ -1729,6 +1729,10 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     if (mimeResponse != null && output != null) {
       if (mimeResponse.getMimeType() != null) {
         output.setContentType(mimeResponse.getMimeType());
+       // Copying attributes 
+       for (NamedString one :  mimeResponse.getClientAttributes()){
+         output.addProperty(one.getName(), one.getValue());
+       }
       }
 
       // process content
