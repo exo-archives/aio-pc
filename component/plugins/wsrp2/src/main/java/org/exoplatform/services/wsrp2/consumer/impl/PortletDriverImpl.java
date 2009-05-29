@@ -664,7 +664,10 @@ public class PortletDriverImpl implements PortletDriver {
     LOG.debug("mimeResponse.getItemBinary() = " + mimeResponse.getItemBinary());
     String content = null;
     if (mimeResponse.getItemBinary() != null) {
-      content = new String(mimeResponse.getItemBinary());
+     try {
+       content = new String(mimeResponse.getItemBinary(), "utf-8");
+      } catch (java.io.UnsupportedEncodingException e) {
+      }
     } else {
       content = mimeResponse.getItemString();
     }
