@@ -62,7 +62,7 @@ public class ProducerRewriterResourceURLImp1 extends ResourceURLImp {
     this.portletHandle = portletHandle;
     this.stateManager = stateManager;
     this.sessionID = sessionID;
-    this.templates = templates;
+    this.templates = template;
     this.user = user;
     this.runtimeContext = runtimeContext;
   }
