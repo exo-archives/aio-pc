@@ -614,7 +614,13 @@ public class PortletDriverImpl implements PortletDriver {
         request.setUserContext(userCtx);
       }
 
+      if (producer.getVersion() != 1)
       response = markupPort.getResource(request);
+      else{
+        LOG.info("WSRP 1 does not support serving resources");
+        return null;
+      }
+        
 
       if (response.getResourceContext().isUseCachedItem()) {
         if (resourceRequest.getCachedResource() != null) {
