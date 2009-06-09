@@ -147,6 +147,10 @@ public class PortletApplicationProxy implements Startable {
           + portletDatas.getPortletName()) == null) {
         log.debug("First registration of portlet : " + portletAppName + "/" + portletName);
         registerPortlet(portletDatas.getPortletName());
+      } else {
+        log.debug("Re-registering  portlet : " + portletAppName + "/" + portletName);
+        releasePortlet(portletDatas.getPortletName());
+        registerPortlet(portletDatas.getPortletName());
       }
       ((javax.portlet.Portlet) pico.getComponentInstance(portletAppName
           + Constants.PORTLET_ENCODER + portletDatas.getPortletName())).init(config);
