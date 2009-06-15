@@ -36,8 +36,14 @@
     </dependency>
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
-       <artifactId>exo.kernel.component.common</artifactId> 
+      <artifactId>exo.kernel.component.common</artifactId> 
       <version>${org.exoplatform.kernel.version}</version>
+      <optional>compile</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.common</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
       <optional>compile</optional>
     </dependency>
   </dependencies>

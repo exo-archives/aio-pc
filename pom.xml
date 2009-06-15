@@ -25,6 +25,7 @@
   </scm>
 
   <modules>
+    <module>component/common</module>
     <module>component/core</module>
     <module>component/plugins/pc</module>
     <module>component/plugins/wsrp2</module>
