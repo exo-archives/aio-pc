@@ -601,13 +601,8 @@ public class PortletContainerDispatcher implements PortletContainerPlugin {
   }
 
   public void setPortletPreferences(Input input, PortletPreferences preferences) throws PortletContainerException {
-    LOG.debug("try to set a portlet preference directly from the setPortletPreferences() method");
-    WindowID windowID = input.getInternalWindowID();
-    Portlet pDatas = portletApplications.getPortletMetaData(windowID.getPortletApplicationName(),
-                                                            windowID.getPortletName());
-    ExoPortletPreferences defaultPrefs = pDatas.getPortletPreferences();
-    PortletWindowInternal windowInfos = manager.getWindow(input, defaultPrefs);
-    windowInfos.setPreferences(preferences);
+    Map<String, String[]> preferencesMap = preferences.getMap();
+    setPortletPreference2(input, preferencesMap);
   }
 
   /**
