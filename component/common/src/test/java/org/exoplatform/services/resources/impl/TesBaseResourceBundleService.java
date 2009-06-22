@@ -199,10 +199,10 @@ public class TesBaseResourceBundleService extends TestCase {
 				public void addCacheListener(CacheListener arg0) {
 				}
 
-				public void clearCache() throws Exception {
+				public void clearCache() {
 				}
 
-				public Object get(Serializable arg0) throws Exception {
+				public Object get(Serializable arg0) {
 					return null;
 				}
 
@@ -250,19 +250,17 @@ public class TesBaseResourceBundleService extends TestCase {
 					return false;
 				}
 
-				public void put(Serializable arg0, Object arg1)
-						throws Exception {					
+				public void put(Serializable arg0, Object arg1) {
 				}
 
-				public void putMap(Map<Serializable, Object> arg0)
-						throws Exception {
+				public void putMap(Map arg0) {
 				}
 
-				public Object remove(Serializable arg0) throws Exception {
+				public Object remove(Serializable arg0) {
 					return null;
 				}
 
-				public List removeCachedObjects() throws Exception {
+				public List removeCachedObjects() {
 					return null;
 				}
 

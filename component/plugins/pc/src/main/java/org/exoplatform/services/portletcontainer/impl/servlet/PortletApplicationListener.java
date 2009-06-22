@@ -254,6 +254,7 @@ public class PortletApplicationListener implements ServletContextListener {
       specErr1 = e.getMessage();
     } catch (Exception e) {
       log.info(e.getMessage());
+      e.printStackTrace();
     } finally {
 //    System.out.println(java.lang.System.currentTimeMillis()-time + " - time 1-st portlet spec validation");
     }
@@ -276,6 +277,7 @@ public class PortletApplicationListener implements ServletContextListener {
       specErr2 = e.getMessage();
     } catch (Exception e) {
       log.info(e.getMessage());
+      e.printStackTrace();
     } finally {
 //    System.out.println(java.lang.System.currentTimeMillis()-time + " - time 2-nd portlet spec validation");
     }

@@ -227,15 +227,21 @@
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.component.core</artifactId>
+      <artifactId>exo.pc.applications.portal</artifactId>
+      <version>${org.exoplatform.pc.version}</version>
+      <type>exopc-war</type>
+    </dependency>
+
+    <dependency>
+      <groupId>org.exoplatform.portletcontainer</groupId>
+      <artifactId>exo.pc.component.common</artifactId>
       <version>${org.exoplatform.pc.version}</version>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
-      <artifactId>exo.pc.applications.portal</artifactId>
+      <artifactId>exo.pc.component.core</artifactId>
       <version>${org.exoplatform.pc.version}</version>
-      <type>exopc-war</type>
     </dependency>
 
     <dependency>
@@ -760,6 +766,11 @@
                     <artifactId>exo.kernel.component.command</artifactId>
                   </dependency>
               
+                  <dependency>
+                    <groupId>org.exoplatform.portletcontainer</groupId>
+                    <artifactId>exo.pc.component.common</artifactId>
+                  </dependency>
+
                   <dependency>
                     <groupId>org.exoplatform.portletcontainer</groupId>
                     <artifactId>exo.pc.component.core</artifactId>
