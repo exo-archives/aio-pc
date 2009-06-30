@@ -47,7 +47,7 @@ fi
 #####################################################################################
 #                      EXO CONFIGURATION                                            #
 #####################################################################################
-LOG_OPTS="-Dorg.exoplatform.services.log.Log=org.apache.commons.logging.impl.SimpleLog"
+LOG_OPTS="-Dorg.apache.commons.logging.log.Log=org.apache.commons.logging.impl.SimpleLog"
 SECURITY_OPTS="-Djava.security.auth.login.config=$PRGDIR/../conf/jaas.conf"
 CATALINA_OPTS="$CATALINA_OPTS $SECURITY_OPTS" 
 export CATALINA_OPTS
