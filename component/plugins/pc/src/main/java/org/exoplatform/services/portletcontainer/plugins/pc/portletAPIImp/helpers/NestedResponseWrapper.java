@@ -25,8 +25,8 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.Locale;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 
 /**
  * Created by The eXo Platform SAS.
@@ -85,7 +85,7 @@ public class NestedResponseWrapper extends HttpServletResponseWrapper {
   /**
    * Logger.
    */
-  private static Log log = LogFactory.getLog(CustomResponseWrapper.class);
+  private static Log log = ExoLogger.getLogger(CustomResponseWrapper.class);
 
   /**
    * Is committed.

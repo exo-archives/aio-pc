@@ -22,7 +22,7 @@ import java.util.Map;
 
 import javax.jws.WebService;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp2.producer.ServiceAdministration;

@@ -9,7 +9,7 @@ rem ---------------------------------------------------------------------------
 rem #################################################################################
 rem #                           EXO CONFIGURATION                                   #
 rem #################################################################################
-set LOG_OPTS="-Dorg.apache.commons.logging.Log=org.apache.commons.logging.impl.SimpleLog"
+set LOG_OPTS="-Dorg.exoplatform.services.log.Log=org.apache.commons.logging.impl.SimpleLog"
 set SECURITY_OPTS="-Djava.security.auth.login.config=../conf/jaas.conf"
 set JAVA_OPTS=%LOG_OPTS% %SECURITY_OPTS% %JAVA_OPTS% -Xmx1000m
 rem #################################################################################

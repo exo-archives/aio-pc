@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp1;
 
 import junit.framework.TestSuite;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp1.testProducer.TestCachingMechanism;
 import org.exoplatform.services.wsrp1.testProducer.TestGetMarkup;

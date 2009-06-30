@@ -26,7 +26,7 @@ import javax.portlet.PortletSession;
 import javax.portlet.PortletSessionUtil;
 import javax.servlet.http.HttpSession;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.commons.map.AbstractMap;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;

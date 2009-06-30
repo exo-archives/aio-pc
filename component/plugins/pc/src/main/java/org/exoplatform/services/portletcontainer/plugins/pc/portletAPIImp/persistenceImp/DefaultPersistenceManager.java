@@ -19,7 +19,7 @@ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.persi
 import javax.portlet.PortletPreferences;
 import javax.portlet.PreferencesValidator;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.portletcontainer.PCConstants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;

@@ -40,7 +40,7 @@ public class HttpRequest {
 
     static {
         if (TestUtil.traceflag) {
-            System.setProperty("org.apache.commons.logging.Log", "com.sun.ts.tests.common.webclient.log.WebLog");
+            System.setProperty("org.exoplatform.services.log.Log", "com.sun.ts.tests.common.webclient.log.WebLog");
             System.setProperty("org.apache.commons.logging.simplelog.log.httpclient.wire", "debug");
         }
     }

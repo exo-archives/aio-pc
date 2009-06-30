@@ -20,7 +20,7 @@ import java.util.Locale;
 import java.util.MissingResourceException;
 import java.util.ResourceBundle;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.commons.utils.MapResourceBundle;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;

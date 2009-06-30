@@ -26,8 +26,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.CharArrayWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.exoplatform.services.log.Log;
+import org.exoplatform.services.log.ExoLogger;
 
 /**
  * Created by The eXo Platform SAS.
@@ -81,7 +81,7 @@ public class CustomResponseWrapper extends HttpServletResponseWrapper {
   /**
    * Logger.
    */
-  private static Log log = LogFactory.getLog(CustomResponseWrapper.class);
+  private static Log log = ExoLogger.getLogger(CustomResponseWrapper.class);
 
   /**
    * @param httpServletResponse http servlet response

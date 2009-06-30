@@ -19,7 +19,7 @@ package org.exoplatform.services.portletcontainer.imp.Portlet286;
 import java.io.InputStream;
 import java.net.URL;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;

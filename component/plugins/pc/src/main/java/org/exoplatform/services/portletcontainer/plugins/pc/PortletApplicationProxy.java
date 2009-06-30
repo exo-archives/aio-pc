@@ -28,7 +28,7 @@ import javax.portlet.PortletException;
 import javax.portlet.PreferencesValidator;
 import javax.portlet.UnavailableException;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;

@@ -16,7 +16,7 @@
  */
 package org.exoplatform.portletcontainer.applications.sbridgestrutsportlet;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.apache.struts.upload.FormFile;
 import org.exoplatform.services.log.ExoLogger;
 

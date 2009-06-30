@@ -16,7 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.aop;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.container.component.ExecutionContext;
 import org.exoplatform.container.component.ExecutionUnit;

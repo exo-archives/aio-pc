@@ -26,7 +26,7 @@ import javax.portlet.PortletException;
 import java.io.IOException;
 import java.io.PrintWriter;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 
 /**
  * Created by the Exo Development team. Author : Mestrallet Benjamin

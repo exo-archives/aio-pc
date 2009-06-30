@@ -18,7 +18,7 @@ package org.exoplatform.services.portletcontainer.imp;
 
 import junit.framework.TestSuite;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.imp.Portlet168.TestCaching;
 import org.exoplatform.services.portletcontainer.imp.Portlet168.TestCharacterEncoding;

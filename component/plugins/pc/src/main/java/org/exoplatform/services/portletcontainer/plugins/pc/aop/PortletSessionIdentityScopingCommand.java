@@ -18,7 +18,7 @@ package org.exoplatform.services.portletcontainer.plugins.pc.aop;
 
 import org.exoplatform.container.component.ExecutionContext;
 import org.exoplatform.services.log.ExoLogger;
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 
 import javax.portlet.PortletRequest;
 import javax.portlet.PortletSession;

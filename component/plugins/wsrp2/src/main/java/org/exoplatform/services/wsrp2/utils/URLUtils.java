@@ -22,7 +22,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PCConstants;

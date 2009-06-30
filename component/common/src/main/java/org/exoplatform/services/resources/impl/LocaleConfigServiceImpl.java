@@ -36,7 +36,7 @@ import org.exoplatform.services.resources.Orientation;
 import org.exoplatform.services.resources.IdentityResourceBundle;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.commons.utils.PropertyManager;
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 
 /**
  * @author Benjamin Mestrallet benjamin.mestrallet@exoplatform.com This Service

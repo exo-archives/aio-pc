@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports.v2;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.consumer.adapters.ports.WSRPRegistrationPortTypeAdapterAPI;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;

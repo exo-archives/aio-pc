@@ -16,7 +16,7 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.monitor;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.services.cache.CacheService;
 import org.exoplatform.services.cache.ExoCache;

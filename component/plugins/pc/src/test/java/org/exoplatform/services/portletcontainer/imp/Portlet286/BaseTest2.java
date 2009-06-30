@@ -29,7 +29,7 @@ import javax.portlet.WindowState;
 
 import junit.framework.TestCase;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.container.PortalContainer;
 import org.exoplatform.container.RootContainer;

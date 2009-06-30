@@ -17,7 +17,7 @@
 
 package org.exoplatform.services.wsrp2.bind.v1;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.AbstractSingletonWebService;
 import org.exoplatform.services.wsrp1.intf.WS1AccessDenied;

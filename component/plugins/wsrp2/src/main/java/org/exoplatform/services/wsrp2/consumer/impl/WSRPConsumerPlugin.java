@@ -42,7 +42,7 @@ import javax.servlet.http.HttpSession;
 import javax.xml.namespace.QName;
 
 import org.apache.commons.lang.StringUtils;
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.Constants;
 import org.exoplatform.commons.utils.MapResourceBundle;
 import org.exoplatform.container.ExoContainer;

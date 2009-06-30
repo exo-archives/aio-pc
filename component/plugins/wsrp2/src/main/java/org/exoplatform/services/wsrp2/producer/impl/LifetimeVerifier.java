@@ -18,7 +18,7 @@ package org.exoplatform.services.wsrp2.producer.impl;
 
 import java.util.Arrays;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
 import org.exoplatform.services.wsrp2.intf.AccessDenied;

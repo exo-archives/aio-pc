@@ -18,7 +18,7 @@ package org.exoplatform.services.portletcontainer.imp.Portlet286;
 
 import javax.xml.XMLConstants;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 
 /**

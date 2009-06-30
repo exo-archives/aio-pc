@@ -19,7 +19,7 @@ package org.exoplatform.services.wsrp2.consumer.adapters.ports.ext;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.apache.commons.logging.Log;
+import org.exoplatform.services.log.Log;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.ws.impl.cxf.ExoDeployCXFUtils;
 import org.exoplatform.services.wsrp2.bind.ext.WSRPV0ServiceAdministrationPortType;
