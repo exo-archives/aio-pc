@@ -206,7 +206,7 @@
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
             exo-platform.services.templates.impl, groovy-all-1.0-jsr, janino,
-            log4j, soap, velocity, naming-core, naming-java, jsf-api, xerces, ant-launcher, aopalliance,bcmail-jdk14,fontbox,jempbox,jline,lucene-spellchecker,oro,slf4j-api,slf4j-jdk14,
+            soap, velocity, naming-core, naming-java, jsf-api, xerces, ant-launcher, aopalliance,bcmail-jdk14,fontbox,jempbox,jline,lucene-spellchecker,oro,slf4j-jdk14,
             cxf-rt-databinding-aegis,cxf-rt-javascript,cxf-rt-transports-local,cxf-tools-java2ws,cxf-tools-misctools,cxf-tools-validator,cxf-tools-wsdlto-core,cxf-tools-wsdlto-databinding-jaxb,
             cxf-tools-wsdlto-frontend-jaxws,geronimo-javamail_1.4_spec,itext
           </excludeProjects>
