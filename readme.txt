@@ -1,4 +1,4 @@
-    EXO-PortletContainer 2.0 (beta 4)
+    EXO-PortletContainer 2.0.7
     --------------------------------
 
 The eXo Platform Portlet Container 2.0 which includes the JSR 168/286 implementation and WSRP 2 one.
