@@ -246,8 +246,8 @@
     </dependency>
 
     <dependency>
-      <groupId>org.exoplatform.utils</groupId>
-      <artifactId>exo-mock-objects</artifactId>
+      <groupId>org.exoplatform.tool</groupId>
+      <artifactId>exo.tool.framework.junit</artifactId>
       <version>1.0.0</version>
     </dependency>
 
