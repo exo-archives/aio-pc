@@ -54,7 +54,7 @@ public class LocaleConfigImpl implements LocaleConfig {
 
   private String                     localeName_;
 
-  private Orientation orientation;
+  private Orientation                orientation;
 
   public LocaleConfigImpl() {
   }
@@ -89,6 +89,8 @@ public class LocaleConfigImpl implements LocaleConfig {
 
   public final void setLocale(Locale locale) {
     locale_ = locale;
+    if (localeName_ == null)
+      localeName_ = locale.getLanguage();
   }
 
   public final void setLocale(String localeName) {
@@ -104,6 +106,10 @@ public class LocaleConfigImpl implements LocaleConfig {
 
   public final String getLocaleName() {
     return localeName_;
+  }
+
+  public final void setLocaleName(String localeName) {
+    localeName_ = localeName;
   }
 
   public ResourceBundle getResourceBundle(String name) {
@@ -129,8 +135,8 @@ public class LocaleConfigImpl implements LocaleConfig {
   }
 
   public void setOutput(HttpServletResponse res) {
-    res.setContentType("text/html; charset=" +  outputEncoding_) ;
-    res.setLocale(locale_) ;
+    res.setContentType("text/html; charset=" + outputEncoding_);
+    res.setLocale(locale_);
   }
 
   public Orientation getOrientation() {
@@ -143,11 +149,8 @@ public class LocaleConfigImpl implements LocaleConfig {
 
   @Override
   public String toString() {
-    return "LocaleConfig[" +
-      "localeName=" + localeName_ +
-      ",locale=" +  locale_ +
-      ",description=" + description_ +
-      ",inputEncoding=" + inputEncoding_ +
-      ",outputEncoding=" + outputEncoding_ +  "]";
+    return "LocaleConfig[" + "localeName=" + localeName_ + ",locale=" + locale_ + ",description="
+        + description_ + ",inputEncoding=" + inputEncoding_ + ",outputEncoding=" + outputEncoding_
+        + "]";
   }
 }
