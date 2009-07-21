@@ -16,16 +16,18 @@
  */
 package org.exoplatform.services.resources;
 
+import java.util.HashMap;
+import java.util.Locale;
+import java.util.Map;
+
 import junit.framework.TestCase;
-import org.exoplatform.services.resources.impl.LocaleConfigServiceImpl;
+
+import org.exoplatform.commons.utils.PropertyManager;
 import org.exoplatform.container.configuration.ConfigurationManagerImpl;
 import org.exoplatform.container.xml.InitParams;
 import org.exoplatform.container.xml.ValueParam;
-import org.exoplatform.commons.utils.PropertyManager;
-
-import java.util.Map;
-import java.util.HashMap;
-import java.util.Locale;
+import org.exoplatform.services.resources.impl.LocaleConfigImpl;
+import org.exoplatform.services.resources.impl.LocaleConfigServiceImpl;
 
 /**
  * @author <a href="mailto:julien.viet@exoplatform.com">Julien Viet</a>
@@ -56,6 +58,17 @@ public class TestLocaleConfigService extends TestCase {
     assertCommonConfigs(service);
     LocaleConfig ma = service.getLocaleConfig("ma");
     assertLocaleConfig(ma, "ma", "Default configuration for the debugging locale", "UTF-8", "UTF-8", Orientation.LT, IdentityResourceBundle.MAGIC_LOCALE);
+  }
+  
+  
+  public void testLocaleConfig() throws Exception {
+    LocaleConfig ma = new LocaleConfigImpl();
+    ma.setLocale("ma");
+    assertEquals("ma", ma.getLocaleName());
+     
+    LocaleConfig ma1 = new LocaleConfigImpl();
+    ma1.setLocale(new Locale("ma"));
+    assertEquals("ma", ma1.getLocaleName());
   }
 
   private Map<String, LocaleConfig> createMap(LocaleConfigService service) {
