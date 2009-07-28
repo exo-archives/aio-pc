@@ -122,19 +122,9 @@ public class BridgePortlet extends GenericPortlet {
       //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
 
       //read output
-      InputStream responseAsInputStream;
-      boolean isstream = false;
-      try {
-        responseWrapper.getWriter();
-        responseAsInputStream = new ByteArrayInputStream(
-            String.valueOf(responseWrapper.getPortletContent()).getBytes()
-        );
-      } catch (IllegalStateException ex) {
-        //if output was wrote to outputStream
-        responseAsInputStream = new ByteArrayInputStream(responseWrapper.toByteArray());
-        isstream = true;
-      }
-
+      boolean isstream = responseWrapper.isStreamUsed();
+      InputStream responseAsInputStream = new ByteArrayInputStream(responseWrapper.getPortletContent());
+	    
       ByteArrayOutputStream  byteOutput = new ByteArrayOutputStream();
       //set transform params
       PortletOutputTransformer rewriter  = new PortletOutputTransformer();
