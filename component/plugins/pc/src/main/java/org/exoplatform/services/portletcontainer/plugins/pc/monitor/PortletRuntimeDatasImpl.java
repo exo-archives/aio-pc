@@ -300,6 +300,8 @@ public class PortletRuntimeDatasImpl implements PortletRuntimeData {
   public final synchronized void setCachedData(final String key,
       final CachedData cachedData,
       final boolean isCacheGlobal) {
+    if (key == null)
+      return;
     try {
       if (isCacheGlobal)
         globalCache.put(key, cachedData);
