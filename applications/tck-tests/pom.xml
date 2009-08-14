@@ -271,7 +271,7 @@
     <dependency>
       <groupId>org.exoplatform.tool</groupId>
       <artifactId>exo.tool.framework.junit</artifactId>
-      <version>${org.exoplatform.utils.version}</version>
+      <version>${org.exoplatform.tool.version}</version>
     </dependency>
 
     <dependency>
