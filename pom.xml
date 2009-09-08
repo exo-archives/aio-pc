@@ -186,8 +186,8 @@
         <activeByDefault>true</activeByDefault>
       </activation>
       <properties>
-        <org.exoplatform.kernel.version>2.0.7</org.exoplatform.kernel.version>
-        <org.exoplatform.core.version>2.1.5</org.exoplatform.core.version>
+        <org.exoplatform.kernel.version>2.0.8</org.exoplatform.kernel.version>
+        <org.exoplatform.core.version>2.1.6</org.exoplatform.core.version>
         <org.exoplatform.pc.version>2.0.8-SNAPSHOT</org.exoplatform.pc.version>
       </properties>
     </profile>
