@@ -21,6 +21,9 @@
   <properties>
      <exo.product.name>exo-pc</exo.product.name>
      <exo.product.specification>2.0.8</exo.product.specification>
+     <org.exoplatform.kernel.version>2.0.8</org.exoplatform.kernel.version>
+     <org.exoplatform.core.version>2.1.6</org.exoplatform.core.version>
+     <org.exoplatform.pc.version>2.0.8-SNAPSHOT</org.exoplatform.pc.version>
   </properties>
 
   <modules>
@@ -47,7 +50,7 @@
         <plugin>
           <groupId>org.exoplatform.maven.plugins</groupId>
           <artifactId>maven-exopc-plugin</artifactId>
-          <version>1.0.0</version>
+          <version>1.0.3</version>
         </plugin>
       </plugins>
     </pluginManagement>
@@ -61,7 +64,6 @@
           <skip>${exo.test.skip}</skip>
           <useFile>${exo.test.use.file}</useFile>
           <testFailureIgnore>${exo.test.failure.ignore}</testFailureIgnore>
-          <classesDirectory>${exo.test.classesdirectory}</classesDirectory>
           <forkMode>${exo.test.forkMode}</forkMode>
           <systemProperties>
             <property>
@@ -180,16 +182,11 @@
 
   <profiles>
     <profile>
-      <id>default</id>
-      <activation>
-        <property><name>default</name></property>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <properties>
-        <org.exoplatform.kernel.version>2.0.8</org.exoplatform.kernel.version>
-        <org.exoplatform.core.version>2.1.6</org.exoplatform.core.version>
-        <org.exoplatform.pc.version>2.0.8-SNAPSHOT</org.exoplatform.pc.version>
-      </properties>
+      <id>tck</id>
+      <modules>
+        <module>applications/tck-tests</module>
+      </modules>
     </profile>
   </profiles>
+
 </project>
