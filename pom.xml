@@ -50,7 +50,7 @@
         <plugin>
           <groupId>org.exoplatform.maven.plugins</groupId>
           <artifactId>maven-exopc-plugin</artifactId>
-          <version>1.0.3</version>
+          <version>1.0.4</version>
         </plugin>
       </plugins>
     </pluginManagement>
