@@ -35,8 +35,10 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.xml.namespace.QName;
 
+import org.apache.commons.logging.Log;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.ExoContainerContext;
+import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerConf;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
 import org.exoplatform.services.portletcontainer.PortletContainerPlugin;
@@ -74,6 +76,11 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
    * Config.
    */
   private final PortletContainerConf              config;
+  
+  /**
+   * Logger.
+   */
+  private Log log = ExoLogger.getLogger("org.exoplatform.services.portletcontainer.impl.PortletContainerServiceImpl");
 
   /**
    * @param context exo container context
@@ -92,7 +99,7 @@ public class PortletContainerServiceImpl implements PortletContainerService, Sta
    * @see org.exoplatform.services.portletcontainer.PortletContainerService#addPlugin(org.exoplatform.services.portletcontainer.PortletContainerPlugin)
    */
   public final void addPlugin(final PortletContainerPlugin plugin) {
-    System.out.println(" PortletContainerServiceImpl plugin registered: " + plugin);
+    log.info(" PortletContainerServiceImpl plugin registered: " + plugin);
     plugins.add(plugin);
   }
 
