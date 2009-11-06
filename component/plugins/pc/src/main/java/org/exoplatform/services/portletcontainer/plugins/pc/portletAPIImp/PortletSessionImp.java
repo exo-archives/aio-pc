@@ -356,7 +356,7 @@ public class PortletSessionImp extends AbstractMap implements PortletSession {
       }
       return true;
     } catch (IllegalStateException e) {
-      log.error("IllegalStateException in PortletSessionImp for isSessionValid()", e);
+      if(log.isDebugEnabled()) log.debug("IllegalStateException in PortletSessionImp for isSessionValid()", e);
       return false;
     }
   }
