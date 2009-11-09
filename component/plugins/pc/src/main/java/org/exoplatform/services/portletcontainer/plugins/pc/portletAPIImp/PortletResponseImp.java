@@ -101,6 +101,7 @@ public class PortletResponseImp extends HttpServletResponseWrapper implements Po
     this.portletDatas = resCtx.getPortletDatas();
     this.windowId = resCtx.getWindowID();
     this.isCurrentlySecured = resCtx.isSecure();
+    this.resCtx = resCtx;
   }
 
   /**
