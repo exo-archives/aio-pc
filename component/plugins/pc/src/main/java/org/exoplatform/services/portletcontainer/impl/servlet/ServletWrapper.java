@@ -151,33 +151,30 @@ public class ServletWrapper extends HttpServlet {
     }
 
     // Session replication
-    try {
-      session_data.clear();
-      Enumeration<String> en = servletRequest.getSession().getAttributeNames();
-      while (en.hasMoreElements()) {
-        String attrname = (String) en.nextElement();
-        Object obj = servletRequest.getSession().getAttribute(attrname);
+   session_data.clear();
+   Enumeration<String> en = servletRequest.getSession().getAttributeNames();
+   while (en.hasMoreElements()) {
+     String attrname = (String) en.nextElement();
+     Object obj = servletRequest.getSession().getAttribute(attrname);
 
-        if (tmp_data.containsKey(attrname) && tmp_data.get(attrname).equals(obj)) {
-          // Not changed state - not replicating.
-        } else {
-          session_data.put(attrname, obj);
+     if (tmp_data.containsKey(attrname) && tmp_data.get(attrname).equals(obj)) {
+       // Not changed state - not replicating.
+     } else {
+       session_data.put(attrname, obj);
 //          tmp_data.put(attrname, obj);
-        }
-        // Cheking for deleted keys
-        Iterator it = tmp_data.keySet().iterator(); 
-        while (it.hasNext()) {
-          String a = (String) it.next();
-          if (!session_data.containsKey(a)) {
-            session_data.put(a, null);
+     }
+     // Cheking for deleted keys
+     Iterator it = tmp_data.keySet().iterator(); 
+     while (it.hasNext()) {
+       String a = (String) it.next();
+       if (!session_data.containsKey(a)) {
+         session_data.put(a, null);
 //            it.remove();
-          }
-        }
-        output.setSessionMap(session_data);
-      }
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+       }
+     }
+     output.setSessionMap(session_data);
+   }
+    
   }
 
 }
