@@ -6,9 +6,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sbridgeperlportlet</artifactId>
-  <!--packaging>exopc-war</packaging-->
   <packaging>war</packaging>
-  <name>eXo Portlet Container 2 Applications Bridges Perl Portlet</name>
+  <name>eXo PC  2 Applications Bridges Perl Portlet</name>
 
   <dependencies>
 

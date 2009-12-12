@@ -6,9 +6,8 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.jsf.smyfacesportlet</artifactId>
-  <!--packaging>exopc-war</packaging-->
   <packaging>war</packaging>
-  <name>eXo Portlet Container 2 Applications JSF MyFaces Portlet</name>
+  <name>eXo PC Applications JSF MyFaces Portlet</name>
 
   <dependencies>
     <dependency>
@@ -75,7 +74,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.util-jsf</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 

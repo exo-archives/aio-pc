@@ -7,8 +7,8 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.component.core</artifactId>
   <packaging>jar</packaging>
-  <name>eXo Portlet Container 2 Core</name>
-  <description>eXo Portlet Container 2 Core</description>
+  <name>eXo PC Core</name>
+  <description>eXo PC Core</description>
   <dependencies>
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
@@ -59,10 +59,6 @@
             <property>
               <name>maven.exoplatform.dir</name>
               <value></value>
-            </property>
-            <property>
-              <name>emma.coverage.out.file</name>
-              <value>target/emma/coverage.ec</value>
             </property>
           </systemProperties>
           <includes>

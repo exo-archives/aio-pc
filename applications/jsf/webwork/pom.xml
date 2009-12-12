@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.jsf.swebworkportlet</artifactId>
   <packaging>war</packaging>
-  <name>eXo Portlet Container 2 Applications JSF WebWork Portlet</name>
+  <name>eXo PC Applications JSF WebWork Portlet</name>
 
   <dependencies>
     <dependency>

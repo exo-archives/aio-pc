@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.jsf</artifactId>
   <packaging>pom</packaging>
-  <name>eXo Portlet Container 2 Applications JSF</name>
+  <name>eXo PC Applications JSF</name>
 
   <modules>
     <module>myfaces</module>
@@ -16,13 +16,4 @@
     <module>webwork</module>
   </modules>
 
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <property><name>default</name></property>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-  </profiles>
 </project>

@@ -7,8 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.jsf.stapestryportlet</artifactId>
   <packaging>war</packaging>
-  <!-- packaging>exopc-war</packaging -->
-  <name>eXo Portlet Container 2 Applications JSF Tapestry Portlet</name>
+  <name>eXo PC Applications JSF Tapestry Portlet</name>
 
   <dependencies>
     <dependency>

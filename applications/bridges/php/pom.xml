@@ -6,10 +6,10 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>sbridgephpportlet</artifactId>
-  <!--packaging>exopc-war</packaging-->
   <packaging>war</packaging>
-  <name>eXo Portlet Container 2 Applications Bridges PHP Portlet</name>
+  <name>eXo PC Applications Bridges PHP Portlet</name>
 
+  <!--
   <repositories>
       <repository>
           <id>com.bluesunrise.m2</id>
@@ -17,6 +17,7 @@
           <url>http://www.bluesunrise.com/maven2</url>
       </repository>
   </repositories>
+  -->
 
   <dependencies>
     <dependency>

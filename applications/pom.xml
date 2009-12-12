@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>applications</artifactId>
   <packaging>pom</packaging>
-  <name>eXo Portlet Container 2 Applications</name>
+  <name>eXo PC Applications</name>
 
   <modules>
     <module>portal-framework</module>
@@ -30,13 +30,4 @@
 
   </modules>
 
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <property><name>default</name></property>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-    </profile>
-  </profiles>
 </project>

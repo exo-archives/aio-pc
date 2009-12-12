@@ -7,22 +7,21 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.portlet-jaxb</artifactId>
   <packaging>exopc-war</packaging>
-  <!-- packaging>war</packaging -->
-  <name>eXo Portlet Container 2 Applications JAXB Portlet</name>
+  <name>eXo PC 2 Applications JAXB Portlet</name>
 
   <dependencies>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
@@ -120,32 +119,6 @@
     -->
 
   </dependencies>
-
-  <repositories>
-    <repository>
-      <id>maven2-repository.dev.java.net</id>
-      <name>Java.net Maven 2 Repository</name>
-      <url>https://maven2-repository.dev.java.net/nonav/repository</url>
-    </repository>
-    <repository>
-      <id>ibiblio.org</id>
-      <name>ibiblio.org</name>
-      <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
-    </repository>
-  </repositories>
-
-<!--
-  <pluginRepositories>
-    <pluginRepository>
-      <id>maven2-repository.dev.java.net</id>
-      <url>https://maven2-repository.dev.java.net/nonav/repository</url>
-    </pluginRepository>
-    <pluginRepository>
-      <id>ibiblio.org</id>
-      <url>http://mirrors.ibiblio.org/pub/mirrors/maven2</url>
-    </pluginRepository>
-  </pluginRepositories>
--->
 
   <build>
     <finalName>portlet-jaxb</finalName>

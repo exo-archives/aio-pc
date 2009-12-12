@@ -7,27 +7,27 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.portlets</artifactId>
   <packaging>exopc-war</packaging>
-  <name>eXo Portlet Container 2 Test Portlets</name>
+  <name>eXo PC 2 Test Portlets</name>
 
   <dependencies>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portal-framework</artifactId>
-      <version>${org.exoplatform.pc.version}</version>
+      <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
 

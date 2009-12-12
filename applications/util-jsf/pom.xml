@@ -7,8 +7,8 @@
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.util-jsf</artifactId>
   <packaging>jar</packaging>
-  <name>eXo Portlet Container 2 Applications util-jsf</name>
-  <description>eXo Portlet Container 2 Applications util-jsf</description>
+  <name>eXo PC Applications util-jsf</name>
+  <description>eXo PC Applications util-jsf</description>
 
   <dependencies>
     <dependency>
@@ -37,7 +37,4 @@
     </dependency>
   </dependencies>
 
-  <build>
-
-  </build>
 </project>
