@@ -9,9 +9,9 @@
 
   <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>config</artifactId>
-  <name>eXo PC </name>
   <version>2.0.8-SNAPSHOT</version>
   <packaging>pom</packaging>
+  <name>eXo PC </name>
 
   <scm>
     <connection>scm:svn:http://svn.exoplatform.org/projects/portlet-container/branches/2.0.x</connection>
@@ -35,6 +35,7 @@
     <module>component/plugins/wsrp1</module>
     <module>component/plugins/wsrp2</module>
     <module>applications</module>
+    <module>packaging</module>
   </modules>
 
   <build>
