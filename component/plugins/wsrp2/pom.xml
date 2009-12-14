@@ -286,6 +286,7 @@
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
+                <mkdir dir="${project.build.directory}/test" />
                 <jar destfile="${project.build.directory}/test/exo.pc.component.plugins.wsrp2.jar" basedir="target/classes" />
               </tasks>
             </configuration>
