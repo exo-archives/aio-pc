@@ -23,7 +23,7 @@
      <exo.product.name>exo-pc</exo.product.name>
      <exo.product.specification>2.0.8</exo.product.specification>
      
-     <org.exoplatform.kernel.version>2.0.9</org.exoplatform.kernel.version>
+     <org.exoplatform.kernel.version>2.0.10-SNAPSHOT</org.exoplatform.kernel.version>
      <org.exoplatform.core.version>2.1.7</org.exoplatform.core.version>
      
      <!-- A BIG CLEANUP MUST BE DONE IN TESTS -->
