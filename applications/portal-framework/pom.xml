@@ -1,8 +1,8 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.8-SNAPSHOT</version>
+    <version>2.0.8</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.portal-framework</artifactId>
@@ -13,14 +13,14 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.8</version>
       <scope>compile</scope>
     </dependency>
 
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.8</version>
       <scope>compile</scope>
     </dependency>
 
@@ -77,19 +77,16 @@
            <phase>generate-test-sources</phase>
            <configuration>
              <tasks>
-               <mkdir dir="${basedir}/target/test-classes/"/>
+               <mkdir dir="${basedir}/target/test-classes/" />
                <copy todir="${basedir}/target/test-classes/">
                  <fileset dir="${basedir}/war_template/src">
-                   <include name="**/*.properties"/>
+                   <include name="**/*.properties" />
                  </fileset>
                </copy>
-               <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/"
-                          debug="${maven.compile.debug}"
-                          deprecation="${maven.compile.deprecation}"
-                          optimize="${maven.compile.optimize}">
+               <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                  <classpath>
-                   <path refid="maven.dependency.classpath"/>
-                   <pathelement path="${maven.build.dest}"/>
+                   <path refid="maven.dependency.classpath" />
+                   <pathelement path="${maven.build.dest}" />
                  </classpath>
                </javac>
              </tasks>

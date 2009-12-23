@@ -1,8 +1,8 @@
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.8-SNAPSHOT</version>
+    <version>2.0.8</version>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.component.plugins.pc</artifactId>
@@ -15,7 +15,7 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.8</version>
       <scope>compile</scope>
     </dependency>
 
@@ -131,8 +131,7 @@
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
-                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
@@ -145,8 +144,7 @@
                     <include name="**/*.properties" />
                   </fileset>
                 </copy>
-                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}"
-                  deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
+                <javac fork="true" srcdir="${basedir}/war_template2/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
                   <classpath>
                     <path refid="maven.dependency.classpath" />
                     <pathelement path="${maven.build.dest}" />
@@ -172,11 +170,11 @@
             </property>
             <property>
               <name>mock.portal.dir</name>
-              <value></value>
+              <value />
             </property>
             <property>
               <name>maven.exoplatform.dir</name>
-              <value></value>
+              <value />
             </property>
             <property>
               <name>emma.coverage.out.file</name>
