@@ -32,13 +32,13 @@
       <groupId>org.exoplatform.kernel</groupId>
       <artifactId>exo.kernel.commons</artifactId>
       <version>${org.exoplatform.kernel.version}</version>
-      <optional>compile</optional>
+      <optional>true</optional>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.kernel</groupId>
        <artifactId>exo.kernel.component.common</artifactId> 
       <version>${org.exoplatform.kernel.version}</version>
-      <optional>compile</optional>
+      <optional>true</optional>
     </dependency>
   </dependencies>
   <build>
