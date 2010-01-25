@@ -1,59 +1,67 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2003-2010 eXo Platform SAS.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation; either version 3
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, see <http://www.gnu.org/licenses/>.
+
+-->
 <project>
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
     <version>2.0.8-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>test-wsrp1</artifactId>
   <packaging>war</packaging>
   <name>eXo PC WSRP 1 test application</name>
-
   <dependencies>
-
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
       <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
       <version>2.0.8-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>javax.portlet</groupId>
       <artifactId>portlet-api</artifactId>
       <version>2.0</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
       <scope>compile</scope>
     </dependency>
-
   </dependencies>
-
   <build>
-    <!-- ################## OUTSIDE THE COMPONENT ################### -->
-    <sourceDirectory>../../component/plugins/wsrp1/war_template/src</sourceDirectory>
     <finalName>hello</finalName>
     <plugins>
-
       <!-- plugin>
         <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
@@ -76,7 +84,6 @@
           <includeToWarClasspath/>
         </configuration>
       </plugin -->
-
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-war-plugin</artifactId>
@@ -89,18 +96,18 @@
             </manifest>
           </archive>
           <webResources>
-      <!-- package external properties -->
+            <!-- package external properties -->
             <resource>
               <directory>../../component/plugins/wsrp1/war_template/src</directory>
-        <targetPath>WEB-INF/classes</targetPath>
-        <includes>
-          <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
-        </includes>
+              <targetPath>WEB-INF/classes</targetPath>
+              <includes>
+                <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
+              </includes>
               <excludes>
                 <exclude>*.java</exclude>
               </excludes>
-      </resource>
-      <!-- package external WEB-INF -->
+            </resource>
+            <!-- package external WEB-INF -->
             <resource>
               <directory>../../component/plugins/wsrp1/war_template</directory>
               <excludes>
@@ -110,7 +117,8 @@
           </webResources>
         </configuration>
       </plugin>
-
     </plugins>
+    <!-- ################## OUTSIDE THE COMPONENT ################### -->
+    <sourceDirectory>../../component/plugins/wsrp1/war_template/src</sourceDirectory>
   </build>
 </project>

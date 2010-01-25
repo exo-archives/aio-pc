@@ -1,37 +1,49 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
 
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    Copyright (C) 2003-2010 eXo Platform SAS.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation; either version 3
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, see <http://www.gnu.org/licenses/>.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
     <version>2.0.9-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.applications.bridges.sbridgestrutsportlet</artifactId>
   <packaging>war</packaging>
   <name>eXo PC 2 Applications Bridges Struts Portlet</name>
   <dependencies>
-
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.util-bridge</artifactId>
       <version>2.0.9-SNAPSHOT</version>
     </dependency>
-
     <dependency>
       <groupId>struts</groupId>
       <artifactId>struts</artifactId>
       <version>1.2.9</version>
     </dependency>
-
     <dependency>
       <groupId>org.apache.portals.bridges</groupId>
       <artifactId>portals-bridges-struts-1.2.7</artifactId>
       <version>1.0.4</version>
     </dependency>
-
     <!-- provided -->
-
     <dependency>
       <groupId>portlet-api</groupId>
       <artifactId>portlet-api</artifactId>
@@ -44,21 +56,19 @@
       <version>2.4</version>
       <scope>provided</scope>
     </dependency>
-
-<!--    <dependency>-->
-<!--      <groupId>org.apache.pluto</groupId>-->
-<!--      <artifactId>pluto-container</artifactId>-->
-<!--      <version>1.1.5</version>-->
-<!--      <scope>provided</scope>-->
-<!--    </dependency>-->
-<!--    <dependency>-->
-<!--      <groupId>org.apache.pluto</groupId>-->
-<!--      <artifactId>pluto</artifactId>-->
-<!--      <version>1.0.1</version>-->
-<!--      <scope>provided</scope>-->
-<!--    </dependency>-->
-
   </dependencies>
+  <!--    <dependency>-->
+  <!--      <groupId>org.apache.pluto</groupId>-->
+  <!--      <artifactId>pluto-container</artifactId>-->
+  <!--      <version>1.1.5</version>-->
+  <!--      <scope>provided</scope>-->
+  <!--    </dependency>-->
+  <!--    <dependency>-->
+  <!--      <groupId>org.apache.pluto</groupId>-->
+  <!--      <artifactId>pluto</artifactId>-->
+  <!--      <version>1.0.1</version>-->
+  <!--      <scope>provided</scope>-->
+  <!--    </dependency>-->
   <build>
     <finalName>sbridgestrutsportlet</finalName>
     <plugins>
@@ -77,11 +87,9 @@
       <plugin>
         <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
-        <extensions>true</extensions>
         <configuration>
           <sharedDir>${basedir}/patches</sharedDir>
-          <excludeProjects>
-            junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
+          <excludeProjects>junit, jmock, bcel, ehcache, xercesImpl, msv, servlet-api, jibx-bind, isorelax,
             relaxngDatatype, velocity-dep, saxpath, exo-platform.test.framework, xerces,
             xmldb-api, castor, drools-smftest, jsp-api, xml-apis, xml-resolver, jaxen,
             xjavadoc, xdoclet-hibernate-module, xdoclet-xdoclet-module, xdoclet,
@@ -91,10 +99,10 @@
             exo-platform.services.ldap.impl, exo-platform.services.remote.api,
             exo-platform.services.remote.impl, exo-platform.services.templates.api,
             exo-platform.services.templates.impl, groovy-all-1.0-jsr, howl-logger, janino,
-            jgroups-all, jotm, jotm_jrmp_stubs, log4j, quartz, soap, velocity
-          </excludeProjects>
-          <includeToWarClasspath />
+            jgroups-all, jotm, jotm_jrmp_stubs, log4j, quartz, soap, velocity</excludeProjects>
+          <includeToWarClasspath/>
         </configuration>
+        <extensions>true</extensions>
       </plugin>
     </plugins>
   </build>

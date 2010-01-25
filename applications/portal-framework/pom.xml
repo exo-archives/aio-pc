@@ -1,14 +1,32 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+    Copyright (C) 2003-2010 eXo Platform SAS.
+
+    This program is free software; you can redistribute it and/or
+    modify it under the terms of the GNU Affero General Public License
+    as published by the Free Software Foundation; either version 3
+    of the License, or (at your option) any later version.
+
+    This program is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU General Public License for more details.
+
+    You should have received a copy of the GNU General Public License
+    along with this program; if not, see <http://www.gnu.org/licenses/>.
+
+-->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+  <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
     <version>2.0.9-SNAPSHOT</version>
   </parent>
-  <modelVersion>4.0.0</modelVersion>
   <artifactId>exo.pc.portal-framework</artifactId>
   <packaging>jar</packaging>
   <name>eXo PC Portal Framework</name>
-
   <dependencies>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
@@ -16,37 +34,31 @@
       <version>2.0.9-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
       <version>2.0.9-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>org.exoplatform.core</groupId>
       <artifactId>exo.core.component.organization.jdbc</artifactId>
       <version>${org.exoplatform.core.version}</version>
       <scope>test</scope>
     </dependency>
-
     <!-- non eXo dependencies **********************************-->
-
     <dependency>
       <groupId>javax.portlet</groupId>
       <artifactId>portlet-api</artifactId>
       <version>2.0</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
       <version>2.5</version>
       <scope>compile</scope>
     </dependency>
-
     <dependency>
       <groupId>commons-logging</groupId>
       <artifactId>commons-logging</artifactId>
@@ -54,10 +66,8 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-
   <build>
-
-<!--
+    <!--
     <resources>
       <resource>
         <directory>src/main/resources</directory>
@@ -67,63 +77,58 @@
       </resource>
     </resources>
 -->
-
     <plugins>
-     <plugin>
-       <groupId>org.apache.maven.plugins</groupId>
-       <artifactId>maven-antrun-plugin</artifactId>
-       <executions>
-         <execution>
-           <phase>generate-test-sources</phase>
-           <configuration>
-             <tasks>
-               <mkdir dir="${basedir}/target/test-classes/" />
-               <copy todir="${basedir}/target/test-classes/">
-                 <fileset dir="${basedir}/war_template/src">
-                   <include name="**/*.properties" />
-                 </fileset>
-               </copy>
-               <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
-                 <classpath>
-                   <path refid="maven.dependency.classpath" />
-                   <pathelement path="${maven.build.dest}" />
-                 </classpath>
-               </javac>
-             </tasks>
-           </configuration>
-           <goals>
-             <goal>run</goal>
-           </goals>
-         </execution>
-       </executions>
-     </plugin>
-
-     <plugin>
-       <groupId>org.apache.maven.plugins</groupId>
-       <artifactId>maven-surefire-plugin</artifactId>
-       <configuration>
-         <systemProperties>
-           <property>
-             <name>testPath</name>
-             <value>${basedir}</value>
-           </property>
-           <property>
-             <name>mock.portal.dir</name>
-             <value>${war.dir}</value>
-           </property>
-           <property>
-             <name>maven.exoplatform.dir</name>
-             <value>${war.dir}</value>
-           </property>
-         </systemProperties>
-         <includes>
-           <include>**/AllTestsPortlet.java</include>
-           <!-- include>**/Test*.java</include -->
-         </includes>
-       </configuration>
-     </plugin>
-
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-antrun-plugin</artifactId>
+        <executions>
+          <execution>
+            <phase>generate-test-sources</phase>
+            <configuration>
+              <tasks>
+                <mkdir dir="${basedir}/target/test-classes/"/>
+                <copy todir="${basedir}/target/test-classes/">
+                  <fileset dir="${basedir}/war_template/src">
+                    <include name="**/*.properties"/>
+                  </fileset>
+                </copy>
+                <javac fork="true" srcdir="${basedir}/war_template/src" destdir="${basedir}/target/test-classes/" debug="${maven.compile.debug}" deprecation="${maven.compile.deprecation}" optimize="${maven.compile.optimize}">
+                  <classpath>
+                    <path refid="maven.dependency.classpath"/>
+                    <pathelement path="${maven.build.dest}"/>
+                  </classpath>
+                </javac>
+              </tasks>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>testPath</name>
+              <value>${basedir}</value>
+            </property>
+            <property>
+              <name>mock.portal.dir</name>
+              <value>${war.dir}</value>
+            </property>
+            <property>
+              <name>maven.exoplatform.dir</name>
+              <value>${war.dir}</value>
+            </property>
+          </systemProperties>
+          <includes>
+            <include>**/AllTestsPortlet.java</include>
+          </includes>
+        </configuration>
+      </plugin>
     </plugins>
   </build>
-
 </project>
