@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.8-SNAPSHOT</version>
+    <version>2.0.9-SNAPSHOT</version>
   </parent>
   <artifactId>exo.pc.applications.tck-tests</artifactId>
   <name>eXo PC 2 TCK tests por portlet container</name>
@@ -186,38 +186,38 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portal</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
       <type>exopc-war</type>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portal-framework</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portlets2events</artifactId>
-      <version>2.0.8-SNAPSHOT</version>
+      <version>2.0.9-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.tool</groupId>
@@ -412,7 +412,7 @@
               <container>
                 <containerId>tomcat6x</containerId>
                 <zipUrlInstaller>
-                  <url>http://www.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</url>
+                  <url>http://archive.apache.org/dist/tomcat/tomcat-6/v6.0.18/bin/apache-tomcat-6.0.18.zip</url>
                   <!--   http://archive.apache.org/dist/tomcat/tomcat-5/v5.5.27/bin/apache-tomcat-5.5.27.zip  -->
                   <!--   http://downloads.sourceforge.net/jboss/jboss-4.2.2.GA.zip  -->
                   <installDir>${java.io.tmpdir}/cargoinstall</installDir>
