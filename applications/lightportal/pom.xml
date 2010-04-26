@@ -28,7 +28,7 @@
   <packaging>war</packaging>
   <name>eXo Light Portal</name>
   <properties>
-    <org.exoplatform.jcr.version>1.10.5</org.exoplatform.jcr.version>
+    <org.exoplatform.jcr.version>1.10.8-SNAPSHOT</org.exoplatform.jcr.version>
   </properties>
   <dependencies>
     <dependency>
