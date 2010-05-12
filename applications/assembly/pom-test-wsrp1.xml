@@ -64,9 +64,9 @@
               <tasks>
  		  <echo>=== To copy the hello.war to the test tomcat 'exo-tomcat'</echo>
 		  <echo>TO: ${exo.projects.directory.working}/exo-tomcat/webapps/</echo>
-		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp1/target/hello.war</echo>
+		  <echo>FROM: ${exo.projects.directory.src}/portlet-container/tags/${org.exoplatform.pc.version}/component/plugins/wsrp1/target/hello.war</echo>
         		<copy todir="${exo.projects.directory.working}/exo-tomcat/webapps/">
-			<fileset dir="${exo.projects.directory.src}/portlet-container/${org.exoplatform.pc.version}/component/plugins/wsrp1/target/">
+			<fileset dir="${exo.projects.directory.src}/portlet-container/tags/${org.exoplatform.pc.version}/component/plugins/wsrp1/target/">
 				<include name="**/hello.war" />
 			</fileset>
 			</copy>

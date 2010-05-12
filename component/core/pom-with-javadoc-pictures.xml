@@ -88,7 +88,7 @@
               <configuration>
                 <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>
                 <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
-                <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>
+                <docletPath>/home/alexey/java/eXoProjects/portlet-container/tags/2.0.10/component/core/UmlGraph.jar</docletPath>
                 <additionalparam>-views</additionalparam>
               </configuration>
             </plugin>
@@ -104,7 +104,7 @@
 <!--                <aggregate>true</aggregate>-->
 <!--                <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>-->
 <!--                <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>-->
-<!--                <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+<!--                <docletPath>/home/alexey/java/eXoProjects/portlet-container/tags/2.0.10/component/core/UmlGraph.jar</docletPath>-->
 <!--                <additionalparam>-->
 <!--                  -inferrel -inferdep -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7-->
 <!--                </additionalparam>-->
@@ -134,7 +134,7 @@
 <!--                  <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>-->
 <!--                </links>-->
 <!--                <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>-->
-<!--                <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+<!--                <docletPath>/home/alexey/java/eXoProjects/portlet-container/tags/2.0.10/component/core/UmlGraph.jar</docletPath>-->
 <!--                <additionalparam>-->
 <!--                  -inferrel -inferdep -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7-->
 <!--                  -operations -constructors -visibility -types -link http://java.sun.com/j2se/1.5/docs/api -all-->
@@ -143,7 +143,7 @@
 <!--            </plugin>-->
 
 
-      <!--<docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+      <!--<docletPath>/home/alexey/java/eXoProjects/portlet-container/tags/2.0.10/component/core/UmlGraph.jar</docletPath>-->
 
       <!--          <docletArtifact>-->
       <!--            <groupId>org.umlgraph</groupId>-->
