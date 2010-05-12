@@ -1,10 +1,10 @@
-    EXO-PortletContainer 2.0 beta 4
+    EXO-PortletContainer 2.0.10
     --------------------------------
 
-The eXo Platform team is pleased to announce eXo PC 2.0 beta 4 which includes the JSR 286 specification as wellas the WSRP 2 one.
+The eXo Platform team is pleased to announce eXo PC 2.0.10 which includes the JSR 286 specification as wellas the WSRP 2 one.
 
 (1) This release includes the WSRP 2.0 public review draft 03 specification implementation
-(2) This release implements PortletAPI 2.0 public draft rev.25 and it was successfully tested by first available Test Compatibility Kit (TCK). About 95% of TCK tests passed.
+(2) This release implements PortletAPI 2.0. It was successfully tested by first available Test Compatibility Kit (TCK). About 95% of TCK tests passed.
 
 
 Portlet Container major improvements and bugfixes:
@@ -80,13 +80,13 @@ EXO-PC includes:
   Test portlets 2 - portlets, which showing ability of the jsr286 portlet specification (portlets2.war)
 
 1. Start Up
-   Tomcat 5.5 with EXO-PC 2.0 beta 4 bundled can be started by executing the following commands:
+   Tomcat 5.5 with EXO-PC 2.0.10 bundled can be started by executing the following commands:
 
       $CATALINA_HOME\bin\exo-run.bat          (Windows)
 
       $CATALINA_HOME/bin/exo-run.sh           (Unix)
 
-2. After startup, EXO-PC 2.0 beta 4 sample applications will be available by visiting:
+2. After startup, EXO-PC 2.0.10 sample applications will be available by visiting:
 
     http://localhost:8080/portal
 
