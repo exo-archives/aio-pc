@@ -4,21 +4,24 @@ How to release PC.
 
 1.1 Do a tag
 
-svn cp http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/branches/2.0.x http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.0.11
+svn cp http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/branches/2.0.x http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.0.10
 
 1.2 modify all version of PC there, where it is needed.
 
 For example, the linux command to do it (don't forget to check all done modifications before commit with the subversive command: svn di):
-grep -rl 2.0.10-SNAPSHOT . | grep -v '.svn' | xargs sed -i -e 's/2.0.10-SNAPSHOT/2.0.10/g'
+grep -rl 2.0.9-SNAPSHOT . | grep -v '.svn' | xargs sed -i -e 's/2.0.9-SNAPSHOT/2.0.9/g'
 
 1.3 modify the branch path there.
 
-    pom.xml - scm elements
-    pom-full-reports.xml - scm elements, emma execution
+grep -rl portlet-container/branches/2.0.x . | grep -v '.svn' | grep -v '.txt' | xargs sed -i -e 's/portlet-container\/branches\/2.0.x/portlet-container\/tags\/2.0.9/g'
+
+Will be modified:
+pom.xml - scm elements
+pom-full-reports.xml - scm elements, emma execution
 
 2. Branch's stuff
 
 2.2 modify all version of PC there.
 
 For example, the linux command to do it (don't forget to check all done modifications before commit with the subversive command: svn di):
-grep -rl 2.0.10-SNAPSHOT . | grep -v '.svn' | xargs sed -i -e 's/2.0.10-SNAPSHOT/2.0.11-SNAPSHOT/g'
+grep -rl 2.0.9-SNAPSHOT . | grep -v '.svn' | xargs sed -i -e 's/2.0.9-SNAPSHOT/2.0.10-SNAPSHOT/g'
