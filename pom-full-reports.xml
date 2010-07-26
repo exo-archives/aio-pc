@@ -23,21 +23,18 @@
     <exo.product.name>exo-pc</exo.product.name>
     <exo.product.specification>2.0.x</exo.product.specification>
     <org.exoplatform.pc.version>2.0.11-SNAPSHOT</org.exoplatform.pc.version>
-    <org.exoplatform.kernel.version>2.0.11</org.exoplatform.kernel.version>
-    <org.exoplatform.core.version>2.1.9</org.exoplatform.core.version>
+    <org.exoplatform.kernel.version>2.0.12</org.exoplatform.kernel.version>
+    <org.exoplatform.core.version>2.1.10</org.exoplatform.core.version>
     <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>
   </properties>
 
   <modules>
-
     <module>component/core</module>
     <module>component/plugins/pc</module>
     <module>component/plugins/wsrp1</module>
     <module>component/plugins/wsrp2</module>
     <module>applications</module>
-
     <module>applications/tck-tests</module>
-
   </modules>
 
   <dependencies>
@@ -170,6 +167,7 @@
         </dependencies>
       </plugin>
     </plugins>
+
   </build>
 
   <reporting>
