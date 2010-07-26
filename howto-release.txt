@@ -4,6 +4,8 @@ How to release PC.
 
 1.1 Do a tag
 
+svn cp http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/branches/2.0.x http://svn.exoplatform.org/svnroot/exoplatform/projects/portlet-container/tags/2.0.11
+
 1.2 modify all version of PC there, where it is needed.
 
 For example, the linux command to do it (don't forget to check all done modifications before commit with the subversive command: svn di):
