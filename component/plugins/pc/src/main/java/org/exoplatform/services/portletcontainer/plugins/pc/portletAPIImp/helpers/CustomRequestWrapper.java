@@ -176,7 +176,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   @Override
   public String getParameter(String name) {
     return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0]
-                                                                               : null;
+                                                                               : super.getParameter(name);
   }
 
   @Override
