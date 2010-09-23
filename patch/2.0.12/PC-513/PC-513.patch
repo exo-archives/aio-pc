@@ -1,0 +1,50 @@
+Index: /component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java
+===================================================================
+--- /component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 52122)
++++ /component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 52123)
+@@ -97,7 +97,7 @@
+   public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
+     super(httpServletRequest);
+     this.windowId = windowId;
+-    this.parameterMap = (Map<String, String[]>) httpServletRequest.getParameterMap();
++    this.parameterMap = new HashMap<String, String[]>((Map<String, String[]>) httpServletRequest.getParameterMap());
+   }
+ 
+   /**
+@@ -175,12 +175,9 @@
+ 
+   @Override
+   public String getParameter(String name) {
+-	  if(super.getParameter(Constants.COMPONENT_PARAMETER) != null && super.getParameter(Constants.COMPONENT_PARAMETER).equals(this.windowId)){
+-	    return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0]
+-	                                                                                                         : super.getParameter(name);
+-	  } else {
+-		  return null;
+-	  }
++	  if(name.equals("_spage"))
++		  name="_spageview";
++	  return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0] : super.getParameter(name);
+   }
+ 
+   @Override
+Index: /component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/PortletApplicationHandler.java
+===================================================================
+--- /component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/PortletApplicationHandler.java	(revision 52122)
++++ /component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/PortletApplicationHandler.java	(revision 52123)
+@@ -18,6 +18,7 @@
+ 
+ import java.util.Collections;
+ import java.util.Locale;
++import java.util.Map;
+ import java.util.ResourceBundle;
+ 
+ import javax.portlet.ActionRequest;
+@@ -232,6 +233,8 @@
+         processResourceRequest(portletRequest);
+       }
+       else {
++		Map<String, String[]> map = input.getRenderParameters();
++		((CustomRequestWrapper) requestWrapper).setParameterMap(map);
+         portletRequest = new RenderRequestImp(reqCtx);
+         processRenderRequest(portletRequest);
+       }
