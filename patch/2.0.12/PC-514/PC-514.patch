@@ -1,0 +1,226 @@
+Index: applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java
+===================================================================
+--- applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(revision 61705)
++++ applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(working copy)
+@@ -1,12 +1,11 @@
+ package org.exoplatform;
+ 
+ import org.apache.portals.bridges.common.ServletContextProvider;
++import org.apache.portals.bridges.struts.StrutsPortlet;
++import org.apache.portals.bridges.struts.StrutsPortletURL;
+ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletContextImpl;
+-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp;
+ import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomRequestWrapper;
+ 
+-import java.util.Map;
+-
+ import javax.portlet.GenericPortlet;
+ import javax.portlet.PortletRequest;
+ import javax.portlet.PortletResponse;
+@@ -22,18 +21,50 @@
+     return ((PortletContextImpl) portlet.getPortletContext()).getWrappedServletContext();
+   }
+ 
+-  public HttpServletRequest getHttpServletRequest(GenericPortlet portlet, PortletRequest request) {
+-    HttpServletRequest result = (HttpServletRequest) ((HttpServletRequestWrapper) request).getRequest();
+-    // if it is RENDER request
+-    if (PortletRequest.RENDER_PHASE.equals((String) request.getAttribute(PortletRequest.LIFECYCLE_PHASE))) {
+-      Map<String, String[]> map = ((PortletRequestImp) request).getInput().getRenderParameters();
+ 
+-      ((CustomRequestWrapper) result).setParameterMap(map);
++   public HttpServletRequest getHttpServletRequest(GenericPortlet portlet, PortletRequest request)
++   {
++      CustomRequestWrapper result = (CustomRequestWrapper)((HttpServletRequestWrapper)request).getRequest();
++      
++      if (PortletRequest.RENDER_PHASE.equals((String) request.getAttribute(PortletRequest.LIFECYCLE_PHASE))) {
++        result.setParameterMap(request.getParameterMap());
+ 
+-    }
+-    return result;
+-  }
++         String pageURL = getStrutsPageURL(request);
++         if (pageURL != null)
++         {
++            if (pageURL.indexOf("?") > -1)
++            {
++               String parametersToParse = pageURL.substring(pageURL.indexOf("?") + 1);
++               String[] paramPair = parametersToParse.split("&");
++               for (int i = 0; i < paramPair.length; i++)
++               {
++                  String paramRaw = paramPair[i];
++                  String[] paramNameAndValue = paramRaw.split("=");
++                  if (paramNameAndValue.length > 1)
++                  {
++                     result.setParameter(paramNameAndValue[0], paramNameAndValue[1]);
++                  }
++               }
++            }
++         }
++      }
++      return result;
++   }
+ 
++
++   /**
++    * @param request
++    * @return
++    */
++   private String getStrutsPageURL(PortletRequest request)
++   {
++      if (StrutsPortlet.ACTION_REQUEST.equals(request.getAttribute(StrutsPortlet.REQUEST_TYPE)))
++      {
++         return request.getParameter(StrutsPortletURL.PAGE);
++      }
++      return request.getParameter(StrutsPortletURL.PAGE + request.getPortletMode().toString());
++   }
++   
+   public HttpServletResponse getHttpServletResponse(GenericPortlet portlet, PortletResponse response) {
+     return (HttpServletResponse) ((HttpServletResponseWrapper) response).getResponse();
+   }
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 61705)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(working copy)
+@@ -26,6 +26,7 @@
+ import java.util.Collections;
+ import java.util.Enumeration;
+ import java.util.HashMap;
++import java.util.HashSet;
+ import java.util.Iterator;
+ import java.util.Map;
+ import java.util.Set;
+@@ -78,7 +79,7 @@
+   /**
+    * Parameter map.
+    */
+-  private Map<String, String[]> parameterMap;
++  private Map<String,String[]> parameterMap = null;
+ 
+   /**
+    * No input.
+@@ -97,7 +98,6 @@
+   public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
+     super(httpServletRequest);
+     this.windowId = windowId;
+-    this.parameterMap = (Map<String, String[]>) httpServletRequest.getParameterMap();
+   }
+ 
+   /**
+@@ -151,17 +151,22 @@
+   public final void setAttribute(final String s, final Object o) {
+     super.setAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s), o);
+   }
+-
++  
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return parameter map
+    * @see javax.servlet.ServletRequestWrapper#getParameterMap()
+    */
+-  public final Map<String, String[]> getParameterMap() {
+-    Map<String, String[]> superMap = (Map<String, String[]>) this.parameterMap;
++  public final Map<String,String[]> getParameterMap() {
++    Map<String,String[]> superMap = null;
++    if (this.parameterMap != null) {
++       superMap = (Map<String,String[]>) this.parameterMap;
++    } else {
++       superMap = super.getParameterMap();
++    }
+     if (redirected) {
+-      Map<String, String[]> filteredMap = new HashMap<String, String[]>();
++      Map<String,String[]> filteredMap = new HashMap<String,String[]>();
+       Set<String> keys = superMap.keySet();
+       for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
+         String element = (String) iter.next();
+@@ -170,32 +175,56 @@
+       }
+       return filteredMap;
+     }
+-    return superMap;
++    return Collections.unmodifiableMap(superMap);
+   }
+ 
+-  @Override
+   public String getParameter(String name) {
+-    return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0]
+-                                                                               : null;
++    if (this.parameterMap != null) {
++      if (parameterMap.get(name) != null) {
++        if (parameterMap.get(name).length != 0)
++          return parameterMap.get(name)[0];
++        else 
++          return "";
++      } else {
++        return null;
++      }
++    } else {
++      return super.getParameter(name);
++    }
+   }
+ 
+   @Override
+   public String[] getParameterValues(String name) {
+-    return parameterMap.get(name);
++    if (this.parameterMap != null) { // isRender) {
++      return parameterMap.get(name);
++    } else {
++      return super.getParameterValues(name);
++    }
+   }
+ 
+   @Override
+   public Enumeration getParameterNames() {
+-    return Collections.enumeration(this.parameterMap.keySet());
++    if (this.parameterMap != null) {
++      Set<String> result = new HashSet<String>();
++      result.addAll(parameterMap.keySet());
++      return Collections.enumeration(result);
++    } else {
++      return super.getParameterNames();
++    }
+   }
+ 
+-  /**
+-   * @param map parameter map
+-   */
+-  public final void setParameterMap(final Map<String, String[]> map) {
+-    this.parameterMap = map;
++  public void setParameter(String key, String value) {
++    if (this.parameterMap == null) {
++      this.parameterMap = new HashMap<String, String[]>();
++    }
++    this.parameterMap.put(key, new String[] { value });
+   }
+ 
++  public final void setParameterMap(final Map<String,String[]> map) {
++    this.parameterMap = new HashMap<String, String[]>();
++    this.parameterMap.putAll(map);
++  }
++
+   /**
+    * @return is redirected
+    */
+@@ -533,8 +562,4 @@
+     this.noValues = noValues;
+   }
+ 
+-  public void setParameter(String key, String value) {
+-    this.parameterMap.put(key, new String[] { value });
+-  }
+-
+ }
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java	(revision 61705)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java	(working copy)
+@@ -50,7 +50,7 @@
+    * @return encoded attribute
+    */
+   public static final String encodeAttribute(final String windowId, final String attributeName) {
+-    if (attributeName.startsWith("javax.") )//|| attributeName.startsWith("org.apache"))
++    if (attributeName.startsWith("javax.") || attributeName.startsWith("org.apache"))
+       return attributeName;
+     StringBuffer sB = new StringBuffer();
+     sB.append(windowId);
