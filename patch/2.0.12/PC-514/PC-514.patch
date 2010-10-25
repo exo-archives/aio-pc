@@ -134,12 +134,8 @@ Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontai
        Set<String> keys = superMap.keySet();
        for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
          String element = (String) iter.next();
-@@ -170,32 +175,56 @@
-       }
-       return filteredMap;
-     }
--    return superMap;
-+    return Collections.unmodifiableMap(superMap);
+@@ -173,29 +178,53 @@
+     return superMap;
    }
  
 -  @Override
