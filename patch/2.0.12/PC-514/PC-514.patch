@@ -1,117 +1,217 @@
 Index: applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java
 ===================================================================
---- applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(revision 61705)
+--- applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(revision 61825)
 +++ applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(working copy)
-@@ -1,12 +1,11 @@
+@@ -1,12 +1,5 @@
  package org.exoplatform;
  
- import org.apache.portals.bridges.common.ServletContextProvider;
-+import org.apache.portals.bridges.struts.StrutsPortlet;
-+import org.apache.portals.bridges.struts.StrutsPortletURL;
- import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletContextImpl;
+-import org.apache.portals.bridges.common.ServletContextProvider;
+-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletContextImpl;
 -import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletRequestImp;
- import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomRequestWrapper;
- 
+-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomRequestWrapper;
+-
 -import java.util.Map;
 -
  import javax.portlet.GenericPortlet;
  import javax.portlet.PortletRequest;
  import javax.portlet.PortletResponse;
-@@ -22,18 +21,50 @@
+@@ -16,26 +9,19 @@
+ import javax.servlet.http.HttpServletResponse;
+ import javax.servlet.http.HttpServletResponseWrapper;
+ 
+-public class ServletContextProviderImpl implements ServletContextProvider {
++import org.apache.portals.bridges.common.ServletContextProvider;
++import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletContextImpl;
+ 
++public class ServletContextProviderImpl implements ServletContextProvider {
+   public ServletContext getServletContext(GenericPortlet portlet) {
      return ((PortletContextImpl) portlet.getPortletContext()).getWrappedServletContext();
    }
  
--  public HttpServletRequest getHttpServletRequest(GenericPortlet portlet, PortletRequest request) {
+   public HttpServletRequest getHttpServletRequest(GenericPortlet portlet, PortletRequest request) {
 -    HttpServletRequest result = (HttpServletRequest) ((HttpServletRequestWrapper) request).getRequest();
 -    // if it is RENDER request
 -    if (PortletRequest.RENDER_PHASE.equals((String) request.getAttribute(PortletRequest.LIFECYCLE_PHASE))) {
 -      Map<String, String[]> map = ((PortletRequestImp) request).getInput().getRenderParameters();
- 
+-
 -      ((CustomRequestWrapper) result).setParameterMap(map);
-+   public HttpServletRequest getHttpServletRequest(GenericPortlet portlet, PortletRequest request)
-+   {
-+      CustomRequestWrapper result = (CustomRequestWrapper)((HttpServletRequestWrapper)request).getRequest();
-+      
-+      if (PortletRequest.RENDER_PHASE.equals((String) request.getAttribute(PortletRequest.LIFECYCLE_PHASE))) {
-+        result.setParameterMap(request.getParameterMap());
- 
+-
 -    }
 -    return result;
--  }
-+         String pageURL = getStrutsPageURL(request);
-+         if (pageURL != null)
-+         {
-+            if (pageURL.indexOf("?") > -1)
-+            {
-+               String parametersToParse = pageURL.substring(pageURL.indexOf("?") + 1);
-+               String[] paramPair = parametersToParse.split("&");
-+               for (int i = 0; i < paramPair.length; i++)
-+               {
-+                  String paramRaw = paramPair[i];
-+                  String[] paramNameAndValue = paramRaw.split("=");
-+                  if (paramNameAndValue.length > 1)
-+                  {
-+                     result.setParameter(paramNameAndValue[0], paramNameAndValue[1]);
-+                  }
-+               }
-+            }
-+         }
-+      }
-+      return result;
-+   }
++    return (HttpServletRequest) ((HttpServletRequestWrapper) request).getRequest();
+   }
  
-+
-+   /**
-+    * @param request
-+    * @return
-+    */
-+   private String getStrutsPageURL(PortletRequest request)
-+   {
-+      if (StrutsPortlet.ACTION_REQUEST.equals(request.getAttribute(StrutsPortlet.REQUEST_TYPE)))
-+      {
-+         return request.getParameter(StrutsPortletURL.PAGE);
-+      }
-+      return request.getParameter(StrutsPortletURL.PAGE + request.getPortletMode().toString());
-+   }
-+   
    public HttpServletResponse getHttpServletResponse(GenericPortlet portlet, PortletResponse response) {
      return (HttpServletResponse) ((HttpServletResponseWrapper) response).getResponse();
    }
+-
+ }
 Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java
 ===================================================================
---- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 61705)
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 61825)
 +++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(working copy)
-@@ -26,6 +26,7 @@
- import java.util.Collections;
+@@ -16,14 +16,9 @@
+  */
+ package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers;
+ 
+-import org.apache.commons.lang.StringUtils;
+-import org.exoplatform.Constants;
+-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.CustomRequestWrapperUtil;
+-
+ import java.io.BufferedReader;
+ import java.io.IOException;
+ import java.io.UnsupportedEncodingException;
+-import java.util.Collections;
  import java.util.Enumeration;
  import java.util.HashMap;
-+import java.util.HashSet;
  import java.util.Iterator;
- import java.util.Map;
- import java.util.Set;
-@@ -78,7 +79,7 @@
+@@ -36,59 +31,71 @@
+ import javax.servlet.http.HttpServletRequestWrapper;
+ import javax.servlet.http.HttpSession;
+ 
++import org.apache.commons.lang.StringUtils;
++import org.exoplatform.Constants;
++import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.CustomRequestWrapperUtil;
++
+ /**
+- * Created by The eXo Platform SAS. Author : Mestrallet Benjamin
+- * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 2:24:57 AM This
+- * wrapper manages the incoming request to only provide the attributes and
+- * parameters that are in the name space of the receiving portlet. <br>
+- * This is done using a correct encoding and decoding windowId?attributeName
++ * Created by The eXo Platform SAS.
++ * Author : Mestrallet Benjamin
++ *          benjmestrallet@users.sourceforge.net
++ * Date: Jul 29, 2003
++ * Time: 2:24:57 AM
++ *
++ * This wrapper manages the incoming request to only provide the
++ * attributes and parameters that are in the name space of
++ * the receiving portlet.
++ * <br>
++ * This is done using a correct encoding and decoding
++ *         windowId?attributeName
+  */
+ public class CustomRequestWrapper extends HttpServletRequestWrapper {
+ 
+   /**
+    * Path info.
+    */
+-  public String                 pathInfo;
++  public String pathInfo;
+ 
+   /**
+    * Servlet path.
+    */
+-  public String                 servletPath;
++  public String servletPath;
+ 
+   /**
+    * Query.
+    */
+-  public String                 query;
++  public String query;
+ 
+   /**
+    * Window id.
+    */
+-  private final String          windowId;
++  private final String windowId;
+ 
+   /**
+    * Redirected.
+    */
+-  private boolean               redirected;
++  private boolean redirected;
+ 
+   /**
+    * Context path.
+    */
+-  public String                 contextPath;
++  public String contextPath;
+ 
    /**
     * Parameter map.
     */
 -  private Map<String, String[]> parameterMap;
-+  private Map<String,String[]> parameterMap = null;
++  private Map<String,String[]> parameterMap;
  
++
    /**
     * No input.
-@@ -97,7 +98,6 @@
+    */
+-  private boolean               noInput;
++  private boolean noInput;
+ 
+   /**
+    * No values.
+    */
+-  private boolean               noValues;
++  private boolean noValues;
+ 
+   /**
+    * @param httpServletRequest http servlet request
+@@ -97,17 +104,17 @@
    public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
      super(httpServletRequest);
      this.windowId = windowId;
 -    this.parameterMap = (Map<String, String[]>) httpServletRequest.getParameterMap();
++    this.parameterMap = (Map<String,String[]>)httpServletRequest.getParameterMap();
    }
  
    /**
-@@ -151,17 +151,22 @@
+    * Overridden method.
+-   * 
++   *
+    * @return attribute names
+    * @see javax.servlet.ServletRequestWrapper#getAttributeNames()
+    */
+   public final Enumeration<String> getAttributeNames() {
+-    Enumeration<String> e = (Enumeration<String>) super.getAttributeNames();
++    Enumeration<String> e = (Enumeration<String>)super.getAttributeNames();
+     Vector<String> v = new Vector<String>();
+     while (e.hasMoreElements()) {
+       String s = (String) e.nextElement();
+@@ -119,20 +126,19 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @param s name
+    * @return value
+    * @see javax.servlet.ServletRequestWrapper#getAttribute(java.lang.String)
+    */
+   public final Object getAttribute(final String s) {
+-    // !!! - should be commented out
+-    // .for.directly.call.include.with.CustomRequestWrapper.
++    //!!! - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
+     return super.getAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
+   }
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @param s name
+    * @see javax.servlet.ServletRequestWrapper#removeAttribute(java.lang.String)
+    */
+@@ -142,11 +148,10 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @param s name
+    * @param o value
+-   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String,
+-   *      java.lang.Object)
++   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String, java.lang.Object)
+    */
    public final void setAttribute(final String s, final Object o) {
      super.setAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s), o);
-   }
--
-+  
+@@ -154,14 +159,14 @@
+ 
    /**
     * Overridden method.
 -   * 
@@ -122,94 +222,262 @@ Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontai
 -  public final Map<String, String[]> getParameterMap() {
 -    Map<String, String[]> superMap = (Map<String, String[]>) this.parameterMap;
 +  public final Map<String,String[]> getParameterMap() {
-+    Map<String,String[]> superMap = null;
-+    if (this.parameterMap != null) {
-+       superMap = (Map<String,String[]>) this.parameterMap;
-+    } else {
-+       superMap = super.getParameterMap();
-+    }
++    Map<String,String[]> superMap = (Map<String,String[]>)super.getParameterMap();
      if (redirected) {
 -      Map<String, String[]> filteredMap = new HashMap<String, String[]>();
 +      Map<String,String[]> filteredMap = new HashMap<String,String[]>();
        Set<String> keys = superMap.keySet();
        for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
          String element = (String) iter.next();
-@@ -173,29 +178,53 @@
+@@ -173,26 +178,10 @@
      return superMap;
    }
  
 -  @Override
-   public String getParameter(String name) {
+-  public String getParameter(String name) {
 -    return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0]
 -                                                                               : null;
-+    if (this.parameterMap != null) {
-+      if (parameterMap.get(name) != null) {
-+        if (parameterMap.get(name).length != 0)
-+          return parameterMap.get(name)[0];
-+        else 
-+          return "";
-+      } else {
-+        return null;
-+      }
-+    } else {
-+      return super.getParameter(name);
-+    }
-   }
- 
-   @Override
-   public String[] getParameterValues(String name) {
+-  }
+-
+-  @Override
+-  public String[] getParameterValues(String name) {
 -    return parameterMap.get(name);
-+    if (this.parameterMap != null) { // isRender) {
-+      return parameterMap.get(name);
-+    } else {
-+      return super.getParameterValues(name);
-+    }
-   }
- 
-   @Override
-   public Enumeration getParameterNames() {
+-  }
+-
+-  @Override
+-  public Enumeration getParameterNames() {
 -    return Collections.enumeration(this.parameterMap.keySet());
-+    if (this.parameterMap != null) {
-+      Set<String> result = new HashSet<String>();
-+      result.addAll(parameterMap.keySet());
-+      return Collections.enumeration(result);
-+    } else {
-+      return super.getParameterNames();
-+    }
-   }
- 
--  /**
--   * @param map parameter map
--   */
--  public final void setParameterMap(final Map<String, String[]> map) {
--    this.parameterMap = map;
-+  public void setParameter(String key, String value) {
-+    if (this.parameterMap == null) {
-+      this.parameterMap = new HashMap<String, String[]>();
-+    }
-+    this.parameterMap.put(key, new String[] { value });
-   }
- 
-+  public final void setParameterMap(final Map<String,String[]> map) {
-+    this.parameterMap = new HashMap<String, String[]>();
-+    this.parameterMap.putAll(map);
-+  }
-+
+-  }
+-
    /**
-    * @return is redirected
+    * @param map parameter map
     */
-@@ -533,8 +562,4 @@
+-  public final void setParameterMap(final Map<String, String[]> map) {
++  public final void setParameterMap(final Map<String,String[]> map) {
+     this.parameterMap = map;
+   }
+ 
+@@ -212,7 +201,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return content length
+    * @see javax.servlet.ServletRequestWrapper#getContentLength()
+    */
+@@ -226,7 +215,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return requested url
+    * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURL()
+    */
+@@ -238,7 +227,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return character encoding
+    * @see javax.servlet.ServletRequestWrapper#getCharacterEncoding()
+    */
+@@ -250,7 +239,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return content type
+    * @see javax.servlet.ServletRequestWrapper#getContentType()
+    */
+@@ -262,7 +251,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return input stream
+    * @throws IOException exception
+    * @see javax.servlet.ServletRequestWrapper#getInputStream()
+@@ -275,7 +264,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return reader
+    * @throws IOException exception
+    * @see javax.servlet.ServletRequestWrapper#getReader()
+@@ -288,7 +277,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return local addr
+    * @see javax.servlet.ServletRequestWrapper#getLocalAddr()
+    */
+@@ -300,7 +289,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return local name
+    * @see javax.servlet.ServletRequestWrapper#getLocalName()
+    */
+@@ -312,7 +301,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return local port
+    * @see javax.servlet.ServletRequestWrapper#getLocalPort()
+    */
+@@ -324,7 +313,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return remote port
+    * @see javax.servlet.ServletRequestWrapper#getRemotePort()
+    */
+@@ -336,7 +325,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @param arg0 path
+    * @return real path
+    * @see javax.servlet.ServletRequestWrapper#getRealPath(java.lang.String)
+@@ -349,7 +338,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return remote addr
+    * @see javax.servlet.ServletRequestWrapper#getRemoteAddr()
+    */
+@@ -361,7 +350,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return remote host
+    * @see javax.servlet.ServletRequestWrapper#getRemoteHost()
+    */
+@@ -373,7 +362,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @param arg0 character encoding
+    * @throws UnsupportedEncodingException exception
+    * @see javax.servlet.ServletRequestWrapper#setCharacterEncoding(java.lang.String)
+@@ -386,7 +375,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return http protocol
+    * @see javax.servlet.ServletRequestWrapper#getProtocol()
+    */
+@@ -398,7 +387,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return http session
+    * @see javax.servlet.http.HttpServletRequestWrapper#getSession()
+    */
+@@ -408,7 +397,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @param b if to create
+    * @return http session
+    * @see javax.servlet.http.HttpServletRequestWrapper#getSession(boolean)
+@@ -419,7 +408,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return is requested session id valid
+    * @see javax.servlet.http.HttpServletRequestWrapper#isRequestedSessionIdValid()
+    */
+@@ -436,7 +425,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return context path
+    * @see javax.servlet.http.HttpServletRequestWrapper#getContextPath()
+    */
+@@ -472,7 +461,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return path info
+    * @see javax.servlet.http.HttpServletRequestWrapper#getPathInfo()
+    */
+@@ -484,7 +473,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return servlet path
+    * @see javax.servlet.http.HttpServletRequestWrapper#getServletPath()
+    */
+@@ -496,7 +485,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return query string
+    * @see javax.servlet.http.HttpServletRequestWrapper#getQueryString()
+    */
+@@ -508,7 +497,7 @@
+ 
+   /**
+    * Overridden method.
+-   * 
++   *
+    * @return request uri
+    * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURI()
+    */
+@@ -532,9 +521,5 @@
+   public final void setNoValues(final boolean noValues) {
      this.noValues = noValues;
    }
- 
+-
 -  public void setParameter(String key, String value) {
 -    this.parameterMap.put(key, new String[] { value });
 -  }
 -
++  
  }
 Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java
 ===================================================================
---- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java	(revision 61705)
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java	(revision 61825)
 +++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/utils/CustomRequestWrapperUtil.java	(working copy)
 @@ -50,7 +50,7 @@
     * @return encoded attribute
