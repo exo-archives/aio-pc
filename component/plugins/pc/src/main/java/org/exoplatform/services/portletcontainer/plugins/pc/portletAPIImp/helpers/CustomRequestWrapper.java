@@ -16,14 +16,9 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers;
 
-import org.apache.commons.lang.StringUtils;
-import org.exoplatform.Constants;
-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.CustomRequestWrapperUtil;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -36,59 +31,71 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
+import org.exoplatform.Constants;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.CustomRequestWrapperUtil;
+
 /**
- * Created by The eXo Platform SAS. Author : Mestrallet Benjamin
- * benjmestrallet@users.sourceforge.net Date: Jul 29, 2003 Time: 2:24:57 AM This
- * wrapper manages the incoming request to only provide the attributes and
- * parameters that are in the name space of the receiving portlet. <br>
- * This is done using a correct encoding and decoding windowId?attributeName
+ * Created by The eXo Platform SAS.
+ * Author : Mestrallet Benjamin
+ *          benjmestrallet@users.sourceforge.net
+ * Date: Jul 29, 2003
+ * Time: 2:24:57 AM
+ *
+ * This wrapper manages the incoming request to only provide the
+ * attributes and parameters that are in the name space of
+ * the receiving portlet.
+ * <br>
+ * This is done using a correct encoding and decoding
+ *         windowId?attributeName
  */
 public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Path info.
    */
-  public String                 pathInfo;
+  public String pathInfo;
 
   /**
    * Servlet path.
    */
-  public String                 servletPath;
+  public String servletPath;
 
   /**
    * Query.
    */
-  public String                 query;
+  public String query;
 
   /**
    * Window id.
    */
-  private final String          windowId;
+  private final String windowId;
 
   /**
    * Redirected.
    */
-  private boolean               redirected;
+  private boolean redirected;
 
   /**
    * Context path.
    */
-  public String                 contextPath;
+  public String contextPath;
 
   /**
    * Parameter map.
    */
-  private Map<String, String[]> parameterMap;
+  private Map<String,String[]> parameterMap;
+
 
   /**
    * No input.
    */
-  private boolean               noInput;
+  private boolean noInput;
 
   /**
    * No values.
    */
-  private boolean               noValues;
+  private boolean noValues;
 
   /**
    * @param httpServletRequest http servlet request
@@ -97,17 +104,17 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
     super(httpServletRequest);
     this.windowId = windowId;
-    this.parameterMap = (Map<String, String[]>) httpServletRequest.getParameterMap();
+    this.parameterMap = (Map<String,String[]>)httpServletRequest.getParameterMap();
   }
 
   /**
    * Overridden method.
-   * 
+   *
    * @return attribute names
    * @see javax.servlet.ServletRequestWrapper#getAttributeNames()
    */
   public final Enumeration<String> getAttributeNames() {
-    Enumeration<String> e = (Enumeration<String>) super.getAttributeNames();
+    Enumeration<String> e = (Enumeration<String>)super.getAttributeNames();
     Vector<String> v = new Vector<String>();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
@@ -119,20 +126,19 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param s name
    * @return value
    * @see javax.servlet.ServletRequestWrapper#getAttribute(java.lang.String)
    */
   public final Object getAttribute(final String s) {
-    // !!! - should be commented out
-    // .for.directly.call.include.with.CustomRequestWrapper.
+    //!!! - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
     return super.getAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
   }
 
   /**
    * Overridden method.
-   * 
+   *
    * @param s name
    * @see javax.servlet.ServletRequestWrapper#removeAttribute(java.lang.String)
    */
@@ -142,11 +148,10 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param s name
    * @param o value
-   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String,
-   *      java.lang.Object)
+   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String, java.lang.Object)
    */
   public final void setAttribute(final String s, final Object o) {
     super.setAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s), o);
@@ -154,14 +159,14 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return parameter map
    * @see javax.servlet.ServletRequestWrapper#getParameterMap()
    */
-  public final Map<String, String[]> getParameterMap() {
-    Map<String, String[]> superMap = (Map<String, String[]>) this.parameterMap;
+  public final Map<String,String[]> getParameterMap() {
+    Map<String,String[]> superMap = (Map<String,String[]>)super.getParameterMap();
     if (redirected) {
-      Map<String, String[]> filteredMap = new HashMap<String, String[]>();
+      Map<String,String[]> filteredMap = new HashMap<String,String[]>();
       Set<String> keys = superMap.keySet();
       for (Iterator<String> iter = keys.iterator(); iter.hasNext();) {
         String element = (String) iter.next();
@@ -173,26 +178,10 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
     return superMap;
   }
 
-  @Override
-  public String getParameter(String name) {
-    return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0]
-                                                                               : null;
-  }
-
-  @Override
-  public String[] getParameterValues(String name) {
-    return parameterMap.get(name);
-  }
-
-  @Override
-  public Enumeration getParameterNames() {
-    return Collections.enumeration(this.parameterMap.keySet());
-  }
-
   /**
    * @param map parameter map
    */
-  public final void setParameterMap(final Map<String, String[]> map) {
+  public final void setParameterMap(final Map<String,String[]> map) {
     this.parameterMap = map;
   }
 
@@ -212,7 +201,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return content length
    * @see javax.servlet.ServletRequestWrapper#getContentLength()
    */
@@ -226,7 +215,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return requested url
    * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURL()
    */
@@ -238,7 +227,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return character encoding
    * @see javax.servlet.ServletRequestWrapper#getCharacterEncoding()
    */
@@ -250,7 +239,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return content type
    * @see javax.servlet.ServletRequestWrapper#getContentType()
    */
@@ -262,7 +251,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return input stream
    * @throws IOException exception
    * @see javax.servlet.ServletRequestWrapper#getInputStream()
@@ -275,7 +264,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return reader
    * @throws IOException exception
    * @see javax.servlet.ServletRequestWrapper#getReader()
@@ -288,7 +277,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return local addr
    * @see javax.servlet.ServletRequestWrapper#getLocalAddr()
    */
@@ -300,7 +289,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return local name
    * @see javax.servlet.ServletRequestWrapper#getLocalName()
    */
@@ -312,7 +301,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return local port
    * @see javax.servlet.ServletRequestWrapper#getLocalPort()
    */
@@ -324,7 +313,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return remote port
    * @see javax.servlet.ServletRequestWrapper#getRemotePort()
    */
@@ -336,7 +325,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param arg0 path
    * @return real path
    * @see javax.servlet.ServletRequestWrapper#getRealPath(java.lang.String)
@@ -349,7 +338,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return remote addr
    * @see javax.servlet.ServletRequestWrapper#getRemoteAddr()
    */
@@ -361,7 +350,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return remote host
    * @see javax.servlet.ServletRequestWrapper#getRemoteHost()
    */
@@ -373,7 +362,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param arg0 character encoding
    * @throws UnsupportedEncodingException exception
    * @see javax.servlet.ServletRequestWrapper#setCharacterEncoding(java.lang.String)
@@ -386,7 +375,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return http protocol
    * @see javax.servlet.ServletRequestWrapper#getProtocol()
    */
@@ -398,7 +387,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return http session
    * @see javax.servlet.http.HttpServletRequestWrapper#getSession()
    */
@@ -408,7 +397,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @param b if to create
    * @return http session
    * @see javax.servlet.http.HttpServletRequestWrapper#getSession(boolean)
@@ -419,7 +408,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return is requested session id valid
    * @see javax.servlet.http.HttpServletRequestWrapper#isRequestedSessionIdValid()
    */
@@ -436,7 +425,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return context path
    * @see javax.servlet.http.HttpServletRequestWrapper#getContextPath()
    */
@@ -472,7 +461,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return path info
    * @see javax.servlet.http.HttpServletRequestWrapper#getPathInfo()
    */
@@ -484,7 +473,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return servlet path
    * @see javax.servlet.http.HttpServletRequestWrapper#getServletPath()
    */
@@ -496,7 +485,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return query string
    * @see javax.servlet.http.HttpServletRequestWrapper#getQueryString()
    */
@@ -508,7 +497,7 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   * 
+   *
    * @return request uri
    * @see javax.servlet.http.HttpServletRequestWrapper#getRequestURI()
    */
@@ -532,9 +521,5 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   public final void setNoValues(final boolean noValues) {
     this.noValues = noValues;
   }
-
-  public void setParameter(String key, String value) {
-    this.parameterMap.put(key, new String[] { value });
-  }
-
+  
 }

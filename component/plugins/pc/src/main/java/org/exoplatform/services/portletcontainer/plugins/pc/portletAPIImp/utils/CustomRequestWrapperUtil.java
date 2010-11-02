@@ -50,7 +50,7 @@ public class CustomRequestWrapperUtil {
    * @return encoded attribute
    */
   public static final String encodeAttribute(final String windowId, final String attributeName) {
-    if (attributeName.startsWith("javax.") )//|| attributeName.startsWith("org.apache"))
+    if (attributeName.startsWith("javax.") || attributeName.startsWith("org.apache"))
       return attributeName;
     StringBuffer sB = new StringBuffer();
     sB.append(windowId);
