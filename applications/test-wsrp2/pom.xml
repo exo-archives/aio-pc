@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.12-SNAPSHOT</version>
+    <version>2.0.12</version>
   </parent>
   <artifactId>test-wsrp2</artifactId>
   <packaging>war</packaging>
@@ -31,19 +31,19 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.12</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.12</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.12</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -98,7 +98,7 @@
           <webResources>
             <!-- package external properties -->
             <resource>
-              <directory>${exo.projects.directory.src}/portlet-container/branches/2.0.x/component/plugins/wsrp2/war_template/src</directory>
+              <directory>${exo.projects.directory.src}/portlet-container/tags/2.0.12/component/plugins/wsrp2/war_template/src</directory>
               <targetPath>WEB-INF/classes</targetPath>
               <includes>
                 <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
@@ -109,7 +109,7 @@
             </resource>
             <!-- package external WEB-INF -->
             <resource>
-              <directory>${exo.projects.directory.src}/portlet-container/branches/2.0.x/component/plugins/wsrp2/war_template</directory>
+              <directory>${exo.projects.directory.src}/portlet-container/tags/2.0.12/component/plugins/wsrp2/war_template</directory>
               <excludes>
                 <exclude>src/</exclude>
               </excludes>
@@ -118,6 +118,6 @@
         </configuration>
       </plugin>
     </plugins>
-    <sourceDirectory>${exo.projects.directory.src}/portlet-container/branches/2.0.x/component/plugins/wsrp2/war_template/src</sourceDirectory>
+    <sourceDirectory>${exo.projects.directory.src}/portlet-container/tags/2.0.12/component/plugins/wsrp2/war_template/src</sourceDirectory>
   </build>
 </project>
