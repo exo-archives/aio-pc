@@ -10,7 +10,7 @@
   <groupId>org.exoplatform.portletcontainer</groupId>
   <artifactId>config</artifactId>
   <name>eXo Portlet Container</name>
-  <version>2.0.12-SNAPSHOT</version>
+  <version>2.0.13-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <scm>
@@ -22,7 +22,7 @@
   <properties>
     <exo.product.name>exo-pc</exo.product.name>
     <exo.product.specification>2.0.x</exo.product.specification>
-    <org.exoplatform.pc.version>2.0.12-SNAPSHOT</org.exoplatform.pc.version>
+    <org.exoplatform.pc.version>2.0.13-SNAPSHOT</org.exoplatform.pc.version>
     <org.exoplatform.kernel.version>2.0.12</org.exoplatform.kernel.version>
     <org.exoplatform.core.version>2.1.10</org.exoplatform.core.version>
     <org.exoplatform.tool.version>trunk</org.exoplatform.tool.version>

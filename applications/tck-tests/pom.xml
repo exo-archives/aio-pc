@@ -22,7 +22,7 @@
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.12-SNAPSHOT</version>
+    <version>2.0.13-SNAPSHOT</version>
   </parent>
   <artifactId>exo.pc.applications.tck-tests</artifactId>
   <name>eXo PC 2 TCK tests por portlet container</name>
@@ -186,38 +186,38 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portal</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
       <type>exopc-war</type>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portal-framework</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portlets2events</artifactId>
-      <version>2.0.12-SNAPSHOT</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.tool</groupId>
