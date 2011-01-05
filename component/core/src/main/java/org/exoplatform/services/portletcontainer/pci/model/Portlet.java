@@ -648,9 +648,9 @@ public class Portlet {
    * @param containerRuntimeOption1 container runtime option map
    */
   public final void addContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption1) {
-    if (containerRuntimeOption1 == null)
+    if (this.containerRuntimeOption == null)
       this.containerRuntimeOption = new HashMap<String, String[]>();
-    else
+    if (containerRuntimeOption1 != null)
       this.containerRuntimeOption.putAll(containerRuntimeOption1);
   }
 

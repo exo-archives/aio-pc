@@ -223,7 +223,6 @@ public class XMLParser {
         p.addSupportedPublicRenderParameter(xpp.getContent().trim());
       while (xpp.node("container-runtime-option"))
         p.addContainerRuntimeOption(readContainerRuntimeOption(xpp));
-
     }
     return p;
   }
@@ -670,8 +669,10 @@ public class XMLParser {
    */
   public static Map<String, String[]> readContainerRuntimeOption(final ExoXPPParser xpp) throws Exception {
     HashMap<String, String[]> options = new HashMap<String, String[]>();
+    // read the name
     xpp.mandatoryNode("name");
     String name = xpp.getContent().trim();
+    // read the values
     ArrayList<String> values = new ArrayList<String>();
     if (xpp.node("value"))
       values.add(xpp.getContent().trim());
@@ -681,7 +682,8 @@ public class XMLParser {
     }
     while (xpp.node("value"))
       values.add(xpp.getContent().trim());
-    options.put(name, (String[]) values.toArray());
+    // fill the map
+    options.put(name, (String[]) values.toArray(new String[]{}));
     return options;
   }
 
