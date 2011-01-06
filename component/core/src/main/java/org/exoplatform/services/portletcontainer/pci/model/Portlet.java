@@ -208,12 +208,12 @@ public class Portlet {
   public final int getPortletSessionScope() {
     if (getContainerRuntimeOption() != null) {
       String[] valuesPortlet = getContainerRuntimeOption().get(
-          "javax.portlet.servletDefaultSessionScope");
+          "javax.portlet.includedPortletSessionScope");
       if ((valuesPortlet != null) && valuesPortlet[0].equals(PCConstants.PORTLET_SCOPE))
         return PortletSession.PORTLET_SCOPE;
     }
     String[] valuesApplication = application.getContainerRuntimeOption().get(
-        "javax.portlet.servletDefaultSessionScope");
+        "javax.portlet.includedPortletSessionScope");
     if ((valuesApplication != null) && valuesApplication[0].equals(PCConstants.PORTLET_SCOPE))
       return PortletSession.PORTLET_SCOPE;
 
@@ -648,9 +648,9 @@ public class Portlet {
    * @param containerRuntimeOption1 container runtime option map
    */
   public final void addContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption1) {
-    if (this.containerRuntimeOption == null)
+    if (containerRuntimeOption1 == null)
       this.containerRuntimeOption = new HashMap<String, String[]>();
-    if (containerRuntimeOption1 != null)
+    else
       this.containerRuntimeOption.putAll(containerRuntimeOption1);
   }
 
