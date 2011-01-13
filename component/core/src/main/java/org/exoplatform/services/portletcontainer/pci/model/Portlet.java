@@ -208,12 +208,12 @@ public class Portlet {
   public final int getPortletSessionScope() {
     if (getContainerRuntimeOption() != null) {
       String[] valuesPortlet = getContainerRuntimeOption().get(
-          "javax.portlet.includedPortletSessionScope");
+          "javax.portlet.servletDefaultSessionScope");
       if ((valuesPortlet != null) && valuesPortlet[0].equals(PCConstants.PORTLET_SCOPE))
         return PortletSession.PORTLET_SCOPE;
     }
     String[] valuesApplication = application.getContainerRuntimeOption().get(
-        "javax.portlet.includedPortletSessionScope");
+        "javax.portlet.servletDefaultSessionScope");
     if ((valuesApplication != null) && valuesApplication[0].equals(PCConstants.PORTLET_SCOPE))
       return PortletSession.PORTLET_SCOPE;
 
