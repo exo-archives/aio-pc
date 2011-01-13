@@ -1,0 +1,44 @@
+Index: component/core/src/main/java/org/exoplatform/services/portletcontainer/pci/model/XMLParser.java
+===================================================================
+--- component/core/src/main/java/org/exoplatform/services/portletcontainer/pci/model/XMLParser.java	(revision 65122)
++++ component/core/src/main/java/org/exoplatform/services/portletcontainer/pci/model/XMLParser.java	(working copy)
+@@ -670,8 +670,10 @@
+    */
+   public static Map<String, String[]> readContainerRuntimeOption(final ExoXPPParser xpp) throws Exception {
+     HashMap<String, String[]> options = new HashMap<String, String[]>();
++    // read the name
+     xpp.mandatoryNode("name");
+     String name = xpp.getContent().trim();
++    // read the values
+     ArrayList<String> values = new ArrayList<String>();
+     if (xpp.node("value"))
+       values.add(xpp.getContent().trim());
+@@ -681,7 +683,8 @@
+     }
+     while (xpp.node("value"))
+       values.add(xpp.getContent().trim());
+-    options.put(name, (String[]) values.toArray());
++    // fill the map
++    options.put(name, (String[]) values.toArray(new String[]{}));
+     return options;
+   }
+ 
+Index: component/core/src/main/java/org/exoplatform/services/portletcontainer/pci/model/Portlet.java
+===================================================================
+--- component/core/src/main/java/org/exoplatform/services/portletcontainer/pci/model/Portlet.java	(revision 65122)
++++ component/core/src/main/java/org/exoplatform/services/portletcontainer/pci/model/Portlet.java	(working copy)
+@@ -648,10 +648,10 @@
+    * @param containerRuntimeOption1 container runtime option map
+    */
+   public final void addContainerRuntimeOption(final Map<String, String[]> containerRuntimeOption1) {
+-    if (containerRuntimeOption1 == null)
+-      this.containerRuntimeOption = new HashMap<String, String[]>();
+-    else
+-      this.containerRuntimeOption.putAll(containerRuntimeOption1);
++    if (this.containerRuntimeOption == null)
++      this.containerRuntimeOption = new HashMap<String, String[]>();
++    if (containerRuntimeOption1 != null)
++      this.containerRuntimeOption.putAll(containerRuntimeOption1);
+   }
+ 
+ }
