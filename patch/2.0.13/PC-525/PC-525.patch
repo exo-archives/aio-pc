@@ -1,0 +1,131 @@
+Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java
+===================================================================
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(revision 65251)
++++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(working copy)
+@@ -76,8 +76,9 @@
+     if (log.isDebugEnabled())
+       log.debug("Try to lookup session with ID : " + sessionID);
+     try {
+-      // !!! it's a very dirty hack and it will be removed as soon as possible
+-      session = (WSRPHttpSession) cache.get(sessionID);
++      if (sessionID != null) {
++        session = (WSRPHttpSession) cache.get(sessionID);
++      }
+       WindowInfosContainer.createInstance(cont, sessionID, user);
+       if (sessionID != null && session != null) {
+         if (session.isInvalidated()) {
+@@ -87,9 +88,10 @@
+         }
+         if (log.isDebugEnabled())
+           log.debug("Lookup session success");
+-      } else if (sessionID != null && session == null) {
++      } else if (sessionID != null) {
+         throw new Exception("Session doesn't exist anymore");
+       } else {
++        // session is null and sessionID is null
+         sessionID = IdentifierUtil.generateUUID(this);
+         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+         cache.put(sessionID, session);
+Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java
+===================================================================
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 65251)
++++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(working copy)
+@@ -529,6 +529,8 @@
+ 
+   private Map<String, String[]> processNavigationalState(String navigationalState) throws java.rmi.RemoteException {
+     log.debug("Lookup navigational state : " + navigationalState);
++    if (navigationalState == null)
++      return null;
+     Map<String, String[]> map = null;
+     try {
+       map = persistentStateManager.getNavigationalSate(navigationalState);
+Index: component/plugins/wsrp2/src/sql/create.sql
+===================================================================
+--- component/plugins/wsrp2/src/sql/create.sql	(revision 65251)
++++ component/plugins/wsrp2/src/sql/create.sql	(working copy)
+@@ -1,14 +1,14 @@
+ ------------------------------------------------------
+---WSRP STATE DATA TABLE
++--WSRP STATE DATA TABLE 2
+ ------------------------------------------------------
+-create table WSRP_STATE (
++create table WSRP_STATE2 (
+   id              BIGINT NOT NULL,
+   key             VARCHAR(255) NOT NULL,
+   dataType        VARCHAR(128) NOT NULL,
+   data            LONGVARBINARY,
+   PRIMARY KEY (id));
+ 
+-create table WSRP_PRODUCER (
++create table WSRP_PRODUCER2 (
+   id              VARCHAR{255) NOT NULL,
+   data            LONGVARBINARY,
+   PRIMARY KEY (id));
+Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java
+===================================================================
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(revision 65251)
++++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(working copy)
+@@ -76,7 +76,9 @@
+       log.debug("Try to lookup session with ID : " + sessionID);
+     try {
+       // !!! it's a very dirty hack and it will be removed as soon as possible
+-      session = (WSRPHttpSession) cache.get(sessionID);
++      if (sessionID != null) {
++        session = (WSRPHttpSession) cache.get(sessionID);
++      }
+       WindowInfosContainer.createInstance(cont, sessionID, user);
+       if (session != null) {
+         if (sessionID != null && session.isInvalidated()) {
+@@ -86,9 +88,10 @@
+         }
+         if (log.isDebugEnabled())
+           log.debug("Lookup session success");
+-      } else if (sessionID != null && session == null) {
++      } else if (sessionID != null) {
+         throw new Exception("Session doesn't exist anymore");
+       } else {
++        // session is null and sessionID is null
+         sessionID = IdentifierUtil.generateUUID(this);
+         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
+         cache.put(sessionID, session);
+Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java
+===================================================================
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 65251)
++++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(working copy)
+@@ -1191,6 +1191,8 @@
+     try {
+       String navigationalState = navigationalContext.getOpaqueValue();
+       log.debug("Lookup navigational state : " + navigationalState);
++      if (navigationalState == null)
++        return null;
+       map = persistentStateManager.getNavigationalState(navigationalState);
+       // for debug:
+       if (log.isDebugEnabled() && map != null) {
+Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java
+===================================================================
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(revision 65251)
++++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(working copy)
+@@ -23,9 +23,8 @@
+  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
+  * 1:12:22 PM
+  * 
+- * @hibernate.class table="WSRP_STATE"
++ * @hibernate.class table="WSRP_STATE2"
+  */
+-
+ public class WSRP2StateData {
+   private String           id_;
+ 
+Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java
+===================================================================
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(revision 65251)
++++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(working copy)
+@@ -24,7 +24,7 @@
+  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
+  * 1:12:22 PM
+  * 
+- * @hibernate.class table="WSRP_PRODUCER"
++ * @hibernate.class table="WSRP_PRODUCER2"
+  */
+ public class WSRP2ProducerData {
+   private String             id_;
