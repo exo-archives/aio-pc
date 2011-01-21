@@ -1,6 +1,34 @@
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java	(revision 65355)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java	(working copy)
+@@ -348,10 +348,19 @@
+    * @param baseURL base url
+    * @return url string
+    */
+-  public final String URLToString(final BaseURL baseURL) {
+-    return ((BaseURLImp) baseURL).toString(escapeXml);
+-  }
+-
++  public final String URLToString(final BaseURL baseURL) {
++    String url = baseURL.toString();
++    if (escapeXml)
++      return encodeChars(url);
++    else
++      return url;
++  }
++
++  private final String encodeChars(final String s) {
++    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
++        .replace("\"", "&#034;").replace("'", "&#039;");
++  }
++
+   /**
+    * @return portlet url
+    */
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(revision 65251)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(revision 65355)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(working copy)
 @@ -76,8 +76,9 @@
      if (log.isDebugEnabled())
@@ -28,7 +56,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/produ
          cache.put(sessionID, session);
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 65251)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 65355)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(working copy)
 @@ -529,6 +529,8 @@
  
@@ -41,7 +69,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/produ
        map = persistentStateManager.getNavigationalSate(navigationalState);
 Index: component/plugins/wsrp2/src/sql/create.sql
 ===================================================================
---- component/plugins/wsrp2/src/sql/create.sql	(revision 65251)
+--- component/plugins/wsrp2/src/sql/create.sql	(revision 65355)
 +++ component/plugins/wsrp2/src/sql/create.sql	(working copy)
 @@ -1,14 +1,14 @@
  ------------------------------------------------------
@@ -63,7 +91,7 @@ Index: component/plugins/wsrp2/src/sql/create.sql
    PRIMARY KEY (id));
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(revision 65251)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(revision 65355)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(working copy)
 @@ -76,7 +76,9 @@
        log.debug("Try to lookup session with ID : " + sessionID);
@@ -90,7 +118,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
          cache.put(sessionID, session);
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 65251)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 65355)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(working copy)
 @@ -1191,6 +1191,8 @@
      try {
@@ -103,7 +131,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
        if (log.isDebugEnabled() && map != null) {
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(revision 65251)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(revision 65355)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(working copy)
 @@ -23,9 +23,8 @@
   * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
@@ -118,7 +146,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
  
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(revision 65251)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(revision 65355)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(working copy)
 @@ -24,7 +24,7 @@
   * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
