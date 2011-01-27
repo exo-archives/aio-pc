@@ -31,19 +31,19 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
       <scope>compile</scope>
     </dependency>
     <dependency>
@@ -59,10 +59,9 @@
       <scope>compile</scope>
     </dependency>
   </dependencies>
-  
-<!--  <build>-->
-<!--    <finalName>hello</finalName>-->
-<!--    <plugins>-->
+  <build>
+    <finalName>hello</finalName>
+    <plugins>
       <!-- plugin>
         <groupId>org.exoplatform.maven.plugins</groupId>
         <artifactId>maven-exopc-plugin</artifactId>
@@ -85,100 +84,41 @@
           <includeToWarClasspath/>
         </configuration>
       </plugin -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-war-plugin</artifactId>
+        <version>2.0.2</version>
+        <configuration>
+          <warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
+          <archive>
+            <manifest>
+              <addClasspath>true</addClasspath>
+            </manifest>
+          </archive>
+          <webResources>
+            <!-- package external properties -->
+            <resource>
+              <directory>../../component/plugins/wsrp1/war_template/src</directory>
+              <targetPath>WEB-INF/classes</targetPath>
+              <includes>
+                <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
+              </includes>
+              <excludes>
+                <exclude>*.java</exclude>
+              </excludes>
+            </resource>
+            <!-- package external WEB-INF -->
+            <resource>
+              <directory>../../component/plugins/wsrp1/war_template</directory>
+              <excludes>
+                <exclude>src/</exclude>
+              </excludes>
+            </resource>
+          </webResources>
+        </configuration>
+      </plugin>
+    </plugins>
     <!-- ################## OUTSIDE THE COMPONENT ################### -->
-<!--    <sourceDirectory>../component/plugins/wsrp1/war_template/src</sourceDirectory>-->
-<!--  </build>-->
-  
-  <profiles>
-    <profile>
-      <id>default</id>
-      <activation>
-        <activeByDefault>true</activeByDefault>
-      </activation>
-      <build>
-        <finalName>hello</finalName>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.0.2</version>
-            <configuration>
-              <warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
-              <archive>
-                <manifest>
-                  <addClasspath>true</addClasspath>
-                </manifest>
-              </archive>
-              <webResources>
-                <!-- package external properties -->
-                <resource>
-                  <directory>component/plugins/wsrp1/war_template/src</directory>
-                  <targetPath>WEB-INF/classes</targetPath>
-                  <includes>
-                    <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
-                  </includes>
-                  <excludes>
-                    <exclude>*.java</exclude>
-                  </excludes>
-                </resource>
-                <!-- package external WEB-INF -->
-                <resource>
-                  <directory>component/plugins/wsrp1/war_template</directory>
-                  <excludes>
-                    <exclude>src/</exclude>
-                  </excludes>
-                </resource>
-              </webResources>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>deploy</id>
-      <activation>
-        <activeByDefault>false</activeByDefault>
-      </activation>
-      <build>
-        <finalName>hello</finalName>
-        <plugins>
-          <plugin>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>2.0.2</version>
-            <configuration>
-              <warSourceExcludes>WEB-INF/lib/*.jar</warSourceExcludes>
-              <archive>
-                <manifest>
-                  <addClasspath>true</addClasspath>
-                </manifest>
-              </archive>
-              <webResources>
-                <!-- package external properties -->
-                <resource>
-                  <directory>../../component/plugins/wsrp1/war_template/src</directory>
-                  <targetPath>WEB-INF/classes</targetPath>
-                  <includes>
-                    <include>org/exoplatform/services/portletcontainer/test/portlet/*.properties</include>
-                  </includes>
-                  <excludes>
-                    <exclude>*.java</exclude>
-                  </excludes>
-                </resource>
-                <!-- package external WEB-INF -->
-                <resource>
-                  <directory>../../component/plugins/wsrp1/war_template</directory>
-                  <excludes>
-                    <exclude>src/</exclude>
-                  </excludes>
-                </resource>
-              </webResources>
-            </configuration>
-          </plugin>
-        </plugins>
-      </build>
-      
-    </profile>
-  </profiles>
-  
+    <sourceDirectory>../../component/plugins/wsrp1/war_template/src</sourceDirectory>
+  </build>
 </project>

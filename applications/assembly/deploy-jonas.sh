@@ -1,3 +1,3 @@
 mvn clean exopc:deploy -Ddeploy=ear
-mvn install antrun:run -Pjonas
+mvn -f pom-jonas.xml install antrun:run
 read

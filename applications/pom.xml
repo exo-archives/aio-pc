@@ -28,10 +28,6 @@
   <packaging>pom</packaging>
   <name>eXo PC Applications</name>
   <modules>
-    <module>assembly</module>
-    <module>lightportal</module>
-    <module>test-wsrp1</module>
-    <module>test-wsrp2</module>
     <module>portal-framework</module>
     <module>test-portal</module>
     <module>portlets</module>

@@ -1,3 +1,3 @@
 call mvn clean exopc:deploy -Ddeploy=ear
-call mvn install antrun:run -Pjboss-sar
+call mvn -f pom-jboss-sar.xml  install antrun:run
 pause null

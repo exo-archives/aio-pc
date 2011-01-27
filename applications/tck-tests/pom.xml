@@ -186,38 +186,38 @@
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.core</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.applications.portal</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
       <type>exopc-war</type>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.pc</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp1</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.component.plugins.wsrp2</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portal-framework</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.portletcontainer</groupId>
       <artifactId>exo.pc.portlets2events</artifactId>
-      <version>${project.version}</version>
+      <version>2.0.13-SNAPSHOT</version>
     </dependency>
     <dependency>
       <groupId>org.exoplatform.tool</groupId>

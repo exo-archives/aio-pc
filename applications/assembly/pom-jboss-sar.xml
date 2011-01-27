@@ -1,0 +1,116 @@
+<project>
+	<parent>
+		<groupId>org.exoplatform.portletcontainer</groupId>
+		<artifactId>config</artifactId>
+		<version>2.0.13-SNAPSHOT</version>
+	</parent>
+
+	<modelVersion>4.0.0</modelVersion>
+	<artifactId>assembly</artifactId>
+	<packaging>jar</packaging>
+	<name>eXo PC Product</name>
+	<url>http://www.exoplatform.org</url>
+	<description>eXo PC Product</description>
+
+	<build>
+		<plugins>
+			<plugin>
+				<artifactId>maven-assembly-plugin</artifactId>
+				<version>2.1</version>
+				<executions>
+					<execution>
+						<phase>install</phase>
+						<goals>
+							<goal>assembly</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<descriptors>
+						<descriptor>product-descriptor.xml</descriptor>
+					</descriptors>
+					<finalName>lib</finalName>
+				</configuration>
+			</plugin>
+			<plugin>
+				<artifactId>maven-antrun-plugin</artifactId>
+				<configuration>
+					<tasks>
+						<delete
+							dir="${exo.projects.directory.working}/exo-jboss"
+							includeEmptyDirs="true" quiet="yes" />
+						<copy
+							todir="${exo.projects.directory.working}/exo-jboss"
+							verbose="false" overwrite="true">
+							<fileset
+								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jboss.version}" />
+						</copy>
+						<copy
+							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar"
+							verbose="true" overwrite="true">
+							<fileset
+								dir="${basedir}/target/ear/"
+								excludes="**/*.war" />
+						</copy>
+						<copy
+							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar"
+							verbose="true" flatten="true" overwrite="true">
+							<fileset
+								dir="${basedir}/target/ear/"
+								casesensitive="yes">
+								<include name="**/*.war" />
+								<exclude name="portal.war" />
+							</fileset>
+						</copy>
+						
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" 
+						      file="${basedir}/target/ear/portal.war" overwrite="true"/>
+
+
+						<touch file="${basedir}/patches/jboss/WEB-INF/classes/conf/exo-configuration.xml"/>
+
+<!-- PATCH SAR -->					    						
+						<copy
+							todir="${exo.projects.directory.working}/exo-jboss"
+							verbose="true" overwrite="true">
+							<fileset
+								dir="${basedir}/patches/jboss-sar/jbosshome/"> 
+							</fileset>	
+						</copy>
+						
+						<war
+						     destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" update="true">
+             	                                                      <webinf dir="${basedir}/patches/jboss/WEB-INF/">
+						     </webinf>
+						</war>
+
+<!-- PATCH SERVER -->
+						<copy
+							todir="${exo.projects.directory.working}/exo-jboss"
+							verbose="true" overwrite="true">
+							<fileset
+								dir="${basedir}/patches/jboss/jbosshome/"> 
+							</fileset>	
+						</copy>
+
+<!--
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/jboss-web.deployer/server.xml" 
+						      file="${basedir}/patches/jboss-sar/jboss-web.deployer/server.xml" overwrite="true"/>
+
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/bin/run.conf" 
+						      file="${basedir}/patches/jboss-sar/run.conf" overwrite="true"/>
+-->
+<!--
+						<delete
+							file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
+-->
+<!--					             <delete
+						           file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/demos.war" />
+-->
+					</tasks>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+
+</project>

@@ -1,0 +1,157 @@
+<project>
+  <parent>
+    <groupId>org.exoplatform.portletcontainer</groupId>
+    <artifactId>config</artifactId>
+    <version>2.0.13-SNAPSHOT</version>
+  </parent>
+  <modelVersion>4.0.0</modelVersion>
+  <artifactId>exo.pc.component.core</artifactId>
+  <packaging>jar</packaging>
+  <name>eXo Portlet Container 2 Core</name>
+  <description>eXo Portlet Container 2 Core</description>
+  <dependencies>
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.container</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+      <optional>true</optional>
+    </dependency>
+    <dependency>
+      <groupId>javax.portlet</groupId>
+      <artifactId>portlet-api</artifactId>
+      <version>2.0</version>
+      <scope>compile</scope>
+      <exclusions>
+        <exclusion>
+          <groupId>javax.portlet</groupId>
+          <artifactId>portlet-api</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.commons</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+      <optional>compile</optional>
+    </dependency>
+    <dependency>
+      <groupId>org.exoplatform.kernel</groupId>
+      <artifactId>exo.kernel.component.common</artifactId>
+      <version>${org.exoplatform.kernel.version}</version>
+      <optional>compile</optional>
+    </dependency>
+  </dependencies>
+  <build>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <systemProperties>
+            <property>
+              <name>testPath</name>
+              <value>${basedir}</value>
+            </property>
+            <property>
+              <name>mock.portal.dir</name>
+              <value></value>
+            </property>
+            <property>
+              <name>maven.exoplatform.dir</name>
+              <value></value>
+            </property>
+            <property>
+              <name>emma.coverage.out.file</name>
+              <value>target/emma/coverage.ec</value>
+            </property>
+          </systemProperties>
+          <includes>
+            <include>**/AllTests.java</include>
+            <!-- include>**/Test*.java</include -->
+          </includes>
+        </configuration>
+      </plugin>
+
+    </plugins>
+  </build>
+
+
+  <reporting>
+    <plugins>
+
+
+      <!-- simple diagram -->
+
+            <plugin>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-javadoc-plugin</artifactId>
+              <configuration>
+                <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>
+                <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>
+                <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>
+                <additionalparam>-views</additionalparam>
+              </configuration>
+            </plugin>
+
+     
+
+      <!-- medium diagram -->
+      
+<!--            <plugin>-->
+<!--              <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--              <configuration>-->
+<!--                <source>1.5</source>-->
+<!--                <aggregate>true</aggregate>-->
+<!--                <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>-->
+<!--                <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>-->
+<!--                <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+<!--                <additionalparam>-->
+<!--                  -inferrel -inferdep -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7-->
+<!--                </additionalparam>-->
+<!--              </configuration>-->
+<!--            </plugin>-->
+
+
+
+      <!-- full diagram -->
+<!--            <plugin>-->
+<!--              <groupId>org.apache.maven.plugins</groupId>-->
+<!--              <artifactId>maven-javadoc-plugin</artifactId>-->
+<!--              <version>2.4</version>-->
+<!--              <configuration>-->
+<!--                <aggregate>true</aggregate>-->
+<!--                <source>1.5</source>-->
+<!--                <breakiterator>true</breakiterator>-->
+<!--                <charset>UTF-8</charset>-->
+<!--                <docencoding>UTF-8</docencoding>-->
+<!--                <locale>en_US</locale>-->
+<!--                <excludePackageNames>org.exoplatform.services.portletcontainer.test</excludePackageNames>-->
+<!--                <links>-->
+<!--                  <link>http://java.sun.com/j2se/1.5.0/docs/api/</link>-->
+<!--                  <link>http://java.sun.com/j2ee/sdk_1.2.1/techdocs/api</link>-->
+<!--                  <link>http://commons.apache.org/chain/apidocs</link>-->
+<!--                  <link>http://commons.apache.org/digester/commons-digester-1.6/docs/api</link>-->
+<!--                  <link>http://commons.apache.org/logging/commons-logging-1.1/apidocs</link>-->
+<!--                </links>-->
+<!--                <doclet>org.umlgraph.doclet.UmlGraphDoc</doclet>-->
+<!--                <docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+<!--                <additionalparam>-->
+<!--                  -inferrel -inferdep -quiet -hide java.* -collpackages java.util.* -qualify -postfixpackage -nodefontsize 9 -nodefontpackagesize 7-->
+<!--                  -operations -constructors -visibility -types -link http://java.sun.com/j2se/1.5/docs/api -all-->
+<!--                </additionalparam>-->
+<!--              </configuration>-->
+<!--            </plugin>-->
+
+
+      <!--<docletPath>/home/alexey/java/eXoProjects/portlet-container/trunk/component/core/UmlGraph.jar</docletPath>-->
+
+      <!--          <docletArtifact>-->
+      <!--            <groupId>org.umlgraph</groupId>-->
+      <!--            <artifactId>UmlGraph</artifactId>-->
+      <!--            <version>5.1</version>-->
+      <!--          </docletArtifact>-->
+
+    </plugins>
+  </reporting>
+
+</project>

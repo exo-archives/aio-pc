@@ -1,3 +1,3 @@
 call mvn clean exopc:deploy -Ddeploy=ear
-call mvn install antrun:run -Pjonas
+call mvn -f pom-jonas.xml  install antrun:run
 pause null

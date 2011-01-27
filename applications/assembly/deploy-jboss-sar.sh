@@ -1,3 +1,3 @@
 mvn clean exopc:deploy -Ddeploy=ear
-mvn install antrun:run -Pjboss-sar
+mvn -f pom-jboss-sar.xml install antrun:run
 read

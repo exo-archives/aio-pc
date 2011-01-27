@@ -1,3 +1,3 @@
 call mvn clean exopc:deploy -Ddeploy=ear
-call mvn install antrun:run -Pjboss-ear
+call mvn -f pom-jboss-ear.xml  install antrun:run
 pause null
