@@ -1,0 +1,230 @@
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/ResourceExecutionContext.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/ResourceExecutionContext.java	(revision 65575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/ResourceExecutionContext.java	(working copy)
+@@ -79,7 +79,7 @@
+   /**
+    * @return the response
+    */
+-  ResourceResponse getResponse() {
++  public ResourceResponse getResponse() {
+     return response;
+   }
+ 
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/RenderExecutionContext.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/RenderExecutionContext.java	(revision 65575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/RenderExecutionContext.java	(working copy)
+@@ -63,7 +63,7 @@
+   /**
+    * @return the response
+    */
+-  final RenderResponse getResponse() {
++  public final RenderResponse getResponse() {
+     return response;
+   }
+ 
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/PortletFilterCommand.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/PortletFilterCommand.java	(revision 65575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/PortletFilterCommand.java	(working copy)
+@@ -65,18 +65,11 @@
+                                                      portletFilter.getInitParam(),
+                                                      portletContext));
+     }
+-    chain.restart();
++    chain.restart(rcontext);
+     chain.doFilter(req, res);
+     if (chain.isGoodFinished()) {
+-      return rcontext.executeNextUnit();
++      return chain.getResult();
+     } else {
+-      PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
+-      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
+-      responseWrapper.flushBuffer();
+-      RenderOutput routput = (RenderOutput) rimpl.getOutput();
+-      routput.setContentType(responseWrapper.getContentType());
+-      routput.setContent(responseWrapper.getPortletContent());
+-      routput.setCacheHit(false);
+       return null;
+     }
+   }
+@@ -102,10 +95,10 @@
+                                                      portletFilter.getInitParam(),
+                                                      portletContext));
+     }
+-    chain.restart();
++    chain.restart(acontext);
+     chain.doFilter(req, res);
+     if (chain.isGoodFinished())
+-      return acontext.executeNextUnit();
++    	return chain.getResult();
+     else
+       return null;
+   }
+@@ -130,18 +123,11 @@
+                                                      portletFilter.getInitParam(),
+                                                      portletContext));
+     }
+-    chain.restart();
++    chain.restart(rcontext);
+     chain.doFilter(req, res);
+     if (chain.isGoodFinished()) {
+-      return rcontext.executeNextUnit();
++       return chain.getResult();
+     } else {
+-      PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
+-      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
+-      responseWrapper.flushBuffer();
+-      ResourceOutput routput = (ResourceOutput) rimpl.getOutput();
+-      routput.setContentType(responseWrapper.getContentType());
+-      routput.setContent(responseWrapper.getPortletContent());
+-      routput.setCacheHit(false);
+       return null;
+     }
+   }
+@@ -168,10 +154,10 @@
+                                                     portletContext);
+       portletFilter.init(fc);
+     }
+-    chain.restart();
++    chain.restart(econtext);
+     chain.doFilter(req, res);
+     if (chain.isGoodFinished())
+-      return econtext.executeNextUnit();
++    	return chain.getResult();
+     else
+       return null;
+   }
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/filter/PortletFilterChainImpl.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/filter/PortletFilterChainImpl.java	(revision 65575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/filter/PortletFilterChainImpl.java	(working copy)
+@@ -35,6 +35,14 @@
+ import javax.portlet.filter.RenderFilter;
+ import javax.portlet.filter.ResourceFilter;
+ 
++import org.exoplatform.services.portletcontainer.pci.RenderOutput;
++import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
++import org.exoplatform.container.component.ExecutionContext;
++import org.exoplatform.services.portletcontainer.plugins.pc.aop.ActionExecutionContext;
++import org.exoplatform.services.portletcontainer.plugins.pc.aop.RenderExecutionContext;
++import org.exoplatform.services.portletcontainer.plugins.pc.aop.ResourceExecutionContext;
++import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletResponseImp;
++import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomResponseWrapper;
+ /**
+  * Created by the Exo Development team. Author : Mestrallet Benjamin
+  * benjmestrallet@users.sourceforge.net Date: 17 nov. 2003 Time: 21:21:35
+@@ -55,8 +63,19 @@
+    * Is chain goodFinished normal.
+    */
+   private boolean                                goodFinished;
++  
++  /**
++   * Ececution context.
++   */
++  private ExecutionContext                       context;
+ 
+   /**
++   * Result of execution.
++   * 
++   */
++  private Object                                 result;
++
++  /**
+    * @param filters filters
+    * @param p portlet object
+    */
+@@ -75,9 +94,10 @@
+   /**
+    * Restart filter iterator.
+    */
+-  public final void restart() {
++  public final void restart(ExecutionContext context) {
+     this.iterator = filters.iterator();
+     this.goodFinished = false;
++    this.context = context;
+   }
+ 
+   public Iterator<PortletFilterWrapper> getIterator() {
+@@ -100,6 +120,11 @@
+       ActionFilter portletFilter = (ActionFilter) iterator.next();
+       portletFilter.doFilter(request, response, this);
+     } else {
++    	try {
++          this.result = context.executeNextUnit();
++    	} catch (Throwable t){
++    		this.result = t;
++    	}
+       this.goodFinished = true;
+     }
+   }
+@@ -120,6 +145,11 @@
+       EventFilter portletFilter = (EventFilter) iterator.next();
+       portletFilter.doFilter(request, response, this);
+     } else {
++    	try {
++    	  this.result = context.executeNextUnit();
++    	 } catch (Throwable t){
++    	 	 this.result = t;
++    	 }
+       this.goodFinished = true;
+     }
+   }
+@@ -139,7 +169,20 @@
+     if (iterator.hasNext()) {
+       RenderFilter portletFilter = (RenderFilter) iterator.next();
+       portletFilter.doFilter(request, response, this);
++      
++      PortletResponseImp rimpl = (PortletResponseImp) ((RenderExecutionContext)context).getResponse();
++      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
++      responseWrapper.flushBuffer();
++      RenderOutput routput = (RenderOutput) rimpl.getOutput();
++      routput.setContentType(responseWrapper.getContentType());
++      routput.setContent(responseWrapper.getPortletContent());
++      routput.setCacheHit(false);
+     } else {
++    	try {
++    	  this.result = context.executeNextUnit();
++    	} catch (Throwable t){
++    	 	this.result = t;
++    	}
+       this.goodFinished = true;
+     }
+   }
+@@ -159,11 +202,33 @@
+     if (iterator.hasNext()) {
+       ResourceFilter portletFilter = (ResourceFilter) iterator.next();
+       portletFilter.doFilter(request, response, this);
++      
++      PortletResponseImp rimpl = (PortletResponseImp) ((ResourceExecutionContext)context).getResponse();
++      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
++      responseWrapper.flushBuffer();
++      ResourceOutput routput = (ResourceOutput) rimpl.getOutput();
++      routput.setContentType(responseWrapper.getContentType());
++      routput.setContent(responseWrapper.getPortletContent());
++      routput.setCacheHit(false);
+     } else {
+-      this.goodFinished = true;
+-    }
++    	try {
++      	  this.result = context.executeNextUnit();
++      	} catch (Throwable t){
++      	 	this.result = t;
++      	}
++        this.goodFinished = true;
++      }
+   }
+   
++  
++  public Object getResult() throws Throwable {
++		if (result instanceof Throwable)
++		  throw (Throwable) result;
++		else
++		  return result;
++	  }
++
++  
+   public boolean isGoodFinished() {
+     return goodFinished;
+   }
