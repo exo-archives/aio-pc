@@ -5,6 +5,6 @@ echo "Copying..."
 cp -r ../../../../../../exo-dependencies/apache-tomcat-6.0.26/* ../../../../../../exo-working/exo-tomcat/
 echo "Copied."
 
-mvn -f pom-test-wsrp2.xml deploy -Ddeploy=tomcat6
+mvn install -Ddeploy=tomcat6 -Ptest-wsrp2
 
 read

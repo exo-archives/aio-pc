@@ -1,4 +1,4 @@
-    EXO-PortletContainer 2.0
+    eXo Portlet Container 2.0
     --------------------------------
 
 The eXo Platform Portlet Container 2.0 which includes the JSR 168/286 implementation and WSRP 2 one.
@@ -8,3 +8,5 @@ The eXo Platform Portlet Container 2.0 which includes the JSR 168/286 implementa
 
 For deploy info look at applications/assembly/readme.txt
 For release info and run on server info look at applications/assembly/patches/tomcat/README.txt
+
+Please, use full-reports script instead of old pom-full-reports.xml
