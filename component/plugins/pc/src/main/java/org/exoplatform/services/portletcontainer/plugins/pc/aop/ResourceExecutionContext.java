@@ -79,7 +79,7 @@ public class ResourceExecutionContext extends ExecutionContext {
   /**
    * @return the response
    */
-  ResourceResponse getResponse() {
+  public ResourceResponse getResponse() {
     return response;
   }
 

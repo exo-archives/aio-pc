@@ -65,18 +65,11 @@ public class PortletFilterCommand extends BaseCommandUnit {
                                                      portletFilter.getInitParam(),
                                                      portletContext));
     }
-    chain.restart();
+    chain.restart(rcontext);
     chain.doFilter(req, res);
     if (chain.isGoodFinished()) {
-      return rcontext.executeNextUnit();
+      return chain.getResult();
     } else {
-      PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
-      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
-      responseWrapper.flushBuffer();
-      RenderOutput routput = (RenderOutput) rimpl.getOutput();
-      routput.setContentType(responseWrapper.getContentType());
-      routput.setContent(responseWrapper.getPortletContent());
-      routput.setCacheHit(false);
       return null;
     }
   }
@@ -102,10 +95,10 @@ public class PortletFilterCommand extends BaseCommandUnit {
                                                      portletFilter.getInitParam(),
                                                      portletContext));
     }
-    chain.restart();
+    chain.restart(acontext);
     chain.doFilter(req, res);
     if (chain.isGoodFinished())
-      return acontext.executeNextUnit();
+    	return chain.getResult();
     else
       return null;
   }
@@ -130,18 +123,11 @@ public class PortletFilterCommand extends BaseCommandUnit {
                                                      portletFilter.getInitParam(),
                                                      portletContext));
     }
-    chain.restart();
+    chain.restart(rcontext);
     chain.doFilter(req, res);
     if (chain.isGoodFinished()) {
-      return rcontext.executeNextUnit();
+       return chain.getResult();
     } else {
-      PortletResponseImp rimpl = (PortletResponseImp) rcontext.getResponse();
-      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
-      responseWrapper.flushBuffer();
-      ResourceOutput routput = (ResourceOutput) rimpl.getOutput();
-      routput.setContentType(responseWrapper.getContentType());
-      routput.setContent(responseWrapper.getPortletContent());
-      routput.setCacheHit(false);
       return null;
     }
   }
@@ -168,10 +154,10 @@ public class PortletFilterCommand extends BaseCommandUnit {
                                                     portletContext);
       portletFilter.init(fc);
     }
-    chain.restart();
+    chain.restart(econtext);
     chain.doFilter(req, res);
     if (chain.isGoodFinished())
-      return econtext.executeNextUnit();
+    	return chain.getResult();
     else
       return null;
   }

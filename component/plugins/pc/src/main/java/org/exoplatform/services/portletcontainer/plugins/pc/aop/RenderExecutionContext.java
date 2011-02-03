@@ -63,7 +63,7 @@ public class RenderExecutionContext extends ExecutionContext {
   /**
    * @return the response
    */
-  final RenderResponse getResponse() {
+  public final RenderResponse getResponse() {
     return response;
   }
 

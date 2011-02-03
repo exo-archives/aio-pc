@@ -35,6 +35,14 @@ import javax.portlet.filter.FilterChain;
 import javax.portlet.filter.RenderFilter;
 import javax.portlet.filter.ResourceFilter;
 
+import org.exoplatform.services.portletcontainer.pci.RenderOutput;
+import org.exoplatform.services.portletcontainer.pci.ResourceOutput;
+import org.exoplatform.container.component.ExecutionContext;
+import org.exoplatform.services.portletcontainer.plugins.pc.aop.ActionExecutionContext;
+import org.exoplatform.services.portletcontainer.plugins.pc.aop.RenderExecutionContext;
+import org.exoplatform.services.portletcontainer.plugins.pc.aop.ResourceExecutionContext;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.PortletResponseImp;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers.CustomResponseWrapper;
 /**
  * Created by the Exo Development team. Author : Mestrallet Benjamin
  * benjmestrallet@users.sourceforge.net Date: 17 nov. 2003 Time: 21:21:35
@@ -55,6 +63,17 @@ public class PortletFilterChainImpl implements FilterChain {
    * Is chain goodFinished normal.
    */
   private boolean                                goodFinished;
+  
+  /**
+   * Ececution context.
+   */
+  private ExecutionContext                       context;
+
+  /**
+   * Result of execution.
+   * 
+   */
+  private Object                                 result;
 
   /**
    * @param filters filters
@@ -75,9 +94,10 @@ public class PortletFilterChainImpl implements FilterChain {
   /**
    * Restart filter iterator.
    */
-  public final void restart() {
+  public final void restart(ExecutionContext context) {
     this.iterator = filters.iterator();
     this.goodFinished = false;
+    this.context = context;
   }
 
   public Iterator<PortletFilterWrapper> getIterator() {
@@ -100,6 +120,11 @@ public class PortletFilterChainImpl implements FilterChain {
       ActionFilter portletFilter = (ActionFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
     } else {
+    	try {
+          this.result = context.executeNextUnit();
+    	} catch (Throwable t){
+    		this.result = t;
+    	}
       this.goodFinished = true;
     }
   }
@@ -120,6 +145,11 @@ public class PortletFilterChainImpl implements FilterChain {
       EventFilter portletFilter = (EventFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
     } else {
+    	try {
+    	  this.result = context.executeNextUnit();
+    	 } catch (Throwable t){
+    	 	 this.result = t;
+    	 }
       this.goodFinished = true;
     }
   }
@@ -139,7 +169,20 @@ public class PortletFilterChainImpl implements FilterChain {
     if (iterator.hasNext()) {
       RenderFilter portletFilter = (RenderFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
+      
+      PortletResponseImp rimpl = (PortletResponseImp) ((RenderExecutionContext)context).getResponse();
+      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
+      responseWrapper.flushBuffer();
+      RenderOutput routput = (RenderOutput) rimpl.getOutput();
+      routput.setContentType(responseWrapper.getContentType());
+      routput.setContent(responseWrapper.getPortletContent());
+      routput.setCacheHit(false);
     } else {
+    	try {
+    	  this.result = context.executeNextUnit();
+    	} catch (Throwable t){
+    	 	this.result = t;
+    	}
       this.goodFinished = true;
     }
   }
@@ -159,10 +202,32 @@ public class PortletFilterChainImpl implements FilterChain {
     if (iterator.hasNext()) {
       ResourceFilter portletFilter = (ResourceFilter) iterator.next();
       portletFilter.doFilter(request, response, this);
+      
+      PortletResponseImp rimpl = (PortletResponseImp) ((ResourceExecutionContext)context).getResponse();
+      CustomResponseWrapper responseWrapper = (CustomResponseWrapper) rimpl.getResponse();
+      responseWrapper.flushBuffer();
+      ResourceOutput routput = (ResourceOutput) rimpl.getOutput();
+      routput.setContentType(responseWrapper.getContentType());
+      routput.setContent(responseWrapper.getPortletContent());
+      routput.setCacheHit(false);
     } else {
-      this.goodFinished = true;
-    }
+    	try {
+      	  this.result = context.executeNextUnit();
+      	} catch (Throwable t){
+      	 	this.result = t;
+      	}
+        this.goodFinished = true;
+      }
   }
+  
+  
+  public Object getResult() throws Throwable {
+		if (result instanceof Throwable)
+		  throw (Throwable) result;
+		else
+		  return result;
+	  }
+
   
   public boolean isGoodFinished() {
     return goodFinished;
