@@ -681,7 +681,7 @@ public class XMLParser {
     }
     while (xpp.node("value"))
       values.add(xpp.getContent().trim());
-    options.put(name, (String[]) values.toArray());
+    options.put(name, (String[]) values.toArray(new String[]{}));
     return options;
   }
 

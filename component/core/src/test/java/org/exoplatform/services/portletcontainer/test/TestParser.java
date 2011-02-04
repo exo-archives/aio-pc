@@ -16,17 +16,24 @@
  */
 package org.exoplatform.services.portletcontainer.test;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.Collection;
-
 import org.apache.commons.logging.Log;
 import org.exoplatform.commons.xml.ExoXPPParser;
 import org.exoplatform.services.log.ExoLogger;
 import org.exoplatform.services.portletcontainer.PortletContainerException;
-import org.exoplatform.services.portletcontainer.pci.model.*;
+import org.exoplatform.services.portletcontainer.pci.model.CustomPortletMode;
+import org.exoplatform.services.portletcontainer.pci.model.CustomWindowState;
+import org.exoplatform.services.portletcontainer.pci.model.EventDefinition;
+import org.exoplatform.services.portletcontainer.pci.model.Filter;
+import org.exoplatform.services.portletcontainer.pci.model.FilterMapping;
+import org.exoplatform.services.portletcontainer.pci.model.Portlet;
+import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
+import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 
+import java.io.InputStream;
+import java.net.URL;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestParser extends BaseTest {
   
@@ -51,14 +58,13 @@ public class TestParser extends BaseTest {
          CustomPortletMode cm = XMLParser.readCustomPortletMode(xpp);
          list.add(cm);
       }
-      assertTrue(list.size() == 1);
-  
+      assertEquals(1, list.size());
     }
     catch (Exception ex) {
       ex.printStackTrace();
+      fail("testReadCustomMode: " + ex.getMessage());
     }
   }
-  
   
   public void testReadCustomState() throws PortletContainerException {
     log.info("org.exoplatform.services.portletcontainer.test.testReadCustomState");
@@ -73,14 +79,13 @@ public class TestParser extends BaseTest {
         CustomWindowState ws = XMLParser.readCustomWindowState(xpp);
          list.add(ws);
       }
-      assertTrue(list.size() == 1);
-  
+      assertEquals(1, list.size());
     }
     catch (Exception ex) {
       ex.printStackTrace();
+      fail("testReadCustomState: " + ex.getMessage());
     }
   }
-  
   
   public void testReadFilter() throws PortletContainerException {
     log.info("org.exoplatform.services.portletcontainer.test.testReadFilter");
@@ -95,16 +100,14 @@ public class TestParser extends BaseTest {
         Filter fl = XMLParser.readFilter(xpp);
          list.add(fl);
       }
-      assertTrue(list.size() == 1);
-  
+      assertEquals(1, list.size());
     }
     catch (Exception ex) {
       ex.printStackTrace();
+      fail("testReadFilter: " + ex.getMessage());
     }
   }
 
-  
-  
   public void testReadFilterMapping() throws PortletContainerException {
     log.info("org.exoplatform.services.portletcontainer.test.testReadFilterMapping");
     try {
@@ -117,10 +120,11 @@ public class TestParser extends BaseTest {
         FilterMapping fm = XMLParser.readFilterMapping(xpp);
          list.add(fm);
       }
-      assertTrue(list.size() == 1);
+      assertEquals(1, list.size());
     }
     catch (Exception ex) {
       ex.printStackTrace();
+      fail("testReadFilterMapping: " + ex.getMessage());
     }
   }
 
@@ -136,13 +140,38 @@ public class TestParser extends BaseTest {
         EventDefinition ed = XMLParser.readEventDefinition(xpp);
          list.add(ed);
       }
-      assertTrue(list.size() == 1);
+      assertEquals(1, list.size());
     }
     catch (Exception ex) {
       ex.printStackTrace();
+      fail("testReadEventDefinition: " + ex.getMessage());
     }
   }
 
+  public void testReadContainerRuntimeOption() throws PortletContainerException {
+    log.info("org.exoplatform.services.portletcontainer.test.testReadContainerRuntimeOption");
+    
+    try {
+      URL url = new URL(PORTLET_APP_PATH + "/container-runtime-option.xml");
+      InputStream is = url.openStream();
+      Map<String, String[]> cros = new HashMap<String, String[]>();
+      
+      ExoXPPParser xpp = ExoXPPParser.getInstance();
+      xpp.setInput(is, "UTF8");
+      while (xpp.node("container-runtime-option")) {
+        Map<String, String[]> cro = XMLParser.readContainerRuntimeOption(xpp);
+         cros.putAll(cro);
+      }
+      assertEquals(1, cros.size());
+      Portlet portlet = new Portlet();
+      portlet.addContainerRuntimeOption(cros);
+      assertEquals(1, portlet.getContainerRuntimeOption().size());
+    }
+    catch (Exception ex) {
+      ex.printStackTrace();
+      fail("testReadContainerRuntimeOption: " + ex.getMessage());
+    }
+  }
   
   public void testFullParsing() throws PortletContainerException {
     log.info("org.exoplatform.services.portletcontainer.test.testFullParsing");
@@ -169,8 +198,8 @@ public class TestParser extends BaseTest {
     }
     catch (Exception ex) {
       ex.printStackTrace();
+      fail("testFullParsing: " + ex.getMessage());
     }
   }
-  
   
 }
