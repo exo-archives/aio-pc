@@ -1,0 +1,4 @@
+<container-runtime-option>
+  <name>javax.portlet.servletDefaultSessionScope</name>
+  <value>PORTLET_SCOPE</value>
+</container-runtime-option>
