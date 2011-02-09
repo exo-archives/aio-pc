@@ -1,0 +1,42 @@
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/RenderResponseImp.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/RenderResponseImp.java	(revision 65575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/RenderResponseImp.java	(working copy)
+@@ -98,9 +98,13 @@
+    * @return response content types
+    */
+   private Collection<String> getResponseContentTypes() {
+-    // TODO could be shared with PortletRequest.getResponseContentType()
+     Collection<String> result = new ArrayList<String>();
++
++    String requestContentType = super.getResCtx().getPortletRequest().getResponseContentType();
++    if (requestContentType != null && !("".equals(requestContentType)))
++    result.add(requestContentType);
+     result.add(getResponseContentType());
++    
+     for (String element : supportedContents) {
+       List<Supports> l = getPortletDatas().getSupports();
+       for (int i = 0; i < l.size(); i++) {
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/MimeResponseImp.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/MimeResponseImp.java	(revision 65575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/MimeResponseImp.java	(working copy)
+@@ -135,9 +135,6 @@
+       throw new IllegalStateException("response has already been forwarded");
+     if (outputStreamAlreadyCalled)
+       throw new IllegalStateException("the getPortletOutputStream object has already been called");
+-    if ((contentType == null) || "".equals(contentType))
+-      throw new IllegalStateException("the content type has not been set before calling the"
+-          + "getWriter() method.");
+     writerAlreadyCalled = true;
+     return super.getWriter();
+   }
+@@ -290,7 +287,7 @@
+         getInput().getRenderParameters(),
+         uniqueid);
+   }
+-
++  
+   private static String string0(final String[] strings) {
+     if (strings == null)
+       return null;
