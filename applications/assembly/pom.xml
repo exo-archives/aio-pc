@@ -14,15 +14,15 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, see <http://www.gnu.org/licenses/>.
+    along with this program; if not, see <http://www.gnu.org/licenses />.
 
 -->
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.13-SNAPSHOT</version>
+    <version>2.0.13</version>
   </parent>
   <artifactId>assembly</artifactId>
   <name>eXo PC Demo Assembly</name>
@@ -434,63 +434,44 @@
 				    <artifactId>maven-antrun-plugin</artifactId>
 				    <configuration>
 					    <tasks>
-					     	<delete
-							    dir="${exo.projects.directory.working}/exo-jonas"
-							    includeEmptyDirs="true" quiet="yes" />
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jonas"
-							    verbose="false" overwrite="true">
-							    <fileset
-								    dir="${exo.projects.directory.dependencies}/${exo.projects.app.jonas.version}" />
+					     	<delete dir="${exo.projects.directory.working}/exo-jonas" includeEmptyDirs="true" quiet="yes" />
+						    <copy todir="${exo.projects.directory.working}/exo-jonas" verbose="false" overwrite="true">
+							    <fileset dir="${exo.projects.directory.dependencies}/${exo.projects.app.jonas.version}" />
 						    </copy>
 						    <!-- copy portlet-container.ear to autoload directory-->
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
-							    verbose="true" overwrite="true">
-							    <fileset  dir="${basedir}/target/">
-							      <filename name="**/*.ear"/>
+						    <copy todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/" verbose="true" overwrite="true">
+							    <fileset dir="${basedir}/target/">
+							      <filename name="**/*.ear" />
 							    </fileset>  
 						    </copy>
 						    <!-- copy jonas bin -->
 			
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jonas/bin/"
-							    verbose="true" overwrite="true">
-							    <fileset
-								    dir="${basedir}/patches/jonas/bin"> 
+						    <copy todir="${exo.projects.directory.working}/exo-jonas/bin/" verbose="true" overwrite="true">
+							    <fileset dir="${basedir}/patches/jonas/bin"> 
 								    <exclude name="**/WEB*" />
 							    </fileset>	
 						    </copy>
 						    <!-- copy jonas conf -->
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jonas/conf/"
-							    verbose="true" flatten="true" overwrite="true">
-							    <fileset
-								    dir="${basedir}/patches/jonas/conf"
-								    casesensitive="yes">
+						    <copy todir="${exo.projects.directory.working}/exo-jonas/conf/" verbose="true" flatten="true" overwrite="true">
+							    <fileset dir="${basedir}/patches/jonas/conf" casesensitive="yes">
 							    </fileset>
 						    </copy>
 						    <!-- copy portal.war temporary to jonas autoload -->
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/"
-							    verbose="true"  overwrite="true">
-							    <fileset
-								    dir="${basedir}/target/ear/"
-								    casesensitive="yes">
-            							<filename name="portal.war"/>
+						    <copy todir="${exo.projects.directory.working}/exo-jonas/apps/autoload/" verbose="true" overwrite="true">
+							    <fileset dir="${basedir}/target/ear/" casesensitive="yes">
+            							<filename name="portal.war" />
 							    </fileset>
 						    </copy>
 						
-						    <touch file="${basedir}/patches/jonas/WEB-INF/classes/conf/exo-configuration.xml"/>
+						    <touch file="${basedir}/patches/jonas/WEB-INF/classes/conf/exo-configuration.xml" />
 						    <!-- copy WEB-INF to portal.war -->
-						    <war 
-						          destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war"  update="true">
+						    <war destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war" update="true">
                  	                                                      <webinf dir="${basedir}/patches/jonas/WEB-INF/">
 						          </webinf>
 						    </war>
 						
 					             <touch>
-					                        <fileset dir="${basedir}/target/lib-${project.version}.dir/" >
+					                        <fileset dir="${basedir}/target/lib-${project.version}.dir/">
 						                <filename name="**/*.jar" /> 
 						                <exclude name="**/assembly*" />
 						             </fileset>
@@ -505,12 +486,11 @@
 					              <!-- copy modified portal.war --> 
 					              <ear destfile="${exo.projects.directory.working}/exo-jonas/apps/autoload/portlet-container.ear" update="true">
 						              <fileset dir="${exo.projects.directory.working}/exo-jonas/apps/autoload/">
-						                <filename name="portal.war"/> 
+						                <filename name="portal.war" /> 
 						              </fileset>
 					               </ear>	
 						    <!-- delete temporary file portal.war-->
-						    <delete
-							    file="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war" />
+						    <delete file="${exo.projects.directory.working}/exo-jonas/apps/autoload/portal.war" />
 							
 						    <delete>
 							     <fileset dir="${exo.projects.directory.working}/exo-jonas/lib/endorsed/">
@@ -555,73 +535,49 @@
 				    <artifactId>maven-antrun-plugin</artifactId>
 				    <configuration>
 					    <tasks>
-						    <delete
-							    dir="${exo.projects.directory.working}/exo-jboss"
-							    includeEmptyDirs="true" quiet="yes" />
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jboss"
-							    verbose="false" overwrite="true">
-							    <fileset
-								    dir="${exo.projects.directory.dependencies}/${exo.projects.app.jboss.version}" />
+						    <delete dir="${exo.projects.directory.working}/exo-jboss" includeEmptyDirs="true" quiet="yes" />
+						    <copy todir="${exo.projects.directory.working}/exo-jboss" verbose="false" overwrite="true">
+							    <fileset dir="${exo.projects.directory.dependencies}/${exo.projects.app.jboss.version}" />
 						    </copy>
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear"
-							    verbose="true" overwrite="true">
-							    <fileset
-								    dir="${basedir}/target/ear/"
-								    excludes="**/*.war" />
+						    <copy todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear" verbose="true" overwrite="true">
+							    <fileset dir="${basedir}/target/ear/" excludes="**/*.war" />
 						    </copy>
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear"
-							    verbose="true" flatten="true" overwrite="true">
-							    <fileset
-								    dir="${basedir}/target/ear/"
-								    casesensitive="yes">
+						    <copy todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear" verbose="true" flatten="true" overwrite="true">
+							    <fileset dir="${basedir}/target/ear/" casesensitive="yes">
 								    <include name="**/*.war" />
 								    <exclude name="portal.war" />
 							    </fileset>
 						    </copy>
 
-                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/01portal.war" 
-						          file="${basedir}/target/ear/portal.war" />
+                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/01portal.war" file="${basedir}/target/ear/portal.war" />
 						          
-						    <touch file="${basedir}/patches/jboss/WEB-INF/classes/conf/exo-configuration.xml"/>
+						    <touch file="${basedir}/patches/jboss/WEB-INF/classes/conf/exo-configuration.xml" />
 
     <!-- PATCH EAR -->					    						
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jboss"
-							    verbose="true" overwrite="true">
-							    <fileset
-								    dir="${basedir}/patches/jboss-ear/jbosshome/"> 
+						    <copy todir="${exo.projects.directory.working}/exo-jboss" verbose="true" overwrite="true">
+							    <fileset dir="${basedir}/patches/jboss-ear/jbosshome/"> 
 							    </fileset>	
 						    </copy>
 						
-						    <war
-						         destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/01portal.war" update="true">
+						    <war destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/01portal.war" update="true">
                  	                                                      <webinf dir="${basedir}/patches/jboss/WEB-INF/">
 						         </webinf>
 						    </war>
 
     <!-- PATCH SERVER -->
-						    <copy
-							    todir="${exo.projects.directory.working}/exo-jboss"
-							    verbose="true" overwrite="true">
-							    <fileset
-								    dir="${basedir}/patches/jboss/jbosshome/"> 
+						    <copy todir="${exo.projects.directory.working}/exo-jboss" verbose="true" overwrite="true">
+							    <fileset dir="${basedir}/patches/jboss/jbosshome/"> 
 							    </fileset>	
 						    </copy>
 
     <!-- EXOMAN due to removed jboss-app.xml
-					                 <delete
-						               file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/jtidy-4aug2000r7-dev.jar" />
+					                 <delete file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/jtidy-4aug2000r7-dev.jar" />
     -->
 
     <!--
-						    <delete
-							    file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
+						    <delete file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
     -->
-    <!--					             <delete
-						               file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/demos.war" />
+    <!--					             <delete file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.ear/demos.war" />
     -->
 
 					    </tasks>
@@ -661,76 +617,51 @@
 				<artifactId>maven-antrun-plugin</artifactId>
 				<configuration>
 					<tasks>
-						<delete
-							dir="${exo.projects.directory.working}/exo-jboss"
-							includeEmptyDirs="true" quiet="yes" />
-						<copy
-							todir="${exo.projects.directory.working}/exo-jboss"
-							verbose="false" overwrite="true">
-							<fileset
-								dir="${exo.projects.directory.dependencies}/${exo.projects.app.jboss.version}" />
+						<delete dir="${exo.projects.directory.working}/exo-jboss" includeEmptyDirs="true" quiet="yes" />
+						<copy todir="${exo.projects.directory.working}/exo-jboss" verbose="false" overwrite="true">
+							<fileset dir="${exo.projects.directory.dependencies}/${exo.projects.app.jboss.version}" />
 						</copy>
-						<copy
-							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar"
-							verbose="true" overwrite="true">
-							<fileset
-								dir="${basedir}/target/ear/"
-								excludes="**/*.war" />
+						<copy todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar" verbose="true" overwrite="true">
+							<fileset dir="${basedir}/target/ear/" excludes="**/*.war" />
 						</copy>
-						<copy
-							todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar"
-							verbose="true" flatten="true" overwrite="true">
-							<fileset
-								dir="${basedir}/target/ear/"
-								casesensitive="yes">
+						<copy todir="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar" verbose="true" flatten="true" overwrite="true">
+							<fileset dir="${basedir}/target/ear/" casesensitive="yes">
 								<include name="**/*.war" />
 								<exclude name="portal.war" />
 							</fileset>
 						</copy>
 						
-                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" 
-						      file="${basedir}/target/ear/portal.war" overwrite="true"/>
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" file="${basedir}/target/ear/portal.war" overwrite="true" />
 
 
-						<touch file="${basedir}/patches/jboss/WEB-INF/classes/conf/exo-configuration.xml"/>
+						<touch file="${basedir}/patches/jboss/WEB-INF/classes/conf/exo-configuration.xml" />
 
 <!-- PATCH SAR -->					    						
-						<copy
-							todir="${exo.projects.directory.working}/exo-jboss"
-							verbose="true" overwrite="true">
-							<fileset
-								dir="${basedir}/patches/jboss-sar/jbosshome/"> 
+						<copy todir="${exo.projects.directory.working}/exo-jboss" verbose="true" overwrite="true">
+							<fileset dir="${basedir}/patches/jboss-sar/jbosshome/"> 
 							</fileset>	
 						</copy>
 						
-						<war
-						     destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" update="true">
+						<war destfile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/01portal.war" update="true">
              	                                                      <webinf dir="${basedir}/patches/jboss/WEB-INF/">
 						     </webinf>
 						</war>
 
 <!-- PATCH SERVER -->
-						<copy
-							todir="${exo.projects.directory.working}/exo-jboss"
-							verbose="true" overwrite="true">
-							<fileset
-								dir="${basedir}/patches/jboss/jbosshome/"> 
+						<copy todir="${exo.projects.directory.working}/exo-jboss" verbose="true" overwrite="true">
+							<fileset dir="${basedir}/patches/jboss/jbosshome/"> 
 							</fileset>	
 						</copy>
 
 <!--
-                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/jboss-web.deployer/server.xml" 
-						      file="${basedir}/patches/jboss-sar/jboss-web.deployer/server.xml" overwrite="true"/>
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/server/default/deploy/jboss-web.deployer/server.xml" file="${basedir}/patches/jboss-sar/jboss-web.deployer/server.xml" overwrite="true" />
 
-                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/bin/run.conf" 
-						      file="${basedir}/patches/jboss-sar/run.conf" overwrite="true"/>
+                                                <copy tofile="${exo.projects.directory.working}/exo-jboss/bin/run.conf" file="${basedir}/patches/jboss-sar/run.conf" overwrite="true" />
 -->
 <!--
-						<delete
-							file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
+						<delete file="${exo.projects.directory.working}/exo-jboss/server/default/lib/hsqldb.jar" />
 -->
-<!--					             <delete
-						           file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/demos.war" />
+<!--					             <delete file="${exo.projects.directory.working}/exo-jboss/server/default/deploy/portlet-container.sar/demos.war" />
 -->
 					</tasks>
 				</configuration>

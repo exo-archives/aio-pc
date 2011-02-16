@@ -14,15 +14,15 @@
     GNU General Public License for more details.
 
     You should have received a copy of the GNU General Public License
-    along with this program; if not, see <http://www.gnu.org/licenses/>.
+    along with this program; if not, see <http://www.gnu.org/licenses />.
 
 -->
-<project>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
   <parent>
     <groupId>org.exoplatform.portletcontainer</groupId>
     <artifactId>config</artifactId>
-    <version>2.0.13-SNAPSHOT</version>
+    <version>2.0.13</version>
   </parent>
   <artifactId>exo.pc.applications.tck-tests</artifactId>
   <name>eXo PC 2 TCK tests por portlet container</name>
@@ -383,7 +383,7 @@
           <value>true</value>
         </property>
       </activation>
-      <build/>
+      <build />
     </profile>
     <profile>
       <id>test</id>
@@ -878,7 +878,7 @@
                 <configuration>
                   <tasks>
                     <delete includeEmptyDirs="true" failonerror="false">
-                      <fileset dir="${basedir}/configuration/conf/webapps" includes="**/*"/>
+                      <fileset dir="${basedir}/configuration/conf/webapps" includes="**/*" />
                     </delete>
                   </tasks>
                 </configuration>
@@ -894,7 +894,7 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <sleep minutes="1"/>
+                    <sleep minutes="1" />
                   </tasks>
                 </configuration>
               </execution>
@@ -906,16 +906,16 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <property environment="env"/>
-                    <chmod file="${basedir}/portlettck2/bin/tsant.sh" perm="ugo+rx"/>
-                    <chmod file="${basedir}/portlettck2/tools/ant/bin/ant" perm="ugo+rx"/>
+                    <property environment="env" />
+                    <chmod file="${basedir}/portlettck2/bin/tsant.sh" perm="ugo+rx" />
+                    <chmod file="${basedir}/portlettck2/tools/ant/bin/ant" perm="ugo+rx" />
                     <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.bat">
-                      <env key="TS_HOME" value="${basedir}/portlettck2"/>
-                      <arg line="clean"/>
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="clean" />
                     </exec>
                     <exec os="Unix, Linux, Mac Os X" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.sh">
-                      <env key="TS_HOME" value="${basedir}/portlettck2"/>
-                      <arg line="clean"/>
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="clean" />
                     </exec>
                   </tasks>
                 </configuration>
@@ -928,14 +928,14 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <property environment="env"/>
+                    <property environment="env" />
                     <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.bat">
-                      <env key="TS_HOME" value="${basedir}/portlettck2"/>
-                      <arg line="build"/>
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="build" />
                     </exec>
                     <exec os="Unix, Linux, Mac Os X" dir="${basedir}/portlettck2/src/com/sun/ts" executable="${basedir}/portlettck2/bin/tsant.sh">
-                      <env key="TS_HOME" value="${basedir}/portlettck2"/>
-                      <arg line="build"/>
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="build" />
                     </exec>
                   </tasks>
                 </configuration>
@@ -948,14 +948,14 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <property environment="env"/>
+                    <property environment="env" />
                     <exec os="Windows 2000, Windows XP, Windows 2003, Windows Vista" dir="${basedir}/portlettck2/src/com/sun/ts/tests" executable="${basedir}/portlettck2/bin/tsant.bat">
-                      <env key="TS_HOME" value="${basedir}/portlettck2"/>
-                      <arg line="runclient"/>
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="runclient" />
                     </exec>
                     <exec os="Unix, Linux, Mac Os X" dir="${basedir}/portlettck2/src/com/sun/ts/tests" executable="${basedir}/portlettck2/bin/tsant.sh">
-                      <env key="TS_HOME" value="${basedir}/portlettck2"/>
-                      <arg line="runclient"/>
+                      <env key="TS_HOME" value="${basedir}/portlettck2" />
+                      <arg line="runclient" />
                     </exec>
                   </tasks>
                 </configuration>
@@ -968,10 +968,10 @@
                 </goals>
                 <configuration>
                   <tasks>
-                    <loadfile property="result.log" srcFile="/tmp/JTwork/jtData/harness.trace" failonerror="false"/>
+                    <loadfile property="result.log" srcFile="/tmp/JTwork/jtData/harness.trace" failonerror="false" />
                     <fail message="There are TCK tests error(s)!">
                       <condition>
-                        <contains string="${result.log}" substring="Some tests did not pass" casesensitive="false"/>
+                        <contains string="${result.log}" substring="Some tests did not pass" casesensitive="false" />
                       </condition>
                     </fail>
                   </tasks>
