@@ -98,9 +98,13 @@ public class RenderResponseImp extends MimeResponseImp implements RenderResponse
    * @return response content types
    */
   private Collection<String> getResponseContentTypes() {
-    // TODO could be shared with PortletRequest.getResponseContentType()
     Collection<String> result = new ArrayList<String>();
+
+    String requestContentType = super.getResCtx().getPortletRequest().getResponseContentType();
+    if (requestContentType != null && !("".equals(requestContentType)))
+    result.add(requestContentType);
     result.add(getResponseContentType());
+    
     for (String element : supportedContents) {
       List<Supports> l = getPortletDatas().getSupports();
       for (int i = 0; i < l.size(); i++) {

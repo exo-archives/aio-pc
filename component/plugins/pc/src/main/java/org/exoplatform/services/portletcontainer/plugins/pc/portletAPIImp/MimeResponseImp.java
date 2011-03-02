@@ -135,9 +135,6 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
       throw new IllegalStateException("response has already been forwarded");
     if (outputStreamAlreadyCalled)
       throw new IllegalStateException("the getPortletOutputStream object has already been called");
-    if ((contentType == null) || "".equals(contentType))
-      throw new IllegalStateException("the content type has not been set before calling the"
-          + "getWriter() method.");
     writerAlreadyCalled = true;
     return super.getWriter();
   }
@@ -290,7 +287,7 @@ public class MimeResponseImp extends PortletResponseImp implements MimeResponse 
         getInput().getRenderParameters(),
         uniqueid);
   }
-
+  
   private static String string0(final String[] strings) {
     if (strings == null)
       return null;
