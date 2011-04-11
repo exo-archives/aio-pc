@@ -1,6 +1,64 @@
+Index: applications/assembly/patches/tomcat/conf/client_deploy.wsdd
+===================================================================
+--- applications/assembly/patches/tomcat/conf/client_deploy.wsdd	(revision 0)
++++ applications/assembly/patches/tomcat/conf/client_deploy.wsdd	(revision 0)
+@@ -0,0 +1,12 @@
++<deployment xmlns="http://xml.apache.org/axis/wsdd/" xmlns:java="http://xml.apache.org/axis/wsdd/providers/java">
++ <transport name="http" pivot="java:org.apache.axis.transport.http.HTTPSender"/>
++  <globalConfiguration>
++   <requestFlow>
++    <handler type="java:org.apache.ws.axis.security.WSDoAllSender">
++     <parameter name="mustUnderstand" value="false"/> 
++     <parameter name="action" value="UsernameToken"/>
++     <parameter name="javax.xml.rpc.session.maintain" value="false"/>
++    </handler>
++   </requestFlow>
++  </globalConfiguration>
++</deployment>
+Index: applications/assembly/patches/tomcat/conf/Catalina/localhost/portal.xml
+===================================================================
+--- applications/assembly/patches/tomcat/conf/Catalina/localhost/portal.xml	(revision 68034)
++++ applications/assembly/patches/tomcat/conf/Catalina/localhost/portal.xml	(working copy)
+@@ -1,4 +1,4 @@
+-<Context path="/portal" docBase="${catalina.home}/webapps/portal.war" debug="0" crossContext="true">
++<Context path="/portal" docBase="portal" debug="0" crossContext="true">
+     <Realm className='org.apache.catalina.realm.JAASRealm'
+            appName='exo-domain'
+            userClassNames='org.exoplatform.services.security.jaas.UserPrincipal'
+Index: applications/assembly/patches/tomcat/bin/exo-run.sh
+===================================================================
+--- applications/assembly/patches/tomcat/bin/exo-run.sh	(revision 68034)
++++ applications/assembly/patches/tomcat/bin/exo-run.sh	(working copy)
+@@ -54,7 +54,9 @@
+ 
+ #REMOTE_DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
+ 
+-JAVA_OPTS="$JAVA_OPTS $LOG_OPTS $SECURITY_OPTS $REMOTE_DEBUG"
++AXIS_WS="-Daxis.ClientConfigFile=../conf/client_deploy.wsdd"
++
++JAVA_OPTS="$JAVA_OPTS $LOG_OPTS $SECURITY_OPTS $REMOTE_DEBUG $AXIS_WS"
+ export JAVA_OPTS
+ 
+ ####################################################################################
+Index: applications/wsrp/src/main/webapp/META-INF/context.xml
+===================================================================
+--- applications/wsrp/src/main/webapp/META-INF/context.xml	(revision 0)
++++ applications/wsrp/src/main/webapp/META-INF/context.xml	(revision 0)
+@@ -0,0 +1,11 @@
++<Context path='/wsrp' docBase='wsrp' reloadable='true' crossContext='true'> 
++
++  <Logger className='org.apache.catalina.logger.SystemOutLogger' 
++          prefix='localhost_portal_log.' suffix='.txt' timestamp='true'/> 
++  <Manager className='org.apache.catalina.session.PersistentManager' saveOnRestart='false'/> 
++  <Realm className='org.apache.catalina.realm.JAASRealm' 
++         appName='exo-domain' 
++         userClassNames='org.exoplatform.services.security.jaas.UserPrincipal' 
++         roleClassNames='org.exoplatform.services.security.jaas.RolePrincipal' 
++         debug='0' cache='false'/> 
++</Context>
 Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml
 ===================================================================
---- applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml	(revision 66722)
+--- applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml	(revision 68034)
 +++ applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml	(working copy)
 @@ -6,20 +6,20 @@
  
@@ -106,7 +164,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml
    <servlet-mapping>
      <servlet-name>AxisServlet</servlet-name>
      <url-pattern>/servlet/AxisServlet</url-pattern>
-@@ -147,8 +140,29 @@
+@@ -147,8 +140,35 @@
      <mime-type>text/xml</mime-type>
    </mime-mapping>
  
@@ -121,6 +179,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml
 +      <http-method>GET</http-method>
 +    </web-resource-collection>
 +    <auth-constraint>
++      <role-name>admin</role-name>
 +      <role-name>users</role-name>
 +    </auth-constraint>
 +    <user-data-constraint>
@@ -134,7 +193,12 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml
 +  </login-config>
 +
 +  <security-role>
-+    <description>a simple user role</description>
++    <description>a simple admin role</description>
++    <role-name>admin</role-name>
++  </security-role>
++  
++  <security-role>
++    <description>a simple users role</description>
 +    <role-name>users</role-name>
 +  </security-role>
 +
@@ -142,7 +206,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp1.xml
 \ No newline at end of file
 Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml
 ===================================================================
---- applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml	(revision 66722)
+--- applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml	(revision 68034)
 +++ applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml	(working copy)
 @@ -6,20 +6,20 @@
  
@@ -254,7 +318,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml
    <!-- ================================================================== -->
    <!--           MIME MAPPING                                             -->
    <!-- ================================================================== -->
-@@ -148,8 +140,30 @@
+@@ -148,8 +140,35 @@
      <mime-type>text/xml</mime-type>
    </mime-mapping>
  
@@ -269,6 +333,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml
 +      <http-method>GET</http-method>
 +    </web-resource-collection>
 +    <auth-constraint>
++      <role-name>admin</role-name>
 +      <role-name>users</role-name>
 +    </auth-constraint>
 +    <user-data-constraint>
@@ -282,16 +347,29 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web-wsrp2.xml
 +  </login-config>
 +
 +  <security-role>
-+    <description>a simple user role</description>
++    <description>a simple admin role</description>
++    <role-name>admin</role-name>
++  </security-role>
++  
++  <security-role>
++    <description>a simple users role</description>
 +    <role-name>users</role-name>
 +  </security-role>
 +
-+
  </web-app>
 \ No newline at end of file
+Index: applications/wsrp/src/main/webapp/WEB-INF/jboss-web.xml
+===================================================================
+--- applications/wsrp/src/main/webapp/WEB-INF/jboss-web.xml	(revision 0)
++++ applications/wsrp/src/main/webapp/WEB-INF/jboss-web.xml	(revision 0)
+@@ -0,0 +1,4 @@
++<?xml version="1.0"?>
++<jboss-web>
++  <security-domain>java:/jaas/exo-domain</security-domain>
++</jboss-web>
 Index: applications/wsrp/src/main/webapp/WEB-INF/web.xml
 ===================================================================
---- applications/wsrp/src/main/webapp/WEB-INF/web.xml	(revision 66722)
+--- applications/wsrp/src/main/webapp/WEB-INF/web.xml	(revision 68034)
 +++ applications/wsrp/src/main/webapp/WEB-INF/web.xml	(working copy)
 @@ -8,16 +8,25 @@
    <display-name>wsrp</display-name>
@@ -443,7 +521,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web.xml
    <servlet-mapping>
      <servlet-name>AxisServlet</servlet-name>
      <url-pattern>/servlet/AxisServlet</url-pattern>
-@@ -250,8 +255,30 @@
+@@ -250,8 +255,36 @@
      <mime-type>text/xml</mime-type>
    </mime-mapping>
  
@@ -459,6 +537,7 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web.xml
 +      <http-method>GET</http-method>
 +    </web-resource-collection>
 +    <auth-constraint>
++      <role-name>admin</role-name>
 +      <role-name>users</role-name>
 +    </auth-constraint>
 +    <user-data-constraint>
@@ -472,15 +551,249 @@ Index: applications/wsrp/src/main/webapp/WEB-INF/web.xml
 +  </login-config>
 +
 +  <security-role>
-+    <description>a simple user role</description>
++    <description>a simple admin role</description>
++    <role-name>admin</role-name>
++  </security-role>
++
++  <security-role>
++    <description>a simple users role</description>
 +    <role-name>users</role-name>
 +  </security-role>
 +
  </web-app>
 \ No newline at end of file
+Index: applications/demos/src/main/java/org/exoplatform/services/portletcontainer/demo/portlet/SecurityPortlet.java
+===================================================================
+--- applications/demos/src/main/java/org/exoplatform/services/portletcontainer/demo/portlet/SecurityPortlet.java	(revision 0)
++++ applications/demos/src/main/java/org/exoplatform/services/portletcontainer/demo/portlet/SecurityPortlet.java	(revision 0)
+@@ -0,0 +1,86 @@
++/*
++ * Copyright (C) 2003-2007 eXo Platform SAS.
++ *
++ * This program is free software; you can redistribute it and/or
++ * modify it under the terms of the GNU Affero General Public License
++ * as published by the Free Software Foundation; either version 3
++ * of the License, or (at your option) any later version.
++
++ * This program is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++
++ * You should have received a copy of the GNU General Public License
++ * along with this program; if not, see<http://www.gnu.org/licenses/>.
++ */
++package org.exoplatform.services.portletcontainer.demo.portlet;
++
++import java.io.IOException;
++import java.io.PrintWriter;
++import java.util.Enumeration;
++
++import javax.portlet.ActionRequest;
++import javax.portlet.ActionResponse;
++import javax.portlet.GenericPortlet;
++import javax.portlet.PortletException;
++import javax.portlet.PortletMode;
++import javax.portlet.PortletURL;
++import javax.portlet.RenderRequest;
++import javax.portlet.RenderResponse;
++import javax.portlet.WindowState;
++
++/**
++ * Test portlet SecurityPortlet.
++ */
++public class SecurityPortlet extends GenericPortlet {
++
++  /**
++   * Overridden method.
++   *
++   * @param renderRequest render request
++   * @param renderResponse render response
++   * @throws PortletException something may go wrong
++   * @throws IOException something may go wrong
++   * @see javax.portlet.GenericPortlet#doView(javax.portlet.RenderRequest, javax.portlet.RenderResponse)
++   */
++  public void doView(RenderRequest renderRequest, RenderResponse renderResponse)
++      throws PortletException, IOException {
++    renderResponse.setContentType("text/html; charset=UTF-8");
++    PrintWriter w = renderResponse.getWriter();
++
++    //user and roles
++    w.println("User: " + renderRequest.getRemoteUser() + "<br>");
++    w.println("Principal: " + renderRequest.getUserPrincipal().getName() + "<br>");
++    w.println("Is in 'admin' role: " + renderRequest.isUserInRole("admin") + "<br>");
++    w.println("Is in 'users' role: " + renderRequest.isUserInRole("users") + "<br>");
++    w.println("Is in 'exo' role: " + renderRequest.isUserInRole("exo") + "<br>");
++    
++    PortletURL actionURL = renderResponse.createActionURL();
++    actionURL.setWindowState(WindowState.NORMAL);
++    actionURL.setPortletMode(PortletMode.VIEW);
++    w.println("<p><a href=\"" + actionURL.toString() + "\">action url</a>");
++
++    //PARAMETERS
++    w.println("<table width=\"100%\" border=\"2\" style=\"border-collapse:collapse;border-style:solid;\">");
++    w.println("<tr><th colspan=\"2\">Request parameters</th></tr>");
++    w.println("<tr><th colspan=\"2\">parameter &nbsp;&nbsp;&nbsp;/&nbsp;&nbsp;&nbsp; value</th></tr>");
++    Enumeration e = renderRequest.getParameterNames();
++    while (e.hasMoreElements()) {
++      String s = (String) e.nextElement();
++      w.println("<tr><td colspan=\"2\" style=\"padding-left: 5px; font-size: small;\">" + s + "</td></tr>");
++      w.println("<tr><td colspan=\"2\" style=\"padding-left: 20px; font-size: small;\">" + renderRequest.getParameter(s) + "</td></tr>");
++    }
++    w.println("</table>");
++  }
++
++  public void processAction(ActionRequest actionRequest, ActionResponse actionResponse)
++      throws PortletException, IOException {
++	  actionResponse.setRenderParameter("User:", actionRequest.getRemoteUser());
++	  actionResponse.setRenderParameter("Principal:", actionRequest.getUserPrincipal().getName());
++	  actionResponse.setRenderParameter("Is in 'admin' role:", String.valueOf(actionRequest.isUserInRole("admin")));
++	  actionResponse.setRenderParameter("Is in 'users' role:", String.valueOf(actionRequest.isUserInRole("users")));
++	  actionResponse.setRenderParameter("Is in 'exo' role:", String.valueOf(actionRequest.isUserInRole("exo")));
++  }
++
++}
+Index: applications/demos/src/main/webapp/WEB-INF/portlet.xml
+===================================================================
+--- applications/demos/src/main/webapp/WEB-INF/portlet.xml	(revision 68034)
++++ applications/demos/src/main/webapp/WEB-INF/portlet.xml	(working copy)
+@@ -235,6 +235,34 @@
+       <title>AdminPortlet title</title>
+     </portlet-info>
+   </portlet>
++  
++  <portlet>
++    <description xml:lang="en">Security demo portlet</description>
++    <portlet-name>SecurityPortlet</portlet-name>
++    <display-name xml:lang="en">SecurityPortlet</display-name>
++    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.SecurityPortlet</portlet-class>
++    <expiration-cache>0</expiration-cache>
++    <supports>
++      <mime-type>text/html</mime-type>
++      <portlet-mode>view</portlet-mode>
++    </supports>
++    <supported-locale>en</supported-locale>
++    <portlet-info>
++      <title>SecurityPortlet title</title>
++    </portlet-info>
++    <security-role-ref>
++       <role-name>admin</role-name>
++       <role-link>admin</role-link>
++    </security-role-ref>
++    <security-role-ref>
++       <role-name>users</role-name>
++       <role-link>users</role-link>
++    </security-role-ref>
++    <security-role-ref>
++       <role-name>exo</role-name>
++       <role-link>exo</role-link>
++    </security-role-ref>
++  </portlet>
+ 
+   <event-definition>
+     <name>MyEventPub</name>
+Index: applications/demos/src/main/webapp/WEB-INF/web.xml
+===================================================================
+--- applications/demos/src/main/webapp/WEB-INF/web.xml	(revision 68034)
++++ applications/demos/src/main/webapp/WEB-INF/web.xml	(working copy)
+@@ -39,7 +39,19 @@
+     <url-pattern>/demo</url-pattern>
+   </servlet-mapping>
+ 
++  <security-role>
++    <description>a simple admin role</description>
++    <role-name>admin</role-name>
++  </security-role>
++
++  <security-role>
++    <description>a simple users role</description>
++    <role-name>users</role-name>
++  </security-role>
++
+   <security-role>
+-    <role-name>auth-user</role-name>
+-  </security-role>
++    <description>a simple exo role</description>
++    <role-name>exo</role-name>
++  </security-role>
++
+ </web-app>
+\ No newline at end of file
+Index: applications/test-portal/src/main/webapp/META-INF/context.xml
+===================================================================
+--- applications/test-portal/src/main/webapp/META-INF/context.xml	(revision 68034)
++++ applications/test-portal/src/main/webapp/META-INF/context.xml	(working copy)
+@@ -1,4 +1,4 @@
+-<Context path="/portal" docBase="${catalina.home}/webapps/portal.war" debug="0" crossContext="true">
++<Context path="/portal" docBase="portal" debug="0" crossContext="true">
+     <Realm className='org.apache.catalina.realm.JAASRealm'
+            appName='exo-domain'
+            userClassNames='org.exoplatform.services.security.jaas.UserPrincipal'
+Index: applications/test-portal/src/main/webapp/WEB-INF/web.xml
+===================================================================
+--- applications/test-portal/src/main/webapp/WEB-INF/web.xml	(revision 68034)
++++ applications/test-portal/src/main/webapp/WEB-INF/web.xml	(working copy)
+@@ -115,6 +115,8 @@
+     </web-resource-collection>
+     <auth-constraint>
+       <role-name>admin</role-name>
++      <role-name>users</role-name>
++      <role-name>exo</role-name>
+     </auth-constraint>
+     <user-data-constraint>
+       <transport-guarantee>NONE</transport-guarantee>
+@@ -134,5 +136,15 @@
+     <description>a simple admin role</description>
+     <role-name>admin</role-name>
+   </security-role>
++
++  <security-role id="ID_EXO_USER">
++    <description>a simple users role</description>
++    <role-name>users</role-name>
++  </security-role>
++
++  <security-role id="ID_EXO_EXO">
++    <description>a simple exo role</description>
++    <role-name>exo</role-name>
++  </security-role>
+ 
+ </web-app>
+\ No newline at end of file
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/impl/servlet/PortletApplicationListener.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/impl/servlet/PortletApplicationListener.java	(revision 68034)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/impl/servlet/PortletApplicationListener.java	(working copy)
+@@ -132,15 +132,23 @@
+       ExoXPPParser xpp = ExoXPPParser.getInstance();
+       xpp.setInput(is, "UTF8");
+       xpp.mandatoryNode("web-app");
++      boolean isEnd = false;
+       while (!xpp.node("security-role")) {
+-        if (xpp.getEventType() == XmlPullParser.END_DOCUMENT)
++        if (xpp.getEventType() == XmlPullParser.END_DOCUMENT) {
++          isEnd = true;
+           break;
++        }
+         xpp.next();
+       }
+-      if (xpp.node("role-name")) {
+-        roles.add(xpp.getContent());
+-        while (xpp.node("security-role"))
++      if (!isEnd) {
++        while (xpp.node("description")) {xpp.next();}
++        roles.add(xpp.mandatoryNodeContent("role-name"));
++        xpp.next();
++        while (xpp.node("security-role")) {
++          while (xpp.node("description")) {xpp.next();}
+           roles.add(xpp.mandatoryNodeContent("role-name"));
++          xpp.next();
++        }
+       }
+       log.info("  -- read: " + portletApp.getPortlet().size() + " portlets");
+       PortletApplicationRegister service = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);
 Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java
 ===================================================================
---- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java	(revision 66722)
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java	(revision 68034)
 +++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/tags/XURLTag.java	(working copy)
 @@ -349,8 +349,17 @@
     * @return url string
@@ -503,7 +816,7 @@ Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontai
     * @return portlet url
 Index: component/plugins/wsrp1/war_template/WEB-INF/web.xml
 ===================================================================
---- component/plugins/wsrp1/war_template/WEB-INF/web.xml	(revision 66722)
+--- component/plugins/wsrp1/war_template/WEB-INF/web.xml	(revision 68034)
 +++ component/plugins/wsrp1/war_template/WEB-INF/web.xml	(working copy)
 @@ -15,41 +15,15 @@
      <param-value>test-parame-value</param-value>
@@ -640,7 +953,7 @@ Index: component/plugins/wsrp1/war_template/WEB-INF/web.xml
    <servlet-mapping>
 Index: component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/test/BaseTest.java
 ===================================================================
---- component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/test/BaseTest.java	(revision 66722)
+--- component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/test/BaseTest.java	(revision 68034)
 +++ component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/test/BaseTest.java	(working copy)
 @@ -17,17 +17,13 @@
  
@@ -785,7 +1098,7 @@ Index: component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/test/
  }
 Index: component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/testConsumer/BaseTest.java
 ===================================================================
---- component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/testConsumer/BaseTest.java	(revision 66722)
+--- component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/testConsumer/BaseTest.java	(revision 68034)
 +++ component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/testConsumer/BaseTest.java	(working copy)
 @@ -17,16 +17,6 @@
  
@@ -878,7 +1191,7 @@ Index: component/plugins/wsrp1/src/test/java/org/exoplatform/services/wsrp/testC
    public void tearDown() throws Exception {
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/WSRPStarter.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/WSRPStarter.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/WSRPStarter.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/WSRPStarter.java	(working copy)
 @@ -17,6 +17,13 @@
  
@@ -997,7 +1310,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/produ
      URL     wsdd;
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/helpers/ProducerRewriterPortletURLImp.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/helpers/ProducerRewriterPortletURLImp.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/helpers/ProducerRewriterPortletURLImp.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/helpers/ProducerRewriterPortletURLImp.java	(working copy)
 @@ -54,6 +54,10 @@
      this.sessionID = sessionID;
@@ -1012,7 +1325,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/produ
      if (!isSetSecureCalled() && isCurrentlySecured()) {
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/TransientStateManagerImpl.java	(working copy)
 @@ -47,7 +47,7 @@
  
@@ -1069,7 +1382,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/produ
          cache.put(sessionID, session);
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/producer/impl/MarkupOperationsInterfaceImpl.java	(working copy)
 @@ -95,7 +95,7 @@
  
@@ -1100,7 +1413,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/produ
        map = persistentStateManager.getNavigationalSate(navigationalState);
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/AdminClient.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/AdminClient.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/AdminClient.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/AdminClient.java	(working copy)
 @@ -17,16 +17,6 @@
  
@@ -1258,7 +1571,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/secur
 +}
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/ProducerImpl.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/ProducerImpl.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/ProducerImpl.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/ProducerImpl.java	(working copy)
 @@ -17,15 +17,13 @@
  
@@ -1354,7 +1667,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consu
  }
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/WSRPConsumerPlugin.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/WSRPConsumerPlugin.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/WSRPConsumerPlugin.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/WSRPConsumerPlugin.java	(working copy)
 @@ -17,29 +17,6 @@
  
@@ -1611,7 +1924,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consu
        if (user == null) {
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/PortletDriverImpl.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/PortletDriverImpl.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/PortletDriverImpl.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/impl/PortletDriverImpl.java	(working copy)
 @@ -18,11 +18,12 @@
  package org.exoplatform.services.wsrp.consumer.impl;
@@ -1972,7 +2285,7 @@ Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consu
  }
 Index: component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/PortletDriver.java
 ===================================================================
---- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/PortletDriver.java	(revision 66722)
+--- component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/PortletDriver.java	(revision 68034)
 +++ component/plugins/wsrp1/src/main/java/org/exoplatform/services/wsrp/consumer/PortletDriver.java	(working copy)
 @@ -53,7 +53,13 @@
    /**
@@ -4764,7 +5077,7 @@ Index: component/plugins/wsrp1/src/main/resources/org/exoplatform/services/wsrp/
 +</deployment>
 Index: component/plugins/wsrp1/pom.xml
 ===================================================================
---- component/plugins/wsrp1/pom.xml	(revision 66722)
+--- component/plugins/wsrp1/pom.xml	(revision 68034)
 +++ component/plugins/wsrp1/pom.xml	(working copy)
 @@ -177,6 +177,11 @@
        <artifactId>portlet-api</artifactId>
@@ -5006,7 +5319,7 @@ Index: component/plugins/wsrp1/client_deploy.wsdd
 +</deployment>
 Index: component/plugins/wsrp2/war_template/WEB-INF/web.xml
 ===================================================================
---- component/plugins/wsrp2/war_template/WEB-INF/web.xml	(revision 66722)
+--- component/plugins/wsrp2/war_template/WEB-INF/web.xml	(revision 68034)
 +++ component/plugins/wsrp2/war_template/WEB-INF/web.xml	(working copy)
 @@ -15,26 +15,6 @@
      <param-value>test-parame-value</param-value>
@@ -5094,7 +5407,7 @@ Index: component/plugins/wsrp2/war_template/WEB-INF/web.xml
    <servlet-mapping>
 Index: component/plugins/wsrp2/war_template/WEB-INF/classes/conf/exo-configuration.xml
 ===================================================================
---- component/plugins/wsrp2/war_template/WEB-INF/classes/conf/exo-configuration.xml	(revision 66722)
+--- component/plugins/wsrp2/war_template/WEB-INF/classes/conf/exo-configuration.xml	(revision 68034)
 +++ component/plugins/wsrp2/war_template/WEB-INF/classes/conf/exo-configuration.xml	(working copy)
 @@ -5,6 +5,7 @@
      <key>org.exoplatform.services.organization.OrganizationService</key>
@@ -5106,7 +5419,7 @@ Index: component/plugins/wsrp2/war_template/WEB-INF/classes/conf/exo-configurati
      <type>org.exoplatform.services.resources.impl.LocaleConfigServiceImpl</type>
 Index: component/plugins/wsrp2/src/sql/create.sql
 ===================================================================
---- component/plugins/wsrp2/src/sql/create.sql	(revision 66722)
+--- component/plugins/wsrp2/src/sql/create.sql	(revision 68034)
 +++ component/plugins/wsrp2/src/sql/create.sql	(working copy)
 @@ -1,14 +1,14 @@
  ------------------------------------------------------
@@ -5127,7 +5440,7 @@ Index: component/plugins/wsrp2/src/sql/create.sql
    PRIMARY KEY (id));
 Index: component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/test/BaseTest.java
 ===================================================================
---- component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/test/BaseTest.java	(revision 66722)
+--- component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/test/BaseTest.java	(revision 68034)
 +++ component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/test/BaseTest.java	(working copy)
 @@ -17,19 +17,13 @@
  
@@ -5245,7 +5558,7 @@ Index: component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/test
      StackTraceElement ste = Thread.currentThread().getStackTrace()[3];
 Index: component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/testConsumer/BaseTest.java
 ===================================================================
---- component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/testConsumer/BaseTest.java	(revision 66722)
+--- component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/testConsumer/BaseTest.java	(revision 68034)
 +++ component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/testConsumer/BaseTest.java	(working copy)
 @@ -17,16 +17,6 @@
  
@@ -5327,7 +5640,7 @@ Index: component/plugins/wsrp2/src/test/java/org/exoplatform/services/wsrp2/test
    public void tearDown() throws Exception {
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRPStarter.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRPStarter.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRPStarter.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRPStarter.java	(working copy)
 @@ -17,6 +17,13 @@
  
@@ -5438,7 +5751,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
      URL     wsdd;
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/helpers/ProducerRewriterPortletURLImp.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/helpers/ProducerRewriterPortletURLImp.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/helpers/ProducerRewriterPortletURLImp.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/helpers/ProducerRewriterPortletURLImp.java	(working copy)
 @@ -65,6 +65,10 @@
      this.supportedPublicRenderParameter = supportedPublicRenderParameter;
@@ -5453,7 +5766,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
      if (getType().equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/TransientStateManagerImpl.java	(working copy)
 @@ -47,7 +47,7 @@
  
@@ -5502,7 +5815,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
          cache.put(sessionID, session);
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/MarkupOperationsInterfaceImpl.java	(working copy)
 @@ -1187,10 +1187,12 @@
    }
@@ -5521,7 +5834,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
        if (log.isDebugEnabled() && map != null) {
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/producer/impl/WSRP2StateData.java	(working copy)
 @@ -23,9 +23,8 @@
   * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
@@ -5536,7 +5849,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/prod
  
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/AdminClient.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/AdminClient.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/AdminClient.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/AdminClient.java	(working copy)
 @@ -17,16 +17,6 @@
  
@@ -5694,7 +6007,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/secu
 +}
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/ProducerImpl.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/ProducerImpl.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/ProducerImpl.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/ProducerImpl.java	(working copy)
 @@ -17,15 +17,13 @@
  
@@ -5790,7 +6103,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/cons
  }
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRPConsumerPlugin.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRPConsumerPlugin.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRPConsumerPlugin.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRPConsumerPlugin.java	(working copy)
 @@ -17,31 +17,6 @@
  
@@ -6185,7 +6498,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/cons
            log.debug("manage BlockingInteractionResponse object content");
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/PortletDriverImpl.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/PortletDriverImpl.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/PortletDriverImpl.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/PortletDriverImpl.java	(working copy)
 @@ -18,9 +18,11 @@
  package org.exoplatform.services.wsrp2.consumer.impl;
@@ -6464,7 +6777,7 @@ Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/cons
  }
 Index: component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java
 ===================================================================
---- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(revision 66722)
+--- component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(revision 68034)
 +++ component/plugins/wsrp2/src/main/java/org/exoplatform/services/wsrp2/consumer/impl/WSRP2ProducerData.java	(working copy)
 @@ -24,7 +24,7 @@
   * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
@@ -11174,7 +11487,7 @@ Index: component/plugins/wsrp2/src/main/resources/org/exoplatform/services/wsrp2
 +</deployment>
 Index: component/plugins/wsrp2/pom.xml
 ===================================================================
---- component/plugins/wsrp2/pom.xml	(revision 66722)
+--- component/plugins/wsrp2/pom.xml	(revision 68034)
 +++ component/plugins/wsrp2/pom.xml	(working copy)
 @@ -186,6 +186,11 @@
        <artifactId>portlet-api</artifactId>
@@ -11399,7 +11712,7 @@ Index: component/plugins/wsrp2/client_deploy.wsdd
 +</deployment>
 Index: component/core/src/main/java/org/exoplatform/services/portletcontainer/helper/WindowInfosContainer.java
 ===================================================================
---- component/core/src/main/java/org/exoplatform/services/portletcontainer/helper/WindowInfosContainer.java	(revision 66722)
+--- component/core/src/main/java/org/exoplatform/services/portletcontainer/helper/WindowInfosContainer.java	(revision 68034)
 +++ component/core/src/main/java/org/exoplatform/services/portletcontainer/helper/WindowInfosContainer.java	(working copy)
 @@ -106,9 +106,10 @@
     */
