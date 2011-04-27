@@ -15,26 +15,6 @@
     <param-value>test-parame-value</param-value>
   </context-param>
 
-  <listener>
-    <listener-class>
-      org.exoplatform.services.portletcontainer.test.listener.AppListener
-    </listener-class>
-  </listener>
-
-  <listener>
-    <listener-class>
-      org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener
-    </listener-class>
-  </listener>
-
-  <servlet>
-    <servlet-name>PortletWrapper</servlet-name>
-    <servlet-class>
-      org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper
-    </servlet-class>
-    <servlet-mapping></servlet-mapping>
-  </servlet>
-
   <!-- AXIS filter for WSRP2 -->
 
   <filter>
@@ -46,10 +26,6 @@
       <param-name>portal-container-name</param-name>
       <param-value>portal</param-value>
     </init-param>
-    <init-param>
-      <param-name>retries-to-register</param-name>
-      <param-value>3</param-value>
-    </init-param>
   </filter>
 
   <!-- AXIS filter mapping for WSRP2 -->
@@ -58,6 +34,19 @@
     <filter-name>AxisFilter</filter-name>
     <url-pattern>/services2/*</url-pattern>
   </filter-mapping>
+  
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.test.listener.AppListener</listener-class>
+  </listener>
+
+  <listener>
+    <listener-class>org.exoplatform.services.portletcontainer.impl.servlet.PortletApplicationListener</listener-class>
+  </listener>
+
+  <servlet>
+    <servlet-name>PortletWrapper</servlet-name>
+    <servlet-class>org.exoplatform.services.portletcontainer.impl.servlet.ServletWrapper</servlet-class>
+  </servlet>
 
   <!-- WSRPStarter servlet for WSRP2 -->
 
@@ -80,6 +69,10 @@
       <param-value>
         org/exoplatform/services/wsrp2/wsdl/deploy.wsdd
       </param-value>
+    </init-param>
+    <init-param>
+      <param-name>credentials</param-name>
+      <param-value>admin/admin</param-value>
     </init-param>
     <init-param>
       <param-name>delay-before-start-sec</param-name>
@@ -127,13 +120,6 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-
-  <!-- WSRPStarter mapping for WSRP2 -->
-
-  <!-- servlet-mapping>
-    <servlet-name>WSRPStarter2</servlet-name>
-    <url-pattern>/servlet/WSRPStarter2</url-pattern>
-    </servlet-mapping -->
 
   <!-- soap/axis service mapping for WSRP2 -->
 

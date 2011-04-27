@@ -17,31 +17,6 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
-import java.io.Serializable;
-import java.io.Writer;
-import java.net.URLDecoder;
-import java.net.URLEncoder;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Locale;
-import java.util.Map;
-import java.util.ResourceBundle;
-
-import javax.portlet.PortletException;
-import javax.portlet.PortletMode;
-import javax.portlet.PortletPreferences;
-import javax.portlet.PortletRequest;
-import javax.portlet.WindowState;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import javax.xml.namespace.QName;
-
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.exoplatform.Constants;
@@ -133,6 +108,31 @@ import org.exoplatform.services.wsrp2.utils.Modes;
 import org.exoplatform.services.wsrp2.utils.Utils;
 import org.exoplatform.services.wsrp2.utils.WindowStates;
 
+import java.io.Serializable;
+import java.io.Writer;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Locale;
+import java.util.Map;
+import java.util.ResourceBundle;
+
+import javax.portlet.PortletException;
+import javax.portlet.PortletMode;
+import javax.portlet.PortletPreferences;
+import javax.portlet.PortletRequest;
+import javax.portlet.WindowState;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import javax.xml.namespace.QName;
+
 /**
  * Based on WSRPConsumerPortlet written by Benjamin Mestrallet Author : Roman
  * Pedchenko roman.pedchenko@exoplatform.com.ua Author : Alexey Zavizionov
@@ -151,7 +151,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
   private static final String       userAgent          = "userAgent";
 
-  //  private static final String       basePath           = "/portal/";
+  private static final String       basePath           = "/portal/";
 
   protected WSRPAdminPortletDataImp adminPortlet       = null;
 
@@ -187,7 +187,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     this.templateComposer = templateComposer;
     this.pcConf = pcConf;
     this.conf = conf;
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
+    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2.consumer.impl.WSRPConsumerPlugin");
     initConsumer();
   }
 
@@ -227,7 +227,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     consumer.setMimeTypes(mimeTypes);
     consumer.setPortletStateChange(StateChange.readWrite);
     // TODO modes and states should be getting from producer
-    //
     // consumer.setSupportedModes(getPortletModes(Collections.list(pcConf.getSupportedPortletModes())));
     consumer.setSupportedModes(getPortletModes(pcService.getSupportedPortletModes()));
     // consumer.setSupportedWindowStates(getWindowStates(Collections.list(pcConf.getSupportedWindowStates())));
@@ -426,7 +425,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     /* for WSRP Admin Portlet */
     if (WSRPAdminPortletDataImp.isOfferToProcess(portletAppName, portletName))
       return adminPortlet.isModeSuported(markup, mode);
-
     return false;
   }
 
@@ -446,7 +444,6 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     ArrayList<WindowState> result = null;
     ProducerRegistry pregistry = consumer.getProducerRegistry();
     Iterator<Producer> i = pregistry.getAllProducers();
-
     while (i.hasNext()) {
       Producer producer = i.next();
       if (producer.getID().equalsIgnoreCase(producerID)) {
@@ -694,42 +691,45 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       try {
         String key = input.getInternalWindowID().generateKey();
         log.debug("use windowID : " + key);
-        //        User user = getUser(request);
-        //        String userID = "";
-        //        if (user != null) {
-        //          userID = user.getUserID();
-        //          log.debug("use userID : " + userID);
-        //        }
-
+        
+        User user = getUser(request);
+        String userID = null;
+        if (user != null) {
+          userID = user.getUserID();
+          log.debug("use userID : " + userID);
+        }
+        
         WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
         String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
         portlet.getPortletContext().setPortletHandle(newPortletHandle);
         UserSessionMgr userSession = getUserSession(request.getSession(),
                                                     portletKey.getProducerId());
+        userSession.setUserID(userID);
         PortletWindowSession windowSession = getWindowSession(portletKey, portlet, userSession, key);
 
         WSRPInteractionRequest iRequest = getInteractionRequest(input, windowSession);
 
-        String baseURL = null;
-        //        baseURL = request.getRequestURI();
-        //        log.debug("User path info : " + baseURL);
-        //        if (baseURL == null) {
-        //          //path = basePath;
-        //        }
-        //        baseURL += "?";
-        //        String remoteUser = request.getRemoteUser();
-        //        if (remoteUser != null) {
-        //          baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-        //        }
-        //        baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + portletAppName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-        //        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-        //        log.debug("use base path : " + baseURL);
-        baseURL = input.getBaseURL();
+        String path = null;
+        path = request.getRequestURI();
+        log.debug("User path info : " + path);
+        if (path == null)
+          path = basePath;
+        path += "?";
+        String remoteUser = request.getRemoteUser();
+        if (remoteUser != null) {
+          path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser()
+              + "&";
+        }
+        path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + portletAppName
+            + Constants.PORTLET_HANDLE_ENCODER + portletName;
+        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+        log.debug("use base path : " + path);
+        path = input.getBaseURL();
 
         /* MAIN INVOKE */
         BlockingInteractionResponse iResponse = getPortletDriver(portlet).performBlockingInteraction(iRequest,
                                                                                                      userSession,
-                                                                                                     baseURL);
+                                                                                                     path);
         if (iResponse != null) {
           log.debug("manage BlockingInteractionResponse object content");
           String redirectURL = iResponse.getRedirectURL();
@@ -886,16 +886,18 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           String key = windowID.generateKey();
           log.debug("key generated by windowID : " + key);
           response.setContentType(input.getMarkup());
-          //          User user = getUser(request);
-          //          String userID = null;
-          //          if (user != null) {
-          //            log.debug("use userID : " + userID);
-          //            userID = user.getUserID();
-          //          }
+          
+          User user = getUser(request);
+          String userID = null;
+          if (user != null) {
+            userID = user.getUserID();
+            log.debug("use userID : " + userID);
+          }
 
           try {
             UserSessionMgr userSession = getUserSession(request.getSession(),
                                                         portletKey.getProducerId());
+            userSession.setUserID(userID);
             WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
             // below I add the uniqueID to the portlet handle within PortletContext
             String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
@@ -906,26 +908,27 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
                                                                          key);
 
             WSRPMarkupRequest markupRequest = getMarkupRequest(input, portletWindowSession);
-            String baseURL = null;
-            //            baseURL = request.getRequestURI();
-            //            log.debug("User path info : " + baseURL);
-            //            if (baseURL == null) {
-            //              //path = basePath;
-            //            }
-            //            baseURL += "?";
-            //            String remoteUser = request.getRemoteUser();
-            //            if (remoteUser != null) {
-            //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-            //            }
-            //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-            //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-            //            log.debug("use base path : " + baseURL);
-            baseURL = input.getBaseURL();
+            String path = null;
+            path = request.getRequestURI();
+            log.debug("User path info : " + path);
+            if (path == null)
+              path = basePath;
+            path += "?";
+            String remoteUser = request.getRemoteUser();
+            if (remoteUser != null) {
+              path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser()
+                  + "&";
+            }
+            path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + portletAppName
+                + Constants.PORTLET_HANDLE_ENCODER + portletName;
+            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+            log.debug("use base path : " + path);
+            path = input.getBaseURL();
 
             /* MAIN INVOKE */
             MarkupResponse mResponse = getPortletDriver(portlet).getMarkup(markupRequest,
                                                                            userSession,
-                                                                           baseURL);
+                                                                           path);
             if (mResponse != null) {
               if (portletWindowSession != null) {
                 updateSessionContext(mResponse.getSessionContext(),
@@ -1020,7 +1023,7 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
     User user = null;
     WindowInfosContainer scontainer = WindowInfosContainer.getInstance(); // TODO
     if (scontainer != null) {
-      String userKey = scontainer.getOwner();
+      String userKey = request.getRemoteUser();
       log.debug("getUser method with user key : " + userKey);
       user = consumer.getUserRegistry().getUser(userKey);
       if (user == null) {
@@ -1358,15 +1361,18 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
           String key = windowID.generateKey();
           log.debug("key generated by windowID : " + key);
           response.setContentType(input.getMarkup());
-          //          User user = getUser(request);
-          //          String userID = null;
-          //          if (user != null) {
-          //            log.debug("use userID : " + userID);
-          //            userID = user.getUserID();
-          //          }
+
+          User user = getUser(request);
+          String userID = null;
+          if (user != null) {
+            userID = user.getUserID();
+            log.debug("use userID : " + userID);
+          }
+          
           try {
             UserSessionMgr userSession = getUserSession(request.getSession(),
                                                         portletKey.getProducerId());
+            userSession.setUserID(userID);
             WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
             // below I add the uniqueID to the portlet handle within PortletContext
             String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
@@ -1378,26 +1384,27 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
             WSRPResourceRequest resourceRequest = getResourceRequest(input, portletWindowSession);
 
-            String baseURL = null;
-            //            baseURL = request.getRequestURI();
-            //            log.debug("User path info : " + baseURL);
-            //            if (baseURL == null) {
-            //              //path = basePath;
-            //            }
-            //            baseURL += "?";
-            //            String remoteUser = request.getRemoteUser();
-            //            if (remoteUser != null) {
-            //              baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-            //            }
-            //            baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-            //            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-            //            log.debug("use base path : " + baseURL);
-            baseURL = input.getBaseURL();
+            String path = null;
+            path = request.getRequestURI();
+            log.debug("User path info : " + path);
+            if (path == null)
+              path = basePath;
+            path += "?";
+            String remoteUser = request.getRemoteUser();
+            if (remoteUser != null) {
+              path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser()
+                  + "&";
+            }
+            path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + portletAppName
+                + Constants.PORTLET_HANDLE_ENCODER + portletName;
+            // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+            log.debug("use base path : " + path);
+            path = input.getBaseURL();
 
             /* MAIN INVOKE */
             ResourceResponse resResponse = getPortletDriver(portlet).getResource(resourceRequest,
                                                                                  userSession,
-                                                                                 baseURL);
+                                                                                 path);
 
             if (resResponse != null) {
               if (portletWindowSession != null) {
@@ -1553,12 +1560,13 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
       try {
         String key = input.getInternalWindowID().generateKey();
         log.debug("use windowID : " + key);
-        //        User user = getUser(request);
-        //        String userID = "";
-        //        if (user != null) {
-        //          userID = user.getUserID();
-        //          log.debug("use userID : " + userID);
-        //        }
+        
+        User user = getUser(request);
+        String userID = null;
+        if (user != null) {
+          userID = user.getUserID();
+          log.debug("use userID : " + userID);
+        }
 
         WSRPPortlet portlet = getPortlet(portletKey, portletHandle);
         String newPortletHandle = portletHandle + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
@@ -1566,30 +1574,32 @@ public class WSRPConsumerPlugin implements PortletContainerPlugin {
 
         UserSessionMgr userSession = getUserSession(request.getSession(),
                                                     portletKey.getProducerId());
+        userSession.setUserID(userID);
         PortletWindowSession windowSession = getWindowSession(portletKey, portlet, userSession, key);
 
         WSRPEventsRequest iRequest = getEventsRequest(input, windowSession);
 
-        String baseURL = null;
-        //         baseURL = request.getRequestURI();
-        //        log.debug("User path info : " + baseURL);
-        //        if (baseURL == null) {
-        //          //path = basePath;
-        //        }
-        //        baseURL += "?";
-        //        String remoteUser = request.getRemoteUser();
-        //        if (remoteUser != null) {
-        //          baseURL += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser() + "&";
-        //        }
-        //        baseURL += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + appName + Constants.PORTLET_HANDLE_ENCODER + portletName;
-        //        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
-        //        log.debug("use base path : " + baseURL);
-        baseURL = input.getBaseURL();
+        String path = null;
+        path = request.getRequestURI();
+        log.debug("User path info : " + path);
+        if (path == null)
+          path = basePath;
+        path += "?";
+        String remoteUser = request.getRemoteUser();
+        if (remoteUser != null) {
+          path += org.exoplatform.Constants.PORTAL_CONTEXT + "=" + request.getRemoteUser()
+              + "&";
+        }
+        path += org.exoplatform.Constants.COMPONENT_PARAMETER + "=" + portletAppName
+            + Constants.PORTLET_HANDLE_ENCODER + portletName;
+        // + Constants.PORTLET_HANDLE_ENCODER + uniqueID;
+        log.debug("use base path : " + path);
+        path = input.getBaseURL();
 
         /* MAIN INVOKE */
         HandleEventsResponse iResponse = getPortletDriver(portlet).handleEvents(iRequest,
                                                                                 userSession,
-                                                                                baseURL);
+                                                                                path);
 
         if (iResponse != null) {
           log.debug("manage BlockingInteractionResponse object content");

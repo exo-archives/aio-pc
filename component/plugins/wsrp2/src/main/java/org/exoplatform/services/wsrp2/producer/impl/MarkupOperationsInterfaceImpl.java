@@ -1187,10 +1187,12 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
   }
 
   private Map<String, String[]> processNavigationalState(NavigationalContext navigationalContext) throws java.rmi.RemoteException {
+    String navigationalState = navigationalContext.getOpaqueValue();
+    log.debug("Lookup navigational state : " + navigationalState);
+    if (navigationalState == null)
+      return null;
     Map<String, String[]> map = null;
     try {
-      String navigationalState = navigationalContext.getOpaqueValue();
-      log.debug("Lookup navigational state : " + navigationalState);
       map = persistentStateManager.getNavigationalState(navigationalState);
       // for debug:
       if (log.isDebugEnabled() && map != null) {

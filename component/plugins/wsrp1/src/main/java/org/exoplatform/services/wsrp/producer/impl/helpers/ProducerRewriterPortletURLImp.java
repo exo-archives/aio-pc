@@ -54,6 +54,10 @@ public class ProducerRewriterPortletURLImp extends PortletURLImp {
     this.sessionID = sessionID;
   }
 
+  public String toString(final boolean escapeXML) {
+    return toString();
+  }
+  
   public String toString() {
     String secureInfo = "false";
     if (!isSetSecureCalled() && isCurrentlySecured()) {

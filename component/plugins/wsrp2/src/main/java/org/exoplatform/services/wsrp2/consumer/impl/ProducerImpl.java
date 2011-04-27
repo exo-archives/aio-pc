@@ -17,15 +17,13 @@
 
 package org.exoplatform.services.wsrp2.consumer.impl;
 
-import java.net.MalformedURLException;
-import java.net.URL;
-import java.rmi.RemoteException;
-
-import javax.xml.rpc.ServiceException;
-
 import org.apache.commons.logging.Log;
+import org.apache.ws.security.handler.WSHandlerConstants;
 import org.exoplatform.container.ExoContainer;
+import org.exoplatform.container.ExoContainerContext;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.organization.OrganizationService;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.wsrp2.consumer.Producer;
 import org.exoplatform.services.wsrp2.exceptions.Faults;
 import org.exoplatform.services.wsrp2.exceptions.WSRPException;
@@ -45,6 +43,13 @@ import org.exoplatform.services.wsrp2.type.ReturnAny;
 import org.exoplatform.services.wsrp2.type.ServiceDescription;
 import org.exoplatform.services.wsrp2.wsdl.WSRPService;
 import org.exoplatform.services.wsrp2.wsdl.WSRPServiceLocator;
+
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.rmi.RemoteException;
+
+import javax.xml.rpc.Call;
+import javax.xml.rpc.ServiceException;
 
 /*
  * @author  Mestrallet Benjamin
@@ -96,8 +101,8 @@ public class ProducerImpl implements Producer, java.io.Serializable {
   }
 
   public void init(ExoContainer cont) {
-    service = (WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
-    ((WSRPServiceLocator) service).setMaintainSession(true);
+    this.service = (WSRPService) cont.getComponentInstanceOfType(WSRPService.class);
+    ((WSRPServiceLocator) this.service).setMaintainSession(true);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp2");
   }
 
@@ -157,6 +162,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
         e.printStackTrace();
       }
     }
+    applySecurityParams((org.apache.axis.client.Stub)serviceDescriptionInterface);
     return serviceDescriptionInterface;
   }
 
@@ -240,6 +246,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
         e.printStackTrace();
       }
     }
+    applySecurityParams((org.apache.axis.client.Stub)portletManagementInterface);
     return portletManagementInterface;
   }
 
@@ -276,6 +283,7 @@ public class ProducerImpl implements Producer, java.io.Serializable {
         e.printStackTrace();
       }
     }
+    applySecurityParams((org.apache.axis.client.Stub)registrationInterface);
     return registrationInterface;
   }
 
@@ -344,6 +352,27 @@ public class ProducerImpl implements Producer, java.io.Serializable {
       return false;
     } else {
       return true;
+    }
+  }
+  
+  private void applySecurityParams(org.apache.axis.client.Stub port) {
+    String username = WindowInfosContainer.getInstance().getOwner();
+      if (username != null) {
+      ExoContainer cont = ExoContainerContext.getCurrentContainer();
+      OrganizationService orgService = (OrganizationService)cont .getComponentInstanceOfType(OrganizationService.class);
+      String password = null;
+      try {
+        org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(username);
+        password = user.getPassword();
+      } catch (Exception e) {
+        log.error("Fail to get user from organization service", e);
+      }
+      if (password != null) {
+        port.setUsername(username);
+        port.setPassword(password);
+        port._setProperty(Call.SESSION_MAINTAIN_PROPERTY, Boolean.FALSE);
+        port._setProperty(WSHandlerConstants.USER, username);
+      }
     }
   }
 

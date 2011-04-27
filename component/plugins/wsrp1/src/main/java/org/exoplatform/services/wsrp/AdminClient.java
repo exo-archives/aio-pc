@@ -17,16 +17,6 @@
 
 package org.exoplatform.services.wsrp;
 
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.InputStream;
-import java.net.URL;
-import java.util.StringTokenizer;
-import java.util.Vector;
-
-import javax.xml.rpc.ServiceException;
-
 import org.apache.axis.AxisFault;
 import org.apache.axis.EngineConfiguration;
 import org.apache.axis.client.Call;
@@ -37,12 +27,25 @@ import org.apache.axis.message.SOAPBodyElement;
 import org.apache.axis.utils.Messages;
 import org.apache.axis.utils.Options;
 import org.apache.commons.logging.Log;
+import org.apache.ws.security.handler.WSHandlerConstants;
+
+import java.io.ByteArrayInputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
+import java.net.URL;
+import java.util.StringTokenizer;
+import java.util.Vector;
+
+import javax.xml.rpc.ServiceException;
 
 /**
  * AdminClient class uses in WSRPStarter. Referenced classes of package
  * org.apache.axis.client: Service, Call.
  */
 public class AdminClient {
+  
+  private static final ThreadLocal<String> password = new ThreadLocal<String>();
 
   /**
    * Set default configuration.
@@ -202,11 +205,17 @@ public class AdminClient {
   }
 
   public void processOpts(Options opts) throws Exception {
+    // processing options
     if (call == null)
       throw new Exception(Messages.getMessage("nullCall00"));
     call.setTargetEndpointAddress(new URL(opts.getURL()));
-    call.setUsername(opts.getUser());
-    call.setPassword(opts.getPassword());
+    if (opts.getUser() != null && opts.getPassword() != null) {
+      call.setUsername(opts.getUser());
+      call.setPassword(opts.getPassword());
+      call.setProperty(WSHandlerConstants.USER, opts.getUser());
+      AdminClient.password.set(opts.getPassword());
+    }
+    
     String tName = opts.isValueSet('t');
     if (tName != null && !tName.equals(""))
       call.setProperty("transport_name", tName);
@@ -281,5 +290,9 @@ public class AdminClient {
   static {
     log = LogFactory.getLog((org.apache.axis.client.AdminClient.class).getName());
     ROOT_UNDEPLOY = WSDDConstants.QNAME_UNDEPLOY.getLocalPart();
+  }
+  
+  public static String getPassword() {
+    return AdminClient.password.get();
   }
 }

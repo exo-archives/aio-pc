@@ -65,6 +65,10 @@ public class ProducerRewriterPortletURLImp
     this.supportedPublicRenderParameter = supportedPublicRenderParameter;
   }
 
+  public String toString(final boolean escapeXML) {
+    return toString();
+  }
+  
   public String toString() {
 
     if (getType().equals(WSRPConstants.URL_TYPE_BLOCKINGACTION))

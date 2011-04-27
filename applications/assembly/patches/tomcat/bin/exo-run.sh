@@ -54,7 +54,9 @@ export CATALINA_OPTS
 
 #REMOTE_DEBUG="-Xdebug -Xrunjdwp:transport=dt_socket,address=8000,server=y,suspend=y"
 
-JAVA_OPTS="$JAVA_OPTS $LOG_OPTS $SECURITY_OPTS $REMOTE_DEBUG"
+AXIS_WS="-Daxis.ClientConfigFile=../conf/client_deploy.wsdd"
+
+JAVA_OPTS="$JAVA_OPTS $LOG_OPTS $SECURITY_OPTS $REMOTE_DEBUG $AXIS_WS"
 export JAVA_OPTS
 
 ####################################################################################

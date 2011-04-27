@@ -17,17 +17,13 @@
 
 package org.exoplatform.services.wsrp.test;
 
-import java.net.URL;
-import java.rmi.RemoteException;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import junit.framework.TestCase;
 
+import org.apache.axis.EngineConfiguration;
+import org.apache.axis.configuration.FileProvider;
+import org.apache.ws.security.WSConstants;
+import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.ws.security.message.token.UsernameToken;
 import org.exoplatform.Constants;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
@@ -59,20 +55,36 @@ import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
+import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.rpc.Call;
+
 /**
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: 11 nov. 2003 Time:
  * 22:08:31 Revision: Max Shaposhnik 17.07.2008
  */
 public class BaseTest extends TestCase {
-  
-  protected static final String                 CONTEXT_PATH             = "hello";
-  
+
   protected static final String                 SERVICE_URL              = "http://localhost:8080/hello/services/";
+
+  protected static final String                 CONTEXT_PATH             = "hello";
 
   protected static final String                 TEST_PATH                = (System.getProperty("testPath") == null ? "."
                                                                                                                   : System.getProperty("testPath"));
 
   //protected static final String                 PORTLET_APP_PATH         = "file:" + TEST_PATH + CONTEXT_PATH;
+
+  protected static final String                 consumerAgent            = "exoplatform.1.0";
+  
+  private static final String                   username                 = "admin";
+  
+  private static final String                   password                 = "admin";
 
   static boolean                                initService_             = true;
 
@@ -150,13 +162,13 @@ public class BaseTest extends TestCase {
 
   private MockServletResponse                   mockServletResponse;
 
-//  public BaseTest(String s) {
-//    super(s);
-//  }
+
 
   public void setUp() throws Exception {
 
-    WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
+    EngineConfiguration config = new FileProvider("client_deploy.wsdd");
+    WSRPServiceLocator serviceLocator = new WSRPServiceLocator(config);
+    
     serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
         + "WSRPServiceDescriptionService"));
     registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL
@@ -165,10 +177,15 @@ public class BaseTest extends TestCase {
         + "WSRPMarkupService"));
     portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
         + "WSRPPortletManagementService"));
+    
+    applySecurityParams((org.apache.axis.client.Stub)serviceDescriptionInterface, username , password);
+    applySecurityParams((org.apache.axis.client.Stub)registrationOperationsInterface, username, password);
+    applySecurityParams((org.apache.axis.client.Stub)markupOperationsInterface, username, password);
+    applySecurityParams((org.apache.axis.client.Stub)portletManagementOperationsInterface, username, password);
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
-    registrationData.setConsumerAgent("exoplatform.1.0");
+    registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
@@ -178,7 +195,7 @@ public class BaseTest extends TestCase {
     registrationData.setExtensions(null);//allows extension of the specs
 
     personName = new PersonName();
-    personName.setNickname("exotest");
+    personName.setNickname(username);
 
     userProfile = new UserProfile();
     userProfile.setBdate(new GregorianCalendar());
@@ -188,7 +205,7 @@ public class BaseTest extends TestCase {
     userContext = new UserContext();
     userContext.setUserCategories(USER_CATEGORIES_ARRAY);
     userContext.setProfile(userProfile);
-    userContext.setUserContextKey("exotest");
+    userContext.setUserContextKey(username);
 
     templates = new Templates();
     templates.setDefaultTemplate(DEFAULT_TEMPLATE);
@@ -197,7 +214,7 @@ public class BaseTest extends TestCase {
 
     runtimeContext = new RuntimeContext();
     runtimeContext.setNamespacePrefix("NamespacePrefix");
-//runtimeContext.setPortletInstanceKey("windowID");
+    runtimeContext.setPortletInstanceKey("windowID");
     runtimeContext.setSessionID(null);
     runtimeContext.setTemplates(templates);
     runtimeContext.setUserAuthentication("none");
@@ -299,6 +316,15 @@ public class BaseTest extends TestCase {
         fail("The deserialized object should be of type RegistrationData");
       assertEquals(((RegistrationData) o).getConsumerName(), registrationData.getConsumerName());
     }
+  }
+  
+  private void applySecurityParams(org.apache.axis.client.Stub port, String userID, String password) {
+    port.setUsername(userID);
+    port.setPassword(password);
+    port._setProperty(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+    port._setProperty(UsernameToken.PASSWORD_TYPE, WSConstants.PW_DIGEST);
+    port._setProperty(Call.SESSION_MAINTAIN_PROPERTY, Boolean.FALSE);
+    port._setProperty(WSHandlerConstants.USER, userID);
   }
 
 }

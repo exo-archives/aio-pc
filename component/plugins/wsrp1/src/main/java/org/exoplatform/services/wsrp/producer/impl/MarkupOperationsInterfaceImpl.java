@@ -95,7 +95,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private PortletManagementOperationsInterface portletManagementOperationsInterface;
 
-  private OrganizationService                  orgService;
+//  private OrganizationService                  orgService;
 
   private WSRPPortletPreferencesPersister      persister;
 
@@ -111,7 +111,7 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
     this.conf = conf;
     this.persistentStateManager = persitentStateManager;
     this.transientStateManager = transientStateManager;
-    this.orgService = orgService;
+//    this.orgService = orgService;
     this.persister = WSRPPortletPreferencesPersister.getInstance();
   }
 
@@ -529,6 +529,8 @@ public class MarkupOperationsInterfaceImpl implements MarkupOperationsInterface 
 
   private Map<String, String[]> processNavigationalState(String navigationalState) throws java.rmi.RemoteException {
     log.debug("Lookup navigational state : " + navigationalState);
+    if (navigationalState == null)
+      return null;
     Map<String, String[]> map = null;
     try {
       map = persistentStateManager.getNavigationalSate(navigationalState);

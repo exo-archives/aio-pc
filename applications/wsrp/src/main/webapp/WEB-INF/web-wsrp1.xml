@@ -6,7 +6,7 @@
 
 <web-app>
   <display-name>wsrp</display-name>
-  <description>wsrp service server</description>
+  <description>wsrp1 service server</description>
   <distributable/>
 
   <filter>
@@ -27,21 +27,17 @@
       <param-name>portal-container-name</param-name>
       <param-value>portal</param-value>
     </init-param>
-    <init-param>
-      <param-name>retries-to-register</param-name>
-      <param-value>3</param-value>
-    </init-param>
   </filter>
+
+  <filter-mapping>
+    <filter-name>ContainerFilter</filter-name>
+    <url-pattern>/services/*</url-pattern>
+  </filter-mapping>
 
   <!-- AXIS filter mapping for WSRP1 -->
 
   <filter-mapping>
     <filter-name>AxisFilter</filter-name>
-    <url-pattern>/services/*</url-pattern>
-  </filter-mapping>
-
-  <filter-mapping>
-    <filter-name>ContainerFilter</filter-name>
     <url-pattern>/services/*</url-pattern>
   </filter-mapping>
 
@@ -62,6 +58,10 @@
     <init-param>
       <param-name>deploy-wsdd</param-name>
       <param-value>org/exoplatform/services/wsrp/wsdl/deploy.wsdd</param-value>
+    </init-param>
+    <init-param>
+      <param-name>credentials</param-name>
+      <param-value>root/exo</param-value>
     </init-param>
     <init-param>
       <param-name>delay-before-start-sec</param-name>
@@ -104,13 +104,6 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- WSRPStarter mapping for WSRP1 -->
-  
-  <!-- servlet-mapping>
-    <servlet-name>WSRPStarter1</servlet-name>
-    <url-pattern>/servlet/WSRPStarter1</url-pattern>
-  </servlet-mapping -->
-  
   <!-- soap/axis service mapping for WSRP1 -->
 
   <servlet-mapping>
@@ -147,8 +140,35 @@
     <mime-type>text/xml</mime-type>
   </mime-mapping>
 
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>user authentication</web-resource-name>
+      <url-pattern>/services/*</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+      <role-name>users</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>exo-domain</realm-name>
+  </login-config>
+
   <security-role>
-    <role-name>auth-user</role-name>
+    <description>a simple admin role</description>
+    <role-name>admin</role-name>
+  </security-role>
+  
+  <security-role>
+    <description>a simple users role</description>
+    <role-name>users</role-name>
   </security-role>
 
 </web-app>

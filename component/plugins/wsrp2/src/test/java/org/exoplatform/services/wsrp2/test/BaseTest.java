@@ -17,19 +17,13 @@
 
 package org.exoplatform.services.wsrp2.test;
 
-import java.net.URL;
-import java.rmi.RemoteException;
-import java.util.Calendar;
-import java.util.Collection;
-import java.util.Date;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import junit.framework.TestCase;
 
+import org.apache.axis.EngineConfiguration;
+import org.apache.axis.configuration.FileProvider;
+import org.apache.ws.security.WSConstants;
+import org.apache.ws.security.handler.WSHandlerConstants;
+import org.apache.ws.security.message.token.UsernameToken;
 import org.exoplatform.Constants;
 import org.exoplatform.services.portletcontainer.PortletContainerService;
 import org.exoplatform.services.portletcontainer.helper.IOUtil;
@@ -71,6 +65,18 @@ import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
 
+import java.net.URL;
+import java.rmi.RemoteException;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.xml.rpc.Call;
+
 /**
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: 11 nov. 2003 Time:
  * 22:08:31 Revision: Max Shaposhnik 17.07.2008
@@ -90,6 +96,10 @@ public class BaseTest extends TestCase {
                                                                                                  SERVICE_URL.length() - 1);
 
   protected static final String                 consumerAgent            = "exoplatform.2.0";
+  
+  private static final String                   username                 = "admin";
+  
+  private static final String                   password                 = "admin";
 
   static boolean                                initService_             = true;
 
@@ -208,7 +218,9 @@ public class BaseTest extends TestCase {
         }
     */
 
-    WSRPServiceLocator serviceLocator = new WSRPServiceLocator();
+    EngineConfiguration config = new FileProvider("client_deploy.wsdd");
+    WSRPServiceLocator serviceLocator = new WSRPServiceLocator(config);
+    
     serviceDescriptionInterface = serviceLocator.getWSRPServiceDescriptionService(new URL(SERVICE_URL
         + "WSRPServiceDescriptionService"));
     registrationOperationsInterface = serviceLocator.getWSRPRegistrationService(new URL(SERVICE_URL
@@ -217,6 +229,12 @@ public class BaseTest extends TestCase {
         + "WSRPMarkupService"));
     portletManagementOperationsInterface = serviceLocator.getWSRPPortletManagementService(new URL(SERVICE_URL
         + "WSRPPortletManagementService"));
+        
+    applySecurityParams((org.apache.axis.client.Stub)serviceDescriptionInterface, username , password);
+    applySecurityParams((org.apache.axis.client.Stub)registrationOperationsInterface, username, password);
+    applySecurityParams((org.apache.axis.client.Stub)markupOperationsInterface, username, password);
+    applySecurityParams((org.apache.axis.client.Stub)portletManagementOperationsInterface, username, password);
+
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
@@ -240,7 +258,7 @@ public class BaseTest extends TestCase {
     register = new Register(registrationData, lifetime, userContext);
 
     personName = new PersonName();
-    personName.setNickname("exotest");
+    personName.setNickname(username);
 
     userProfile = new UserProfile();
     userProfile.setBdate(new GregorianCalendar());
@@ -250,7 +268,7 @@ public class BaseTest extends TestCase {
     userContext = new UserContext();
     userContext.setUserCategories(USER_CATEGORIES_ARRAY);
     userContext.setProfile(userProfile);
-    userContext.setUserContextKey("exotest");
+    userContext.setUserContextKey(username);
 
     templates = new Templates();
     templates.setDefaultTemplate(DEFAULT_TEMPLATE);
@@ -407,6 +425,15 @@ public class BaseTest extends TestCase {
         fail("The deserialized object should be of type RegistrationData");
       assertEquals(((RegistrationData) o).getConsumerName(), registrationData.getConsumerName());
     }
+  }
+  
+  private void applySecurityParams(org.apache.axis.client.Stub port, String userID, String password) {
+    port.setUsername(userID);
+    port.setPassword(password);
+    port._setProperty(WSHandlerConstants.ACTION, WSHandlerConstants.USERNAME_TOKEN);
+    port._setProperty(UsernameToken.PASSWORD_TYPE, WSConstants.PW_DIGEST);
+    port._setProperty(Call.SESSION_MAINTAIN_PROPERTY, Boolean.FALSE);
+    port._setProperty(WSHandlerConstants.USER, userID);
   }
 
   protected void log() {

@@ -6,7 +6,7 @@
 
 <web-app>
   <display-name>wsrp</display-name>
-  <description>wsrp service server</description>
+  <description>wsrp2 service server</description>
   <distributable/>
 
   <filter>
@@ -27,21 +27,17 @@
       <param-name>portal-container-name</param-name>
       <param-value>portal</param-value>
     </init-param>
-    <init-param>
-      <param-name>retries-to-register</param-name>
-      <param-value>3</param-value>
-    </init-param>
   </filter>
-
-  <!-- AXIS filter mapping for WSRP2 -->
-
-  <filter-mapping>
-    <filter-name>AxisFilter2</filter-name>
-    <url-pattern>/services2/*</url-pattern>
-  </filter-mapping>
 
   <filter-mapping>
     <filter-name>ContainerFilter</filter-name>
+    <url-pattern>/services2/*</url-pattern>
+  </filter-mapping>
+
+  <!-- AXIS filter mapping for WSRP1 -->
+
+  <filter-mapping>
+    <filter-name>AxisFilter2</filter-name>
     <url-pattern>/services2/*</url-pattern>
   </filter-mapping>
 
@@ -64,6 +60,10 @@
       <param-value>org/exoplatform/services/wsrp2/wsdl/deploy.wsdd</param-value>
     </init-param>
     <init-param>
+      <param-name>credentials</param-name>
+      <param-value>root/exo</param-value>
+    </init-param>
+    <init-param>
       <param-name>delay-before-start-sec</param-name>
       <param-value>2</param-value>
     </init-param>
@@ -77,7 +77,7 @@
     </init-param>
     <load-on-startup>1</load-on-startup>
   </servlet>
-  
+
   <!-- Axis servlet for WSRP2 -->
 
   <servlet>
@@ -104,16 +104,8 @@
     <load-on-startup>1</load-on-startup>
   </servlet>
 
-  <!-- WSRPStarter mapping for WSRP2 -->
-
-  <!-- servlet-mapping>
-    <servlet-name>WSRPStarter2</servlet-name>
-    <url-pattern>/servlet/WSRPStarter2</url-pattern>
-  </servlet-mapping -->
-
-
   <!-- soap/axis service mapping for WSRP2 -->
- 
+
   <servlet-mapping>
     <servlet-name>AxisServlet2</servlet-name>
     <url-pattern>/servlet/AxisServlet2</url-pattern>
@@ -148,8 +140,35 @@
     <mime-type>text/xml</mime-type>
   </mime-mapping>
 
+  <security-constraint>
+    <web-resource-collection>
+      <web-resource-name>user authentication</web-resource-name>
+      <url-pattern>/services2/*</url-pattern>
+      <http-method>POST</http-method>
+      <http-method>GET</http-method>
+    </web-resource-collection>
+    <auth-constraint>
+      <role-name>admin</role-name>
+      <role-name>users</role-name>
+    </auth-constraint>
+    <user-data-constraint>
+      <transport-guarantee>NONE</transport-guarantee>
+    </user-data-constraint>
+  </security-constraint>
+
+  <login-config>
+    <auth-method>BASIC</auth-method>
+    <realm-name>exo-domain</realm-name>
+  </login-config>
+
   <security-role>
-    <role-name>auth-user</role-name>
+    <description>a simple admin role</description>
+    <role-name>admin</role-name>
+  </security-role>
+  
+  <security-role>
+    <description>a simple users role</description>
+    <role-name>users</role-name>
   </security-role>
 
 </web-app>

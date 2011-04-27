@@ -24,7 +24,7 @@ import org.exoplatform.services.wsrp2.consumer.Producer;
  * Author : Tuan Nguyen tuan08@users.sourceforge.net Date: Jun 14, 2003 Time:
  * 1:12:22 PM
  * 
- * @hibernate.class table="WSRP_PRODUCER"
+ * @hibernate.class table="WSRP_PRODUCER2"
  */
 public class WSRP2ProducerData {
   private String             id_;

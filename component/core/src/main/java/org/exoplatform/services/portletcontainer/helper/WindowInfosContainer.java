@@ -106,9 +106,10 @@ public class WindowInfosContainer extends HashMap<Object, Object> {
    */
   public static void createInstance(final ExoContainer cnt, final String id, final String owner) {
     String key = "WINDOW_INFOS_CONTAINER_KEY_ENCODER" + cnt.getContext().getName() + id;
-    if (map.get(key) != null)
-      threadLocal.set(map.get(key));
-    else {
+    WindowInfosContainer windowInfosContainer = map.get(key);
+    if (map.containsKey(key) && (owner == null || owner.equals(windowInfosContainer.getOwner()))) {
+        threadLocal.set(map.get(key));
+    } else {
       threadLocal.set(new WindowInfosContainer(id, owner));
       map.put(key, threadLocal.get());
     }

@@ -47,7 +47,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
 
   private static final String USER_CONTEXT_KEY = "org.exoplatform.services.wsrp2.user.context.key";
 
-  private Log                 log              = ExoLogger.getLogger(this.getClass().getName());
+  private Log                 log              = ExoLogger.getLogger("org.exoplatform.services.wsrp2.producer.impl.TransientStateManagerImpl");
 
   private ExoCache            cache;
 
@@ -69,26 +69,28 @@ public class TransientStateManagerImpl implements TransientStateManager {
   }
 
   public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
-    if (sessiontimeperiod == null)
-      sessiontimeperiod = SESSION_TIME_PERIOD;
-    WSRPHttpSession session = null;
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
+    if (sessiontimeperiod == null)
+      sessiontimeperiod = SESSION_TIME_PERIOD;
     try {
-      // !!! it's a very dirty hack and it will be removed as soon as possible
-      session = (WSRPHttpSession) cache.get(sessionID);
+      WSRPHttpSession session = null;
+      if (sessionID != null) {
+        session = (WSRPHttpSession) cache.get(sessionID);
+      }
       WindowInfosContainer.createInstance(cont, sessionID, user);
       if (session != null) {
-        if (sessionID != null && session.isInvalidated()) {
+        if (session.isInvalidated()) {
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         } else {
           session.setLastAccessTime(System.currentTimeMillis());
         }
         if (log.isDebugEnabled())
           log.debug("Lookup session success");
-      } else if (sessionID != null && session == null) {
+      } else if (sessionID != null) {
         throw new Exception("Session doesn't exist anymore");
       } else {
+        // session is null and sessionID is null
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);

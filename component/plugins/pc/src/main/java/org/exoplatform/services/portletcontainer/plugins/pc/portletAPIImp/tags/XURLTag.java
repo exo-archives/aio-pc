@@ -349,7 +349,16 @@ public abstract class XURLTag extends BodyTagSupport {
    * @return url string
    */
   public final String URLToString(final BaseURL baseURL) {
-    return ((BaseURLImp) baseURL).toString(escapeXml);
+    String url = baseURL.toString();
+    if (escapeXml) 
+      return encodeChars(url); 
+    else 
+      return url;
+  }
+  
+  private final String encodeChars(final String s) {
+    return s.replace("&", "&amp;").replace("<", "&lt;").replace(">", "&gt;")
+        .replace("\"", "&#034;").replace("'", "&#039;");
   }
 
   /**

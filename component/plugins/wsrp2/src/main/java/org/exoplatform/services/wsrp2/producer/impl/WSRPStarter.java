@@ -17,6 +17,13 @@
 
 package org.exoplatform.services.wsrp2.producer.impl;
 
+import org.apache.axis.utils.Options;
+import org.apache.commons.logging.Log;
+import org.exoplatform.container.ExoContainer;
+import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.wsrp2.AdminClient;
+import org.exoplatform.services.wsrp2.WSRPConstants;
+
 import java.io.InputStream;
 import java.net.URL;
 import java.util.Date;
@@ -25,20 +32,11 @@ import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 
-import org.apache.axis.utils.Options;
-import org.apache.commons.logging.Log;
-import org.exoplatform.container.ExoContainer;
-import org.exoplatform.container.ExoContainerContext;
-import org.exoplatform.services.log.ExoLogger;
-import org.exoplatform.services.wsrp2.AdminClient;
-import org.exoplatform.services.wsrp2.WSRPConstants;
-
 /**
  * Author : Roman Pedchenko roman.pedchenko@exoplatform.com.ua Author : Alexey
  * Zavizionov alexey.zavizionov@exoplatform.com.ua Date: 23 may 2006 Time: 11:43
  * am
  */
-
 public class WSRPStarter extends HttpServlet {
 
   private AxisThread   axis;
@@ -48,6 +46,10 @@ public class WSRPStarter extends HttpServlet {
   private String       base                = "http://localhost:8080/";
 
   private String       path                = "portal/services2";
+  
+  private String       username            = null;
+  
+  private String       password            = null;
 
   protected int        delayBeforeStartSec = 0;
 
@@ -66,7 +68,16 @@ public class WSRPStarter extends HttpServlet {
   @Override
   public void init(ServletConfig config) throws ServletException {
     logDebug("org.exoplatform.services.wsrp2.producer.impl.WSRPStarter.init() entered");
-    container = ExoContainerContext.getCurrentContainer();
+    
+    processInitParams(config);
+    
+    start();
+  }
+
+  /**
+   * @param config
+   */
+  private void processInitParams(ServletConfig config) {
     if (config.getInitParameter("base") != null) {
       base = config.getInitParameter("base");
       logDebug("WSRPStarter.init() base = " + base);
@@ -78,6 +89,13 @@ public class WSRPStarter extends HttpServlet {
     if (config.getInitParameter("deploy-wsdd") != null) {
       deployWSDD = config.getInitParameter("deploy-wsdd");
       logDebug("WSRPStarter.init() deployWSDD = " + deployWSDD);
+    }
+    if (config.getInitParameter("credentials") != null) {
+      String credentials = config.getInitParameter("credentials");
+      if (credentials.indexOf("/") > -1) {
+        username = credentials.substring(0, credentials.indexOf("/"));
+        password = credentials.substring(credentials.indexOf("/") + 1);
+      }
     }
     try {
       delayBeforeStartSec = Integer.parseInt(config.getInitParameter("delay-before-start-sec"));
@@ -94,16 +112,22 @@ public class WSRPStarter extends HttpServlet {
       logDebug("WSRPStarter.init() delayRetrySec = " + delayRetrySec);
     } catch (Exception e) {
     }
-    run();
   }
 
-  private void run() {
+  private void start() {
     logDebug("org.exoplatform.services.wsrp2.producer.impl.WSRPStarter.run() entered");
     try {
       String wurl = base + path;
-      String[] args = { "-l" + wurl };
+      String[] args;
+      if (username != null && password != null) {
+        args = new String[]{"-l" + wurl, "-u" + username, "-w" + password };
+      } else {
+        args = new String[]{ "-l" + wurl};
+      }
+      
       logDebug(" --- " + WSRPConstants.WSRP_ID + ": url opt: " + wurl);
       Options opts = new Options(args);
+
       URL wsdd = Thread.currentThread().getContextClassLoader().getResource(deployWSDD);
       logDebug(" --- " + WSRPConstants.WSRP_ID + ": WSDD url: " + wsdd);
 
@@ -121,6 +145,7 @@ public class WSRPStarter extends HttpServlet {
   }
 
   class AxisThread extends Thread {
+
     Options opts;
 
     URL     wsdd;

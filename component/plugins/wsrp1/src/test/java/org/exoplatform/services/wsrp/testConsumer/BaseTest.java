@@ -17,16 +17,6 @@
 
 package org.exoplatform.services.wsrp.testConsumer;
 
-import java.io.InputStream;
-import java.net.URL;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.GregorianCalendar;
-import java.util.Locale;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import junit.framework.TestCase;
 
 import org.exoplatform.Constants;
@@ -35,6 +25,7 @@ import org.exoplatform.container.ExoContainer;
 import org.exoplatform.container.StandaloneContainer;
 import org.exoplatform.services.database.HibernateService;
 import org.exoplatform.services.portletcontainer.PortletApplicationRegister;
+import org.exoplatform.services.portletcontainer.helper.WindowInfosContainer;
 import org.exoplatform.services.portletcontainer.pci.model.PortletApp;
 import org.exoplatform.services.portletcontainer.pci.model.XMLParser;
 import org.exoplatform.services.portletcontainer.plugins.pc.PortletApplicationsHolder;
@@ -62,6 +53,16 @@ import org.exoplatform.test.mocks.servlet.MockHttpSession;
 import org.exoplatform.test.mocks.servlet.MockServletContext;
 import org.exoplatform.test.mocks.servlet.MockServletRequest;
 import org.exoplatform.test.mocks.servlet.MockServletResponse;
+
+import java.io.InputStream;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.GregorianCalendar;
+import java.util.Locale;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /*
  * @author  Mestrallet Benjamin
@@ -152,6 +153,10 @@ public class BaseTest extends TestCase {
 
   protected ExoContainer             container;
 
+  public String                      consumerAgent                                   = "exoplatform.1.0";
+
+  private String username = "exotest";
+
   protected void setUp() throws Exception {
 
     URL url = new URL(PORTLET_APP_PATH + "/WEB-INF/portlet.xml");
@@ -188,7 +193,7 @@ public class BaseTest extends TestCase {
 
     registrationData = new RegistrationData();
     registrationData.setConsumerName("www.exoplatform.com");
-    registrationData.setConsumerAgent("exoplatform.1.0");
+    registrationData.setConsumerAgent(consumerAgent);
     registrationData.setMethodGetSupported(false);
     registrationData.setConsumerModes(CONSUMER_MODES);
     registrationData.setConsumerWindowStates(CONSUMER_STATES);
@@ -205,7 +210,7 @@ public class BaseTest extends TestCase {
     producer.setServiceDescriptionInterfaceEndpoint(PRODUCER_SERVICE_DESCRIPTION_INTERFACE_ENDPOINT);
 
     personName = new PersonName();
-    personName.setNickname("exotest");
+    personName.setNickname(username);
 
     userProfile = new UserProfile();
     userProfile.setBdate(new GregorianCalendar());
@@ -215,7 +220,7 @@ public class BaseTest extends TestCase {
     userContext = new UserContext();
     userContext.setUserCategories(USER_CATEGORIES_ARRAY);
     userContext.setProfile(userProfile);
-    userContext.setUserContextKey("exotest");
+    userContext.setUserContextKey(username);
 
     urlRewriter = (URLRewriter) container.getComponentInstanceOfType(URLRewriter.class);
 
@@ -223,6 +228,8 @@ public class BaseTest extends TestCase {
     mockServletResponse = new MockServletResponse(new FakeHttpResponse());
     WSRPHTTPContainer.createInstance((HttpServletRequest) mockServletRequest,
                                      (HttpServletResponse) mockServletResponse);
+    
+    WindowInfosContainer.createInstance(container, "session_id", username);
   }
 
   public void tearDown() throws Exception {

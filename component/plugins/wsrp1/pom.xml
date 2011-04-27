@@ -177,6 +177,11 @@
       <artifactId>portlet-api</artifactId>
       <version>2.0</version>
     </dependency>
+    <dependency>
+      <groupId>org.apache.ws.security</groupId>
+      <artifactId>wss4j</artifactId>
+      <version>1.5.10</version>
+    </dependency>
   </dependencies>
   
   <profiles>
@@ -383,6 +388,22 @@
               </execution>
               <execution>
                 <id>2</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <tasks>
+                    <echo>=== REMOVE deploy.wsdd ===</echo>
+                    <delete file="${src.gen.dir}/org/exoplatform/services/wsrp/wsdl/deploy.wsdd" />
+                    <copy file="${basedir}/src/main/resources/org/exoplatform/services/wsrp/wsdl/deploy.wsdd"
+                                  tofile="${src.gen.dir}/org/exoplatform/services/wsrp/wsdl/deploy.wsdd"/>
+                  </tasks>
+                  <sourceRoot>${src.gen.dir}</sourceRoot>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>3</id>
                 <phase>compile</phase>
                 <configuration>
                   <tasks>
@@ -391,7 +412,6 @@
                       <fileset dir="${basedir}/src/main/java">
                         <include name="org/exoplatform/services/wsrp/consumer/impl/WSRP1ProducerData.java" />
                         <include name="org/exoplatform/services/wsrp/producer/impl/WSRP1StateData.java" />
-                        <!--                        <include name="**/*.java" />-->
                       </fileset>
                       <hibernate version="3.0" />
                     </hibernatedoclet>
@@ -402,7 +422,7 @@
                 </goals>
               </execution>
               <execution>
-                <id>3</id>
+                <id>4</id>
                 <phase>generate-test-sources</phase>
                 <configuration>
                   <tasks>
@@ -425,9 +445,8 @@
                   <goal>run</goal>
                 </goals>
               </execution>
-
               <execution>
-                <id>4</id>
+                <id>5</id>
                 <phase>generate-test-sources</phase>
                 <configuration>
                   <tasks>
@@ -444,9 +463,8 @@
                   <goal>run</goal>
                 </goals>
               </execution>
-
               <execution>
-                <id>5</id>
+                <id>6</id>
                 <phase>generate-test-sources</phase>
                 <configuration>
                   <tasks>
@@ -521,6 +539,8 @@
         </plugins>
       </build>
     </profile>
+    
+    
     <profile>
       <id>nocargo</id>
       <activation>
@@ -615,7 +635,6 @@
           <version>0.9</version>
         </dependency>
 
-
         <!-- ************************ soap ************************ -->
 
         <dependency>
@@ -636,14 +655,12 @@
           <version>0.2</version>
         </dependency>
 
-
       </dependencies>
 
       <properties>
         <src.gen.dir>${basedir}/target/generated</src.gen.dir>
         <war.dir>${basedir}/war_template</war.dir>
       </properties>
-
 
       <build>
 
@@ -728,6 +745,22 @@
               </execution>
               <execution>
                 <id>2</id>
+                <phase>generate-sources</phase>
+                <configuration>
+                  <tasks>
+                    <echo>=== REMOVE deploy.wsdd ===</echo>
+                    <delete file="${src.gen.dir}/org/exoplatform/services/wsrp/wsdl/deploy.wsdd" />
+                    <copy file="${basedir}/src/main/resources/org/exoplatform/services/wsrp/wsdl/deploy.wsdd"
+                                  tofile="${src.gen.dir}/org/exoplatform/services/wsrp/wsdl/deploy.wsdd"/>
+                  </tasks>
+                  <sourceRoot>${src.gen.dir}</sourceRoot>
+                </configuration>
+                <goals>
+                  <goal>run</goal>
+                </goals>
+              </execution>
+              <execution>
+                <id>3</id>
                 <phase>compile</phase>
                 <configuration>
                   <tasks>
@@ -746,7 +779,7 @@
                 </goals>
               </execution>
               <execution>
-                <id>3</id>
+                <id>4</id>
                 <phase>generate-test-sources</phase>
                 <configuration>
                   <tasks>
@@ -771,7 +804,7 @@
               </execution>
 
               <execution>
-                <id>4</id>
+                <id>5</id>
                 <phase>generate-test-sources</phase>
                 <configuration>
                   <tasks>
@@ -835,6 +868,7 @@
       </build>
     </profile>
   </profiles>
+
 
   <build>
     <resources>
@@ -913,6 +947,22 @@
           </execution>
           <execution>
             <id>2</id>
+            <phase>generate-sources</phase>
+            <configuration>
+              <tasks>
+                <echo>=== REMOVE deploy.wsdd ===</echo>
+                <delete file="${src.gen.dir}/org/exoplatform/services/wsrp/wsdl/deploy.wsdd" />
+                <copy file="${basedir}/src/main/resources/org/exoplatform/services/wsrp/wsdl/deploy.wsdd"
+                              tofile="${src.gen.dir}/org/exoplatform/services/wsrp/wsdl/deploy.wsdd"/>
+              </tasks>
+              <sourceRoot>${src.gen.dir}</sourceRoot>
+            </configuration>
+            <goals>
+              <goal>run</goal>
+            </goals>
+          </execution>
+          <execution>
+            <id>3</id>
             <phase>compile</phase>
             <configuration>
               <tasks>
@@ -922,7 +972,6 @@
                     <include name="org/exoplatform/services/wsrp/consumer/impl/WSRP1ProducerData.java" />
                     <include name="org/exoplatform/services/wsrp/producer/impl/WSRP1StateData.java" />
                   </fileset>
-                  <!--                        <include name="**/*.java" />-->
                   <hibernate version="3.0" />
                 </hibernatedoclet>
               </tasks>
@@ -932,7 +981,7 @@
             </goals>
           </execution>
           <execution>
-            <id>3</id>
+            <id>4</id>
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
@@ -956,7 +1005,7 @@
             </goals>
           </execution>
           <execution>
-            <id>4</id>
+            <id>5</id>
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
@@ -974,7 +1023,7 @@
             </goals>
           </execution>
           <execution>
-            <id>5</id>
+            <id>6</id>
             <phase>generate-test-sources</phase>
             <configuration>
               <tasks>
@@ -1043,7 +1092,5 @@
       </plugin>
     </plugins>
   </build>
-
-
 
 </project>

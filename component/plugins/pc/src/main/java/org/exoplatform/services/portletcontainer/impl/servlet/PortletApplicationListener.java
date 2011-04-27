@@ -132,15 +132,23 @@ public class PortletApplicationListener implements ServletContextListener {
       ExoXPPParser xpp = ExoXPPParser.getInstance();
       xpp.setInput(is, "UTF8");
       xpp.mandatoryNode("web-app");
+      boolean isEnd = false;
       while (!xpp.node("security-role")) {
-        if (xpp.getEventType() == XmlPullParser.END_DOCUMENT)
+        if (xpp.getEventType() == XmlPullParser.END_DOCUMENT) {
+          isEnd = true;
           break;
+        }
         xpp.next();
       }
-      if (xpp.node("role-name")) {
-        roles.add(xpp.getContent());
-        while (xpp.node("security-role"))
+      if (!isEnd) {
+        while (xpp.node("description")) {xpp.next();}
+        roles.add(xpp.mandatoryNodeContent("role-name"));
+        xpp.next();
+        while (xpp.node("security-role")) {
+          while (xpp.node("description")) {xpp.next();}
           roles.add(xpp.mandatoryNodeContent("role-name"));
+          xpp.next();
+        }
       }
       log.info("  -- read: " + portletApp.getPortlet().size() + " portlets");
       PortletApplicationRegister service = (PortletApplicationRegister) manager.getComponentInstanceOfType(PortletApplicationRegister.class);

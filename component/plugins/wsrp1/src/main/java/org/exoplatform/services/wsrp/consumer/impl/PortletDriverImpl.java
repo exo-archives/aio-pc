@@ -18,11 +18,12 @@
 package org.exoplatform.services.wsrp.consumer.impl;
 
 import org.apache.commons.logging.Log;
+import org.apache.ws.security.handler.WSHandlerConstants;
 import org.exoplatform.container.ExoContainer;
 import org.exoplatform.services.log.ExoLogger;
+import org.exoplatform.services.organization.OrganizationService;
 import org.exoplatform.services.wsrp.consumer.ConsumerEnvironment;
 import org.exoplatform.services.wsrp.consumer.GroupSessionMgr;
-import org.exoplatform.services.wsrp.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp.consumer.PortletDriver;
 import org.exoplatform.services.wsrp.consumer.Producer;
 import org.exoplatform.services.wsrp.consumer.URLRewriter;
@@ -30,6 +31,7 @@ import org.exoplatform.services.wsrp.consumer.URLTemplateComposer;
 import org.exoplatform.services.wsrp.consumer.User;
 import org.exoplatform.services.wsrp.consumer.UserSessionMgr;
 import org.exoplatform.services.wsrp.consumer.WSRPBaseRequest;
+import org.exoplatform.services.wsrp.consumer.WSRPInteractionRequest;
 import org.exoplatform.services.wsrp.consumer.WSRPMarkupRequest;
 import org.exoplatform.services.wsrp.consumer.WSRPPortlet;
 import org.exoplatform.services.wsrp.exceptions.Faults;
@@ -68,6 +70,8 @@ import org.exoplatform.services.wsrp.type.StateChange;
 import org.exoplatform.services.wsrp.type.Templates;
 import org.exoplatform.services.wsrp.type.UserContext;
 
+import javax.xml.rpc.Call;
+
 /**
  * The implementation of this class is based on the WSRP4J project
  */
@@ -77,23 +81,26 @@ public class PortletDriverImpl implements PortletDriver {
 
   private WSRP_v1_Markup_PortType            markupPort  = null;
 
-  private WSRP_v1_PortletManagement_PortType portletPort = null;
+  private WSRP_v1_PortletManagement_PortType portletManagementPort = null;
 
-  private ConsumerEnvironment                consumerEnv = null;
+  private ConsumerEnvironment                consumer = null;
 
   private Producer                           producer    = null;
 
   private CookieProtocol                     initCookie  = CookieProtocol.none;
 
   private Log                                log;
+  
+  private OrganizationService                orgService;
 
   public PortletDriverImpl(ExoContainer cont, WSRPPortlet portlet) throws WSRPException {
-    this.consumerEnv = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
+    this.consumer = (ConsumerEnvironment) cont.getComponentInstanceOfType(ConsumerEnvironment.class);
+    this.orgService = (OrganizationService) cont.getComponentInstanceOfType(OrganizationService.class);
     this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp.consumer");
     this.portlet = portlet;
-    this.producer = consumerEnv.getProducerRegistry().getProducer(portlet.getPortletKey()
+    this.producer = consumer.getProducerRegistry().getProducer(portlet.getPortletKey()
                                                                          .getProducerId());
-    portletPort = producer.getPortletManagementInterface();
+    portletManagementPort = producer.getPortletManagementInterface();
     ServiceDescription serviceDescription = producer.getServiceDescription(false);
     if (serviceDescription != null) {
       this.initCookie = serviceDescription.getRequiresInitCookie();
@@ -134,7 +141,7 @@ public class PortletDriverImpl implements PortletDriver {
         log.debug("Init cookies : " + userSession);
         this.markupPort = userSession.getWSRPMarkupService();
         userSession.setInitCookieRequired(true);
-        initCookie();
+        initCookie(userSession);
         userSession.setInitCookieDone(true);
       }
     } else if (initCookie.getValue().equalsIgnoreCase(CookieProtocol._perGroup)) {
@@ -151,7 +158,7 @@ public class PortletDriverImpl implements PortletDriver {
         if (!groupSession.isInitCookieDone()) {
           log.debug("Group session in init cookies : " + groupSession);
           groupSession.setInitCookieRequired(true);
-          initCookie();
+          initCookie(userSession);
           groupSession.setInitCookieDone(true);
         }
       } else {
@@ -174,18 +181,18 @@ public class PortletDriverImpl implements PortletDriver {
       clientData.setUserAgent(producer.getRegistrationData().getConsumerAgent());
     markupParams.setClientData(clientData);
     markupParams.setSecureClientCommunication(false);
-    markupParams.setLocales(consumerEnv.getSupportedLocales());
-    markupParams.setMimeTypes(consumerEnv.getMimeTypes());
+    markupParams.setLocales(consumer.getSupportedLocales());
+    markupParams.setMimeTypes(consumer.getMimeTypes());
     markupParams.setMode(request.getMode());
     markupParams.setWindowState(request.getWindowState());
     markupParams.setNavigationalState(request.getNavigationalState());
-    markupParams.setMarkupCharacterSets(consumerEnv.getCharacterEncodingSet());
+    markupParams.setMarkupCharacterSets(consumer.getCharacterEncodingSet());
     markupParams.setValidateTag(null); // TODO ValidateTag
     // TODO: Set only modes and window states that are supported by the portlet
     // as
     // described in it's portlet description.
-    markupParams.setValidNewModes(consumerEnv.getSupportedModes());
-    markupParams.setValidNewWindowStates(consumerEnv.getSupportedWindowStates());
+    markupParams.setValidNewModes(consumer.getSupportedModes());
+    markupParams.setValidNewWindowStates(consumer.getSupportedWindowStates());
     markupParams.setExtensions(null);
     return markupParams;
   }
@@ -194,9 +201,9 @@ public class PortletDriverImpl implements PortletDriver {
     if (log.isDebugEnabled())
       log.debug("PortletDriverImpl.getRuntimeContext() baseURL = " + baseURL);
     RuntimeContext runtimeContext = new RuntimeContext();
-    runtimeContext.setUserAuthentication(consumerEnv.getUserAuthentication());
+    runtimeContext.setUserAuthentication(consumer.getUserAuthentication());
     runtimeContext.setPortletInstanceKey(request.getPortletInstanceKey());
-    URLTemplateComposer templateComposer = consumerEnv.getTemplateComposer();
+    URLTemplateComposer templateComposer = consumer.getTemplateComposer();
 
     if (templateComposer != null) {
       runtimeContext.setNamespacePrefix(templateComposer.getNamespacePrefix());
@@ -237,8 +244,7 @@ public class PortletDriverImpl implements PortletDriver {
   private UserContext getUserContext(UserSessionMgr userSession) {
     UserContext userContext = null;
     if (userSession.getUserID() != null) {
-      User user = consumerEnv.getUserRegistry().getUser(userSession.getUserID());
-
+      User user = consumer.getUserRegistry().getUser(userSession.getUserID());
       if (user != null) {
         userContext = user.getUserContext();
       }
@@ -254,7 +260,7 @@ public class PortletDriverImpl implements PortletDriver {
 
   private InteractionParams getInteractionParams(WSRPInteractionRequest actionRequest) {
     InteractionParams interactionParams = new InteractionParams();
-    interactionParams.setPortletStateChange(consumerEnv.getPortletStateChange());
+    interactionParams.setPortletStateChange(consumer.getPortletStateChange());
     if (!portlet.isConsumerConfigured()
         && interactionParams.getPortletStateChange()
                             .toString()
@@ -290,6 +296,9 @@ public class PortletDriverImpl implements PortletDriver {
         if (userCtx != null) {
           request.setUserContext(getUserContext(userSession));
         }
+        org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+        String password = user.getPassword();
+        applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
         /* MAIN INVOKE */
         response = markupPort.getMarkup(request);
       } else {
@@ -302,7 +311,7 @@ public class PortletDriverImpl implements PortletDriver {
           + response.getMarkupContext().getMarkupString());
       log.debug("requires URL rewriting : " + requiresRewriting);
       if (!Boolean.TRUE.equals(requiresRewriting)) {
-        URLRewriter urlRewriter = consumerEnv.getURLRewriter();
+        URLRewriter urlRewriter = consumer.getURLRewriter();
         String rewrittenMarkup = urlRewriter.rewriteURLs(path, response.getMarkupContext()
                                                                        .getMarkupString());
         if (rewrittenMarkup != null) {
@@ -318,6 +327,9 @@ public class PortletDriverImpl implements PortletDriver {
     } catch (java.rmi.RemoteException wsrpFault) {
       log.error("Remote exception ", wsrpFault);
       throw new WSRPException(Faults.OPERATION_FAILED_FAULT, wsrpFault);
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -341,12 +353,19 @@ public class PortletDriverImpl implements PortletDriver {
       if (userCtx != null) {
         request.setUserContext(userCtx);
       }
+      org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
       response = markupPort.performBlockingInteraction(request);
     } catch (InvalidCookieFault cookieFault) {
       resetInitCookie(userSession);
       performBlockingInteraction(actionRequest, userSession, path);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -364,9 +383,16 @@ public class PortletDriverImpl implements PortletDriver {
     }
     PortletContext response = null;
     try {
-      response = portletPort.clonePortlet(request);
+      org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
+      response = portletManagementPort.clonePortlet(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -380,9 +406,16 @@ public class PortletDriverImpl implements PortletDriver {
     request.setPortletHandles(portletHandles);
     DestroyPortletsResponse response = null;
     try {
-      response = portletPort.destroyPortlets(request);
+      org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
+      response = portletManagementPort.destroyPortlets(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -397,26 +430,48 @@ public class PortletDriverImpl implements PortletDriver {
     request.setSessionIDs(sessionIDs);
     ReturnAny response = null;
     try {
+      org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
       response = markupPort.releaseSessions(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    }catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
 
+  /**
+   * @see org.exoplatform.services.wsrp.consumer.PortletDriver#initCookie()
+   */
+  @Deprecated
   public void initCookie() throws WSRPException {
+    // Nothing to do since it was deprecated.
+  }
+  
+  public void initCookie(UserSessionMgr userSession) throws WSRPException {
     InitCookieRequest request = new InitCookieRequest();
     RegistrationContext regCtx = producer.getRegistrationContext();
     if (regCtx != null) {
-      log.debug("Registration context use d in initCookie : " + regCtx.getRegistrationHandle());
+      log.debug("Registration context used in initCookie : " + regCtx.getRegistrationHandle());
       request.setRegistrationContext(regCtx);
     }
     try {
       log.debug("Call initCookie on Markup Port");
+      org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
       markupPort.initCookie(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       log.error("Problem while initializing cookies", wsrpFault);
       throw new WSRPException("Problem while initializing cookies", wsrpFault);
+    } catch (Exception ex){
+      log.error("Remote exception ", ex);
+      throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
   }
 
@@ -435,9 +490,16 @@ public class PortletDriverImpl implements PortletDriver {
     request.setDesiredLocales(desiredLocales);
     PortletDescriptionResponse response = null;
     try {
-      response = portletPort.getPortletDescription(request);
+    	org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
+      response = portletManagementPort.getPortletDescription(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -453,12 +515,19 @@ public class PortletDriverImpl implements PortletDriver {
     if (userCtx != null) {
       request.setUserContext(userCtx);
     }
-    request.setDesiredLocales(consumerEnv.getSupportedLocales());
+    request.setDesiredLocales(consumer.getSupportedLocales());
     PortletPropertyDescriptionResponse response = null;
     try {
-      response = portletPort.getPortletPropertyDescription(request);
+    	org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
+      response = portletManagementPort.getPortletPropertyDescription(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -477,9 +546,16 @@ public class PortletDriverImpl implements PortletDriver {
     }
     PropertyList response = null;
     try {
-      response = portletPort.getPortletProperties(request);
+    	org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
+      response = portletManagementPort.getPortletProperties(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
@@ -498,10 +574,27 @@ public class PortletDriverImpl implements PortletDriver {
     request.setPropertyList(properties);
     PortletContext response = null;
     try {
-      response = portletPort.setPortletProperties(request);
+    	org.exoplatform.services.organization.User user = orgService.getUserHandler().findUserByName(userSession.getUserID());
+      String password = user.getPassword();
+      applySecurityParams((org.apache.axis.client.Stub)markupPort, userSession.getUserID(), password);
+      /* MAIN INVOKE */
+      response = portletManagementPort.setPortletProperties(request);
     } catch (java.rmi.RemoteException wsrpFault) {
       throw new WSRPException();
+    } catch (Exception ex){
+    	log.error("Remote exception ", ex);
+    	throw new WSRPException(Faults.OPERATION_FAILED_FAULT, ex);
     }
     return response;
   }
+  
+  private void applySecurityParams(org.apache.axis.client.Stub port, String userID, String password) {
+    if (userID != null && password != null) {
+      port.setUsername(userID);
+      port.setPassword(password);
+      port._setProperty(Call.SESSION_MAINTAIN_PROPERTY, Boolean.FALSE);
+      port._setProperty(WSHandlerConstants.USER, userID);
+    }
+  }
+  
 }

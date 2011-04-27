@@ -235,6 +235,34 @@
       <title>AdminPortlet title</title>
     </portlet-info>
   </portlet>
+  
+  <portlet>
+    <description xml:lang="en">Security demo portlet</description>
+    <portlet-name>SecurityPortlet</portlet-name>
+    <display-name xml:lang="en">SecurityPortlet</display-name>
+    <portlet-class>org.exoplatform.services.portletcontainer.demo.portlet.SecurityPortlet</portlet-class>
+    <expiration-cache>0</expiration-cache>
+    <supports>
+      <mime-type>text/html</mime-type>
+      <portlet-mode>view</portlet-mode>
+    </supports>
+    <supported-locale>en</supported-locale>
+    <portlet-info>
+      <title>SecurityPortlet title</title>
+    </portlet-info>
+    <security-role-ref>
+       <role-name>admin</role-name>
+       <role-link>admin</role-link>
+    </security-role-ref>
+    <security-role-ref>
+       <role-name>users</role-name>
+       <role-link>users</role-link>
+    </security-role-ref>
+    <security-role-ref>
+       <role-name>exo</role-name>
+       <role-link>exo</role-link>
+    </security-role-ref>
+  </portlet>
 
   <event-definition>
     <name>MyEventPub</name>

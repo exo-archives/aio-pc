@@ -47,7 +47,7 @@ public class TransientStateManagerImpl implements TransientStateManager {
 
   private static final String USER_CONTEXT_KEY = "org.exoplatform.services.wsrp.user.context.key";
 
-  private Log                 log              = ExoLogger.getLogger(this.getClass().getName());
+  private Log                 log              = ExoLogger.getLogger("org.exoplatform.services.wsrp.producer.impl.TransientStateManagerImpl");
 
   private ExoCache            cache;
 
@@ -58,7 +58,6 @@ public class TransientStateManagerImpl implements TransientStateManager {
   public TransientStateManagerImpl(ExoContainerContext ctx,
                                    CacheService cacheService,
                                    WSRPConfiguration conf) {
-    this.log = ExoLogger.getLogger("org.exoplatform.services.wsrp1");
     this.conf = conf;
     try {
       cache = cacheService.getCacheInstance(WSRPConstants.WSRP_CACHE_REGION);
@@ -70,16 +69,17 @@ public class TransientStateManagerImpl implements TransientStateManager {
   }
 
   public WSRPHttpSession resolveSession(String sessionID, String user, Integer sessiontimeperiod) throws WSRPException {
-    if (sessiontimeperiod == null)
-      sessiontimeperiod = SESSION_TIME_PERIOD;
-    WSRPHttpSession session = null;
     if (log.isDebugEnabled())
       log.debug("Try to lookup session with ID : " + sessionID);
+    if (sessiontimeperiod == null)
+      sessiontimeperiod = SESSION_TIME_PERIOD;
     try {
-      // !!! it's a very dirty hack and it will be removed as soon as possible
-      session = (WSRPHttpSession) cache.get(sessionID);
+      WSRPHttpSession session = null;
+      if (sessionID != null) {
+        session = (WSRPHttpSession) cache.get(sessionID);
+      }
       WindowInfosContainer.createInstance(cont, sessionID, user);
-      if (sessionID != null && session != null) {
+      if (session != null) {
         if (session.isInvalidated()) {
           session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         } else {
@@ -87,9 +87,10 @@ public class TransientStateManagerImpl implements TransientStateManager {
         }
         if (log.isDebugEnabled())
           log.debug("Lookup session success");
-      } else if (sessionID != null && session == null) {
+      } else if (sessionID != null) {
         throw new Exception("Session doesn't exist anymore");
       } else {
+        // session is null and sessionID is null
         sessionID = IdentifierUtil.generateUUID(this);
         session = new WSRPHttpSession(sessionID, sessiontimeperiod);
         cache.put(sessionID, session);
