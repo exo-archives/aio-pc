@@ -1,6 +1,6 @@
 Index: applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java
 ===================================================================
---- applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(revision 68333)
+--- applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(revision 68830)
 +++ applications/util-bridge/src/main/java/org/exoplatform/ServletContextProviderImpl.java	(working copy)
 @@ -1,5 +1,11 @@
  package org.exoplatform;
@@ -78,7 +78,7 @@ Index: applications/util-bridge/src/main/java/org/exoplatform/ServletContextProv
  }
 Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java
 ===================================================================
---- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 68333)
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(revision 68830)
 +++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/portletAPIImp/helpers/CustomRequestWrapper.java	(working copy)
 @@ -16,25 +16,28 @@
   */
@@ -238,24 +238,24 @@ Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontai
     */
 +  public String getParameter(String name)
 +  {
-+     String componentId =  null;
-+     if (super.getParameter(Constants.COMPONENT_PARAMETER) != null) {
-+        componentId = super.getParameter(Constants.COMPONENT_PARAMETER);
-+     }
-+     else {
-+        PortletRequest req = (PortletRequest)getAttribute("javax.portlet.request");
-+        componentId = req.getWindowID();
-+     }
-+     
-+     if (componentId != null && componentId.equals(this.windowId))
-+     {
-+        return parameterMap.get(name) != null && parameterMap.get(name).length != 0 ? parameterMap.get(name)[0]
-+           : super.getParameter(name);
-+     }
-+     else
-+     {
-+        return null;
-+     }
++    if (this.parameterMap != null) {
++      if (parameterMap.get(name) != null && parameterMap.get(name).length != 0) {
++        return parameterMap.get(name)[0];
++      } else {
++        String componentId =  null;
++        if (super.getParameter(Constants.COMPONENT_PARAMETER) != null) {
++          componentId = super.getParameter(Constants.COMPONENT_PARAMETER);
++        }
++        if (componentId != null && componentId.equals(this.windowId))
++        {
++          return super.getParameter(name);
++        } else {
++          return null;
++        }
++      }
++    } else {
++      return super.getParameter(name);
++    }
 +  }      
 +
 +  /**
