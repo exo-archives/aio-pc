@@ -16,24 +16,27 @@
  */
 package org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.helpers;
 
+import org.apache.commons.lang.StringUtils;
+import org.exoplatform.Constants;
+import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.CustomRequestWrapperUtil;
+
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 import java.util.Vector;
 
+import javax.portlet.PortletRequest;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletRequestWrapper;
 import javax.servlet.http.HttpSession;
-
-import org.apache.commons.lang.StringUtils;
-import org.exoplatform.Constants;
-import org.exoplatform.services.portletcontainer.plugins.pc.portletAPIImp.utils.CustomRequestWrapperUtil;
 
 /**
  * Created by The eXo Platform SAS.
@@ -86,7 +89,6 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
    */
   private Map<String,String[]> parameterMap;
 
-
   /**
    * No input.
    */
@@ -97,6 +99,8 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
    */
   private boolean noValues;
 
+  private Map<String, Object> attributes;
+
   /**
    * @param httpServletRequest http servlet request
    * @param windowId window id
@@ -104,21 +108,28 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   public CustomRequestWrapper(final HttpServletRequest httpServletRequest, final String windowId) {
     super(httpServletRequest);
     this.windowId = windowId;
-    this.parameterMap = (Map<String,String[]>)httpServletRequest.getParameterMap();
+    this.attributes = new HashMap<String, Object>();
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @return attribute names
    * @see javax.servlet.ServletRequestWrapper#getAttributeNames()
    */
   public final Enumeration<String> getAttributeNames() {
-    Enumeration<String> e = (Enumeration<String>)super.getAttributeNames();
     Vector<String> v = new Vector<String>();
+    Enumeration<String> e = (Enumeration<String>) super.getAttributeNames();
     while (e.hasMoreElements()) {
       String s = (String) e.nextElement();
       s = CustomRequestWrapperUtil.decodeRequestAttribute(windowId, s);
+      v.add(s);
+    }
+    Set<String> ss = this.attributes.keySet();
+    Iterator<String> iter = ss.iterator();
+    while (iter.hasNext())
+    {
+      String s = (String)iter.next();
       v.add(s);
     }
     return v.elements();
@@ -126,35 +137,44 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @return value
    * @see javax.servlet.ServletRequestWrapper#getAttribute(java.lang.String)
    */
   public final Object getAttribute(final String s) {
-    //!!! - should be commented out .for.directly.call.include.with.CustomRequestWrapper.
-    return super.getAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
+    if (this.attributes.get(s) != null)
+      return this.attributes.get(s);
+    else 
+      return super.getAttribute(s);
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @see javax.servlet.ServletRequestWrapper#removeAttribute(java.lang.String)
    */
   public final void removeAttribute(final String s) {
-    super.removeAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s));
+    this.attributes.remove(s);
+    super.removeAttribute(s);
   }
 
   /**
    * Overridden method.
-   *
+   * 
    * @param s name
    * @param o value
-   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String, java.lang.Object)
+   * @see javax.servlet.ServletRequestWrapper#setAttribute(java.lang.String,
+   *      java.lang.Object)
    */
   public final void setAttribute(final String s, final Object o) {
-    super.setAttribute(CustomRequestWrapperUtil.encodeAttribute(windowId, s), o);
+    if (o != null)
+      this.attributes.put(s,o);
+    else {
+      this.attributes.remove(s);
+      super.removeAttribute(s);
+    }
   }
 
   /**
@@ -164,7 +184,12 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
    * @see javax.servlet.ServletRequestWrapper#getParameterMap()
    */
   public final Map<String,String[]> getParameterMap() {
-    Map<String,String[]> superMap = (Map<String,String[]>)super.getParameterMap();
+    Map<String,String[]> superMap = null;
+    if (this.parameterMap != null) {
+       superMap = (Map<String,String[]>) this.parameterMap;
+    } else {
+       superMap = super.getParameterMap();
+    }
     if (redirected) {
       Map<String,String[]> filteredMap = new HashMap<String,String[]>();
       Set<String> keys = superMap.keySet();
@@ -179,10 +204,64 @@ public class CustomRequestWrapper extends HttpServletRequestWrapper {
   }
 
   /**
-   * @param map parameter map
+   * Overridden method.
    */
+  public String getParameter(String name)
+  {
+    if (this.parameterMap != null) {
+      if (parameterMap.get(name) != null && parameterMap.get(name).length != 0) {
+        return parameterMap.get(name)[0];
+      } else {
+        String componentId =  null;
+        if (super.getParameter(Constants.COMPONENT_PARAMETER) != null) {
+          componentId = super.getParameter(Constants.COMPONENT_PARAMETER);
+        }
+        if (componentId != null && componentId.equals(this.windowId))
+        {
+          return super.getParameter(name);
+        } else {
+          return null;
+        }
+      }
+    } else {
+      return super.getParameter(name);
+    }
+  }      
+
+  /**
+   * Overridden method.
+   */
+  public String[] getParameterValues(String name) {
+    if (this.parameterMap != null) {
+      return parameterMap.get(name);
+    } else {
+      return super.getParameterValues(name);
+    }
+  }
+
+  /**
+   * Overridden method.
+   */
+  public Enumeration getParameterNames() {
+    if (this.parameterMap != null) {
+      Set<String> result = new HashSet<String>();
+      result.addAll(parameterMap.keySet());
+      return Collections.enumeration(result);
+    } else {
+      return super.getParameterNames();
+    }
+  }
+
+  public void setParameter(String key, String value) {
+    if (this.parameterMap == null) {
+      this.parameterMap = new HashMap<String, String[]>();
+    }
+    this.parameterMap.put(key, new String[] { value });
+  }
+
   public final void setParameterMap(final Map<String,String[]> map) {
-    this.parameterMap = map;
+    this.parameterMap = new HashMap<String, String[]>();
+    this.parameterMap.putAll(map);
   }
 
   /**
