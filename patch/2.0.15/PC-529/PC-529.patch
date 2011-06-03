@@ -1,0 +1,22 @@
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/management/PortletManaged.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/management/PortletManaged.java	(revision 69023)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/management/PortletManaged.java	(working copy)
+@@ -168,7 +168,8 @@
+     }
+     for (PortletRequestMonitorData data : datas) {
+       long value = getter.getValue(data);
+-      statistic.operate(value);
++      if (value > 0)
++        statistic.operate(value);
+     }
+     return statistic.getResult();
+   }
+@@ -285,6 +286,7 @@
+ 
+     public void operate(long value) {
+       l += value;
++      count++;
+     }
+ 
+     public long getResult() {
