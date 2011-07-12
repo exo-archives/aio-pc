@@ -200,9 +200,8 @@ public class StateAwareResponseImp extends PortletResponseImp implements StateAw
    * @return render parameters
    * @see javax.portlet.StateAwareResponse#getRenderParameterMap()
    */
-  public final Map getRenderParameterMap() {
-    // TODO
-    return null;
+  public final Map<java.lang.String,java.lang.String[]> getRenderParameterMap() {
+    return ((EventOutput) this.getOutput()).getRenderParameters();
   }
 
   /**
