@@ -168,7 +168,8 @@ public class PortletManaged {
     }
     for (PortletRequestMonitorData data : datas) {
       long value = getter.getValue(data);
-      statistic.operate(value);
+      if (value > 0)
+        statistic.operate(value);
     }
     return statistic.getResult();
   }
@@ -285,6 +286,7 @@ public class PortletManaged {
 
     public void operate(long value) {
       l += value;
+      count++;
     }
 
     public long getResult() {
