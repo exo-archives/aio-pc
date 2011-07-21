@@ -1,0 +1,214 @@
+Index: build-and-tck.sh
+===================================================================
+--- build-and-tck.sh	(revision 71575)
++++ build-and-tck.sh	(revision 71574)
+@@ -1,5 +0,0 @@
+-echo 'Running TCK tests...'
+-mvn clean install
+-sleep 10
+-cd applications/tck-tests
+-mvn clean install -Ptest
+Index: patch/2.0.15/PC-518/readme.txt
+===================================================================
+--- patch/2.0.15/PC-518/readme.txt	(revision 71575)
++++ patch/2.0.15/PC-518/readme.txt	(revision 71574)
+@@ -1,73 +0,0 @@
+-Summary
+-
+-    * Status: Problems with cache-portlet (timestamp changes)
+-    * CCP Issue: N/A, Product Jira Issue: PC-518.
+-    * Complexity: N/A
+-
+-The Proposal
+-Problem description
+-
+-What is the problem to fix?
+-
+-    * Problems with cache-portlet (timestamp changes)
+-
+-Fix description
+-
+-How is the problem fixed?
+-
+-    * Use getSession() instead of getSession(false)
+-
+-Patch file: PC-518.patch
+-
+-Tests to perform
+-
+-Reproduction test
+-Use case steps:
+-
+-   1. Login to the Test portlet
+-   2. Check the demos/CachePortlet on the portal page
+-   3. you'll see the timestamp in the first rendered portlet's markup, remember it.
+-   4. click 'view' to reload page
+-   5. timestamp changed, but timestamp must NOT change until the cache time is not expires (300sec = 5 minutes).
+-
+-Timestamp changed before cache time expires.
+-
+-Tests performed at DevLevel
+-* JUnit and manual tests on Test Portal
+-
+-Tests performed at QA/Support Level
+-*
+-
+-Documentation changes
+-
+-Documentation changes:
+-* nothing
+-
+-Configuration changes
+-
+-Configuration changes:
+-* nothing
+-
+-Will previous configuration continue to work?
+-* yes
+-
+-Risks and impacts
+-
+-Can this bug fix have any side effects on current client projects?
+-
+-    * Function or ClassName change
+-
+-Is there a performance risk/cost?
+-* no
+-
+-Validation (PM/Support/QA)
+-
+-PM Comment
+-*
+-
+-Support Comment
+-* Patch validated
+-
+-QA Feedbacks
+-*
+-
+Index: component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/PortletCacheCommand.java
+===================================================================
+--- component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/PortletCacheCommand.java	(revision 71575)
++++ component/plugins/pc/src/main/java/org/exoplatform/services/portletcontainer/plugins/pc/aop/PortletCacheCommand.java	(revision 71574)
+@@ -85,65 +85,59 @@
+     String portletAppName = req.getPortletWindowInternal().getWindowID()
+         .getPortletApplicationName();
+     String portletName = req.getPortletWindowInternal().getWindowID().getPortletName();
++    PortletMode mode = req.getPortletMode();
++    WindowState window = req.getWindowState();
+ 
++    boolean isCacheGlobal = resolveCache(req.getPortletDatas().getGlobalCache(), portletMonitor
++        .getCacheScope(portletAppName, portletName));
++    log.debug("Is cache global: " + isCacheGlobal);
++    String key = generateKey(req, isCacheGlobal, "");
++
++    if ((key != null)
++        && portletMonitor.needsCacheInvalidation(portletAppName, portletName, key, mode, window,
++            isCacheGlobal))
++      portletMonitor.removeCachedData(portletAppName, portletName, key, isCacheGlobal);
++
+     int expirationPeriod = portletMonitor.getCacheExpirationPeriod(portletAppName, portletName);
++    long lastUpdateTime = 0;
++    if (key != null)
++      lastUpdateTime = portletMonitor.getPortletLastCacheUpdateTime(portletAppName, portletName, key,
++          isCacheGlobal);
++    long currentAccessTime = System.currentTimeMillis();
+     if (expirationPeriod == 0) {
+-      // No cache use. 
+       log.debug("Expiration period 0 before proceed");
+       rcontext.executeNextUnit();
+       log.debug("Expiration period 0 after proceed");
+-    } else {
+-       PortletMode mode = req.getPortletMode();
+-       WindowState window = req.getWindowState();
+-
+-       boolean isCacheGlobal = resolveCache(req.getPortletDatas().getGlobalCache(), portletMonitor
+-           .getCacheScope(portletAppName, portletName));
+-       log.debug("Is cache global: " + isCacheGlobal);
+-       
+-       String key = generateKey(req, isCacheGlobal, "");
+-       long lastUpdateTime = 0;
+-       if (key != null)
+-         lastUpdateTime = portletMonitor.getPortletLastCacheUpdateTime(portletAppName, portletName, key,
+-             isCacheGlobal);
+-       long currentAccessTime = System.currentTimeMillis();
+-
+-       if ((key != null)
+-           && portletMonitor.needsCacheInvalidation(portletAppName, portletName, key, mode, window,
+-               isCacheGlobal))
+-         portletMonitor.removeCachedData(portletAppName, portletName, key, isCacheGlobal);
+-       
+-       if (expirationPeriod == -1) {
+-         // Cache never expires
+-         if ((key != null)
+-             && portletMonitor.isDataCached(portletAppName, portletName, key, isCacheGlobal)) {
+-           log.debug("Use cache : Expiration period -1 data already cached");
+-           useCache(portletAppName, portletName, key, res, isCacheGlobal);
+-         } else {
+-           log.debug("Expiration period -1 data first cached, before proceed");
+-           rcontext.executeNextUnit();
+-           log.debug("Expiration period -1 data first cached, after proceed");
+-           updateCache(portletAppName, portletName, key, res, mode, window, isCacheGlobal);
+-         }
+-       } else if (currentAccessTime - lastUpdateTime > expirationPeriod * MILLISECONDS) {
+-         // Cache process
+-         log.debug("Expiration period currentAccessTime - lastCacheUpdateTime > expirationPeriod * 1000 before proceed");
+-         if (key != null && req.getPortletDatas().getApplication().getVer2()) {
+-           ((PortalContextImp) req.getPortalContext()).addProperty(RenderResponse.ETAG,
+-               portletMonitor.getCachedETag(portletAppName, portletName, key, isCacheGlobal));
+-         }
+-         rcontext.executeNextUnit();
+-         log.debug("Expiration period currentAccessTime - lastCacheUpdateTime > expirationPeriod * 1000 after proceed");
+-         if (res.getOutput().getProperties().get(RenderResponse.USE_CACHED_CONTENT) != null)
+-           useCache(portletAppName, portletName, key, res, isCacheGlobal);
+-         else
+-           updateCache(portletAppName, portletName, key, res, mode, window, isCacheGlobal);
+-         updateCacheParams(portletAppName, portletName, key, res, isCacheGlobal);
+-       } else if ((0 < currentAccessTime - lastUpdateTime)
+-           && (currentAccessTime - lastUpdateTime < expirationPeriod * MILLISECONDS)) {
+-         log.debug("Use cache : currentAccessTime - lastCacheUpdateTime < expirationPeriod * 1000");
+-         if (key != null)
+-           useCache(portletAppName, portletName, key, res, isCacheGlobal);
+-       }
++    } else if (expirationPeriod == -1) {
++      if ((key != null)
++          && portletMonitor.isDataCached(portletAppName, portletName, key, isCacheGlobal)) {
++        log.debug("Use cache : Expiration period -1 data already cached");
++        useCache(portletAppName, portletName, key, res, isCacheGlobal);
++      } else {
++        log.debug("Expiration period -1 data first cached, before proceed");
++        rcontext.executeNextUnit();
++        key = generateKey(req, isCacheGlobal, "");
++        log.debug("Expiration period -1 data first cached, after proceed");
++        updateCache(portletAppName, portletName, key, res, mode, window, isCacheGlobal);
++      }
++    } else if (currentAccessTime - lastUpdateTime > expirationPeriod * MILLISECONDS) {
++      log.debug("Expiration period currentAccessTime - lastCacheUpdateTime > expirationPeriod * 1000 before proceed");
++      if (key != null && req.getPortletDatas().getApplication().getVer2())
++        ((PortalContextImp) req.getPortalContext()).addProperty(RenderResponse.ETAG,
++            portletMonitor.getCachedETag(portletAppName, portletName, key, isCacheGlobal));
++      rcontext.executeNextUnit();
++      key = generateKey(req, isCacheGlobal, "");
++      log.debug("Expiration period currentAccessTime - lastCacheUpdateTime > expirationPeriod * 1000 after proceed");
++      if (res.getOutput().getProperties().get(RenderResponse.USE_CACHED_CONTENT) != null)
++        useCache(portletAppName, portletName, key, res, isCacheGlobal);
++      else
++        updateCache(portletAppName, portletName, key, res, mode, window, isCacheGlobal);
++      updateCacheParams(portletAppName, portletName, key, res, isCacheGlobal);
++    } else if ((0 < currentAccessTime - lastUpdateTime)
++        && (currentAccessTime - lastUpdateTime < expirationPeriod * MILLISECONDS)) {
++      log.debug("Use cache : currentAccessTime - lastCacheUpdateTime < expirationPeriod * 1000");
++      if (key != null)
++        useCache(portletAppName, portletName, key, res, isCacheGlobal);
+     }
+     return null;
+   }
+@@ -163,6 +157,8 @@
+           req.getInput().getInternalWindowID().getPortletName()).hashCode());
+       return req.getInput().getInternalWindowID().getOwner() + uniqueId + modifier;
+     }
++    if (req.getSession(false) == null)
++      return null;
+     uniqueId = req.getInput().getInternalWindowID().getUniqueID();
+     return req.getSession().getId() + req.getRemoteUser() + req.getInput().getInternalWindowID().getOwner() + uniqueId
+       + modifier;
