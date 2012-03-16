@@ -1,4 +1,0 @@
- <event-definition>
-    <name>MyEventPub</name>
-    <value-type>java.lang.String</value-type>
-  </event-definition>

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-
-<mail>
-	<from>from@from.from</from>
-	<to>to@to.to</to>
-	<subject>Subject</subject>
-	<text>Text text text.</text>
-</mail>
