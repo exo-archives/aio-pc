@@ -30,8 +30,8 @@
   <packaging>pom</packaging>
   <name>eXo PC</name>
   <scm>
-    <connection>scm:git:ssh://github.com/exodev/aio-pc.git</connection>
-    <developerConnection>scm:git:ssh://github.com/exodev/aio-pc.git<developerConnection>
+    <connection>scm:git:git://github.com/exoplatform/aio-pc.git</connection>
+    <developerConnection>scm:git:git@github.com/exoplatform/aio-pc.git<developerConnection>
     <url>http://fisheye.exoplatform.org/browse/projects/portlet-container</url>
   </scm>
   <ciManagement>
