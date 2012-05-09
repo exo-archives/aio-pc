@@ -31,7 +31,7 @@
   <name>eXo PC</name>
   <scm>
     <connection>scm:git:git://github.com/exoplatform/aio-pc.git</connection>
-    <developerConnection>scm:git:git@github.com/exoplatform/aio-pc.git<developerConnection>
+    <developerConnection>scm:git:git@github.com/exoplatform/aio-pc.git</developerConnection>
     <url>http://fisheye.exoplatform.org/browse/projects/portlet-container</url>
   </scm>
   <ciManagement>
